@@ -1,122 +1,597 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(PlatrareApp());
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
+class PlatrareApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
+      title: 'Platrare',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+class HomePage extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+  final List<Widget> _screens = [
+    AccountsScreen(),
+    PlanScreen(),
+    TrackScreen(),
+    ReviewScreen(),
+  ];
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _screens[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (i) => setState(() => _currentIndex = i),
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance),
+            label: 'Accounts',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.event_note), label: 'Plan'),
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Track'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.show_chart),
+            label: 'Review',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Models
+class Account {
+  final String name;
+  final AccountType type;
+  final double balance;
+  final bool includeInLiquid;
+
+  Account({
+    required this.name,
+    required this.type,
+    required this.balance,
+    required this.includeInLiquid,
+  });
+}
+
+enum AccountType { personal, partner, budget }
+
+class TransactionItem {
+  final String title;
+  final DateTime date;
+  final double amount;
+  final Account account;
+
+  TransactionItem({
+    required this.title,
+    required this.date,
+    required this.amount,
+    required this.account,
+  });
+}
+
+// Dummy data
+List<Account> dummyAccounts = [
+  Account(
+    name: 'Cash',
+    type: AccountType.personal,
+    balance: 200.0,
+    includeInLiquid: true,
+  ),
+  Account(
+    name: 'Savings',
+    type: AccountType.personal,
+    balance: 1500.0,
+    includeInLiquid: true,
+  ),
+  Account(
+    name: 'Pocket Change',
+    type: AccountType.personal,
+    balance: 50.0,
+    includeInLiquid: false,
+  ),
+  Account(
+    name: 'Partner: Alice',
+    type: AccountType.partner,
+    balance: -50.0,
+    includeInLiquid: false,
+  ),
+  Account(
+    name: 'Partner: Bob',
+    type: AccountType.partner,
+    balance: 120.0,
+    includeInLiquid: false,
+  ),
+  Account(
+    name: 'Food Budget',
+    type: AccountType.budget,
+    balance: 300.0,
+    includeInLiquid: false,
+  ),
+];
+
+List<TransactionItem> dummyTransactions = [
+  TransactionItem(
+    title: 'Grocery Shopping',
+    date: DateTime.now().subtract(Duration(days: 1)),
+    amount: -45.0,
+    account: dummyAccounts[0],
+  ),
+  TransactionItem(
+    title: 'Salary',
+    date: DateTime.now().subtract(Duration(days: 2)),
+    amount: 1000.0,
+    account: dummyAccounts[1],
+  ),
+];
+
+// replace your current AccountsScreen with this
+
+// Accounts Screen with full-card drag
+class AccountsScreen extends StatefulWidget {
+  @override
+  _AccountsScreenState createState() => _AccountsScreenState();
+}
+
+class _AccountsScreenState extends State<AccountsScreen> {
+  late List<Account> personalList;
+  late List<Account> partnerList;
+  late List<Account> budgetList;
+
+  @override
+  void initState() {
+    super.initState();
+    personalList =
+        dummyAccounts.where((a) => a.type == AccountType.personal).toList();
+    partnerList =
+        dummyAccounts.where((a) => a.type == AccountType.partner).toList();
+    budgetList =
+        dummyAccounts.where((a) => a.type == AccountType.budget).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    final availableBalance = personalList
+        .where((a) => a.includeInLiquid)
+        .fold(0.0, (sum, a) => sum + a.balance);
+    final liquidAssets = personalList.fold(0.0, (sum, a) => sum + a.balance);
+    final partnersBalance = partnerList.fold(0.0, (sum, a) => sum + a.balance);
+    final netWorth = liquidAssets + partnersBalance;
+
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+      appBar: AppBar(title: Text('Accounts')),
+      body: ListView(
+        padding: EdgeInsets.all(16),
+        children: [
+          // Summary cards
+          Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: _summaryCard('Available Balance', availableBalance),
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(child: _summaryCard('Liquid Assets', liquidAssets)),
+                ],
+              ),
+              SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: _summaryCard('Partners Balance', partnersBalance),
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(child: _summaryCard('Net Worth', netWorth)),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 30),
+
+          SectionHeader(title: 'Personal Accounts'),
+          ReorderableListView(
+            key: ValueKey('personal'),
+            proxyDecorator: (child, index, animation) => child, // ← and this
+            buildDefaultDragHandles: false,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            onReorder: (oldIndex, newIndex) {
+              setState(() {
+                if (newIndex > oldIndex) newIndex--;
+                final item = personalList.removeAt(oldIndex);
+                personalList.insert(newIndex, item);
+              });
+            },
+            children: [
+              for (int i = 0; i < personalList.length; i++)
+                ReorderableDragStartListener(
+                  key: ValueKey(personalList[i].name),
+                  index: i,
+                  child: AccountCard(account: personalList[i]),
+                ),
+            ],
+          ),
+          SizedBox(height: 30),
+          SectionHeader(title: 'Partners'),
+          ReorderableListView(
+            key: ValueKey('partner'),
+            buildDefaultDragHandles: false,
+            proxyDecorator: (child, index, animation) => child, // ← and this
+
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            onReorder: (oldIndex, newIndex) {
+              setState(() {
+                if (newIndex > oldIndex) newIndex--;
+                final item = partnerList.removeAt(oldIndex);
+                partnerList.insert(newIndex, item);
+              });
+            },
+            children: [
+              for (int i = 0; i < partnerList.length; i++)
+                ReorderableDragStartListener(
+                  key: ValueKey(partnerList[i].name),
+                  index: i,
+                  child: AccountCard(account: partnerList[i]),
+                ),
+            ],
+          ),
+          SizedBox(height: 30),
+
+          SectionHeader(title: 'Budgets'),
+          ReorderableListView(
+            key: ValueKey('budget'),
+            proxyDecorator: (child, index, animation) => child, // ← and this
+
+            buildDefaultDragHandles: false,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            onReorder: (oldIndex, newIndex) {
+              setState(() {
+                if (newIndex > oldIndex) newIndex--;
+                final item = budgetList.removeAt(oldIndex);
+                budgetList.insert(newIndex, item);
+              });
+            },
+            children: [
+              for (int i = 0; i < budgetList.length; i++)
+                ReorderableDragStartListener(
+                  key: ValueKey(budgetList[i].name),
+                  index: i,
+                  child: AccountCard(account: budgetList[i]),
+                ),
+            ],
+          ),
+        ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () async {
+          final newAcc = await Navigator.push<Account?>(
+            context,
+            MaterialPageRoute(builder: (_) => NewAccountScreen()),
+          );
+          if (newAcc != null) {
+            setState(() {
+              dummyAccounts.add(newAcc);
+              switch (newAcc.type) {
+                case AccountType.personal:
+                  personalList.add(newAcc);
+                  break;
+                case AccountType.partner:
+                  partnerList.add(newAcc);
+                  break;
+                case AccountType.budget:
+                  budgetList.add(newAcc);
+                  break;
+              }
+            });
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _summaryCard(String label, double value) {
+    final color = value >= 0 ? Colors.greenAccent : Colors.redAccent;
+    return Card(
+      color: color,
+      child: Padding(
+        padding: EdgeInsets.all(12),
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(height: 8),
+            Text(value.toStringAsFixed(2), style: TextStyle(fontSize: 16)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class NewAccountScreen extends StatefulWidget {
+  @override
+  _NewAccountScreenState createState() => _NewAccountScreenState();
+}
+
+class _NewAccountScreenState extends State<NewAccountScreen> {
+  AccountType _type = AccountType.personal;
+  final _nameController = TextEditingController();
+  final _balanceController = TextEditingController();
+  bool _includeInLiquid = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('New Account')),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children:
+                  AccountType.values.map((type) {
+                    final label = type.toString().split('.').last;
+                    final capitalized =
+                        label[0].toUpperCase() + label.substring(1);
+                    return ChoiceChip(
+                      label: Text(capitalized),
+                      selected: _type == type,
+                      onSelected: (_) => setState(() => _type = type),
+                    );
+                  }).toList(),
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(labelText: 'Name'),
+            ),
+            TextField(
+              controller: _balanceController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(labelText: 'Balance'),
+            ),
+            if (_type == AccountType.personal)
+              SwitchListTile(
+                title: Text('Exclude from Available Balance'),
+                value: _includeInLiquid,
+                onChanged: (val) => setState(() => _includeInLiquid = val),
+              ),
+            SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  final name = _nameController.text.trim();
+                  final balance =
+                      double.tryParse(_balanceController.text) ?? 0.0;
+                  final account = Account(
+                    name: name,
+                    type: _type,
+                    balance: balance,
+                    includeInLiquid: _includeInLiquid,
+                  );
+                  Navigator.pop(context, account);
+                },
+                child: Text('Save'),
+              ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class PlanScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final grouped = <DateTime, List<TransactionItem>>{};
+    for (var tx in dummyTransactions) {
+      final date = DateTime(tx.date.year, tx.date.month, tx.date.day);
+      grouped[date] = [...(grouped[date] ?? []), tx];
+    }
+
+    return Scaffold(
+      appBar: AppBar(title: Text('Plan')),
+      body: ListView(
+        children:
+            grouped.entries.map((entry) {
+              final date = entry.key;
+              final items = entry.value;
+              return Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        '${date.day}/${date.month}/${date.year}',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    ...items.map(
+                      (tx) => Card(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
+                        child: ListTile(
+                          title: Text(tx.title),
+                          subtitle: Text(tx.account.name),
+                          trailing: Text(tx.amount.toStringAsFixed(2)),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Container(
+                      height: 80,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: dummyAccounts.length + 1,
+                        itemBuilder: (context, idx) {
+                          if (idx == 0) {
+                            final sum = dummyAccounts.fold<double>(
+                              0,
+                              (prev, a) =>
+                                  prev + (a.includeInLiquid ? a.balance : 0),
+                            );
+                            return SummaryCard(label: 'Net Worth', value: sum);
+                          }
+                          final acc = dummyAccounts[idx - 1];
+                          return AccountBalanceCard(account: acc);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        child: Icon(Icons.add),
+        onPressed: () {},
+      ),
+    );
+  }
+}
+
+class TrackScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Track')),
+      body: Center(
+        child: Text('Track transactions here (similar layout to Plan)'),
+      ),
+    );
+  }
+}
+
+class ReviewScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Review')),
+      body: Center(child: Text('Statistics and charts will be here')),
+    );
+  }
+}
+
+// Reusable Widgets
+class AccountCard extends StatelessWidget {
+  final Account account;
+  const AccountCard({Key? key, required this.account}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final bgColor = account.balance >= 0 ? Colors.green[50] : Colors.red[50];
+    final textColor =
+        account.balance >= 0 ? Colors.green[800] : Colors.red[800];
+    return Card(
+      color: bgColor,
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: ListTile(
+        title: Text(account.name),
+        //subtitle: Text(account.type.toString().split('.').last),
+        trailing: Text(
+          account.balance.toStringAsFixed(2),
+          style: TextStyle(color: textColor),
+        ),
+      ),
+    );
+  }
+}
+
+class SectionHeader extends StatelessWidget {
+  final String title;
+  SectionHeader({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Text(
+        title,
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
+
+class AccountBalanceCard extends StatelessWidget {
+  final Account account;
+  AccountBalanceCard({required this.account});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.symmetric(horizontal: 8),
+      child: Container(
+        width: 100,
+        padding: EdgeInsets.all(8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(account.name, overflow: TextOverflow.ellipsis),
+            SizedBox(height: 4),
+            Text(account.balance.toStringAsFixed(2)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SummaryCard extends StatelessWidget {
+  final String label;
+  final double value;
+  SummaryCard({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.blueAccent,
+      margin: EdgeInsets.symmetric(horizontal: 8),
+      child: Container(
+        width: 120,
+        padding: EdgeInsets.all(8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(label, style: TextStyle(color: Colors.white)),
+            SizedBox(height: 4),
+            Text(
+              value.toStringAsFixed(2),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
