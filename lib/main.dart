@@ -6,51 +6,9 @@ class PlatrareApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Platrare',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
-  final List<Widget> _screens = [
-    AccountsScreen(),
-    PlanScreen(),
-    TrackScreen(),
-    ReviewScreen(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey,
-        currentIndex: _currentIndex,
-        onTap: (i) => setState(() => _currentIndex = i),
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance),
-            label: 'Accounts',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.event_note), label: 'Plan'),
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Track'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.show_chart),
-            label: 'Review',
-          ),
-        ],
-      ),
     );
   }
 }
@@ -60,13 +18,13 @@ class Account {
   final String name;
   final AccountType type;
   final double balance;
-  final bool includeInLiquid;
+  final bool includeInBalance;
 
   Account({
     required this.name,
     required this.type,
     required this.balance,
-    required this.includeInLiquid,
+    required this.includeInBalance,
   });
 }
 
@@ -92,37 +50,37 @@ List<Account> dummyAccounts = [
     name: 'Cash',
     type: AccountType.personal,
     balance: 200.0,
-    includeInLiquid: true,
+    includeInBalance: true,
   ),
   Account(
     name: 'Savings',
     type: AccountType.personal,
     balance: 1500.0,
-    includeInLiquid: true,
+    includeInBalance: true,
   ),
   Account(
     name: 'Pocket Change',
     type: AccountType.personal,
     balance: 50.0,
-    includeInLiquid: false,
+    includeInBalance: false,
   ),
   Account(
     name: 'Partner: Alice',
     type: AccountType.partner,
     balance: -50.0,
-    includeInLiquid: false,
+    includeInBalance: false,
   ),
   Account(
     name: 'Partner: Bob',
     type: AccountType.partner,
     balance: 120.0,
-    includeInLiquid: false,
+    includeInBalance: false,
   ),
   Account(
     name: 'Food Budget',
     type: AccountType.budget,
     balance: 300.0,
-    includeInLiquid: false,
+    includeInBalance: false,
   ),
 ];
 
@@ -141,9 +99,49 @@ List<TransactionItem> dummyTransactions = [
   ),
 ];
 
-// replace your current AccountsScreen with this
+// Home Page
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
 
-// Accounts Screen with full-card drag
+class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+  final _screens = [
+    AccountsScreen(),
+    PlanScreen(),
+    TrackScreen(),
+    ReviewScreen(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _screens[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
+        currentIndex: _currentIndex,
+        onTap: (i) => setState(() => _currentIndex = i),
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance),
+            label: 'Accounts',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.event_note), label: 'Plan'),
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Track'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.show_chart),
+            label: 'Review',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Accounts Screen with edit, delete, and reordering
 class AccountsScreen extends StatefulWidget {
   @override
   _AccountsScreenState createState() => _AccountsScreenState();
@@ -168,7 +166,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
   @override
   Widget build(BuildContext context) {
     final availableBalance = personalList
-        .where((a) => a.includeInLiquid)
+        .where((a) => a.includeInBalance)
         .fold(0.0, (sum, a) => sum + a.balance);
     final liquidAssets = personalList.fold(0.0, (sum, a) => sum + a.balance);
     final partnersBalance = partnerList.fold(0.0, (sum, a) => sum + a.balance);
@@ -179,7 +177,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
       body: ListView(
         padding: EdgeInsets.all(16),
         children: [
-          // Summary cards
           Column(
             children: [
               Row(
@@ -203,103 +200,213 @@ class _AccountsScreenState extends State<AccountsScreen> {
               ),
             ],
           ),
-          SizedBox(height: 30),
+          SizedBox(height: 24),
 
-          SectionHeader(title: 'Personal Accounts'),
-          ReorderableListView(
-            key: ValueKey('personal'),
-            proxyDecorator: (child, index, animation) => child, // ← and this
-            buildDefaultDragHandles: false,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            onReorder: (oldIndex, newIndex) {
-              setState(() {
-                if (newIndex > oldIndex) newIndex--;
-                final item = personalList.removeAt(oldIndex);
-                personalList.insert(newIndex, item);
-              });
-            },
-            children: [
-              for (int i = 0; i < personalList.length; i++)
-                ReorderableDragStartListener(
-                  key: ValueKey(personalList[i].name),
-                  index: i,
-                  child: AccountCard(account: personalList[i]),
+          SectionHeader('Personal Accounts'),
+          if (personalList.isEmpty)
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: Center(
+                child: Text(
+                  'No personal accounts yet.',
+                  style: TextStyle(color: Colors.grey),
                 ),
-            ],
-          ),
-          SizedBox(height: 30),
-          SectionHeader(title: 'Partners'),
-          ReorderableListView(
-            key: ValueKey('partner'),
-            buildDefaultDragHandles: false,
-            proxyDecorator: (child, index, animation) => child, // ← and this
+              ),
+            )
+          else
+            ReorderableListView(
+              key: ValueKey('personal'),
+              buildDefaultDragHandles: false,
+              proxyDecorator: (child, index, animation) => child,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              onReorder: (oldIndex, newIndex) {
+                setState(() {
+                  if (newIndex > oldIndex) newIndex--;
+                  final item = personalList.removeAt(oldIndex);
+                  personalList.insert(newIndex, item);
+                });
+              },
+              children: [
+                for (int i = 0; i < personalList.length; i++)
+                  ReorderableDragStartListener(
+                    key: ValueKey(personalList[i].name),
+                    index: i,
+                    child: GestureDetector(
+                      onTap: () async {
+                        final result = await Navigator.push<dynamic>(
+                          context,
+                          MaterialPageRoute<dynamic>(
+                            builder:
+                                (_) =>
+                                    EditAccountScreen(account: personalList[i]),
+                          ),
+                        );
+                        if (result is Account) {
+                          setState(() {
+                            personalList[i] = result;
+                            final idx = dummyAccounts.indexWhere(
+                              (a) => a.name == result.name,
+                            );
+                            dummyAccounts[idx] = result;
+                          });
+                        } else if (result == 'delete') {
+                          setState(() {
+                            dummyAccounts.remove(personalList[i]);
+                            personalList.removeAt(i);
+                          });
+                        }
+                      },
+                      child: AccountCard(account: personalList[i]),
+                    ),
+                  ),
+              ],
+            ),
+          SizedBox(height: 24),
 
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            onReorder: (oldIndex, newIndex) {
-              setState(() {
-                if (newIndex > oldIndex) newIndex--;
-                final item = partnerList.removeAt(oldIndex);
-                partnerList.insert(newIndex, item);
-              });
-            },
-            children: [
-              for (int i = 0; i < partnerList.length; i++)
-                ReorderableDragStartListener(
-                  key: ValueKey(partnerList[i].name),
-                  index: i,
-                  child: AccountCard(account: partnerList[i]),
+          SectionHeader('Partner Accounts'),
+          if (partnerList.isEmpty)
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: Center(
+                child: Text(
+                  'No partner\'s accounts yet.',
+                  style: TextStyle(color: Colors.grey),
                 ),
-            ],
-          ),
-          SizedBox(height: 30),
+              ),
+            )
+          else
+            ReorderableListView(
+              key: ValueKey('partner'),
+              buildDefaultDragHandles: false,
+              proxyDecorator: (child, index, animation) => child,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              onReorder: (oldIndex, newIndex) {
+                setState(() {
+                  if (newIndex > oldIndex) newIndex--;
+                  final item = partnerList.removeAt(oldIndex);
+                  partnerList.insert(newIndex, item);
+                });
+              },
+              children: [
+                for (int i = 0; i < partnerList.length; i++)
+                  ReorderableDragStartListener(
+                    key: ValueKey(partnerList[i].name),
+                    index: i,
+                    child: GestureDetector(
+                      onTap: () async {
+                        final result = await Navigator.push<dynamic>(
+                          context,
+                          MaterialPageRoute<dynamic>(
+                            builder:
+                                (_) =>
+                                    EditAccountScreen(account: partnerList[i]),
+                          ),
+                        );
+                        if (result is Account) {
+                          setState(() {
+                            partnerList[i] = result;
+                            final idx = dummyAccounts.indexWhere(
+                              (a) => a.name == result.name,
+                            );
+                            dummyAccounts[idx] = result;
+                          });
+                        } else if (result == 'delete') {
+                          setState(() {
+                            dummyAccounts.remove(partnerList[i]);
+                            partnerList.removeAt(i);
+                          });
+                        }
+                      },
+                      child: AccountCard(account: partnerList[i]),
+                    ),
+                  ),
+              ],
+            ),
+          SizedBox(height: 24),
 
-          SectionHeader(title: 'Budgets'),
-          ReorderableListView(
-            key: ValueKey('budget'),
-            proxyDecorator: (child, index, animation) => child, // ← and this
-
-            buildDefaultDragHandles: false,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            onReorder: (oldIndex, newIndex) {
-              setState(() {
-                if (newIndex > oldIndex) newIndex--;
-                final item = budgetList.removeAt(oldIndex);
-                budgetList.insert(newIndex, item);
-              });
-            },
-            children: [
-              for (int i = 0; i < budgetList.length; i++)
-                ReorderableDragStartListener(
-                  key: ValueKey(budgetList[i].name),
-                  index: i,
-                  child: AccountCard(account: budgetList[i]),
+          SectionHeader('Budget Accounts'),
+          if (budgetList.isEmpty)
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: Center(
+                child: Text(
+                  'No budgets yet.',
+                  style: TextStyle(color: Colors.grey),
                 ),
-            ],
-          ),
+              ),
+            )
+          else
+            ReorderableListView(
+              key: ValueKey('budget'),
+              buildDefaultDragHandles: false,
+              proxyDecorator: (child, index, animation) => child,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              onReorder: (oldIndex, newIndex) {
+                setState(() {
+                  if (newIndex > oldIndex) newIndex--;
+                  final item = budgetList.removeAt(oldIndex);
+                  budgetList.insert(newIndex, item);
+                });
+              },
+              children: [
+                for (int i = 0; i < budgetList.length; i++)
+                  ReorderableDragStartListener(
+                    key: ValueKey(budgetList[i].name),
+                    index: i,
+                    child: GestureDetector(
+                      onTap: () async {
+                        final result = await Navigator.push<dynamic>(
+                          context,
+                          MaterialPageRoute<dynamic>(
+                            builder:
+                                (_) =>
+                                    EditAccountScreen(account: budgetList[i]),
+                          ),
+                        );
+                        if (result is Account) {
+                          setState(() {
+                            budgetList[i] = result;
+                            final idx = dummyAccounts.indexWhere(
+                              (a) => a.name == result.name,
+                            );
+                            dummyAccounts[idx] = result;
+                          });
+                        } else if (result == 'delete') {
+                          setState(() {
+                            dummyAccounts.remove(budgetList[i]);
+                            budgetList.removeAt(i);
+                          });
+                        }
+                      },
+                      child: AccountCard(account: budgetList[i]),
+                    ),
+                  ),
+              ],
+            ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () async {
-          final newAcc = await Navigator.push<Account?>(
+          final result = await Navigator.push<dynamic>(
             context,
-            MaterialPageRoute(builder: (_) => NewAccountScreen()),
+            MaterialPageRoute<dynamic>(builder: (_) => NewAccountScreen()),
           );
-          if (newAcc != null) {
+          if (result is Account) {
             setState(() {
-              dummyAccounts.add(newAcc);
-              switch (newAcc.type) {
+              dummyAccounts.add(result);
+              switch (result.type) {
                 case AccountType.personal:
-                  personalList.add(newAcc);
+                  personalList.add(result);
                   break;
                 case AccountType.partner:
-                  partnerList.add(newAcc);
+                  partnerList.add(result);
                   break;
                 case AccountType.budget:
-                  budgetList.add(newAcc);
+                  budgetList.add(result);
                   break;
               }
             });
@@ -328,6 +435,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
   }
 }
 
+// New Account Screen
 class NewAccountScreen extends StatefulWidget {
   @override
   _NewAccountScreenState createState() => _NewAccountScreenState();
@@ -337,7 +445,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   AccountType _type = AccountType.personal;
   final _nameController = TextEditingController();
   final _balanceController = TextEditingController();
-  bool _includeInLiquid = false;
+  bool _includeInAvailableBalance = true;
 
   @override
   Widget build(BuildContext context) {
@@ -353,10 +461,8 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
               children:
                   AccountType.values.map((type) {
                     final label = type.toString().split('.').last;
-                    final capitalized =
-                        label[0].toUpperCase() + label.substring(1);
                     return ChoiceChip(
-                      label: Text(capitalized),
+                      label: Text(label[0].toUpperCase() + label.substring(1)),
                       selected: _type == type,
                       onSelected: (_) => setState(() => _type = type),
                     );
@@ -374,24 +480,135 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
             ),
             if (_type == AccountType.personal)
               SwitchListTile(
-                title: Text('Exclude from Available Balance'),
-                value: _includeInLiquid,
-                onChanged: (val) => setState(() => _includeInLiquid = val),
+                title: Text('Include in Available Balance'),
+                value: _includeInAvailableBalance,
+                onChanged:
+                    (v) => setState(() => _includeInAvailableBalance = v),
               ),
             SizedBox(height: 20),
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  final name = _nameController.text.trim();
-                  final balance =
-                      double.tryParse(_balanceController.text) ?? 0.0;
                   final account = Account(
-                    name: name,
+                    name: _nameController.text.trim(),
                     type: _type,
-                    balance: balance,
-                    includeInLiquid: _includeInLiquid,
+                    balance: double.tryParse(_balanceController.text) ?? 0.0,
+                    includeInBalance: _includeInAvailableBalance,
                   );
                   Navigator.pop(context, account);
+                },
+                child: Text('Save'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Edit Account Screen
+class EditAccountScreen extends StatefulWidget {
+  final Account account;
+  const EditAccountScreen({Key? key, required this.account}) : super(key: key);
+
+  @override
+  _EditAccountScreenState createState() => _EditAccountScreenState();
+}
+
+class _EditAccountScreenState extends State<EditAccountScreen> {
+  late AccountType _type;
+  late TextEditingController _nameCtrl;
+  late TextEditingController _balCtrl;
+  late bool _includeInAvailableBalance = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _type = widget.account.type;
+    _nameCtrl = TextEditingController(text: widget.account.name);
+    _balCtrl = TextEditingController(text: widget.account.balance.toString());
+    _includeInAvailableBalance = widget.account.includeInBalance;
+  }
+
+  Future<void> _confirmDelete() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder:
+          (_) => AlertDialog(
+            title: Text('Delete Account?'),
+            content: Text('This action cannot be undone.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text('Delete', style: TextStyle(color: Colors.red)),
+              ),
+            ],
+          ),
+    );
+    if (confirm == true) {
+      Navigator.pop<dynamic>(context, 'delete');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Edit Account'),
+        actions: [
+          IconButton(icon: Icon(Icons.delete), onPressed: _confirmDelete),
+        ],
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children:
+                  AccountType.values.map((type) {
+                    final label = type.toString().split('.').last;
+                    return ChoiceChip(
+                      label: Text(label[0].toUpperCase() + label.substring(1)),
+                      selected: _type == type,
+                      onSelected: (_) => setState(() => _type = type),
+                    );
+                  }).toList(),
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _nameCtrl,
+              decoration: InputDecoration(labelText: 'Name'),
+            ),
+            TextField(
+              controller: _balCtrl,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(labelText: 'Balance'),
+            ),
+            if (_type == AccountType.personal)
+              SwitchListTile(
+                title: Text('Include in Available Balance'),
+                value: _includeInAvailableBalance,
+                onChanged:
+                    (v) => setState(() => _includeInAvailableBalance = v),
+              ),
+            SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  final updated = Account(
+                    name: _nameCtrl.text.trim(),
+                    type: _type,
+                    balance: double.tryParse(_balCtrl.text) ?? 0.0,
+                    includeInBalance: _includeInAvailableBalance,
+                  );
+                  Navigator.pop(context, updated);
                 },
                 child: Text('Save'),
               ),
@@ -458,7 +675,7 @@ class PlanScreen extends StatelessWidget {
                             final sum = dummyAccounts.fold<double>(
                               0,
                               (prev, a) =>
-                                  prev + (a.includeInLiquid ? a.balance : 0),
+                                  prev + (a.includeInBalance ? a.balance : 0),
                             );
                             return SummaryCard(label: 'Net Worth', value: sum);
                           }
@@ -529,7 +746,7 @@ class AccountCard extends StatelessWidget {
 
 class SectionHeader extends StatelessWidget {
   final String title;
-  SectionHeader({required this.title});
+  SectionHeader(this.title);
 
   @override
   Widget build(BuildContext context) {
