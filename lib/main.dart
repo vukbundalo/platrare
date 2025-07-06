@@ -6,6 +6,7 @@ class PlatrareApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Platrare',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: HomePage(),
@@ -620,11 +621,30 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
   }
 }
 
-class PlanScreen extends StatelessWidget {
+// Reuse your existing models:
+enum TransactionType { expense, income, transfer, partnerTransfer }
+
+const Map<TransactionType, List<String>> _categories = {
+  TransactionType.expense: ['Food', 'Transport', 'Utilities', 'Shopping'],
+  TransactionType.income: ['Salary', 'Gift', 'Interest'],
+  TransactionType.transfer: [],
+  TransactionType.partnerTransfer: [],
+};
+
+class PlanScreen extends StatefulWidget {
+  @override
+  _PlanScreenState createState() => _PlanScreenState();
+}
+
+class _PlanScreenState extends State<PlanScreen> {
+  // start with your dummyTransactions
+  List<TransactionItem> _planned = List.from(dummyTransactions);
+
   @override
   Widget build(BuildContext context) {
+    // group by date
     final grouped = <DateTime, List<TransactionItem>>{};
-    for (var tx in dummyTransactions) {
+    for (var tx in _planned) {
       final date = DateTime(tx.date.year, tx.date.month, tx.date.day);
       grouped[date] = [...(grouped[date] ?? []), tx];
     }
@@ -691,7 +711,300 @@ class PlanScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () async {
+          final newTx = await Navigator.push<TransactionItem?>(
+            context,
+            MaterialPageRoute(builder: (_) => NewTransactionScreen()),
+          );
+          if (newTx != null) {
+            setState(() => _planned.add(newTx));
+          }
+        },
+      ),
+    );
+  }
+}
+
+class NewTransactionScreen extends StatefulWidget {
+  @override
+  _NewTransactionScreenState createState() => _NewTransactionScreenState();
+}
+
+class _NewTransactionScreenState extends State<NewTransactionScreen> {
+  TransactionType _type = TransactionType.expense;
+  DateTime _date = DateTime.now();
+  Account? _from;
+  Account? _to;
+  String? _category;
+  String? _partnerName;
+  final _nameCtrl = TextEditingController();
+  final _noteCtrl = TextEditingController();
+  final _amountCtrl = TextEditingController();
+
+  List<Account> get _personal =>
+      dummyAccounts.where((a) => a.type == AccountType.personal).toList();
+  List<Account> get _partners =>
+      dummyAccounts.where((a) => a.type == AccountType.partner).toList();
+  List<Account> get _allForPartnerTx => [..._personal, ..._partners];
+
+  @override
+  Widget build(BuildContext context) {
+    // build the “from” list
+    final fromList =
+        (_type == TransactionType.partnerTransfer)
+            ? _allForPartnerTx
+            : _personal;
+
+    // build the “to” list according to type AND _from.type
+    List<Account>? toList;
+    if (_type == TransactionType.transfer) {
+      // **exclude the chosen “from”** so you can't transfer to the same account**
+      toList = _personal.where((a) => a != _from).toList();
+    } else if (_type == TransactionType.partnerTransfer) {
+      if (_from == null) {
+        // before a from-account is chosen, show all
+        toList = _allForPartnerTx;
+      } else if (_from!.type == AccountType.personal) {
+        toList = _partners;
+      } else {
+        toList = _personal;
+      }
+    }
+
+    return Scaffold(
+      appBar: AppBar(title: Text('New Transaction')),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // ——— TYPE CHIPS ———
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ChoiceChip(
+                      label: Icon(
+                        Icons.remove,
+                        size: 20,
+                        color:
+                            _type == TransactionType.expense
+                                ? Colors.white
+                                : Colors.black54,
+                      ),
+                      selected: _type == TransactionType.expense,
+                      selectedColor: Colors.red.shade200,
+                      onSelected:
+                          (_) => setState(() {
+                            _type = TransactionType.expense;
+                            _from = null;
+                            _to = null;
+                          }),
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: ChoiceChip(
+                      label: Icon(
+                        Icons.add,
+                        size: 20,
+                        color:
+                            _type == TransactionType.income
+                                ? Colors.white
+                                : Colors.black54,
+                      ),
+                      selected: _type == TransactionType.income,
+                      selectedColor: Colors.green.shade200,
+                      onSelected:
+                          (_) => setState(() {
+                            _type = TransactionType.income;
+                            _from = null;
+                            _to = null;
+                          }),
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: ChoiceChip(
+                      label: Icon(
+                        Icons.swap_horiz,
+                        size: 20,
+                        color:
+                            _type == TransactionType.transfer
+                                ? Colors.white
+                                : Colors.black54,
+                      ),
+                      selected: _type == TransactionType.transfer,
+                      selectedColor: Colors.blue.shade200,
+                      onSelected:
+                          (_) => setState(() {
+                            _type = TransactionType.transfer;
+                            _from = null;
+                            _to = null;
+                          }),
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: ChoiceChip(
+                      label: Icon(
+                        Icons.people,
+                        size: 20,
+                        color:
+                            _type == TransactionType.partnerTransfer
+                                ? Colors.white
+                                : Colors.black54,
+                      ),
+                      selected: _type == TransactionType.partnerTransfer,
+                      selectedColor: Colors.purple.shade200,
+                      onSelected:
+                          (_) => setState(() {
+                            _type = TransactionType.partnerTransfer;
+                            _from = null;
+                            _to = null;
+                          }),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(height: 16),
+
+            // ——— AMOUNT ———
+            TextField(
+              controller: _amountCtrl,
+              decoration: InputDecoration(labelText: 'Amount'),
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+            ),
+
+            // ——— FROM ACCOUNT ———
+            SizedBox(height: 12),
+            DropdownButtonFormField<Account>(
+              value: _from,
+              hint: Text('From account'),
+              items:
+                  fromList
+                      .map(
+                        (a) => DropdownMenuItem(value: a, child: Text(a.name)),
+                      )
+                      .toList(),
+              onChanged:
+                  (v) => setState(() {
+                    _from = v;
+                    _to = null; // reset “to” when “from” changes
+                  }),
+            ),
+
+            // ——— TO ACCOUNT (for transfers only) ———
+            if (_type == TransactionType.transfer ||
+                _type == TransactionType.partnerTransfer) ...[
+              SizedBox(height: 12),
+              DropdownButtonFormField<Account>(
+                value: _to,
+                hint: Text('To account'),
+                items:
+                    toList!
+                        .map(
+                          (a) =>
+                              DropdownMenuItem(value: a, child: Text(a.name)),
+                        )
+                        .toList(),
+                onChanged: (v) => setState(() => _to = v),
+              ),
+            ],
+
+            // ——— OPTIONAL NAME ———
+            SizedBox(height: 12),
+            TextField(
+              controller: _nameCtrl,
+              decoration: InputDecoration(labelText: 'Name (optional)'),
+            ),
+
+            // ——— DATE PICKER ———
+            SizedBox(height: 12),
+            ListTile(
+              title: Text(
+                'Date: ${_date.toLocal().toIso8601String().substring(0, 10)}',
+              ),
+              trailing: Icon(Icons.calendar_today),
+              onTap: () async {
+                final picked = await showDatePicker(
+                  context: context,
+                  initialDate: _date,
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime.now().add(Duration(days: 365)),
+                );
+                if (picked != null) setState(() => _date = picked);
+              },
+            ),
+
+            // ——— CATEGORY ———
+            if (_categories[_type]!.isNotEmpty) ...[
+              SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                value: _category,
+                hint: Text('Category'),
+                items:
+                    _categories[_type]!
+                        .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                        .toList(),
+                onChanged: (v) => setState(() => _category = v),
+              ),
+            ],
+
+            // ——— PARTNER FIELD ———
+            if (_type == TransactionType.expense ||
+                _type == TransactionType.income) ...[
+              SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                value: _partnerName,
+                hint: Text('Partner (merchant)'),
+                items:
+                    ['MojMarket', 'Netflix', 'Gym']
+                        .map((p) => DropdownMenuItem(value: p, child: Text(p)))
+                        .toList(),
+                onChanged: (v) => setState(() => _partnerName = v),
+              ),
+            ],
+
+            // ——— NOTE ———
+            SizedBox(height: 12),
+            TextField(
+              controller: _noteCtrl,
+              decoration: InputDecoration(labelText: 'Note'),
+            ),
+
+            // ——— SAVE / CANCEL ———
+            SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () {
+                final amt = double.tryParse(_amountCtrl.text) ?? 0.0;
+                final targetAccount =
+                    (_type == TransactionType.transfer ||
+                            _type == TransactionType.partnerTransfer)
+                        ? (_to ?? _from!)
+                        : _from!;
+                final tx = TransactionItem(
+                  title:
+                      _nameCtrl.text.isEmpty
+                          ? _type.toString().split('.').last
+                          : _nameCtrl.text,
+                  date: _date,
+                  amount: (_type == TransactionType.expense ? -amt : amt),
+                  account: targetAccount,
+                );
+                Navigator.pop(context, tx);
+              },
+              child: Text('Save'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Cancel'),
+            ),
+          ],
+        ),
       ),
     );
   }
