@@ -1078,30 +1078,68 @@ class _ReviewScreenState extends State<ReviewScreen> {
   }
 
   void _reloadAll() {
-    budgetList =
-        dummyAccounts.where((a) => a.type == AccountType.budget).toList();
-    categoryList =
-        dummyAccounts.where((a) => a.type == AccountType.category).toList();
-    vendorList =
-        dummyAccounts.where((a) => a.type == AccountType.vendor).toList();
-    incomeList =
-        dummyAccounts.where((a) => a.type == AccountType.incomeSource).toList();
+    budgetList     = dummyAccounts.where((a) => a.type==AccountType.budget).toList();
+    categoryList   = dummyAccounts.where((a) => a.type==AccountType.category).toList();
+    vendorList     = dummyAccounts.where((a) => a.type==AccountType.vendor).toList();
+    incomeList     = dummyAccounts.where((a) => a.type==AccountType.incomeSource).toList();
   }
 
-  Widget _buildSection(String title, List<Account> list) {
+  Future<void> _editOrDelete(Account acc, List<Account> list) async {
+    final result = await Navigator.push<dynamic>(
+      context,
+      MaterialPageRoute(builder: (_) => EditReviewAccountScreen(account: acc)),
+    );
+    if (result is Account) {
+      // update global
+      final gi = dummyAccounts.indexWhere((a)=>a.name==acc.name);
+      if(gi!=-1) dummyAccounts[gi] = result;
+      // update local
+      final li = list.indexOf(acc);
+      setState(() => list[li] = result);
+    } else if (result=='delete') {
+      setState(() {
+        dummyAccounts.removeWhere((a)=>a.name==acc.name);
+        list.remove(acc);
+      });
+    }
+  }
+
+  Widget _buildSection(String title, List<Account> list, Key key) {
     if (list.isEmpty) {
       return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Center(
-          child: Text('No $title yet.', style: TextStyle(color: Colors.grey)),
-        ),
+        padding: const EdgeInsets.symmetric(vertical:16),
+        child: Center(child: Text('No $title yet.', style:TextStyle(color:Colors.grey))),
       );
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children:[
         SectionHeader(title),
-        ...list.map((a) => AccountCard(account: a)),
+        ReorderableListView(
+          key: key,
+          buildDefaultDragHandles: false,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+proxyDecorator: (child, index, animation) => child,
+          onReorder:(oldIndex,newIndex){
+            setState(() {
+              if(newIndex>oldIndex)newIndex--;
+              final acct=list.removeAt(oldIndex);
+              list.insert(newIndex,acct);
+            });
+          },
+          children:[
+            for(var acct in list)
+              ReorderableDragStartListener(
+                key: ValueKey(acct.name),
+                index: list.indexOf(acct),
+                child: GestureDetector(
+                  onTap: ()=>_editOrDelete(acct,list),
+                  child: AccountCard(account:acct),
+                ),
+              ),
+          ],
+        ),
       ],
     );
   }
@@ -1113,13 +1151,13 @@ class _ReviewScreenState extends State<ReviewScreen> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _buildSection('Budgets', budgetList),
-          SizedBox(height: 24),
-          _buildSection('Categories', categoryList),
-          SizedBox(height: 24),
-          _buildSection('Vendors', vendorList),
-          SizedBox(height: 24),
-          _buildSection('Income Sources', incomeList),
+          _buildSection('Budgets', budgetList, ValueKey('b')),
+          SizedBox(height:24),
+          _buildSection('Categories', categoryList, ValueKey('c')),
+          SizedBox(height:24),
+          _buildSection('Vendors', vendorList, ValueKey('v')),
+          SizedBox(height:24),
+          _buildSection('Income Sources', incomeList, ValueKey('i')),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -1129,12 +1167,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
             context,
             MaterialPageRoute(builder: (_) => NewReviewAccountScreen()),
           );
-          if (result != null) {
+          if (result!=null) {
             setState(() {
-              // 1) add into the master list
               dummyAccounts.add(result);
-
-              // 2) rebuild every section from scratch
               _reloadAll();
             });
           }
@@ -1283,6 +1318,97 @@ class _NewReviewAccountScreenState extends State<NewReviewAccountScreen> {
                 Navigator.pop(context, acct);
               },
               child: Text('Save'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class EditReviewAccountScreen extends StatefulWidget {
+  final Account account;
+  const EditReviewAccountScreen({Key? key, required this.account}) : super(key: key);
+
+  @override
+  _EditReviewAccountScreenState createState() => _EditReviewAccountScreenState();
+}
+
+class _EditReviewAccountScreenState extends State<EditReviewAccountScreen> {
+  late TextEditingController _nameCtrl;
+  late TextEditingController _balCtrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameCtrl = TextEditingController(text: widget.account.name);
+    _balCtrl  = TextEditingController(text: widget.account.balance.toString());
+  }
+
+  Future<bool?> _confirmDelete() {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Delete?'),
+        content: Text('Remove "${widget.account.name}"?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text('Delete', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Edit Item'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () async {
+              final confirm = await _confirmDelete();
+              if (confirm == true) Navigator.pop(context, 'delete');
+            },
+          )
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              controller: _nameCtrl,
+              decoration: InputDecoration(labelText: 'Name'),
+            ),
+            SizedBox(height: 12),
+            TextField(
+              controller: _balCtrl,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              decoration: InputDecoration(labelText: 'Starting Balance'),
+            ),
+            Spacer(),
+            ElevatedButton(
+              child: Text('Save'),
+              onPressed: () {
+                final name = _nameCtrl.text.trim();
+                if (name.isEmpty) return;
+                final bal = double.tryParse(_balCtrl.text) ?? 0.0;
+                Navigator.pop(context, Account(
+                  name: name,
+                  type: widget.account.type,
+                  balance: bal,
+                  includeInBalance: widget.account.includeInBalance,
+                ));
+              },
             ),
           ],
         ),
