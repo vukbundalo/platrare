@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 void main() => runApp(PlatrareApp());
 
 class PlatrareApp extends StatelessWidget {
+  const PlatrareApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -275,6 +277,8 @@ Map<Account, double> computeProjectedBalances(
 // Home Page
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -318,6 +322,8 @@ class _HomePageState extends State<HomePage> {
 // Account Screen
 
 class AccountsScreen extends StatefulWidget {
+  const AccountsScreen({super.key});
+
   @override
   _AccountsScreenState createState() => _AccountsScreenState();
 }
@@ -477,6 +483,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
 }
 
 class NewAccountScreen extends StatefulWidget {
+  const NewAccountScreen({super.key});
+
   @override
   _NewAccountScreenState createState() => _NewAccountScreenState();
 }
@@ -598,7 +606,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
 
 class EditAccountScreen extends StatefulWidget {
   final Account account;
-  const EditAccountScreen({Key? key, required this.account}) : super(key: key);
+  const EditAccountScreen({super.key, required this.account});
 
   @override
   _EditAccountScreenState createState() => _EditAccountScreenState();
@@ -710,12 +718,14 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
 // Plan Screen
 
 class PlanScreen extends StatefulWidget {
+  const PlanScreen({super.key});
+
   @override
   _PlanScreenState createState() => _PlanScreenState();
 }
 
 class _PlanScreenState extends State<PlanScreen> {
-  List<TransactionItem> _planned = List.from(dummyPlanned);
+  final List<TransactionItem> _planned = List.from(dummyPlanned);
 
   @override
   void initState() {
@@ -724,19 +734,26 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 
   Future<void> _edit(TransactionItem existing) async {
-    final updated = await Navigator.push<TransactionItem?>(
+    final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => NewPlannedTransactionScreen(existing: existing),
+        builder: (_) =>
+            NewPlannedTransactionScreen(existing: existing),
       ),
     );
-    if (updated != null) {
+
+    if (result is TransactionItem) {
       setState(() {
         final idx = _planned.indexOf(existing);
-        _planned[idx] = updated;
+        _planned[idx] = result;
         final gi = dummyPlanned.indexWhere((t) => identical(t, existing));
-        if (gi != -1) dummyPlanned[gi] = updated;
+        if (gi != -1) dummyPlanned[gi] = result;
         _planned.sort((a, b) => a.date.compareTo(b.date));
+      });
+    } else if (result == 'delete') {
+      setState(() {
+        _planned.remove(existing);
+        dummyPlanned.remove(existing);
       });
     }
   }
@@ -747,203 +764,210 @@ class _PlanScreenState extends State<PlanScreen> {
     final Map<DateTime, List<TransactionItem>> grouped = {};
     for (var tx in _planned) {
       final day = DateTime(tx.date.year, tx.date.month, tx.date.day);
-      grouped.putIfAbsent(day, () => []).add(tx);
+      (grouped[day] ??= []).add(tx);
     }
 
     return Scaffold(
       appBar: AppBar(title: Text('Plan')),
       body: ListView(
         padding: EdgeInsets.all(16),
-        children:
-            grouped.entries.map((entry) {
-              final day = entry.key;
-              final items = entry.value;
+        children: grouped.entries.map((entry) {
+          final day = entry.key;
+          final items = entry.value;
 
-              // 2) Projected balances up to this date
-              final proj = computeProjectedBalances(
-                dummyAccounts,
-                _planned,
-                day,
-              );
+          // 2) Projected balances up to this date
+          final proj = computeProjectedBalances(
+            dummyAccounts,
+            _planned,
+            day,
+          );
 
-              // 3) Summaries
-              final avail = proj.entries
-                  .where(
-                    (e) =>
-                        e.key.type == AccountType.personal &&
-                        e.key.includeInBalance,
-                  )
-                  .fold(0.0, (s, e) => s + e.value);
-              final liquid = proj.entries
-                  .where((e) => e.key.type == AccountType.personal)
-                  .fold(0.0, (s, e) => s + e.value);
+          // 3) Summaries
+          final avail = proj.entries
+              .where((e) =>
+                  e.key.type == AccountType.personal &&
+                  e.key.includeInBalance)
+              .fold(0.0, (s, e) => s + e.value);
+          final liquid = proj.entries
+              .where((e) => e.key.type == AccountType.personal)
+              .fold(0.0, (s, e) => s + e.value);
 
-              final personal = dummyAccounts.where(
-                (a) => a.type == AccountType.personal,
-              );
-              final partners = dummyAccounts.where(
-                (a) => a.type == AccountType.partner,
-              );
+          final personal = dummyAccounts
+              .where((a) => a.type == AccountType.personal);
+          final partners = dummyAccounts
+              .where((a) => a.type == AccountType.partner);
 
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Date header
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        '${day.day}/${day.month}/${day.year}',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Date header
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    '${day.day}/${day.month}/${day.year}',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
-
-                    // Planned transactions
-                    ...items.map((tx) {
-                      // 1) Figure out the title as before...
-                      final defaultKey = tx.type.toString().split('.').last;
-                      final isDefault = tx.title == defaultKey;
-                      String displayTitle;
-                      if (!isDefault) {
-                        displayTitle = tx.title;
-                      } else {
-                        switch (tx.type) {
-                          case TransactionType.partnerTransfer:
-                            final f = tx.fromAccount!;
-                            final t = tx.toAccount;
-                            if (f.type == AccountType.partner &&
-                                t.type == AccountType.personal) {
-                              displayTitle = 'Income';
-                            } else if (f.type == AccountType.personal &&
-                                t.type == AccountType.partner) {
-                              displayTitle = 'Expense';
-                            } else {
-                              displayTitle = 'Transfer';
-                            }
-                            break;
-                          case TransactionType.transfer:
-                            displayTitle = 'Transfer';
-                            break;
-                          case TransactionType.expense:
-                            displayTitle = 'Expense';
-                            break;
-                          case TransactionType.income:
-                            displayTitle = 'Income';
-                            break;
-                        }
-                      }
-
-                      // 2) Decide subtitle
-                      String displaySubtitle;
-                      if (tx.type == TransactionType.partnerTransfer ||
-                          tx.type == TransactionType.transfer) {
-                        displaySubtitle =
-                            'From ${tx.fromAccount!.name} to ${tx.toAccount.name}';
-                      } else {
-                        displaySubtitle = tx.toAccount.name;
-                      }
-
-                      // 3) Pick the icon + color
-                      IconData iconData;
-                      Color iconColor;
-                      switch (tx.type) {
-                        case TransactionType.expense:
-                          iconData = Icons.arrow_downward;
-                          iconColor = Colors.red;
-                          break;
-                        case TransactionType.income:
-                          iconData = Icons.arrow_upward;
-                          iconColor = Colors.green;
-                          break;
-                        case TransactionType.transfer:
-                          iconData = Icons.swap_horiz;
-                          iconColor = Colors.blue;
-                          break;
-                        case TransactionType.partnerTransfer:
-                          final f = tx.fromAccount!;
-                          final t = tx.toAccount;
-                          if (f.type == AccountType.partner &&
-                              t.type == AccountType.personal) {
-                            iconData = Icons.arrow_upward;
-                            iconColor = Colors.green;
-                          } else {
-                            iconData = Icons.arrow_downward;
-                            iconColor = Colors.red;
-                          }
-                          break;
-                      }
-
-                      return Card(
-                        margin: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 4,
-                        ),
-                        child: ListTile(
-                          leading: Icon(iconData, color: iconColor),
-                          title: Text(displayTitle),
-                          subtitle: Text(displaySubtitle),
-                          trailing: Text(tx.amount.toStringAsFixed(2)),
-                          onTap: () => _edit(tx),
-                        ),
-                      );
-                    }).toList(),
-
-                    SizedBox(height: 8),
-
-                    // Horizontal projected balances (shorter ribbon)
-                    Container(
-                      height: 60,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          SummaryCard(label: 'Available', value: avail),
-                          SizedBox(width: 20),
-                          ...personal.map(
-                            (a) => AccountBalanceCard(
-                              account: Account(
-                                name: a.name,
-                                type: a.type,
-                                balance: proj[a]!,
-                                includeInBalance: a.includeInBalance,
-                              ),
-                            ),
-                          ),
-                          SummaryCard(label: 'Liquid', value: liquid),
-                          SizedBox(width: 20),
-                          ...partners.map(
-                            (a) => AccountBalanceCard(
-                              account: Account(
-                                name: a.name,
-                                type: a.type,
-                                balance: proj[a]!,
-                                includeInBalance: a.includeInBalance,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    SizedBox(height: 100),
-                  ],
+                  ),
                 ),
-              );
-            }).toList(),
+
+                // Planned transactions
+                ...items.map((tx) {
+                  // 1) Decide display title
+                  final defaultKey = tx.type.toString().split('.').last;
+                  final isDefault = tx.title == defaultKey;
+                  String displayTitle;
+
+                  if (!isDefault) {
+                    displayTitle = tx.title;
+                  } else {
+                    switch (tx.type) {
+                      case TransactionType.partnerTransfer:
+                        final f = tx.fromAccount!;
+                        final t = tx.toAccount;
+                        // your new partner-transfer naming rules:
+                        if (f.type == AccountType.vendor &&
+                            t.type == AccountType.personal) {
+                          displayTitle = 'Refund';
+                        } else if (f.type == AccountType.personal &&
+                            t.type == AccountType.vendor) {
+                          displayTitle = 'Expense';
+                        } else if (f.type == AccountType.incomeSource &&
+                            t.type == AccountType.personal) {
+                          displayTitle = 'Income';
+                        } else if (f.type == AccountType.partner &&
+                            t.type == AccountType.personal) {
+                          displayTitle = 'Invoice';
+                        } else if (f.type == AccountType.personal &&
+                            t.type == AccountType.partner) {
+                          displayTitle = 'Bill';
+                        } else {
+                          displayTitle = 'Transfer';
+                        }
+                        break;
+                      case TransactionType.transfer:
+                        displayTitle = 'Transfer';
+                        break;
+                      case TransactionType.expense:
+                        displayTitle = 'Expense';
+                        break;
+                      case TransactionType.income:
+                        displayTitle = 'Income';
+                        break;
+                    }
+                  }
+
+                  // 2) Decide subtitle
+                  String displaySubtitle;
+                  if (tx.type == TransactionType.partnerTransfer ||
+                      tx.type == TransactionType.transfer) {
+                    displaySubtitle =
+                        'From ${tx.fromAccount!.name} to ${tx.toAccount.name}';
+                  } else {
+                    displaySubtitle = tx.toAccount.name;
+                  }
+
+                  // 3) Pick the icon + color
+                  IconData iconData;
+                  Color iconColor;
+                  switch (tx.type) {
+                    case TransactionType.expense:
+                      iconData = Icons.arrow_downward;
+                      iconColor = Colors.red;
+                      break;
+                    case TransactionType.income:
+                      iconData = Icons.arrow_upward;
+                      iconColor = Colors.green;
+                      break;
+                    case TransactionType.transfer:
+                      iconData = Icons.swap_horiz;
+                      iconColor = Colors.blue;
+                      break;
+                    case TransactionType.partnerTransfer:
+                      final f = tx.fromAccount!;
+                      final t = tx.toAccount;
+                      if ((f.type == AccountType.vendor &&
+                              t.type == AccountType.personal) ||
+                          (f.type == AccountType.partner &&
+                              t.type == AccountType.personal) ||
+                          (f.type == AccountType.incomeSource &&
+                              t.type == AccountType.personal)) {
+                        iconData = Icons.arrow_upward;
+                        iconColor = Colors.green;
+                      } else {
+                        iconData = Icons.arrow_downward;
+                        iconColor = Colors.red;
+                      }
+                      break;
+                  }
+
+                  return Card(
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    child: ListTile(
+                      leading: Icon(iconData, color: iconColor),
+                      title: Text(displayTitle),
+                      subtitle: Text(displaySubtitle),
+                      trailing:
+                          Text(tx.amount.toStringAsFixed(2)),
+                      onTap: () => _edit(tx),
+                    ),
+                  );
+                }).toList(),
+
+                SizedBox(height: 8),
+
+                // Horizontal projected balances (shorter ribbon)
+                SizedBox(
+                  height: 60,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      SummaryCard(label: 'Available', value: avail),
+                      SizedBox(width: 20),
+                      ...personal.map(
+                        (a) => AccountBalanceCard(
+                          account: Account(
+                            name: a.name,
+                            type: a.type,
+                            balance: proj[a]!,
+                            includeInBalance: a.includeInBalance,
+                          ),
+                        ),
+                      ),
+                      SummaryCard(label: 'Liquid', value: liquid),
+                      SizedBox(width: 20),
+                      ...partners.map(
+                        (a) => AccountBalanceCard(
+                          account: Account(
+                            name: a.name,
+                            type: a.type,
+                            balance: proj[a]!,
+                            includeInBalance: a.includeInBalance,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 100),
+              ],
+            ),
+          );
+        }).toList(),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () async {
-          final tx = await Navigator.push<TransactionItem?>(
-            context,
-            MaterialPageRoute(
-              builder: (_) => NewPlannedTransactionScreen(existing: null),
-            ),
-          );
-          if (tx != null) {
+          final tx =
+              await Navigator.push(context, MaterialPageRoute(
+            builder: (_) => NewPlannedTransactionScreen(existing: null),
+          ));
+          if (tx is TransactionItem) {
             setState(() {
               dummyPlanned.add(tx);
               _planned.add(tx);
@@ -956,9 +980,11 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 }
 
+// NewPlannedTransactionScreen.dart
+
 class NewPlannedTransactionScreen extends StatefulWidget {
   final TransactionItem? existing;
-  NewPlannedTransactionScreen({this.existing});
+  const NewPlannedTransactionScreen({super.key, this.existing});
 
   @override
   _NewPlannedTransactionScreenState createState() =>
@@ -1026,6 +1052,28 @@ class _NewPlannedTransactionScreenState
     }
   }
 
+  Future<void> _confirmDelete() async {
+    final sure = await showDialog<bool>(
+      context: context,
+      builder:
+          (_) => AlertDialog(
+            title: Text('Delete Planned?'),
+            content: Text('Remove this planned transaction?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text('Delete', style: TextStyle(color: Colors.red)),
+              ),
+            ],
+          ),
+    );
+    if (sure == true) Navigator.pop(context, 'delete');
+  }
+
   @override
   Widget build(BuildContext context) {
     final spacing = 8.0;
@@ -1070,6 +1118,7 @@ class _NewPlannedTransactionScreenState
       toList = _personal;
     }
 
+    // —— Prefix for amount field ——
     final prefix =
         _type == TransactionType.expense
             ? '-'
@@ -1082,12 +1131,17 @@ class _NewPlannedTransactionScreenState
         title: Text(
           widget.existing == null ? 'New Transaction' : 'Edit Transaction',
         ),
+        actions: [
+          if (widget.existing != null)
+            IconButton(icon: Icon(Icons.delete), onPressed: _confirmDelete),
+        ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // — Type selector —
             Wrap(
               spacing: spacing,
               runSpacing: spacing,
@@ -1135,7 +1189,7 @@ class _NewPlannedTransactionScreenState
 
             SizedBox(height: 16),
 
-            // Amount
+            // — Amount —
             TextField(
               controller: _amountCtrl,
               decoration: InputDecoration(
@@ -1147,7 +1201,7 @@ class _NewPlannedTransactionScreenState
 
             SizedBox(height: 12),
 
-            // singleAccount for expense/income
+            // — Single Account (expense/income) —
             if (_type == TransactionType.expense ||
                 _type == TransactionType.income) ...[
               DropdownButtonFormField<Account>(
@@ -1165,7 +1219,7 @@ class _NewPlannedTransactionScreenState
               SizedBox(height: 12),
             ],
 
-            // from/to for transfer/partner
+            // — From/To (transfer/partner) —
             if (_type == TransactionType.transfer ||
                 _type == TransactionType.partnerTransfer) ...[
               DropdownButtonFormField<Account>(
@@ -1202,13 +1256,13 @@ class _NewPlannedTransactionScreenState
               ],
             ],
 
-            // Name
+            // — Name —
             TextField(
               controller: _nameCtrl,
               decoration: InputDecoration(labelText: 'Name (optional)'),
             ),
 
-            // Category
+            // — Category —
             if (_categories.isNotEmpty) ...[
               SizedBox(height: 12),
               DropdownButtonFormField<Account>(
@@ -1226,14 +1280,16 @@ class _NewPlannedTransactionScreenState
             ],
 
             SizedBox(height: 12),
-            // Note
+
+            // — Note —
             TextField(
               controller: _noteCtrl,
               decoration: InputDecoration(labelText: 'Note'),
             ),
 
             SizedBox(height: 12),
-            // Date
+
+            // — Date —
             ListTile(
               title: Text(
                 'Date: ${_date.toLocal().toIso8601String().split("T").first}',
@@ -1251,7 +1307,8 @@ class _NewPlannedTransactionScreenState
             ),
 
             SizedBox(height: 24),
-            // Save
+
+            // — Save —
             ElevatedButton(
               child: Text('Save'),
               onPressed: () {
@@ -1294,12 +1351,14 @@ class _NewPlannedTransactionScreenState
 // Track Screen
 
 class TrackScreen extends StatefulWidget {
+  const TrackScreen({super.key});
+
   @override
   _TrackScreenState createState() => _TrackScreenState();
 }
 
 class _TrackScreenState extends State<TrackScreen> {
-  List<TransactionItem> _realized = List.from(dummyRealized);
+  final List<TransactionItem> _realized = List.from(dummyRealized);
 
   @override
   Widget build(BuildContext context) {
@@ -1384,7 +1443,7 @@ class _TrackScreenState extends State<TrackScreen> {
                     SizedBox(height: 8),
 
                     // Horizontal actual balances
-                    Container(
+                    SizedBox(
                       height: 100,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
@@ -1441,6 +1500,8 @@ class _TrackScreenState extends State<TrackScreen> {
 }
 
 class NewTransactionScreen extends StatefulWidget {
+  const NewTransactionScreen({super.key});
+
   @override
   _NewTransactionScreenState createState() => _NewTransactionScreenState();
 }
@@ -1779,6 +1840,8 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 // Review Screen
 
 class ReviewScreen extends StatefulWidget {
+  const ReviewScreen({super.key});
+
   @override
   _ReviewScreenState createState() => _ReviewScreenState();
 }
@@ -1904,6 +1967,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
 }
 
 class NewReviewAccountScreen extends StatefulWidget {
+  const NewReviewAccountScreen({super.key});
+
   @override
   _NewReviewAccountScreenState createState() => _NewReviewAccountScreenState();
 }
@@ -2052,8 +2117,7 @@ class _NewReviewAccountScreenState extends State<NewReviewAccountScreen> {
 
 class EditReviewAccountScreen extends StatefulWidget {
   final Account account;
-  const EditReviewAccountScreen({Key? key, required this.account})
-    : super(key: key);
+  const EditReviewAccountScreen({super.key, required this.account});
 
   @override
   _EditReviewAccountScreenState createState() =>
@@ -2150,7 +2214,7 @@ class _EditReviewAccountScreenState extends State<EditReviewAccountScreen> {
 // Reusable Widgets
 class AccountCard extends StatelessWidget {
   final Account account;
-  const AccountCard({Key? key, required this.account}) : super(key: key);
+  const AccountCard({super.key, required this.account});
 
   @override
   Widget build(BuildContext context) {
@@ -2174,7 +2238,7 @@ class AccountCard extends StatelessWidget {
 
 class SectionHeader extends StatelessWidget {
   final String title;
-  SectionHeader(this.title);
+  const SectionHeader(this.title, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -2190,7 +2254,7 @@ class SectionHeader extends StatelessWidget {
 
 class AccountBalanceCard extends StatelessWidget {
   final Account account;
-  AccountBalanceCard({required this.account});
+  const AccountBalanceCard({super.key, required this.account});
 
   @override
   Widget build(BuildContext context) {
@@ -2229,7 +2293,7 @@ class AccountBalanceCard extends StatelessWidget {
 class SummaryCard extends StatelessWidget {
   final String label;
   final double value;
-  SummaryCard({required this.label, required this.value});
+  const SummaryCard({super.key, required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {
