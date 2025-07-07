@@ -717,8 +717,6 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
 
 // Plan Screen
 
-// PlanScreen.dart
-
 class PlanScreen extends StatefulWidget {
   const PlanScreen({super.key});
 
@@ -985,12 +983,6 @@ class _PlanScreenState extends State<PlanScreen> {
         .toList();
   }
 }
-
-
-
-// NewPlannedTransactionScreen.dart
-
-// NewPlannedTransactionScreen.dart
 
 class NewPlannedTransactionScreen extends StatefulWidget {
   final TransactionItem? existing;
@@ -1343,7 +1335,7 @@ class _NewPlannedTransactionScreenState
 }
 
 
-// Track Screen
+// TrackScreen.dart
 
 class TrackScreen extends StatefulWidget {
   const TrackScreen({super.key});
@@ -1356,133 +1348,203 @@ class _TrackScreenState extends State<TrackScreen> {
   final List<TransactionItem> _realized = List.from(dummyRealized);
 
   @override
-  Widget build(BuildContext context) {
-    // sort newest first
+  void initState() {
+    super.initState();
     _realized.sort((a, b) => b.date.compareTo(a.date));
+  }
 
-    // group by day
+  Future<void> _edit(TransactionItem existing) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => NewTrackTransactionScreen(existing: existing),
+      ),
+    );
+    if (result is TransactionItem) {
+      setState(() {
+        // Replace in both local & global lists
+        final idx = _realized.indexOf(existing);
+        _realized[idx] = result;
+        final gi = dummyRealized.indexWhere((t) => identical(t, existing));
+        if (gi != -1) dummyRealized[gi] = result;
+        _realized.sort((a, b) => b.date.compareTo(a.date));
+      });
+    } else if (result == 'delete') {
+      setState(() {
+        _realized.remove(existing);
+        dummyRealized.remove(existing);
+        // NOTE: we do NOT automatically roll back the balances here.
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final Map<DateTime, List<TransactionItem>> grouped = {};
     for (var tx in _realized) {
       final day = DateTime(tx.date.year, tx.date.month, tx.date.day);
-      grouped.putIfAbsent(day, () => []).add(tx);
+      (grouped[day] ??= []).add(tx);
     }
 
     return Scaffold(
       appBar: AppBar(title: Text('Track')),
       body: ListView(
         padding: EdgeInsets.all(16),
-        children:
-            grouped.entries.map((entry) {
-              final day = entry.key;
-              final items = entry.value;
-
-              // actual running balances up to this day
-              final proj = computeProjectedBalances(
-                dummyAccounts,
-                _realized,
-                day,
-              );
-
-              final avail = proj.entries
-                  .where(
-                    (e) =>
-                        e.key.type == AccountType.personal &&
-                        e.key.includeInBalance,
-                  )
-                  .fold(0.0, (s, e) => s + e.value);
-              final liquid = proj.entries
-                  .where((e) => e.key.type == AccountType.personal)
-                  .fold(0.0, (s, e) => s + e.value);
-
-              final personal =
-                  dummyAccounts
-                      .where((a) => a.type == AccountType.personal)
-                      .toList();
-              final partners =
-                  dummyAccounts
-                      .where((a) => a.type == AccountType.partner)
-                      .toList();
-
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Date header
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        '${day.day}/${day.month}/${day.year}',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+        children: [
+          for (var entry in grouped.entries)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Day header
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      '${entry.key.day}/${entry.key.month}/${entry.key.year}',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
+                  ),
 
-                    // Realized transactions
-                    ...items.map(
-                      (tx) => Card(
-                        margin: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 4,
-                        ),
-                        child: ListTile(
-                          title: Text(tx.title),
-                          subtitle: Text(tx.toAccount.name),
-                          trailing: Text(tx.amount.toStringAsFixed(2)),
-                        ),
+                  // Each realized tx
+                  ...entry.value.map((tx) {
+                    // title logic (same as PlanScreen)
+                    final defaultKey = tx.type.toString().split('.').last;
+                    final isDefault = tx.title == defaultKey;
+                    String displayTitle;
+                    if (!isDefault) {
+                      displayTitle = tx.title;
+                    } else {
+                      switch (tx.type) {
+                        case TransactionType.partnerTransfer:
+                          final f = tx.fromAccount!;
+                          final t = tx.toAccount;
+                          if (f.type == AccountType.vendor &&
+                              t.type == AccountType.personal) {
+                            displayTitle = 'Refund';
+                          } else if (f.type == AccountType.personal &&
+                              t.type == AccountType.vendor) {
+                            displayTitle = 'Expense';
+                          } else if (f.type == AccountType.personal &&
+                              t.type == AccountType.incomeSource) {
+                            displayTitle = 'Return';
+                          } else if (f.type == AccountType.incomeSource &&
+                              t.type == AccountType.personal) {
+                            displayTitle = 'Income';
+                          } else if (f.type == AccountType.partner &&
+                              t.type == AccountType.personal) {
+                            displayTitle = 'Invoice';
+                          } else if (f.type == AccountType.personal &&
+                              t.type == AccountType.partner) {
+                            displayTitle = 'Bill';
+                          } else {
+                            displayTitle = 'Transfer';
+                          }
+                          break;
+                        case TransactionType.transfer:
+                          displayTitle = 'Transfer';
+                          break;
+                        case TransactionType.expense:
+                          displayTitle = 'Expense';
+                          break;
+                        case TransactionType.income:
+                          displayTitle = 'Income';
+                          break;
+                      }
+                    }
+
+                    // subtitle logic
+                    final displaySubtitle =
+                        (tx.type == TransactionType.partnerTransfer ||
+                                tx.type == TransactionType.transfer)
+                            ? 'From ${tx.fromAccount!.name} to ${tx.toAccount.name}'
+                            : tx.toAccount.name;
+
+                    // icon logic
+                    IconData iconData;
+                    Color iconColor;
+                    switch (tx.type) {
+                      case TransactionType.expense:
+                        iconData = Icons.arrow_downward;
+                        iconColor = Colors.red;
+                        break;
+                      case TransactionType.income:
+                        iconData = Icons.arrow_upward;
+                        iconColor = Colors.green;
+                        break;
+                      case TransactionType.transfer:
+                        iconData = Icons.swap_horiz;
+                        iconColor = Colors.blue;
+                        break;
+                      case TransactionType.partnerTransfer:
+                        final f = tx.fromAccount!;
+                        final t = tx.toAccount;
+                        if ((f.type == AccountType.vendor &&
+                                t.type == AccountType.personal) ||
+                            (f.type == AccountType.partner &&
+                                t.type == AccountType.personal) ||
+                            (f.type == AccountType.incomeSource &&
+                                t.type == AccountType.personal)) {
+                          iconData = Icons.arrow_upward;
+                          iconColor = Colors.green;
+                        } else {
+                          iconData = Icons.arrow_downward;
+                          iconColor = Colors.red;
+                        }
+                        break;
+                    }
+
+                    return Card(
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                      child: ListTile(
+                        leading: Icon(iconData, color: iconColor),
+                        title: Text(displayTitle),
+                        subtitle: Text(displaySubtitle),
+                        trailing: Text(tx.amount.toStringAsFixed(2)),
+                        onTap: () => _edit(tx),
                       ),
-                    ),
+                    );
+                  }).toList(),
 
-                    SizedBox(height: 8),
+                  SizedBox(height: 8),
 
-                    // Horizontal actual balances
-                    SizedBox(
-                      height: 100,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          SummaryCard(label: 'Available', value: avail),
-                          SizedBox(width: 8),
-                          SummaryCard(label: 'Liquid', value: liquid),
-                          SizedBox(width: 8),
-                          ...personal.map(
-                            (a) => AccountBalanceCard(
-                              account: Account(
-                                name: a.name,
-                                type: a.type,
-                                balance: proj[a]!,
-                                includeInBalance: a.includeInBalance,
-                              ),
-                            ),
-                          ),
-                          ...partners.map(
-                            (a) => AccountBalanceCard(
-                              account: Account(
-                                name: a.name,
-                                type: a.type,
-                                balance: proj[a]!,
-                                includeInBalance: a.includeInBalance,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                  // Horizontal “actual” balances
+                  SizedBox(
+                    height: 60,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        SummaryCard(
+                            label: 'Available',
+                            value: _actualAvailable(entry.key)),
+                        SizedBox(width: 20),
+                        ..._actualPersonalBalances(entry.key)
+                            .map((a) => AccountBalanceCard(account: a)),
+                        SummaryCard(
+                            label: 'Liquid', value: _actualLiquid(entry.key)),
+                        SizedBox(width: 20),
+                        ..._actualPartnerBalances(entry.key)
+                            .map((a) => AccountBalanceCard(account: a)),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            }).toList(),
+                  ),
+                ],
+              ),
+            ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () async {
           final tx = await Navigator.push<TransactionItem?>(
             context,
-            MaterialPageRoute(builder: (_) => NewTransactionScreen()),
+            MaterialPageRoute(
+              builder: (_) => NewTrackTransactionScreen(existing: null),
+            ),
           );
-          if (tx != null) {
+          if (tx is TransactionItem) {
             setState(() {
               dummyRealized.add(tx);
               _realized.add(tx);
@@ -1492,22 +1554,65 @@ class _TrackScreenState extends State<TrackScreen> {
       ),
     );
   }
+
+  double _actualAvailable(DateTime day) {
+    final proj = computeProjectedBalances(dummyAccounts, _realized, day);
+    return proj.entries
+        .where((e) =>
+            e.key.type == AccountType.personal && e.key.includeInBalance)
+        .fold(0.0, (s, e) => s + e.value);
+  }
+
+  double _actualLiquid(DateTime day) {
+    final proj = computeProjectedBalances(dummyAccounts, _realized, day);
+    return proj.entries
+        .where((e) => e.key.type == AccountType.personal)
+        .fold(0.0, (s, e) => s + e.value);
+  }
+
+  List<Account> _actualPersonalBalances(DateTime day) {
+    final proj = computeProjectedBalances(dummyAccounts, _realized, day);
+    return dummyAccounts
+        .where((a) => a.type == AccountType.personal)
+        .map((a) => Account(
+              name: a.name,
+              type: a.type,
+              balance: proj[a]!,
+              includeInBalance: a.includeInBalance,
+            ))
+        .toList();
+  }
+
+  List<Account> _actualPartnerBalances(DateTime day) {
+    final proj = computeProjectedBalances(dummyAccounts, _realized, day);
+    return dummyAccounts
+        .where((a) => a.type == AccountType.partner)
+        .map((a) => Account(
+              name: a.name,
+              type: a.type,
+              balance: proj[a]!,
+              includeInBalance: a.includeInBalance,
+            ))
+        .toList();
+  }
 }
 
-class NewTransactionScreen extends StatefulWidget {
-  const NewTransactionScreen({super.key});
+// NewTrackTransactionScreen.dart
+
+class NewTrackTransactionScreen extends StatefulWidget {
+  final TransactionItem? existing;
+  const NewTrackTransactionScreen({super.key, this.existing});
 
   @override
-  _NewTransactionScreenState createState() => _NewTransactionScreenState();
+  _NewTrackTransactionScreenState createState() =>
+      _NewTrackTransactionScreenState();
 }
 
-class _NewTransactionScreenState extends State<NewTransactionScreen> {
+class _NewTrackTransactionScreenState
+    extends State<NewTrackTransactionScreen> {
   TransactionType _type = TransactionType.partnerTransfer;
   DateTime _date = DateTime.now();
-  Account? _from;
-  Account? _to;
-  Account? _singleAccount; // for expense/income
-  Account? _categoryAccount;
+  Account? _from, _to, _singleAccount, _categoryAccount;
   final _nameCtrl = TextEditingController();
   final _amountCtrl = TextEditingController();
   final _noteCtrl = TextEditingController();
@@ -1523,12 +1628,8 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   List<Account> get _categories =>
       dummyAccounts.where((a) => a.type == AccountType.category).toList();
 
-  List<Account> get _allForPartnerTx => [
-    ..._personal,
-    ..._partners,
-    ..._vendors,
-    ..._incomeSources,
-  ];
+  List<Account> get _allForPartnerTx =>
+      [..._personal, ..._partners, ..._vendors, ..._incomeSources];
 
   static const _typeLabels = {
     TransactionType.partnerTransfer: 'Partner Transaction',
@@ -1544,11 +1645,55 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   };
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.existing != null) {
+      final ex = widget.existing!;
+      _type = ex.type;
+      _date = ex.date;
+      _nameCtrl.text = ex.title;
+      _amountCtrl.text = ex.amount.abs().toString();
+      if (_type == TransactionType.transfer ||
+          _type == TransactionType.partnerTransfer) {
+        _from = ex.fromAccount;
+        _to = ex.toAccount;
+      } else {
+        _singleAccount = ex.toAccount;
+      }
+      if (ex.toAccount.type == AccountType.category) {
+        _categoryAccount = ex.toAccount;
+      }
+    }
+  }
+
+  Future<void> _confirmDelete() async {
+    final sure = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Delete Transaction?'),
+        content: Text('This cannot be undone.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text('Delete', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+    if (sure == true) Navigator.pop(context, 'delete');
+  }
+
+  @override
   Widget build(BuildContext context) {
     final spacing = 8.0;
-    final chipWidth = (MediaQuery.of(context).size.width - 32 - spacing) / 2;
+    final chipWidth =
+        (MediaQuery.of(context).size.width - 32 - spacing) / 2;
 
-    // —— build “from” list ——
+    // —— fromList / toList exactly as in plan screen
     List<Account> fromList;
     if (_type == TransactionType.partnerTransfer) {
       fromList = _allForPartnerTx;
@@ -1558,7 +1703,6 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       fromList = [..._personal, ..._partners];
     }
 
-    // —— build “to” list ——
     List<Account>? toList;
     if (_type == TransactionType.partnerTransfer) {
       if (_from == null) {
@@ -1566,7 +1710,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       } else {
         switch (_from!.type) {
           case AccountType.personal:
-            toList = [..._partners, ..._vendors];
+            toList = [..._partners, ..._vendors, ..._incomeSources];
             break;
           case AccountType.partner:
             toList = [..._personal, ..._vendors];
@@ -1587,65 +1731,63 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       toList = _personal;
     }
 
-    // —— prefix for amount field ——
-    final prefix =
-        _type == TransactionType.expense
-            ? '-'
-            : _type == TransactionType.income
+    final prefix = _type == TransactionType.expense
+        ? '-'
+        : _type == TransactionType.income
             ? '+'
             : null;
 
     return Scaffold(
-      appBar: AppBar(title: Text('New Transaction')),
+      appBar: AppBar(
+        title: Text(
+            widget.existing == null ? 'New Transaction' : 'Edit Transaction'),
+        actions: [
+          if (widget.existing != null)
+            IconButton(icon: Icon(Icons.delete), onPressed: _confirmDelete),
+        ],
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // — Type selector (2×2 grid) —
+            // — Type selector —
             Wrap(
               spacing: spacing,
               runSpacing: spacing,
-              children:
-                  _typeLabels.entries.map((e) {
-                    final sel = _type == e.key;
-                    return SizedBox(
-                      width: chipWidth,
-                      child: InkWell(
-                        onTap:
-                            () => setState(() {
-                              _type = e.key;
-                              _from = _to = _singleAccount = null;
-                            }),
-                        borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 12,
-                            horizontal: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color:
-                                sel
-                                    ? _typeColors[e.key]!.withOpacity(0.2)
-                                    : null,
-                            border: Border.all(
-                              color: sel ? _typeColors[e.key]! : Colors.grey,
-                            ),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            e.value,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: sel ? _typeColors[e.key]! : Colors.black87,
-                              fontWeight: sel ? FontWeight.bold : null,
-                            ),
-                          ),
+              children: _typeLabels.entries.map((e) {
+                final sel = _type == e.key;
+                return SizedBox(
+                  width: chipWidth,
+                  child: InkWell(
+                    onTap: () => setState(() {
+                      _type = e.key;
+                      _from = _to = _singleAccount = null;
+                    }),
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: sel
+                            ? _typeColors[e.key]!.withOpacity(0.2)
+                            : null,
+                        border: Border.all(
+                          color: sel ? _typeColors[e.key]! : Colors.grey,
                         ),
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                    );
-                  }).toList(),
+                      alignment: Alignment.center,
+                      child: Text(e.value,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color:
+                                  sel ? _typeColors[e.key]! : Colors.black87,
+                              fontWeight: sel ? FontWeight.bold : null)),
+                    ),
+                  ),
+                );
+              }).toList(),
             ),
 
             SizedBox(height: 16),
@@ -1657,67 +1799,57 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                 labelText: 'Amount',
                 prefixText: prefix,
               ),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              keyboardType:
+                  TextInputType.numberWithOptions(decimal: true),
             ),
-
             SizedBox(height: 12),
 
-            // — Single Account for Expense/Income —
+            // — Single account for expense/income —
             if (_type == TransactionType.expense ||
                 _type == TransactionType.income) ...[
               DropdownButtonFormField<Account>(
                 value: _singleAccount,
                 hint: Text('Account'),
-                items:
-                    fromList
-                        .map(
-                          (a) =>
-                              DropdownMenuItem(value: a, child: Text(a.name)),
-                        )
-                        .toList(),
+                items: fromList
+                    .map((a) => DropdownMenuItem(
+                        value: a, child: Text(a.name)))
+                    .toList(),
                 onChanged: (v) => setState(() => _singleAccount = v),
               ),
               SizedBox(height: 12),
             ],
 
-            // — From & To for Transfer & PartnerTransfer —
+            // — From/To for transfers —
             if (_type == TransactionType.transfer ||
                 _type == TransactionType.partnerTransfer) ...[
               DropdownButtonFormField<Account>(
                 value: _from,
                 hint: Text('From account'),
-                items:
-                    fromList
-                        .map(
-                          (a) =>
-                              DropdownMenuItem(value: a, child: Text(a.name)),
-                        )
-                        .toList(),
-                onChanged:
-                    (v) => setState(() {
-                      _from = v;
-                      _to = null;
-                    }),
+                items: fromList
+                    .map((a) => DropdownMenuItem(
+                        value: a, child: Text(a.name)))
+                    .toList(),
+                onChanged: (v) => setState(() {
+                  _from = v;
+                  _to = null;
+                }),
               ),
               SizedBox(height: 12),
               if (toList != null) ...[
                 DropdownButtonFormField<Account>(
                   value: _to,
                   hint: Text('To account'),
-                  items:
-                      toList
-                          .map(
-                            (a) =>
-                                DropdownMenuItem(value: a, child: Text(a.name)),
-                          )
-                          .toList(),
+                  items: toList
+                      .map((a) => DropdownMenuItem(
+                          value: a, child: Text(a.name)))
+                      .toList(),
                   onChanged: (v) => setState(() => _to = v),
                 ),
                 SizedBox(height: 12),
               ],
             ],
 
-            // — Optional Name —
+            // — Name —
             TextField(
               controller: _nameCtrl,
               decoration: InputDecoration(labelText: 'Name (optional)'),
@@ -1729,13 +1861,10 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
               DropdownButtonFormField<Account>(
                 value: _categoryAccount,
                 hint: Text('Category'),
-                items:
-                    _categories
-                        .map(
-                          (c) =>
-                              DropdownMenuItem(value: c, child: Text(c.name)),
-                        )
-                        .toList(),
+                items: _categories
+                    .map((c) => DropdownMenuItem(
+                        value: c, child: Text(c.name)))
+                    .toList(),
                 onChanged: (v) => setState(() => _categoryAccount = v),
               ),
             ],
@@ -1747,14 +1876,12 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
               controller: _noteCtrl,
               decoration: InputDecoration(labelText: 'Note'),
             ),
-
             SizedBox(height: 12),
 
-            // — Date —
+            // — Date picker —
             ListTile(
               title: Text(
-                'Date: ${_date.toLocal().toIso8601String().split("T").first}',
-              ),
+                  'Date: ${_date.toLocal().toIso8601String().split("T").first}'),
               trailing: Icon(Icons.calendar_today),
               onTap: () async {
                 final p = await showDatePicker(
@@ -1769,55 +1896,80 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 
             SizedBox(height: 24),
 
-            // — Save —
+            // — Save: apply immediately to dummyAccounts!
             ElevatedButton(
               child: Text('Save'),
               onPressed: () {
-                final raw = double.tryParse(_amountCtrl.text) ?? 0.0;
-                final amt = _type == TransactionType.expense ? -raw : raw;
+                final raw =
+                    double.tryParse(_amountCtrl.text) ?? 0.0;
+                final amt = (_type == TransactionType.expense)
+                    ? -raw
+                    : raw;
+                final fromAcc = (_type == TransactionType.transfer ||
+                        _type == TransactionType.partnerTransfer)
+                    ? _from
+                    : null;
+                final toAcc = (_type == TransactionType.expense ||
+                        _type == TransactionType.income)
+                    ? _singleAccount!
+                    : _to!;
 
-                // pick fromAccount only for transfers
-                final Account? fromAcc =
-                    (_type == TransactionType.transfer ||
-                            _type == TransactionType.partnerTransfer)
-                        ? _from
-                        : null;
-
-                // pick toAccount: singleAccount for expense/income, else _to
-                final Account toAcc =
-                    (_type == TransactionType.expense ||
-                            _type == TransactionType.income)
-                        ? _singleAccount!
-                        : _to!;
-
-                // update category balance if needed
-                if (_categoryAccount != null) {
-                  final idx = dummyAccounts.indexWhere(
-                    (a) => a.name == _categoryAccount!.name,
-                  );
-                  if (idx != -1) {
-                    final c = dummyAccounts[idx];
-                    dummyAccounts[idx] = Account(
-                      name: c.name,
-                      type: c.type,
-                      balance: c.balance + raw.abs(),
-                      includeInBalance: c.includeInBalance,
-                    );
-                  }
+                // 1) Immediately mutate dummyAccounts
+                switch (_type) {
+                  case TransactionType.transfer:
+                  case TransactionType.partnerTransfer:
+                    if (fromAcc != null) {
+                      final i = dummyAccounts.indexWhere(
+                          (a) => a.name == fromAcc.name);
+                      if (i != -1) {
+                        final a = dummyAccounts[i];
+                        dummyAccounts[i] = Account(
+                          name: a.name,
+                          type: a.type,
+                          balance: a.balance - amt.sign * raw.abs(),
+                          includeInBalance: a.includeInBalance,
+                        );
+                      }
+                    }
+                    final j = dummyAccounts.indexWhere(
+                        (a) => a.name == toAcc.name);
+                    if (j != -1) {
+                      final b = dummyAccounts[j];
+                      dummyAccounts[j] = Account(
+                        name: b.name,
+                        type: b.type,
+                        balance: b.balance + amt,
+                        includeInBalance: b.includeInBalance,
+                      );
+                    }
+                    break;
+                  case TransactionType.expense:
+                  case TransactionType.income:
+                    final k = dummyAccounts.indexWhere(
+                        (a) => a.name == toAcc.name);
+                    if (k != -1) {
+                      final c = dummyAccounts[k];
+                      dummyAccounts[k] = Account(
+                        name: c.name,
+                        type: c.type,
+                        balance: c.balance + amt,
+                        includeInBalance: c.includeInBalance,
+                      );
+                    }
+                    break;
                 }
 
+                // 2) Build and return the new item
                 final tx = TransactionItem(
-                  title:
-                      _nameCtrl.text.isNotEmpty
-                          ? _nameCtrl.text
-                          : _type.toString().split('.').last,
+                  title: _nameCtrl.text.isNotEmpty
+                      ? _nameCtrl.text
+                      : _type.toString().split('.').last,
                   date: _date,
                   type: _type,
                   fromAccount: fromAcc,
                   toAccount: toAcc,
                   amount: amt,
                 );
-
                 Navigator.pop(context, tx);
               },
             ),
@@ -1832,6 +1984,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
     );
   }
 }
+
 // Review Screen
 
 class ReviewScreen extends StatefulWidget {
