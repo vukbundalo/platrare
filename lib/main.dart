@@ -29,9 +29,10 @@ class Account {
   });
 }
 
+// Enums
 enum AccountType { personal, partner, vendor, incomeSource, budget, category }
 
-List<String> dummyCategories = [];
+enum TransactionType { expense, income, transfer, partnerTransfer }
 
 enum ReviewAccountType { budget, category, vendor, incomeSource }
 
@@ -65,9 +66,9 @@ List<Account> dummyAccounts = [
     includeInBalance: true,
   ),
   Account(
-    name: 'Savings',
+    name: 'Piggy bank',
     type: AccountType.personal,
-    balance: 1400.0,
+    balance: 27.0,
     includeInBalance: false,
   ),
 
@@ -82,6 +83,36 @@ List<Account> dummyAccounts = [
     name: 'Željko Bundalo',
     type: AccountType.partner,
     balance: -3143,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Nova Banka',
+    type: AccountType.partner,
+    balance: -1400,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Electricity',
+    type: AccountType.partner,
+    balance: -1400,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Building',
+    type: AccountType.partner,
+    balance: -1400,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'RTV',
+    type: AccountType.partner,
+    balance: -1400,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Sanitation',
+    type: AccountType.partner,
+    balance: -1400,
     includeInBalance: false,
   ),
 
@@ -158,12 +189,14 @@ List<TransactionItem> dummyTransactions = [
 ];
 
 // Home Page
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
   int _currentIndex = 0;
   final _screens = [
     AccountsScreen(),
@@ -198,6 +231,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+// Account Screen
 
 class AccountsScreen extends StatefulWidget {
   @override
@@ -487,53 +522,45 @@ class EditAccountScreen extends StatefulWidget {
 }
 
 class _EditAccountScreenState extends State<EditAccountScreen> {
-  late AccountType _type;
   late TextEditingController _nameCtrl;
   late TextEditingController _balCtrl;
-  late bool _includeInAvailableBalance;
-
-  static const Map<AccountType, String> _labels = {
-    AccountType.personal: 'Personal',
-    AccountType.partner: 'Partner',
-  };
+  late bool _includeInAvailable;
 
   @override
   void initState() {
     super.initState();
-    _type = widget.account.type;
     _nameCtrl = TextEditingController(text: widget.account.name);
     _balCtrl = TextEditingController(text: widget.account.balance.toString());
-    _includeInAvailableBalance = widget.account.includeInBalance;
+    _includeInAvailable = widget.account.includeInBalance;
   }
 
   Future<void> _confirmDelete() async {
-    final confirm = await showDialog<bool>(
+    final confirmed = await showDialog<bool>(
       context: context,
       builder:
-          (_) => AlertDialog(
+          (context) => AlertDialog(
             title: Text('Delete Account?'),
             content: Text('This action cannot be undone.'),
             actions: [
               TextButton(
-                onPressed: () => Navigator.pop(context, false),
                 child: Text('Cancel'),
+                onPressed: () => Navigator.pop(context, false),
               ),
               TextButton(
-                onPressed: () => Navigator.pop(context, true),
                 child: Text('Delete', style: TextStyle(color: Colors.red)),
+                onPressed: () => Navigator.pop(context, true),
               ),
             ],
           ),
     );
-    if (confirm == true) Navigator.pop(context, 'delete');
+    if (confirmed == true) {
+      Navigator.pop(context, 'delete');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // make two equal-width chips per row
-    final totalPad = 16.0 * 2;
-    final spacing = 8.0;
-    final chipW = (MediaQuery.of(context).size.width - totalPad - spacing) / 2;
+    final isPersonal = widget.account.type == AccountType.personal;
 
     return Scaffold(
       appBar: AppBar(
@@ -545,77 +572,37 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // — 2-column “chips” for personal/partner —
-            Wrap(
-              spacing: spacing,
-              runSpacing: spacing,
-              children:
-                  _labels.entries.map((e) {
-                    final sel = _type == e.key;
-                    return SizedBox(
-                      width: chipW,
-                      child: InkWell(
-                        onTap: () => setState(() => _type = e.key),
-                        borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                          decoration: BoxDecoration(
-                            color:
-                                sel
-                                    ? Theme.of(context).colorScheme.primary
-                                    : null,
-                            border: Border.all(
-                              color:
-                                  sel
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Colors.grey,
-                            ),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            e.value,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: sel ? Colors.white : Colors.black87,
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-            ),
-
-            SizedBox(height: 24),
-
-            // — Name & Balance —
+            // Name
             TextField(
               controller: _nameCtrl,
               decoration: InputDecoration(labelText: 'Name'),
             ),
             SizedBox(height: 12),
+
+            // Current Balance
             TextField(
               controller: _balCtrl,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(labelText: 'Starting Balance'),
+              decoration: InputDecoration(labelText: 'Current Balance'),
             ),
 
-            // — Include toggle only for Personal —
-            if (_type == AccountType.personal) ...[
+            // Include toggle only for personal accounts
+            if (isPersonal) ...[
               SizedBox(height: 16),
               SwitchListTile(
                 title: Text('Include in Available Balance'),
-                value: _includeInAvailableBalance,
-                onChanged:
-                    (v) => setState(() => _includeInAvailableBalance = v),
+                value: _includeInAvailable,
+                onChanged: (v) => setState(() => _includeInAvailable = v),
               ),
             ],
 
             Spacer(),
 
-            // — Save Button —
+            // Save
             ElevatedButton(
+              child: Text('Save'),
               onPressed: () {
                 final name = _nameCtrl.text.trim();
                 if (name.isEmpty) return;
@@ -623,13 +610,12 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                 final bal = double.tryParse(_balCtrl.text) ?? 0.0;
                 final updated = Account(
                   name: name,
-                  type: _type,
+                  type: widget.account.type, // preserve original type
                   balance: bal,
-                  includeInBalance: _includeInAvailableBalance,
+                  includeInBalance: _includeInAvailable,
                 );
                 Navigator.pop(context, updated);
               },
-              child: Text('Save'),
             ),
           ],
         ),
@@ -638,15 +624,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
   }
 }
 
-// Reuse your existing models:
-enum TransactionType { expense, income, transfer, partnerTransfer }
-
-const Map<TransactionType, List<String>> _categories = {
-  TransactionType.expense: ['Food', 'Transport', 'Utilities', 'Shopping'],
-  TransactionType.income: ['Salary', 'Gift', 'Interest'],
-  TransactionType.transfer: [],
-  TransactionType.partnerTransfer: [],
-};
+// Plan Screen
 
 class PlanScreen extends StatefulWidget {
   @override
@@ -731,7 +709,7 @@ class _PlanScreenState extends State<PlanScreen> {
         onPressed: () async {
           final newTx = await Navigator.push<TransactionItem?>(
             context,
-            MaterialPageRoute(builder: (_) => NewTransactionScreen()),
+            MaterialPageRoute(builder: (_) => NewPlannedTransactionScreen()),
           );
           if (newTx != null) {
             setState(() => _planned.add(newTx));
@@ -742,16 +720,17 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 }
 
-class NewTransactionScreen extends StatefulWidget {
+class NewPlannedTransactionScreen extends StatefulWidget {
   @override
-  _NewTransactionScreenState createState() => _NewTransactionScreenState();
+  _NewPlannedTransactionScreenState createState() => _NewPlannedTransactionScreenState();
 }
 
-class _NewTransactionScreenState extends State<NewTransactionScreen> {
+class _NewPlannedTransactionScreenState extends State<NewPlannedTransactionScreen> {
   TransactionType _type = TransactionType.partnerTransfer;
   DateTime _date = DateTime.now();
   Account? _from;
   Account? _to;
+  Account? _singleAccount; // for expense/income
   Account? _categoryAccount;
   final _nameCtrl = TextEditingController();
   final _amountCtrl = TextEditingController();
@@ -776,10 +755,10 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   ];
 
   static const _typeLabels = {
-    TransactionType.partnerTransfer: 'Partner Transfer',
-    TransactionType.transfer: 'Transfer',
-    TransactionType.expense: 'Expense',
-    TransactionType.income: 'Income',
+    TransactionType.partnerTransfer: 'Partner Transaction',
+    TransactionType.transfer: 'Internal Transfer',
+    TransactionType.expense: 'Expense / Bill',
+    TransactionType.income: 'Income / Invoice',
   };
   static const _typeColors = {
     TransactionType.partnerTransfer: Colors.purple,
@@ -793,16 +772,18 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
     final spacing = 8.0;
     final chipWidth = (MediaQuery.of(context).size.width - 32 - spacing) / 2;
 
-    // From list
-    final fromList =
-        (_type == TransactionType.partnerTransfer)
-            ? [..._personal, ..._partners, ..._vendors, ..._incomeSources]
-            : (_type == TransactionType.transfer ||
-                _type == TransactionType.expense)
-            ? _personal
-            : <Account>[];
+    // —— From list (for underlying logic) ——
+    List<Account> fromList;
+    if (_type == TransactionType.partnerTransfer) {
+      fromList = _allForPartnerTx;
+    } else if (_type == TransactionType.transfer) {
+      fromList = _personal;
+    } else {
+      // expense/income: allow both personal & partner
+      fromList = [..._personal, ..._partners];
+    }
 
-    // To list
+    // —— To list ——
     List<Account>? toList;
     if (_type == TransactionType.partnerTransfer) {
       if (_from == null) {
@@ -831,7 +812,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       toList = _personal;
     }
 
-    // choose prefix for amount
+    // —— Prefix for amount field ——
     final prefix =
         _type == TransactionType.expense
             ? '-'
@@ -844,8 +825,9 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // type selector
+            // — Type selector —
             Wrap(
               spacing: spacing,
               runSpacing: spacing,
@@ -858,7 +840,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                         onTap:
                             () => setState(() {
                               _type = e.key;
-                              _from = _to = null;
+                              _from = _to = _singleAccount = null;
                             }),
                         borderRadius: BorderRadius.circular(8),
                         child: Container(
@@ -893,7 +875,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 
             SizedBox(height: 16),
 
-            // Amount with dynamic prefix
+            // — Amount —
             TextField(
               controller: _amountCtrl,
               decoration: InputDecoration(
@@ -905,8 +887,27 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 
             SizedBox(height: 12),
 
-            // From account (hide for Income)
-            if (_type != TransactionType.income) ...[
+            // — Single Account for Expense/Income —
+            if (_type == TransactionType.expense ||
+                _type == TransactionType.income) ...[
+              DropdownButtonFormField<Account>(
+                value: _singleAccount,
+                hint: Text('Account'),
+                items:
+                    fromList
+                        .map(
+                          (a) =>
+                              DropdownMenuItem(value: a, child: Text(a.name)),
+                        )
+                        .toList(),
+                onChanged: (v) => setState(() => _singleAccount = v),
+              ),
+              SizedBox(height: 12),
+            ],
+
+            // — From & To for Transfer & PartnerTransfer —
+            if (_type == TransactionType.transfer ||
+                _type == TransactionType.partnerTransfer) ...[
               DropdownButtonFormField<Account>(
                 value: _from,
                 hint: Text('From account'),
@@ -924,32 +925,30 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                     }),
               ),
               SizedBox(height: 12),
+              if (toList != null) ...[
+                DropdownButtonFormField<Account>(
+                  value: _to,
+                  hint: Text('To account'),
+                  items:
+                      toList
+                          .map(
+                            (a) =>
+                                DropdownMenuItem(value: a, child: Text(a.name)),
+                          )
+                          .toList(),
+                  onChanged: (v) => setState(() => _to = v),
+                ),
+                SizedBox(height: 12),
+              ],
             ],
 
-            // To account
-            if (toList != null) ...[
-              DropdownButtonFormField<Account>(
-                value: _to,
-                hint: Text('To account'),
-                items:
-                    toList
-                        .map(
-                          (a) =>
-                              DropdownMenuItem(value: a, child: Text(a.name)),
-                        )
-                        .toList(),
-                onChanged: (v) => setState(() => _to = v),
-              ),
-              SizedBox(height: 12),
-            ],
-
-            // Name
+            // — Optional Name —
             TextField(
               controller: _nameCtrl,
               decoration: InputDecoration(labelText: 'Name (optional)'),
             ),
 
-            // Category
+            // — Category —
             if (_categories.isNotEmpty) ...[
               SizedBox(height: 12),
               DropdownButtonFormField<Account>(
@@ -968,7 +967,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 
             SizedBox(height: 12),
 
-            // Note
+            // — Note —
             TextField(
               controller: _noteCtrl,
               decoration: InputDecoration(labelText: 'Note'),
@@ -976,7 +975,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 
             SizedBox(height: 12),
 
-            // Date
+            // — Date —
             ListTile(
               title: Text(
                 'Date: ${_date.toLocal().toIso8601String().split("T").first}',
@@ -995,16 +994,21 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 
             SizedBox(height: 24),
 
-            // Save
+            // — Save —
             ElevatedButton(
               child: Text('Save'),
               onPressed: () {
                 final raw = double.tryParse(_amountCtrl.text) ?? 0.0;
                 final amt = _type == TransactionType.expense ? -raw : raw;
-                final target =
-                    (_type == TransactionType.income ? _to! : (_to ?? _from!));
+                Account target;
+                if (_type == TransactionType.expense ||
+                    _type == TransactionType.income) {
+                  target = _singleAccount!;
+                } else {
+                  target = (_to ?? _from)!;
+                }
 
-                // update category balance
+                // update category balance if selected
                 if (_categoryAccount != null) {
                   final idx = dummyAccounts.indexWhere(
                     (a) => a.name == _categoryAccount!.name,
@@ -1045,6 +1049,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 }
 
 class TrackScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1056,9 +1061,7 @@ class TrackScreen extends StatelessWidget {
   }
 }
 
-// review_screen.dart
-
-// review_screen.dart
+// Review Screen
 
 class ReviewScreen extends StatefulWidget {
   @override
@@ -1078,10 +1081,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
   }
 
   void _reloadAll() {
-    budgetList     = dummyAccounts.where((a) => a.type==AccountType.budget).toList();
-    categoryList   = dummyAccounts.where((a) => a.type==AccountType.category).toList();
-    vendorList     = dummyAccounts.where((a) => a.type==AccountType.vendor).toList();
-    incomeList     = dummyAccounts.where((a) => a.type==AccountType.incomeSource).toList();
+    budgetList =
+        dummyAccounts.where((a) => a.type == AccountType.budget).toList();
+    categoryList =
+        dummyAccounts.where((a) => a.type == AccountType.category).toList();
+    vendorList =
+        dummyAccounts.where((a) => a.type == AccountType.vendor).toList();
+    incomeList =
+        dummyAccounts.where((a) => a.type == AccountType.incomeSource).toList();
   }
 
   Future<void> _editOrDelete(Account acc, List<Account> list) async {
@@ -1091,14 +1098,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
     );
     if (result is Account) {
       // update global
-      final gi = dummyAccounts.indexWhere((a)=>a.name==acc.name);
-      if(gi!=-1) dummyAccounts[gi] = result;
+      final gi = dummyAccounts.indexWhere((a) => a.name == acc.name);
+      if (gi != -1) dummyAccounts[gi] = result;
       // update local
       final li = list.indexOf(acc);
       setState(() => list[li] = result);
-    } else if (result=='delete') {
+    } else if (result == 'delete') {
       setState(() {
-        dummyAccounts.removeWhere((a)=>a.name==acc.name);
+        dummyAccounts.removeWhere((a) => a.name == acc.name);
         list.remove(acc);
       });
     }
@@ -1107,35 +1114,37 @@ class _ReviewScreenState extends State<ReviewScreen> {
   Widget _buildSection(String title, List<Account> list, Key key) {
     if (list.isEmpty) {
       return Padding(
-        padding: const EdgeInsets.symmetric(vertical:16),
-        child: Center(child: Text('No $title yet.', style:TextStyle(color:Colors.grey))),
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Center(
+          child: Text('No $title yet.', style: TextStyle(color: Colors.grey)),
+        ),
       );
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children:[
+      children: [
         SectionHeader(title),
         ReorderableListView(
           key: key,
           buildDefaultDragHandles: false,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-proxyDecorator: (child, index, animation) => child,
-          onReorder:(oldIndex,newIndex){
+          proxyDecorator: (child, index, animation) => child,
+          onReorder: (oldIndex, newIndex) {
             setState(() {
-              if(newIndex>oldIndex)newIndex--;
-              final acct=list.removeAt(oldIndex);
-              list.insert(newIndex,acct);
+              if (newIndex > oldIndex) newIndex--;
+              final acct = list.removeAt(oldIndex);
+              list.insert(newIndex, acct);
             });
           },
-          children:[
-            for(var acct in list)
+          children: [
+            for (var acct in list)
               ReorderableDragStartListener(
                 key: ValueKey(acct.name),
                 index: list.indexOf(acct),
                 child: GestureDetector(
-                  onTap: ()=>_editOrDelete(acct,list),
-                  child: AccountCard(account:acct),
+                  onTap: () => _editOrDelete(acct, list),
+                  child: AccountCard(account: acct),
                 ),
               ),
           ],
@@ -1152,11 +1161,11 @@ proxyDecorator: (child, index, animation) => child,
         padding: const EdgeInsets.all(16),
         children: [
           _buildSection('Budgets', budgetList, ValueKey('b')),
-          SizedBox(height:24),
+          SizedBox(height: 24),
           _buildSection('Categories', categoryList, ValueKey('c')),
-          SizedBox(height:24),
+          SizedBox(height: 24),
           _buildSection('Vendors', vendorList, ValueKey('v')),
-          SizedBox(height:24),
+          SizedBox(height: 24),
           _buildSection('Income Sources', incomeList, ValueKey('i')),
         ],
       ),
@@ -1167,7 +1176,7 @@ proxyDecorator: (child, index, animation) => child,
             context,
             MaterialPageRoute(builder: (_) => NewReviewAccountScreen()),
           );
-          if (result!=null) {
+          if (result != null) {
             setState(() {
               dummyAccounts.add(result);
               _reloadAll();
@@ -1266,7 +1275,7 @@ class _NewReviewAccountScreenState extends State<NewReviewAccountScreen> {
             TextField(
               controller: _balCtrl,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(labelText: 'Starting Balance'),
+              decoration: InputDecoration(labelText: 'Amount'),
             ),
 
             Spacer(),
@@ -1328,10 +1337,12 @@ class _NewReviewAccountScreenState extends State<NewReviewAccountScreen> {
 
 class EditReviewAccountScreen extends StatefulWidget {
   final Account account;
-  const EditReviewAccountScreen({Key? key, required this.account}) : super(key: key);
+  const EditReviewAccountScreen({Key? key, required this.account})
+    : super(key: key);
 
   @override
-  _EditReviewAccountScreenState createState() => _EditReviewAccountScreenState();
+  _EditReviewAccountScreenState createState() =>
+      _EditReviewAccountScreenState();
 }
 
 class _EditReviewAccountScreenState extends State<EditReviewAccountScreen> {
@@ -1342,26 +1353,27 @@ class _EditReviewAccountScreenState extends State<EditReviewAccountScreen> {
   void initState() {
     super.initState();
     _nameCtrl = TextEditingController(text: widget.account.name);
-    _balCtrl  = TextEditingController(text: widget.account.balance.toString());
+    _balCtrl = TextEditingController(text: widget.account.balance.toString());
   }
 
   Future<bool?> _confirmDelete() {
     return showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Delete?'),
-        content: Text('Remove "${widget.account.name}"?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text('Cancel'),
+      builder:
+          (context) => AlertDialog(
+            title: Text('Delete?'),
+            content: Text('Remove "${widget.account.name}"?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text('Delete', style: TextStyle(color: Colors.red)),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text('Delete', style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      ),
     );
   }
 
@@ -1369,7 +1381,7 @@ class _EditReviewAccountScreenState extends State<EditReviewAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Item'),
+        title: Text('Edit Review Item'),
         actions: [
           IconButton(
             icon: Icon(Icons.delete),
@@ -1377,7 +1389,7 @@ class _EditReviewAccountScreenState extends State<EditReviewAccountScreen> {
               final confirm = await _confirmDelete();
               if (confirm == true) Navigator.pop(context, 'delete');
             },
-          )
+          ),
         ],
       ),
       body: Padding(
@@ -1393,7 +1405,7 @@ class _EditReviewAccountScreenState extends State<EditReviewAccountScreen> {
             TextField(
               controller: _balCtrl,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(labelText: 'Starting Balance'),
+              decoration: InputDecoration(labelText: 'Current amount'),
             ),
             Spacer(),
             ElevatedButton(
@@ -1402,12 +1414,15 @@ class _EditReviewAccountScreenState extends State<EditReviewAccountScreen> {
                 final name = _nameCtrl.text.trim();
                 if (name.isEmpty) return;
                 final bal = double.tryParse(_balCtrl.text) ?? 0.0;
-                Navigator.pop(context, Account(
-                  name: name,
-                  type: widget.account.type,
-                  balance: bal,
-                  includeInBalance: widget.account.includeInBalance,
-                ));
+                Navigator.pop(
+                  context,
+                  Account(
+                    name: name,
+                    type: widget.account.type,
+                    balance: bal,
+                    includeInBalance: widget.account.includeInBalance,
+                  ),
+                );
               },
             ),
           ],
