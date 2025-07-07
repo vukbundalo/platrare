@@ -29,7 +29,11 @@ class Account {
   });
 }
 
-enum AccountType { personal, partner, budget }
+enum AccountType { personal, partner, vendor, incomeSource, budget, category }
+
+List<String> dummyCategories = [];
+
+enum ReviewAccountType { budget, category, vendor, incomeSource }
 
 class TransactionItem {
   final String title;
@@ -47,40 +51,93 @@ class TransactionItem {
 
 // Dummy data
 List<Account> dummyAccounts = [
+  // — Personal Accounts —
   Account(
     name: 'Cash',
     type: AccountType.personal,
-    balance: 200.0,
+    balance: 300.0,
+    includeInBalance: true,
+  ),
+  Account(
+    name: 'Card',
+    type: AccountType.personal,
+    balance: 450.0,
     includeInBalance: true,
   ),
   Account(
     name: 'Savings',
     type: AccountType.personal,
-    balance: 1500.0,
-    includeInBalance: true,
-  ),
-  Account(
-    name: 'Pocket Change',
-    type: AccountType.personal,
-    balance: 50.0,
+    balance: 1400.0,
     includeInBalance: false,
   ),
+
+  // — Partner Accounts —
   Account(
-    name: 'Partner: Alice',
+    name: 'Nevena Bundalo',
     type: AccountType.partner,
-    balance: -50.0,
+    balance: 454,
     includeInBalance: false,
   ),
   Account(
-    name: 'Partner: Bob',
+    name: 'Željko Bundalo',
     type: AccountType.partner,
-    balance: 120.0,
+    balance: -3143,
+    includeInBalance: false,
+  ),
+
+  // — Vendor Accounts —
+  Account(
+    name: 'Replay',
+    type: AccountType.vendor,
+    balance: 240,
     includeInBalance: false,
   ),
   Account(
-    name: 'Food Budget',
+    name: 'Moj Market',
+    type: AccountType.vendor,
+    balance: 423,
+    includeInBalance: false,
+  ),
+
+  // — Income Source Accounts —
+  Account(
+    name: 'East Code d.o.o',
+    type: AccountType.incomeSource,
+    balance: 54000,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Apiary Bundalo',
+    type: AccountType.incomeSource,
+    balance: 4500,
+    includeInBalance: false,
+  ),
+
+  // — Budget Accounts —
+  Account(
+    name: 'Food',
     type: AccountType.budget,
     balance: 300.0,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Coffee',
+    type: AccountType.budget,
+    balance: 150.0,
+    includeInBalance: false,
+  ),
+
+  // — Category Accounts —
+  Account(
+    name: 'Nightout',
+    type: AccountType.category,
+    balance: 220,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Car',
+    type: AccountType.category,
+    balance: 700,
     includeInBalance: false,
   ),
 ];
@@ -142,7 +199,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// Accounts Screen with edit, delete, and reordering
 class AccountsScreen extends StatefulWidget {
   @override
   _AccountsScreenState createState() => _AccountsScreenState();
@@ -150,8 +206,7 @@ class AccountsScreen extends StatefulWidget {
 
 class _AccountsScreenState extends State<AccountsScreen> {
   late List<Account> personalList;
-  late List<Account> partnerList;
-  late List<Account> budgetList;
+  late List<Account> partnerList; // show all partners here
 
   @override
   void initState() {
@@ -160,255 +215,122 @@ class _AccountsScreenState extends State<AccountsScreen> {
         dummyAccounts.where((a) => a.type == AccountType.personal).toList();
     partnerList =
         dummyAccounts.where((a) => a.type == AccountType.partner).toList();
-    budgetList =
-        dummyAccounts.where((a) => a.type == AccountType.budget).toList();
+  }
+
+  Future<void> _editOrDelete(Account acc, List<Account> list) async {
+    final result = await Navigator.push<dynamic>(
+      context,
+      MaterialPageRoute(builder: (_) => EditAccountScreen(account: acc)),
+    );
+
+    if (result is Account) {
+      // Replace in both dummyAccounts and our local list
+      final globalIndex = dummyAccounts.indexWhere((a) => a.name == acc.name);
+      if (globalIndex != -1) dummyAccounts[globalIndex] = result;
+
+      final localIndex = list.indexOf(acc);
+      setState(() {
+        list[localIndex] = result;
+      });
+    } else if (result == 'delete') {
+      setState(() {
+        dummyAccounts.removeWhere((a) => a.name == acc.name);
+        list.remove(acc);
+      });
+    }
+  }
+
+  Widget _buildSection(String title, List<Account> list, Key key) {
+    if (list.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Center(
+          child: Text('No $title yet.', style: TextStyle(color: Colors.grey)),
+        ),
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeader(title),
+        ReorderableListView(
+          key: key,
+          buildDefaultDragHandles: false,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          proxyDecorator: (child, index, animation) => child,
+          onReorder: (oldIndex, newIndex) {
+            setState(() {
+              if (newIndex > oldIndex) newIndex--;
+              final acct = list.removeAt(oldIndex);
+              list.insert(newIndex, acct);
+            });
+          },
+          children: [
+            for (var acct in list)
+              ReorderableDragStartListener(
+                key: ValueKey(acct.name),
+                index: list.indexOf(acct),
+                child: GestureDetector(
+                  onTap: () => _editOrDelete(acct, list),
+                  child: AccountCard(account: acct),
+                ),
+              ),
+          ],
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final availableBalance = personalList
+    final avail = personalList
         .where((a) => a.includeInBalance)
         .fold(0.0, (sum, a) => sum + a.balance);
-    final liquidAssets = personalList.fold(0.0, (sum, a) => sum + a.balance);
-    final partnersBalance = partnerList.fold(0.0, (sum, a) => sum + a.balance);
-    final netWorth = liquidAssets + partnersBalance;
+    final liquid = personalList.fold(0.0, (sum, a) => sum + a.balance);
+    final partnersBal = partnerList.fold(0.0, (sum, a) => sum + a.balance);
+    final netWorth = liquid + partnersBal;
 
     return Scaffold(
       appBar: AppBar(title: Text('Accounts')),
       body: ListView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         children: [
-          Column(
+          Row(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: _summaryCard('Available Balance', availableBalance),
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(child: _summaryCard('Liquid Assets', liquidAssets)),
-                ],
-              ),
-              SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: _summaryCard('Partners Balance', partnersBalance),
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(child: _summaryCard('Net Worth', netWorth)),
-                ],
-              ),
+              Expanded(child: _summaryCard('Available Balance', avail)),
+              SizedBox(width: 8),
+              Expanded(child: _summaryCard('Liquid Assets', liquid)),
+            ],
+          ),
+          SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(child: _summaryCard('Partners Balance', partnersBal)),
+              SizedBox(width: 8),
+              Expanded(child: _summaryCard('Net Worth', netWorth)),
             ],
           ),
           SizedBox(height: 24),
-
-          SectionHeader('Personal Accounts'),
-          if (personalList.isEmpty)
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              child: Center(
-                child: Text(
-                  'No personal accounts yet.',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-            )
-          else
-            ReorderableListView(
-              key: ValueKey('personal'),
-              buildDefaultDragHandles: false,
-              proxyDecorator: (child, index, animation) => child,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              onReorder: (oldIndex, newIndex) {
-                setState(() {
-                  if (newIndex > oldIndex) newIndex--;
-                  final item = personalList.removeAt(oldIndex);
-                  personalList.insert(newIndex, item);
-                });
-              },
-              children: [
-                for (int i = 0; i < personalList.length; i++)
-                  ReorderableDragStartListener(
-                    key: ValueKey(personalList[i].name),
-                    index: i,
-                    child: GestureDetector(
-                      onTap: () async {
-                        final result = await Navigator.push<dynamic>(
-                          context,
-                          MaterialPageRoute<dynamic>(
-                            builder:
-                                (_) =>
-                                    EditAccountScreen(account: personalList[i]),
-                          ),
-                        );
-                        if (result is Account) {
-                          setState(() {
-                            personalList[i] = result;
-                            final idx = dummyAccounts.indexWhere(
-                              (a) => a.name == result.name,
-                            );
-                            dummyAccounts[idx] = result;
-                          });
-                        } else if (result == 'delete') {
-                          setState(() {
-                            dummyAccounts.remove(personalList[i]);
-                            personalList.removeAt(i);
-                          });
-                        }
-                      },
-                      child: AccountCard(account: personalList[i]),
-                    ),
-                  ),
-              ],
-            ),
+          _buildSection('Personal Accounts', personalList, ValueKey('p')),
           SizedBox(height: 24),
-
-          SectionHeader('Partner Accounts'),
-          if (partnerList.isEmpty)
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              child: Center(
-                child: Text(
-                  'No partner\'s accounts yet.',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-            )
-          else
-            ReorderableListView(
-              key: ValueKey('partner'),
-              buildDefaultDragHandles: false,
-              proxyDecorator: (child, index, animation) => child,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              onReorder: (oldIndex, newIndex) {
-                setState(() {
-                  if (newIndex > oldIndex) newIndex--;
-                  final item = partnerList.removeAt(oldIndex);
-                  partnerList.insert(newIndex, item);
-                });
-              },
-              children: [
-                for (int i = 0; i < partnerList.length; i++)
-                  ReorderableDragStartListener(
-                    key: ValueKey(partnerList[i].name),
-                    index: i,
-                    child: GestureDetector(
-                      onTap: () async {
-                        final result = await Navigator.push<dynamic>(
-                          context,
-                          MaterialPageRoute<dynamic>(
-                            builder:
-                                (_) =>
-                                    EditAccountScreen(account: partnerList[i]),
-                          ),
-                        );
-                        if (result is Account) {
-                          setState(() {
-                            partnerList[i] = result;
-                            final idx = dummyAccounts.indexWhere(
-                              (a) => a.name == result.name,
-                            );
-                            dummyAccounts[idx] = result;
-                          });
-                        } else if (result == 'delete') {
-                          setState(() {
-                            dummyAccounts.remove(partnerList[i]);
-                            partnerList.removeAt(i);
-                          });
-                        }
-                      },
-                      child: AccountCard(account: partnerList[i]),
-                    ),
-                  ),
-              ],
-            ),
-          SizedBox(height: 24),
-
-          SectionHeader('Budget Accounts'),
-          if (budgetList.isEmpty)
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              child: Center(
-                child: Text(
-                  'No budgets yet.',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-            )
-          else
-            ReorderableListView(
-              key: ValueKey('budget'),
-              buildDefaultDragHandles: false,
-              proxyDecorator: (child, index, animation) => child,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              onReorder: (oldIndex, newIndex) {
-                setState(() {
-                  if (newIndex > oldIndex) newIndex--;
-                  final item = budgetList.removeAt(oldIndex);
-                  budgetList.insert(newIndex, item);
-                });
-              },
-              children: [
-                for (int i = 0; i < budgetList.length; i++)
-                  ReorderableDragStartListener(
-                    key: ValueKey(budgetList[i].name),
-                    index: i,
-                    child: GestureDetector(
-                      onTap: () async {
-                        final result = await Navigator.push<dynamic>(
-                          context,
-                          MaterialPageRoute<dynamic>(
-                            builder:
-                                (_) =>
-                                    EditAccountScreen(account: budgetList[i]),
-                          ),
-                        );
-                        if (result is Account) {
-                          setState(() {
-                            budgetList[i] = result;
-                            final idx = dummyAccounts.indexWhere(
-                              (a) => a.name == result.name,
-                            );
-                            dummyAccounts[idx] = result;
-                          });
-                        } else if (result == 'delete') {
-                          setState(() {
-                            dummyAccounts.remove(budgetList[i]);
-                            budgetList.removeAt(i);
-                          });
-                        }
-                      },
-                      child: AccountCard(account: budgetList[i]),
-                    ),
-                  ),
-              ],
-            ),
+          _buildSection('Partner Accounts', partnerList, ValueKey('pr')),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () async {
-          final result = await Navigator.push<dynamic>(
+          final newAcc = await Navigator.push<Account?>(
             context,
-            MaterialPageRoute<dynamic>(builder: (_) => NewAccountScreen()),
+            MaterialPageRoute(builder: (_) => NewAccountScreen()),
           );
-          if (result is Account) {
+          if (newAcc != null) {
             setState(() {
-              dummyAccounts.add(result);
-              switch (result.type) {
-                case AccountType.personal:
-                  personalList.add(result);
-                  break;
-                case AccountType.partner:
-                  partnerList.add(result);
-                  break;
-                case AccountType.budget:
-                  budgetList.add(result);
-                  break;
+              dummyAccounts.add(newAcc);
+              if (newAcc.type == AccountType.personal) {
+                personalList.add(newAcc);
+              } else if (newAcc.type == AccountType.partner) {
+                partnerList.add(newAcc);
               }
             });
           }
@@ -422,7 +344,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
     return Card(
       color: color,
       child: Padding(
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -436,7 +358,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
   }
 }
 
-// New Account Screen
 class NewAccountScreen extends StatefulWidget {
   @override
   _NewAccountScreenState createState() => _NewAccountScreenState();
@@ -445,61 +366,110 @@ class NewAccountScreen extends StatefulWidget {
 class _NewAccountScreenState extends State<NewAccountScreen> {
   AccountType _type = AccountType.personal;
   final _nameController = TextEditingController();
-  final _balanceController = TextEditingController();
+  final _balanceController = TextEditingController(text: '0');
   bool _includeInAvailableBalance = true;
+
+  static const Map<AccountType, String> _labels = {
+    AccountType.personal: 'Personal',
+    AccountType.partner: 'Partner',
+  };
 
   @override
   Widget build(BuildContext context) {
+    // two chips → each takes half the width (minus padding & spacing)
+    final totalPadding = 16.0 * 2;
+    final spacing = 8.0;
+    final chipWidth =
+        (MediaQuery.of(context).size.width - totalPadding - spacing) / 2;
+
     return Scaffold(
       appBar: AppBar(title: Text('New Account')),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            // —— 1×2 Grid of “Chips” ——
+            Wrap(
+              spacing: spacing,
               children:
-                  AccountType.values.map((type) {
-                    final label = type.toString().split('.').last;
-                    return ChoiceChip(
-                      label: Text(label[0].toUpperCase() + label.substring(1)),
-                      selected: _type == type,
-                      onSelected: (_) => setState(() => _type = type),
+                  _labels.entries.map((e) {
+                    final selected = _type == e.key;
+                    return SizedBox(
+                      width: chipWidth,
+                      child: InkWell(
+                        onTap: () => setState(() => _type = e.key),
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            color:
+                                selected
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Colors.transparent,
+                            border: Border.all(
+                              color:
+                                  selected
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            e.value,
+                            style: TextStyle(
+                              color: selected ? Colors.white : Colors.black87,
+                            ),
+                          ),
+                        ),
+                      ),
                     );
                   }).toList(),
             ),
-            SizedBox(height: 16),
+
+            SizedBox(height: 24),
+
+            // —— Name & Balance Fields ——
             TextField(
               controller: _nameController,
               decoration: InputDecoration(labelText: 'Name'),
             ),
+            SizedBox(height: 12),
             TextField(
               controller: _balanceController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Balance'),
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              decoration: InputDecoration(labelText: 'Starting Balance'),
             ),
-            if (_type == AccountType.personal)
+
+            // —— Only for Personal ——
+            if (_type == AccountType.personal) ...[
+              SizedBox(height: 16),
               SwitchListTile(
                 title: Text('Include in Available Balance'),
                 value: _includeInAvailableBalance,
                 onChanged:
                     (v) => setState(() => _includeInAvailableBalance = v),
               ),
-            SizedBox(height: 20),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  final account = Account(
-                    name: _nameController.text.trim(),
-                    type: _type,
-                    balance: double.tryParse(_balanceController.text) ?? 0.0,
-                    includeInBalance: _includeInAvailableBalance,
-                  );
-                  Navigator.pop(context, account);
-                },
-                child: Text('Save'),
-              ),
+            ],
+
+            Spacer(),
+
+            // —— Save Button ——
+            ElevatedButton(
+              onPressed: () {
+                final name = _nameController.text.trim();
+                final bal = double.tryParse(_balanceController.text) ?? 0.0;
+                final acct = Account(
+                  name: name,
+                  type: _type,
+                  balance: bal,
+                  includeInBalance:
+                      _type == AccountType.personal &&
+                      _includeInAvailableBalance,
+                );
+                Navigator.pop(context, acct);
+              },
+              child: Text('Save'),
             ),
           ],
         ),
@@ -508,7 +478,6 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   }
 }
 
-// Edit Account Screen
 class EditAccountScreen extends StatefulWidget {
   final Account account;
   const EditAccountScreen({Key? key, required this.account}) : super(key: key);
@@ -521,7 +490,12 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
   late AccountType _type;
   late TextEditingController _nameCtrl;
   late TextEditingController _balCtrl;
-  late bool _includeInAvailableBalance = true;
+  late bool _includeInAvailableBalance;
+
+  static const Map<AccountType, String> _labels = {
+    AccountType.personal: 'Personal',
+    AccountType.partner: 'Partner',
+  };
 
   @override
   void initState() {
@@ -551,13 +525,16 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
             ],
           ),
     );
-    if (confirm == true) {
-      Navigator.pop<dynamic>(context, 'delete');
-    }
+    if (confirm == true) Navigator.pop(context, 'delete');
   }
 
   @override
   Widget build(BuildContext context) {
+    // make two equal-width chips per row
+    final totalPad = 16.0 * 2;
+    final spacing = 8.0;
+    final chipW = (MediaQuery.of(context).size.width - totalPad - spacing) / 2;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Account'),
@@ -566,53 +543,93 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            // — 2-column “chips” for personal/partner —
+            Wrap(
+              spacing: spacing,
+              runSpacing: spacing,
               children:
-                  AccountType.values.map((type) {
-                    final label = type.toString().split('.').last;
-                    return ChoiceChip(
-                      label: Text(label[0].toUpperCase() + label.substring(1)),
-                      selected: _type == type,
-                      onSelected: (_) => setState(() => _type = type),
+                  _labels.entries.map((e) {
+                    final sel = _type == e.key;
+                    return SizedBox(
+                      width: chipW,
+                      child: InkWell(
+                        onTap: () => setState(() => _type = e.key),
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            color:
+                                sel
+                                    ? Theme.of(context).colorScheme.primary
+                                    : null,
+                            border: Border.all(
+                              color:
+                                  sel
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            e.value,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: sel ? Colors.white : Colors.black87,
+                            ),
+                          ),
+                        ),
+                      ),
                     );
                   }).toList(),
             ),
-            SizedBox(height: 16),
+
+            SizedBox(height: 24),
+
+            // — Name & Balance —
             TextField(
               controller: _nameCtrl,
               decoration: InputDecoration(labelText: 'Name'),
             ),
+            SizedBox(height: 12),
             TextField(
               controller: _balCtrl,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Balance'),
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              decoration: InputDecoration(labelText: 'Starting Balance'),
             ),
-            if (_type == AccountType.personal)
+
+            // — Include toggle only for Personal —
+            if (_type == AccountType.personal) ...[
+              SizedBox(height: 16),
               SwitchListTile(
                 title: Text('Include in Available Balance'),
                 value: _includeInAvailableBalance,
                 onChanged:
                     (v) => setState(() => _includeInAvailableBalance = v),
               ),
-            SizedBox(height: 20),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  final updated = Account(
-                    name: _nameCtrl.text.trim(),
-                    type: _type,
-                    balance: double.tryParse(_balCtrl.text) ?? 0.0,
-                    includeInBalance: _includeInAvailableBalance,
-                  );
-                  Navigator.pop(context, updated);
-                },
-                child: Text('Save'),
-              ),
+            ],
+
+            Spacer(),
+
+            // — Save Button —
+            ElevatedButton(
+              onPressed: () {
+                final name = _nameCtrl.text.trim();
+                if (name.isEmpty) return;
+
+                final bal = double.tryParse(_balCtrl.text) ?? 0.0;
+                final updated = Account(
+                  name: name,
+                  type: _type,
+                  balance: bal,
+                  includeInBalance: _includeInAvailableBalance,
+                );
+                Navigator.pop(context, updated);
+              },
+              child: Text('Save'),
             ),
           ],
         ),
@@ -731,181 +748,191 @@ class NewTransactionScreen extends StatefulWidget {
 }
 
 class _NewTransactionScreenState extends State<NewTransactionScreen> {
-  TransactionType _type = TransactionType.expense;
+  TransactionType _type = TransactionType.partnerTransfer;
   DateTime _date = DateTime.now();
   Account? _from;
   Account? _to;
-  String? _category;
-  String? _partnerName;
+  Account? _categoryAccount;
   final _nameCtrl = TextEditingController();
-  final _noteCtrl = TextEditingController();
   final _amountCtrl = TextEditingController();
+  final _noteCtrl = TextEditingController();
 
   List<Account> get _personal =>
       dummyAccounts.where((a) => a.type == AccountType.personal).toList();
   List<Account> get _partners =>
       dummyAccounts.where((a) => a.type == AccountType.partner).toList();
-  List<Account> get _allForPartnerTx => [..._personal, ..._partners];
+  List<Account> get _vendors =>
+      dummyAccounts.where((a) => a.type == AccountType.vendor).toList();
+  List<Account> get _incomeSources =>
+      dummyAccounts.where((a) => a.type == AccountType.incomeSource).toList();
+  List<Account> get _categories =>
+      dummyAccounts.where((a) => a.type == AccountType.category).toList();
+
+  List<Account> get _allForPartnerTx => [
+    ..._personal,
+    ..._partners,
+    ..._vendors,
+    ..._incomeSources,
+  ];
+
+  static const _typeLabels = {
+    TransactionType.partnerTransfer: 'Partner Transfer',
+    TransactionType.transfer: 'Transfer',
+    TransactionType.expense: 'Expense',
+    TransactionType.income: 'Income',
+  };
+  static const _typeColors = {
+    TransactionType.partnerTransfer: Colors.purple,
+    TransactionType.transfer: Colors.blue,
+    TransactionType.expense: Colors.red,
+    TransactionType.income: Colors.green,
+  };
 
   @override
   Widget build(BuildContext context) {
-    // build the “from” list
+    final spacing = 8.0;
+    final chipWidth = (MediaQuery.of(context).size.width - 32 - spacing) / 2;
+
+    // From list
     final fromList =
         (_type == TransactionType.partnerTransfer)
-            ? _allForPartnerTx
-            : _personal;
+            ? [..._personal, ..._partners, ..._vendors, ..._incomeSources]
+            : (_type == TransactionType.transfer ||
+                _type == TransactionType.expense)
+            ? _personal
+            : <Account>[];
 
-    // build the “to” list according to type AND _from.type
+    // To list
     List<Account>? toList;
-    if (_type == TransactionType.transfer) {
-      // **exclude the chosen “from”** so you can't transfer to the same account**
-      toList = _personal.where((a) => a != _from).toList();
-    } else if (_type == TransactionType.partnerTransfer) {
+    if (_type == TransactionType.partnerTransfer) {
       if (_from == null) {
-        // before a from-account is chosen, show all
         toList = _allForPartnerTx;
-      } else if (_from!.type == AccountType.personal) {
-        toList = _partners;
       } else {
-        toList = _personal;
+        switch (_from!.type) {
+          case AccountType.personal:
+            toList = [..._partners, ..._vendors];
+            break;
+          case AccountType.partner:
+            toList = [..._personal, ..._vendors];
+            break;
+          case AccountType.vendor:
+            toList = [..._personal, ..._partners];
+            break;
+          case AccountType.incomeSource:
+            toList = [..._personal];
+            break;
+          default:
+            toList = _allForPartnerTx;
+        }
       }
+    } else if (_type == TransactionType.transfer) {
+      toList = _personal.where((a) => a != _from).toList();
+    } else if (_type == TransactionType.income) {
+      toList = _personal;
     }
+
+    // choose prefix for amount
+    final prefix =
+        _type == TransactionType.expense
+            ? '-'
+            : _type == TransactionType.income
+            ? '+'
+            : null;
 
     return Scaffold(
       appBar: AppBar(title: Text('New Transaction')),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ——— TYPE CHIPS ———
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ChoiceChip(
-                      label: Icon(
-                        Icons.remove,
-                        size: 20,
-                        color:
-                            _type == TransactionType.expense
-                                ? Colors.white
-                                : Colors.black54,
+            // type selector
+            Wrap(
+              spacing: spacing,
+              runSpacing: spacing,
+              children:
+                  _typeLabels.entries.map((e) {
+                    final sel = _type == e.key;
+                    return SizedBox(
+                      width: chipWidth,
+                      child: InkWell(
+                        onTap:
+                            () => setState(() {
+                              _type = e.key;
+                              _from = _to = null;
+                            }),
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color:
+                                sel
+                                    ? _typeColors[e.key]!.withOpacity(0.2)
+                                    : null,
+                            border: Border.all(
+                              color: sel ? _typeColors[e.key]! : Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            e.value,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: sel ? _typeColors[e.key]! : Colors.black87,
+                              fontWeight: sel ? FontWeight.bold : null,
+                            ),
+                          ),
+                        ),
                       ),
-                      selected: _type == TransactionType.expense,
-                      selectedColor: Colors.red.shade200,
-                      onSelected:
-                          (_) => setState(() {
-                            _type = TransactionType.expense;
-                            _from = null;
-                            _to = null;
-                          }),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: ChoiceChip(
-                      label: Icon(
-                        Icons.add,
-                        size: 20,
-                        color:
-                            _type == TransactionType.income
-                                ? Colors.white
-                                : Colors.black54,
-                      ),
-                      selected: _type == TransactionType.income,
-                      selectedColor: Colors.green.shade200,
-                      onSelected:
-                          (_) => setState(() {
-                            _type = TransactionType.income;
-                            _from = null;
-                            _to = null;
-                          }),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: ChoiceChip(
-                      label: Icon(
-                        Icons.swap_horiz,
-                        size: 20,
-                        color:
-                            _type == TransactionType.transfer
-                                ? Colors.white
-                                : Colors.black54,
-                      ),
-                      selected: _type == TransactionType.transfer,
-                      selectedColor: Colors.blue.shade200,
-                      onSelected:
-                          (_) => setState(() {
-                            _type = TransactionType.transfer;
-                            _from = null;
-                            _to = null;
-                          }),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: ChoiceChip(
-                      label: Icon(
-                        Icons.people,
-                        size: 20,
-                        color:
-                            _type == TransactionType.partnerTransfer
-                                ? Colors.white
-                                : Colors.black54,
-                      ),
-                      selected: _type == TransactionType.partnerTransfer,
-                      selectedColor: Colors.purple.shade200,
-                      onSelected:
-                          (_) => setState(() {
-                            _type = TransactionType.partnerTransfer;
-                            _from = null;
-                            _to = null;
-                          }),
-                    ),
-                  ),
-                ],
-              ),
+                    );
+                  }).toList(),
             ),
 
             SizedBox(height: 16),
 
-            // ——— AMOUNT ———
+            // Amount with dynamic prefix
             TextField(
               controller: _amountCtrl,
-              decoration: InputDecoration(labelText: 'Amount'),
+              decoration: InputDecoration(
+                labelText: 'Amount',
+                prefixText: prefix,
+              ),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
             ),
 
-            // ——— FROM ACCOUNT ———
             SizedBox(height: 12),
-            DropdownButtonFormField<Account>(
-              value: _from,
-              hint: Text('From account'),
-              items:
-                  fromList
-                      .map(
-                        (a) => DropdownMenuItem(value: a, child: Text(a.name)),
-                      )
-                      .toList(),
-              onChanged:
-                  (v) => setState(() {
-                    _from = v;
-                    _to = null; // reset “to” when “from” changes
-                  }),
-            ),
 
-            // ——— TO ACCOUNT (for transfers only) ———
-            if (_type == TransactionType.transfer ||
-                _type == TransactionType.partnerTransfer) ...[
+            // From account (hide for Income)
+            if (_type != TransactionType.income) ...[
+              DropdownButtonFormField<Account>(
+                value: _from,
+                hint: Text('From account'),
+                items:
+                    fromList
+                        .map(
+                          (a) =>
+                              DropdownMenuItem(value: a, child: Text(a.name)),
+                        )
+                        .toList(),
+                onChanged:
+                    (v) => setState(() {
+                      _from = v;
+                      _to = null;
+                    }),
+              ),
               SizedBox(height: 12),
+            ],
+
+            // To account
+            if (toList != null) ...[
               DropdownButtonFormField<Account>(
                 value: _to,
                 hint: Text('To account'),
                 items:
-                    toList!
+                    toList
                         .map(
                           (a) =>
                               DropdownMenuItem(value: a, child: Text(a.name)),
@@ -913,95 +940,102 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                         .toList(),
                 onChanged: (v) => setState(() => _to = v),
               ),
+              SizedBox(height: 12),
             ],
 
-            // ——— OPTIONAL NAME ———
-            SizedBox(height: 12),
+            // Name
             TextField(
               controller: _nameCtrl,
               decoration: InputDecoration(labelText: 'Name (optional)'),
             ),
 
-            // ——— DATE PICKER ———
-            SizedBox(height: 12),
-            ListTile(
-              title: Text(
-                'Date: ${_date.toLocal().toIso8601String().substring(0, 10)}',
-              ),
-              trailing: Icon(Icons.calendar_today),
-              onTap: () async {
-                final picked = await showDatePicker(
-                  context: context,
-                  initialDate: _date,
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime.now().add(Duration(days: 365)),
-                );
-                if (picked != null) setState(() => _date = picked);
-              },
-            ),
-
-            // ——— CATEGORY ———
-            if (_categories[_type]!.isNotEmpty) ...[
+            // Category
+            if (_categories.isNotEmpty) ...[
               SizedBox(height: 12),
-              DropdownButtonFormField<String>(
-                value: _category,
+              DropdownButtonFormField<Account>(
+                value: _categoryAccount,
                 hint: Text('Category'),
                 items:
-                    _categories[_type]!
-                        .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                    _categories
+                        .map(
+                          (c) =>
+                              DropdownMenuItem(value: c, child: Text(c.name)),
+                        )
                         .toList(),
-                onChanged: (v) => setState(() => _category = v),
+                onChanged: (v) => setState(() => _categoryAccount = v),
               ),
             ],
 
-            // ——— PARTNER FIELD ———
-            if (_type == TransactionType.expense ||
-                _type == TransactionType.income) ...[
-              SizedBox(height: 12),
-              DropdownButtonFormField<String>(
-                value: _partnerName,
-                hint: Text('Partner (merchant)'),
-                items:
-                    ['MojMarket', 'Netflix', 'Gym']
-                        .map((p) => DropdownMenuItem(value: p, child: Text(p)))
-                        .toList(),
-                onChanged: (v) => setState(() => _partnerName = v),
-              ),
-            ],
-
-            // ——— NOTE ———
             SizedBox(height: 12),
+
+            // Note
             TextField(
               controller: _noteCtrl,
               decoration: InputDecoration(labelText: 'Note'),
             ),
 
-            // ——— SAVE / CANCEL ———
+            SizedBox(height: 12),
+
+            // Date
+            ListTile(
+              title: Text(
+                'Date: ${_date.toLocal().toIso8601String().split("T").first}',
+              ),
+              trailing: Icon(Icons.calendar_today),
+              onTap: () async {
+                final p = await showDatePicker(
+                  context: context,
+                  initialDate: _date,
+                  firstDate: DateTime.now().subtract(Duration(days: 365)),
+                  lastDate: DateTime.now().add(Duration(days: 365)),
+                );
+                if (p != null) setState(() => _date = p);
+              },
+            ),
+
             SizedBox(height: 24),
+
+            // Save
             ElevatedButton(
+              child: Text('Save'),
               onPressed: () {
-                final amt = double.tryParse(_amountCtrl.text) ?? 0.0;
-                final targetAccount =
-                    (_type == TransactionType.transfer ||
-                            _type == TransactionType.partnerTransfer)
-                        ? (_to ?? _from!)
-                        : _from!;
+                final raw = double.tryParse(_amountCtrl.text) ?? 0.0;
+                final amt = _type == TransactionType.expense ? -raw : raw;
+                final target =
+                    (_type == TransactionType.income ? _to! : (_to ?? _from!));
+
+                // update category balance
+                if (_categoryAccount != null) {
+                  final idx = dummyAccounts.indexWhere(
+                    (a) => a.name == _categoryAccount!.name,
+                  );
+                  if (idx != -1) {
+                    final c = dummyAccounts[idx];
+                    dummyAccounts[idx] = Account(
+                      name: c.name,
+                      type: c.type,
+                      balance: c.balance + raw.abs(),
+                      includeInBalance: c.includeInBalance,
+                    );
+                  }
+                }
+
                 final tx = TransactionItem(
                   title:
-                      _nameCtrl.text.isEmpty
-                          ? _type.toString().split('.').last
-                          : _nameCtrl.text,
+                      _nameCtrl.text.isNotEmpty
+                          ? _nameCtrl.text
+                          : _type.toString().split('.').last,
                   date: _date,
-                  amount: (_type == TransactionType.expense ? -amt : amt),
-                  account: targetAccount,
+                  amount: amt,
+                  account: target,
                 );
                 Navigator.pop(context, tx);
               },
-              child: Text('Save'),
             ),
+
             TextButton(
-              onPressed: () => Navigator.pop(context),
               child: Text('Cancel'),
+              onPressed: () => Navigator.pop(context),
             ),
           ],
         ),
@@ -1022,12 +1056,237 @@ class TrackScreen extends StatelessWidget {
   }
 }
 
-class ReviewScreen extends StatelessWidget {
+// review_screen.dart
+
+// review_screen.dart
+
+class ReviewScreen extends StatefulWidget {
+  @override
+  _ReviewScreenState createState() => _ReviewScreenState();
+}
+
+class _ReviewScreenState extends State<ReviewScreen> {
+  late List<Account> budgetList;
+  late List<Account> categoryList;
+  late List<Account> vendorList;
+  late List<Account> incomeList;
+
+  @override
+  void initState() {
+    super.initState();
+    _reloadAll();
+  }
+
+  void _reloadAll() {
+    budgetList =
+        dummyAccounts.where((a) => a.type == AccountType.budget).toList();
+    categoryList =
+        dummyAccounts.where((a) => a.type == AccountType.category).toList();
+    vendorList =
+        dummyAccounts.where((a) => a.type == AccountType.vendor).toList();
+    incomeList =
+        dummyAccounts.where((a) => a.type == AccountType.incomeSource).toList();
+  }
+
+  Widget _buildSection(String title, List<Account> list) {
+    if (list.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Center(
+          child: Text('No $title yet.', style: TextStyle(color: Colors.grey)),
+        ),
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeader(title),
+        ...list.map((a) => AccountCard(account: a)),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Review')),
-      body: Center(child: Text('Statistics and charts will be here')),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          _buildSection('Budgets', budgetList),
+          SizedBox(height: 24),
+          _buildSection('Categories', categoryList),
+          SizedBox(height: 24),
+          _buildSection('Vendors', vendorList),
+          SizedBox(height: 24),
+          _buildSection('Income Sources', incomeList),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () async {
+          final result = await Navigator.push<Account?>(
+            context,
+            MaterialPageRoute(builder: (_) => NewReviewAccountScreen()),
+          );
+          if (result != null) {
+            setState(() {
+              // 1) add into the master list
+              dummyAccounts.add(result);
+
+              // 2) rebuild every section from scratch
+              _reloadAll();
+            });
+          }
+        },
+      ),
+    );
+  }
+}
+
+class NewReviewAccountScreen extends StatefulWidget {
+  @override
+  _NewReviewAccountScreenState createState() => _NewReviewAccountScreenState();
+}
+
+class _NewReviewAccountScreenState extends State<NewReviewAccountScreen> {
+  ReviewAccountType _rtype = ReviewAccountType.budget;
+  final _nameCtrl = TextEditingController();
+  final _balCtrl = TextEditingController(text: '0');
+
+  static const Map<ReviewAccountType, String> _typeLabels = {
+    ReviewAccountType.budget: 'Budget',
+    ReviewAccountType.category: 'Category',
+    ReviewAccountType.vendor: 'Vendor',
+    ReviewAccountType.incomeSource: 'Income Source',
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    // compute width so two fit per row (minus padding + spacing)
+    final totalPadding = 16.0 * 2;
+    final spacing = 8.0;
+    final chipWidth =
+        (MediaQuery.of(context).size.width - totalPadding - spacing) / 2;
+
+    return Scaffold(
+      appBar: AppBar(title: Text('New Review Item')),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            // ——— 2×2 Grid of “Chips” ———
+            Wrap(
+              spacing: spacing,
+              runSpacing: spacing,
+              children:
+                  _typeLabels.entries.map((entry) {
+                    final type = entry.key;
+                    final selected = _rtype == type;
+                    return SizedBox(
+                      width: chipWidth,
+                      child: InkWell(
+                        onTap: () => setState(() => _rtype = type),
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            color:
+                                selected
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Colors.transparent,
+                            border: Border.all(
+                              color:
+                                  selected
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            entry.value,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: selected ? Colors.white : Colors.black87,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+            ),
+
+            SizedBox(height: 24),
+
+            // ——— Name ———
+            TextField(
+              controller: _nameCtrl,
+              decoration: InputDecoration(labelText: 'Name'),
+            ),
+
+            SizedBox(height: 12),
+
+            // ——— Starting Balance ———
+            TextField(
+              controller: _balCtrl,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              decoration: InputDecoration(labelText: 'Starting Balance'),
+            ),
+
+            Spacer(),
+
+            // ——— Save ———
+            ElevatedButton(
+              onPressed: () {
+                final name = _nameCtrl.text.trim();
+                if (name.isEmpty) return;
+
+                final bal = double.tryParse(_balCtrl.text) ?? 0.0;
+                late Account acct;
+
+                switch (_rtype) {
+                  case ReviewAccountType.budget:
+                    acct = Account(
+                      name: name,
+                      type: AccountType.budget,
+                      balance: bal,
+                      includeInBalance: false,
+                    );
+                    break;
+                  case ReviewAccountType.category:
+                    acct = Account(
+                      name: name,
+                      type: AccountType.category,
+                      balance: bal,
+                      includeInBalance: false,
+                    );
+                    break;
+                  case ReviewAccountType.vendor:
+                    acct = Account(
+                      name: name,
+                      type: AccountType.vendor,
+                      balance: bal,
+                      includeInBalance: false,
+                    );
+                    break;
+                  case ReviewAccountType.incomeSource:
+                    acct = Account(
+                      name: name,
+                      type: AccountType.incomeSource,
+                      balance: bal,
+                      includeInBalance: false,
+                    );
+                    break;
+                }
+
+                Navigator.pop(context, acct);
+              },
+              child: Text('Save'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
