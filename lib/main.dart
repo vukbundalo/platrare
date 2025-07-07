@@ -734,9 +734,8 @@ class _PlanScreenState extends State<PlanScreen> {
       setState(() {
         final idx = _planned.indexOf(existing);
         _planned[idx] = updated;
-        // also update in dummyPlanned
-        final g = dummyPlanned.indexWhere((t) => identical(t, existing));
-        if (g != -1) dummyPlanned[g] = updated;
+        final gi = dummyPlanned.indexWhere((t) => identical(t, existing));
+        if (gi != -1) dummyPlanned[gi] = updated;
         _planned.sort((a, b) => a.date.compareTo(b.date));
       });
     }
@@ -779,14 +778,12 @@ class _PlanScreenState extends State<PlanScreen> {
                   .where((e) => e.key.type == AccountType.personal)
                   .fold(0.0, (s, e) => s + e.value);
 
-              final personal =
-                  dummyAccounts
-                      .where((a) => a.type == AccountType.personal)
-                      .toList();
-              final partners =
-                  dummyAccounts
-                      .where((a) => a.type == AccountType.partner)
-                      .toList();
+              final personal = dummyAccounts.where(
+                (a) => a.type == AccountType.personal,
+              );
+              final partners = dummyAccounts.where(
+                (a) => a.type == AccountType.partner,
+              );
 
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -806,34 +803,105 @@ class _PlanScreenState extends State<PlanScreen> {
                     ),
 
                     // Planned transactions
-                    ...items.map(
-                      (tx) => Card(
+                    ...items.map((tx) {
+                      // 1) Figure out the title as before...
+                      final defaultKey = tx.type.toString().split('.').last;
+                      final isDefault = tx.title == defaultKey;
+                      String displayTitle;
+                      if (!isDefault) {
+                        displayTitle = tx.title;
+                      } else {
+                        switch (tx.type) {
+                          case TransactionType.partnerTransfer:
+                            final f = tx.fromAccount!;
+                            final t = tx.toAccount;
+                            if (f.type == AccountType.partner &&
+                                t.type == AccountType.personal) {
+                              displayTitle = 'Income';
+                            } else if (f.type == AccountType.personal &&
+                                t.type == AccountType.partner) {
+                              displayTitle = 'Expense';
+                            } else {
+                              displayTitle = 'Transfer';
+                            }
+                            break;
+                          case TransactionType.transfer:
+                            displayTitle = 'Transfer';
+                            break;
+                          case TransactionType.expense:
+                            displayTitle = 'Expense';
+                            break;
+                          case TransactionType.income:
+                            displayTitle = 'Income';
+                            break;
+                        }
+                      }
+
+                      // 2) Decide subtitle
+                      String displaySubtitle;
+                      if (tx.type == TransactionType.partnerTransfer ||
+                          tx.type == TransactionType.transfer) {
+                        displaySubtitle =
+                            'From ${tx.fromAccount!.name} to ${tx.toAccount.name}';
+                      } else {
+                        displaySubtitle = tx.toAccount.name;
+                      }
+
+                      // 3) Pick the icon + color
+                      IconData iconData;
+                      Color iconColor;
+                      switch (tx.type) {
+                        case TransactionType.expense:
+                          iconData = Icons.arrow_downward;
+                          iconColor = Colors.red;
+                          break;
+                        case TransactionType.income:
+                          iconData = Icons.arrow_upward;
+                          iconColor = Colors.green;
+                          break;
+                        case TransactionType.transfer:
+                          iconData = Icons.swap_horiz;
+                          iconColor = Colors.blue;
+                          break;
+                        case TransactionType.partnerTransfer:
+                          final f = tx.fromAccount!;
+                          final t = tx.toAccount;
+                          if (f.type == AccountType.partner &&
+                              t.type == AccountType.personal) {
+                            iconData = Icons.arrow_upward;
+                            iconColor = Colors.green;
+                          } else {
+                            iconData = Icons.arrow_downward;
+                            iconColor = Colors.red;
+                          }
+                          break;
+                      }
+
+                      return Card(
                         margin: EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 4,
                         ),
                         child: ListTile(
-                          title: Text(tx.title),
-                          subtitle: Text(tx.toAccount.name),
+                          leading: Icon(iconData, color: iconColor),
+                          title: Text(displayTitle),
+                          subtitle: Text(displaySubtitle),
                           trailing: Text(tx.amount.toStringAsFixed(2)),
                           onTap: () => _edit(tx),
                         ),
-                      ),
-                    ),
+                      );
+                    }).toList(),
 
-                    SizedBox(height: 5),
+                    SizedBox(height: 8),
 
-                    // Horizontal projected balances
+                    // Horizontal projected balances (shorter ribbon)
                     Container(
                       height: 60,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
                           SummaryCard(label: 'Available', value: avail),
-                          SizedBox(width: 8),
-                          SummaryCard(label: 'Liquid', value: liquid),
-                          SizedBox(width: 8),
-                          // each personal
+                          SizedBox(width: 20),
                           ...personal.map(
                             (a) => AccountBalanceCard(
                               account: Account(
@@ -844,7 +912,8 @@ class _PlanScreenState extends State<PlanScreen> {
                               ),
                             ),
                           ),
-                          // each partner
+                          SummaryCard(label: 'Liquid', value: liquid),
+                          SizedBox(width: 20),
                           ...partners.map(
                             (a) => AccountBalanceCard(
                               account: Account(
@@ -858,6 +927,7 @@ class _PlanScreenState extends State<PlanScreen> {
                         ],
                       ),
                     ),
+
                     SizedBox(height: 100),
                   ],
                 ),
@@ -2124,17 +2194,31 @@ class AccountBalanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isPositive = account.balance >= 0;
     return Card(
+      color: isPositive ? Colors.green[50] : Colors.red[50],
       margin: EdgeInsets.symmetric(horizontal: 8),
       child: Container(
-        width: 180,
+        width: 100,
         padding: EdgeInsets.all(8),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(account.name, overflow: TextOverflow.ellipsis),
+            Text(
+              account.name,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: isPositive ? Colors.green[800] : Colors.red[800],
+              ),
+            ),
             SizedBox(height: 4),
-            Text(account.balance.toStringAsFixed(2)),
+            Text(
+              account.balance.toStringAsFixed(2),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: isPositive ? Colors.green[800] : Colors.red[800],
+              ),
+            ),
           ],
         ),
       ),
@@ -2149,22 +2233,28 @@ class SummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isPositive = value >= 0;
     return Card(
-      color: Colors.blueAccent,
+      color: isPositive ? Colors.green[50] : Colors.red[50],
       margin: EdgeInsets.symmetric(horizontal: 8),
       child: Container(
-        width: 120,
+        width: 100,
         padding: EdgeInsets.all(8),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(label, style: TextStyle(color: Colors.white)),
+            Text(
+              label,
+              style: TextStyle(
+                color: isPositive ? Colors.green[800] : Colors.red[800],
+              ),
+            ),
             SizedBox(height: 4),
             Text(
               value.toStringAsFixed(2),
               style: TextStyle(
-                color: Colors.white,
                 fontWeight: FontWeight.bold,
+                color: isPositive ? Colors.green[800] : Colors.red[800],
               ),
             ),
           ],
