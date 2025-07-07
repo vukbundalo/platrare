@@ -208,31 +208,31 @@ List<TransactionItem> dummyPlanned = [
   ),
 ];
 
+List<TransactionItem> dummyRealized =
+    dummyTransactions.map((tx) {
+      // 1) Determine type by sign
+      final txnType =
+          tx.amount < 0 ? TransactionType.expense : TransactionType.income;
 
-List<TransactionItem> dummyRealized = dummyTransactions.map((tx) {
-  // 1) Determine type by sign
-  final txnType = tx.amount < 0
-      ? TransactionType.expense
-      : TransactionType.income;
+      // 2) Only partnerTransfer/transfer ever have a fromAccount
+      final Account? from =
+          (txnType == TransactionType.partnerTransfer ||
+                  txnType == TransactionType.transfer)
+              ? tx.fromAccount
+              : null;
 
-  // 2) Only partnerTransfer/transfer ever have a fromAccount
-  final Account? from = (txnType == TransactionType.partnerTransfer ||
-                         txnType == TransactionType.transfer)
-      ? tx.fromAccount
-      : null;
+      // 3) The “toAccount” is your old tx.account
+      final Account to = tx.toAccount;
 
-  // 3) The “toAccount” is your old tx.account
-  final Account to = tx.toAccount;
-
-  return TransactionItem(
-    title: tx.title,
-    date: tx.date,
-    type: txnType,
-    fromAccount: from,
-    toAccount: to,
-    amount: tx.amount,
-  );
-}).toList();
+      return TransactionItem(
+        title: tx.title,
+        date: tx.date,
+        type: txnType,
+        fromAccount: from,
+        toAccount: to,
+        amount: tx.amount,
+      );
+    }).toList();
 
 // Functions
 
@@ -243,9 +243,7 @@ Map<Account, double> computeProjectedBalances(
   DateTime upToDate,
 ) {
   // 1) Start from “today” balances
-  final proj = <Account, double>{
-    for (var a in accounts) a: a.balance,
-  };
+  final proj = <Account, double>{for (var a in accounts) a: a.balance};
 
   // 2) Apply **all** planned tx whose date ≤ upToDate
   for (var tx in planned) {
@@ -257,26 +255,22 @@ Map<Account, double> computeProjectedBalances(
       case TransactionType.partnerTransfer:
         // debit the `from`
         if (tx.fromAccount != null) {
-          proj[tx.fromAccount!] =
-              (proj[tx.fromAccount!] ?? 0) - tx.amount;
+          proj[tx.fromAccount!] = (proj[tx.fromAccount!] ?? 0) - tx.amount;
         }
         // credit the `to`
-        proj[tx.toAccount] =
-            (proj[tx.toAccount] ?? 0) + tx.amount;
+        proj[tx.toAccount] = (proj[tx.toAccount] ?? 0) + tx.amount;
         break;
 
       case TransactionType.expense:
       case TransactionType.income:
         // single‐account adjustment
-        proj[tx.toAccount] =
-            (proj[tx.toAccount] ?? 0) + tx.amount;
+        proj[tx.toAccount] = (proj[tx.toAccount] ?? 0) + tx.amount;
         break;
     }
   }
 
   return proj;
 }
-
 
 // Home Page
 
@@ -827,11 +821,11 @@ class _PlanScreenState extends State<PlanScreen> {
                       ),
                     ),
 
-                    SizedBox(height: 8),
+                    SizedBox(height: 5),
 
                     // Horizontal projected balances
                     Container(
-                      height: 100,
+                      height: 60,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
@@ -864,6 +858,7 @@ class _PlanScreenState extends State<PlanScreen> {
                         ],
                       ),
                     ),
+                    SizedBox(height: 100),
                   ],
                 ),
               );
@@ -1403,11 +1398,11 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       dummyAccounts.where((a) => a.type == AccountType.category).toList();
 
   List<Account> get _allForPartnerTx => [
-        ..._personal,
-        ..._partners,
-        ..._vendors,
-        ..._incomeSources,
-      ];
+    ..._personal,
+    ..._partners,
+    ..._vendors,
+    ..._incomeSources,
+  ];
 
   static const _typeLabels = {
     TransactionType.partnerTransfer: 'Partner Transaction',
@@ -1427,7 +1422,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
     final spacing = 8.0;
     final chipWidth = (MediaQuery.of(context).size.width - 32 - spacing) / 2;
 
-    // —— build “from” list —— 
+    // —— build “from” list ——
     List<Account> fromList;
     if (_type == TransactionType.partnerTransfer) {
       fromList = _allForPartnerTx;
@@ -1437,7 +1432,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       fromList = [..._personal, ..._partners];
     }
 
-    // —— build “to” list —— 
+    // —— build “to” list ——
     List<Account>? toList;
     if (_type == TransactionType.partnerTransfer) {
       if (_from == null) {
@@ -1466,9 +1461,13 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       toList = _personal;
     }
 
-    // —— prefix for amount field —— 
+    // —— prefix for amount field ——
     final prefix =
-        _type == TransactionType.expense ? '-' : _type == TransactionType.income ? '+' : null;
+        _type == TransactionType.expense
+            ? '-'
+            : _type == TransactionType.income
+            ? '+'
+            : null;
 
     return Scaffold(
       appBar: AppBar(title: Text('New Transaction')),
@@ -1481,39 +1480,46 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
             Wrap(
               spacing: spacing,
               runSpacing: spacing,
-              children: _typeLabels.entries.map((e) {
-                final sel = _type == e.key;
-                return SizedBox(
-                  width: chipWidth,
-                  child: InkWell(
-                    onTap: () => setState(() {
-                      _type = e.key;
-                      _from = _to = _singleAccount = null;
-                    }),
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                      decoration: BoxDecoration(
-                        color: sel ? _typeColors[e.key]!.withOpacity(0.2) : null,
-                        border: Border.all(
-                          color: sel ? _typeColors[e.key]! : Colors.grey,
-                        ),
+              children:
+                  _typeLabels.entries.map((e) {
+                    final sel = _type == e.key;
+                    return SizedBox(
+                      width: chipWidth,
+                      child: InkWell(
+                        onTap:
+                            () => setState(() {
+                              _type = e.key;
+                              _from = _to = _singleAccount = null;
+                            }),
                         borderRadius: BorderRadius.circular(8),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        e.value,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: sel ? _typeColors[e.key]! : Colors.black87,
-                          fontWeight: sel ? FontWeight.bold : null,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color:
+                                sel
+                                    ? _typeColors[e.key]!.withOpacity(0.2)
+                                    : null,
+                            border: Border.all(
+                              color: sel ? _typeColors[e.key]! : Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            e.value,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: sel ? _typeColors[e.key]! : Colors.black87,
+                              fontWeight: sel ? FontWeight.bold : null,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                );
-              }).toList(),
+                    );
+                  }).toList(),
             ),
 
             SizedBox(height: 16),
@@ -1536,9 +1542,13 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
               DropdownButtonFormField<Account>(
                 value: _singleAccount,
                 hint: Text('Account'),
-                items: fromList
-                    .map((a) => DropdownMenuItem(value: a, child: Text(a.name)))
-                    .toList(),
+                items:
+                    fromList
+                        .map(
+                          (a) =>
+                              DropdownMenuItem(value: a, child: Text(a.name)),
+                        )
+                        .toList(),
                 onChanged: (v) => setState(() => _singleAccount = v),
               ),
               SizedBox(height: 12),
@@ -1550,22 +1560,31 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
               DropdownButtonFormField<Account>(
                 value: _from,
                 hint: Text('From account'),
-                items: fromList
-                    .map((a) => DropdownMenuItem(value: a, child: Text(a.name)))
-                    .toList(),
-                onChanged: (v) => setState(() {
-                  _from = v;
-                  _to = null;
-                }),
+                items:
+                    fromList
+                        .map(
+                          (a) =>
+                              DropdownMenuItem(value: a, child: Text(a.name)),
+                        )
+                        .toList(),
+                onChanged:
+                    (v) => setState(() {
+                      _from = v;
+                      _to = null;
+                    }),
               ),
               SizedBox(height: 12),
               if (toList != null) ...[
                 DropdownButtonFormField<Account>(
                   value: _to,
                   hint: Text('To account'),
-                  items: toList
-                      .map((a) => DropdownMenuItem(value: a, child: Text(a.name)))
-                      .toList(),
+                  items:
+                      toList
+                          .map(
+                            (a) =>
+                                DropdownMenuItem(value: a, child: Text(a.name)),
+                          )
+                          .toList(),
                   onChanged: (v) => setState(() => _to = v),
                 ),
                 SizedBox(height: 12),
@@ -1584,10 +1603,13 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
               DropdownButtonFormField<Account>(
                 value: _categoryAccount,
                 hint: Text('Category'),
-                items: _categories
-                    .map((c) =>
-                        DropdownMenuItem(value: c, child: Text(c.name)))
-                    .toList(),
+                items:
+                    _categories
+                        .map(
+                          (c) =>
+                              DropdownMenuItem(value: c, child: Text(c.name)),
+                        )
+                        .toList(),
                 onChanged: (v) => setState(() => _categoryAccount = v),
               ),
             ],
@@ -1626,25 +1648,27 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
               child: Text('Save'),
               onPressed: () {
                 final raw = double.tryParse(_amountCtrl.text) ?? 0.0;
-                final amt =
-                    _type == TransactionType.expense ? -raw : raw;
+                final amt = _type == TransactionType.expense ? -raw : raw;
 
                 // pick fromAccount only for transfers
-                final Account? fromAcc = (_type == TransactionType.transfer ||
-                        _type == TransactionType.partnerTransfer)
-                    ? _from
-                    : null;
+                final Account? fromAcc =
+                    (_type == TransactionType.transfer ||
+                            _type == TransactionType.partnerTransfer)
+                        ? _from
+                        : null;
 
                 // pick toAccount: singleAccount for expense/income, else _to
-                final Account toAcc = (_type == TransactionType.expense ||
-                        _type == TransactionType.income)
-                    ? _singleAccount!
-                    : _to!;
+                final Account toAcc =
+                    (_type == TransactionType.expense ||
+                            _type == TransactionType.income)
+                        ? _singleAccount!
+                        : _to!;
 
                 // update category balance if needed
                 if (_categoryAccount != null) {
                   final idx = dummyAccounts.indexWhere(
-                      (a) => a.name == _categoryAccount!.name);
+                    (a) => a.name == _categoryAccount!.name,
+                  );
                   if (idx != -1) {
                     final c = dummyAccounts[idx];
                     dummyAccounts[idx] = Account(
@@ -1657,9 +1681,10 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                 }
 
                 final tx = TransactionItem(
-                  title: _nameCtrl.text.isNotEmpty
-                      ? _nameCtrl.text
-                      : _type.toString().split('.').last,
+                  title:
+                      _nameCtrl.text.isNotEmpty
+                          ? _nameCtrl.text
+                          : _type.toString().split('.').last,
                   date: _date,
                   type: _type,
                   fromAccount: fromAcc,
@@ -2102,7 +2127,7 @@ class AccountBalanceCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 8),
       child: Container(
-        width: 100,
+        width: 180,
         padding: EdgeInsets.all(8),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
