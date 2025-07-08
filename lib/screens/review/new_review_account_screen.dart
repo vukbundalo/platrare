@@ -6,10 +6,10 @@ class NewReviewAccountScreen extends StatefulWidget {
   const NewReviewAccountScreen({super.key});
 
   @override
-  _NewReviewAccountScreenState createState() => _NewReviewAccountScreenState();
+  NewReviewAccountScreenState createState() => NewReviewAccountScreenState();
 }
 
-class _NewReviewAccountScreenState extends State<NewReviewAccountScreen> {
+class NewReviewAccountScreenState extends State<NewReviewAccountScreen> {
   ReviewAccountType _rtype = ReviewAccountType.budget;
   final _nameCtrl = TextEditingController();
   final _balCtrl = TextEditingController(text: '0');

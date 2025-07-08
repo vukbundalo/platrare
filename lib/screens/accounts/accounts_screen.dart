@@ -13,10 +13,10 @@ class AccountsScreen extends StatefulWidget {
   const AccountsScreen({super.key});
 
   @override
-  _AccountsScreenState createState() => _AccountsScreenState();
+  AccountsScreenState createState() => AccountsScreenState();
 }
 
-class _AccountsScreenState extends State<AccountsScreen> {
+class AccountsScreenState extends State<AccountsScreen> {
   late List<Account> personalList;
   late List<Account> partnerList; // show all partners here
 

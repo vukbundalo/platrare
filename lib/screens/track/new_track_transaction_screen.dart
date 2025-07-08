@@ -9,11 +9,11 @@ class NewTrackTransactionScreen extends StatefulWidget {
   const NewTrackTransactionScreen({super.key, this.existing});
 
   @override
-  _NewTrackTransactionScreenState createState() =>
-      _NewTrackTransactionScreenState();
+  NewTrackTransactionScreenState createState() =>
+      NewTrackTransactionScreenState();
 }
 
-class _NewTrackTransactionScreenState
+class NewTrackTransactionScreenState
     extends State<NewTrackTransactionScreen> {
   TransactionType _type = TransactionType.partnerTransfer;
   DateTime _date = DateTime.now();

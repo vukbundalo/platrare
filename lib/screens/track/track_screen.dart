@@ -15,10 +15,10 @@ class TrackScreen extends StatefulWidget {
   const TrackScreen({super.key});
 
   @override
-  _TrackScreenState createState() => _TrackScreenState();
+  TrackScreenState createState() => TrackScreenState();
 }
 
-class _TrackScreenState extends State<TrackScreen> {
+class TrackScreenState extends State<TrackScreen> {
   final List<TransactionItem> _realized = List.from(dummyRealized);
 
   @override
@@ -180,7 +180,7 @@ class _TrackScreenState extends State<TrackScreen> {
                         onTap: () => _edit(tx),
                       ),
                     );
-                  }).toList(),
+                  }),
 
                   SizedBox(height: 8),
 

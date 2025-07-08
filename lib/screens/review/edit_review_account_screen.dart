@@ -6,11 +6,11 @@ class EditReviewAccountScreen extends StatefulWidget {
   const EditReviewAccountScreen({super.key, required this.account});
 
   @override
-  _EditReviewAccountScreenState createState() =>
-      _EditReviewAccountScreenState();
+  EditReviewAccountScreenState createState() =>
+      EditReviewAccountScreenState();
 }
 
-class _EditReviewAccountScreenState extends State<EditReviewAccountScreen> {
+class EditReviewAccountScreenState extends State<EditReviewAccountScreen> {
   late TextEditingController _nameCtrl;
   late TextEditingController _balCtrl;
 

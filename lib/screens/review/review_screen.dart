@@ -11,10 +11,10 @@ class ReviewScreen extends StatefulWidget {
   const ReviewScreen({super.key});
 
   @override
-  _ReviewScreenState createState() => _ReviewScreenState();
+  ReviewScreenState createState() => ReviewScreenState();
 }
 
-class _ReviewScreenState extends State<ReviewScreen> {
+class ReviewScreenState extends State<ReviewScreen> {
   late List<Account> budgetList;
   late List<Account> categoryList;
   late List<Account> vendorList;

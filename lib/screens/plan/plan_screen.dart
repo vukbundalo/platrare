@@ -15,10 +15,10 @@ class PlanScreen extends StatefulWidget {
   const PlanScreen({super.key});
 
   @override
-  _PlanScreenState createState() => _PlanScreenState();
+  PlanScreenState createState() => PlanScreenState();
 }
 
-class _PlanScreenState extends State<PlanScreen> {
+class PlanScreenState extends State<PlanScreen> {
   final List<TransactionItem> _planned = List.from(dummyPlanned);
 
   @override
@@ -184,7 +184,7 @@ class _PlanScreenState extends State<PlanScreen> {
                         onTap: () => _edit(tx),
                       ),
                     );
-                  }).toList(),
+                  }),
 
                   SizedBox(height: 8),
 

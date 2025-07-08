@@ -6,10 +6,10 @@ class NewAccountScreen extends StatefulWidget {
   const NewAccountScreen({super.key});
 
   @override
-  _NewAccountScreenState createState() => _NewAccountScreenState();
+  NewAccountScreenState createState() => NewAccountScreenState();
 }
 
-class _NewAccountScreenState extends State<NewAccountScreen> {
+class NewAccountScreenState extends State<NewAccountScreen> {
   AccountType _type = AccountType.personal;
   final _nameController = TextEditingController();
   final _balanceController = TextEditingController(text: '0');
