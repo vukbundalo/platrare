@@ -1,3 +1,5 @@
+// lib/screens/track/new_track_transaction_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:platrare/data/dummy_accounts.dart';
 import 'package:platrare/models/account.dart';
@@ -5,7 +7,7 @@ import 'package:platrare/models/transaction_item.dart';
 
 class NewTrackTransactionScreen extends StatefulWidget {
   final TransactionItem? existing;
-  const NewTrackTransactionScreen({super.key, this.existing});
+  const NewTrackTransactionScreen({Key? key, this.existing}) : super(key: key);
 
   @override
   NewTrackTransactionScreenState createState() =>
@@ -31,8 +33,7 @@ class NewTrackTransactionScreenState
       dummyAccounts.where((a) => a.type == AccountType.incomeSource).toList();
   List<Account> get _categories =>
       dummyAccounts.where((a) => a.type == AccountType.category).toList();
-
-  List<Account> get _allForPartnerTx =>
+  List<Account> get _allForPartner =>
       [..._personal, ..._partners, ..._vendors, ..._incomeSources];
 
   static const _typeLabels = {
@@ -51,21 +52,20 @@ class NewTrackTransactionScreenState
   @override
   void initState() {
     super.initState();
-    if (widget.existing != null) {
-      final ex = widget.existing!;
+    final ex = widget.existing;
+    if (ex != null) {
       _type = ex.type;
       _date = ex.date;
       _nameCtrl.text = ex.title;
       _amountCtrl.text = ex.amount.abs().toString();
+      _noteCtrl.text = ex.note ?? '';
+      _categoryAccount = ex.category;
       if (_type == TransactionType.transfer ||
           _type == TransactionType.partnerTransfer) {
         _from = ex.fromAccount;
         _to = ex.toAccount;
       } else {
         _singleAccount = ex.toAccount;
-      }
-      if (ex.toAccount.type == AccountType.category) {
-        _categoryAccount = ex.toAccount;
       }
     }
   }
@@ -78,13 +78,12 @@ class NewTrackTransactionScreenState
         content: Text('This cannot be undone.'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text('Cancel'),
-          ),
+              onPressed: () => Navigator.pop(context, false),
+              child: Text('Cancel')),
           TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text('Delete', style: TextStyle(color: Colors.red)),
-          ),
+              onPressed: () => Navigator.pop(context, true),
+              child:
+                  Text('Delete', style: TextStyle(color: Colors.red))),
         ],
       ),
     );
@@ -97,20 +96,21 @@ class NewTrackTransactionScreenState
     final chipWidth =
         (MediaQuery.of(context).size.width - 32 - spacing) / 2;
 
-    // —— fromList / toList exactly as in plan screen
+    // “from” list
     List<Account> fromList;
     if (_type == TransactionType.partnerTransfer) {
-      fromList = _allForPartnerTx;
+      fromList = _allForPartner;
     } else if (_type == TransactionType.transfer) {
       fromList = _personal;
     } else {
       fromList = [..._personal, ..._partners];
     }
 
+    // “to” list
     List<Account>? toList;
     if (_type == TransactionType.partnerTransfer) {
       if (_from == null) {
-        toList = _allForPartnerTx;
+        toList = _allForPartner;
       } else {
         switch (_from!.type) {
           case AccountType.personal:
@@ -126,25 +126,23 @@ class NewTrackTransactionScreenState
             toList = [..._personal];
             break;
           default:
-            toList = _allForPartnerTx;
+            toList = _allForPartner;
         }
       }
     } else if (_type == TransactionType.transfer) {
       toList = _personal.where((a) => a != _from).toList();
-    } else if (_type == TransactionType.income) {
+    } else {
       toList = _personal;
     }
 
-    final prefix = _type == TransactionType.expense
-        ? '-'
-        : _type == TransactionType.income
-            ? '+'
-            : null;
+    final prefix =
+        _type == TransactionType.expense ? '-' : _type == TransactionType.income ? '+' : null;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            widget.existing == null ? 'New Transaction' : 'Edit Transaction'),
+        title: Text(widget.existing == null
+            ? 'New Transaction'
+            : 'Edit Transaction'),
         actions: [
           if (widget.existing != null)
             IconButton(icon: Icon(Icons.delete), onPressed: _confirmDelete),
@@ -152,238 +150,187 @@ class NewTrackTransactionScreenState
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // — Type selector —
-            Wrap(
-              spacing: spacing,
-              runSpacing: spacing,
-              children: _typeLabels.entries.map((e) {
-                final sel = _type == e.key;
-                return SizedBox(
-                  width: chipWidth,
-                  child: InkWell(
-                    onTap: () => setState(() {
-                      _type = e.key;
-                      _from = _to = _singleAccount = null;
-                    }),
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                      decoration: BoxDecoration(
-                        color: sel
-                            ? _typeColors[e.key]!.withOpacity(0.2)
-                            : null,
-                        border: Border.all(
-                          color: sel ? _typeColors[e.key]! : Colors.grey,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(e.value,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color:
-                                  sel ? _typeColors[e.key]! : Colors.black87,
-                              fontWeight: sel ? FontWeight.bold : null)),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          // — Type selector —
+          Wrap(
+            spacing: spacing,
+            runSpacing: spacing,
+            children: _typeLabels.entries.map((e) {
+              final sel = _type == e.key;
+              return SizedBox(
+                width: chipWidth,
+                child: InkWell(
+                  onTap: () => setState(() {
+                    _type = e.key;
+                    _from = _to = _singleAccount = null;
+                  }),
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                    decoration: BoxDecoration(
+                      color: sel
+                          ? _typeColors[e.key]!.withOpacity(0.2)
+                          : null,
+                      border: Border.all(
+                          color: sel ? _typeColors[e.key]! : Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
                     ),
+                    alignment: Alignment.center,
+                    child: Text(e.value,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color:
+                                sel ? _typeColors[e.key]! : Colors.black87,
+                            fontWeight: sel ? FontWeight.bold : null)),
                   ),
-                );
-              }).toList(),
-            ),
-
-            SizedBox(height: 16),
-
-            // — Amount —
-            TextField(
-              controller: _amountCtrl,
-              decoration: InputDecoration(
-                labelText: 'Amount',
-                prefixText: prefix,
-              ),
-              keyboardType:
-                  TextInputType.numberWithOptions(decimal: true),
-            ),
-            SizedBox(height: 12),
-
-            // — Single account for expense/income —
-            if (_type == TransactionType.expense ||
-                _type == TransactionType.income) ...[
-              DropdownButtonFormField<Account>(
-                value: _singleAccount,
-                hint: Text('Account'),
-                items: fromList
-                    .map((a) => DropdownMenuItem(
-                        value: a, child: Text(a.name)))
-                    .toList(),
-                onChanged: (v) => setState(() => _singleAccount = v),
-              ),
-              SizedBox(height: 12),
-            ],
-
-            // — From/To for transfers —
-            if (_type == TransactionType.transfer ||
-                _type == TransactionType.partnerTransfer) ...[
-              DropdownButtonFormField<Account>(
-                value: _from,
-                hint: Text('From account'),
-                items: fromList
-                    .map((a) => DropdownMenuItem(
-                        value: a, child: Text(a.name)))
-                    .toList(),
-                onChanged: (v) => setState(() {
-                  _from = v;
-                  _to = null;
-                }),
-              ),
-              SizedBox(height: 12),
-              if (toList != null) ...[
-                DropdownButtonFormField<Account>(
-                  value: _to,
-                  hint: Text('To account'),
-                  items: toList
-                      .map((a) => DropdownMenuItem(
-                          value: a, child: Text(a.name)))
-                      .toList(),
-                  onChanged: (v) => setState(() => _to = v),
                 ),
-                SizedBox(height: 12),
-              ],
-            ],
+              );
+            }).toList(),
+          ),
 
-            // — Name —
-            TextField(
-              controller: _nameCtrl,
-              decoration: InputDecoration(labelText: 'Name (optional)'),
+          const SizedBox(height: 16),
+
+          // — Amount —
+          TextField(
+            controller: _amountCtrl,
+            decoration: InputDecoration(
+                labelText: 'Amount', prefixText: prefix),
+            keyboardType:
+                TextInputType.numberWithOptions(decimal: true),
+          ),
+          const SizedBox(height: 12),
+
+          // — Single account for expense/income —
+          if (_type == TransactionType.expense ||
+              _type == TransactionType.income) ...[
+            DropdownButtonFormField<Account>(
+              value: _singleAccount,
+              hint: Text('Account'),
+              items: fromList
+                  .map((a) =>
+                      DropdownMenuItem(value: a, child: Text(a.name)))
+                  .toList(),
+              onChanged: (v) => setState(() => _singleAccount = v),
             ),
-
-            // — Category —
-            if (_categories.isNotEmpty) ...[
-              SizedBox(height: 12),
-              DropdownButtonFormField<Account>(
-                value: _categoryAccount,
-                hint: Text('Category'),
-                items: _categories
-                    .map((c) => DropdownMenuItem(
-                        value: c, child: Text(c.name)))
-                    .toList(),
-                onChanged: (v) => setState(() => _categoryAccount = v),
-              ),
-            ],
-
-            SizedBox(height: 12),
-
-            // — Note —
-            TextField(
-              controller: _noteCtrl,
-              decoration: InputDecoration(labelText: 'Note'),
-            ),
-            SizedBox(height: 12),
-
-            // — Date picker —
-            ListTile(
-              title: Text(
-                  'Date: ${_date.toLocal().toIso8601String().split("T").first}'),
-              trailing: Icon(Icons.calendar_today),
-              onTap: () async {
-                final p = await showDatePicker(
-                  context: context,
-                  initialDate: _date,
-                  firstDate: DateTime.now().subtract(Duration(days: 365)),
-                  lastDate: DateTime.now().add(Duration(days: 365)),
-                );
-                if (p != null) setState(() => _date = p);
-              },
-            ),
-
-            SizedBox(height: 24),
-
-            // — Save: apply immediately to dummyAccounts!
-            ElevatedButton(
-              child: Text('Save'),
-              onPressed: () {
-                final raw =
-                    double.tryParse(_amountCtrl.text) ?? 0.0;
-                final amt = (_type == TransactionType.expense)
-                    ? -raw
-                    : raw;
-                final fromAcc = (_type == TransactionType.transfer ||
-                        _type == TransactionType.partnerTransfer)
-                    ? _from
-                    : null;
-                final toAcc = (_type == TransactionType.expense ||
-                        _type == TransactionType.income)
-                    ? _singleAccount!
-                    : _to!;
-
-                // 1) Immediately mutate dummyAccounts
-                switch (_type) {
-                  case TransactionType.transfer:
-                  case TransactionType.partnerTransfer:
-                    if (fromAcc != null) {
-                      final i = dummyAccounts.indexWhere(
-                          (a) => a.name == fromAcc.name);
-                      if (i != -1) {
-                        final a = dummyAccounts[i];
-                        dummyAccounts[i] = Account(
-                          name: a.name,
-                          type: a.type,
-                          balance: a.balance - amt.sign * raw.abs(),
-                          includeInBalance: a.includeInBalance,
-                        );
-                      }
-                    }
-                    final j = dummyAccounts.indexWhere(
-                        (a) => a.name == toAcc.name);
-                    if (j != -1) {
-                      final b = dummyAccounts[j];
-                      dummyAccounts[j] = Account(
-                        name: b.name,
-                        type: b.type,
-                        balance: b.balance + amt,
-                        includeInBalance: b.includeInBalance,
-                      );
-                    }
-                    break;
-                  case TransactionType.expense:
-                  case TransactionType.income:
-                    final k = dummyAccounts.indexWhere(
-                        (a) => a.name == toAcc.name);
-                    if (k != -1) {
-                      final c = dummyAccounts[k];
-                      dummyAccounts[k] = Account(
-                        name: c.name,
-                        type: c.type,
-                        balance: c.balance + amt,
-                        includeInBalance: c.includeInBalance,
-                      );
-                    }
-                    break;
-                }
-
-                // 2) Build and return the new item
-                final tx = TransactionItem(
-                  title: _nameCtrl.text.isNotEmpty
-                      ? _nameCtrl.text
-                      : _type.toString().split('.').last,
-                  date: _date,
-                  type: _type,
-                  fromAccount: fromAcc,
-                  toAccount: toAcc,
-                  amount: amt,
-                );
-                Navigator.pop(context, tx);
-              },
-            ),
-
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () => Navigator.pop(context),
-            ),
+            const SizedBox(height: 12),
           ],
-        ),
+
+          // — From/To for transfers —
+          if (_type == TransactionType.transfer ||
+              _type == TransactionType.partnerTransfer) ...[
+            DropdownButtonFormField<Account>(
+              value: _from,
+              hint: Text('From account'),
+              items: fromList
+                  .map((a) =>
+                      DropdownMenuItem(value: a, child: Text(a.name)))
+                  .toList(),
+              onChanged: (v) => setState(() {
+                _from = v;
+                _to = null;
+              }),
+            ),
+            const SizedBox(height: 12),
+            if (toList != null) ...[
+              DropdownButtonFormField<Account>(
+                value: _to,
+                hint: Text('To account'),
+                items: toList
+                    .map((a) =>
+                        DropdownMenuItem(value: a, child: Text(a.name)))
+                    .toList(),
+                onChanged: (v) => setState(() => _to = v),
+              ),
+              const SizedBox(height: 12),
+            ],
+          ],
+
+          // — Name —
+          TextField(
+            controller: _nameCtrl,
+            decoration: InputDecoration(labelText: 'Name (optional)'),
+          ),
+          const SizedBox(height: 12),
+
+          // — Category (optional) —
+          if (_categories.isNotEmpty) ...[
+            DropdownButtonFormField<Account>(
+              value: _categoryAccount,
+              hint: Text('Category'),
+              items: _categories
+                  .map((c) =>
+                      DropdownMenuItem(value: c, child: Text(c.name)))
+                  .toList(),
+              onChanged: (v) => setState(() => _categoryAccount = v),
+            ),
+            const SizedBox(height: 12),
+          ],
+
+          // — Note (optional) —
+          TextField(
+            controller: _noteCtrl,
+            decoration: InputDecoration(labelText: 'Note'),
+          ),
+          const SizedBox(height: 12),
+
+          // — Date (no future) —
+          ListTile(
+            title: Text(
+                'Date: ${_date.toLocal().toIso8601String().split("T").first}'),
+            trailing: Icon(Icons.calendar_today),
+            onTap: () async {
+              final today = DateTime.now();
+              final p = await showDatePicker(
+                context: context,
+                initialDate: _date,
+                firstDate: today.subtract(Duration(days: 365)),
+                lastDate: today,
+              );
+              if (p != null) setState(() => _date = p);
+            },
+          ),
+
+          const SizedBox(height: 24),
+
+          // — Save and return a TransactionItem —
+          ElevatedButton(
+            child: Text('Save'),
+            onPressed: () {
+              final raw = double.tryParse(_amountCtrl.text) ?? 0.0;
+              final amt = (_type == TransactionType.expense) ? -raw : raw;
+              final fromAcc = (_type == TransactionType.transfer ||
+                      _type == TransactionType.partnerTransfer)
+                  ? _from
+                  : null;
+              final toAcc = (_type == TransactionType.expense ||
+                      _type == TransactionType.income)
+                  ? _singleAccount!
+                  : _to!;
+
+              final tx = TransactionItem(
+                title: _nameCtrl.text.isNotEmpty
+                    ? _nameCtrl.text
+                    : _type.name,
+                date: _date,
+                type: _type,
+                fromAccount: fromAcc,
+                toAccount: toAcc,
+                amount: amt,
+                category: _categoryAccount,
+                note: _noteCtrl.text.isNotEmpty
+                    ? _noteCtrl.text
+                    : null,
+              );
+              Navigator.pop(context, tx);
+            },
+          ),
+
+          TextButton(
+            child: Text('Cancel'),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ]),
       ),
     );
   }

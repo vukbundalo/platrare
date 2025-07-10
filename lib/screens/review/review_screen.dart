@@ -25,15 +25,36 @@ class ReviewScreenState extends State<ReviewScreen> {
     _reloadAll();
   }
 
-  void _reloadAll() {
-    budgetList =
-        dummyAccounts.where((a) => a.type == AccountType.budget).toList();
-    categoryList =
-        dummyAccounts.where((a) => a.type == AccountType.category).toList();
-    vendorList =
-        dummyAccounts.where((a) => a.type == AccountType.vendor).toList();
-    incomeList =
-        dummyAccounts.where((a) => a.type == AccountType.incomeSource).toList();
+ void _reloadAll() {
+    budgetList = dummyAccounts
+      .where((a) => a.type == AccountType.budget)
+      .toList();
+
+    categoryList = dummyAccounts
+      .where((a) => a.type == AccountType.category)
+      .toList();
+
+    // map vendors to always-negative balances:
+    vendorList = dummyAccounts
+      .where((a) => a.type == AccountType.vendor)
+      .map((a) => Account(
+        name: a.name,
+        type: a.type,
+        balance: -a.balance.abs(),
+        includeInBalance: a.includeInBalance,
+      ))
+      .toList();
+
+    // map income sources to always-positive balances:
+    incomeList = dummyAccounts
+      .where((a) => a.type == AccountType.incomeSource)
+      .map((a) => Account(
+        name: a.name,
+        type: a.type,
+        balance: a.balance.abs(),
+        includeInBalance: a.includeInBalance,
+      ))
+      .toList();
   }
 
   Future<void> _editOrDelete(Account acc, List<Account> list) async {

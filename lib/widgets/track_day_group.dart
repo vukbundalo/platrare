@@ -1,54 +1,45 @@
-// lib/widgets/day_group.dart
-
 import 'package:flutter/material.dart';
 import 'package:platrare/data/dummy_accounts.dart';
+import 'package:platrare/data/dummy_realized.dart';
 import 'package:platrare/models/account.dart';
 import 'package:platrare/models/transaction_item.dart';
 import 'package:platrare/utils/balance_calculator.dart';
 import 'package:platrare/widgets/transaction_accounts_summary_card.dart';
 import 'package:platrare/widgets/account_balance_card.dart';
 
-/// Renders one calendar‐day’s worth of planned transactions,
-/// including its date header, the list of cards, and the
-/// horizontal balances ribbon—calculating balances from
-/// the full list of occurrences up to that day.
-class DayGroup extends StatelessWidget {
+/// A single day’s block in the Track screen.
+class TrackDayGroup extends StatelessWidget {
   final DateTime day;
   final List<TransactionItem> items;
-  final List<TransactionItem> allOccurrences;
+  final void Function(TransactionItem) onEdit;
 
-  /// Now accepts an async callback
-  final Future<void> Function(TransactionItem) onEdit;
-
-  const DayGroup({
-    Key? key,
+  const TrackDayGroup({
+    super.key,
     required this.day,
     required this.items,
-    required this.allOccurrences,
     required this.onEdit,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    // Compute balances by applying all occurrences ≤ this day
-    final proj = computeProjectedBalances(
+    // 1) Compute “as‐of‐this‐day” balances by reversing any tx > day
+    final proj = computeProjectedBalancesForTrack(
       dummyAccounts,
-      allOccurrences,
+      dummyRealized,
       day,
     );
 
-    // Available = sum of personal & includeInBalance
-    final avail = proj.entries
+    // 2) Totals
+    final available = proj.entries
         .where((e) =>
             e.key.type == AccountType.personal && e.key.includeInBalance)
-        .fold(0.0, (sum, e) => sum + e.value);
+        .fold<double>(0, (sum, e) => sum + e.value);
 
-    // Liquid = sum of all personal
     final liquid = proj.entries
         .where((e) => e.key.type == AccountType.personal)
-        .fold(0.0, (sum, e) => sum + e.value);
+        .fold<double>(0, (sum, e) => sum + e.value);
 
-    // Build per‐account cards
+    // 3) Per‐account snapshots
     final personalBalances = dummyAccounts
         .where((a) => a.type == AccountType.personal)
         .map((a) => Account(
@@ -74,18 +65,18 @@ class DayGroup extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Date header
+          // — Day header —
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               '${day.day}/${day.month}/${day.year}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
-
           const SizedBox(height: 8),
 
-          // Transaction cards
+          // — Each realized tx —
           ...items.map((tx) => Card(
                 margin:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -94,35 +85,34 @@ class DayGroup extends StatelessWidget {
                   title: Text(tx.displayTitle),
                   subtitle: Text(tx.displaySubtitle),
                   trailing: Text(tx.amount.toStringAsFixed(2)),
-                  // now properly handles the async callback
-                  onTap: () async {
-                    await onEdit(tx);
-                  },
+                  onTap: () => onEdit(tx),
                 ),
               )),
 
           const SizedBox(height: 8),
 
-          // Horizontal balances ribbon
+          // — Actual balances ribbon —
           SizedBox(
             height: 60,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
                 TransactionAccountsSummaryCard(
-                    label: 'Available', value: avail),
+                    label: 'Available', value: available),
                 const SizedBox(width: 20),
+                // personal
                 ...personalBalances
                     .map((a) => AccountBalanceCard(account: a)),
                 TransactionAccountsSummaryCard(label: 'Liquid', value: liquid),
                 const SizedBox(width: 20),
+                // partner
                 ...partnerBalances
                     .map((a) => AccountBalanceCard(account: a)),
               ],
             ),
           ),
 
-          const SizedBox(height: 100),
+          const SizedBox(height: 16),
         ],
       ),
     );

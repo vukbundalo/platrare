@@ -294,21 +294,21 @@ class NewPlannedTransactionScreenState
                     }),
               ),
               SizedBox(height: 12),
-              if (toList != null) ...[
-                DropdownButtonFormField<Account>(
-                  value: _to,
-                  hint: Text('To account'),
-                  items:
-                      toList
-                          .map(
-                            (a) =>
-                                DropdownMenuItem(value: a, child: Text(a.name)),
-                          )
-                          .toList(),
-                  onChanged: (v) => setState(() => _to = v),
-                ),
-                SizedBox(height: 12),
-              ],
+              ...[
+              DropdownButtonFormField<Account>(
+                value: _to,
+                hint: Text('To account'),
+                items:
+                    toList
+                        .map(
+                          (a) =>
+                              DropdownMenuItem(value: a, child: Text(a.name)),
+                        )
+                        .toList(),
+                onChanged: (v) => setState(() => _to = v),
+              ),
+              SizedBox(height: 12),
+            ],
             ],
 
             // — Name —

@@ -7,7 +7,7 @@ class ReorderableSection<T> extends StatelessWidget {
   final Widget Function(T item) itemBuilder;
   final void Function(int oldIndex, int newIndex) onReorder;
 
-  ReorderableSection({
+  const ReorderableSection({super.key, 
     required this.title,
     required this.items,
     required this.itemBuilder,
