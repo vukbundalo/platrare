@@ -21,7 +21,6 @@ class NewPlannedTransactionScreenState
   Account? _from, _to, _singleAccount, _categoryAccount;
   final _nameCtrl = TextEditingController();
   final _amountCtrl = TextEditingController();
-  // final _noteCtrl = TextEditingController();
 
   List<Account> get _personal =>
       dummyAccounts.where((a) => a.type == AccountType.personal).toList();
@@ -70,43 +69,51 @@ class NewPlannedTransactionScreenState
       } else {
         _singleAccount = ex.toAccount;
       }
-      if (ex.toAccount.type == AccountType.category) {
-        _categoryAccount = ex.toAccount;
+      if (ex.category != null) {
+        _categoryAccount = ex.category;
       }
     }
   }
 
- Future<void> _confirmDelete() async {
-  final sure = await showDialog<bool>(
-    context: context,
-    builder: (_) => AlertDialog(
-      title: Text('Delete Planned?'),
-      content: Text('Remove this planned transaction?'),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: Text('Cancel'),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context, true),
-          child: Text('Delete', style: TextStyle(color: Colors.red)),
-        ),
-      ],
-    ),
-  );
-
-  if (sure == true) {
-    Navigator.pop(context, 'deleteRule');
+  Future<void> _confirmDelete() async {
+    final sure = await showDialog<bool>(
+      context: context,
+      builder:
+          (_) => AlertDialog(
+            title: const Text('Delete Planned?'),
+            content: const Text('Remove this planned transaction?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text(
+                  'Delete',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          ),
+    );
+    if (sure == true) {
+      Navigator.pop(context, 'deleteRule');
+    }
   }
-}
 
+  void _showError(String message) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
+  }
 
   @override
   Widget build(BuildContext context) {
     final spacing = 8.0;
     final chipWidth = (MediaQuery.of(context).size.width - 32 - spacing) / 2;
 
-    // —— From list ——
+    // — From list —
     List<Account> fromList;
     if (_type == TransactionType.partnerTransfer) {
       fromList = _allForPartnerTx;
@@ -116,7 +123,7 @@ class NewPlannedTransactionScreenState
       fromList = [..._personal, ..._partners];
     }
 
-    // —— To list ——
+    // — To list —
     List<Account>? toList;
     if (_type == TransactionType.partnerTransfer) {
       if (_from == null) {
@@ -135,10 +142,8 @@ class NewPlannedTransactionScreenState
           case AccountType.incomeSource:
             toList = [..._personal];
             break;
-          case AccountType.category:
-          case AccountType.budget:
+          default:
             toList = _allForPartnerTx;
-            break;
         }
       }
     } else if (_type == TransactionType.transfer) {
@@ -161,11 +166,14 @@ class NewPlannedTransactionScreenState
         ),
         actions: [
           if (widget.existing != null)
-            IconButton(icon: Icon(Icons.delete), onPressed: _confirmDelete),
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: _confirmDelete,
+            ),
         ],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -186,7 +194,7 @@ class NewPlannedTransactionScreenState
                             }),
                         borderRadius: BorderRadius.circular(8),
                         child: Container(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             vertical: 12,
                             horizontal: 8,
                           ),
@@ -215,7 +223,7 @@ class NewPlannedTransactionScreenState
                   }).toList(),
             ),
 
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             // — Amount —
             TextField(
               controller: _amountCtrl,
@@ -223,16 +231,18 @@ class NewPlannedTransactionScreenState
                 labelText: 'Amount',
                 prefixText: prefix,
               ),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
 
             // — Single Account (expense/income) —
             if (_type == TransactionType.expense ||
                 _type == TransactionType.income) ...[
               DropdownButtonFormField<Account>(
                 value: _singleAccount,
-                hint: Text('Account'),
+                hint: const Text('Account'),
                 items:
                     fromList
                         .map(
@@ -242,7 +252,7 @@ class NewPlannedTransactionScreenState
                         .toList(),
                 onChanged: (v) => setState(() => _singleAccount = v),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
             ],
 
             // — From/To (transfer/partner) —
@@ -250,7 +260,7 @@ class NewPlannedTransactionScreenState
                 _type == TransactionType.partnerTransfer) ...[
               DropdownButtonFormField<Account>(
                 value: _from,
-                hint: Text('From account'),
+                hint: const Text('From account'),
                 items:
                     fromList
                         .map(
@@ -264,13 +274,12 @@ class NewPlannedTransactionScreenState
                       _to = null;
                     }),
               ),
-              SizedBox(height: 12),
-              ...[
+              const SizedBox(height: 12),
               DropdownButtonFormField<Account>(
                 value: _to,
-                hint: Text('To account'),
+                hint: const Text('To account'),
                 items:
-                    toList
+                    toList!
                         .map(
                           (a) =>
                               DropdownMenuItem(value: a, child: Text(a.name)),
@@ -278,22 +287,21 @@ class NewPlannedTransactionScreenState
                         .toList(),
                 onChanged: (v) => setState(() => _to = v),
               ),
-              SizedBox(height: 12),
-            ],
+              const SizedBox(height: 12),
             ],
 
             // — Name —
             TextField(
               controller: _nameCtrl,
-              decoration: InputDecoration(labelText: 'Name (optional)'),
+              decoration: const InputDecoration(labelText: 'Name (optional)'),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
 
-            // — Category —
+            // — Category (optional) —
             if (_categories.isNotEmpty) ...[
               DropdownButtonFormField<Account>(
                 value: _categoryAccount,
-                hint: Text('Category'),
+                hint: const Text('Category'),
                 items:
                     _categories
                         .map(
@@ -303,52 +311,83 @@ class NewPlannedTransactionScreenState
                         .toList(),
                 onChanged: (v) => setState(() => _categoryAccount = v),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
             ],
+
+            // — Date —
             ListTile(
               title: Text(
                 'Date: ${_date.toLocal().toIso8601String().split("T").first}',
               ),
-              trailing: Icon(Icons.calendar_today),
+              trailing: const Icon(Icons.calendar_today),
               onTap: () async {
                 final p = await showDatePicker(
                   context: context,
                   initialDate: _date,
-                  firstDate: DateTime.now().subtract(Duration(days: 365)),
-                  lastDate: DateTime.now().add(Duration(days: 365)),
+                  firstDate: DateTime.now().subtract(const Duration(days: 365)),
+                  lastDate: DateTime.now().add(const Duration(days: 365)),
                 );
                 if (p != null) setState(() => _date = p);
               },
             ),
 
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             // — Save —
             ElevatedButton(
-              child: Text('Save'),
+              child: const Text('Save'),
               onPressed: () {
-                final raw = double.tryParse(_amountCtrl.text) ?? 0.0;
+                // validation
+                final raw = double.tryParse(_amountCtrl.text);
+                if (raw == null || raw == 0.0) {
+                  _showError('Please enter a non‐zero amount.');
+                  return;
+                }
+                if (_type == TransactionType.expense ||
+                    _type == TransactionType.income) {
+                  if (_singleAccount == null) {
+                    _showError('Please select an account.');
+                    return;
+                  }
+                } else {
+                  if (_from == null || _to == null) {
+                    _showError('Please select both From and To accounts.');
+                    return;
+                  }
+                  if (_from == _to) {
+                    _showError('From and To accounts must differ.');
+                    return;
+                  }
+                }
+
                 final amt = (_type == TransactionType.expense) ? -raw : raw;
+                final fromAcc =
+                    (_type == TransactionType.transfer ||
+                            _type == TransactionType.partnerTransfer)
+                        ? _from
+                        : null;
                 final toAcc =
                     (_type == TransactionType.expense ||
                             _type == TransactionType.income)
                         ? _singleAccount!
                         : _to!;
+
                 final tx = TransactionItem(
                   id: widget.existing?.id,
                   title:
                       _nameCtrl.text.isNotEmpty ? _nameCtrl.text : _type.name,
                   date: _date,
                   type: _type,
-                  fromAccount: _from,
+                  fromAccount: fromAcc,
                   toAccount: toAcc,
                   amount: amt,
+                  category: _categoryAccount,
                 );
                 Navigator.pop(context, tx);
               },
             ),
 
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () => Navigator.pop(context),
             ),
           ],
