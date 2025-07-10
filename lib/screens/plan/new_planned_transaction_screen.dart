@@ -1,3 +1,5 @@
+// lib/screens/plan/new_planned_transaction_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:platrare/data/dummy_accounts.dart';
 import 'package:platrare/models/account.dart';
@@ -17,6 +19,7 @@ class NewPlannedTransactionScreenState
   TransactionType _type = TransactionType.partnerTransfer;
   DateTime _date = DateTime.now();
   Account? _from, _to, _singleAccount, _categoryAccount;
+  Recurrence _recurrence = Recurrence.none; // ← new state
   final _nameCtrl = TextEditingController();
   final _amountCtrl = TextEditingController();
   final _noteCtrl = TextEditingController();
@@ -32,8 +35,12 @@ class NewPlannedTransactionScreenState
   List<Account> get _categories =>
       dummyAccounts.where((a) => a.type == AccountType.category).toList();
 
-  List<Account> get _allForPartnerTx =>
-      [..._personal, ..._partners, ..._vendors, ..._incomeSources];
+  List<Account> get _allForPartnerTx => [
+    ..._personal,
+    ..._partners,
+    ..._vendors,
+    ..._incomeSources,
+  ];
 
   static const _typeLabels = {
     TransactionType.partnerTransfer: 'Partner Transaction',
@@ -55,6 +62,7 @@ class NewPlannedTransactionScreenState
       final ex = widget.existing!;
       _type = ex.type;
       _date = ex.date;
+      _recurrence = ex.recurrence; // ← pick up existing
       _nameCtrl.text = ex.title;
       _amountCtrl.text = ex.amount.abs().toString();
       if (_type == TransactionType.transfer ||
@@ -70,32 +78,62 @@ class NewPlannedTransactionScreenState
     }
   }
 
-  Future<void> _confirmDelete() async {
-    final sure = await showDialog<bool>(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text('Delete Planned?'),
-        content: Text('Remove this planned transaction?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text('Delete', style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      ),
-    );
-    if (sure == true) Navigator.pop(context, 'delete');
+ Future<void> _confirmDelete() async {
+    final ex = widget.existing!;
+    if (ex.recurrence != Recurrence.none) {
+      // Ask the user which scope to delete
+      final choice = await showDialog<String>(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Delete Recurrence'),
+          content: Text('Do you want to delete just this occurrence, or all future occurrences?'),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context, null),
+                child: Text('Cancel')),
+            TextButton(
+                onPressed: () => Navigator.pop(context, 'only_this'),
+                child: Text('This one',
+                    style: TextStyle(color: Colors.red))),
+            TextButton(
+                onPressed: () => Navigator.pop(context, 'all_future'),
+                child: Text('All future',
+                    style: TextStyle(color: Colors.red))),
+          ],
+        ),
+      );
+      if (choice == 'only_this') {
+        Navigator.pop(context, 'deleteOccurrence');
+      } else if (choice == 'all_future') {
+        Navigator.pop(context, 'deleteFuture');
+      }
+    } else {
+      // Non-recurring: same as before
+      final sure = await showDialog<bool>(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Delete Planned?'),
+          content: Text('Remove this planned transaction?'),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text('Cancel')),
+            TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child:
+                    Text('Delete', style: TextStyle(color: Colors.red))),
+          ],
+        ),
+      );
+      if (sure == true) Navigator.pop(context, 'deleteRule');
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
     final spacing = 8.0;
-    final chipWidth =
-        (MediaQuery.of(context).size.width - 32 - spacing) / 2;
+    final chipWidth = (MediaQuery.of(context).size.width - 32 - spacing) / 2;
 
     // —— From list ——
     List<Account> fromList;
@@ -115,11 +153,7 @@ class NewPlannedTransactionScreenState
       } else {
         switch (_from!.type) {
           case AccountType.personal:
-            toList = [
-              ..._partners,
-              ..._vendors,
-              ..._incomeSources, // ← allow personal→incomeSource
-            ];
+            toList = [..._partners, ..._vendors, ..._incomeSources];
             break;
           case AccountType.partner:
             toList = [..._personal, ..._vendors];
@@ -130,26 +164,30 @@ class NewPlannedTransactionScreenState
           case AccountType.incomeSource:
             toList = [..._personal];
             break;
-          default:
+          case AccountType.category:
+          case AccountType.budget:
             toList = _allForPartnerTx;
+            break;
         }
       }
     } else if (_type == TransactionType.transfer) {
       toList = _personal.where((a) => a != _from).toList();
-    } else if (_type == TransactionType.income) {
+    } else {
       toList = _personal;
     }
 
-    final prefix = _type == TransactionType.expense
-        ? '-'
-        : _type == TransactionType.income
+    final prefix =
+        _type == TransactionType.expense
+            ? '-'
+            : _type == TransactionType.income
             ? '+'
             : null;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            widget.existing == null ? 'New Transaction' : 'Edit Transaction'),
+          widget.existing == null ? 'New Transaction' : 'Edit Transaction',
+        ),
         actions: [
           if (widget.existing != null)
             IconButton(icon: Icon(Icons.delete), onPressed: _confirmDelete),
@@ -164,47 +202,49 @@ class NewPlannedTransactionScreenState
             Wrap(
               spacing: spacing,
               runSpacing: spacing,
-              children: _typeLabels.entries.map((e) {
-                final sel = _type == e.key;
-                return SizedBox(
-                  width: chipWidth,
-                  child: InkWell(
-                    onTap: () => setState(() {
-                      _type = e.key;
-                      _from = _to = _singleAccount = null;
-                    }),
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                      decoration: BoxDecoration(
-                        color: sel
-                            ? _typeColors[e.key]!.withOpacity(0.2)
-                            : null,
-                        border: Border.all(
-                            color: sel
-                                ? _typeColors[e.key]!
-                                : Colors.grey),
+              children:
+                  _typeLabels.entries.map((e) {
+                    final sel = _type == e.key;
+                    return SizedBox(
+                      width: chipWidth,
+                      child: InkWell(
+                        onTap:
+                            () => setState(() {
+                              _type = e.key;
+                              _from = _to = _singleAccount = null;
+                            }),
                         borderRadius: BorderRadius.circular(8),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        e.value,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color:
-                              sel ? _typeColors[e.key]! : Colors.black87,
-                          fontWeight: sel ? FontWeight.bold : null,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color:
+                                sel
+                                    ? _typeColors[e.key]!.withOpacity(0.2)
+                                    : null,
+                            border: Border.all(
+                              color: sel ? _typeColors[e.key]! : Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            e.value,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: sel ? _typeColors[e.key]! : Colors.black87,
+                              fontWeight: sel ? FontWeight.bold : null,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                );
-              }).toList(),
+                    );
+                  }).toList(),
             ),
 
             SizedBox(height: 16),
-
             // — Amount —
             TextField(
               controller: _amountCtrl,
@@ -212,8 +252,7 @@ class NewPlannedTransactionScreenState
                 labelText: 'Amount',
                 prefixText: prefix,
               ),
-              keyboardType:
-                  TextInputType.numberWithOptions(decimal: true),
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
             ),
             SizedBox(height: 12),
 
@@ -223,10 +262,13 @@ class NewPlannedTransactionScreenState
               DropdownButtonFormField<Account>(
                 value: _singleAccount,
                 hint: Text('Account'),
-                items: fromList
-                    .map((a) => DropdownMenuItem(
-                        value: a, child: Text(a.name)))
-                    .toList(),
+                items:
+                    fromList
+                        .map(
+                          (a) =>
+                              DropdownMenuItem(value: a, child: Text(a.name)),
+                        )
+                        .toList(),
                 onChanged: (v) => setState(() => _singleAccount = v),
               ),
               SizedBox(height: 12),
@@ -238,24 +280,31 @@ class NewPlannedTransactionScreenState
               DropdownButtonFormField<Account>(
                 value: _from,
                 hint: Text('From account'),
-                items: fromList
-                    .map((a) => DropdownMenuItem(
-                        value: a, child: Text(a.name)))
-                    .toList(),
-                onChanged: (v) => setState(() {
-                  _from = v;
-                  _to = null;
-                }),
+                items:
+                    fromList
+                        .map(
+                          (a) =>
+                              DropdownMenuItem(value: a, child: Text(a.name)),
+                        )
+                        .toList(),
+                onChanged:
+                    (v) => setState(() {
+                      _from = v;
+                      _to = null;
+                    }),
               ),
               SizedBox(height: 12),
               if (toList != null) ...[
                 DropdownButtonFormField<Account>(
                   value: _to,
                   hint: Text('To account'),
-                  items: toList
-                      .map((a) => DropdownMenuItem(
-                          value: a, child: Text(a.name)))
-                      .toList(),
+                  items:
+                      toList
+                          .map(
+                            (a) =>
+                                DropdownMenuItem(value: a, child: Text(a.name)),
+                          )
+                          .toList(),
                   onChanged: (v) => setState(() => _to = v),
                 ),
                 SizedBox(height: 12),
@@ -265,24 +314,39 @@ class NewPlannedTransactionScreenState
             // — Name —
             TextField(
               controller: _nameCtrl,
-              decoration:
-                  InputDecoration(labelText: 'Name (optional)'),
+              decoration: InputDecoration(labelText: 'Name (optional)'),
             ),
+            SizedBox(height: 12),
 
             // — Category —
             if (_categories.isNotEmpty) ...[
-              SizedBox(height: 12),
               DropdownButtonFormField<Account>(
                 value: _categoryAccount,
                 hint: Text('Category'),
-                items: _categories
-                    .map((c) =>
-                        DropdownMenuItem(value: c, child: Text(c.name)))
-                    .toList(),
+                items:
+                    _categories
+                        .map(
+                          (c) =>
+                              DropdownMenuItem(value: c, child: Text(c.name)),
+                        )
+                        .toList(),
                 onChanged: (v) => setState(() => _categoryAccount = v),
               ),
+              SizedBox(height: 12),
             ],
 
+            // — Recurrence picker —      ← NEW
+            DropdownButtonFormField<Recurrence>(
+              value: _recurrence,
+              decoration: InputDecoration(labelText: 'Repeat'),
+              items:
+                  Recurrence.values
+                      .map(
+                        (r) => DropdownMenuItem(value: r, child: Text(r.label)),
+                      )
+                      .toList(),
+              onChanged: (r) => setState(() => _recurrence = r!),
+            ),
             SizedBox(height: 12),
 
             // — Note —
@@ -295,49 +359,43 @@ class NewPlannedTransactionScreenState
             // — Date —
             ListTile(
               title: Text(
-                  'Date: ${_date.toLocal().toIso8601String().split("T").first}'),
+                'Date: ${_date.toLocal().toIso8601String().split("T").first}',
+              ),
               trailing: Icon(Icons.calendar_today),
               onTap: () async {
                 final p = await showDatePicker(
                   context: context,
                   initialDate: _date,
-                  firstDate:
-                      DateTime.now().subtract(Duration(days: 365)),
-                  lastDate:
-                      DateTime.now().add(Duration(days: 365)),
+                  firstDate: DateTime.now().subtract(Duration(days: 365)),
+                  lastDate: DateTime.now().add(Duration(days: 365)),
                 );
                 if (p != null) setState(() => _date = p);
               },
             ),
 
             SizedBox(height: 24),
-
             // — Save —
             ElevatedButton(
               child: Text('Save'),
               onPressed: () {
-                final raw =
-                    double.tryParse(_amountCtrl.text) ?? 0.0;
-                final amt = (_type == TransactionType.expense)
-                    ? -raw
-                    : raw;
-
-                final to = (_type == TransactionType.expense ||
-                        _type == TransactionType.income)
-                    ? _singleAccount!
-                    : _to!;
-
+                final raw = double.tryParse(_amountCtrl.text) ?? 0.0;
+                final amt = (_type == TransactionType.expense) ? -raw : raw;
+                final toAcc =
+                    (_type == TransactionType.expense ||
+                            _type == TransactionType.income)
+                        ? _singleAccount!
+                        : _to!;
                 final tx = TransactionItem(
-                  title: _nameCtrl.text.isNotEmpty
-                      ? _nameCtrl.text
-                      : _type.toString().split('.').last,
+                  id: widget.existing?.id,
+                  title:
+                      _nameCtrl.text.isNotEmpty ? _nameCtrl.text : _type.name,
                   date: _date,
                   type: _type,
                   fromAccount: _from,
-                  toAccount: to,
+                  toAccount: toAcc,
                   amount: amt,
+                  recurrence: _recurrence, // ← include it
                 );
-
                 Navigator.pop(context, tx);
               },
             ),

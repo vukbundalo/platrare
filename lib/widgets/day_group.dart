@@ -1,6 +1,7 @@
+// lib/widgets/day_group.dart
+
 import 'package:flutter/material.dart';
 import 'package:platrare/data/dummy_accounts.dart';
-import 'package:platrare/data/dummy_planned.dart';
 import 'package:platrare/models/account.dart';
 import 'package:platrare/models/transaction_item.dart';
 import 'package:platrare/utils/balance_calculator.dart';
@@ -9,37 +10,44 @@ import 'package:platrare/widgets/account_balance_card.dart';
 import 'package:platrare/extensions/transaction_item_ext.dart';
 
 /// Renders one calendar‐day’s worth of planned transactions,
-/// *including* its date header, the list of cards, and the
-/// horizontal balances ribbon.
+/// including its date header, the list of cards, and the
+/// horizontal balances ribbon—calculating balances from
+/// the full list of occurrences up to that day.
 class DayGroup extends StatelessWidget {
   final DateTime day;
   final List<TransactionItem> items;
+  final List<TransactionItem> allOccurrences;
   final void Function(TransactionItem) onEdit;
 
   const DayGroup({
     Key? key,
     required this.day,
     required this.items,
+    required this.allOccurrences,
     required this.onEdit,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // compute balances by applying all planned tx ≤ this day
-    final proj = computeProjectedBalances(dummyAccounts, dummyPlanned, day);
+    // Compute balances by applying all occurrences ≤ this day
+    final proj = computeProjectedBalances(
+      dummyAccounts,
+      allOccurrences,
+      day,
+    );
 
-    // available = sum of personal & includeInBalance
+    // Available = sum of personal & includeInBalance
     final avail = proj.entries
         .where((e) =>
             e.key.type == AccountType.personal && e.key.includeInBalance)
-        .fold(0.0, (s, e) => s + e.value);
+        .fold(0.0, (sum, e) => sum + e.value);
 
-    // liquid = sum of all personal
+    // Liquid = sum of all personal
     final liquid = proj.entries
         .where((e) => e.key.type == AccountType.personal)
-        .fold(0.0, (s, e) => s + e.value);
+        .fold(0.0, (sum, e) => sum + e.value);
 
-    // per‐account cards
+    // Build per‐account cards
     final personalBalances = dummyAccounts
         .where((a) => a.type == AccountType.personal)
         .map((a) => Account(
@@ -65,7 +73,7 @@ class DayGroup extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // — Date header —
+          // Date header
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
@@ -76,10 +84,10 @@ class DayGroup extends StatelessWidget {
 
           const SizedBox(height: 8),
 
-          // — Transaction cards —
+          // Transaction cards
           ...items.map((tx) => Card(
-                margin: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 4),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                 child: ListTile(
                   leading: tx.displayIcon,
                   title: Text(tx.displayTitle),
@@ -91,7 +99,7 @@ class DayGroup extends StatelessWidget {
 
           const SizedBox(height: 8),
 
-          // — Horizontal balances ribbon —
+          // Horizontal balances ribbon
           SizedBox(
             height: 60,
             child: ListView(
