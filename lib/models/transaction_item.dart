@@ -9,24 +9,22 @@ enum TransactionType { expense, income, transfer, partnerTransfer }
 
 /// How often a planned transaction repeats.
 
-
-
 /// A single financial transaction, one-off or recurring.
 class TransactionItem {
-  final String        id;
-  final String        title;
-  final DateTime      date;
+  final String id;
+  final String title;
+  final DateTime date;
   final TransactionType type;
-  final Account?      fromAccount;
-  final Account       toAccount;
-  final double        amount;
-  final DateTime?     recurrenceEnd;
+  final Account? fromAccount;
+  final Account toAccount;
+  final double amount;
+  final DateTime? recurrenceEnd;
   final List<DateTime> exceptions;
-  final Account?      category;
+  final Account? category;
   // final String?       note;
 
   TransactionItem({
-    String?           id,
+    String? id,
     required this.title,
     required this.date,
     required this.type,
@@ -34,42 +32,40 @@ class TransactionItem {
     required this.toAccount,
     required this.amount,
     this.recurrenceEnd,
-    List<DateTime>?   exceptions,
+    List<DateTime>? exceptions,
     this.category,
     // this.note,
-  })  : id         = id ?? const Uuid().v4(),
-        exceptions = exceptions ?? const [];
+  }) : id = id ?? const Uuid().v4(),
+       exceptions = exceptions ?? const [];
 
   TransactionItem copyWith({
-    String?           title,
-    DateTime?         date,
-    TransactionType?  type,
-    Account?          fromAccount,
-    Account?          toAccount,
-    double?           amount,
-    DateTime?         recurrenceEnd,
-    List<DateTime>?   exceptions,
-    Account?          category,
+    String? title,
+    DateTime? date,
+    TransactionType? type,
+    Account? fromAccount,
+    Account? toAccount,
+    double? amount,
+    DateTime? recurrenceEnd,
+    List<DateTime>? exceptions,
+    Account? category,
     // String?           note,
-  }) =>
-      TransactionItem(
-        id            : id,
-        title         : title         ?? this.title,
-        date          : date          ?? this.date,
-        type          : type          ?? this.type,
-        fromAccount   : fromAccount   ?? this.fromAccount,
-        toAccount     : toAccount     ?? this.toAccount,
-        amount        : amount        ?? this.amount,
-        recurrenceEnd : recurrenceEnd ?? this.recurrenceEnd,
-        exceptions    : exceptions    ?? this.exceptions,
-        category      : category      ?? this.category,
-        // note          : note          ?? this.note,
-      );
+  }) => TransactionItem(
+    id: id,
+    title: title ?? this.title,
+    date: date ?? this.date,
+    type: type ?? this.type,
+    fromAccount: fromAccount ?? this.fromAccount,
+    toAccount: toAccount ?? this.toAccount,
+    amount: amount ?? this.amount,
+    recurrenceEnd: recurrenceEnd ?? this.recurrenceEnd,
+    exceptions: exceptions ?? this.exceptions,
+    category: category ?? this.category,
+    // note          : note          ?? this.note,
+  );
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is TransactionItem && other.id == id;
+      identical(this, other) || other is TransactionItem && other.id == id;
 
   @override
   int get hashCode => id.hashCode;
@@ -81,8 +77,16 @@ extension TransactionPresentation on TransactionItem {
     if (title != type.name) return title;
     switch (type) {
       case TransactionType.expense:
+        final t = toAccount!;
+        if (t.type == AccountType.partner) {
+          return 'Bill';
+        }
         return 'Expense';
       case TransactionType.income:
+        final t = toAccount!;
+        if (t.type == AccountType.partner) {
+          return 'Invoice';
+        }
         return 'Income';
       case TransactionType.transfer:
         return 'Transfer';
@@ -93,19 +97,21 @@ extension TransactionPresentation on TransactionItem {
           return 'Refund';
         }
         if (f.type == AccountType.personal && t.type == AccountType.vendor) {
-          return 'Expense';
+          return 'Purchase';
         }
-        if (f.type == AccountType.personal && t.type == AccountType.incomeSource) {
+        if (f.type == AccountType.personal &&
+            t.type == AccountType.incomeSource) {
           return 'Return';
         }
-        if (f.type == AccountType.incomeSource && t.type == AccountType.personal) {
+        if (f.type == AccountType.incomeSource &&
+            t.type == AccountType.personal) {
           return 'Income';
         }
         if (f.type == AccountType.partner && t.type == AccountType.personal) {
-          return 'Invoice';
+          return 'Return or Borrow';
         }
         if (f.type == AccountType.personal && t.type == AccountType.partner) {
-          return 'Bill';
+          return 'Lend or Payment';
         }
         return 'Transfer';
     }
@@ -131,11 +137,15 @@ extension TransactionPresentation on TransactionItem {
       case TransactionType.partnerTransfer:
         final f = fromAccount!;
         final t = toAccount;
-        final isIn = (f.type == AccountType.vendor && t.type == AccountType.personal) ||
+        final isIn =
+            (f.type == AccountType.vendor && t.type == AccountType.personal) ||
             (f.type == AccountType.partner && t.type == AccountType.personal) ||
-            (f.type == AccountType.incomeSource && t.type == AccountType.personal);
-        return Icon(isIn ? Icons.arrow_upward : Icons.arrow_downward,
-                    color: isIn ? Colors.green : Colors.red);
+            (f.type == AccountType.incomeSource &&
+                t.type == AccountType.personal);
+        return Icon(
+          isIn ? Icons.arrow_upward : Icons.arrow_downward,
+          color: isIn ? Colors.green : Colors.red,
+        );
     }
   }
 }

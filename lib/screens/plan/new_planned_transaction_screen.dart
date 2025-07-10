@@ -305,29 +305,6 @@ class NewPlannedTransactionScreenState
               ),
               SizedBox(height: 12),
             ],
-
-            // // — Recurrence picker —      ← NEW
-            // DropdownButtonFormField<Recurrence>(
-            //   value: _recurrence,
-            //   decoration: InputDecoration(labelText: 'Repeat'),
-            //   items:
-            //       Recurrence.values
-            //           .map(
-            //             (r) => DropdownMenuItem(value: r, child: Text(r.label)),
-            //           )
-            //           .toList(),
-            //   onChanged: (r) => setState(() => _recurrence = r!),
-            // ),
-            // SizedBox(height: 12),
-
-            // // — Note —
-            // TextField(
-            //   controller: _noteCtrl,
-            //   decoration: InputDecoration(labelText: 'Note'),
-            // ),
-            // SizedBox(height: 12),
-
-            // — Date —
             ListTile(
               title: Text(
                 'Date: ${_date.toLocal().toIso8601String().split("T").first}',
