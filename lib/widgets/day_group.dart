@@ -9,16 +9,14 @@ import 'package:platrare/widgets/transaction_accounts_summary_card.dart';
 import 'package:platrare/widgets/account_balance_card.dart';
 
 /// Renders one calendar‐day’s worth of planned transactions,
-/// including its date header, the list of cards, and the
-/// horizontal balances ribbon—calculating balances from
-/// the full list of occurrences up to that day.
+/// including its date header, the list of cards (now swipeable
+/// even for future-dated items), and the horizontal balances ribbon.
 class DayGroup extends StatelessWidget {
   final DateTime day;
   final List<TransactionItem> items;
   final List<TransactionItem> allOccurrences;
-
-  /// Now accepts an async callback
   final Future<void> Function(TransactionItem) onEdit;
+  final Future<void> Function(TransactionItem) onRealize;
 
   const DayGroup({
     Key? key,
@@ -26,29 +24,27 @@ class DayGroup extends StatelessWidget {
     required this.items,
     required this.allOccurrences,
     required this.onEdit,
+    required this.onRealize,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Compute balances by applying all occurrences ≤ this day
+    // 1) Compute projected balances up to this day
     final proj = computeProjectedBalances(
       dummyAccounts,
       allOccurrences,
       day,
     );
 
-    // Available = sum of personal & includeInBalance
     final avail = proj.entries
         .where((e) =>
             e.key.type == AccountType.personal && e.key.includeInBalance)
         .fold(0.0, (sum, e) => sum + e.value);
 
-    // Liquid = sum of all personal
     final liquid = proj.entries
         .where((e) => e.key.type == AccountType.personal)
         .fold(0.0, (sum, e) => sum + e.value);
 
-    // Build per‐account cards
     final personalBalances = dummyAccounts
         .where((a) => a.type == AccountType.personal)
         .map((a) => Account(
@@ -74,36 +70,68 @@ class DayGroup extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Date header
+          // — Date header —
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               '${day.day}/${day.month}/${day.year}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
 
           const SizedBox(height: 8),
 
-          // Transaction cards
-          ...items.map((tx) => Card(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                child: ListTile(
-                  leading: tx.displayIcon,
-                  title: Text(tx.displayTitle),
-                  subtitle: Text(tx.displaySubtitle),
-                  trailing: Text(tx.amount.toStringAsFixed(2)),
-                  // now properly handles the async callback
-                  onTap: () async {
-                    await onEdit(tx);
-                  },
-                ),
-              )),
+          // — Transaction cards — all swipeable now
+          ...items.map((tx) {
+            final card = Card(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              child: ListTile(
+                leading: tx.displayIcon,
+                title: Text(tx.displayTitle),
+                subtitle: Text(tx.displaySubtitle),
+                trailing: Text(tx.amount.toStringAsFixed(2)),
+                onTap: () async => await onEdit(tx),
+              ),
+            );
+
+            return Dismissible(
+              key: ValueKey(tx.id),
+              direction: DismissDirection.startToEnd,
+              background: Container(
+                color: Colors.green,
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.only(left: 16),
+                child: const Icon(Icons.check, color: Colors.white),
+              ),
+              confirmDismiss: (_) async {
+                return await showDialog<bool>(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: const Text('Realize this transaction?'),
+                        content: const Text(
+                            'Move from planned into realized (Track)?'),
+                        actions: [
+                          TextButton(
+                              onPressed: () => Navigator.pop(ctx, false),
+                              child: const Text('Cancel')),
+                          TextButton(
+                              onPressed: () => Navigator.pop(ctx, true),
+                              child: const Text('Yes')),
+                        ],
+                      ),
+                    ) ??
+                    false;
+              },
+              onDismissed: (_) async {
+                await onRealize(tx);
+              },
+              child: card,
+            );
+          }).toList(),
 
           const SizedBox(height: 8),
 
-          // Horizontal balances ribbon
+          // — Horizontal balances ribbon —
           SizedBox(
             height: 60,
             child: ListView(
