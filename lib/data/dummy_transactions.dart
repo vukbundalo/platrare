@@ -1,4 +1,3 @@
-import 'package:platrare/models/enums.dart';
 import 'package:platrare/models/transaction_item.dart';
 import 'dummy_accounts.dart';
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:platrare/data/dummy_accounts.dart';
 import 'package:platrare/models/account.dart';
-import 'package:platrare/models/enums.dart';
 import 'package:platrare/models/transaction_item.dart';
 
 class NewTrackTransactionScreen extends StatefulWidget {

@@ -1,5 +1,6 @@
 import 'package:platrare/models/account.dart';
-import 'package:platrare/models/enums.dart';
+
+enum TransactionType { expense, income, transfer, partnerTransfer }
 
 class TransactionItem {
   final String title;

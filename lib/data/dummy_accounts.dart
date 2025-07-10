@@ -1,5 +1,4 @@
 import 'package:platrare/models/account.dart';
-import 'package:platrare/models/enums.dart';
 
 List<Account> dummyAccounts = [
   // — Personal Accounts —

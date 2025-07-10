@@ -1,4 +1,4 @@
-import 'package:platrare/models/enums.dart';
+enum AccountType { personal, partner, vendor, incomeSource, budget, category }
 
 class Account {
   final String name;

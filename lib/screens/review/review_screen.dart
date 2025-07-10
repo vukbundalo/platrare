@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:platrare/data/dummy_accounts.dart';
 import 'package:platrare/models/account.dart';
-import 'package:platrare/models/enums.dart';
 import 'package:platrare/screens/review/edit_review_account_screen.dart';
 import 'package:platrare/screens/review/new_review_account_screen.dart';
 import 'package:platrare/widgets/account_card.dart';

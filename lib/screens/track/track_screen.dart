@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:platrare/data/dummy_accounts.dart';
 import 'package:platrare/data/dummy_realized.dart';
 import 'package:platrare/models/account.dart';
-import 'package:platrare/models/enums.dart';
 import 'package:platrare/models/transaction_item.dart';
 import 'package:platrare/screens/track/new_track_transaction_screen.dart';
 import 'package:platrare/widgets/account_balance_card.dart';
-import 'package:platrare/widgets/summary_card.dart';
+import 'package:platrare/widgets/transaction_accounts_summary_card.dart';
 import 'package:platrare/utils/balance_calculator.dart';
-
-
 
 class TrackScreen extends StatefulWidget {
   const TrackScreen({super.key});
@@ -76,8 +73,10 @@ class TrackScreenState extends State<TrackScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
                       '${entry.key.day}/${entry.key.month}/${entry.key.year}',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
 
@@ -170,8 +169,7 @@ class TrackScreenState extends State<TrackScreen> {
                     }
 
                     return Card(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                       child: ListTile(
                         leading: Icon(iconData, color: iconColor),
                         title: Text(displayTitle),
@@ -190,17 +188,22 @@ class TrackScreenState extends State<TrackScreen> {
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: [
-                        SummaryCard(
-                            label: 'Available',
-                            value: _actualAvailable(entry.key)),
+                        TransactionAccountsSummaryCard(
+                          label: 'Available',
+                          value: _actualAvailable(entry.key),
+                        ),
                         SizedBox(width: 20),
-                        ..._actualPersonalBalances(entry.key)
-                            .map((a) => AccountBalanceCard(account: a)),
-                        SummaryCard(
-                            label: 'Liquid', value: _actualLiquid(entry.key)),
+                        ..._actualPersonalBalances(
+                          entry.key,
+                        ).map((a) => AccountBalanceCard(account: a)),
+                        TransactionAccountsSummaryCard(
+                          label: 'Liquid',
+                          value: _actualLiquid(entry.key),
+                        ),
                         SizedBox(width: 20),
-                        ..._actualPartnerBalances(entry.key)
-                            .map((a) => AccountBalanceCard(account: a)),
+                        ..._actualPartnerBalances(
+                          entry.key,
+                        ).map((a) => AccountBalanceCard(account: a)),
                       ],
                     ),
                   ),
@@ -232,8 +235,9 @@ class TrackScreenState extends State<TrackScreen> {
   double _actualAvailable(DateTime day) {
     final proj = computeProjectedBalances(dummyAccounts, _realized, day);
     return proj.entries
-        .where((e) =>
-            e.key.type == AccountType.personal && e.key.includeInBalance)
+        .where(
+          (e) => e.key.type == AccountType.personal && e.key.includeInBalance,
+        )
         .fold(0.0, (s, e) => s + e.value);
   }
 
@@ -248,12 +252,14 @@ class TrackScreenState extends State<TrackScreen> {
     final proj = computeProjectedBalances(dummyAccounts, _realized, day);
     return dummyAccounts
         .where((a) => a.type == AccountType.personal)
-        .map((a) => Account(
-              name: a.name,
-              type: a.type,
-              balance: proj[a]!,
-              includeInBalance: a.includeInBalance,
-            ))
+        .map(
+          (a) => Account(
+            name: a.name,
+            type: a.type,
+            balance: proj[a]!,
+            includeInBalance: a.includeInBalance,
+          ),
+        )
         .toList();
   }
 
@@ -261,12 +267,14 @@ class TrackScreenState extends State<TrackScreen> {
     final proj = computeProjectedBalances(dummyAccounts, _realized, day);
     return dummyAccounts
         .where((a) => a.type == AccountType.partner)
-        .map((a) => Account(
-              name: a.name,
-              type: a.type,
-              balance: proj[a]!,
-              includeInBalance: a.includeInBalance,
-            ))
+        .map(
+          (a) => Account(
+            name: a.name,
+            type: a.type,
+            balance: proj[a]!,
+            includeInBalance: a.includeInBalance,
+          ),
+        )
         .toList();
   }
 }

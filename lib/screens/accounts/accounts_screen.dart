@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:platrare/models/account.dart';
-import 'package:platrare/models/enums.dart';
 import 'package:platrare/data/dummy_accounts.dart';
 import 'package:platrare/screens/accounts/new_account_screen.dart';
 import 'package:platrare/screens/accounts/edit_account_screen.dart';
-import 'package:platrare/widgets/section_header.dart';
 import 'package:platrare/widgets/account_card.dart';
+import 'package:platrare/widgets/accounts_summary_card.dart';
+import 'package:platrare/widgets/reordable_section.dart';
+
+
+
 
 
 
@@ -52,47 +55,6 @@ class AccountsScreenState extends State<AccountsScreen> {
     }
   }
 
-  Widget _buildSection(String title, List<Account> list, Key key) {
-    if (list.isEmpty) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Center(
-          child: Text('No $title yet.', style: TextStyle(color: Colors.grey)),
-        ),
-      );
-    }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SectionHeader(title),
-        ReorderableListView(
-          key: key,
-          buildDefaultDragHandles: false,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          proxyDecorator: (child, index, animation) => child,
-          onReorder: (oldIndex, newIndex) {
-            setState(() {
-              if (newIndex > oldIndex) newIndex--;
-              final acct = list.removeAt(oldIndex);
-              list.insert(newIndex, acct);
-            });
-          },
-          children: [
-            for (var acct in list)
-              ReorderableDragStartListener(
-                key: ValueKey(acct.name),
-                index: list.indexOf(acct),
-                child: GestureDetector(
-                  onTap: () => _editOrDelete(acct, list),
-                  child: AccountCard(account: acct),
-                ),
-              ),
-          ],
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,23 +72,45 @@ class AccountsScreenState extends State<AccountsScreen> {
         children: [
           Row(
             children: [
-              Expanded(child: _summaryCard('Available Balance', avail)),
+              Expanded(child: AccountSummaryCard(label: 'Available Balance', value: avail)),
               SizedBox(width: 8),
-              Expanded(child: _summaryCard('Liquid Assets', liquid)),
+              Expanded(child: AccountSummaryCard(label: 'Liquid Assets', value: liquid)),
             ],
           ),
           SizedBox(height: 8),
           Row(
             children: [
-              Expanded(child: _summaryCard('Partners Balance', partnersBal)),
+              Expanded(child: AccountSummaryCard(label: 'Partners Balance', value: partnersBal)),
               SizedBox(width: 8),
-              Expanded(child: _summaryCard('Net Worth', netWorth)),
+              Expanded(child: AccountSummaryCard(label: 'Net Worth', value: netWorth)),
             ],
           ),
           SizedBox(height: 24),
-          _buildSection('Personal Accounts', personalList, ValueKey('p')),
+          ReorderableSection(title: 'Personal Accounts', items: personalList, onReorder: (oldIndex, newIndex) {
+            setState(() {
+              if (newIndex > oldIndex) newIndex--;
+              final acct = personalList.removeAt(oldIndex);
+              personalList.insert(newIndex, acct);
+            });
+          }, itemBuilder: (Account item) {
+            return GestureDetector(
+              onTap: () => _editOrDelete(item, personalList),
+              child: AccountCard(account: item),
+            );
+          }),
           SizedBox(height: 24),
-          _buildSection('Partner Accounts', partnerList, ValueKey('pr')),
+          ReorderableSection(title: 'Partner Accounts', items: partnerList, onReorder: (oldIndex, newIndex) {
+            setState(() {
+              if (newIndex > oldIndex) newIndex--;
+              final acct = partnerList.removeAt(oldIndex);
+              partnerList.insert(newIndex, acct);
+            });
+          }, itemBuilder: (Account item) {
+            return GestureDetector(
+              onTap: () => _editOrDelete(item, partnerList),
+              child: AccountCard(account: item),
+            );
+          }),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -150,22 +134,5 @@ class AccountsScreenState extends State<AccountsScreen> {
       ),
     );
   }
-
-  Widget _summaryCard(String label, double value) {
-    final color = value >= 0 ? Colors.greenAccent : Colors.redAccent;
-    return Card(
-      color: color,
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
-            SizedBox(height: 8),
-            Text(value.toStringAsFixed(2), style: TextStyle(fontSize: 16)),
-          ],
-        ),
-      ),
-    );
-  }
 }
+

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:platrare/models/account.dart';
-import 'package:platrare/models/enums.dart';
+
+enum ReviewAccountType { budget, category, vendor, incomeSource }
+
 
 class NewReviewAccountScreen extends StatefulWidget {
   const NewReviewAccountScreen({super.key});

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:platrare/models/account.dart';
-import 'package:platrare/models/enums.dart';
 
 class NewAccountScreen extends StatefulWidget {
   const NewAccountScreen({super.key});

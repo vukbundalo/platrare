@@ -1,7 +1,6 @@
 import 'dummy_transactions.dart';
 import 'package:platrare/models/transaction_item.dart';
 import 'package:platrare/models/account.dart';
-import 'package:platrare/models/enums.dart';
 
 List<TransactionItem> dummyRealized =
     dummyTransactions.map((tx) {

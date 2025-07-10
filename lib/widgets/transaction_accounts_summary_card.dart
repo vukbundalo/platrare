@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SummaryCard extends StatelessWidget {
+class TransactionAccountsSummaryCard extends StatelessWidget {
   final String label;
   final double value;
-  const SummaryCard({super.key, required this.label, required this.value});
+  const TransactionAccountsSummaryCard({
+    super.key,
+    required this.label,
+    required this.value,
+  });
 
   @override
   Widget build(BuildContext context) {
