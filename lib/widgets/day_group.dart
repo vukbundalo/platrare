@@ -30,49 +30,52 @@ class DayGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 1) Compute projected balances up to this day
-    final proj = computeProjectedBalances(
-      dummyAccounts,
-      allOccurrences,
-      day,
-    );
+    final proj = computeProjectedBalances(dummyAccounts, allOccurrences, day);
 
     final avail = proj.entries
-        .where((e) =>
-            e.key.type == AccountType.personal && e.key.includeInBalance)
+        .where(
+          (e) => e.key.type == AccountType.personal && e.key.includeInBalance,
+        )
         .fold(0.0, (sum, e) => sum + e.value);
 
     final liquid = proj.entries
         .where((e) => e.key.type == AccountType.personal)
         .fold(0.0, (sum, e) => sum + e.value);
 
-    final personalBalances = dummyAccounts
-        .where((a) => a.type == AccountType.personal)
-        .map((a) => Account(
-              name: a.name,
-              type: a.type,
-              balance: proj[a]!,
-              includeInBalance: a.includeInBalance,
-            ))
-        .toList();
+    final personalBalances =
+        dummyAccounts
+            .where((a) => a.type == AccountType.personal)
+            .map(
+              (a) => Account(
+                name: a.name,
+                type: a.type,
+                balance: proj[a]!,
+                includeInBalance: a.includeInBalance,
+              ),
+            )
+            .toList();
 
-    final partnerBalances = dummyAccounts
-        .where((a) => a.type == AccountType.partner)
-        .map((a) => Account(
-              name: a.name,
-              type: a.type,
-              balance: proj[a]!,
-              includeInBalance: a.includeInBalance,
-            ))
-        .toList();
+    final partnerBalances =
+        dummyAccounts
+            .where((a) => a.type == AccountType.partner)
+            .map(
+              (a) => Account(
+                name: a.name,
+                type: a.type,
+                balance: proj[a]!,
+                includeInBalance: a.includeInBalance,
+              ),
+            )
+            .toList();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.only(bottom: 60.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // — Date header —
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               '${day.day}/${day.month}/${day.year}',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -103,31 +106,12 @@ class DayGroup extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 16),
                 child: const Icon(Icons.check, color: Colors.white),
               ),
-              // confirmDismiss: (_) async {
-              //   return await showDialog<bool>(
-              //         context: context,
-              //         builder: (ctx) => AlertDialog(
-              //           title: const Text('Realize this transaction?'),
-              //           content: const Text(
-              //               'Move from planned into realized (Track)?'),
-              //           actions: [
-              //             TextButton(
-              //                 onPressed: () => Navigator.pop(ctx, false),
-              //                 child: const Text('Cancel')),
-              //             TextButton(
-              //                 onPressed: () => Navigator.pop(ctx, true),
-              //                 child: const Text('Yes')),
-              //           ],
-              //         ),
-              //       ) ??
-              //       false;
-              // },
               onDismissed: (_) async {
                 await onRealize(tx);
               },
               child: card,
             );
-          }).toList(),
+          }),
 
           const SizedBox(height: 8),
 
@@ -138,19 +122,17 @@ class DayGroup extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: [
                 TransactionAccountsSummaryCard(
-                    label: 'Available', value: avail),
+                  label: 'Available',
+                  value: avail,
+                ),
                 const SizedBox(width: 20),
-                ...personalBalances
-                    .map((a) => AccountBalanceCard(account: a)),
+                ...personalBalances.map((a) => AccountBalanceCard(account: a)),
                 TransactionAccountsSummaryCard(label: 'Liquid', value: liquid),
                 const SizedBox(width: 20),
-                ...partnerBalances
-                    .map((a) => AccountBalanceCard(account: a)),
+                ...partnerBalances.map((a) => AccountBalanceCard(account: a)),
               ],
             ),
           ),
-
-          const SizedBox(height: 100),
         ],
       ),
     );
