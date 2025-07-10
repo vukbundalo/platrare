@@ -1,3 +1,5 @@
+// lib/screens/review/review_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:platrare/data/dummy_accounts.dart';
 import 'package:platrare/models/account.dart';
@@ -25,36 +27,21 @@ class ReviewScreenState extends State<ReviewScreen> {
     _reloadAll();
   }
 
- void _reloadAll() {
+  void _reloadAll() {
     budgetList = dummyAccounts
-      .where((a) => a.type == AccountType.budget)
-      .toList();
-
+        .where((a) => a.type == AccountType.budget)
+        .toList();
     categoryList = dummyAccounts
-      .where((a) => a.type == AccountType.category)
-      .toList();
-
-    // map vendors to always-negative balances:
+        .where((a) => a.type == AccountType.category)
+        .toList();
     vendorList = dummyAccounts
-      .where((a) => a.type == AccountType.vendor)
-      .map((a) => Account(
-        name: a.name,
-        type: a.type,
-        balance: -a.balance.abs(),
-        includeInBalance: a.includeInBalance,
-      ))
-      .toList();
-
-    // map income sources to always-positive balances:
+        .where((a) => a.type == AccountType.vendor)
+        .map((a) => a.copyWith(balance: -a.balance.abs()))
+        .toList();
     incomeList = dummyAccounts
-      .where((a) => a.type == AccountType.incomeSource)
-      .map((a) => Account(
-        name: a.name,
-        type: a.type,
-        balance: a.balance.abs(),
-        includeInBalance: a.includeInBalance,
-      ))
-      .toList();
+        .where((a) => a.type == AccountType.incomeSource)
+        .map((a) => a.copyWith(balance: a.balance.abs()))
+        .toList();
   }
 
   Future<void> _editOrDelete(Account acc, List<Account> list) async {
@@ -63,10 +50,8 @@ class ReviewScreenState extends State<ReviewScreen> {
       MaterialPageRoute(builder: (_) => EditReviewAccountScreen(account: acc)),
     );
     if (result is Account) {
-      // update global
       final gi = dummyAccounts.indexWhere((a) => a.name == acc.name);
       if (gi != -1) dummyAccounts[gi] = result;
-      // update local
       final li = list.indexOf(acc);
       setState(() => list[li] = result);
     } else if (result == 'delete') {
@@ -105,7 +90,7 @@ class ReviewScreenState extends State<ReviewScreen> {
           },
           children: [
             for (var acct in list)
-              ReorderableDragStartListener(
+              ReorderableDelayedDragStartListener(
                 key: ValueKey(acct.name),
                 index: list.indexOf(acct),
                 child: GestureDetector(
@@ -127,11 +112,11 @@ class ReviewScreenState extends State<ReviewScreen> {
         padding: const EdgeInsets.all(16),
         children: [
           _buildSection('Budgets', budgetList, ValueKey('b')),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           _buildSection('Categories', categoryList, ValueKey('c')),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           _buildSection('Vendors', vendorList, ValueKey('v')),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           _buildSection('Income Sources', incomeList, ValueKey('i')),
         ],
       ),

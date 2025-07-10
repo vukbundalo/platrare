@@ -58,7 +58,7 @@ class NewTrackTransactionScreenState
       _date = ex.date;
       _nameCtrl.text = ex.title;
       _amountCtrl.text = ex.amount.abs().toString();
-      _noteCtrl.text = ex.note ?? '';
+      // _noteCtrl.text = ex.note ?? '';
       _categoryAccount = ex.category;
       if (_type == TransactionType.transfer ||
           _type == TransactionType.partnerTransfer) {
@@ -232,18 +232,18 @@ class NewTrackTransactionScreenState
               }),
             ),
             const SizedBox(height: 12),
-            if (toList != null) ...[
-              DropdownButtonFormField<Account>(
-                value: _to,
-                hint: Text('To account'),
-                items: toList
-                    .map((a) =>
-                        DropdownMenuItem(value: a, child: Text(a.name)))
-                    .toList(),
-                onChanged: (v) => setState(() => _to = v),
-              ),
-              const SizedBox(height: 12),
-            ],
+            ...[
+            DropdownButtonFormField<Account>(
+              value: _to,
+              hint: Text('To account'),
+              items: toList
+                  .map((a) =>
+                      DropdownMenuItem(value: a, child: Text(a.name)))
+                  .toList(),
+              onChanged: (v) => setState(() => _to = v),
+            ),
+            const SizedBox(height: 12),
+          ],
           ],
 
           // — Name —
@@ -318,9 +318,9 @@ class NewTrackTransactionScreenState
                 toAccount: toAcc,
                 amount: amt,
                 category: _categoryAccount,
-                note: _noteCtrl.text.isNotEmpty
-                    ? _noteCtrl.text
-                    : null,
+                // note: _noteCtrl.text.isNotEmpty
+                //     ? _noteCtrl.text
+                //     : null,
               );
               Navigator.pop(context, tx);
             },

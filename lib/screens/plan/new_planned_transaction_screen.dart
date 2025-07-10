@@ -19,10 +19,9 @@ class NewPlannedTransactionScreenState
   TransactionType _type = TransactionType.partnerTransfer;
   DateTime _date = DateTime.now();
   Account? _from, _to, _singleAccount, _categoryAccount;
-  Recurrence _recurrence = Recurrence.none; // ← new state
   final _nameCtrl = TextEditingController();
   final _amountCtrl = TextEditingController();
-  final _noteCtrl = TextEditingController();
+  // final _noteCtrl = TextEditingController();
 
   List<Account> get _personal =>
       dummyAccounts.where((a) => a.type == AccountType.personal).toList();
@@ -62,7 +61,6 @@ class NewPlannedTransactionScreenState
       final ex = widget.existing!;
       _type = ex.type;
       _date = ex.date;
-      _recurrence = ex.recurrence; // ← pick up existing
       _nameCtrl.text = ex.title;
       _amountCtrl.text = ex.amount.abs().toString();
       if (_type == TransactionType.transfer ||
@@ -79,55 +77,28 @@ class NewPlannedTransactionScreenState
   }
 
  Future<void> _confirmDelete() async {
-    final ex = widget.existing!;
-    if (ex.recurrence != Recurrence.none) {
-      // Ask the user which scope to delete
-      final choice = await showDialog<String>(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text('Delete Recurrence'),
-          content: Text('Do you want to delete just this occurrence, or all future occurrences?'),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.pop(context, null),
-                child: Text('Cancel')),
-            TextButton(
-                onPressed: () => Navigator.pop(context, 'only_this'),
-                child: Text('This one',
-                    style: TextStyle(color: Colors.red))),
-            TextButton(
-                onPressed: () => Navigator.pop(context, 'all_future'),
-                child: Text('All future',
-                    style: TextStyle(color: Colors.red))),
-          ],
+  final sure = await showDialog<bool>(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: Text('Delete Planned?'),
+      content: Text('Remove this planned transaction?'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: Text('Cancel'),
         ),
-      );
-      if (choice == 'only_this') {
-        Navigator.pop(context, 'deleteOccurrence');
-      } else if (choice == 'all_future') {
-        Navigator.pop(context, 'deleteFuture');
-      }
-    } else {
-      // Non-recurring: same as before
-      final sure = await showDialog<bool>(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text('Delete Planned?'),
-          content: Text('Remove this planned transaction?'),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.pop(context, false),
-                child: Text('Cancel')),
-            TextButton(
-                onPressed: () => Navigator.pop(context, true),
-                child:
-                    Text('Delete', style: TextStyle(color: Colors.red))),
-          ],
+        TextButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: Text('Delete', style: TextStyle(color: Colors.red)),
         ),
-      );
-      if (sure == true) Navigator.pop(context, 'deleteRule');
-    }
+      ],
+    ),
+  );
+
+  if (sure == true) {
+    Navigator.pop(context, 'deleteRule');
   }
+}
 
 
   @override
@@ -349,12 +320,12 @@ class NewPlannedTransactionScreenState
             // ),
             // SizedBox(height: 12),
 
-            // — Note —
-            TextField(
-              controller: _noteCtrl,
-              decoration: InputDecoration(labelText: 'Note'),
-            ),
-            SizedBox(height: 12),
+            // // — Note —
+            // TextField(
+            //   controller: _noteCtrl,
+            //   decoration: InputDecoration(labelText: 'Note'),
+            // ),
+            // SizedBox(height: 12),
 
             // — Date —
             ListTile(
@@ -394,7 +365,6 @@ class NewPlannedTransactionScreenState
                   fromAccount: _from,
                   toAccount: toAcc,
                   amount: amt,
-                  recurrence: _recurrence, // ← include it
                 );
                 Navigator.pop(context, tx);
               },

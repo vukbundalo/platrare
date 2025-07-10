@@ -7,7 +7,8 @@ class ReorderableSection<T> extends StatelessWidget {
   final Widget Function(T item) itemBuilder;
   final void Function(int oldIndex, int newIndex) onReorder;
 
-  const ReorderableSection({super.key, 
+  const ReorderableSection({
+    super.key,
     required this.title,
     required this.items,
     required this.itemBuilder,
@@ -34,12 +35,12 @@ class ReorderableSection<T> extends StatelessWidget {
           itemCount: items.length,
           proxyDecorator: (child, index, animation) => child,
           onReorder: onReorder,
-          itemBuilder:
-              (_, idx) => ReorderableDragStartListener(
-                key: ValueKey(items[idx]),
-                index: idx,
-                child: itemBuilder(items[idx]),
-              ),
+          // delayed handle → only starts drag after a long-press
+          itemBuilder: (_, idx) => ReorderableDelayedDragStartListener(
+            key: ValueKey(items[idx]),
+            index: idx,
+            child: itemBuilder(items[idx]),
+          ),
         ),
       ],
     );

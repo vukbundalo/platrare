@@ -103,25 +103,25 @@ class DayGroup extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 16),
                 child: const Icon(Icons.check, color: Colors.white),
               ),
-              confirmDismiss: (_) async {
-                return await showDialog<bool>(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        title: const Text('Realize this transaction?'),
-                        content: const Text(
-                            'Move from planned into realized (Track)?'),
-                        actions: [
-                          TextButton(
-                              onPressed: () => Navigator.pop(ctx, false),
-                              child: const Text('Cancel')),
-                          TextButton(
-                              onPressed: () => Navigator.pop(ctx, true),
-                              child: const Text('Yes')),
-                        ],
-                      ),
-                    ) ??
-                    false;
-              },
+              // confirmDismiss: (_) async {
+              //   return await showDialog<bool>(
+              //         context: context,
+              //         builder: (ctx) => AlertDialog(
+              //           title: const Text('Realize this transaction?'),
+              //           content: const Text(
+              //               'Move from planned into realized (Track)?'),
+              //           actions: [
+              //             TextButton(
+              //                 onPressed: () => Navigator.pop(ctx, false),
+              //                 child: const Text('Cancel')),
+              //             TextButton(
+              //                 onPressed: () => Navigator.pop(ctx, true),
+              //                 child: const Text('Yes')),
+              //           ],
+              //         ),
+              //       ) ??
+              //       false;
+              // },
               onDismissed: (_) async {
                 await onRealize(tx);
               },

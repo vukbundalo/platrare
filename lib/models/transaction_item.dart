@@ -8,25 +8,8 @@ import 'package:uuid/uuid.dart';
 enum TransactionType { expense, income, transfer, partnerTransfer }
 
 /// How often a planned transaction repeats.
-enum Recurrence { none, daily, weekly, monthly, yearly }
 
-/// Human-readable labels for each recurrence.
-extension RecurrencePresentation on Recurrence {
-  String get label {
-    switch (this) {
-      case Recurrence.none:
-        return 'Never';
-      case Recurrence.daily:
-        return 'Daily';
-      case Recurrence.weekly:
-        return 'Weekly';
-      case Recurrence.monthly:
-        return 'Monthly';
-      case Recurrence.yearly:
-        return 'Yearly';
-    }
-  }
-}
+
 
 /// A single financial transaction, one-off or recurring.
 class TransactionItem {
@@ -37,11 +20,10 @@ class TransactionItem {
   final Account?      fromAccount;
   final Account       toAccount;
   final double        amount;
-  final Recurrence    recurrence;
   final DateTime?     recurrenceEnd;
   final List<DateTime> exceptions;
   final Account?      category;
-  final String?       note;
+  // final String?       note;
 
   TransactionItem({
     String?           id,
@@ -51,11 +33,10 @@ class TransactionItem {
     this.fromAccount,
     required this.toAccount,
     required this.amount,
-    this.recurrence    = Recurrence.none,
     this.recurrenceEnd,
     List<DateTime>?   exceptions,
     this.category,
-    this.note,
+    // this.note,
   })  : id         = id ?? const Uuid().v4(),
         exceptions = exceptions ?? const [];
 
@@ -66,11 +47,10 @@ class TransactionItem {
     Account?          fromAccount,
     Account?          toAccount,
     double?           amount,
-    Recurrence?       recurrence,
     DateTime?         recurrenceEnd,
     List<DateTime>?   exceptions,
     Account?          category,
-    String?           note,
+    // String?           note,
   }) =>
       TransactionItem(
         id            : id,
@@ -80,11 +60,10 @@ class TransactionItem {
         fromAccount   : fromAccount   ?? this.fromAccount,
         toAccount     : toAccount     ?? this.toAccount,
         amount        : amount        ?? this.amount,
-        recurrence    : recurrence    ?? this.recurrence,
         recurrenceEnd : recurrenceEnd ?? this.recurrenceEnd,
         exceptions    : exceptions    ?? this.exceptions,
         category      : category      ?? this.category,
-        note          : note          ?? this.note,
+        // note          : note          ?? this.note,
       );
 
   @override
