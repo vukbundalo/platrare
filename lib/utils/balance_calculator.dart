@@ -6,28 +6,31 @@ Map<Account, double> computeProjectedBalances(
   List<TransactionItem> planned,
   DateTime upToDate,
 ) {
-  // 1) Start from “today” balances
-  final proj = <Account, double>{for (var a in accounts) a: a.balance};
+  // 1) Begin with current balances
+  final proj = { for (var a in accounts) a: a.balance };
 
-  // 2) Apply **all** planned tx whose date ≤ upToDate
+  // 2) Sort by date so oldest first
+  planned.sort((a, b) => a.date.compareTo(b.date));
+
   for (var tx in planned) {
-    final day = DateTime(tx.date.year, tx.date.month, tx.date.day);
-    if (day.isAfter(upToDate)) continue;
+    final txDay = DateTime(tx.date.year, tx.date.month, tx.date.day);
+    if (txDay.isAfter(upToDate)) continue;
 
     switch (tx.type) {
-      case TransactionType.transfer:
-      case TransactionType.partnerTransfer:
-        // debit the `from`
-        if (tx.fromAccount != null) {
-          proj[tx.fromAccount!] = (proj[tx.fromAccount!] ?? 0) - tx.amount;
-        }
-        // credit the `to`
-        proj[tx.toAccount] = (proj[tx.toAccount] ?? 0) + tx.amount;
-        break;
-
       case TransactionType.expense:
       case TransactionType.income:
         // single‐account adjustment
+        proj[tx.toAccount] = (proj[tx.toAccount] ?? 0) + tx.amount;
+        break;
+
+      case TransactionType.transfer:
+      case TransactionType.partnerTransfer:
+        // subtract from “fromAccount”
+        if (tx.fromAccount != null) {
+          proj[tx.fromAccount!] =
+              (proj[tx.fromAccount!] ?? 0) - tx.amount;
+        }
+        // add to “toAccount”
         proj[tx.toAccount] = (proj[tx.toAccount] ?? 0) + tx.amount;
         break;
     }

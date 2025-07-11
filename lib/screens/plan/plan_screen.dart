@@ -126,7 +126,6 @@ class PlanScreenState extends State<PlanScreen> {
             DayGroup(
               day: entry.key,
               items: entry.value,
-              allOccurrences: entry.value, // one-offs only
               onEdit: _edit,
               onRealize: _realize,
             ),
