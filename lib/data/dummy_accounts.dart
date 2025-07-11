@@ -20,6 +20,12 @@ List<Account> dummyAccounts = [
     balance: 0,
     includeInBalance: false,
   ),
+    Account(
+    name: 'Savings account',
+    type: AccountType.personal,
+    balance: 0,
+    includeInBalance: false,
+  ),
 
   // — Partner Accounts —
   Account(
@@ -108,25 +114,25 @@ List<Account> dummyAccounts = [
     balance: 0,
     includeInBalance: false,
   ),
-  Account(
-    name: 'Housing',
+      Account(
+    name: 'Clothes & Accessories',
     type: AccountType.category,
     balance: 0,
     includeInBalance: false,
   ),
-  Account(
+    Account(
     name: 'Utilities',
     type: AccountType.category,
     balance: 0,
     includeInBalance: false,
   ),
   Account(
-    name: 'Transportation',
+    name: 'Housing',
     type: AccountType.category,
     balance: 0,
     includeInBalance: false,
   ),
-  Account(
+    Account(
     name: 'Car',
     type: AccountType.category,
     balance: 0,
@@ -139,55 +145,13 @@ List<Account> dummyAccounts = [
     includeInBalance: false,
   ),
   Account(
-    name: 'Insurance',
-    type: AccountType.category,
-    balance: 0,
-    includeInBalance: false,
-  ),
-  Account(
-    name: 'Entertainment',
-    type: AccountType.category,
-    balance: 0,
-    includeInBalance: false,
-  ),
-  Account(
     name: 'Travel',
     type: AccountType.category,
     balance: 0,
     includeInBalance: false,
   ),
   Account(
-    name: 'Education',
-    type: AccountType.category,
-    balance: 0,
-    includeInBalance: false,
-  ),
-  Account(
-    name: 'Subscriptions',
-    type: AccountType.category,
-    balance: 0,
-    includeInBalance: false,
-  ),
-  Account(
-    name: 'Personal Care',
-    type: AccountType.category,
-    balance: 0,
-    includeInBalance: false,
-  ),
-  Account(
     name: 'Gifts & Donations',
-    type: AccountType.category,
-    balance: 0,
-    includeInBalance: false,
-  ),
-    Account(
-    name: 'Clothes & Accessories',
-    type: AccountType.category,
-    balance: 0,
-    includeInBalance: false,
-  ),
-  Account(
-    name: 'Miscellaneous',
     type: AccountType.category,
     balance: 0,
     includeInBalance: false,

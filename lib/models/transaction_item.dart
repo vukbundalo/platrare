@@ -39,6 +39,7 @@ class TransactionItem {
        exceptions = exceptions ?? const [];
 
   TransactionItem copyWith({
+    String? id, 
     String? title,
     DateTime? date,
     TransactionType? type,

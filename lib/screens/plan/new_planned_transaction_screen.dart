@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:platrare/data/dummy_accounts.dart';
+import 'package:platrare/data/dummy_templates.dart';
 import 'package:platrare/models/account.dart';
 import 'package:platrare/models/transaction_item.dart';
 
@@ -103,6 +104,9 @@ class NewPlannedTransactionScreenState
       context,
     ).showSnackBar(SnackBar(content: Text(message)));
   }
+
+  bool _saveAsTemplate = false;
+  final _templateNameCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -222,6 +226,95 @@ class NewPlannedTransactionScreenState
             ),
 
             const SizedBox(height: 16),
+            if (dummyTemplates.isNotEmpty)
+              DropdownButtonFormField<TransactionItem>(
+                isExpanded: true, // ensure the field takes full width
+                hint: const Text('Load template…'),
+                items:
+                    dummyTemplates.map((t) {
+                      return DropdownMenuItem<TransactionItem>(
+                        value: t,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max, // fill the width
+                          children: [
+                            Expanded(child: Text(t.title)),
+                            IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: () async {
+                                final confirm = await showDialog<bool>(
+                                  context: context,
+                                  builder:
+                                      (_) => AlertDialog(
+                                        title: Text('Delete template?'),
+                                        content: Text(
+                                          '“${t.title}” will be removed.',
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed:
+                                                () => Navigator.pop(
+                                                  context,
+                                                  false,
+                                                ),
+                                            child: const Text('Cancel'),
+                                          ),
+                                          TextButton(
+                                            onPressed:
+                                                () => Navigator.pop(
+                                                  context,
+                                                  true,
+                                                ),
+                                            child: const Text(
+                                              'Delete',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                );
+                                if (confirm == true) {
+                                  setState(() => dummyTemplates.remove(t));
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Template “${t.title}” deleted',
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                selectedItemBuilder: (context) {
+                  return dummyTemplates.map((t) {
+                    return Text(t.title);
+                  }).toList();
+                },
+                onChanged: (tmpl) {
+                  if (tmpl == null) return;
+                  setState(() {
+                    _type = tmpl.type;
+                    _date = tmpl.date;
+                    _from = tmpl.fromAccount;
+                    _to = tmpl.toAccount;
+                    _singleAccount =
+                        (tmpl.type == TransactionType.expense ||
+                                tmpl.type == TransactionType.income)
+                            ? tmpl.toAccount
+                            : null;
+                    _categoryAccount = tmpl.category;
+                    _nameCtrl.text = tmpl.title;
+                    _amountCtrl.text = tmpl.amount.abs().toString();
+                  });
+                },
+              ),
+
+            const SizedBox(height: 12),
 
             // — Amount —
             TextField(
@@ -351,6 +444,25 @@ class NewPlannedTransactionScreenState
                 if (p != null) setState(() => _date = p);
               },
             ),
+            SwitchListTile(
+              title: Text('Save as template'),
+              value: _saveAsTemplate,
+              onChanged:
+                  (v) => setState(() {
+                    _saveAsTemplate = v;
+                    if (!v) _templateNameCtrl.clear();
+                  }),
+            ),
+            if (_saveAsTemplate) ...[
+              TextField(
+                controller: _templateNameCtrl,
+                decoration: InputDecoration(
+                  labelText: 'Template name',
+                  hintText: 'e.g. “Monthly rent”',
+                ),
+              ),
+              SizedBox(height: 12),
+            ],
 
             const SizedBox(height: 24),
 
@@ -403,6 +515,26 @@ class NewPlannedTransactionScreenState
                   amount: amt,
                   category: _categoryAccount,
                 );
+
+                if (_saveAsTemplate) {
+                  if (_templateNameCtrl.text.trim().isEmpty) {
+                    _showError('Please enter a template name.');
+                    return;
+                  }
+                  dummyTemplates.add(
+                    TransactionItem(
+                      // new template uses its own auto-generated ID
+                      title: _templateNameCtrl.text.trim(),
+                      date: tx.date,
+                      type: tx.type,
+                      fromAccount: tx.fromAccount,
+                      toAccount: tx.toAccount,
+                      amount: tx.amount,
+                      category: tx.category,
+                    ),
+                  );
+                }
+
                 Navigator.pop(context, tx);
               },
             ),
