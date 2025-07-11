@@ -93,19 +93,7 @@ List<Account> dummyAccounts = [
     includeInBalance: false,
   ),
 
-  // — Budget Accounts —
-  Account(
-    name: 'Food',
-    type: AccountType.budget,
-    balance: 0,
-    includeInBalance: false,
-  ),
-  Account(
-    name: 'Coffee',
-    type: AccountType.budget,
-    balance: 0,
-    includeInBalance: false,
-  ),
+
 
   // — Category Accounts —
   Account(

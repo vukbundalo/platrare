@@ -1,6 +1,6 @@
 // lib/models/account.dart
 
-enum AccountType { personal, partner, vendor, incomeSource, budget, category }
+enum AccountType { personal, partner, vendor, incomeSource, category }
 
 class Account {
   final String name;

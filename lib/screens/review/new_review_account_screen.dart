@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:platrare/models/account.dart';
 
-enum ReviewAccountType { budget, category, vendor, incomeSource }
+enum ReviewAccountType {category, vendor, incomeSource }
 
 
+
+/// Screen for creating a new review item (Category, Vendor, or Income Source)
 class NewReviewAccountScreen extends StatefulWidget {
   const NewReviewAccountScreen({super.key});
 
@@ -12,12 +14,14 @@ class NewReviewAccountScreen extends StatefulWidget {
 }
 
 class NewReviewAccountScreenState extends State<NewReviewAccountScreen> {
-  ReviewAccountType _rtype = ReviewAccountType.budget;
   final _nameCtrl = TextEditingController();
   final _balCtrl = TextEditingController(text: '0');
 
+
+  /// Currently selected type
+  ReviewAccountType _rtype = ReviewAccountType.category;
+
   static const Map<ReviewAccountType, String> _typeLabels = {
-    ReviewAccountType.budget: 'Budget',
     ReviewAccountType.category: 'Category',
     ReviewAccountType.vendor: 'Vendor',
     ReviewAccountType.incomeSource: 'Income Source',
@@ -25,97 +29,84 @@ class NewReviewAccountScreenState extends State<NewReviewAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // compute width so two fit per row (minus padding + spacing)
     final totalPadding = 16.0 * 2;
     final spacing = 8.0;
-    final chipWidth =
-        (MediaQuery.of(context).size.width - totalPadding - spacing) / 2;
+    final chipWidth = (MediaQuery.of(context).size.width - totalPadding - spacing) / 2;
 
     return Scaffold(
-      appBar: AppBar(title: Text('New Review Item')),
+      appBar: AppBar(title: const Text('New Review Item')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // ——— 2×2 Grid of “Chips” ———
+            // 2×2 grid of type selector chips
             Wrap(
               spacing: spacing,
               runSpacing: spacing,
-              children:
-                  _typeLabels.entries.map((entry) {
-                    final type = entry.key;
-                    final selected = _rtype == type;
-                    return SizedBox(
-                      width: chipWidth,
-                      child: InkWell(
-                        onTap: () => setState(() => _rtype = type),
+              children: _typeLabels.entries.map((entry) {
+                final type = entry.key;
+                final selected = _rtype == type;
+                return SizedBox(
+                  width: chipWidth,
+                  child: InkWell(
+                    onTap: () => setState(() => _rtype = type),
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      decoration: BoxDecoration(
+                        color: selected
+                            ? Theme.of(context).colorScheme.primary
+                            : Colors.transparent,
+                        border: Border.all(
+                          color: selected
+                              ? Theme.of(context).colorScheme.primary
+                              : Colors.grey,
+                        ),
                         borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                          decoration: BoxDecoration(
-                            color:
-                                selected
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Colors.transparent,
-                            border: Border.all(
-                              color:
-                                  selected
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Colors.grey,
-                            ),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            entry.value,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: selected ? Colors.white : Colors.black87,
-                            ),
-                          ),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        entry.value,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: selected ? Colors.white : Colors.black87,
                         ),
                       ),
-                    );
-                  }).toList(),
+                    ),
+                  ),
+                );
+              }).toList(),
             ),
 
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
 
-            // ——— Name ———
+            // Name input
             TextField(
               controller: _nameCtrl,
-              decoration: InputDecoration(labelText: 'Name'),
+              decoration: const InputDecoration(labelText: 'Name'),
             ),
 
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
 
-            // ——— Starting Balance ———
+            // Starting balance input
             TextField(
               controller: _balCtrl,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(labelText: 'Amount'),
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(labelText: 'Amount'),
             ),
 
-            Spacer(),
+            const Spacer(),
 
-            // ——— Save ———
+            // Save button
             ElevatedButton(
               onPressed: () {
                 final name = _nameCtrl.text.trim();
                 if (name.isEmpty) return;
 
                 final bal = double.tryParse(_balCtrl.text) ?? 0.0;
-                late Account acct;
+                late final Account acct;
 
                 switch (_rtype) {
-                  case ReviewAccountType.budget:
-                    acct = Account(
-                      name: name,
-                      type: AccountType.budget,
-                      balance: bal,
-                      includeInBalance: false,
-                    );
-                    break;
                   case ReviewAccountType.category:
                     acct = Account(
                       name: name,
@@ -144,7 +135,7 @@ class NewReviewAccountScreenState extends State<NewReviewAccountScreen> {
 
                 Navigator.pop(context, acct);
               },
-              child: Text('Save'),
+              child: const Text('Save'),
             ),
           ],
         ),

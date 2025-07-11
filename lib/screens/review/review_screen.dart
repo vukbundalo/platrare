@@ -16,7 +16,6 @@ class ReviewScreen extends StatefulWidget {
 }
 
 class ReviewScreenState extends State<ReviewScreen> {
-  late List<Account> budgetList;
   late List<Account> categoryList;
   late List<Account> vendorList;
   late List<Account> incomeList;
@@ -28,16 +27,15 @@ class ReviewScreenState extends State<ReviewScreen> {
   }
 
   void _reloadAll() {
-    budgetList = dummyAccounts
-        .where((a) => a.type == AccountType.budget)
-        .toList();
     categoryList = dummyAccounts
         .where((a) => a.type == AccountType.category)
         .toList();
+
     vendorList = dummyAccounts
         .where((a) => a.type == AccountType.vendor)
         .map((a) => a.copyWith(balance: -a.balance.abs()))
         .toList();
+
     incomeList = dummyAccounts
         .where((a) => a.type == AccountType.incomeSource)
         .map((a) => a.copyWith(balance: a.balance.abs()))
@@ -47,11 +45,15 @@ class ReviewScreenState extends State<ReviewScreen> {
   Future<void> _editOrDelete(Account acc, List<Account> list) async {
     final result = await Navigator.push<dynamic>(
       context,
-      MaterialPageRoute(builder: (_) => EditReviewAccountScreen(account: acc)),
+      MaterialPageRoute(
+        builder: (_) => EditReviewAccountScreen(account: acc),
+      ),
     );
     if (result is Account) {
+      // update global
       final gi = dummyAccounts.indexWhere((a) => a.name == acc.name);
       if (gi != -1) dummyAccounts[gi] = result;
+      // update local
       final li = list.indexOf(acc);
       setState(() => list[li] = result);
     } else if (result == 'delete') {
@@ -107,25 +109,23 @@ class ReviewScreenState extends State<ReviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Review')),
+      appBar: AppBar(title: const Text('Review')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _buildSection('Budgets', budgetList, ValueKey('b')),
+          _buildSection('Categories', categoryList, const ValueKey('c')),
           const SizedBox(height: 24),
-          _buildSection('Categories', categoryList, ValueKey('c')),
+          _buildSection('Vendors', vendorList, const ValueKey('v')),
           const SizedBox(height: 24),
-          _buildSection('Vendors', vendorList, ValueKey('v')),
-          const SizedBox(height: 24),
-          _buildSection('Income Sources', incomeList, ValueKey('i')),
+          _buildSection('Income Sources', incomeList, const ValueKey('i')),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () async {
           final result = await Navigator.push<Account?>(
             context,
-            MaterialPageRoute(builder: (_) => NewReviewAccountScreen()),
+            MaterialPageRoute(builder: (_) => const NewReviewAccountScreen()),
           );
           if (result != null) {
             setState(() {
