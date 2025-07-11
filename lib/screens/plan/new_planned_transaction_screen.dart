@@ -69,9 +69,7 @@ class NewPlannedTransactionScreenState
       } else {
         _singleAccount = ex.toAccount;
       }
-      if (ex.category != null) {
-        _categoryAccount = ex.category;
-      }
+      _categoryAccount = ex.category;
     }
   }
 
@@ -97,9 +95,7 @@ class NewPlannedTransactionScreenState
             ],
           ),
     );
-    if (sure == true) {
-      Navigator.pop(context, 'deleteRule');
-    }
+    if (sure == true) Navigator.pop(context, 'deleteRule');
   }
 
   void _showError(String message) {
@@ -190,7 +186,9 @@ class NewPlannedTransactionScreenState
                         onTap:
                             () => setState(() {
                               _type = e.key;
-                              _from = _to = _singleAccount = null;
+                              _from =
+                                  _to =
+                                      _singleAccount = _categoryAccount = null;
                             }),
                         borderRadius: BorderRadius.circular(8),
                         child: Container(
@@ -224,6 +222,7 @@ class NewPlannedTransactionScreenState
             ),
 
             const SizedBox(height: 16),
+
             // — Amount —
             TextField(
               controller: _amountCtrl,
@@ -297,22 +296,43 @@ class NewPlannedTransactionScreenState
             ),
             const SizedBox(height: 12),
 
-            // — Category (optional) —
-            if (_categories.isNotEmpty) ...[
-              DropdownButtonFormField<Account>(
-                value: _categoryAccount,
-                hint: const Text('Category'),
-                items:
-                    _categories
-                        .map(
-                          (c) =>
-                              DropdownMenuItem(value: c, child: Text(c.name)),
-                        )
-                        .toList(),
-                onChanged: (v) => setState(() => _categoryAccount = v),
-              ),
-              const SizedBox(height: 12),
-            ],
+            // — Category (only when allowed) —
+            ...(() {
+              bool canPickCategory;
+              switch (_type) {
+                case TransactionType.expense:
+                case TransactionType.income:
+                  canPickCategory =
+                      _singleAccount?.type == AccountType.personal;
+                  break;
+                case TransactionType.partnerTransfer:
+                  canPickCategory = _from?.type == AccountType.personal;
+                  break;
+                case TransactionType.transfer:
+                  canPickCategory = false;
+                  break;
+              }
+              if (canPickCategory && _categories.isNotEmpty) {
+                return [
+                  DropdownButtonFormField<Account>(
+                    value: _categoryAccount,
+                    hint: const Text('Category'),
+                    items:
+                        _categories
+                            .map(
+                              (c) => DropdownMenuItem(
+                                value: c,
+                                child: Text(c.name),
+                              ),
+                            )
+                            .toList(),
+                    onChanged: (v) => setState(() => _categoryAccount = v),
+                  ),
+                  const SizedBox(height: 12),
+                ];
+              }
+              return <Widget>[];
+            })(),
 
             // — Date —
             ListTile(
@@ -321,10 +341,11 @@ class NewPlannedTransactionScreenState
               ),
               trailing: const Icon(Icons.calendar_today),
               onTap: () async {
+                final today = DateTime.now();
                 final p = await showDatePicker(
                   context: context,
-                  initialDate: _date,
-                  firstDate: DateTime.now().subtract(const Duration(days: 365)),
+                  initialDate: _date.isBefore(today) ? today : _date,
+                  firstDate: today, // <-- disallow any date before today
                   lastDate: DateTime.now().add(const Duration(days: 365)),
                 );
                 if (p != null) setState(() => _date = p);
@@ -332,14 +353,14 @@ class NewPlannedTransactionScreenState
             ),
 
             const SizedBox(height: 24),
+
             // — Save —
             ElevatedButton(
               child: const Text('Save'),
               onPressed: () {
-                // validation
                 final raw = double.tryParse(_amountCtrl.text);
                 if (raw == null || raw == 0.0) {
-                  _showError('Please enter a non‐zero amount.');
+                  _showError('Please enter a non-zero amount.');
                   return;
                 }
                 if (_type == TransactionType.expense ||

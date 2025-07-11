@@ -72,20 +72,25 @@ class PlanScreenState extends State<PlanScreen> {
     );
   }
 
-  /// Apply a realized tx’s effect to your real balances
-  void _applyImmediate(TransactionItem tx) {
-    switch (tx.type) {
-      case TransactionType.expense:
-      case TransactionType.income:
-        _mutate(tx.toAccount, tx.amount);
-        break;
-      case TransactionType.transfer:
-      case TransactionType.partnerTransfer:
-        if (tx.fromAccount != null) _mutate(tx.fromAccount!, -tx.amount);
-        _mutate(tx.toAccount, tx.amount);
-        break;
-    }
+/// Apply a realized tx’s effect to your real balances (and its category).
+void _applyImmediate(TransactionItem tx) {
+  switch (tx.type) {
+    case TransactionType.expense:
+    case TransactionType.income:
+      _mutate(tx.toAccount, tx.amount);
+      break;
+    case TransactionType.transfer:
+    case TransactionType.partnerTransfer:
+      if (tx.fromAccount != null) _mutate(tx.fromAccount!, -tx.amount);
+      _mutate(tx.toAccount, tx.amount);
+      break;
   }
+
+  // **also** adjust the category, if any
+  if (tx.category != null) {
+    _mutate(tx.category!, tx.amount);
+  }
+}
 
   Future<void> _realize(TransactionItem occ) async {
     // cap future dates at today

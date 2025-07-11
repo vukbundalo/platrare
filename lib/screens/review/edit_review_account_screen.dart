@@ -3,11 +3,15 @@ import 'package:platrare/models/account.dart';
 
 class EditReviewAccountScreen extends StatefulWidget {
   final Account account;
-  const EditReviewAccountScreen({super.key, required this.account});
+  final bool deletable;
+  const EditReviewAccountScreen({
+    super.key,
+    required this.account,
+    this.deletable = true,
+  });
 
   @override
-  EditReviewAccountScreenState createState() =>
-      EditReviewAccountScreenState();
+  EditReviewAccountScreenState createState() => EditReviewAccountScreenState();
 }
 
 class EditReviewAccountScreenState extends State<EditReviewAccountScreen> {
@@ -24,21 +28,20 @@ class EditReviewAccountScreenState extends State<EditReviewAccountScreen> {
   Future<bool?> _confirmDelete() {
     return showDialog<bool>(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text('Delete?'),
-            content: Text('Remove "${widget.account.name}"?'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context, false),
-                child: Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(context, true),
-                child: Text('Delete', style: TextStyle(color: Colors.red)),
-              ),
-            ],
+      builder: (context) => AlertDialog(
+        title: Text('Delete?'),
+        content: Text('Remove "${widget.account.name}"?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text('Cancel'),
           ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text('Delete', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
     );
   }
 
@@ -46,15 +49,16 @@ class EditReviewAccountScreenState extends State<EditReviewAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Review Item'),
+        title: const Text('Edit Review Item'),
         actions: [
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () async {
-              final confirm = await _confirmDelete();
-              if (confirm == true) Navigator.pop(context, 'delete');
-            },
-          ),
+          if (widget.deletable)
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: () async {
+                final confirm = await _confirmDelete();
+                if (confirm == true) Navigator.pop(context, 'delete');
+              },
+            ),
         ],
       ),
       body: Padding(
@@ -66,19 +70,21 @@ class EditReviewAccountScreenState extends State<EditReviewAccountScreen> {
               controller: _nameCtrl,
               decoration: InputDecoration(labelText: 'Name'),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
+            // Balance is now read-only
             TextField(
               controller: _balCtrl,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
               decoration: InputDecoration(labelText: 'Current amount'),
+              enabled: false,
             ),
-            Spacer(),
+            const Spacer(),
             ElevatedButton(
-              child: Text('Save'),
+              child: const Text('Save'),
               onPressed: () {
                 final name = _nameCtrl.text.trim();
                 if (name.isEmpty) return;
-                final bal = double.tryParse(_balCtrl.text) ?? 0.0;
+                // Keep the existing balance unchanged
+                final bal = widget.account.balance;
                 Navigator.pop(
                   context,
                   Account(

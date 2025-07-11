@@ -95,15 +95,99 @@ List<Account> dummyAccounts = [
 
 
 
-  // — Category Accounts —
+  // — Category Accounts (default) —
   Account(
-    name: 'Nightout',
+    name: 'Groceries',
+    type: AccountType.category,
+    balance: 0,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Dining & Drinks',
+    type: AccountType.category,
+    balance: 0,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Housing',
+    type: AccountType.category,
+    balance: 0,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Utilities',
+    type: AccountType.category,
+    balance: 0,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Transportation',
     type: AccountType.category,
     balance: 0,
     includeInBalance: false,
   ),
   Account(
     name: 'Car',
+    type: AccountType.category,
+    balance: 0,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Healthcare',
+    type: AccountType.category,
+    balance: 0,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Insurance',
+    type: AccountType.category,
+    balance: 0,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Entertainment',
+    type: AccountType.category,
+    balance: 0,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Travel',
+    type: AccountType.category,
+    balance: 0,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Education',
+    type: AccountType.category,
+    balance: 0,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Subscriptions',
+    type: AccountType.category,
+    balance: 0,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Personal Care',
+    type: AccountType.category,
+    balance: 0,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Gifts & Donations',
+    type: AccountType.category,
+    balance: 0,
+    includeInBalance: false,
+  ),
+    Account(
+    name: 'Clothes & Accessories',
+    type: AccountType.category,
+    balance: 0,
+    includeInBalance: false,
+  ),
+  Account(
+    name: 'Miscellaneous',
     type: AccountType.category,
     balance: 0,
     includeInBalance: false,

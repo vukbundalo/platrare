@@ -40,11 +40,19 @@ class TrackScreenState extends State<TrackScreen> {
 
     if (result is TransactionItem) {
       setState(() {
+        // 1) Undo the old transaction (including its category)
+        _rollback(existing);
+
+        // 2) Replace in both lists
         final i = _realized.indexWhere((t) => t.id == existing.id);
         _realized[i] = result;
-        final gi =
-            dummyRealized.indexWhere((t) => t.id == existing.id);
+        final gi = dummyRealized.indexWhere((t) => t.id == existing.id);
         if (gi != -1) dummyRealized[gi] = result;
+
+        // 3) Apply the new transaction
+        _applyImmediate(result);
+
+        // 4) Re‐sort so newest shows first
         _sortRealized();
       });
     } else if (result == 'delete') {
@@ -60,11 +68,11 @@ class TrackScreenState extends State<TrackScreen> {
     final idx = dummyAccounts.indexWhere((a) => a.name == acct.name);
     if (idx == -1) return;
     final old = dummyAccounts[idx];
-    dummyAccounts[idx] =
-        old.copyWith(balance: old.balance + delta);
+    dummyAccounts[idx] = old.copyWith(balance: old.balance + delta);
   }
 
   void _rollback(TransactionItem tx) {
+    // undo main accounts
     switch (tx.type) {
       case TransactionType.expense:
       case TransactionType.income:
@@ -72,14 +80,18 @@ class TrackScreenState extends State<TrackScreen> {
         break;
       case TransactionType.transfer:
       case TransactionType.partnerTransfer:
-        if (tx.fromAccount != null)
-          _mutate(tx.fromAccount!, tx.amount);
+        if (tx.fromAccount != null) _mutate(tx.fromAccount!, tx.amount);
         _mutate(tx.toAccount, -tx.amount);
         break;
+    }
+    // undo category if any
+    if (tx.category != null) {
+      _mutate(tx.category!, -tx.amount);
     }
   }
 
   void _applyImmediate(TransactionItem tx) {
+    // apply main accounts
     switch (tx.type) {
       case TransactionType.expense:
       case TransactionType.income:
@@ -91,17 +103,19 @@ class TrackScreenState extends State<TrackScreen> {
         _mutate(tx.toAccount, tx.amount);
         break;
     }
+    // apply category if any
+    if (tx.category != null) {
+      _mutate(tx.category!, tx.amount);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     _sortRealized();
 
-    // group by calendar‐day
     final grouped = <DateTime, List<TransactionItem>>{};
     for (var tx in _realized) {
-      final day =
-          DateTime(tx.date.year, tx.date.month, tx.date.day);
+      final day = DateTime(tx.date.year, tx.date.month, tx.date.day);
       (grouped[day] ??= []).add(tx);
     }
 
@@ -111,77 +125,62 @@ class TrackScreenState extends State<TrackScreen> {
         padding: const EdgeInsets.all(16),
         children: [
           for (var entry in grouped.entries) ...[
-            // — Day header —
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8),
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: Text(
                 '${entry.key.day}/${entry.key.month}/${entry.key.year}',
                 style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
+                    fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
 
-            // — Transactions (swipe left to return to Plan) —
-            ...entry.value.map((tx) => Dismissible(
-                  key: ValueKey(tx.id),
-                  direction: DismissDirection.endToStart,
-                  background: Container(
-                    color: Colors.orange,
-                    alignment: Alignment.centerRight,
-                    padding:
-                        const EdgeInsets.only(right: 16),
-                    child: const Icon(Icons.undo,
-                        color: Colors.white),
+            // swipe-to-return-to-plan
+            ...entry.value.map(
+              (tx) => Dismissible(
+                key: ValueKey(tx.id),
+                direction: DismissDirection.endToStart,
+                background: Container(
+                  color: Colors.orange,
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.only(right: 16),
+                  child: const Icon(Icons.undo, color: Colors.white),
+                ),
+                confirmDismiss: (_) async => true,
+                onDismissed: (_) {
+                  setState(() {
+                    _rollback(tx);
+                    _realized.removeWhere((t) => t.id == tx.id);
+                    dummyRealized.removeWhere((t) => t.id == tx.id);
+                    dummyPlanned.add(tx.copyWith());
+                  });
+                },
+                child: Card(
+                  margin: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 4),
+                  child: ListTile(
+                    leading: tx.displayIcon,
+                    title: Text(tx.displayTitle),
+                    subtitle: Text(tx.displaySubtitle),
+                    trailing: Text(tx.amount.toStringAsFixed(2)),
+                    onTap: () => _edit(tx),
                   ),
-                  confirmDismiss: (_) async => true,
-                  onDismissed: (_) {
-                    setState(() {
-                      // undo balance
-                      _rollback(tx);
-                      // remove from realized
-                      _realized.removeWhere((t) => t.id == tx.id);
-                      dummyRealized.removeWhere((t) => t.id == tx.id);
-                      // add back as a one–off plan
-                      dummyPlanned.add(tx.copyWith());
-                    });
-                  },
-                  child: Card(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 4),
-                    child: ListTile(
-                      leading: tx.displayIcon,
-                      title: Text(tx.displayTitle),
-                      subtitle: Text(tx.displaySubtitle),
-                      trailing: Text(
-                          tx.amount.toStringAsFixed(2)),
-                      onTap: () => _edit(tx),
-                    ),
-                  ),
-                )),
+                ),
+              ),
+            ),
 
             const SizedBox(height: 8),
-
-            // — Balances ribbon as of that day —
             _buildBalancesRibbon(entry.key),
-
             const SizedBox(height: 24),
           ],
         ],
       ),
-
-      // — New Transaction FAB —
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () async {
-          final tx =
-              await Navigator.push<TransactionItem?>(
+          final tx = await Navigator.push<TransactionItem?>(
             context,
             MaterialPageRoute(
-              builder: (_) =>
-                  const NewTrackTransactionScreen(
-                      existing: null),
+              builder: (_) => const NewTrackTransactionScreen(existing: null),
             ),
           );
           if (tx is TransactionItem) {
@@ -202,13 +201,10 @@ class TrackScreenState extends State<TrackScreen> {
       _realized,
       day,
     );
-
     final avail = proj.entries
         .where((e) =>
-            e.key.type == AccountType.personal &&
-            e.key.includeInBalance)
+            e.key.type == AccountType.personal && e.key.includeInBalance)
         .fold(0.0, (s, e) => s + e.value);
-
     final liquid = proj.entries
         .where((e) => e.key.type == AccountType.personal)
         .fold(0.0, (s, e) => s + e.value);
@@ -217,7 +213,6 @@ class TrackScreenState extends State<TrackScreen> {
         .where((a) => a.type == AccountType.personal)
         .map((a) => a.copyWith(balance: proj[a]!))
         .toList();
-
     final partnerBalances = dummyAccounts
         .where((a) => a.type == AccountType.partner)
         .map((a) => a.copyWith(balance: proj[a]!))
@@ -227,20 +222,15 @@ class TrackScreenState extends State<TrackScreen> {
       height: 60,
       child: ListView(
         scrollDirection: Axis.horizontal,
-        padding:
-            const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
-          TransactionAccountsSummaryCard(
-              label: 'Available', value: avail),
+          TransactionAccountsSummaryCard(label: 'Available', value: avail),
           const SizedBox(width: 20),
-          ...personalBalances
-              .map((a) => AccountBalanceCard(account: a)),
+          ...personalBalances.map((a) => AccountBalanceCard(account: a)),
           const SizedBox(width: 20),
-          TransactionAccountsSummaryCard(
-              label: 'Liquid', value: liquid),
+          TransactionAccountsSummaryCard(label: 'Liquid', value: liquid),
           const SizedBox(width: 20),
-          ...partnerBalances
-              .map((a) => AccountBalanceCard(account: a)),
+          ...partnerBalances.map((a) => AccountBalanceCard(account: a)),
         ],
       ),
     );

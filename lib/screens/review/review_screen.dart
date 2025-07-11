@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:platrare/data/dummy_accounts.dart';
+import 'package:platrare/data/dummy_realized.dart';
+import 'package:platrare/data/dummy_planned.dart';
 import 'package:platrare/models/account.dart';
 import 'package:platrare/screens/review/edit_review_account_screen.dart';
 import 'package:platrare/screens/review/new_review_account_screen.dart';
@@ -10,38 +12,11 @@ import 'package:platrare/widgets/section_header.dart';
 
 class ReviewScreen extends StatefulWidget {
   const ReviewScreen({super.key});
-
   @override
   ReviewScreenState createState() => ReviewScreenState();
 }
 
 class ReviewScreenState extends State<ReviewScreen> {
-  late List<Account> categoryList;
-  late List<Account> vendorList;
-  late List<Account> incomeList;
-
-  @override
-  void initState() {
-    super.initState();
-    _reloadAll();
-  }
-
-  void _reloadAll() {
-    categoryList = dummyAccounts
-        .where((a) => a.type == AccountType.category)
-        .toList();
-
-    vendorList = dummyAccounts
-        .where((a) => a.type == AccountType.vendor)
-        .map((a) => a.copyWith(balance: -a.balance.abs()))
-        .toList();
-
-    incomeList = dummyAccounts
-        .where((a) => a.type == AccountType.incomeSource)
-        .map((a) => a.copyWith(balance: a.balance.abs()))
-        .toList();
-  }
-
   Future<void> _editOrDelete(Account acc, List<Account> list) async {
     final result = await Navigator.push<dynamic>(
       context,
@@ -50,16 +25,29 @@ class ReviewScreenState extends State<ReviewScreen> {
       ),
     );
     if (result is Account) {
-      // update global
+      // 1) Update the account itself
       final gi = dummyAccounts.indexWhere((a) => a.name == acc.name);
       if (gi != -1) dummyAccounts[gi] = result;
-      // update local
-      final li = list.indexOf(acc);
-      setState(() => list[li] = result);
+      setState(() {});
     } else if (result == 'delete') {
+      // 2a) Scrub this category off of every realized TX
+      for (var i = 0; i < dummyRealized.length; i++) {
+        final tx = dummyRealized[i];
+        if (tx.category?.name == acc.name) {
+          dummyRealized[i] = tx.copyWith(category: null);
+        }
+      }
+      // 2b) Scrub this category off of every planned TX
+      for (var i = 0; i < dummyPlanned.length; i++) {
+        final tx = dummyPlanned[i];
+        if (tx.category?.name == acc.name) {
+          dummyPlanned[i] = tx.copyWith(category: null);
+        }
+      }
+      // 3) Then remove the account itself
       setState(() {
         dummyAccounts.removeWhere((a) => a.name == acc.name);
-        list.remove(acc);
+        list.removeWhere((a) => a.name == acc.name);
       });
     }
   }
@@ -73,6 +61,7 @@ class ReviewScreenState extends State<ReviewScreen> {
         ),
       );
     }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -82,7 +71,6 @@ class ReviewScreenState extends State<ReviewScreen> {
           buildDefaultDragHandles: false,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          proxyDecorator: (child, index, animation) => child,
           onReorder: (oldIndex, newIndex) {
             setState(() {
               if (newIndex > oldIndex) newIndex--;
@@ -108,6 +96,19 @@ class ReviewScreenState extends State<ReviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // derive fresh lists on every build
+    final categoryList = dummyAccounts
+        .where((a) => a.type == AccountType.category)
+        .toList();
+    final vendorList = dummyAccounts
+        .where((a) => a.type == AccountType.vendor)
+        .map((a) => a.copyWith(balance: -a.balance.abs()))
+        .toList();
+    final incomeList = dummyAccounts
+        .where((a) => a.type == AccountType.incomeSource)
+        .map((a) => a.copyWith(balance: a.balance.abs()))
+        .toList();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Review')),
       body: ListView(
@@ -130,7 +131,6 @@ class ReviewScreenState extends State<ReviewScreen> {
           if (result != null) {
             setState(() {
               dummyAccounts.add(result);
-              _reloadAll();
             });
           }
         },
