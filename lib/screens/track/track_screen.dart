@@ -130,7 +130,9 @@ class TrackScreenState extends State<TrackScreen> {
               child: Text(
                 '${entry.key.day}/${entry.key.month}/${entry.key.year}',
                 style: const TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.bold),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
 
@@ -156,7 +158,9 @@ class TrackScreenState extends State<TrackScreen> {
                 },
                 child: Card(
                   margin: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 4),
+                    horizontal: 16,
+                    vertical: 4,
+                  ),
                   child: ListTile(
                     leading: tx.displayIcon,
                     title: Text(tx.displayTitle),
@@ -202,24 +206,27 @@ class TrackScreenState extends State<TrackScreen> {
       day,
     );
     final avail = proj.entries
-        .where((e) =>
-            e.key.type == AccountType.personal && e.key.includeInBalance)
+        .where(
+          (e) => e.key.type == AccountType.personal && e.key.includeInBalance,
+        )
         .fold(0.0, (s, e) => s + e.value);
     final liquid = proj.entries
         .where((e) => e.key.type == AccountType.personal)
         .fold(0.0, (s, e) => s + e.value);
 
-    final personalBalances = dummyAccounts
-        .where((a) => a.type == AccountType.personal)
-        .map((a) => a.copyWith(balance: proj[a]!))
-        .toList();
-    final partnerBalances = dummyAccounts
-        .where((a) => a.type == AccountType.partner)
-        .map((a) => a.copyWith(balance: proj[a]!))
-        .toList();
+    final personalBalances =
+        dummyAccounts
+            .where((a) => a.type == AccountType.personal)
+            .map((a) => a.copyWith(balance: proj[a]!))
+            .toList();
+    final partnerBalances =
+        dummyAccounts
+            .where((a) => a.type == AccountType.partner)
+            .map((a) => a.copyWith(balance: proj[a]!))
+            .toList();
 
     return SizedBox(
-      height: 60,
+      height: 80,
       child: ListView(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),

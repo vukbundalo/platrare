@@ -62,7 +62,7 @@ class DayGroup extends StatelessWidget {
         children: [
           // — Date header —
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: Text(
               '${day.day}/${day.month}/${day.year}',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -79,7 +79,7 @@ class DayGroup extends StatelessWidget {
               background: Container(
                 color: Colors.green,
                 alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.only(left: 16),
+                padding: const EdgeInsets.only(right: 16),
                 child: const Icon(Icons.check, color: Colors.white),
               ),
               onDismissed: (_) => onRealize(tx),
@@ -100,10 +100,10 @@ class DayGroup extends StatelessWidget {
 
           // — Horizontal balances ribbon —
           SizedBox(
-            height: 60,
+            height: 80,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               children: [
                 TransactionAccountsSummaryCard(
                   label: 'Available',

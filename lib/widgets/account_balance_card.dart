@@ -10,7 +10,7 @@ class AccountBalanceCard extends StatelessWidget {
     final isPositive = account.balance >= 0;
     return Card(
       color: isPositive ? Colors.green[50] : Colors.red[50],
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: EdgeInsets.only(bottom: 8, left: 8, right: 8),
       child: Container(
         width: 100,
         padding: EdgeInsets.all(8),

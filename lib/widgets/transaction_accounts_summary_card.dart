@@ -14,7 +14,7 @@ class TransactionAccountsSummaryCard extends StatelessWidget {
     final isPositive = value >= 0;
     return Card(
       color: isPositive ? Colors.green[50] : Colors.red[50],
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: EdgeInsets.only(bottom: 8),
       child: Container(
         width: 100,
         padding: EdgeInsets.all(8),
