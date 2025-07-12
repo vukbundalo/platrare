@@ -335,16 +335,69 @@ class NewTrackTransactionScreenState extends State<NewTrackTransactionScreen> {
             if (_type == TransactionType.expense ||
                 _type == TransactionType.income) ...[
               DropdownButtonFormField<Account>(
+                isExpanded: true,
                 value: _singleAccount,
                 hint: const Text('Account'),
                 items:
-                    fromList
-                        .map(
-                          (a) =>
-                              DropdownMenuItem(value: a, child: Text(a.name)),
-                        )
-                        .toList(),
-                onChanged: (v) => setState(() => _singleAccount = v),
+                    fromList.map((a) {
+                      // same label+badge logic you already have…
+                      String typeLabel;
+                      Color typeColor;
+                      switch (a.type) {
+                        case AccountType.personal:
+                          typeLabel = 'Personal';
+                          typeColor = Colors.blue;
+                          break;
+                        case AccountType.partner:
+                          typeLabel = 'Partner';
+                          typeColor = Colors.purple;
+                          break;
+                        case AccountType.vendor:
+                          typeLabel = 'Vendor';
+                          typeColor = Colors.red;
+                          break;
+                        case AccountType.incomeSource:
+                          typeLabel = 'Income';
+                          typeColor = Colors.green;
+                          break;
+                        default:
+                          typeLabel = '';
+                          typeColor = Colors.grey;
+                      }
+                      return DropdownMenuItem<Account>(
+                        value: a,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(child: Text(a.name)),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: typeColor.withOpacity(0.15),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                typeLabel,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: typeColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                onChanged:
+                    (v) => setState(() {
+                      _singleAccount = v;
+                      _categoryAccount =
+                          null; // reset category when account changes
+                    }),
               ),
               const SizedBox(height: 12),
             ],
@@ -353,15 +406,65 @@ class NewTrackTransactionScreenState extends State<NewTrackTransactionScreen> {
             if (_type == TransactionType.transfer ||
                 _type == TransactionType.partnerTransfer) ...[
               DropdownButtonFormField<Account>(
+                isExpanded:
+                    true, // ensure the dropdown fills the available width
                 value: _from,
                 hint: const Text('From account'),
                 items:
-                    fromList
-                        .map(
-                          (a) =>
-                              DropdownMenuItem(value: a, child: Text(a.name)),
-                        )
-                        .toList(),
+                    fromList.map((a) {
+                      // Determine a human‐friendly type label and its color
+                      String typeLabel;
+                      Color typeColor;
+                      switch (a.type) {
+                        case AccountType.personal:
+                          typeLabel = 'Personal';
+                          typeColor = Colors.blue;
+                          break;
+                        case AccountType.partner:
+                          typeLabel = 'Partner';
+                          typeColor = Colors.purple;
+                          break;
+                        case AccountType.vendor:
+                          typeLabel = 'Vendor';
+                          typeColor = Colors.red;
+                          break;
+                        case AccountType.incomeSource:
+                          typeLabel = 'Income';
+                          typeColor = Colors.green;
+                          break;
+                        default:
+                          typeLabel = '';
+                          typeColor = Colors.grey;
+                      }
+
+                      return DropdownMenuItem<Account>(
+                        value: a,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(child: Text(a.name)),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: typeColor.withOpacity(0.15),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                typeLabel,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: typeColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
                 onChanged:
                     (v) => setState(() {
                       _from = v;
@@ -370,17 +473,68 @@ class NewTrackTransactionScreenState extends State<NewTrackTransactionScreen> {
               ),
               const SizedBox(height: 12),
               DropdownButtonFormField<Account>(
+                isExpanded:
+                    true, // ensure the dropdown fills the available width
                 value: _to,
                 hint: const Text('To account'),
                 items:
-                    toList
-                        .map(
-                          (a) =>
-                              DropdownMenuItem(value: a, child: Text(a.name)),
-                        )
-                        .toList(),
+                    toList.map((a) {
+                      // Determine a human‐friendly type label and its color
+                      String typeLabel;
+                      Color typeColor;
+                      switch (a.type) {
+                        case AccountType.personal:
+                          typeLabel = 'Personal';
+                          typeColor = Colors.blue;
+                          break;
+                        case AccountType.partner:
+                          typeLabel = 'Partner';
+                          typeColor = Colors.purple;
+                          break;
+                        case AccountType.vendor:
+                          typeLabel = 'Vendor';
+                          typeColor = Colors.red;
+                          break;
+                        case AccountType.incomeSource:
+                          typeLabel = 'Income';
+                          typeColor = Colors.green;
+                          break;
+                        default:
+                          typeLabel = '';
+                          typeColor = Colors.grey;
+                      }
+
+                      return DropdownMenuItem<Account>(
+                        value: a,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(child: Text(a.name)),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: typeColor.withOpacity(0.15),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                typeLabel,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: typeColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
                 onChanged: (v) => setState(() => _to = v),
               ),
+
               const SizedBox(height: 12),
             ],
 

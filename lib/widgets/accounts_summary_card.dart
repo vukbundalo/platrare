@@ -12,7 +12,9 @@ class AccountSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = value >= 0 ? Colors.greenAccent : Colors.redAccent;
+    final color = value >= 0 ? Colors.green.shade50 : Colors.red.shade100;
+    final txColor = value >= 0 ? Colors.green.shade800 : Colors.red.shade800;
+
     return Card(
       color: color,
       child: Padding(
@@ -22,7 +24,14 @@ class AccountSummaryCard extends StatelessWidget {
           children: [
             Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(height: 8),
-            Text(value.toStringAsFixed(2), style: TextStyle(fontSize: 16)),
+            Text(
+              value.toStringAsFixed(2),
+              style: TextStyle(
+                fontSize: 16,
+                color: txColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
       ),
