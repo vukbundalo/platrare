@@ -18,7 +18,7 @@ class PlanScreen extends StatefulWidget {
 
 class PlanScreenState extends State<PlanScreen> {
   // all planned items, one-offs only
-  List<TransactionItem> _planned = List.from(dummyPlanned);
+  final List<TransactionItem> _planned = List.from(dummyPlanned);
 
   @override
   void initState() {

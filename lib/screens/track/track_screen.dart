@@ -10,9 +10,10 @@ import 'package:platrare/screens/track/new_track_transaction_screen.dart';
 import 'package:platrare/widgets/account_balance_card.dart';
 import 'package:platrare/widgets/transaction_accounts_summary_card.dart';
 import 'package:platrare/utils/balance_calculator.dart';
+import 'package:platrare/widgets/track_day_group.dart';
 
 class TrackScreen extends StatefulWidget {
-  const TrackScreen({Key? key}) : super(key: key);
+  const TrackScreen({super.key});
   @override
   TrackScreenState createState() => TrackScreenState();
 }
@@ -124,58 +125,19 @@ class TrackScreenState extends State<TrackScreen> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          for (var entry in grouped.entries) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Text(
-                '${entry.key.day}/${entry.key.month}/${entry.key.year}',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-            // swipe-to-return-to-plan
-            ...entry.value.map(
-              (tx) => Dismissible(
-                key: ValueKey(tx.id),
-                direction: DismissDirection.endToStart,
-                background: Container(
-                  color: Colors.orange,
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.only(right: 16),
-                  child: const Icon(Icons.undo, color: Colors.white),
-                ),
-                confirmDismiss: (_) async => true,
-                onDismissed: (_) {
-                  setState(() {
+          for (var entry in grouped.entries)
+            TrackDayGroup(
+              day: entry.key,
+              items: entry.value,
+              onEdit: (tx) async => _edit(tx),
+              onReturn:
+                  (tx) => setState(() {
                     _rollback(tx);
                     _realized.removeWhere((t) => t.id == tx.id);
                     dummyRealized.removeWhere((t) => t.id == tx.id);
                     dummyPlanned.add(tx.copyWith());
-                  });
-                },
-                child: Card(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 4,
-                  ),
-                  child: ListTile(
-                    leading: tx.displayIcon,
-                    title: Text(tx.displayTitle),
-                    subtitle: Text(tx.displaySubtitle),
-                    trailing: Text(tx.amount.toStringAsFixed(2)),
-                    onTap: () => _edit(tx),
-                  ),
-                ),
-              ),
+                  }),
             ),
-
-            const SizedBox(height: 8),
-            _buildBalancesRibbon(entry.key),
-            const SizedBox(height: 24),
-          ],
         ],
       ),
       floatingActionButton: FloatingActionButton(

@@ -8,7 +8,7 @@ import 'package:platrare/models/transaction_item.dart';
 
 class NewTrackTransactionScreen extends StatefulWidget {
   final TransactionItem? existing;
-  const NewTrackTransactionScreen({Key? key, this.existing}) : super(key: key);
+  const NewTrackTransactionScreen({super.key, this.existing});
 
   @override
   NewTrackTransactionScreenState createState() =>
@@ -373,7 +373,7 @@ class NewTrackTransactionScreenState extends State<NewTrackTransactionScreen> {
                 value: _to,
                 hint: const Text('To account'),
                 items:
-                    toList!
+                    toList
                         .map(
                           (a) =>
                               DropdownMenuItem(value: a, child: Text(a.name)),

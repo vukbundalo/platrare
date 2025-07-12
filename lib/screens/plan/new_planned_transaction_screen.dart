@@ -371,7 +371,7 @@ class NewPlannedTransactionScreenState
                 value: _to,
                 hint: const Text('To account'),
                 items:
-                    toList!
+                    toList
                         .map(
                           (a) =>
                               DropdownMenuItem(value: a, child: Text(a.name)),

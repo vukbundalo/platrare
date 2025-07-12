@@ -78,13 +78,13 @@ extension TransactionPresentation on TransactionItem {
     if (title != type.name) return title;
     switch (type) {
       case TransactionType.expense:
-        final t = toAccount!;
+        final t = toAccount;
         if (t.type == AccountType.partner) {
           return 'Bill';
         }
         return 'Expense';
       case TransactionType.income:
-        final t = toAccount!;
+        final t = toAccount;
         if (t.type == AccountType.partner) {
           return 'Invoice';
         }

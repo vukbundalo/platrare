@@ -7,11 +7,6 @@ import 'package:platrare/widgets/account_card.dart';
 import 'package:platrare/widgets/accounts_summary_card.dart';
 import 'package:platrare/widgets/reordable_section.dart';
 
-
-
-
-
-
 class AccountsScreen extends StatefulWidget {
   const AccountsScreen({super.key});
 
@@ -55,7 +50,6 @@ class AccountsScreenState extends State<AccountsScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     final avail = personalList
@@ -70,47 +64,83 @@ class AccountsScreenState extends State<AccountsScreen> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Row(
-            children: [
-              Expanded(child: AccountSummaryCard(label: 'Available Balance', value: avail)),
-              SizedBox(width: 8),
-              Expanded(child: AccountSummaryCard(label: 'Liquid Assets', value: liquid)),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: AccountSummaryCard(
+                    label: 'Available Balance',
+                    value: avail,
+                  ),
+                ),
+                SizedBox(width: 8),
+                Expanded(
+                  child: AccountSummaryCard(
+                    label: 'Liquid Assets',
+                    value: liquid,
+                  ),
+                ),
+              ],
+            ),
           ),
           SizedBox(height: 8),
-          Row(
-            children: [
-              Expanded(child: AccountSummaryCard(label: 'Partners Balance', value: partnersBal)),
-              SizedBox(width: 8),
-              Expanded(child: AccountSummaryCard(label: 'Net Worth', value: netWorth)),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: AccountSummaryCard(
+                    label: 'Partners Balance',
+                    value: partnersBal,
+                  ),
+                ),
+                SizedBox(width: 8),
+                Expanded(
+                  child: AccountSummaryCard(
+                    label: 'Net Worth',
+                    value: netWorth,
+                  ),
+                ),
+              ],
+            ),
           ),
           SizedBox(height: 24),
-          ReorderableSection(title: 'Personal Accounts', items: personalList, onReorder: (oldIndex, newIndex) {
-            setState(() {
-              if (newIndex > oldIndex) newIndex--;
-              final acct = personalList.removeAt(oldIndex);
-              personalList.insert(newIndex, acct);
-            });
-          }, itemBuilder: (Account item) {
-            return GestureDetector(
-              onTap: () => _editOrDelete(item, personalList),
-              child: AccountCard(account: item),
-            );
-          }),
+          ReorderableSection(
+            title: 'Personal Accounts',
+            items: personalList,
+            onReorder: (oldIndex, newIndex) {
+              setState(() {
+                if (newIndex > oldIndex) newIndex--;
+                final acct = personalList.removeAt(oldIndex);
+                personalList.insert(newIndex, acct);
+              });
+            },
+            itemBuilder: (Account item) {
+              return GestureDetector(
+                onTap: () => _editOrDelete(item, personalList),
+                child: AccountCard(account: item),
+              );
+            },
+          ),
           SizedBox(height: 24),
-          ReorderableSection(title: 'Partner Accounts', items: partnerList, onReorder: (oldIndex, newIndex) {
-            setState(() {
-              if (newIndex > oldIndex) newIndex--;
-              final acct = partnerList.removeAt(oldIndex);
-              partnerList.insert(newIndex, acct);
-            });
-          }, itemBuilder: (Account item) {
-            return GestureDetector(
-              onTap: () => _editOrDelete(item, partnerList),
-              child: AccountCard(account: item),
-            );
-          }),
+          ReorderableSection(
+            title: 'Partner Accounts',
+            items: partnerList,
+            onReorder: (oldIndex, newIndex) {
+              setState(() {
+                if (newIndex > oldIndex) newIndex--;
+                final acct = partnerList.removeAt(oldIndex);
+                partnerList.insert(newIndex, acct);
+              });
+            },
+            itemBuilder: (Account item) {
+              return GestureDetector(
+                onTap: () => _editOrDelete(item, partnerList),
+                child: AccountCard(account: item),
+              );
+            },
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -135,4 +165,3 @@ class AccountsScreenState extends State<AccountsScreen> {
     );
   }
 }
-

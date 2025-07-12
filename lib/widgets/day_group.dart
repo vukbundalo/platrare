@@ -19,12 +19,12 @@ class DayGroup extends StatelessWidget {
   final Future<void> Function(TransactionItem) onRealize;
 
   const DayGroup({
-    Key? key,
+    super.key,
     required this.day,
     required this.items,
     required this.onEdit,
     required this.onRealize,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -55,70 +55,65 @@ class DayGroup extends StatelessWidget {
             .map((a) => a.copyWith(balance: proj[a]!))
             .toList();
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 60),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // — Date header —
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Text(
-              '${day.day}/${day.month}/${day.year}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // — Date header —
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Text(
+            '${day.day}/${day.month}/${day.year}',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
+        ),
 
-          const SizedBox(height: 8),
-
-          // — Transaction cards (swipe→realize) —
-          ...items.map((tx) {
-            return Dismissible(
-              key: ValueKey(tx.id),
-              direction: DismissDirection.startToEnd,
-              background: Container(
-                color: Colors.green,
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.only(right: 16),
-                child: const Icon(Icons.check, color: Colors.white),
-              ),
-              onDismissed: (_) => onRealize(tx),
-              child: Card(
-                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                child: ListTile(
-                  leading: tx.displayIcon,
-                  title: Text(tx.displayTitle),
-                  subtitle: Text(tx.displaySubtitle),
-                  trailing: Text(tx.amount.toStringAsFixed(2)),
-                  onTap: () => onEdit(tx),
-                ),
-              ),
-            );
-          }),
-
-          const SizedBox(height: 12),
-
-          // — Horizontal balances ribbon —
-          SizedBox(
-            height: 80,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              children: [
-                TransactionAccountsSummaryCard(
-                  label: 'Available',
-                  value: avail,
-                ),
-                const SizedBox(width: 16),
-                ...personalBalances.map((a) => AccountBalanceCard(account: a)),
-                TransactionAccountsSummaryCard(label: 'Liquid', value: liquid),
-                const SizedBox(width: 16),
-                ...partnerBalances.map((a) => AccountBalanceCard(account: a)),
-              ],
+        // — Transaction cards (swipe→realize) —
+        ...items.map((tx) {
+          return Dismissible(
+            key: ValueKey(tx.id),
+            direction: DismissDirection.startToEnd,
+            background: Container(
+              color: Colors.green,
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.only(right: 16),
+              child: const Icon(Icons.check, color: Colors.white),
             ),
+            onDismissed: (_) => onRealize(tx),
+            child: Card(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              child: ListTile(
+                leading: tx.displayIcon,
+                title: Text(tx.displayTitle),
+                subtitle: Text(tx.displaySubtitle),
+                trailing: Text(tx.amount.toStringAsFixed(2)),
+                onTap: () => onEdit(tx),
+              ),
+            ),
+          );
+        }),
+
+        const SizedBox(height: 8),
+
+        // — Horizontal balances ribbon —
+        SizedBox(
+          height: 80,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            children: [
+              TransactionAccountsSummaryCard(label: 'Available', value: avail),
+              const SizedBox(width: 20),
+              ...personalBalances.map((a) => AccountBalanceCard(account: a)),
+              const SizedBox(width: 20),
+              TransactionAccountsSummaryCard(label: 'Liquid', value: liquid),
+              const SizedBox(width: 20),
+              ...partnerBalances.map((a) => AccountBalanceCard(account: a)),
+              const SizedBox(width: 20),
+            ],
           ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 24),
+      ],
     );
   }
 }

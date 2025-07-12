@@ -20,9 +20,7 @@ class ReviewScreenState extends State<ReviewScreen> {
   Future<void> _editOrDelete(Account acc, List<Account> list) async {
     final result = await Navigator.push<dynamic>(
       context,
-      MaterialPageRoute(
-        builder: (_) => EditReviewAccountScreen(account: acc),
-      ),
+      MaterialPageRoute(builder: (_) => EditReviewAccountScreen(account: acc)),
     );
     if (result is Account) {
       // 1) Update the account itself
@@ -70,6 +68,7 @@ class ReviewScreenState extends State<ReviewScreen> {
           key: key,
           buildDefaultDragHandles: false,
           shrinkWrap: true,
+          proxyDecorator: (child, index, animation) => child,
           physics: NeverScrollableScrollPhysics(),
           onReorder: (oldIndex, newIndex) {
             setState(() {
@@ -97,17 +96,18 @@ class ReviewScreenState extends State<ReviewScreen> {
   @override
   Widget build(BuildContext context) {
     // derive fresh lists on every build
-    final categoryList = dummyAccounts
-        .where((a) => a.type == AccountType.category)
-        .toList();
-    final vendorList = dummyAccounts
-        .where((a) => a.type == AccountType.vendor)
-        .map((a) => a.copyWith(balance: -a.balance.abs()))
-        .toList();
-    final incomeList = dummyAccounts
-        .where((a) => a.type == AccountType.incomeSource)
-        .map((a) => a.copyWith(balance: a.balance.abs()))
-        .toList();
+    final categoryList =
+        dummyAccounts.where((a) => a.type == AccountType.category).toList();
+    final vendorList =
+        dummyAccounts
+            .where((a) => a.type == AccountType.vendor)
+            .map((a) => a.copyWith(balance: -a.balance.abs()))
+            .toList();
+    final incomeList =
+        dummyAccounts
+            .where((a) => a.type == AccountType.incomeSource)
+            .map((a) => a.copyWith(balance: a.balance.abs()))
+            .toList();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Review')),
