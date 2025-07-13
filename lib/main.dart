@@ -3,9 +3,16 @@ import 'package:platrare/screens/accounts/accounts_screen.dart';
 import 'package:platrare/screens/plan/plan_screen.dart';
 import 'package:platrare/screens/track/track_screen.dart';
 import 'package:platrare/screens/review/review_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(PlatrareApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // (optionally you could preload or migrate keys here)
 
+    // prime the shared_prefs channel
+  await SharedPreferences.getInstance();
+  runApp(const PlatrareApp());
+}
 class PlatrareApp extends StatelessWidget {
   const PlatrareApp({super.key});
 

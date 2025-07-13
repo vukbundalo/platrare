@@ -6,6 +6,7 @@ import 'package:platrare/screens/accounts/edit_account_screen.dart';
 import 'package:platrare/widgets/account_card.dart';
 import 'package:platrare/widgets/accounts_summary_card.dart';
 import 'package:platrare/widgets/reordable_section.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountsScreen extends StatefulWidget {
   const AccountsScreen({super.key});
@@ -16,15 +17,40 @@ class AccountsScreen extends StatefulWidget {
 
 class AccountsScreenState extends State<AccountsScreen> {
   late List<Account> personalList;
-  late List<Account> partnerList; // show all partners here
+  late List<Account> partnerList;
 
   @override
   void initState() {
     super.initState();
+    // build from dummyAccounts
     personalList =
         dummyAccounts.where((a) => a.type == AccountType.personal).toList();
     partnerList =
         dummyAccounts.where((a) => a.type == AccountType.partner).toList();
+
+    _applySavedOrder();
+  }
+
+  Future<void> _applySavedOrder() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final saved = prefs.getStringList('personal_order');
+    if (saved != null) {
+      personalList.sort(
+        (a, b) => saved.indexOf(a.name).compareTo(saved.indexOf(b.name)),
+      );
+    }
+
+    final savedPartners = prefs.getStringList('partner_order');
+    if (savedPartners != null) {
+      partnerList.sort(
+        (a, b) => savedPartners
+            .indexOf(a.name)
+            .compareTo(savedPartners.indexOf(b.name)),
+      );
+    }
+
+    setState(() {});
   }
 
   Future<void> _editOrDelete(Account acc, List<Account> list) async {
@@ -109,12 +135,17 @@ class AccountsScreenState extends State<AccountsScreen> {
           ReorderableSection(
             title: 'Personal Accounts',
             items: personalList,
-            onReorder: (oldIndex, newIndex) {
+            onReorder: (oldIndex, newIndex) async {
               setState(() {
                 if (newIndex > oldIndex) newIndex--;
                 final acct = personalList.removeAt(oldIndex);
                 personalList.insert(newIndex, acct);
               });
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.setStringList(
+                'personal_order',
+                personalList.map((a) => a.name).toList(),
+              );
             },
             itemBuilder: (Account item) {
               return GestureDetector(
