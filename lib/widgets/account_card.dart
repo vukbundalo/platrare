@@ -60,7 +60,11 @@ class AccountCard extends StatelessWidget {
         title: Text(account.name),
         trailing: Text(
           balanceText,
-          style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: textColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+          ),
         ),
       ),
     );

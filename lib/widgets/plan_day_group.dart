@@ -8,17 +8,18 @@ import 'package:platrare/models/transaction_item.dart';
 import 'package:platrare/utils/balance_calculator.dart';
 import 'package:platrare/widgets/transaction_accounts_summary_card.dart';
 import 'package:platrare/widgets/account_balance_card.dart';
+import 'package:intl/intl.dart';
 
 /// Renders one calendar‐day’s worth of planned transactions,
 /// including its date header, the list of cards (swipe→realize),
 /// and a ribbon showing projected balances as of that day.
-class DayGroup extends StatelessWidget {
+class PlanDayGroup extends StatelessWidget {
   final DateTime day;
   final List<TransactionItem> items;
   final Future<void> Function(TransactionItem) onEdit;
   final Future<void> Function(TransactionItem) onRealize;
 
-  const DayGroup({
+  const PlanDayGroup({
     super.key,
     required this.day,
     required this.items,
@@ -62,7 +63,7 @@ class DayGroup extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
-            '${day.day}/${day.month}/${day.year}',
+            DateFormat('dd/MM/yyyy').format(day),
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),

@@ -546,12 +546,14 @@ class NewPlannedTransactionScreenState
 
             // — Category (only when allowed) —
             ...(() {
-              bool canPickCategory;
+              bool canPickCategory = false;
               switch (_type) {
                 case TransactionType.expense:
-                case TransactionType.income:
                   canPickCategory =
                       _singleAccount?.type == AccountType.personal;
+                  break;
+                case TransactionType.income:
+                  canPickCategory = false; // <— never allow on income
                   break;
                 case TransactionType.partnerTransfer:
                   canPickCategory = _from?.type == AccountType.personal;
@@ -566,14 +568,12 @@ class NewPlannedTransactionScreenState
                     value: _categoryAccount,
                     hint: const Text('Category'),
                     items:
-                        _categories
-                            .map(
-                              (c) => DropdownMenuItem(
-                                value: c,
-                                child: Text(c.name),
-                              ),
-                            )
-                            .toList(),
+                        _categories.map((c) {
+                          return DropdownMenuItem(
+                            value: c,
+                            child: Text(c.name),
+                          );
+                        }).toList(),
                     onChanged: (v) => setState(() => _categoryAccount = v),
                   ),
                   const SizedBox(height: 12),

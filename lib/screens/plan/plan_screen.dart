@@ -6,7 +6,7 @@ import 'package:platrare/data/dummy_realized.dart';
 import 'package:platrare/data/dummy_accounts.dart';
 import 'package:platrare/models/transaction_item.dart';
 import 'package:platrare/models/account.dart';
-import 'package:platrare/widgets/day_group.dart';
+import 'package:platrare/widgets/plan_day_group.dart';
 import 'new_planned_transaction_screen.dart';
 
 class PlanScreen extends StatefulWidget {
@@ -72,32 +72,33 @@ class PlanScreenState extends State<PlanScreen> {
     );
   }
 
-/// Apply a realized tx’s effect to your real balances (and its category).
-void _applyImmediate(TransactionItem tx) {
-  switch (tx.type) {
-    case TransactionType.expense:
-    case TransactionType.income:
-      _mutate(tx.toAccount, tx.amount);
-      break;
-    case TransactionType.transfer:
-    case TransactionType.partnerTransfer:
-      if (tx.fromAccount != null) _mutate(tx.fromAccount!, -tx.amount);
-      _mutate(tx.toAccount, tx.amount);
-      break;
-  }
+  /// Apply a realized tx’s effect to your real balances (and its category).
+  void _applyImmediate(TransactionItem tx) {
+    switch (tx.type) {
+      case TransactionType.expense:
+      case TransactionType.income:
+        _mutate(tx.toAccount, tx.amount);
+        break;
+      case TransactionType.transfer:
+      case TransactionType.partnerTransfer:
+        if (tx.fromAccount != null) _mutate(tx.fromAccount!, -tx.amount);
+        _mutate(tx.toAccount, tx.amount);
+        break;
+    }
 
-  // **also** adjust the category, if any
-  if (tx.category != null) {
-    _mutate(tx.category!, tx.amount);
+    // **also** adjust the category, if any
+    if (tx.category != null) {
+      _mutate(tx.category!, tx.amount);
+    }
   }
-}
 
   Future<void> _realize(TransactionItem occ) async {
     // cap future dates at today
     final today = DateTime.now();
-    final realizedDate = occ.date.isAfter(today)
-        ? DateTime(today.year, today.month, today.day)
-        : occ.date;
+    final realizedDate =
+        occ.date.isAfter(today)
+            ? DateTime(today.year, today.month, today.day)
+            : occ.date;
 
     // build & apply
     final realizedTx = occ.copyWith(date: realizedDate);
@@ -128,7 +129,7 @@ void _applyImmediate(TransactionItem tx) {
         padding: const EdgeInsets.all(16),
         children: [
           for (var entry in grouped.entries)
-            DayGroup(
+            PlanDayGroup(
               day: entry.key,
               items: entry.value,
               onEdit: _edit,
@@ -142,8 +143,7 @@ void _applyImmediate(TransactionItem tx) {
           final tx = await Navigator.push<TransactionItem?>(
             context,
             MaterialPageRoute(
-              builder: (_) =>
-                  NewPlannedTransactionScreen(existing: null),
+              builder: (_) => NewPlannedTransactionScreen(existing: null),
             ),
           );
           if (tx is TransactionItem) {

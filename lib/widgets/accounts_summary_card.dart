@@ -12,7 +12,7 @@ class AccountSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = value >= 0 ? Colors.green.shade50 : Colors.red.shade100;
+    final color = value >= 0 ? Colors.green.shade50 : Colors.red.shade50;
     final txColor = value >= 0 ? Colors.green.shade800 : Colors.red.shade800;
 
     return Card(

@@ -39,7 +39,7 @@ class TransactionItem {
        exceptions = exceptions ?? const [];
 
   TransactionItem copyWith({
-    String? id, 
+    String? id,
     String? title,
     DateTime? date,
     TransactionType? type,
@@ -123,7 +123,9 @@ extension TransactionPresentation on TransactionItem {
         type == TransactionType.partnerTransfer) {
       return 'From ${fromAccount!.name} to ${toAccount.name}';
     } else {
-      return toAccount.name;
+      final accName = toAccount.name;
+      // if there’s a category, show it in parens
+      return category != null ? '$accName (${category!.name})' : accName;
     }
   }
 
