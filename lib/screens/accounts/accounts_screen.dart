@@ -175,6 +175,7 @@ class AccountsScreenState extends State<AccountsScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'accounts_fab',
         child: Icon(Icons.add),
         onPressed: () async {
           final newAcc = await Navigator.push<Account?>(

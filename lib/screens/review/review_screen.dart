@@ -24,17 +24,18 @@ class ReviewScreenState extends State<ReviewScreen> {
   void initState() {
     super.initState();
     // initialize from dummy data
-    categoryList = dummyAccounts
-        .where((a) => a.type == AccountType.category)
-        .toList();
-    vendorList = dummyAccounts
-        .where((a) => a.type == AccountType.vendor)
-        .map((a) => a.copyWith(balance: -a.balance.abs()))
-        .toList();
-    incomeList = dummyAccounts
-        .where((a) => a.type == AccountType.incomeSource)
-        .map((a) => a.copyWith(balance: a.balance.abs()))
-        .toList();
+    categoryList =
+        dummyAccounts.where((a) => a.type == AccountType.category).toList();
+    vendorList =
+        dummyAccounts
+            .where((a) => a.type == AccountType.vendor)
+            .map((a) => a.copyWith(balance: -a.balance.abs()))
+            .toList();
+    incomeList =
+        dummyAccounts
+            .where((a) => a.type == AccountType.incomeSource)
+            .map((a) => a.copyWith(balance: a.balance.abs()))
+            .toList();
     _applySavedOrder();
   }
 
@@ -43,19 +44,23 @@ class ReviewScreenState extends State<ReviewScreen> {
     final savedCats = prefs.getStringList('review_category_order');
     if (savedCats != null) {
       categoryList.sort(
-        (a, b) => savedCats.indexOf(a.name).compareTo(savedCats.indexOf(b.name)),
+        (a, b) =>
+            savedCats.indexOf(a.name).compareTo(savedCats.indexOf(b.name)),
       );
     }
     final savedVendors = prefs.getStringList('review_vendor_order');
     if (savedVendors != null) {
       vendorList.sort(
-        (a, b) => savedVendors.indexOf(a.name).compareTo(savedVendors.indexOf(b.name)),
+        (a, b) => savedVendors
+            .indexOf(a.name)
+            .compareTo(savedVendors.indexOf(b.name)),
       );
     }
     final savedIncome = prefs.getStringList('review_income_order');
     if (savedIncome != null) {
       incomeList.sort(
-        (a, b) => savedIncome.indexOf(a.name).compareTo(savedIncome.indexOf(b.name)),
+        (a, b) =>
+            savedIncome.indexOf(a.name).compareTo(savedIncome.indexOf(b.name)),
       );
     }
     setState(() {});
@@ -161,6 +166,7 @@ class ReviewScreenState extends State<ReviewScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'review_fab', 
         child: const Icon(Icons.add),
         onPressed: () async {
           final result = await Navigator.push<Account?>(

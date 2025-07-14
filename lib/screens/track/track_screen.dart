@@ -141,6 +141,8 @@ class TrackScreenState extends State<TrackScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'track_fab', // no hero at all
+
         child: const Icon(Icons.add),
         onPressed: () async {
           final tx = await Navigator.push<TransactionItem?>(

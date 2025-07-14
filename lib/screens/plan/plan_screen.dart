@@ -138,6 +138,7 @@ class PlanScreenState extends State<PlanScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'plan_fab',
         child: const Icon(Icons.add),
         onPressed: () async {
           final tx = await Navigator.push<TransactionItem?>(
