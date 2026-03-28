@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:platrare/models/account.dart';
+import 'package:platrare/utils/fx.dart' as fx;
 
 class AccountBalanceCard extends StatelessWidget {
   final Account account;
@@ -26,7 +27,7 @@ class AccountBalanceCard extends StatelessWidget {
             ),
             SizedBox(height: 4),
             Text(
-              account.balance.toStringAsFixed(2),
+              '${account.balance >= 0 ? '+' : ''}${fx.currencySymbol(account.currencyCode)}${account.balance.abs().toStringAsFixed(2)}',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: isPositive ? Colors.green[800] : Colors.red[800],

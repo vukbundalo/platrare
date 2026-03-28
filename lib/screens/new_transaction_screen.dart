@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import '../data/app_data.dart' as data;
 import '../models/account.dart';
 import '../models/transaction.dart';
+import '../utils/fx.dart' as fx;
+import '../utils/tx_display.dart';
 
 class NewTransactionScreen extends StatefulWidget {
   const NewTransactionScreen({super.key});
@@ -13,7 +16,8 @@ class NewTransactionScreen extends StatefulWidget {
 
 class _NewTransactionScreenState extends State<NewTransactionScreen> {
   final _amountController = TextEditingController();
-  final _descriptionController = TextEditingController();
+  final _destinationAmountController = TextEditingController();
+  final _noteController = TextEditingController();
   Account? _fromAccount;
   Account? _toAccount;
   String? _category;
@@ -22,69 +26,109 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   @override
   void dispose() {
     _amountController.dispose();
-    _descriptionController.dispose();
+    _destinationAmountController.dispose();
+    _noteController.dispose();
     super.dispose();
   }
 
+  /// True when [_fromAccount] and [_toAccount] use different currencies.
+  bool get _isCrossCurrency =>
+      _fromAccount != null &&
+      _toAccount != null &&
+      _fromAccount!.currencyCode != _toAccount!.currencyCode;
+
   double? get _parsedAmount {
     final text = _amountController.text.trim().replaceAll(',', '.');
-    if (text.isEmpty) return null;
     final v = double.tryParse(text);
-    if (v == null || v == 0) return null;
+    if (v == null || v <= 0) return null;
+    return v;
+  }
+
+  double? get _parsedDestination {
+    if (!_isCrossCurrency) return null;
+    final text = _destinationAmountController.text.trim().replaceAll(',', '.');
+    final v = double.tryParse(text);
+    if (v == null || v <= 0) return null;
     return v;
   }
 
   bool get _canSave {
-    final hasAmount = _parsedAmount != null;
-    final hasAccount = _fromAccount != null || _toAccount != null;
-    final hasDescription = _descriptionController.text.trim().isNotEmpty;
-    final hasCategory = _category != null;
-
-    // Need at least some content
-    if (!hasAmount && !hasAccount && !hasDescription && !hasCategory) return false;
-    // If there's an amount, must have at least one account
-    if (hasAmount && !hasAccount) return false;
-
+    if (_parsedAmount == null) return false;
+    if (_fromAccount == null && _toAccount == null) return false;
+    // Rule 4: cross-currency moves require an explicit destination amount.
+    if (_isCrossCurrency && _parsedDestination == null) return false;
     return true;
   }
 
-  void _save() {
-    final amount = _parsedAmount;
+  TxType get _txType =>
+      classifyTransaction(from: _fromAccount, to: _toAccount);
 
-    if (amount != null) {
-      if (_fromAccount != null) _fromAccount!.balance -= amount;
-      if (_toAccount != null) _toAccount!.balance += amount;
+  Color _deriveColor(ColorScheme cs) {
+    if (_fromAccount == null && _toAccount == null) return cs.primary;
+    return txColor(_txType);
+  }
+
+  String _deriveLabel() {
+    if (_fromAccount == null && _toAccount == null) return 'TRANSACTION';
+    return txLabel(_txType);
+  }
+
+  void _save() {
+    final nativeAmt = _parsedAmount!;
+    // Classify BEFORE balances change so prior-balance rules are correct.
+    final type = _txType;
+
+    // ── Rule 2 / 3: determine currency and lock base value ─────────────────
+    final ccy = _fromAccount?.currencyCode ??
+        _toAccount?.currencyCode ?? 'BAM';
+    final rate    = fx.rateToBase(ccy);
+    final baseAmt = nativeAmt * rate;
+
+    // ── Rule 4: cross-currency balance update ─────────────────────────────
+    final destAmt = _parsedDestination; // null when same-currency
+    if (_fromAccount != null) _fromAccount!.balance -= nativeAmt;
+    if (_toAccount != null) {
+      _toAccount!.balance += destAmt ?? nativeAmt;
     }
 
+    final note = _noteController.text.trim();
     data.transactions.insert(
       0,
       Transaction(
-        amount: amount,
+        nativeAmount: nativeAmt,
+        currencyCode: ccy,
+        baseAmount: baseAmt,
+        exchangeRate: rate,
+        destinationAmount: destAmt,
         fromAccount: _fromAccount,
         toAccount: _toAccount,
         category: _category,
-        description: _descriptionController.text.trim().isEmpty
-            ? null
-            : _descriptionController.text.trim(),
+        description: note.isEmpty ? null : note,
         date: _date,
+        txType: type,
       ),
     );
 
-    setState(() {
-      _amountController.clear();
-      _descriptionController.clear();
-      _fromAccount = null;
-      _toAccount = null;
-      _category = null;
-      _date = DateTime.now();
-    });
+    HapticFeedback.lightImpact();
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Transaction saved'),
-        duration: Duration(seconds: 1),
-      ),
-    );
+    final savedColor = txColor(type);
+    final savedLabel = txLabel(type);
+
+    if (mounted) {
+      Navigator.pop(context, true);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              '${savedLabel[0]}${savedLabel.substring(1).toLowerCase()} saved  •  ${fx.formatNative(nativeAmt, ccy)}'),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 2),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+          backgroundColor: savedColor,
+        ),
+      );
+    }
   }
 
   Future<void> _pickDate() async {
@@ -94,136 +138,353 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       firstDate: DateTime(2020),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
-    if (picked != null) setState(() => _date = picked);
+    if (picked != null && mounted) setState(() => _date = picked);
   }
 
-  Future<Account?> _showAccountPicker({Account? exclude}) {
+  Future<Account?> _pickAccount({Account? exclude}) {
     return showModalBottomSheet<Account>(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      builder: (ctx) => _AccountPickerSheet(exclude: exclude),
+      backgroundColor: Colors.transparent,
+      builder: (_) => _AccountPickerSheet(exclude: exclude),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final cs = Theme.of(context).colorScheme;
     final today = DateUtils.dateOnly(DateTime.now());
-    final isToday = DateUtils.dateOnly(_date) == today;
-    final isYesterday =
-        DateUtils.dateOnly(_date) == today.subtract(const Duration(days: 1));
+    final sel = DateUtils.dateOnly(_date);
+    final dateLabel = sel == today
+        ? 'Today'
+        : sel == today.subtract(const Duration(days: 1))
+            ? 'Yesterday'
+            : DateFormat('MMM d').format(_date);
 
-    String dateLabel;
-    if (isToday) {
-      dateLabel = 'Today';
-    } else if (isYesterday) {
-      dateLabel = 'Yesterday';
-    } else {
-      dateLabel = DateFormat('dd MMM').format(_date);
-    }
+    final tc = _deriveColor(cs);
+    final label = _deriveLabel();
 
     return Scaffold(
+      backgroundColor: cs.surface,
       appBar: AppBar(
         title: const Text('New Transaction'),
         actions: [
-          TextButton.icon(
-            onPressed: _pickDate,
-            icon: const Icon(Icons.calendar_today, size: 16),
-            label: Text(dateLabel),
+          GestureDetector(
+            onTap: _pickDate,
+            child: Container(
+              margin: const EdgeInsets.only(right: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: cs.primaryContainer,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.calendar_today_rounded,
+                      size: 13, color: cs.primary),
+                  const SizedBox(width: 5),
+                  Text(
+                    dateLabel,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: cs.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // ── Amount ────────────────────────────────────────────
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(20, 14, 20, 10),
+                    decoration: BoxDecoration(
+                      color: tc.withValues(alpha: 0.06),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                          color: tc.withValues(alpha: 0.25), width: 1.5),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          label,
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: tc,
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'KM',
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.w700,
+                                color: tc.withValues(alpha: 0.6),
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Expanded(
+                              child: TextField(
+                                controller: _amountController,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
+                                style: TextStyle(
+                                  fontSize: 42,
+                                  fontWeight: FontWeight.w800,
+                                  color: tc,
+                                  height: 1.1,
+                                ),
+                                decoration: InputDecoration(
+                                  hintText: '0.00',
+                                  hintStyle: TextStyle(
+                                    fontSize: 42,
+                                    fontWeight: FontWeight.w800,
+                                    color: tc.withValues(alpha: 0.25),
+                                    height: 1.1,
+                                  ),
+                                  border: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  filled: false,
+                                  contentPadding: EdgeInsets.zero,
+                                ),
+                                autofocus: true,
+                                onChanged: (_) => setState(() {}),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // ── Accounts ─────────────────────────────────────────
+                  _SectionLabel('Accounts'),
+                  const SizedBox(height: 8),
+
+                  _AccountTile(
+                    label: 'From',
+                    account: _fromAccount,
+                    accentColor: const Color(0xFFDC2626),
+                    icon: Icons.account_balance_wallet_rounded,
+                    onTap: () async {
+                      final a = await _pickAccount(exclude: _toAccount);
+                      if (a != null && mounted) {
+                        setState(() => _fromAccount = a);
+                      }
+                    },
+                    onClear: _fromAccount != null
+                        ? () => setState(() => _fromAccount = null)
+                        : null,
+                  ),
+                  const SizedBox(height: 8),
+
+                  _AccountTile(
+                    label: 'To',
+                    account: _toAccount,
+                    accentColor: const Color(0xFF16A34A),
+                    icon: Icons.savings_rounded,
+                    onTap: () async {
+                      final a = await _pickAccount(exclude: _fromAccount);
+                      if (a != null && mounted) {
+                        setState(() => _toAccount = a);
+                      }
+                    },
+                    onClear: _toAccount != null
+                        ? () => setState(() => _toAccount = null)
+                        : null,
+                  ),
+
+                  // ── Category ──────────────────────────────────────────
+                  Builder(builder: (_) {
+                    final catList = (_fromAccount == null && _toAccount == null)
+                        ? null
+                        : categoryListFor(_txType);
+                    final cats = catList == CategoryList.income
+                        ? data.incomeCategories
+                        : catList == CategoryList.expense
+                            ? data.expenseCategories
+                            : <String>[];
+                    // Clear stale selection if it's not in the visible list.
+                    if (_category != null && !cats.contains(_category)) {
+                      WidgetsBinding.instance
+                          .addPostFrameCallback((_) => setState(() => _category = null));
+                    }
+                    if (catList == null || cats.isEmpty) return const SizedBox.shrink();
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 24),
+                        _SectionLabel('Category'),
+                        const SizedBox(height: 8),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 6,
+                          children: cats.map((cat) {
+                            final sel = _category == cat;
+                            return FilterChip(
+                              label: Text(cat),
+                              selected: sel,
+                              selectedColor: cs.primaryContainer,
+                              checkmarkColor: cs.primary,
+                              labelStyle: TextStyle(
+                                fontSize: 13,
+                                fontWeight:
+                                    sel ? FontWeight.w600 : FontWeight.w400,
+                                color: sel ? cs.primary : cs.onSurfaceVariant,
+                              ),
+                              side: BorderSide(
+                                color: sel
+                                    ? cs.primary.withValues(alpha: 0.4)
+                                    : cs.outlineVariant,
+                                width: sel ? 1.5 : 1,
+                              ),
+                              onSelected: (_) =>
+                                  setState(() => _category = sel ? null : cat),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    );
+                  }),
+
+                  // ── Destination amount (cross-currency only, Rule 4) ──
+                  if (_isCrossCurrency) ...[
+                    const SizedBox(height: 20),
+                    _SectionLabel(
+                        'Amount received by ${_toAccount!.name} (${_toAccount!.currencyCode})'),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: _destinationAmountController,
+                      keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true),
+                      decoration: InputDecoration(
+                        prefixText:
+                            '${fx.currencySymbol(_toAccount!.currencyCode)}  ',
+                        hintText: '0.00',
+                        helperText:
+                            'Enter the exact amount the destination account receives. '
+                            'This locks the real exchange rate used.',
+                      ),
+                      onChanged: (_) => setState(() {}),
+                    ),
+                  ],
+
+                  const SizedBox(height: 20),
+
+                  // ── Note ─────────────────────────────────────────────
+                  TextField(
+                    controller: _noteController,
+                    decoration: InputDecoration(
+                      labelText: 'Note',
+                      hintText: 'Optional description',
+                      prefixIcon: Icon(Icons.notes_rounded,
+                          color: cs.onSurfaceVariant, size: 20),
+                    ),
+                    textCapitalization: TextCapitalization.sentences,
+                    onChanged: (_) => setState(() {}),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // ── Pinned save button ────────────────────────────────────────────
+          _SaveBar(
+            color: tc,
+            amount: _parsedAmount,
+            enabled: _canSave,
+            onSave: _save,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Save bar ────────────────────────────────────────────────────────────────
+
+class _SaveBar extends StatelessWidget {
+  final Color color;
+  final double? amount;
+  final bool enabled;
+  final VoidCallback onSave;
+
+  const _SaveBar({
+    required this.color,
+    required this.amount,
+    required this.enabled,
+    required this.onSave,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
+    return Container(
+      padding: EdgeInsets.fromLTRB(
+          16, 10, 16, MediaQuery.of(context).padding.bottom + 10),
+      decoration: BoxDecoration(
+        color: cs.surface,
+        border: Border(
+            top: BorderSide(
+                color: cs.outlineVariant.withValues(alpha: 0.4),
+                width: 0.5)),
+      ),
+      child: FilledButton(
+        onPressed: enabled ? onSave : null,
+        style: FilledButton.styleFrom(
+          backgroundColor: enabled ? color : null,
+          foregroundColor: Colors.white,
+          disabledBackgroundColor: cs.surfaceContainerHighest,
+          disabledForegroundColor: cs.onSurfaceVariant,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          minimumSize: const Size(double.infinity, 52),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Amount
-            TextField(
-              controller: _amountController,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-              style: theme.textTheme.headlineMedium,
-              autofocus: true,
-              decoration: InputDecoration(
-                labelText: 'Amount',
-                prefixText: '€ ',
-                border: const OutlineInputBorder(),
-                prefixStyle: theme.textTheme.headlineMedium?.copyWith(
-                  color: theme.colorScheme.primary,
+            const Text('Save Transaction',
+                style:
+                    TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+            if (amount != null) ...[
+              const SizedBox(width: 8),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.25),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  'KM${amount!.toStringAsFixed(2)}',
+                  style: const TextStyle(
+                      fontSize: 13, fontWeight: FontWeight.w600),
                 ),
               ),
-              onChanged: (_) => setState(() {}),
-            ),
-            const SizedBox(height: 16),
-
-            // FROM
-            _AccountTile(
-              label: 'From',
-              account: _fromAccount,
-              onTap: () async {
-                final a = await _showAccountPicker(exclude: _toAccount);
-                if (a != null) setState(() => _fromAccount = a);
-              },
-              onClear: _fromAccount != null
-                  ? () => setState(() => _fromAccount = null)
-                  : null,
-            ),
-            const SizedBox(height: 8),
-
-            // TO
-            _AccountTile(
-              label: 'To',
-              account: _toAccount,
-              onTap: () async {
-                final a = await _showAccountPicker(exclude: _fromAccount);
-                if (a != null) setState(() => _toAccount = a);
-              },
-              onClear: _toAccount != null
-                  ? () => setState(() => _toAccount = null)
-                  : null,
-            ),
-            const SizedBox(height: 16),
-
-            // Category
-            Text('Category', style: theme.textTheme.labelLarge),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 4,
-              children: data.categories.map((cat) {
-                final selected = _category == cat;
-                return FilterChip(
-                  label: Text(cat),
-                  selected: selected,
-                  onSelected: (_) =>
-                      setState(() => _category = selected ? null : cat),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 16),
-
-            // Description
-            TextField(
-              controller: _descriptionController,
-              decoration: const InputDecoration(
-                labelText: 'Description',
-                border: OutlineInputBorder(),
-              ),
-              textCapitalization: TextCapitalization.sentences,
-              onChanged: (_) => setState(() {}),
-            ),
-            const SizedBox(height: 24),
-
-            // Save
-            FilledButton(
-              onPressed: _canSave ? _save : null,
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                child: Text('Save', style: TextStyle(fontSize: 18)),
-              ),
-            ),
+            ],
           ],
         ),
       ),
@@ -231,187 +492,348 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   }
 }
 
+// ─── Section label ─────────────────────────────────────────────────────────────
+
+class _SectionLabel extends StatelessWidget {
+  final String text;
+  const _SectionLabel(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text.toUpperCase(),
+      style: TextStyle(
+        fontSize: 11,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 1.1,
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
+      ),
+    );
+  }
+}
+
+// ─── Account tile ──────────────────────────────────────────────────────────────
+
 class _AccountTile extends StatelessWidget {
   final String label;
   final Account? account;
+  final Color accentColor;
+  final IconData icon;
   final VoidCallback onTap;
   final VoidCallback? onClear;
 
   const _AccountTile({
     required this.label,
     required this.account,
+    required this.accentColor,
+    required this.icon,
     required this.onTap,
     this.onClear,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final hasAccount = account != null;
+    final cs = Theme.of(context).colorScheme;
+    final has = account != null;
+    final isPersonal = has && account!.group == AccountGroup.personal;
+    final isEntities = has && account!.group == AccountGroup.entities;
+    final avatarColor = isPersonal
+        ? cs.primaryContainer
+        : isEntities
+            ? cs.secondaryContainer
+            : cs.tertiaryContainer;
+    final avatarText = isPersonal
+        ? cs.primary
+        : isEntities
+            ? cs.secondary
+            : cs.tertiary;
 
-    return Card(
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: hasAccount
-              ? (account!.group == AccountGroup.personal
-                  ? theme.colorScheme.primaryContainer
-                  : theme.colorScheme.tertiaryContainer)
-              : theme.colorScheme.surfaceContainerHighest,
-          child: Text(
-            hasAccount ? account!.name[0].toUpperCase() : label[0],
-            style: TextStyle(
-              color: hasAccount
-                  ? (account!.group == AccountGroup.personal
-                      ? theme.colorScheme.onPrimaryContainer
-                      : theme.colorScheme.onTertiaryContainer)
-                  : theme.colorScheme.onSurfaceVariant,
-              fontWeight: FontWeight.bold,
-            ),
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: has
+              ? accentColor.withValues(alpha: 0.06)
+              : cs.surfaceContainerLow,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: has
+                ? accentColor.withValues(alpha: 0.3)
+                : cs.outlineVariant,
+            width: has ? 1.5 : 1,
           ),
         ),
-        title: Text(label, style: theme.textTheme.labelMedium),
-        subtitle: hasAccount
-            ? Text(account!.name, style: theme.textTheme.bodyLarge)
-            : Text(
-                'Select account',
-                style: theme.textTheme.bodyMedium
-                    ?.copyWith(color: theme.colorScheme.outline),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: has ? avatarColor : cs.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(10),
               ),
-        trailing: onClear != null
-            ? IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: onClear,
+              child: Center(
+                child: has
+                    ? Text(
+                        account!.name[0].toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                          color: avatarText,
+                        ),
+                      )
+                    : Icon(icon, size: 18, color: cs.onSurfaceVariant),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                      color: cs.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 1),
+                  Text(
+                    has ? account!.name : 'Select account',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight:
+                          has ? FontWeight.w600 : FontWeight.w400,
+                      color: has
+                          ? cs.onSurface
+                          : cs.onSurfaceVariant.withValues(alpha: 0.8),
+                    ),
+                  ),
+                  if (has) ...[
+                    const SizedBox(height: 1),
+                    Text(
+                      '${account!.balance >= 0 ? '+' : ''}${fx.currencySymbol(account!.currencyCode)}${account!.balance.abs().toStringAsFixed(2)}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: account!.balance >= 0
+                            ? const Color(0xFF16A34A)
+                            : const Color(0xFFDC2626),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            if (onClear != null && has)
+              GestureDetector(
+                onTap: onClear,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  child: Icon(Icons.close_rounded,
+                      size: 18, color: cs.onSurfaceVariant),
+                ),
               )
-            : const Icon(Icons.chevron_right),
-        onTap: onTap,
+            else
+              Icon(Icons.chevron_right_rounded,
+                  size: 20,
+                  color: cs.onSurfaceVariant.withValues(alpha: 0.6)),
+          ],
+        ),
       ),
     );
   }
 }
+
+// ─── Account picker sheet ──────────────────────────────────────────────────────
 
 class _AccountPickerSheet extends StatelessWidget {
   final Account? exclude;
 
   const _AccountPickerSheet({this.exclude});
 
-  String _formatBalance(double balance) {
-    final sign = balance >= 0 ? '+' : '';
-    return '$sign€ ${balance.abs().toStringAsFixed(2)}';
-  }
+  String _fmt(Account a) =>
+      '${a.balance >= 0 ? '+' : ''}${fx.currencySymbol(a.currencyCode)}${a.balance.abs().toStringAsFixed(2)}';
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     final personal = data.accounts
         .where((a) => a.group == AccountGroup.personal && a != exclude)
         .toList();
-    final partner = data.accounts
-        .where((a) => a.group == AccountGroup.partner && a != exclude)
+    final individuals = data.accounts
+        .where((a) => a.group == AccountGroup.individuals && a != exclude)
+        .toList();
+    final entities = data.accounts
+        .where((a) => a.group == AccountGroup.entities && a != exclude)
         .toList();
 
-    return DraggableScrollableSheet(
-      expand: false,
-      initialChildSize: 0.55,
-      maxChildSize: 0.9,
-      builder: (ctx, ctrl) => Column(
-        children: [
-          const SizedBox(height: 8),
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.outlineVariant,
-              borderRadius: BorderRadius.circular(2),
+    return Container(
+      decoration: BoxDecoration(
+        color: cs.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: DraggableScrollableSheet(
+        expand: false,
+        initialChildSize: 0.55,
+        maxChildSize: 0.9,
+        minChildSize: 0.3,
+        builder: (_, ctrl) => Column(
+          children: [
+            const SizedBox(height: 12),
+            Center(
+              child: Container(
+                width: 36,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: cs.outlineVariant,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'Select Account',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 8),
-          Expanded(
-            child: ListView(
-              controller: ctrl,
-              children: [
-                if (personal.isNotEmpty) ...[
-                  _sectionHeader(context, 'Personal'),
-                  ...personal.map(
-                    (a) => ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.primaryContainer,
-                        child: Text(
-                          a.name[0].toUpperCase(),
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      title: Text(a.name),
-                      subtitle: Text(
-                        _formatBalance(a.balance),
-                        style: TextStyle(
-                          color: a.balance >= 0
-                              ? Colors.green.shade700
-                              : Colors.red.shade700,
-                        ),
-                      ),
-                      onTap: () => Navigator.pop(ctx, a),
-                    ),
-                  ),
-                ],
-                if (partner.isNotEmpty) ...[
-                  _sectionHeader(context, 'Partner'),
-                  ...partner.map(
-                    (a) => ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.tertiaryContainer,
-                        child: Text(
-                          a.name[0].toUpperCase(),
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onTertiaryContainer,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      title: Text(a.name),
-                      subtitle: Text(
-                        _formatBalance(a.balance),
-                        style: TextStyle(
-                          color: a.balance >= 0
-                              ? Colors.green.shade700
-                              : Colors.red.shade700,
-                        ),
-                      ),
-                      onTap: () => Navigator.pop(ctx, a),
-                    ),
-                  ),
-                ],
-                const SizedBox(height: 32),
-              ],
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text('Select Account',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: cs.onSurface)),
             ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            Expanded(
+              child: ListView(
+                controller: ctrl,
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+                children: [
+                  if (personal.isNotEmpty) ...[
+                    _sheetHeader(context, 'Personal', cs.primary),
+                    const SizedBox(height: 6),
+                    ...personal.map((a) =>
+                        _sheetTile(context, account: a, isPersonal: true)),
+                  ],
+                  if (individuals.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    _sheetHeader(context, 'Individuals', cs.tertiary),
+                    const SizedBox(height: 6),
+                    ...individuals.map((a) =>
+                        _sheetTile(context, account: a, isPersonal: false)),
+                  ],
+                  if (entities.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    _sheetHeader(context, 'Entities', cs.secondary),
+                    const SizedBox(height: 6),
+                    ...entities.map((a) =>
+                        _sheetTile(context, account: a, isPersonal: false)),
+                  ],
+                  if (personal.isEmpty && individuals.isEmpty && entities.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.all(32),
+                      child: Center(
+                        child: Text('No accounts available',
+                            style:
+                                TextStyle(color: cs.onSurfaceVariant)),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _sectionHeader(BuildContext context, String title) {
+  Widget _sheetHeader(BuildContext ctx, String title, Color color) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+      padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
       child: Text(
         title.toUpperCase(),
-        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: Theme.of(context).colorScheme.primary,
-              letterSpacing: 1.2,
-              fontWeight: FontWeight.bold,
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 1.1,
+          color: color,
+        ),
+      ),
+    );
+  }
+
+  Widget _sheetTile(BuildContext ctx,
+      {required Account account, required bool isPersonal}) {
+    final cs = Theme.of(ctx).colorScheme;
+    final pos = account.balance >= 0;
+
+    return GestureDetector(
+      onTap: () => Navigator.pop(ctx, account),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: cs.surfaceContainerLow,
+          borderRadius: BorderRadius.circular(12),
+          border:
+              Border.all(color: cs.outlineVariant.withValues(alpha: 0.5)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: isPersonal
+                    ? cs.primaryContainer
+                    : cs.tertiaryContainer,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: Text(
+                  account.name[0].toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: isPersonal ? cs.primary : cs.tertiary,
+                  ),
+                ),
+              ),
             ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                account.name,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: cs.onSurface,
+                ),
+              ),
+            ),
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: pos
+                    ? const Color(0xFF16A34A).withValues(alpha: 0.1)
+                    : const Color(0xFFDC2626).withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                _fmt(account),
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: pos
+                      ? const Color(0xFF16A34A)
+                      : const Color(0xFFDC2626),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

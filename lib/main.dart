@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
-import 'screens/new_transaction_screen.dart';
-import 'screens/history_screen.dart';
+import 'package:flutter/services.dart';
+import 'screens/track_screen.dart';
 import 'screens/plan_screen.dart';
-import 'screens/accounts_screen.dart';
+import 'screens/review_screen.dart';
+import 'utils/fx.dart' as fx;
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Run multi-currency logic test in debug mode (Rules 3, 4, 5).
+  assert(() {
+    debugPrint('[FX Test] ${fx.runFxLogicTest()}');
+    return true;
+  }());
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark,
+    statusBarBrightness: Brightness.light,
+  ));
   runApp(const PlatrareApp());
 }
 
@@ -16,11 +28,100 @@ class PlatrareApp extends StatelessWidget {
     return MaterialApp(
       title: 'Platrare',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-        useMaterial3: true,
-      ),
+      theme: _buildTheme(Brightness.light),
+      darkTheme: _buildTheme(Brightness.dark),
+      themeMode: ThemeMode.system,
       home: const HomePage(),
+    );
+  }
+
+  ThemeData _buildTheme(Brightness brightness) {
+    const seed = Color(0xFF5B5BD6);
+    final cs = ColorScheme.fromSeed(seedColor: seed, brightness: brightness);
+
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: cs,
+      appBarTheme: AppBarTheme(
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        backgroundColor: cs.surface,
+        foregroundColor: cs.onSurface,
+        titleTextStyle: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+          color: cs.onSurface,
+          letterSpacing: -0.3,
+        ),
+      ),
+      cardTheme: CardThemeData(
+        elevation: 0,
+        color: cs.surfaceContainerLow,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        margin: EdgeInsets.zero,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: cs.surfaceContainerLow,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: cs.outlineVariant),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: cs.outlineVariant),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: cs.primary, width: 2),
+        ),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        labelStyle: TextStyle(color: cs.onSurfaceVariant),
+      ),
+      chipTheme: ChipThemeData(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        side: BorderSide(color: cs.outlineVariant),
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        elevation: 0,
+        height: 68,
+        backgroundColor: cs.surface,
+        indicatorColor: cs.primaryContainer,
+        surfaceTintColor: Colors.transparent,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          final selected = states.contains(WidgetState.selected);
+          return TextStyle(
+            fontSize: 11,
+            fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+            color: selected ? cs.primary : cs.onSurfaceVariant,
+          );
+        }),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          final selected = states.contains(WidgetState.selected);
+          return IconThemeData(
+            size: 22,
+            color: selected ? cs.primary : cs.onSurfaceVariant,
+          );
+        }),
+      ),
+      dividerTheme: DividerThemeData(
+        color: cs.outlineVariant.withValues(alpha: 0.5),
+        space: 0,
+        thickness: 0.5,
+      ),
+      listTileTheme: const ListTileThemeData(
+        minVerticalPadding: 12,
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          minimumSize: const Size(double.infinity, 52),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+        ),
+      ),
     );
   }
 }
@@ -37,41 +138,45 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
-        children: const [
-          NewTransactionScreen(),
-          HistoryScreen(),
-          PlanScreen(),
-          AccountsScreen(),
+        children: [
+          PlanScreen(onChanged: () => setState(() {})),
+          TrackScreen(onChanged: () => setState(() {})),
+          ReviewScreen(onChanged: () => setState(() {})),
         ],
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (i) => setState(() => _currentIndex = i),
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.add_circle_outline),
-            selectedIcon: Icon(Icons.add_circle),
-            label: 'New',
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+                color: cs.outlineVariant.withValues(alpha: 0.4), width: 0.5),
           ),
-          NavigationDestination(
-            icon: Icon(Icons.history_outlined),
-            selectedIcon: Icon(Icons.history),
-            label: 'History',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.event_note_outlined),
-            selectedIcon: Icon(Icons.event_note),
-            label: 'Plan',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.account_balance_wallet_outlined),
-            selectedIcon: Icon(Icons.account_balance_wallet),
-            label: 'Accounts',
-          ),
-        ],
+        ),
+        child: NavigationBar(
+          selectedIndex: _currentIndex,
+          onDestinationSelected: (i) => setState(() => _currentIndex = i),
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.event_note_outlined),
+              selectedIcon: Icon(Icons.event_note_rounded),
+              label: 'Plan',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.receipt_long_outlined),
+              selectedIcon: Icon(Icons.receipt_long_rounded),
+              label: 'Track',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.analytics_outlined),
+              selectedIcon: Icon(Icons.analytics_rounded),
+              label: 'Review',
+            ),
+          ],
+        ),
       ),
     );
   }
