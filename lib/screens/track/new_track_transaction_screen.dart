@@ -97,7 +97,7 @@ class NewTrackTransactionScreenState extends State<NewTrackTransactionScreen> {
             ],
           ),
     );
-    if (sure == true) Navigator.pop(context, 'delete');
+    if (sure == true && mounted) Navigator.pop(context, 'delete');
   }
 
   void _showError(String message) {
@@ -208,7 +208,7 @@ class NewTrackTransactionScreenState extends State<NewTrackTransactionScreen> {
                           decoration: BoxDecoration(
                             color:
                                 sel
-                                    ? _typeColors[e.key]!.withOpacity(0.2)
+                                    ? _typeColors[e.key]!.withValues(alpha: 0.2)
                                     : null,
                             border: Border.all(
                               color: sel ? _typeColors[e.key]! : Colors.grey,
@@ -280,7 +280,7 @@ class NewTrackTransactionScreenState extends State<NewTrackTransactionScreen> {
                                         ],
                                       ),
                                 );
-                                if (confirm == true) {
+                                if (confirm == true && context.mounted) {
                                   setState(() => dummyTemplates.remove(t));
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
@@ -336,7 +336,7 @@ class NewTrackTransactionScreenState extends State<NewTrackTransactionScreen> {
                 _type == TransactionType.income) ...[
               DropdownButtonFormField<Account>(
                 isExpanded: true,
-                value: _singleAccount,
+                initialValue: _singleAccount,
                 hint: const Text('Account'),
                 items:
                     fromList.map((a) {
@@ -376,7 +376,7 @@ class NewTrackTransactionScreenState extends State<NewTrackTransactionScreen> {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: typeColor.withOpacity(0.15),
+                                color: typeColor.withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
@@ -408,7 +408,7 @@ class NewTrackTransactionScreenState extends State<NewTrackTransactionScreen> {
               DropdownButtonFormField<Account>(
                 isExpanded:
                     true, // ensure the dropdown fills the available width
-                value: _from,
+                initialValue: _from,
                 hint: const Text('From account'),
                 items:
                     fromList.map((a) {
@@ -449,7 +449,7 @@ class NewTrackTransactionScreenState extends State<NewTrackTransactionScreen> {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: typeColor.withOpacity(0.15),
+                                color: typeColor.withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
@@ -475,7 +475,7 @@ class NewTrackTransactionScreenState extends State<NewTrackTransactionScreen> {
               DropdownButtonFormField<Account>(
                 isExpanded:
                     true, // ensure the dropdown fills the available width
-                value: _to,
+                initialValue: _to,
                 hint: const Text('To account'),
                 items:
                     toList.map((a) {
@@ -516,7 +516,7 @@ class NewTrackTransactionScreenState extends State<NewTrackTransactionScreen> {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: typeColor.withOpacity(0.15),
+                                color: typeColor.withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
@@ -565,7 +565,7 @@ class NewTrackTransactionScreenState extends State<NewTrackTransactionScreen> {
               if (canPickCategory && _categories.isNotEmpty) {
                 return [
                   DropdownButtonFormField<Account>(
-                    value: _categoryAccount,
+                    initialValue: _categoryAccount,
                     hint: const Text('Category'),
                     items:
                         _categories.map((c) {

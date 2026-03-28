@@ -41,6 +41,7 @@ class EditAccountScreenState extends State<EditAccountScreen> {
             ],
           ),
     );
+    if (!mounted) return;
     if (confirmed == true) {
       Navigator.pop(context, 'delete');
     }

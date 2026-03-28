@@ -1,0 +1,9 @@
+{
+  "dart.flutterSdkPath": "/Users/vukbundalo/flutter",
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+  "dart.lineLength": 80
+}

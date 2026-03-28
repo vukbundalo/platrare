@@ -96,7 +96,7 @@ class NewPlannedTransactionScreenState
             ],
           ),
     );
-    if (sure == true) Navigator.pop(context, 'deleteRule');
+    if (sure == true && mounted) Navigator.pop(context, 'deleteRule');
   }
 
   void _showError(String message) {
@@ -203,7 +203,7 @@ class NewPlannedTransactionScreenState
                           decoration: BoxDecoration(
                             color:
                                 sel
-                                    ? _typeColors[e.key]!.withOpacity(0.2)
+                                    ? _typeColors[e.key]!.withValues(alpha: 0.2)
                                     : null,
                             border: Border.all(
                               color: sel ? _typeColors[e.key]! : Colors.grey,
@@ -274,7 +274,7 @@ class NewPlannedTransactionScreenState
                                         ],
                                       ),
                                 );
-                                if (confirm == true) {
+                                if (confirm == true && context.mounted) {
                                   setState(() => dummyTemplates.remove(t));
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
@@ -334,7 +334,7 @@ class NewPlannedTransactionScreenState
                 _type == TransactionType.income) ...[
               DropdownButtonFormField<Account>(
                 isExpanded: true,
-                value: _singleAccount,
+                initialValue: _singleAccount,
                 hint: const Text('Account'),
                 items:
                     fromList.map((a) {
@@ -374,7 +374,7 @@ class NewPlannedTransactionScreenState
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: typeColor.withOpacity(0.15),
+                                color: typeColor.withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
@@ -406,7 +406,7 @@ class NewPlannedTransactionScreenState
               DropdownButtonFormField<Account>(
                 isExpanded:
                     true, // ensure the dropdown fills the available width
-                value: _from,
+                initialValue: _from,
                 hint: const Text('From account'),
                 items:
                     fromList.map((a) {
@@ -447,7 +447,7 @@ class NewPlannedTransactionScreenState
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: typeColor.withOpacity(0.15),
+                                color: typeColor.withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
@@ -474,7 +474,7 @@ class NewPlannedTransactionScreenState
               DropdownButtonFormField<Account>(
                 isExpanded:
                     true, // ensure the dropdown fills the available width
-                value: _to,
+                initialValue: _to,
                 hint: const Text('To account'),
                 items:
                     toList.map((a) {
@@ -515,7 +515,7 @@ class NewPlannedTransactionScreenState
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: typeColor.withOpacity(0.15),
+                                color: typeColor.withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
@@ -565,7 +565,7 @@ class NewPlannedTransactionScreenState
               if (canPickCategory && _categories.isNotEmpty) {
                 return [
                   DropdownButtonFormField<Account>(
-                    value: _categoryAccount,
+                    initialValue: _categoryAccount,
                     hint: const Text('Category'),
                     items:
                         _categories.map((c) {

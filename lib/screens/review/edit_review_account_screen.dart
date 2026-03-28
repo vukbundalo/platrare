@@ -56,7 +56,9 @@ class EditReviewAccountScreenState extends State<EditReviewAccountScreen> {
               icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () async {
                 final confirm = await _confirmDelete();
-                if (confirm == true) Navigator.pop(context, 'delete');
+                if (confirm == true && context.mounted) {
+                  Navigator.pop(context, 'delete');
+                }
               },
             ),
         ],

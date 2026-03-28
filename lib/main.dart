@@ -1,69 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:platrare/screens/accounts/accounts_screen.dart';
-import 'package:platrare/screens/plan/plan_screen.dart';
-import 'package:platrare/screens/track/track_screen.dart';
-import 'package:platrare/screens/review/review_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'screens/new_transaction_screen.dart';
+import 'screens/history_screen.dart';
+import 'screens/plan_screen.dart';
+import 'screens/accounts_screen.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  // (optionally you could preload or migrate keys here)
-
-    // prime the shared_prefs channel
-  await SharedPreferences.getInstance();
+void main() {
   runApp(const PlatrareApp());
 }
+
 class PlatrareApp extends StatelessWidget {
   const PlatrareApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Platrare',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: HomePage(),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+        useMaterial3: true,
+      ),
+      home: const HomePage(),
     );
   }
 }
-
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  HomePageState createState() => HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
-  final _screens = [
-    AccountsScreen(),
-    PlanScreen(),
-    TrackScreen(),
-    ReviewScreen(),
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey,
-        currentIndex: _currentIndex,
-        onTap: (i) => setState(() => _currentIndex = i),
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance),
-            label: 'Accounts',
+      body: IndexedStack(
+        index: _currentIndex,
+        children: const [
+          NewTransactionScreen(),
+          HistoryScreen(),
+          PlanScreen(),
+          AccountsScreen(),
+        ],
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentIndex,
+        onDestinationSelected: (i) => setState(() => _currentIndex = i),
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.add_circle_outline),
+            selectedIcon: Icon(Icons.add_circle),
+            label: 'New',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.event_note), label: 'Plan'),
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Track'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.show_chart),
-            label: 'Review',
+          NavigationDestination(
+            icon: Icon(Icons.history_outlined),
+            selectedIcon: Icon(Icons.history),
+            label: 'History',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.event_note_outlined),
+            selectedIcon: Icon(Icons.event_note),
+            label: 'Plan',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.account_balance_wallet_outlined),
+            selectedIcon: Icon(Icons.account_balance_wallet),
+            label: 'Accounts',
           ),
         ],
       ),

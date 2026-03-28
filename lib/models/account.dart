@@ -1,43 +1,54 @@
-// lib/models/account.dart
+import 'package:uuid/uuid.dart';
 
 enum AccountType { personal, partner, vendor, incomeSource, category }
 
+/// Kept for backward compatibility with existing code that filters by group.
+enum AccountGroup { personal, partner }
+
 class Account {
-  final String name;
-  final AccountType type;
-  final double balance;
-  final bool includeInBalance;
+  final String id;
+  String name;
+  AccountType type;
+  double balance;
+  bool includeInBalance;
 
   Account({
+    String? id,
     required this.name,
-    required this.type,
-    required this.balance,
-    required this.includeInBalance,
-  });
+    AccountType? type,
+    AccountGroup? group,
+    this.balance = 0.0,
+    this.includeInBalance = true,
+  }) : id = id ?? const Uuid().v4(),
+       type = type ?? _groupToType(group ?? AccountGroup.personal);
 
-  /// Add a copyWith so you can update balances immutably:
+  static AccountType _groupToType(AccountGroup g) =>
+      g == AccountGroup.personal ? AccountType.personal : AccountType.partner;
+
+  /// Maps type back to a two-value group for screens that only distinguish
+  /// personal vs. everything else.
+  AccountGroup get group =>
+      type == AccountType.personal ? AccountGroup.personal : AccountGroup.partner;
+
+  set group(AccountGroup g) => type = _groupToType(g);
+
   Account copyWith({
     String? name,
     AccountType? type,
     double? balance,
     bool? includeInBalance,
-  }) {
-    return Account(
-      name: name ?? this.name,
-      type: type ?? this.type,
-      balance: balance ?? this.balance,
-      includeInBalance: includeInBalance ?? this.includeInBalance,
-    );
-  }
+  }) => Account(
+    id: id,
+    name: name ?? this.name,
+    type: type ?? this.type,
+    balance: balance ?? this.balance,
+    includeInBalance: includeInBalance ?? this.includeInBalance,
+  );
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Account &&
-          runtimeType == other.runtimeType &&
-          name == other.name &&
-          type == other.type;
+      identical(this, other) || (other is Account && other.id == id);
 
   @override
-  int get hashCode => name.hashCode ^ type.hashCode;
+  int get hashCode => id.hashCode;
 }

@@ -7,9 +7,6 @@ import 'package:platrare/data/dummy_planned.dart';
 import 'package:platrare/models/account.dart';
 import 'package:platrare/models/transaction_item.dart';
 import 'package:platrare/screens/track/new_track_transaction_screen.dart';
-import 'package:platrare/widgets/account_balance_card.dart';
-import 'package:platrare/widgets/transaction_accounts_summary_card.dart';
-import 'package:platrare/utils/balance_calculator.dart';
 import 'package:platrare/widgets/track_day_group.dart';
 
 class TrackScreen extends StatefulWidget {
@@ -163,47 +160,4 @@ class TrackScreenState extends State<TrackScreen> {
     );
   }
 
-  Widget _buildBalancesRibbon(DateTime day) {
-    final proj = computeProjectedBalancesForTrack(
-      dummyAccounts,
-      _realized,
-      day,
-    );
-    final avail = proj.entries
-        .where(
-          (e) => e.key.type == AccountType.personal && e.key.includeInBalance,
-        )
-        .fold(0.0, (s, e) => s + e.value);
-    final liquid = proj.entries
-        .where((e) => e.key.type == AccountType.personal)
-        .fold(0.0, (s, e) => s + e.value);
-
-    final personalBalances =
-        dummyAccounts
-            .where((a) => a.type == AccountType.personal)
-            .map((a) => a.copyWith(balance: proj[a]!))
-            .toList();
-    final partnerBalances =
-        dummyAccounts
-            .where((a) => a.type == AccountType.partner)
-            .map((a) => a.copyWith(balance: proj[a]!))
-            .toList();
-
-    return SizedBox(
-      height: 80,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        children: [
-          TransactionAccountsSummaryCard(label: 'Available', value: avail),
-          const SizedBox(width: 20),
-          ...personalBalances.map((a) => AccountBalanceCard(account: a)),
-          const SizedBox(width: 20),
-          TransactionAccountsSummaryCard(label: 'Liquid', value: liquid),
-          const SizedBox(width: 20),
-          ...partnerBalances.map((a) => AccountBalanceCard(account: a)),
-        ],
-      ),
-    );
-  }
 }
