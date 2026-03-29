@@ -1,6 +1,37 @@
 import 'package:uuid/uuid.dart';
 import 'account.dart';
 
+enum RepeatInterval { none, daily, weekly, monthly, yearly }
+
+/// Returns the label shown in the UI for a repeat interval.
+String repeatLabel(RepeatInterval r) => switch (r) {
+      RepeatInterval.none => 'No repeat',
+      RepeatInterval.daily => 'Daily',
+      RepeatInterval.weekly => 'Weekly',
+      RepeatInterval.monthly => 'Monthly',
+      RepeatInterval.yearly => 'Yearly',
+    };
+
+/// Advances [date] by one [interval] step.
+/// Monthly/yearly use end-of-month clamping so e.g. Jan 31 → Feb 28.
+DateTime nextOccurrence(DateTime date, RepeatInterval interval) {
+  return switch (interval) {
+    RepeatInterval.none => date,
+    RepeatInterval.daily => date.add(const Duration(days: 1)),
+    RepeatInterval.weekly => date.add(const Duration(days: 7)),
+    RepeatInterval.monthly => _addMonths(date, 1),
+    RepeatInterval.yearly => _addMonths(date, 12),
+  };
+}
+
+DateTime _addMonths(DateTime d, int months) {
+  final totalMonths = d.year * 12 + (d.month - 1) + months;
+  final year = totalMonths ~/ 12;
+  final month = totalMonths % 12 + 1;
+  final maxDay = DateTime(year, month + 1, 0).day;
+  return DateTime(year, month, d.day > maxDay ? maxDay : d.day);
+}
+
 class PlannedTransaction {
   final String id;
 
@@ -26,6 +57,7 @@ class PlannedTransaction {
   final String? description;
   final DateTime date;
   final TxType? txType;
+  final RepeatInterval repeatInterval;
 
   /// Backward-compatibility alias.
   double? get amount => nativeAmount;
@@ -41,5 +73,6 @@ class PlannedTransaction {
     this.description,
     required this.date,
     this.txType,
+    this.repeatInterval = RepeatInterval.none,
   }) : id = id ?? const Uuid().v4();
 }

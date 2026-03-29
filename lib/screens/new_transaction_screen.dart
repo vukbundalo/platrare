@@ -8,7 +8,8 @@ import '../utils/fx.dart' as fx;
 import '../utils/tx_display.dart';
 
 class NewTransactionScreen extends StatefulWidget {
-  const NewTransactionScreen({super.key});
+  final Transaction? existing;
+  const NewTransactionScreen({super.key, this.existing});
 
   @override
   State<NewTransactionScreen> createState() => _NewTransactionScreenState();
@@ -22,6 +23,76 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   Account? _toAccount;
   String? _category;
   DateTime _date = DateTime.now();
+  bool _forceClose = false;
+
+  bool get _isEdit => widget.existing != null;
+
+  bool get _isDirty {
+    if (_isEdit) {
+      final e = widget.existing!;
+      final origAmt = e.nativeAmount != null ? e.nativeAmount!.toStringAsFixed(2) : '';
+      if (_amountController.text.trim() != origAmt) return true;
+      if (_fromAccount != e.fromAccount) return true;
+      if (_toAccount != e.toAccount) return true;
+      if (_category != e.category) return true;
+      if (_noteController.text.trim() != (e.description ?? '')) return true;
+      if (!DateUtils.dateOnly(_date).isAtSameMomentAs(DateUtils.dateOnly(e.date))) return true;
+      return false;
+    }
+    return _amountController.text.trim().isNotEmpty ||
+        _fromAccount != null ||
+        _toAccount != null ||
+        _category != null ||
+        _noteController.text.trim().isNotEmpty;
+  }
+
+  void _showDiscardDialog() {
+    showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('Discard changes?'),
+        content: const Text(
+            'You have unsaved changes. They will be lost if you leave now.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Keep editing'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Discard'),
+          ),
+        ],
+      ),
+    ).then((discard) {
+      if (discard == true && mounted) {
+        setState(() => _forceClose = true);
+        Navigator.of(context).pop();
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final e = widget.existing;
+    if (e != null) {
+      if (e.nativeAmount != null) {
+        _amountController.text = e.nativeAmount!.toStringAsFixed(2);
+      }
+      if (e.destinationAmount != null) {
+        _destinationAmountController.text =
+            e.destinationAmount!.toStringAsFixed(2);
+      }
+      if (e.description != null) _noteController.text = e.description!;
+      _fromAccount = e.fromAccount;
+      _toAccount = e.toAccount;
+      _category = e.category;
+      _date = e.date;
+    }
+  }
 
   @override
   void dispose() {
@@ -75,7 +146,22 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 
   void _save() {
     final nativeAmt = _parsedAmount!;
-    // Classify BEFORE balances change so prior-balance rules are correct.
+
+    // When editing, reverse the old transaction's balance changes first so that
+    // prior-balance classification uses restored (pre-original-tx) balances.
+    if (_isEdit) {
+      final old = widget.existing!;
+      if (old.nativeAmount != null) {
+        if (old.fromAccount != null) {
+          old.fromAccount!.balance += old.nativeAmount!;
+        }
+        if (old.toAccount != null) {
+          old.toAccount!.balance -= (old.destinationAmount ?? old.nativeAmount!);
+        }
+      }
+    }
+
+    // Classify BEFORE new balances change so prior-balance rules are correct.
     final type = _txType;
 
     // ── Rule 2 / 3: determine currency and lock base value ─────────────────
@@ -92,22 +178,32 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
     }
 
     final note = _noteController.text.trim();
-    data.transactions.insert(
-      0,
-      Transaction(
-        nativeAmount: nativeAmt,
-        currencyCode: ccy,
-        baseAmount: baseAmt,
-        exchangeRate: rate,
-        destinationAmount: destAmt,
-        fromAccount: _fromAccount,
-        toAccount: _toAccount,
-        category: _category,
-        description: note.isEmpty ? null : note,
-        date: _date,
-        txType: type,
-      ),
+    final newTx = Transaction(
+      id: widget.existing?.id,
+      nativeAmount: nativeAmt,
+      currencyCode: ccy,
+      baseAmount: baseAmt,
+      exchangeRate: rate,
+      destinationAmount: destAmt,
+      fromAccount: _fromAccount,
+      toAccount: _toAccount,
+      category: _category,
+      description: note.isEmpty ? null : note,
+      date: _date,
+      txType: type,
     );
+
+    if (_isEdit) {
+      final idx =
+          data.transactions.indexWhere((t) => t.id == widget.existing!.id);
+      if (idx >= 0) {
+        data.transactions[idx] = newTx;
+      } else {
+        data.transactions.insert(0, newTx);
+      }
+    } else {
+      data.transactions.insert(0, newTx);
+    }
 
     HapticFeedback.lightImpact();
 
@@ -118,8 +214,9 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       Navigator.pop(context, true);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-              '${savedLabel[0]}${savedLabel.substring(1).toLowerCase()} saved  •  ${fx.formatNative(nativeAmt, ccy)}'),
+          content: Text(_isEdit
+              ? 'Transaction updated'
+              : '${savedLabel[0]}${savedLabel.substring(1).toLowerCase()} saved  •  ${fx.formatNative(nativeAmt, ccy)}'),
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 2),
           shape:
@@ -136,7 +233,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       context: context,
       initialDate: _date,
       firstDate: DateTime(2020),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
+      lastDate: DateTime.now(),
     );
     if (picked != null && mounted) setState(() => _date = picked);
   }
@@ -168,7 +265,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
-        title: const Text('New Transaction'),
+        title: Text(_isEdit ? 'Edit Transaction' : 'New Transaction'),
         actions: [
           GestureDetector(
             onTap: _pickDate,
@@ -232,15 +329,6 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              'KM',
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.w700,
-                                color: tc.withValues(alpha: 0.6),
-                              ),
-                            ),
-                            const SizedBox(width: 6),
                             Expanded(
                               child: TextField(
                                 controller: _amountController,
@@ -267,8 +355,20 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                                   filled: false,
                                   contentPadding: EdgeInsets.zero,
                                 ),
-                                autofocus: true,
+                                autofocus: !_isEdit,
                                 onChanged: (_) => setState(() {}),
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              fx.currencySymbol(
+                                _fromAccount?.currencyCode ??
+                                _toAccount?.currencyCode ?? 'BAM',
+                              ),
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.w700,
+                                color: tc.withValues(alpha: 0.6),
                               ),
                             ),
                           ],
@@ -380,8 +480,8 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                       keyboardType: const TextInputType.numberWithOptions(
                           decimal: true),
                       decoration: InputDecoration(
-                        prefixText:
-                            '${fx.currencySymbol(_toAccount!.currencyCode)}  ',
+                        suffixText:
+                            '  ${fx.currencySymbol(_toAccount!.currencyCode)}',
                         hintText: '0.00',
                         helperText:
                             'Enter the exact amount the destination account receives. '
@@ -414,7 +514,12 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
           _SaveBar(
             color: tc,
             amount: _parsedAmount,
+            currencySymbol: fx.currencySymbol(
+              _fromAccount?.currencyCode ??
+              _toAccount?.currencyCode ?? 'BAM',
+            ),
             enabled: _canSave,
+            isEdit: _isEdit,
             onSave: _save,
           ),
         ],
@@ -428,13 +533,17 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 class _SaveBar extends StatelessWidget {
   final Color color;
   final double? amount;
+  final String currencySymbol;
   final bool enabled;
+  final bool isEdit;
   final VoidCallback onSave;
 
   const _SaveBar({
     required this.color,
     required this.amount,
+    required this.currencySymbol,
     required this.enabled,
+    required this.isEdit,
     required this.onSave,
   });
 
@@ -466,9 +575,9 @@ class _SaveBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Save Transaction',
+            Text(isEdit ? 'Update Transaction' : 'Save Transaction',
                 style:
-                    TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
             if (amount != null) ...[
               const SizedBox(width: 8),
               Container(
@@ -479,7 +588,7 @@ class _SaveBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
-                  'KM${amount!.toStringAsFixed(2)}',
+                  '${amount!.toStringAsFixed(2)} $currencySymbol',
                   style: const TextStyle(
                       fontSize: 13, fontWeight: FontWeight.w600),
                 ),
@@ -616,7 +725,7 @@ class _AccountTile extends StatelessWidget {
                   if (has) ...[
                     const SizedBox(height: 1),
                     Text(
-                      '${account!.balance >= 0 ? '+' : ''}${fx.currencySymbol(account!.currencyCode)}${account!.balance.abs().toStringAsFixed(2)}',
+                      '${account!.balance > 0 ? '+' : ''}${account!.balance.toStringAsFixed(2)} ${fx.currencySymbol(account!.currencyCode)}',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -657,7 +766,7 @@ class _AccountPickerSheet extends StatelessWidget {
   const _AccountPickerSheet({this.exclude});
 
   String _fmt(Account a) =>
-      '${a.balance >= 0 ? '+' : ''}${fx.currencySymbol(a.currencyCode)}${a.balance.abs().toStringAsFixed(2)}';
+      '${a.balance > 0 ? '+' : ''}${a.balance.toStringAsFixed(2)} ${fx.currencySymbol(a.currencyCode)}';
 
   @override
   Widget build(BuildContext context) {

@@ -30,13 +30,59 @@ String currencySymbol(String code) => switch (code) {
       'USD' => r'$',
       'GBP' => '£',
       'CHF' => 'Fr.',
+      'JPY' => '¥',
+      'CAD' => 'C\$',
+      'AUD' => 'A\$',
+      'NZD' => 'NZ\$',
+      'HKD' => 'HK\$',
+      'SGD' => 'S\$',
+      'CNY' => '¥',
+      'KRW' => '₩',
+      'INR' => '₹',
+      'THB' => '฿',
+      'PHP' => '₱',
+      'BRL' => 'R\$',
+      'MXN' => 'MX\$',
+      'TRY' => '₺',
+      'RUB' => '₽',
+      'PLN' => 'zł',
+      'HUF' => 'Ft',
+      'CZK' => 'Kč',
+      'SEK' => 'kr',
+      'NOK' => 'kr',
+      'DKK' => 'kr',
+      'ILS' => '₪',
+      'ZAR' => 'R',
+      'AED' => 'د.إ',
+      'SAR' => '﷼',
+      'QAR' => 'QR',
+      'KWD' => 'KD',
+      'BHD' => 'BD',
+      'OMR' => 'OMR',
+      'EGP' => 'E£',
+      'NGN' => '₦',
+      'GHS' => 'GH₵',
+      'MAD' => 'MAD',
+      'TND' => 'TND',
+      'PKR' => '₨',
+      'BDT' => '৳',
+      'IDR' => 'Rp',
+      'VND' => '₫',
+      'MYR' => 'RM',
+      'RSD' => 'din',
+      'UAH' => '₴',
+      'HRK' => 'kn',
+      'CLP' => 'CL\$',
+      'COP' => 'CO\$',
+      'PEN' => 'S/.',
+      'ARS' => 'AR\$',
       _ => code,
     };
 
-/// Format an absolute (unsigned) amount with its currency symbol.
-/// e.g. formatNative(123.45, 'EUR') → '€123.45'
+/// Format an absolute (unsigned) amount with its currency symbol after.
+/// e.g. formatNative(123.45, 'EUR') → '123.45 €'
 String formatNative(double amount, String currencyCode) =>
-    '${currencySymbol(currencyCode)}${amount.abs().toStringAsFixed(2)}';
+    '${amount.abs().toStringAsFixed(2)} ${currencySymbol(currencyCode)}';
 
 /// Format an amount in the global base currency.
 String formatBase(double amount) =>

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import '../data/app_data.dart' as data;
+import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
 import '../models/transaction.dart';
@@ -9,6 +10,8 @@ import '../utils/fx.dart' as fx;
 import '../utils/projections.dart' as proj;
 import '../utils/tx_display.dart';
 import 'new_planned_transaction_screen.dart';
+import 'review_screen.dart';
+import 'transaction_detail_screen.dart';
 
 const _kExpenseColor = Color(0xFFDC2626);
 const _kIncomeColor = Color(0xFF16A34A);
@@ -22,6 +25,20 @@ class PlanScreen extends StatefulWidget {
 }
 
 class _PlanScreenState extends State<PlanScreen> {
+  DateTime _snapshotDate = DateUtils.dateOnly(DateTime.now());
+
+  Future<void> _pickSnapshotDate() async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _snapshotDate,
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now().add(const Duration(days: 1825)),
+    );
+    if (picked != null && mounted) setState(() => _snapshotDate = picked);
+  }
+
+  bool _detailExpanded = false;
+
   void _confirm(PlannedTransaction pt) {
     HapticFeedback.mediumImpact();
     showDialog(
@@ -89,6 +106,25 @@ class _PlanScreenState extends State<PlanScreen> {
     );
 
     data.plannedTransactions.remove(pt);
+
+    // Auto-spawn the next occurrence for repeated transactions.
+    if (pt.repeatInterval != RepeatInterval.none) {
+      final nextDate = nextOccurrence(pt.date, pt.repeatInterval);
+      data.plannedTransactions.add(PlannedTransaction(
+        nativeAmount: pt.nativeAmount,
+        currencyCode: pt.currencyCode,
+        destinationAmount: pt.destinationAmount,
+        fromAccount: pt.fromAccount,
+        toAccount: pt.toAccount,
+        category: pt.category,
+        description: pt.description,
+        date: nextDate,
+        txType: pt.txType,
+        repeatInterval: pt.repeatInterval,
+      ));
+      data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
+    }
+
     setState(() {});
     widget.onChanged?.call();
 
@@ -105,17 +141,23 @@ class _PlanScreenState extends State<PlanScreen> {
   void _delete(PlannedTransaction pt) {
     HapticFeedback.lightImpact();
     setState(() => data.plannedTransactions.remove(pt));
-    ScaffoldMessenger.of(context).showSnackBar(
+    final messenger = ScaffoldMessenger.of(context);
+    messenger.clearSnackBars();
+    messenger.showSnackBar(
       SnackBar(
         content: const Text('Planned transaction removed'),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        duration: const Duration(seconds: 4),
         action: SnackBarAction(
           label: 'Undo',
-          onPressed: () => setState(() {
-            data.plannedTransactions.add(pt);
-            data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
-          }),
+          onPressed: () {
+            messenger.clearSnackBars();
+            setState(() {
+              data.plannedTransactions.add(pt);
+              data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
+            });
+          },
         ),
       ),
     );
@@ -134,7 +176,52 @@ class _PlanScreenState extends State<PlanScreen> {
     }
   }
 
-  // Summary stats
+  Future<void> _addAccount() async {
+    final result = await showModalBottomSheet<Account>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (ctx) => const AccountFormSheet(),
+    );
+    if (result != null) {
+      setState(() => data.accounts.add(result));
+      widget.onChanged?.call();
+    }
+  }
+
+  Future<void> _edit(PlannedTransaction pt) async {
+    final result = await Navigator.push<PlannedTransaction>(
+      context,
+      MaterialPageRoute(
+          builder: (_) => NewPlannedTransactionScreen(existing: pt)),
+    );
+    if (result != null) {
+      setState(() {
+        final idx = data.plannedTransactions.indexWhere((t) => t.id == pt.id);
+        if (idx >= 0) {
+          data.plannedTransactions[idx] = result;
+        } else {
+          data.plannedTransactions.add(result);
+        }
+        data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
+      });
+    }
+  }
+
+  void _openPlannedDetail(PlannedTransaction pt) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => PlannedTransactionDetailScreen(
+          pt: pt,
+          onEdit: () => _edit(pt),
+          onDelete: () => _delete(pt),
+          onConfirm: () => _confirm(pt),
+        ),
+      ),
+    );
+  }
+
   int get _overdueCount {
     final today = DateUtils.dateOnly(DateTime.now());
     return data.plannedTransactions
@@ -142,24 +229,24 @@ class _PlanScreenState extends State<PlanScreen> {
         .length;
   }
 
-  double get _totalPlanned {
-    return data.plannedTransactions
-        .where((pt) => pt.fromAccount != null && pt.toAccount == null)
-        .fold(0.0, (s, pt) => s + (pt.amount ?? 0));
-  }
-
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final planned = data.plannedTransactions;
+
+    // Compute once per build — used by both hero and detail card.
+    final balances = proj.projectBalances(_snapshotDate);
+    final snapshotPersonal = proj.personalTotal(balances);
+    final snapshotNet = proj.netWorthInBase(balances);
 
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             pinned: true,
-            expandedHeight: planned.isEmpty ? 0 : 130,
+            expandedHeight: 210,
             backgroundColor: cs.surface,
+            scrolledUnderElevation: 0,
             title: const Text('Plan'),
             actions: [
               if (_overdueCount > 0)
@@ -180,42 +267,53 @@ class _PlanScreenState extends State<PlanScreen> {
                   ),
                 ),
             ],
-            flexibleSpace: planned.isEmpty
-                ? null
-                : FlexibleSpaceBar(
-                    collapseMode: CollapseMode.pin,
-                    background: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 52, 16, 12),
-                      child: Row(
-                        children: [
-                          _HeaderStat(
-                            label: 'Upcoming',
-                            value: '${planned.length}',
-                            icon: Icons.event_note_rounded,
-                            color: cs.primary,
-                          ),
-                          const SizedBox(width: 12),
-                          _HeaderStat(
-                            label: 'Total expenses',
-                            value: 'KM${_totalPlanned.toStringAsFixed(0)}',
-                            icon: Icons.trending_down_rounded,
-                            color: _kExpenseColor,
-                          ),
-                        ],
-                      ),
+            flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.pin,
+              background: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    _ProjectionHero(
+                  personal: snapshotPersonal,
+                  net: snapshotNet,
+                  date: _snapshotDate,
+                  expanded: _detailExpanded,
+                  onPickDate: _pickSnapshotDate,
+                  onToggle: () =>
+                      setState(() => _detailExpanded = !_detailExpanded),
                     ),
-                  ),
+                  ],
+                ),
+              ),
+            ),
           ),
+
+          // Expanded per-account detail card
+          if (_detailExpanded)
+            SliverToBoxAdapter(
+              child: _ProjectionDetailCard(balances: balances),
+            ),
           if (planned.isEmpty)
             SliverFillRemaining(
               hasScrollBody: false,
-              child: _EmptyState(onAdd: _addPlanned),
+              child: data.accounts.isEmpty
+                  ? _EmptyState(
+                      onAdd: _addAccount,
+                      hasAccounts: false,
+                    )
+                  : _EmptyState(
+                      onAdd: _addPlanned,
+                      hasAccounts: true,
+                    ),
             )
           else
             _PlanTimeline(
               planned: planned,
               onConfirm: _confirm,
               onDelete: _delete,
+              onEdit: _edit,
+              onTap: _openPlannedDetail,
             ),
         ],
       ),
@@ -231,52 +329,280 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 }
 
-class _HeaderStat extends StatelessWidget {
-  final String label;
-  final String value;
-  final IconData icon;
-  final Color color;
+class _ProjectionHero extends StatelessWidget {
+  final double personal;
+  final double net;
+  final DateTime date;
+  final bool expanded;
+  final VoidCallback onPickDate;
+  final VoidCallback onToggle;
 
-  const _HeaderStat({
-    required this.label,
-    required this.value,
-    required this.icon,
-    required this.color,
+  const _ProjectionHero({
+    required this.personal,
+    required this.net,
+    required this.date,
+    required this.expanded,
+    required this.onPickDate,
+    required this.onToggle,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.08),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: color.withValues(alpha: 0.2)),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, size: 20, color: color),
-            const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(label,
-                    style: TextStyle(
-                        fontSize: 11,
-                        color: cs.onSurfaceVariant,
-                        fontWeight: FontWeight.w500)),
-                Text(value,
-                    style: TextStyle(
-                        fontSize: 18,
+    final today = DateUtils.dateOnly(DateTime.now());
+    final sel = DateUtils.dateOnly(date);
+    final isToday = sel == today;
+    final dateLabel = isToday
+        ? 'Today'
+        : DateFormat('d MMM yyyy').format(date);
+    final sym = fx.currencySymbol(settings.baseCurrency);
+    final personalPos = personal >= 0;
+    final netPos = net >= 0;
+    final borderColor =
+        personalPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final personalColor =
+        personalPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final netColor =
+        netPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+      decoration: BoxDecoration(
+        color: borderColor.withValues(alpha: 0.07),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: borderColor.withValues(alpha: 0.2)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Balance / Net row
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('Balance',
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: cs.onSurfaceVariant,
+                            fontWeight: FontWeight.w500)),
+                    const SizedBox(height: 2),
+                    Text(
+                      '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
+                      style: TextStyle(
+                        fontSize: 26,
                         fontWeight: FontWeight.w800,
-                        color: color,
-                        letterSpacing: -0.5)),
+                        color: personalColor,
+                        letterSpacing: -1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 1,
+                height: 44,
+                color: borderColor.withValues(alpha: 0.2),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Net',
+                      style: TextStyle(
+                          fontSize: 11,
+                          color: cs.onSurfaceVariant,
+                          fontWeight: FontWeight.w500)),
+                  const SizedBox(height: 2),
+                  Text(
+                    '${net > 0 ? '+' : ''}${net.toStringAsFixed(2)} $sym',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: netColor,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+
+          // Date picker + expand toggle row
+          Row(
+            children: [
+              GestureDetector(
+                onTap: onPickDate,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: cs.primaryContainer.withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.calendar_today_rounded,
+                          size: 12, color: cs.primary),
+                      const SizedBox(width: 5),
+                      Text(
+                        dateLabel,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: cs.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Icon(Icons.arrow_drop_down_rounded,
+                          size: 16, color: cs.primary),
+                    ],
+                  ),
+                ),
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: onToggle,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: cs.primaryContainer.withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.account_balance_outlined,
+                          size: 12, color: cs.primary),
+                      const SizedBox(width: 5),
+                      Text(
+                        'Details',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: cs.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 2),
+                      Icon(
+                        expanded
+                            ? Icons.keyboard_arrow_up_rounded
+                            : Icons.keyboard_arrow_down_rounded,
+                        size: 16,
+                        color: cs.primary,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProjectionDetailCard extends StatelessWidget {
+  final Map<String, double> balances;
+  const _ProjectionDetailCard({required this.balances});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final personal = data.accounts
+        .where((a) => a.group == AccountGroup.personal)
+        .toList();
+    final individuals = data.accounts
+        .where((a) => a.group == AccountGroup.individuals)
+        .toList();
+    final entities = data.accounts
+        .where((a) => a.group == AccountGroup.entities)
+        .toList();
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 12, 12, 14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (personal.isNotEmpty) ...[
+                Text('PERSONAL',
+                    style: TextStyle(
+                        fontSize: 10,
+                        letterSpacing: 0.8,
+                        fontWeight: FontWeight.w700,
+                        color: cs.primary)),
+                const SizedBox(height: 6),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: personal
+                        .map((a) => _BalanceChip(
+                              name: a.name,
+                              balance: balances[a.id] ?? a.balance,
+                              currencyCode: a.currencyCode,
+                            ))
+                        .toList(),
+                  ),
+                ),
               ],
-            ),
-          ],
+              if (individuals.isNotEmpty) ...[
+                const SizedBox(height: 10),
+                Text('INDIVIDUALS',
+                    style: TextStyle(
+                        fontSize: 10,
+                        letterSpacing: 0.8,
+                        fontWeight: FontWeight.w700,
+                        color: cs.tertiary)),
+                const SizedBox(height: 6),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: individuals
+                        .map((a) => _BalanceChip(
+                              name: a.name,
+                              balance: balances[a.id] ?? a.balance,
+                              currencyCode: a.currencyCode,
+                              isPartner: true,
+                            ))
+                        .toList(),
+                  ),
+                ),
+              ],
+              if (entities.isNotEmpty) ...[
+                const SizedBox(height: 10),
+                Text('ENTITIES',
+                    style: TextStyle(
+                        fontSize: 10,
+                        letterSpacing: 0.8,
+                        fontWeight: FontWeight.w700,
+                        color: cs.secondary)),
+                const SizedBox(height: 6),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: entities
+                        .map((a) => _BalanceChip(
+                              name: a.name,
+                              balance: balances[a.id] ?? a.balance,
+                              currencyCode: a.currencyCode,
+                              isPartner: true,
+                            ))
+                        .toList(),
+                  ),
+                ),
+              ],
+            ],
+          ),
         ),
       ),
     );
@@ -285,7 +611,8 @@ class _HeaderStat extends StatelessWidget {
 
 class _EmptyState extends StatelessWidget {
   final VoidCallback onAdd;
-  const _EmptyState({required this.onAdd});
+  final bool hasAccounts;
+  const _EmptyState({required this.onAdd, required this.hasAccounts});
 
   @override
   Widget build(BuildContext context) {
@@ -302,16 +629,27 @@ class _EmptyState extends StatelessWidget {
               color: cs.primaryContainer.withValues(alpha: 0.5),
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.event_note_rounded,
-                size: 44, color: cs.primary),
+            child: Icon(
+              hasAccounts
+                  ? Icons.event_note_rounded
+                  : Icons.account_balance_wallet_rounded,
+              size: 44,
+              color: cs.primary,
+            ),
           ),
           const SizedBox(height: 24),
-          Text('Nothing planned yet',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w700)),
+          Text(
+            hasAccounts ? 'Nothing planned for now' : 'No accounts yet',
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(fontWeight: FontWeight.w700),
+          ),
           const SizedBox(height: 8),
           Text(
-            'Plan upcoming expenses, income,\nor transfers in advance.',
+            hasAccounts
+                ? 'Plan upcoming transactions.'
+                : 'Add your first account before planning transactions.',
             textAlign: TextAlign.center,
             style: TextStyle(color: cs.onSurfaceVariant, height: 1.5),
           ),
@@ -319,7 +657,7 @@ class _EmptyState extends StatelessWidget {
           FilledButton.icon(
             onPressed: onAdd,
             icon: const Icon(Icons.add),
-            label: const Text('Add first plan'),
+            label: Text(hasAccounts ? 'Add plan' : 'Add account'),
             style: FilledButton.styleFrom(
               minimumSize: const Size(200, 52),
               shape: RoundedRectangleBorder(
@@ -336,11 +674,15 @@ class _PlanTimeline extends StatelessWidget {
   final List<PlannedTransaction> planned;
   final void Function(PlannedTransaction) onConfirm;
   final void Function(PlannedTransaction) onDelete;
+  final void Function(PlannedTransaction) onEdit;
+  final void Function(PlannedTransaction) onTap;
 
   const _PlanTimeline({
     required this.planned,
     required this.onConfirm,
     required this.onDelete,
+    required this.onEdit,
+    required this.onTap,
   });
 
   @override
@@ -367,6 +709,8 @@ class _PlanTimeline extends StatelessWidget {
             projectedBalances: projectedBalances,
             onConfirm: onConfirm,
             onDelete: onDelete,
+            onEdit: onEdit,
+            onTap: onTap,
           );
         },
       ),
@@ -380,6 +724,8 @@ class _DayGroup extends StatefulWidget {
   final Map<String, double> projectedBalances;
   final void Function(PlannedTransaction) onConfirm;
   final void Function(PlannedTransaction) onDelete;
+  final void Function(PlannedTransaction) onEdit;
+  final void Function(PlannedTransaction) onTap;
 
   const _DayGroup({
     required this.date,
@@ -387,6 +733,8 @@ class _DayGroup extends StatefulWidget {
     required this.projectedBalances,
     required this.onConfirm,
     required this.onDelete,
+    required this.onEdit,
+    required this.onTap,
   });
 
   @override
@@ -498,6 +846,8 @@ class _DayGroupState extends State<_DayGroup> {
                         pt: pt,
                         onConfirm: () => widget.onConfirm(pt),
                         onDelete: () => widget.onDelete(pt),
+                        onEdit: () => widget.onEdit(pt),
+                        onTap: () => widget.onTap(pt),
                       ),
                     ],
                   );
@@ -607,7 +957,7 @@ class _ProjectionPanel extends StatelessWidget {
                         fontWeight: FontWeight.w600)),
                 const Spacer(),
                 Text(
-                  '${pos ? '+' : ''}KM${total.toStringAsFixed(2)}',
+                  '${total > 0 ? '+' : ''}${total.toStringAsFixed(2)} KM',
                   style: TextStyle(
                       color: pos ? _kIncomeColor : _kExpenseColor,
                       fontWeight: FontWeight.w800,
@@ -731,7 +1081,7 @@ class _BalanceChip extends StatelessWidget {
           ),
           const SizedBox(height: 2),
           Text(
-            '${isPositive ? '+' : ''}${fx.currencySymbol(currencyCode)}${balance.abs().toStringAsFixed(2)}',
+            '${balance > 0 ? '+' : ''}${balance.toStringAsFixed(2)} ${fx.currencySymbol(currencyCode)}',
             style: TextStyle(
               color: color,
               fontWeight: FontWeight.w800,
@@ -748,11 +1098,15 @@ class _PlannedTile extends StatelessWidget {
   final PlannedTransaction pt;
   final VoidCallback onConfirm;
   final VoidCallback onDelete;
+  final VoidCallback onEdit;
+  final VoidCallback onTap;
 
   const _PlannedTile({
     required this.pt,
     required this.onConfirm,
     required this.onDelete,
+    required this.onEdit,
+    required this.onTap,
   });
 
   TxType get _type =>
@@ -795,7 +1149,9 @@ class _PlannedTile extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
     final subtitle = _buildSubtitle();
 
-    return Padding(
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       child: Row(
         children: [
@@ -823,14 +1179,38 @@ class _PlannedTile extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                if (subtitle != null) ...[
-                  const SizedBox(height: 2),
-                  Text(
-                    subtitle,
-                    style: TextStyle(
-                        fontSize: 12, color: cs.onSurfaceVariant),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                if (subtitle != null || pt.repeatInterval != RepeatInterval.none) ...[
+                  const SizedBox(height: 3),
+                  Row(
+                    children: [
+                      if (pt.repeatInterval != RepeatInterval.none) ...[
+                        Icon(Icons.repeat_rounded,
+                            size: 11, color: cs.primary),
+                        const SizedBox(width: 3),
+                        Text(
+                          repeatLabel(pt.repeatInterval),
+                          style: TextStyle(
+                              fontSize: 11,
+                              color: cs.primary,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        if (subtitle != null)
+                          Text(' · ',
+                              style: TextStyle(
+                                  fontSize: 11,
+                                  color: cs.onSurfaceVariant)),
+                      ],
+                      if (subtitle != null)
+                        Expanded(
+                          child: Text(
+                            subtitle,
+                            style: TextStyle(
+                                fontSize: 11, color: cs.onSurfaceVariant),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                    ],
                   ),
                 ],
               ],
@@ -851,42 +1231,67 @@ class _PlannedTile extends StatelessWidget {
           const SizedBox(width: 4),
 
           // Action menu
-          PopupMenuButton<String>(
-            icon: Icon(Icons.more_vert_rounded,
-                size: 18, color: cs.onSurfaceVariant),
-            itemBuilder: (ctx) => [
-              PopupMenuItem(
-                value: 'confirm',
-                child: Row(
-                  children: [
-                    Icon(Icons.check_circle_outline_rounded,
-                        size: 18, color: cs.primary),
-                    const SizedBox(width: 10),
-                    const Text('Confirm'),
-                  ],
+          Builder(builder: (ctx) {
+            final today = DateUtils.dateOnly(DateTime.now());
+            final ptDate = DateUtils.dateOnly(pt.date);
+            final canConfirm = !ptDate.isAfter(today);
+            final cs2 = Theme.of(ctx).colorScheme;
+            return PopupMenuButton<String>(
+              icon: Icon(Icons.more_vert_rounded,
+                  size: 18, color: cs2.onSurfaceVariant),
+              itemBuilder: (_) => [
+                PopupMenuItem(
+                  value: 'confirm',
+                  enabled: canConfirm,
+                  child: Row(
+                    children: [
+                      Icon(Icons.check_circle_outline_rounded,
+                          size: 18,
+                          color: canConfirm
+                              ? cs2.primary
+                              : cs2.onSurface.withValues(alpha: 0.38)),
+                      const SizedBox(width: 10),
+                      Text('Confirm',
+                          style: TextStyle(
+                              color: canConfirm
+                                  ? null
+                                  : cs2.onSurface.withValues(alpha: 0.38))),
+                    ],
+                  ),
                 ),
-              ),
-              PopupMenuItem(
-                value: 'delete',
-                child: Row(
-                  children: [
-                    Icon(Icons.delete_outline_rounded,
-                        size: 18, color: cs.error),
-                    const SizedBox(width: 10),
-                    Text('Delete',
-                        style: TextStyle(color: cs.error)),
-                  ],
+                PopupMenuItem(
+                  value: 'edit',
+                  child: Row(
+                    children: [
+                      Icon(Icons.edit_outlined, size: 18, color: cs2.primary),
+                      const SizedBox(width: 10),
+                      const Text('Edit'),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-            onSelected: (v) {
-              if (v == 'confirm') onConfirm();
-              if (v == 'delete') onDelete();
-            },
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
+                PopupMenuItem(
+                  value: 'delete',
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete_outline_rounded,
+                          size: 18, color: cs2.error),
+                      const SizedBox(width: 10),
+                      Text('Delete', style: TextStyle(color: cs2.error)),
+                    ],
+                  ),
+                ),
+              ],
+              onSelected: (v) {
+                if (v == 'confirm') onConfirm();
+                if (v == 'edit') onEdit();
+                if (v == 'delete') onDelete();
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+            );
+          }),
         ],
+      ),
       ),
     );
   }

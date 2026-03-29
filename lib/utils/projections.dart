@@ -1,32 +1,36 @@
+import 'package:flutter/material.dart' show DateUtils;
+
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
+import '../models/planned_transaction.dart';
 import 'fx.dart' as fx;
 
 /// Returns projected native balances for every account at end-of-day on [date],
 /// starting from current real balances and applying planned transactions
 /// whose date is on or before [date].
 ///
+/// Repeated transactions are expanded into all occurrences up to [date].
 /// Balances remain in each account's own currency (Rule 2).
 /// Use [personalTotal] / [netWorthInBase] to convert to the base currency.
 Map<String, double> projectBalances(DateTime date) {
   final dayEnd = DateTime(date.year, date.month, date.day, 23, 59, 59);
   final balances = {for (final a in data.accounts) a.id: a.balance};
 
-  final sorted = List.of(data.plannedTransactions)
-    ..sort((a, b) => a.date.compareTo(b.date));
+  for (final pt in data.plannedTransactions) {
+    if (pt.nativeAmount == null) continue;
 
-  for (final pt in sorted) {
-    if (pt.date.isAfter(dayEnd)) break;
-    if (pt.nativeAmount != null) {
-      // Deduct from source account in its native currency.
+    // Walk every occurrence of this planned transaction up to dayEnd.
+    DateTime occurrence = DateUtils.dateOnly(pt.date);
+    while (true) {
+      final occEnd = DateTime(
+          occurrence.year, occurrence.month, occurrence.day, 23, 59, 59);
+      if (occEnd.isAfter(dayEnd)) break;
+
       if (pt.fromAccount != null) {
         balances[pt.fromAccount!.id] =
             (balances[pt.fromAccount!.id] ?? 0) - pt.nativeAmount!;
       }
-      // Credit destination account.
-      // Rule 4: cross-currency moves use destinationAmount for the receiving
-      // account; same-currency moves use nativeAmount directly.
       if (pt.toAccount != null) {
         final credit = (pt.destinationAmount != null &&
                 pt.toAccount!.currencyCode != pt.fromAccount?.currencyCode)
@@ -35,8 +39,12 @@ Map<String, double> projectBalances(DateTime date) {
         balances[pt.toAccount!.id] =
             (balances[pt.toAccount!.id] ?? 0) + credit;
       }
+
+      if (pt.repeatInterval == RepeatInterval.none) break;
+      occurrence = nextOccurrence(occurrence, pt.repeatInterval);
     }
   }
+
   return balances;
 }
 

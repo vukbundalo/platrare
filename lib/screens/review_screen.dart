@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import '../data/app_data.dart' as data;
+import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../utils/fx.dart' as fx;
+import 'account_transactions_screen.dart';
+import 'settings_screen.dart';
 
 class ReviewScreen extends StatefulWidget {
   final VoidCallback? onChanged;
@@ -23,7 +26,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      builder: (ctx) => const _AccountFormSheet(),
+      builder: (ctx) => const AccountFormSheet(),
     );
     if (result != null) {
       setState(() => data.accounts.add(result));
@@ -36,7 +39,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      builder: (ctx) => _AccountFormSheet(account: account),
+      builder: (ctx) => AccountFormSheet(account: account),
     );
     if (deleted == true) {
       setState(() => data.accounts.remove(account));
@@ -44,73 +47,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
       setState(() {});
     }
     widget.onChanged?.call();
-  }
-
-  void _addCategory(List<String> targetList) async {
-    final controller = TextEditingController();
-    try {
-      final result = await showDialog<String>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20)),
-          title: const Text('New Category'),
-          content: TextField(
-            controller: controller,
-            autofocus: true,
-            textCapitalization: TextCapitalization.words,
-            decoration:
-                const InputDecoration(labelText: 'Category name'),
-            onSubmitted: (v) =>
-                Navigator.pop(ctx, v.trim().isEmpty ? null : v.trim()),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: const Text('Cancel'),
-            ),
-            FilledButton(
-              onPressed: () {
-                final v = controller.text.trim();
-                Navigator.pop(ctx, v.isEmpty ? null : v);
-              },
-              child: const Text('Add'),
-            ),
-          ],
-        ),
-      );
-      if (result != null && !targetList.contains(result)) {
-        setState(() => targetList.add(result));
-      }
-    } finally {
-      controller.dispose();
-    }
-  }
-
-  void _deleteCategory(String category, List<String> targetList) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20)),
-        title: const Text('Delete category?'),
-        content: Text('"$category" will be removed.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () {
-              Navigator.pop(ctx);
-              setState(() => targetList.remove(category));
-            },
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
-    );
   }
 
   // ── Computed values ────────────────────────────────────────────────────────
@@ -176,86 +112,99 @@ class _ReviewScreenState extends State<ReviewScreen> {
         .toList();
 
     return Scaffold(
+      floatingActionButton: data.accounts.isEmpty
+          ? null
+          : FloatingActionButton(
+              heroTag: 'review_fab',
+              onPressed: _addAccount,
+              tooltip: 'Add account',
+              child: const Icon(Icons.add_rounded),
+            ),
       body: CustomScrollView(
         slivers: [
           // ── App bar with net worth ────────────────────────────────────────
           SliverAppBar(
             pinned: true,
-            expandedHeight: 160,
+            expandedHeight: 210,
             backgroundColor: cs.surface,
+            scrolledUnderElevation: 0,
             title: const Text('Review'),
             actions: [
               IconButton(
-                icon: const Icon(Icons.add_rounded),
-                tooltip: 'Add account',
-                onPressed: _addAccount,
+                icon: const Icon(Icons.settings_outlined),
+                tooltip: 'Settings',
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => const SettingsScreen()),
+                ),
               ),
             ],
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.pin,
               background: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 56, 16, 12),
-                child: _NetWorthHero(
-                  personal: _personalTotal,
-                  net: _netTotal,
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    _NetWorthHero(
+                      personal: _personalTotal,
+                      net: _netTotal,
+                      thisMonth: _spendingThisMonth,
+                      onToggle: () => setState(
+                          () => _spendingThisMonth = !_spendingThisMonth),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
 
-          SliverPadding(
-            padding: const EdgeInsets.only(bottom: 40),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([
-                // ── Accounts ──────────────────────────────────────────────
-                if (personal.isNotEmpty) ...[
-                  _SectionLabel('Personal'),
-                  ...personal.map(
-                    (a) => _AccountCard(
-                        account: a, onTap: () => _editAccount(a)),
-                  ),
-                  const SizedBox(height: 4),
-                ],
-                if (individuals.isNotEmpty) ...[
-                  _SectionLabel('Individuals'),
-                  ...individuals.map(
-                    (a) => _AccountCard(
-                        account: a, onTap: () => _editAccount(a)),
-                  ),
-                  const SizedBox(height: 4),
-                ],
-                if (entities.isNotEmpty) ...[
-                  _SectionLabel('Entities'),
-                  ...entities.map(
-                    (a) => _AccountCard(
-                        account: a, onTap: () => _editAccount(a)),
-                  ),
-                  const SizedBox(height: 4),
-                ],
-                if (personal.isEmpty && individuals.isEmpty && entities.isEmpty)
-                  _EmptyAccountsHint(onAdd: _addAccount),
+          if (data.accounts.isEmpty)
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: _EmptyAccountsHint(onAdd: _addAccount),
+            )
+          else
+            SliverPadding(
+              padding: const EdgeInsets.only(bottom: 40),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  // ── Accounts ────────────────────────────────────────────
+                  if (personal.isNotEmpty) ...[
+                    _SectionLabel('Personal'),
+                    ...personal.map(
+                      (a) => _AccountCard(
+                          account: a, onTap: () => _editAccount(a)),
+                    ),
+                    const SizedBox(height: 4),
+                  ],
+                  if (individuals.isNotEmpty) ...[
+                    _SectionLabel('Individuals'),
+                    ...individuals.map(
+                      (a) => _AccountCard(
+                          account: a, onTap: () => _editAccount(a)),
+                    ),
+                    const SizedBox(height: 4),
+                  ],
+                  if (entities.isNotEmpty) ...[
+                    _SectionLabel('Entities'),
+                    ...entities.map(
+                      (a) => _AccountCard(
+                          account: a, onTap: () => _editAccount(a)),
+                    ),
+                    const SizedBox(height: 4),
+                  ],
 
-                // ── Spending by category ──────────────────────────────────
-                _SpendingSection(
-                  spending: _categorySpending,
-                  thisMonth: _spendingThisMonth,
-                  onToggle: () =>
-                      setState(() => _spendingThisMonth = !_spendingThisMonth),
-                ),
-
-                // ── Categories management ─────────────────────────────────
-                _SectionLabel('Categories'),
-                _CategoriesSection(
-                  onAddIncome: () => _addCategory(data.incomeCategories),
-                  onAddExpense: () => _addCategory(data.expenseCategories),
-                  onDeleteIncome: (c) =>
-                      _deleteCategory(c, data.incomeCategories),
-                  onDeleteExpense: (c) =>
-                      _deleteCategory(c, data.expenseCategories),
-                ),
-              ]),
+                  // ── Spending by category ─────────────────────────────────
+                  if (data.transactions.isNotEmpty)
+                    _SpendingSection(
+                      spending: _categorySpending,
+                      thisMonth: _spendingThisMonth,
+                    ),
+                ]),
+              ),
             ),
-          ),
         ],
       ),
     );
@@ -267,7 +216,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
 class _NetWorthHero extends StatelessWidget {
   final double personal;
   final double net;
-  const _NetWorthHero({required this.personal, required this.net});
+  final bool thisMonth;
+  final VoidCallback onToggle;
+  const _NetWorthHero({
+    required this.personal,
+    required this.net,
+    required this.thisMonth,
+    required this.onToggle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -278,65 +234,105 @@ class _NetWorthHero extends StatelessWidget {
     final balanceColor = personal >= 0
         ? const Color(0xFF16A34A)
         : const Color(0xFFDC2626);
+    final sym = fx.currencySymbol(settings.baseCurrency);
 
     return Container(
-      padding:
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
       decoration: BoxDecoration(
         color: balanceColor.withValues(alpha: 0.07),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: balanceColor.withValues(alpha: 0.2)),
       ),
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Balance',
-                    style: TextStyle(
-                        fontSize: 12,
-                        color: cs.onSurfaceVariant,
-                        fontWeight: FontWeight.w500)),
-                const SizedBox(height: 4),
-                Text(
-                  '${personal >= 0 ? '+' : ''}KM${personal.toStringAsFixed(2)}',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w800,
-                    color: personal >= 0
-                        ? const Color(0xFF16A34A)
-                        : const Color(0xFFDC2626),
-                    letterSpacing: -1,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: 1,
-            height: 48,
-            color: netColor.withValues(alpha: 0.2),
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+          Row(
             children: [
-              Text('Net',
-                  style: TextStyle(
-                      fontSize: 11,
-                      color: cs.onSurfaceVariant,
-                      fontWeight: FontWeight.w500)),
-              const SizedBox(height: 4),
-              Text(
-                '${netPos ? '+' : ''}KM${net.toStringAsFixed(2)}',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: netColor,
-                  letterSpacing: -0.5,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('Balance',
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: cs.onSurfaceVariant,
+                            fontWeight: FontWeight.w500)),
+                    const SizedBox(height: 2),
+                    Text(
+                      '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w800,
+                        color: balanceColor,
+                        letterSpacing: -1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 1,
+                height: 44,
+                color: netColor.withValues(alpha: 0.2),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Net',
+                      style: TextStyle(
+                          fontSize: 11,
+                          color: cs.onSurfaceVariant,
+                          fontWeight: FontWeight.w500)),
+                  const SizedBox(height: 2),
+                  Text(
+                    '${net > 0 ? '+' : ''}${net.toStringAsFixed(2)} $sym',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: netColor,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              GestureDetector(
+                onTap: onToggle,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: cs.primaryContainer.withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.pie_chart_outline_rounded,
+                          size: 12, color: cs.primary),
+                      const SizedBox(width: 5),
+                      Text(
+                        thisMonth
+                            ? DateFormat('MMMM').format(DateTime.now())
+                            : 'All time',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: cs.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Icon(Icons.swap_horiz_rounded,
+                          size: 16, color: cs.primary),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -352,12 +348,10 @@ class _NetWorthHero extends StatelessWidget {
 class _SpendingSection extends StatelessWidget {
   final Map<String, ({double total, int count})> spending;
   final bool thisMonth;
-  final VoidCallback onToggle;
 
   const _SpendingSection({
     required this.spending,
     required this.thisMonth,
-    required this.onToggle,
   });
 
   @override
@@ -373,48 +367,14 @@ class _SpendingSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Section header with toggle
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 16, 16, 6),
-          child: Row(
-            children: [
-              Text('SPENDING',
-                  style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
-                      color: cs.primary,
-                      letterSpacing: 0.8)),
-              const Spacer(),
-              GestureDetector(
-                onTap: onToggle,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: cs.primaryContainer.withValues(alpha: 0.6),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        thisMonth
-                            ? DateFormat('MMMM').format(DateTime.now())
-                            : 'All time',
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: cs.primary,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      const SizedBox(width: 4),
-                      Icon(Icons.swap_horiz_rounded,
-                          size: 14, color: cs.primary),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+          child: Text('SPENDING',
+              style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: cs.primary,
+                  letterSpacing: 0.8)),
         ),
 
         if (sorted.isEmpty)
@@ -459,7 +419,7 @@ class _SpendingSection extends StatelessWidget {
                             fontSize: 13, color: cs.onSurfaceVariant)),
                     const Spacer(),
                     Text(
-                      '-KM${totalSpent.toStringAsFixed(2)}',
+                      '${totalSpent > 0 ? '-' : ''}${totalSpent.toStringAsFixed(2)} KM',
                       style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
@@ -567,7 +527,7 @@ class _CategoryRow extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '-KM${total.toStringAsFixed(2)}',
+                    '${total > 0 ? '-' : ''}${total.toStringAsFixed(2)} KM',
                     style: const TextStyle(
                       color: expenseColor,
                       fontWeight: FontWeight.w800,
@@ -705,7 +665,7 @@ class _AccountCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${isPositive ? '+' : ''}${fx.currencySymbol(account.currencyCode)}${account.balance.abs().toStringAsFixed(2)}',
+                      '${account.balance > 0 ? '+' : ''}${account.balance.toStringAsFixed(2)} ${fx.currencySymbol(account.currencyCode)}',
                       style: TextStyle(
                           color: balanceColor,
                           fontWeight: FontWeight.w800,
@@ -738,175 +698,65 @@ class _EmptyAccountsHint extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 12, 20, 4),
-      child: InkWell(
-        onTap: onAdd,
-        borderRadius: BorderRadius.circular(14),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: cs.primaryContainer.withValues(alpha: 0.4),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: cs.primary.withValues(alpha: 0.2)),
+      padding: const EdgeInsets.all(40),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 88,
+            height: 88,
+            decoration: BoxDecoration(
+              color: cs.primaryContainer.withValues(alpha: 0.5),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(Icons.account_balance_wallet_rounded,
+                size: 44, color: cs.primary),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.add_circle_outline_rounded,
-                  color: cs.primary, size: 20),
-              const SizedBox(width: 10),
-              Text('Add your first account',
-                  style: TextStyle(
-                      color: cs.primary, fontWeight: FontWeight.w600)),
-            ],
+          const SizedBox(height: 24),
+          Text('No accounts yet',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(fontWeight: FontWeight.w700)),
+          const SizedBox(height: 8),
+          Text(
+            'Add your first account to start tracking your finances.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: cs.onSurfaceVariant, height: 1.5),
           ),
-        ),
+          const SizedBox(height: 32),
+          FilledButton.icon(
+            onPressed: onAdd,
+            icon: const Icon(Icons.add),
+            label: const Text('Add account'),
+            style: FilledButton.styleFrom(
+              minimumSize: const Size(200, 52),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14)),
+            ),
+          ),
+        ],
       ),
-    );
-  }
-}
-
-class _CategoriesSection extends StatelessWidget {
-  final VoidCallback onAddIncome;
-  final VoidCallback onAddExpense;
-  final void Function(String) onDeleteIncome;
-  final void Function(String) onDeleteExpense;
-
-  const _CategoriesSection({
-    required this.onAddIncome,
-    required this.onAddExpense,
-    required this.onDeleteIncome,
-    required this.onDeleteExpense,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _SubSection(
-                label: 'Income',
-                color: const Color(0xFF16A34A),
-                categories: data.incomeCategories,
-                onAdd: onAddIncome,
-                onDelete: onDeleteIncome,
-              ),
-              const SizedBox(height: 12),
-              _SubSection(
-                label: 'Expense',
-                color: const Color(0xFFDC2626),
-                categories: data.expenseCategories,
-                onAdd: onAddExpense,
-                onDelete: onDeleteExpense,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _SubSection extends StatelessWidget {
-  final String label;
-  final Color color;
-  final List<String> categories;
-  final VoidCallback onAdd;
-  final void Function(String) onDelete;
-
-  const _SubSection({
-    required this.label,
-    required this.color,
-    required this.categories,
-    required this.onAdd,
-    required this.onDelete,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(
-              label.toUpperCase(),
-              style: TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 0.8,
-                color: color,
-              ),
-            ),
-            const Spacer(),
-            if (categories.isEmpty)
-              TextButton.icon(
-                onPressed: onAdd,
-                icon: const Icon(Icons.add, size: 14),
-                label: const Text('Add'),
-                style: TextButton.styleFrom(
-                  visualDensity: VisualDensity.compact,
-                  foregroundColor: color,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                ),
-              ),
-          ],
-        ),
-        const SizedBox(height: 6),
-        Wrap(
-          spacing: 6,
-          runSpacing: 6,
-          children: [
-            ...categories.map(
-              (cat) => Chip(
-                label: Text(cat, style: const TextStyle(fontSize: 12)),
-                onDeleted: () => onDelete(cat),
-                deleteIcon: const Icon(Icons.close_rounded, size: 13),
-                visualDensity: VisualDensity.compact,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-            ),
-            ActionChip(
-              avatar: Icon(Icons.add_rounded, size: 14, color: color),
-              label: Text('Add',
-                  style: TextStyle(
-                      color: color,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12)),
-              onPressed: onAdd,
-              side: BorderSide(color: color.withValues(alpha: 0.35)),
-              backgroundColor: color.withValues(alpha: 0.08),
-              visualDensity: VisualDensity.compact,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-          ],
-        ),
-      ],
     );
   }
 }
 
 // ─── Account Form Sheet ───────────────────────────────────────────────────────
 
-class _AccountFormSheet extends StatefulWidget {
+class AccountFormSheet extends StatefulWidget {
   final Account? account;
-  const _AccountFormSheet({this.account});
+  const AccountFormSheet({super.key, this.account});
 
   @override
-  State<_AccountFormSheet> createState() => _AccountFormSheetState();
+  State<AccountFormSheet> createState() => _AccountFormSheetState();
 }
 
-class _AccountFormSheetState extends State<_AccountFormSheet> {
+class _AccountFormSheetState extends State<AccountFormSheet> {
   late final TextEditingController _nameController;
   late final TextEditingController _balanceController;
   late AccountGroup _group;
   late bool _includeInBalance;
+  late String _currencyCode;
 
   @override
   void initState() {
@@ -920,6 +770,7 @@ class _AccountFormSheetState extends State<_AccountFormSheet> {
     );
     _group = widget.account?.group ?? AccountGroup.personal;
     _includeInBalance = widget.account?.includeInBalance ?? true;
+    _currencyCode = widget.account?.currencyCode ?? settings.baseCurrency;
   }
 
   @override
@@ -927,6 +778,16 @@ class _AccountFormSheetState extends State<_AccountFormSheet> {
     _nameController.dispose();
     _balanceController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickCurrency() async {
+    final result = await showModalBottomSheet<String>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (ctx) => _CurrencyPickerSheet(selected: _currencyCode),
+    );
+    if (result != null) setState(() => _currencyCode = result);
   }
 
   void _save() {
@@ -949,6 +810,7 @@ class _AccountFormSheetState extends State<_AccountFormSheet> {
           group: _group,
           balance: balance,
           includeInBalance: _includeInBalance,
+          currencyCode: _currencyCode,
         ),
       );
     }
@@ -1057,19 +919,27 @@ class _AccountFormSheetState extends State<_AccountFormSheet> {
                 textCapitalization: TextCapitalization.words,
                 decoration: const InputDecoration(
                   labelText: 'Account name',
-                  prefixIcon:
-                      Icon(Icons.account_balance_wallet_outlined),
                 ),
               ),
               const SizedBox(height: 12),
+
+              // Currency — editable only when creating
+              if (!isEdit)
+                _CurrencyTile(
+                  currencyCode: _currencyCode,
+                  onTap: _pickCurrency,
+                )
+              else
+                _CurrencyTile(currencyCode: _currencyCode, onTap: null),
+              const SizedBox(height: 12),
+
               TextField(
                 controller: _balanceController,
                 keyboardType: const TextInputType.numberWithOptions(
                     decimal: true, signed: true),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Current balance',
-                  prefixText: 'KM ',
-                  prefixIcon: Icon(Icons.currency_exchange_rounded),
+                  suffixText: ' ${fx.currencySymbol(_currencyCode)}',
                 ),
               ),
               const SizedBox(height: 12),
@@ -1106,6 +976,23 @@ class _AccountFormSheetState extends State<_AccountFormSheet> {
               ),
               if (isEdit) ...[
                 const SizedBox(height: 8),
+                OutlinedButton.icon(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => AccountTransactionsScreen(
+                          account: widget.account!),
+                    ),
+                  ),
+                  icon: const Icon(Icons.receipt_long_outlined, size: 18),
+                  label: const Text('See all transactions'),
+                  style: OutlinedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14)),
+                    minimumSize: const Size(double.infinity, 48),
+                  ),
+                ),
+                const SizedBox(height: 8),
                 TextButton.icon(
                   onPressed: _delete,
                   icon: const Icon(Icons.delete_outline_rounded,
@@ -1121,6 +1008,172 @@ class _AccountFormSheetState extends State<_AccountFormSheet> {
               ],
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Currency picker tile ────────────────────────────────────────────────────
+
+class _CurrencyTile extends StatelessWidget {
+  final String currencyCode;
+  final VoidCallback? onTap;
+
+  const _CurrencyTile({required this.currencyCode, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final name = settings.currencyNames[currencyCode] ?? currencyCode;
+    final symbol = fx.currencySymbol(currencyCode);
+    final enabled = onTap != null;
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: 'Currency',
+          suffixIcon: enabled
+              ? const Icon(Icons.arrow_drop_down_rounded)
+              : Icon(Icons.lock_outline_rounded,
+                  size: 16, color: cs.onSurfaceVariant),
+          enabled: enabled,
+        ),
+        child: Text(
+          '$currencyCode  ·  $symbol  ·  $name',
+          style: TextStyle(
+            fontSize: 14,
+            color: enabled ? cs.onSurface : cs.onSurfaceVariant,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Currency picker bottom sheet ───────────────────────────────────────────
+
+class _CurrencyPickerSheet extends StatefulWidget {
+  final String selected;
+  const _CurrencyPickerSheet({required this.selected});
+
+  @override
+  State<_CurrencyPickerSheet> createState() => _CurrencyPickerSheetState();
+}
+
+class _CurrencyPickerSheetState extends State<_CurrencyPickerSheet> {
+  final _searchController = TextEditingController();
+  List<String> _filtered = settings.supportedCurrencies;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearch(String query) {
+    final q = query.toLowerCase().trim();
+    setState(() {
+      _filtered = q.isEmpty
+          ? settings.supportedCurrencies
+          : settings.supportedCurrencies.where((code) {
+              final name =
+                  (settings.currencyNames[code] ?? '').toLowerCase();
+              return code.toLowerCase().contains(q) || name.contains(q);
+            }).toList();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Padding(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.75,
+        child: Column(
+          children: [
+            Container(
+              width: 36,
+              height: 4,
+              margin: const EdgeInsets.symmetric(vertical: 12),
+              decoration: BoxDecoration(
+                color: cs.outlineVariant,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+              child: TextField(
+                controller: _searchController,
+                autofocus: true,
+                onChanged: _onSearch,
+                decoration: InputDecoration(
+                  hintText: 'Search currency…',
+                  prefixIcon: const Icon(Icons.search_rounded),
+                  suffixIcon: _searchController.text.isNotEmpty
+                      ? IconButton(
+                          icon: const Icon(Icons.close_rounded),
+                          onPressed: () {
+                            _searchController.clear();
+                            _onSearch('');
+                          },
+                        )
+                      : null,
+                  isDense: true,
+                ),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _filtered.length,
+                itemBuilder: (ctx, i) {
+                  final code = _filtered[i];
+                  final name = settings.currencyNames[code] ?? code;
+                  final symbol = fx.currencySymbol(code);
+                  final isSelected = code == widget.selected;
+                  return ListTile(
+                    leading: CircleAvatar(
+                      radius: 18,
+                      backgroundColor: isSelected
+                          ? cs.primaryContainer
+                          : cs.surfaceContainerHighest,
+                      child: Text(
+                        symbol.length <= 2 ? symbol : code.substring(0, 1),
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: isSelected
+                              ? cs.onPrimaryContainer
+                              : cs.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      '$code  —  $name',
+                      style: TextStyle(
+                        fontWeight: isSelected
+                            ? FontWeight.w700
+                            : FontWeight.normal,
+                      ),
+                    ),
+                    subtitle: Text(
+                      symbol,
+                      style: TextStyle(
+                          fontSize: 12, color: cs.onSurfaceVariant),
+                    ),
+                    trailing: isSelected
+                        ? Icon(Icons.check_rounded, color: cs.primary)
+                        : null,
+                    onTap: () => Navigator.pop(ctx, code),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

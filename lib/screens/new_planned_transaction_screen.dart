@@ -9,7 +9,8 @@ import '../utils/tx_display.dart';
 import '../utils/projections.dart' as proj;
 
 class NewPlannedTransactionScreen extends StatefulWidget {
-  const NewPlannedTransactionScreen({super.key});
+  final PlannedTransaction? existing;
+  const NewPlannedTransactionScreen({super.key, this.existing});
 
   @override
   State<NewPlannedTransactionScreen> createState() =>
@@ -26,7 +27,31 @@ class _NewPlannedTransactionScreenState
   Account? _toAccount;
   String? _category;
   DateTime _date = DateTime.now().add(const Duration(days: 1));
+  RepeatInterval _repeatInterval = RepeatInterval.none;
   bool _showProjection = false;
+
+  bool get _isEdit => widget.existing != null;
+
+  @override
+  void initState() {
+    super.initState();
+    final e = widget.existing;
+    if (e != null) {
+      if (e.nativeAmount != null) {
+        _amountController.text = e.nativeAmount!.toStringAsFixed(2);
+      }
+      if (e.destinationAmount != null) {
+        _destinationAmountController.text =
+            e.destinationAmount!.toStringAsFixed(2);
+      }
+      if (e.description != null) _descriptionController.text = e.description!;
+      _fromAccount = e.fromAccount;
+      _toAccount = e.toAccount;
+      _category = e.category;
+      _date = e.date;
+      _repeatInterval = e.repeatInterval;
+    }
+  }
 
   @override
   void dispose() {
@@ -73,6 +98,7 @@ class _NewPlannedTransactionScreenState
     Navigator.pop(
       context,
       PlannedTransaction(
+        id: widget.existing?.id,
         nativeAmount: _parsedAmount,
         currencyCode: ccy,
         destinationAmount: _parsedDestination,
@@ -84,6 +110,7 @@ class _NewPlannedTransactionScreenState
             : _descriptionController.text.trim(),
         date: _date,
         txType: type,
+        repeatInterval: _repeatInterval,
       ),
     );
   }
@@ -92,7 +119,7 @@ class _NewPlannedTransactionScreenState
     final picked = await showDatePicker(
       context: context,
       initialDate: _date,
-      firstDate: DateTime.now(),
+      firstDate: _isEdit ? DateTime(2020) : DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 730)),
       helpText: 'Select planned date',
     );
@@ -144,7 +171,7 @@ class _NewPlannedTransactionScreenState
           icon: const Icon(Icons.close_rounded),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Plan Transaction'),
+        title: Text(_isEdit ? 'Edit Plan' : 'Plan Transaction'),
         actions: [
           TextButton.icon(
             onPressed: _pickDate,
@@ -189,12 +216,6 @@ class _NewPlannedTransactionScreenState
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text('KM',
-                                style: TextStyle(
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.w700,
-                                    color: color.withValues(alpha: 0.6))),
-                            const SizedBox(width: 8),
                             Expanded(
                               child: TextField(
                                 controller: _amountController,
@@ -224,6 +245,16 @@ class _NewPlannedTransactionScreenState
                                 onChanged: (_) => setState(() {}),
                               ),
                             ),
+                            const SizedBox(width: 8),
+                            Text(
+                                fx.currencySymbol(
+                                  _fromAccount?.currencyCode ??
+                                  _toAccount?.currencyCode ?? 'BAM',
+                                ),
+                                style: TextStyle(
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.w700,
+                                    color: color.withValues(alpha: 0.6))),
                           ],
                         ),
                       ],
@@ -311,8 +342,8 @@ class _NewPlannedTransactionScreenState
                       decoration: InputDecoration(
                         labelText:
                             '${_toAccount!.name} receives (${_toAccount!.currencyCode})',
-                        prefixText:
-                            '${fx.currencySymbol(_toAccount!.currencyCode)}  ',
+                        suffixText:
+                            '  ${fx.currencySymbol(_toAccount!.currencyCode)}',
                         hintText: '0.00',
                         helperText:
                             'Estimated destination amount. Exact rate is locked at confirmation.',
@@ -334,6 +365,13 @@ class _NewPlannedTransactionScreenState
                   ),
                   const SizedBox(height: 16),
 
+                  // Repeat interval
+                  _RepeatPicker(
+                    value: _repeatInterval,
+                    onChanged: (v) => setState(() => _repeatInterval = v),
+                  ),
+                  const SizedBox(height: 16),
+
                   // Projected balances (collapsible)
                   _ProjectedBalancesCard(
                     date: _date,
@@ -352,7 +390,12 @@ class _NewPlannedTransactionScreenState
           _SaveBar(
             canSave: _canSave,
             amount: _parsedAmount,
+            currencySymbol: fx.currencySymbol(
+              _fromAccount?.currencyCode ??
+              _toAccount?.currencyCode ?? 'BAM',
+            ),
             dateLabel: _dateLabel,
+            isEdit: _isEdit,
             onSave: _save,
           ),
         ],
@@ -442,7 +485,7 @@ class _AccountPickerTile extends StatelessWidget {
                     ),
                     if (hasAccount)
                       Text(
-                        '${account!.balance >= 0 ? '+' : ''}${fx.currencySymbol(account!.currencyCode)}${account!.balance.abs().toStringAsFixed(2)}',
+                        '${account!.balance > 0 ? '+' : ''}${account!.balance.toStringAsFixed(2)} ${fx.currencySymbol(account!.currencyCode)}',
                         style: TextStyle(
                           fontSize: 12,
                           color: account!.balance >= 0
@@ -526,7 +569,7 @@ class _ProjectedBalancesCard extends StatelessWidget {
                           color: cs.primary)),
                   const Spacer(),
                   Text(
-                    '${pos ? '+' : ''}KM${totalPersonal.toStringAsFixed(2)}',
+                    '${totalPersonal > 0 ? '+' : ''}${totalPersonal.toStringAsFixed(2)} KM',
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
@@ -679,7 +722,7 @@ class _BalChip extends StatelessWidget {
                   fontWeight: FontWeight.w700)),
           const SizedBox(height: 2),
           Text(
-            '${pos ? '+' : ''}${fx.currencySymbol(currencyCode)}${balance.abs().toStringAsFixed(2)}',
+            '${balance > 0 ? '+' : ''}${balance.toStringAsFixed(2)} ${fx.currencySymbol(currencyCode)}',
             style: TextStyle(
                 color: color, fontWeight: FontWeight.w800, fontSize: 12),
           ),
@@ -692,13 +735,17 @@ class _BalChip extends StatelessWidget {
 class _SaveBar extends StatelessWidget {
   final bool canSave;
   final double? amount;
+  final String currencySymbol;
   final String dateLabel;
+  final bool isEdit;
   final VoidCallback onSave;
 
   const _SaveBar({
     required this.canSave,
     required this.amount,
+    required this.currencySymbol,
     required this.dateLabel,
+    required this.isEdit,
     required this.onSave,
   });
 
@@ -732,7 +779,7 @@ class _SaveBar extends StatelessWidget {
                       size: 14, color: cs.primary),
                   const SizedBox(width: 6),
                   Text(
-                    'KM${amount!.toStringAsFixed(2)} · $dateLabel',
+                    '${amount!.toStringAsFixed(2)} $currencySymbol · $dateLabel',
                     style: TextStyle(
                         color: cs.primary,
                         fontWeight: FontWeight.w700,
@@ -751,13 +798,59 @@ class _SaveBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(14)),
                 minimumSize: const Size(double.infinity, 50),
               ),
-              child: const Text('Add to Plan',
-                  style: TextStyle(
+              child: Text(isEdit ? 'Update Plan' : 'Add to Plan',
+                  style: const TextStyle(
                       fontWeight: FontWeight.w700, fontSize: 15)),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+// ─── Repeat Picker ───────────────────────────────────────────────────────────
+
+class _RepeatPicker extends StatelessWidget {
+  final RepeatInterval value;
+  final ValueChanged<RepeatInterval> onChanged;
+
+  const _RepeatPicker({required this.value, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(Icons.repeat_rounded, size: 16, color: cs.onSurfaceVariant),
+            const SizedBox(width: 8),
+            Text('Repeat',
+                style: Theme.of(context)
+                    .textTheme
+                    .labelLarge
+                    ?.copyWith(fontWeight: FontWeight.w600)),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 6,
+          children: RepeatInterval.values.map((r) {
+            final selected = value == r;
+            return FilterChip(
+              label: Text(repeatLabel(r)),
+              selected: selected,
+              onSelected: (_) => onChanged(r),
+              avatar: r == RepeatInterval.none
+                  ? null
+                  : Icon(Icons.repeat_rounded, size: 14),
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 }
@@ -934,7 +1027,7 @@ class _AccountListTile extends StatelessWidget {
                           fontWeight: FontWeight.w600, fontSize: 15)),
                 ),
                 Text(
-                  '${balPos ? '+' : ''}${fx.currencySymbol(account.currencyCode)}${account.balance.abs().toStringAsFixed(2)}',
+                  '${account.balance > 0 ? '+' : ''}${account.balance.toStringAsFixed(2)} ${fx.currencySymbol(account.currencyCode)}',
                   style: TextStyle(
                     color: balPos
                         ? const Color(0xFF16A34A)

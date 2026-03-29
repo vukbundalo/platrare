@@ -41,19 +41,21 @@ IconData txIcon(TxType t) => switch (t) {
 String txAmountDisplay(TxType t, double nativeAmount,
     [String currencyCode = 'BAM']) {
   final sym = fx.currencySymbol(currencyCode);
-  final amt = '$sym${nativeAmount.abs().toStringAsFixed(2)}';
+  final abs = nativeAmount.abs();
+  if (abs == 0) return '0.00 $sym';
+  final absStr = '${abs.toStringAsFixed(2)} $sym';
   return switch (t) {
     TxType.income ||
     TxType.collection ||
     TxType.invoice ||
     TxType.loan =>
-      '+$amt',
+      '+$absStr',
     TxType.expense ||
     TxType.settlement ||
     TxType.bill ||
     TxType.advance =>
-      '-$amt',
-    TxType.transfer || TxType.offset => '⇄ $amt',
+      '-$absStr',
+    TxType.transfer || TxType.offset => '⇄ $absStr',
   };
 }
 

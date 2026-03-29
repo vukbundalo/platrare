@@ -2,272 +2,335 @@ import '../models/account.dart';
 import '../models/transaction.dart';
 import '../models/planned_transaction.dart';
 
-// ─── Accounts ────────────────────────────────────────────────────────────────
-// Rule 2: every account has exactly one immutable currency.
-// Rule 5: balances are in native currency; net worth = Σ(balance × liveRate).
-//
-// Balance story: all values below are the net result of the seed transactions.
+// ─── Accounts ─────────────────────────────────────────────────────────────────
 
-final _cash      = Account(name: 'Cash',       group: AccountGroup.personal,   currencyCode: 'BAM', balance: 1901.80);
-final _debit     = Account(name: 'Debit Card',  group: AccountGroup.personal,   currencyCode: 'BAM', balance: 295.00);
-final _savings   = Account(name: 'Savings',     group: AccountGroup.personal,   currencyCode: 'BAM', balance: 500.00);
+// — Personal —
+final _cash = Account(
+  name: 'Cash',
+  group: AccountGroup.personal,
+  balance: 180.00,
+  currencyCode: 'BAM',
+  includeInBalance: true,
+);
 
-final _mom       = Account(name: 'Mom',         group: AccountGroup.individuals, currencyCode: 'BAM', balance: 200.00);
-final _sister    = Account(name: 'Sister',      group: AccountGroup.individuals, currencyCode: 'BAM', balance: 0.00);
-final _father    = Account(name: 'Father',      group: AccountGroup.individuals, currencyCode: 'BAM', balance: -500.00);
-// Client invoiced / pays in EUR — separate account, different currency (Rule 2).
-final _client    = Account(name: 'Client',      group: AccountGroup.individuals, currencyCode: 'EUR', balance: 0.00);
+final _card = Account(
+  name: 'Debit Card',
+  group: AccountGroup.personal,
+  balance: 2340.50,
+  currencyCode: 'BAM',
+  includeInBalance: true,
+);
 
-final _elec      = Account(name: 'Electricity', group: AccountGroup.entities,   currencyCode: 'BAM', balance: 0.00);
-final _building  = Account(name: 'Building',    group: AccountGroup.entities,   currencyCode: 'BAM', balance: -45.00);
-final _internet  = Account(name: 'Internet',    group: AccountGroup.entities,   currencyCode: 'BAM', balance: 0.00);
-// Nova Banka operates in EUR (e.g. an EU-denominated bank loan / fee).
-final _novaBanka = Account(name: 'Nova Banka',  group: AccountGroup.entities,   currencyCode: 'EUR', balance: -50.00);
+final _eurSavings = Account(
+  name: 'EUR Savings',
+  group: AccountGroup.personal,
+  balance: 850.00,
+  currencyCode: 'EUR',
+  includeInBalance: true,
+);
+
+// — Individuals —
+final _nevena = Account(
+  name: 'Nevena',
+  group: AccountGroup.individuals,
+  balance: 150.00, // she owes me 150 BAM
+  currencyCode: 'BAM',
+  includeInBalance: false,
+);
+
+final _marko = Account(
+  name: 'Marko',
+  group: AccountGroup.individuals,
+  balance: -300.00, // I owe him 300 BAM
+  currencyCode: 'BAM',
+  includeInBalance: false,
+);
+
+// — Entities —
+final _telecom = Account(
+  name: 'M:tel',
+  group: AccountGroup.entities,
+  balance: -25.00, // outstanding bill
+  currencyCode: 'BAM',
+  includeInBalance: false,
+);
+
+final _electricity = Account(
+  name: 'Elektroprivreda',
+  group: AccountGroup.entities,
+  balance: 0,
+  currencyCode: 'BAM',
+  includeInBalance: false,
+);
 
 final List<Account> accounts = [
-  _cash, _debit, _savings,
-  _mom, _sister, _father, _client,
-  _elec, _building, _internet, _novaBanka,
+  _cash,
+  _card,
+  _eurSavings,
+  _nevena,
+  _marko,
+  _telecom,
+  _electricity,
 ];
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-DateTime _d(int day) => DateTime(2026, 3, day);
-DateTime _p(int day) => DateTime(2026, 4, day);
-
-// EUR/BAM rate used throughout seed data (mirrors user_settings.dart default).
-const _eurRate = 1.956;
-
-// ─── Tracked Transactions ────────────────────────────────────────────────────
-// Covers all 10 TxTypes. Newest first so the Track screen list is in order.
-//
-// Rule 3: every entry stores nativeAmount + currencyCode + baseAmount + exchangeRate.
-// Rule 4: cross-currency moves also store destinationAmount.
+// ─── Transactions ─────────────────────────────────────────────────────────────
 
 final List<Transaction> transactions = [
-  // ── OFFSET (March 22) ─────────────────────────────────────────────────────
-  // Sister(BAM) reassigns her BAM debt to Mom(BAM). Same currency → no dest.
-  Transaction(
-    nativeAmount: 80, currencyCode: 'BAM', baseAmount: 80, exchangeRate: 1.0,
-    fromAccount: _sister, toAccount: _mom,
-    description: 'Sister transfers debt to Mom',
-    date: _d(22), txType: TxType.offset,
-  ),
+  // ── February ──────────────────────────────────────────────────────────────
 
-  // ── COLLECTION (March 20) — cross-currency (Rule 4) ──────────────────────
-  // Client(EUR) pays the EUR invoice. Cash(BAM) receives the BAM equivalent.
-  // nativeAmount = 300 EUR sent by Client.
-  // destinationAmount = 586.80 BAM received by Cash (user-entered at the bank
-  //   counter; locks the exact real-world rate of 1.956 BAM/EUR).
+  // Salary
   Transaction(
-    nativeAmount: 300, currencyCode: 'EUR',
-    baseAmount: 586.80, exchangeRate: _eurRate,
-    destinationAmount: 586.80, // BAM received by Cash
-    fromAccount: _client, toAccount: _cash,
-    description: 'Invoice collected', category: 'Consulting',
-    date: _d(20), txType: TxType.collection,
-  ),
-
-  // ── LOAN (March 18) ───────────────────────────────────────────────────────
-  Transaction(
-    nativeAmount: 500, currencyCode: 'BAM', baseAmount: 500, exchangeRate: 1.0,
-    fromAccount: _father, toAccount: _cash,
-    description: 'Emergency loan from Father',
-    date: _d(18), txType: TxType.loan,
-  ),
-
-  // ── SETTLEMENT (March 15) ─────────────────────────────────────────────────
-  Transaction(
-    nativeAmount: 65, currencyCode: 'BAM', baseAmount: 65, exchangeRate: 1.0,
-    fromAccount: _debit, toAccount: _elec,
-    description: 'Electricity bill payment',
-    date: _d(15), txType: TxType.settlement,
-  ),
-
-  // ── ADVANCE (March 12) ────────────────────────────────────────────────────
-  Transaction(
-    nativeAmount: 80, currencyCode: 'BAM', baseAmount: 80, exchangeRate: 1.0,
-    fromAccount: _cash, toAccount: _sister,
-    description: 'Concert tickets for Sister',
-    date: _d(12), txType: TxType.advance,
-  ),
-
-  // ── ADVANCE (March 10) ────────────────────────────────────────────────────
-  Transaction(
-    nativeAmount: 120, currencyCode: 'BAM', baseAmount: 120, exchangeRate: 1.0,
-    fromAccount: _cash, toAccount: _mom,
-    description: 'Paid dentist for Mom',
-    date: _d(10), txType: TxType.advance,
-  ),
-
-  // ── BILL (March 9) — cross-currency (Rule 4) ─────────────────────────────
-  // Nova Banka(EUR) issues a 50 EUR bank fee. No destination account — it's a
-  // bill, so only fromAccount is set. baseAmount is the BAM equivalent locked
-  // at today's rate; destinationAmount is null (no receiving account).
-  Transaction(
-    nativeAmount: 50, currencyCode: 'EUR',
-    baseAmount: 97.80, exchangeRate: _eurRate,
-    fromAccount: _novaBanka, toAccount: null,
-    description: 'Nova Banka annual fee',
-    date: _d(9), txType: TxType.bill,
-  ),
-
-  // ── BILL (March 8) ────────────────────────────────────────────────────────
-  Transaction(
-    nativeAmount: 45, currencyCode: 'BAM', baseAmount: 45, exchangeRate: 1.0,
-    fromAccount: _building, toAccount: null,
-    description: 'Building maintenance fee',
-    date: _d(8), txType: TxType.bill,
-  ),
-
-  // ── BILL (March 7) ────────────────────────────────────────────────────────
-  Transaction(
-    nativeAmount: 65, currencyCode: 'BAM', baseAmount: 65, exchangeRate: 1.0,
-    fromAccount: _elec, toAccount: null,
-    description: 'March electricity bill',
-    date: _d(7), txType: TxType.bill,
-  ),
-
-  // ── INVOICE (March 6) — cross-currency (Rule 4) ──────────────────────────
-  // Web design project invoiced to Client(EUR). No fromAccount — it's an
-  // invoice, toAccount is the party who now owes us.
-  // baseAmount = 300 EUR × 1.956 = 586.80 BAM locked at invoice date.
-  Transaction(
-    nativeAmount: 300, currencyCode: 'EUR',
-    baseAmount: 586.80, exchangeRate: _eurRate,
-    fromAccount: null, toAccount: _client,
-    description: 'Website redesign project', category: 'Consulting',
-    date: _d(6), txType: TxType.invoice,
-  ),
-
-  // ── EXPENSE (March 5) ─────────────────────────────────────────────────────
-  Transaction(
-    nativeAmount: 40, currencyCode: 'BAM', baseAmount: 40, exchangeRate: 1.0,
-    fromAccount: _debit, toAccount: null,
-    category: 'Transport',
-    date: _d(5), txType: TxType.expense,
-  ),
-
-  // ── EXPENSE (March 4) ─────────────────────────────────────────────────────
-  Transaction(
-    nativeAmount: 85, currencyCode: 'BAM', baseAmount: 85, exchangeRate: 1.0,
-    fromAccount: _cash, toAccount: null,
-    category: 'Groceries',
-    date: _d(4), txType: TxType.expense,
-  ),
-
-  // ── TRANSFER (March 3) ────────────────────────────────────────────────────
-  Transaction(
-    nativeAmount: 400, currencyCode: 'BAM', baseAmount: 400, exchangeRate: 1.0,
-    fromAccount: _cash, toAccount: _debit,
-    description: 'Top up card',
-    date: _d(3), txType: TxType.transfer,
-  ),
-
-  // ── TRANSFER (March 2) ────────────────────────────────────────────────────
-  Transaction(
-    nativeAmount: 500, currencyCode: 'BAM', baseAmount: 500, exchangeRate: 1.0,
-    fromAccount: _cash, toAccount: _savings,
-    description: 'Savings deposit',
-    date: _d(2), txType: TxType.transfer,
-  ),
-
-  // ── INCOME (March 1) ──────────────────────────────────────────────────────
-  Transaction(
-    nativeAmount: 2000, currencyCode: 'BAM', baseAmount: 2000, exchangeRate: 1.0,
-    fromAccount: null, toAccount: _cash,
+    nativeAmount: 2500.00,
+    currencyCode: 'BAM',
+    baseAmount: 2500.00,
+    exchangeRate: 1.0,
+    toAccount: _card,
     category: 'Salary',
-    date: _d(1), txType: TxType.income,
+    date: DateTime(2026, 2, 1),
+    txType: TxType.income,
+  ),
+
+  // Groceries
+  Transaction(
+    nativeAmount: 112.30,
+    currencyCode: 'BAM',
+    baseAmount: 112.30,
+    exchangeRate: 1.0,
+    fromAccount: _card,
+    category: 'Groceries',
+    date: DateTime(2026, 2, 4),
+    txType: TxType.expense,
+  ),
+
+  // Loan from Marko (he lent me 300 BAM, prior balance was 0)
+  Transaction(
+    nativeAmount: 300.00,
+    currencyCode: 'BAM',
+    baseAmount: 300.00,
+    exchangeRate: 1.0,
+    fromAccount: _marko,
+    toAccount: _card,
+    description: 'Loan from Marko',
+    date: DateTime(2026, 2, 8),
+    txType: TxType.loan,
+  ),
+
+  // Dining
+  Transaction(
+    nativeAmount: 45.00,
+    currencyCode: 'BAM',
+    baseAmount: 45.00,
+    exchangeRate: 1.0,
+    fromAccount: _card,
+    category: 'Dining',
+    date: DateTime(2026, 2, 11),
+    txType: TxType.expense,
+  ),
+
+  // Transfer card → cash
+  Transaction(
+    nativeAmount: 200.00,
+    currencyCode: 'BAM',
+    baseAmount: 200.00,
+    exchangeRate: 1.0,
+    fromAccount: _card,
+    toAccount: _cash,
+    date: DateTime(2026, 2, 14),
+    txType: TxType.transfer,
+  ),
+
+  // Shopping
+  Transaction(
+    nativeAmount: 75.00,
+    currencyCode: 'BAM',
+    baseAmount: 75.00,
+    exchangeRate: 1.0,
+    fromAccount: _card,
+    category: 'Shopping',
+    date: DateTime(2026, 2, 20),
+    txType: TxType.expense,
+  ),
+
+  // Electricity settlement (paid bill, prior balance was -55)
+  Transaction(
+    nativeAmount: 55.00,
+    currencyCode: 'BAM',
+    baseAmount: 55.00,
+    exchangeRate: 1.0,
+    fromAccount: _card,
+    toAccount: _electricity,
+    description: 'Electricity bill Feb',
+    date: DateTime(2026, 2, 25),
+    txType: TxType.settlement,
+  ),
+
+  // ── March ─────────────────────────────────────────────────────────────────
+
+  // Salary
+  Transaction(
+    nativeAmount: 2500.00,
+    currencyCode: 'BAM',
+    baseAmount: 2500.00,
+    exchangeRate: 1.0,
+    toAccount: _card,
+    category: 'Salary',
+    date: DateTime(2026, 3, 1),
+    txType: TxType.income,
+  ),
+
+  // Groceries
+  Transaction(
+    nativeAmount: 98.50,
+    currencyCode: 'BAM',
+    baseAmount: 98.50,
+    exchangeRate: 1.0,
+    fromAccount: _card,
+    category: 'Groceries',
+    date: DateTime(2026, 3, 4),
+    txType: TxType.expense,
+  ),
+
+  // Transfer card → cash
+  Transaction(
+    nativeAmount: 200.00,
+    currencyCode: 'BAM',
+    baseAmount: 200.00,
+    exchangeRate: 1.0,
+    fromAccount: _card,
+    toAccount: _cash,
+    date: DateTime(2026, 3, 6),
+    txType: TxType.transfer,
+  ),
+
+  // Advance to Nevena (she had balance 0, now owes me 150)
+  Transaction(
+    nativeAmount: 150.00,
+    currencyCode: 'BAM',
+    baseAmount: 150.00,
+    exchangeRate: 1.0,
+    fromAccount: _cash,
+    toAccount: _nevena,
+    description: 'Lunch advance',
+    date: DateTime(2026, 3, 10),
+    txType: TxType.advance,
+  ),
+
+  // Dining
+  Transaction(
+    nativeAmount: 34.00,
+    currencyCode: 'BAM',
+    baseAmount: 34.00,
+    exchangeRate: 1.0,
+    fromAccount: _card,
+    category: 'Dining',
+    date: DateTime(2026, 3, 14),
+    txType: TxType.expense,
+  ),
+
+  // Cross-currency transfer: card (BAM) → EUR savings
+  // 100 BAM → 51.12 EUR at 1.956 rate
+  Transaction(
+    nativeAmount: 100.00,
+    currencyCode: 'BAM',
+    baseAmount: 100.00,
+    exchangeRate: 1.0,
+    destinationAmount: 51.12,
+    fromAccount: _card,
+    toAccount: _eurSavings,
+    description: 'Savings deposit',
+    date: DateTime(2026, 3, 18),
+    txType: TxType.transfer,
+  ),
+
+  // Utilities / housing
+  Transaction(
+    nativeAmount: 55.00,
+    currencyCode: 'BAM',
+    baseAmount: 55.00,
+    exchangeRate: 1.0,
+    fromAccount: _card,
+    category: 'Utilities',
+    date: DateTime(2026, 3, 22),
+    txType: TxType.expense,
+  ),
+
+  // Freelance income
+  Transaction(
+    nativeAmount: 500.00,
+    currencyCode: 'BAM',
+    baseAmount: 500.00,
+    exchangeRate: 1.0,
+    toAccount: _card,
+    category: 'Freelance',
+    description: 'Website project',
+    date: DateTime(2026, 3, 28),
+    txType: TxType.income,
   ),
 ];
 
-// ─── Planned Transactions ─────────────────────────────────────────────────────
-// Covers all 10 TxTypes for April 2026.
-// No baseAmount here — the rate is locked only when the plan is confirmed.
-
 final List<PlannedTransaction> plannedTransactions = [
-  // INCOME — same currency
+  // Salary end of March
   PlannedTransaction(
-    nativeAmount: 2000, currencyCode: 'BAM',
-    fromAccount: null, toAccount: _cash,
-    category: 'Salary', description: 'April salary',
-    date: _p(1), txType: TxType.income,
+    nativeAmount: 2500.00,
+    currencyCode: 'BAM',
+    toAccount: _card,
+    category: 'Salary',
+    date: DateTime(2026, 3, 31),
+    txType: TxType.income,
   ),
 
-  // EXPENSE — same currency
+  // Rent — April
   PlannedTransaction(
-    nativeAmount: 600, currencyCode: 'BAM',
-    fromAccount: _cash, toAccount: null,
-    category: 'Housing', description: 'Monthly rent',
-    date: _p(2), txType: TxType.expense,
+    nativeAmount: 450.00,
+    currencyCode: 'BAM',
+    fromAccount: _card,
+    category: 'Housing',
+    description: 'Monthly rent',
+    date: DateTime(2026, 4, 5),
+    txType: TxType.expense,
   ),
 
-  // BILL — same currency
+  // Phone bill settlement (M:tel balance is -25, so this is a settlement)
   PlannedTransaction(
-    nativeAmount: 35, currencyCode: 'BAM',
-    fromAccount: _internet, toAccount: null,
-    description: 'Internet monthly fee',
-    date: _p(3), txType: TxType.bill,
+    nativeAmount: 25.00,
+    currencyCode: 'BAM',
+    fromAccount: _card,
+    toAccount: _telecom,
+    description: 'M:tel April',
+    date: DateTime(2026, 4, 8),
+    txType: TxType.settlement,
   ),
 
-  // TRANSFER — same currency
+  // Collect partial from Nevena
   PlannedTransaction(
-    nativeAmount: 200, currencyCode: 'BAM',
-    fromAccount: _savings, toAccount: _cash,
-    description: 'Cash withdrawal',
-    date: _p(8), txType: TxType.transfer,
+    nativeAmount: 100.00,
+    currencyCode: 'BAM',
+    fromAccount: _nevena,
+    toAccount: _cash,
+    description: 'Nevena repays lunch',
+    date: DateTime(2026, 4, 12),
+    txType: TxType.collection,
   ),
 
-  // ADVANCE — same currency (Sister.balance = 0)
+  // Dentist
   PlannedTransaction(
-    nativeAmount: 200, currencyCode: 'BAM',
-    fromAccount: _savings, toAccount: _sister,
-    description: 'Help Sister with rent',
-    date: _p(9), txType: TxType.advance,
+    nativeAmount: 80.00,
+    currencyCode: 'BAM',
+    fromAccount: _card,
+    category: 'Healthcare',
+    description: 'Dentist checkup',
+    date: DateTime(2026, 4, 18),
+    txType: TxType.expense,
   ),
 
-  // INVOICE — cross-currency: new project, Client(EUR) will owe €500
+  // May salary
   PlannedTransaction(
-    nativeAmount: 500, currencyCode: 'EUR',
-    destinationAmount: 500, // EUR credited to Client's EUR balance
-    fromAccount: null, toAccount: _client,
-    description: 'Mobile app design project', category: 'Consulting',
-    date: _p(10), txType: TxType.invoice,
-  ),
-
-  // SETTLEMENT — cross-currency (Rule 4): paying Nova Banka(EUR) from Debit(BAM)
-  // Paying 97.80 BAM from Debit; Nova Banka EUR account receives 50 EUR.
-  // lockedRate (estimated) = 97.80 / 50 = 1.956 BAM/EUR — confirmed at realization.
-  PlannedTransaction(
-    nativeAmount: 97.80, currencyCode: 'BAM',
-    destinationAmount: 50.0, // EUR credited to Nova Banka
-    fromAccount: _debit, toAccount: _novaBanka,
-    description: 'Nova Banka fee payment',
-    date: _p(12), txType: TxType.settlement,
-  ),
-
-  // LOAN — same currency (Father.balance = -500 ≤ 0)
-  PlannedTransaction(
-    nativeAmount: 100, currencyCode: 'BAM',
-    fromAccount: _father, toAccount: _cash,
-    description: 'Extra loan from Father',
-    date: _p(15), txType: TxType.loan,
-  ),
-
-  // COLLECTION — same currency (Mom.balance = +200 > 0)
-  PlannedTransaction(
-    nativeAmount: 100, currencyCode: 'BAM',
-    fromAccount: _mom, toAccount: _savings,
-    description: 'Mom repays part of debt',
-    date: _p(20), txType: TxType.collection,
-  ),
-
-  // OFFSET — same currency (Mom(BAM) → Father(BAM), both non-personal)
-  PlannedTransaction(
-    nativeAmount: 100, currencyCode: 'BAM',
-    fromAccount: _mom, toAccount: _father,
-    description: 'Debt reassignment: Mom → Father',
-    date: _p(25), txType: TxType.offset,
+    nativeAmount: 2500.00,
+    currencyCode: 'BAM',
+    toAccount: _card,
+    category: 'Salary',
+    date: DateTime(2026, 5, 1),
+    txType: TxType.income,
   ),
 ];
 
