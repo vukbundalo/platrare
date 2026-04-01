@@ -7,9 +7,13 @@ alwaysApply: true
 
 ### Hot reload / hot restart
 
-- When Dart/Flutter code changes are done, check the **terminals** metadata (or active terminal output) for an existing **`flutter run`** (or equivalent Flutter debug) session for this project.
-- If such a session is running, trigger **hot reload** when a reload is sufficient (typical UI/state tweaks). Use **hot restart** when needed (e.g. changes to `main()`, global initialization, enum/constants used at startup, assets, or anything that hot reload does not pick up). In an interactive `flutter run` terminal, that is usually **`r`** for reload and **`R`** for restart.
-- If no Flutter run session is active, **do not** assume one exists—briefly tell the user to run the app or reload locally if they want to see changes.
+**Why Run/Debug from the IDE often looks “invisible”:** Cursor’s **terminals** snapshot usually only shows the **integrated terminal**. Starting the app with **Run and Debug** (simulator or device) often uses the **Dart debug adapter** without an interactive **`flutter run`** TTY, so there is **no process to send `r` / `R` to**—that does **not** mean the app isn’t running.
+
+Use this order after Dart/Flutter edits:
+
+1. **Dart MCP (`user-dart`)** (preferred when the daemon is available): If not already connected, call **`connect_dart_tooling_daemon`** with the URI from the user. Tell them to use the Command Palette action **“Dart: Copy DTD Uri to Clipboard”** (or the equivalent in their Dart/Flutter extension) and paste it once per session if needed. Then call **`hot_reload`** (typical UI/state changes) or **`hot_restart`** when required (`main()`, globals/const at startup, assets, etc.). **`list_running_apps`** only reflects apps started via MCP **`launch_app`**, not necessarily IDE Run/Debug—do not rely on it alone.
+2. **Integrated terminal**: If **terminals** show an interactive **`flutter run`** for this project, send **`r`** (reload) or **`R`** (restart) to that session.
+3. **Fallback**: If there is no DTD URI and no `flutter run` terminal, say so briefly and ask the user to use the **IDE debug toolbar** hot reload / hot restart buttons, or to paste the **DTD URI** so MCP can reload.
 
 ### Git commit and push
 
