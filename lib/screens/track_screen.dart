@@ -33,7 +33,7 @@ bool _inGroup(TxType t, String group) => switch (group) {
   _ => true,
 };
 
-enum _TrackFilterPanel { none, date, account, category, sort }
+enum _TrackFilterPanel { none, account, category }
 
 class _TrackScreenState extends State<TrackScreen> {
   // ── Pagination ──────────────────────────────────────────────────────────────
@@ -43,7 +43,7 @@ class _TrackScreenState extends State<TrackScreen> {
   String? _typeFilter;      // _kTypeIncome / _kTypeExpense / _kTypeTransfer
   Account? _accountFilter;
   String? _categoryFilter;
-  /// null = current calendar month only; 'day'|'week'|'month'|'year'|'all' = explicit
+  /// null = current calendar month only; UI cycles week/month/year; 'day'|'all' still supported in data paths.
   String? _dateFilter;
   DateTime _dateAnchor = DateTime.now();
   bool _newestFirst = true;
@@ -82,6 +82,67 @@ class _TrackScreenState extends State<TrackScreen> {
         }
       });
 
+  /// Cycles: this month (null) → navigable month → week → year → null.
+  void _cycleDateFilter() => setState(() {
+        if (_dateFilter == null) {
+          _dateFilter = 'month';
+          _dateAnchor = DateTime.now();
+        } else if (_dateFilter == 'month') {
+          _dateFilter = 'week';
+          _dateAnchor = DateTime.now();
+        } else if (_dateFilter == 'week') {
+          _dateFilter = 'year';
+          _dateAnchor = DateTime.now();
+        } else {
+          _dateFilter = null;
+        }
+      });
+
+  void _toggleSort() => setState(() => _newestFirst = !_newestFirst);
+
+  bool get _hasNavigableDateFilter =>
+      _dateFilter == 'week' ||
+      _dateFilter == 'month' ||
+      _dateFilter == 'year';
+
+  IconData get _dateChipIcon => switch (_dateFilter) {
+        'month' => Icons.calendar_month_outlined,
+        'week' => Icons.view_week_outlined,
+        'year' => Icons.date_range_outlined,
+        _ => Icons.calendar_today_outlined,
+      };
+
+  DateTime _snapPickedDate(DateTime picked, String mode) {
+    switch (mode) {
+      case 'week':
+        return DateTime(
+          picked.year,
+          picked.month,
+          picked.day - (picked.weekday - DateTime.monday),
+        );
+      case 'month':
+        return DateTime(picked.year, picked.month, 1);
+      case 'year':
+        return DateTime(picked.year, 1, 1);
+      default:
+        return picked;
+    }
+  }
+
+  Future<void> _pickTrackDate() async {
+    if (!_hasNavigableDateFilter) return;
+    final mode = _dateFilter!;
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _dateAnchor,
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && mounted) {
+      setState(() => _dateAnchor = _snapPickedDate(picked, mode));
+    }
+  }
+
   void _navigateDate(int direction) {
     setState(() {
       var next = switch (_dateFilter) {
@@ -105,9 +166,22 @@ class _TrackScreenState extends State<TrackScreen> {
   }
 
   bool get _canNavigateDateForward {
-    if (_dateFilter != 'day') return true;
-    return DateUtils.dateOnly(_dateAnchor)
-        .isBefore(DateUtils.dateOnly(DateTime.now()));
+    final now = DateTime.now();
+    return switch (_dateFilter) {
+      'day' => DateUtils.dateOnly(_dateAnchor)
+          .isBefore(DateUtils.dateOnly(now)),
+      'week' => () {
+          final a = _dateAnchor;
+          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
+          final nMon =
+              DateTime(now.year, now.month, now.day - (now.weekday - 1));
+          return mon.isBefore(nMon);
+        }(),
+      'month' => DateTime(_dateAnchor.year, _dateAnchor.month)
+          .isBefore(DateTime(now.year, now.month)),
+      'year' => _dateAnchor.year < now.year,
+      _ => true,
+    };
   }
 
   /// Inclusive start / exclusive end for the selected date period.
@@ -334,33 +408,39 @@ class _TrackScreenState extends State<TrackScreen> {
                     onTogglePanel: _toggleTrackPanel,
                     typeFilter: _typeFilter,
                     onCycleType: _cycleTypeFilter,
-                    dateFilter: _dateFilter,
+                    dateChipIcon: _dateChipIcon,
+                    dateFilterActive: _dateFilter != null,
+                    onCycleDate: _cycleDateFilter,
                     accountFilter: _accountFilter,
                     categoryFilter: _categoryFilter,
                     newestFirst: _newestFirst,
+                    onToggleSort: _toggleSort,
                   ),
                 ],
               ),
             ),
           ),
         ),
+        if (_hasNavigableDateFilter)
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+              child: _TrackDateNavBar(
+                label: _dateLabel,
+                onNavigateBack: () => _navigateDate(-1),
+                onNavigateForward: _canNavigateDateForward
+                    ? () => _navigateDate(1)
+                    : null,
+                onPickDate: _pickTrackDate,
+              ),
+            ),
+          ),
         if (_trackPanel != _TrackFilterPanel.none)
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
               child: _TrackFilterStrip(
                 panel: _trackPanel,
-                dateFilter: _dateFilter,
-                dateNavLabel: _dateLabel,
-                onPickDateMode: (mode) => setState(() {
-                  final prev = _dateFilter;
-                  _dateFilter = mode;
-                  if (mode != prev && mode != null && mode != 'all') {
-                    _dateAnchor = DateTime.now();
-                  }
-                }),
-                onNavigateDate: _navigateDate,
-                canNavigateDateForward: _canNavigateDateForward,
                 accounts: data.accounts,
                 accountFilter: _accountFilter,
                 onAccountFilter: (a) => setState(() => _accountFilter = a),
@@ -371,11 +451,6 @@ class _TrackScreenState extends State<TrackScreen> {
                   ..sort(),
                 categoryFilter: _categoryFilter,
                 onCategoryFilter: (c) => setState(() => _categoryFilter = c),
-                newestFirst: _newestFirst,
-                onPickSort: (v) => setState(() {
-                  _newestFirst = v;
-                  _trackPanel = _TrackFilterPanel.none;
-                }),
               ),
             ),
           ),
@@ -501,33 +576,39 @@ class _TrackScreenState extends State<TrackScreen> {
                     onTogglePanel: _toggleTrackPanel,
                     typeFilter: _typeFilter,
                     onCycleType: _cycleTypeFilter,
-                    dateFilter: _dateFilter,
+                    dateChipIcon: _dateChipIcon,
+                    dateFilterActive: _dateFilter != null,
+                    onCycleDate: _cycleDateFilter,
                     accountFilter: _accountFilter,
                     categoryFilter: _categoryFilter,
                     newestFirst: _newestFirst,
+                    onToggleSort: _toggleSort,
                   ),
                 ],
               ),
             ),
           ),
         ),
+        if (_hasNavigableDateFilter)
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+              child: _TrackDateNavBar(
+                label: _dateLabel,
+                onNavigateBack: () => _navigateDate(-1),
+                onNavigateForward: _canNavigateDateForward
+                    ? () => _navigateDate(1)
+                    : null,
+                onPickDate: _pickTrackDate,
+              ),
+            ),
+          ),
         if (_trackPanel != _TrackFilterPanel.none)
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
               child: _TrackFilterStrip(
                 panel: _trackPanel,
-                dateFilter: _dateFilter,
-                dateNavLabel: _dateLabel,
-                onPickDateMode: (mode) => setState(() {
-                  final prev = _dateFilter;
-                  _dateFilter = mode;
-                  if (mode != prev && mode != null && mode != 'all') {
-                    _dateAnchor = DateTime.now();
-                  }
-                }),
-                onNavigateDate: _navigateDate,
-                canNavigateDateForward: _canNavigateDateForward,
                 accounts: data.accounts,
                 accountFilter: _accountFilter,
                 onAccountFilter: (a) => setState(() => _accountFilter = a),
@@ -538,11 +619,6 @@ class _TrackScreenState extends State<TrackScreen> {
                   ..sort(),
                 categoryFilter: _categoryFilter,
                 onCategoryFilter: (c) => setState(() => _categoryFilter = c),
-                newestFirst: _newestFirst,
-                onPickSort: (v) => setState(() {
-                  _newestFirst = v;
-                  _trackPanel = _TrackFilterPanel.none;
-                }),
               ),
             ),
           ),
@@ -623,10 +699,13 @@ class _TrackHero extends StatelessWidget {
   final void Function(_TrackFilterPanel) onTogglePanel;
   final String? typeFilter;
   final VoidCallback onCycleType;
-  final String? dateFilter;
+  final IconData dateChipIcon;
+  final bool dateFilterActive;
+  final VoidCallback onCycleDate;
   final Account? accountFilter;
   final String? categoryFilter;
   final bool newestFirst;
+  final VoidCallback onToggleSort;
 
   const _TrackHero({
     required this.totalIn,
@@ -635,10 +714,13 @@ class _TrackHero extends StatelessWidget {
     required this.onTogglePanel,
     required this.typeFilter,
     required this.onCycleType,
-    required this.dateFilter,
+    required this.dateChipIcon,
+    required this.dateFilterActive,
+    required this.onCycleDate,
     required this.accountFilter,
     required this.categoryFilter,
     required this.newestFirst,
+    required this.onToggleSort,
   });
 
   IconData _typeMainIcon() {
@@ -765,10 +847,10 @@ class _TrackHero extends StatelessWidget {
               ),
               const SizedBox(width: 6),
               mainChip(
-                icon: Icons.calendar_today_outlined,
-                active: dateFilter != null || panel == _TrackFilterPanel.date,
-                onTap: () => onTogglePanel(_TrackFilterPanel.date),
-                semanticsLabel: 'Date range filter',
+                icon: dateChipIcon,
+                active: dateFilterActive,
+                onTap: onCycleDate,
+                semanticsLabel: 'Date range: cycle month, week, year',
               ),
               const SizedBox(width: 6),
               mainChip(
@@ -791,9 +873,9 @@ class _TrackHero extends StatelessWidget {
                 icon: newestFirst
                     ? Icons.arrow_downward_rounded
                     : Icons.arrow_upward_rounded,
-                active: !newestFirst || panel == _TrackFilterPanel.sort,
-                onTap: () => onTogglePanel(_TrackFilterPanel.sort),
-                semanticsLabel: 'Sort order',
+                active: !newestFirst,
+                onTap: onToggleSort,
+                semanticsLabel: 'Sort: toggle newest or oldest first',
               ),
             ],
           ),
@@ -803,282 +885,174 @@ class _TrackHero extends StatelessWidget {
   }
 }
 
-// ─── Secondary filter UI (below hero card, like Review statistics) ───────────
+// ─── Date nav + calendar picker (below hero, week / month / year only) ───────
+
+class _TrackDateNavBar extends StatelessWidget {
+  final String label;
+  final VoidCallback onNavigateBack;
+  final VoidCallback? onNavigateForward;
+  final VoidCallback onPickDate;
+
+  const _TrackDateNavBar({
+    required this.label,
+    required this.onNavigateBack,
+    required this.onNavigateForward,
+    required this.onPickDate,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Row(
+      children: [
+        _NavButton(
+          icon: Icons.chevron_left_rounded,
+          onTap: onNavigateBack,
+        ),
+        Expanded(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onPickDate,
+              borderRadius: BorderRadius.circular(12),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: cs.onSurface,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        _NavButton(
+          icon: Icons.chevron_right_rounded,
+          onTap: onNavigateForward,
+        ),
+      ],
+    );
+  }
+}
+
+// ─── Account / category: full-width Wrap, chip height from label ─────────────
 
 class _TrackFilterStrip extends StatelessWidget {
   final _TrackFilterPanel panel;
-  final String? dateFilter;
-  final String dateNavLabel;
-  final void Function(String?) onPickDateMode;
-  final void Function(int direction) onNavigateDate;
-  final bool canNavigateDateForward;
   final List<Account> accounts;
   final Account? accountFilter;
   final void Function(Account?) onAccountFilter;
   final List<String> categories;
   final String? categoryFilter;
   final void Function(String?) onCategoryFilter;
-  final bool newestFirst;
-  final void Function(bool newestFirst) onPickSort;
 
   const _TrackFilterStrip({
     required this.panel,
-    required this.dateFilter,
-    required this.dateNavLabel,
-    required this.onPickDateMode,
-    required this.onNavigateDate,
-    required this.canNavigateDateForward,
     required this.accounts,
     required this.accountFilter,
     required this.onAccountFilter,
     required this.categories,
     required this.categoryFilter,
     required this.onCategoryFilter,
-    required this.newestFirst,
-    required this.onPickSort,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
 
-    Widget modeIconChip({
-      required bool selected,
-      required IconData icon,
-      required VoidCallback onTap,
-      String? semanticsLabel,
-    }) {
-      final core = Container(
-        width: 30,
-        height: 30,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: selected
-              ? cs.primary.withValues(alpha: 0.15)
-              : cs.primaryContainer.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Icon(icon, size: 15,
-            color: selected ? cs.primary : cs.onSurfaceVariant),
-      );
-      return Padding(
-        padding: const EdgeInsets.only(right: 6),
-        child: semanticsLabel == null
-            ? GestureDetector(onTap: onTap, child: core)
-            : Semantics(
-                label: semanticsLabel,
-                button: true,
-                selected: selected,
-                child: GestureDetector(onTap: onTap, child: core),
-              ),
-      );
-    }
-
-    Widget namedFilterChip({
+    Widget namedChip({
       required String label,
       required bool selected,
       required void Function(bool) onSelected,
     }) {
-      return Padding(
-        padding: const EdgeInsets.only(right: 8, bottom: 8),
-        child: FilterChip(
-          label: Text(
-            label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: selected ? cs.primary : cs.onSurfaceVariant,
-            ),
-          ),
-          selected: selected,
-          onSelected: onSelected,
-          visualDensity: VisualDensity.compact,
-          showCheckmark: false,
-          selectedColor: cs.primary.withValues(alpha: 0.15),
-          side: BorderSide(
-            color: selected
-                ? cs.primary.withValues(alpha: 0.35)
-                : cs.outlineVariant.withValues(alpha: 0.5),
+      return FilterChip(
+        label: Text(
+          label,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: selected ? cs.primary : cs.onSurface,
           ),
         ),
-      );
-    }
-
-    Widget dateSection() {
-      final modes = <({String? mode, IconData icon, String semantics})>[
-        (mode: null, icon: Icons.event_available_outlined, semantics: 'This month'),
-        (mode: 'day', icon: Icons.today_outlined, semantics: 'Day'),
-        (mode: 'week', icon: Icons.view_week_outlined, semantics: 'Week'),
-        (mode: 'month', icon: Icons.calendar_month_outlined, semantics: 'Month'),
-        (mode: 'year', icon: Icons.date_range_outlined, semantics: 'Year'),
-        (mode: 'all', icon: Icons.all_inclusive_rounded, semantics: 'All time'),
-      ];
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                for (final m in modes)
-                  modeIconChip(
-                    selected: dateFilter == m.mode,
-                    icon: m.icon,
-                    onTap: () => onPickDateMode(m.mode),
-                    semanticsLabel: m.semantics,
-                  ),
-              ],
-            ),
-          ),
-          if (dateFilter != null && dateFilter != 'all') ...[
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                _NavButton(
-                  icon: Icons.chevron_left_rounded,
-                  onTap: () => onNavigateDate(-1),
-                ),
-                Expanded(
-                  child: Text(
-                    dateNavLabel,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                      color: cs.onSurface,
-                    ),
-                  ),
-                ),
-                _NavButton(
-                  icon: Icons.chevron_right_rounded,
-                  onTap: canNavigateDateForward
-                      ? () => onNavigateDate(1)
-                      : null,
-                ),
-              ],
-            ),
-          ],
-        ],
+        selected: selected,
+        onSelected: onSelected,
+        showCheckmark: false,
+        selectedColor: cs.primary.withValues(alpha: 0.15),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        side: BorderSide(
+          color: selected
+              ? cs.primary.withValues(alpha: 0.35)
+              : cs.outlineVariant.withValues(alpha: 0.5),
+        ),
       );
     }
 
     Widget accountSection() {
-      return SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            namedFilterChip(
-              label: 'All accounts',
-              selected: accountFilter == null,
+      return Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: [
+          namedChip(
+            label: 'All accounts',
+            selected: accountFilter == null,
+            onSelected: (s) {
+              if (s) onAccountFilter(null);
+            },
+          ),
+          for (final a in accounts)
+            namedChip(
+              label: a.name,
+              selected: accountFilter?.id == a.id,
               onSelected: (s) {
-                if (s) onAccountFilter(null);
+                if (s) {
+                  onAccountFilter(a);
+                } else if (accountFilter?.id == a.id) {
+                  onAccountFilter(null);
+                }
               },
             ),
-            for (final a in accounts)
-              namedFilterChip(
-                label: a.name,
-                selected: accountFilter?.id == a.id,
-                onSelected: (s) {
-                  if (s) {
-                    onAccountFilter(a);
-                  } else if (accountFilter?.id == a.id) {
-                    onAccountFilter(null);
-                  }
-                },
-              ),
-          ],
-        ),
+        ],
       );
     }
 
     Widget categorySection() {
-      return SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            namedFilterChip(
-              label: 'All categories',
-              selected: categoryFilter == null,
+      return Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: [
+          namedChip(
+            label: 'All categories',
+            selected: categoryFilter == null,
+            onSelected: (s) {
+              if (s) onCategoryFilter(null);
+            },
+          ),
+          for (final c in categories)
+            namedChip(
+              label: c,
+              selected: categoryFilter == c,
               onSelected: (s) {
-                if (s) onCategoryFilter(null);
+                if (s) {
+                  onCategoryFilter(c);
+                } else if (categoryFilter == c) {
+                  onCategoryFilter(null);
+                }
               },
             ),
-            for (final c in categories)
-              namedFilterChip(
-                label: c,
-                selected: categoryFilter == c,
-                onSelected: (s) {
-                  if (s) {
-                    onCategoryFilter(c);
-                  } else if (categoryFilter == c) {
-                    onCategoryFilter(null);
-                  }
-                },
-              ),
-          ],
-        ),
-      );
-    }
-
-    Widget sortSection() {
-      return Row(
-        children: [
-          Expanded(
-            child: GestureDetector(
-              onTap: () => onPickSort(true),
-              behavior: HitTestBehavior.opaque,
-              child: Container(
-                height: 30,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: newestFirst
-                      ? cs.primary.withValues(alpha: 0.15)
-                      : cs.primaryContainer.withValues(alpha: 0.5),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Icon(Icons.arrow_downward_rounded, size: 15,
-                    color: newestFirst
-                        ? cs.primary
-                        : cs.onSurfaceVariant),
-              ),
-            ),
-          ),
-          const SizedBox(width: 6),
-          Expanded(
-            child: GestureDetector(
-              onTap: () => onPickSort(false),
-              behavior: HitTestBehavior.opaque,
-              child: Container(
-                height: 30,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: !newestFirst
-                      ? cs.primary.withValues(alpha: 0.15)
-                      : cs.primaryContainer.withValues(alpha: 0.5),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Icon(Icons.arrow_upward_rounded, size: 15,
-                    color: !newestFirst
-                        ? cs.primary
-                        : cs.onSurfaceVariant),
-              ),
-            ),
-          ),
         ],
       );
     }
 
     return switch (panel) {
-      _TrackFilterPanel.date => dateSection(),
       _TrackFilterPanel.account => accountSection(),
       _TrackFilterPanel.category => categorySection(),
-      _TrackFilterPanel.sort => sortSection(),
       _TrackFilterPanel.none => const SizedBox.shrink(),
     };
   }
