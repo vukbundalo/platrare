@@ -946,6 +946,10 @@ class _TrackDateNavBar extends StatelessWidget {
 
 // ─── Account / category: same 30px stadium pills as Track hero chips ─────────
 
+/// [TextPainter.width] can be slightly tight vs painted glyphs; add slack so
+/// the last letter is not clipped at the pill edge.
+const _kTrackChipTextSlop = 5.0;
+
 /// Same colors as [_TrackHero] chips. One-line width = full label + padding
 /// when it fits [stripMaxWidth]; otherwise wraps (no ellipsis) so text is
 /// never clipped with "…".
@@ -958,7 +962,7 @@ Widget _trackNamePill(
   String? semanticsLabel,
 }) {
   final cs = Theme.of(context).colorScheme;
-  const padH = 10.0;
+  const padH = 12.0;
   final style = TextStyle(
     fontSize: 11,
     fontWeight: FontWeight.w700,
@@ -977,7 +981,8 @@ Widget _trackNamePill(
     textScaler: MediaQuery.textScalerOf(context),
   )..layout(maxWidth: double.infinity);
 
-  final chipWOneLine = oneLine.width + 2 * padH;
+  final chipWOneLine =
+      oneLine.width.ceilToDouble() + 2 * padH + _kTrackChipTextSlop;
   final fitsOneLine = chipWOneLine <= stripMaxWidth;
 
   late final Widget inner;
@@ -986,7 +991,7 @@ Widget _trackNamePill(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: SizedBox(
-        width: math.max(32.0, chipWOneLine),
+        width: math.max(36.0, chipWOneLine),
         height: 30,
         child: DecoratedBox(
           decoration: BoxDecoration(color: fill, borderRadius: radius),
