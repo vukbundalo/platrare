@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import '../data/app_data.dart' as data;
+import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/transaction.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/tx_display.dart';
+import 'transaction_detail_screen.dart';
+import 'new_transaction_screen.dart';
+
+const _kTypeIncome   = 'income';
+const _kTypeExpense  = 'expense';
+const _kTypeTransfer = 'transfer';
+
+bool _inGroup(TxType t, String group) => switch (group) {
+  _kTypeIncome   => const {TxType.income, TxType.collection, TxType.loan, TxType.invoice}.contains(t),
+  _kTypeExpense  => const {TxType.expense, TxType.bill, TxType.settlement, TxType.advance}.contains(t),
+  _kTypeTransfer => const {TxType.transfer, TxType.offset}.contains(t),
+  _ => true,
+};
 
 class AccountTransactionsScreen extends StatefulWidget {
   final Account account;
@@ -18,90 +31,136 @@ class AccountTransactionsScreen extends StatefulWidget {
 
 class _AccountTransactionsScreenState
     extends State<AccountTransactionsScreen> {
-  List<Transaction> get _transactions => data.transactions
+  String? _typeFilter;
+  String? _categoryFilter;
+  String? _dateFilter;
+  DateTime _dateAnchor = DateTime.now();
+  bool _filtersExpanded = false;
+
+  List<Transaction> get _allTx => data.transactions
       .where((t) =>
           t.fromAccount?.id == widget.account.id ||
           t.toAccount?.id == widget.account.id)
       .toList()
     ..sort((a, b) => b.date.compareTo(a.date));
 
-  void _delete(Transaction t) {
-    if (t.nativeAmount != null) {
-      if (t.fromAccount != null) t.fromAccount!.balance += t.nativeAmount!;
-      if (t.toAccount != null) {
-        t.toAccount!.balance -= (t.destinationAmount ?? t.nativeAmount!);
+  (DateTime, DateTime) get _dateRange {
+    final a = _dateAnchor;
+    return switch (_dateFilter) {
+      'week'  => () {
+          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
+          return (mon, DateTime(mon.year, mon.month, mon.day + 7));
+        }(),
+      'month' => (DateTime(a.year, a.month), DateTime(a.year, a.month + 1)),
+      'year'  => (DateTime(a.year), DateTime(a.year + 1)),
+      _       => (DateTime(0), DateTime(9999)),
+    };
+  }
+
+  String get _dateLabel {
+    final a = _dateAnchor;
+    return switch (_dateFilter) {
+      'week' => () {
+          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
+          final sun = DateTime(mon.year, mon.month, mon.day + 6);
+          final sameMon = mon.month == sun.month;
+          return sameMon
+              ? '${DateFormat('d').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}'
+              : '${DateFormat('d MMM').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}';
+        }(),
+      'month' => DateFormat('MMMM yyyy').format(a),
+      'year'  => DateFormat('yyyy').format(a),
+      _       => '',
+    };
+  }
+
+  List<Transaction> get _filteredTx {
+    Iterable<Transaction> source = _allTx;
+
+    if (_typeFilter != null) {
+      source = source.where((t) {
+        final type = t.txType ??
+            classifyTransaction(from: t.fromAccount, to: t.toAccount);
+        return _inGroup(type, _typeFilter!);
+      });
+    }
+
+    if (_categoryFilter != null) {
+      source = source.where((t) => t.category == _categoryFilter);
+    }
+
+    if (_dateFilter != null) {
+      final (start, end) = _dateRange;
+      source = source.where(
+          (t) => !t.date.isBefore(start) && t.date.isBefore(end));
+    }
+
+    return source.toList();
+  }
+
+  ({double totalIn, double totalOut}) get _totals {
+    double totalIn = 0, totalOut = 0;
+    for (final t in _filteredTx) {
+      final type = t.txType ??
+          classifyTransaction(from: t.fromAccount, to: t.toAccount);
+      final base = fx.toBase(
+          t.nativeAmount ?? 0, t.currencyCode ?? settings.baseCurrency);
+      if (_inGroup(type, _kTypeIncome)) {
+        totalIn += base;
+      } else if (_inGroup(type, _kTypeExpense)) {
+        totalOut += base;
       }
     }
-    data.transactions.remove(t);
-    setState(() {});
-    HapticFeedback.mediumImpact();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Transaction deleted'),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-        duration: const Duration(seconds: 2),
-      ),
+    return (totalIn: totalIn, totalOut: totalOut);
+  }
+
+  void _navigateDate(int direction) {
+    setState(() {
+      _dateAnchor = switch (_dateFilter) {
+        'week'  => DateTime(_dateAnchor.year, _dateAnchor.month,
+                       _dateAnchor.day + direction * 7),
+        'month' => DateTime(_dateAnchor.year, _dateAnchor.month + direction,
+                       _dateAnchor.day),
+        'year'  => DateTime(_dateAnchor.year + direction, _dateAnchor.month,
+                       _dateAnchor.day),
+        _       => _dateAnchor,
+      };
+    });
+  }
+
+  void _openDetail(Transaction t) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => TransactionDetailScreen(transaction: t)),
     );
   }
 
-  void _confirmDelete(Transaction t) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('Delete transaction?'),
-        content: const Text('This will reverse the account balance changes.'),
-        icon: Icon(Icons.delete_outline_rounded,
-            color: Theme.of(context).colorScheme.error),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () {
-              Navigator.pop(ctx);
-              _delete(t);
-            },
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
+  Future<void> _editTransaction(Transaction t) async {
+    final result = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(builder: (_) => NewTransactionScreen(existing: t)),
     );
+    if (result == true && mounted) setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final account = widget.account;
-    final isPersonal = account.group == AccountGroup.personal;
-    final isEntities = account.group == AccountGroup.entities;
-    final avatarBg = isPersonal
-        ? cs.primaryContainer
-        : isEntities
-            ? cs.secondaryContainer
-            : cs.tertiaryContainer;
-    final avatarFg = isPersonal
-        ? cs.onPrimaryContainer
-        : isEntities
-            ? cs.onSecondaryContainer
-            : cs.onTertiaryContainer;
-    final balPos = account.balance >= 0;
-    final balColor =
-        balPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final displayTx = _filteredTx;
+    final totals = _totals;
 
-    final txs = _transactions;
-
-    // Group by date
     final grouped = <String, List<Transaction>>{};
-    for (final t in txs) {
+    for (final t in displayTx) {
       final key = DateFormat('yyyy-MM-dd').format(t.date);
       grouped.putIfAbsent(key, () => []).add(t);
     }
     final days = grouped.keys.toList()..sort((a, b) => b.compareTo(a));
+
+    final allCategories = [
+      ...data.incomeCategories,
+      ...data.expenseCategories,
+    ];
 
     return Scaffold(
       backgroundColor: cs.surface,
@@ -109,7 +168,7 @@ class _AccountTransactionsScreenState
         slivers: [
           SliverAppBar(
             pinned: true,
-            expandedHeight: 130,
+            expandedHeight: 210,
             backgroundColor: cs.surface,
             scrolledUnderElevation: 0,
             title: Text(account.name),
@@ -119,58 +178,42 @@ class _AccountTransactionsScreenState
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: avatarBg,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text(
-                              account.name[0].toUpperCase(),
-                              style: TextStyle(
-                                color: avatarFg,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              '${account.balance > 0 ? '+' : ''}${account.balance.toStringAsFixed(2)} ${fx.currencySymbol(account.currencyCode)}',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w800,
-                                color: balColor,
-                                letterSpacing: -0.5,
-                              ),
-                            ),
-                            Text(
-                              '${txs.length} transaction${txs.length == 1 ? '' : 's'}',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: cs.onSurfaceVariant),
-                            ),
-                          ],
-                        ),
-                      ],
+                    _AccountHero(
+                      account: account,
+                      totals: totals,
+                      typeFilter: _typeFilter,
+                      onTypeFilter: (v) => setState(() => _typeFilter = v),
+                      filtersExpanded: _filtersExpanded,
+                      hasActiveFilter: _categoryFilter != null || _dateFilter != null,
+                      onToggleFilters: () =>
+                          setState(() => _filtersExpanded = !_filtersExpanded),
                     ),
                   ],
                 ),
               ),
             ),
           ),
-          if (txs.isEmpty)
+
+          // Filters panel
+          if (_filtersExpanded)
+            SliverToBoxAdapter(
+              child: _AccountFiltersPanel(
+                dateFilter: _dateFilter,
+                dateLabel: _dateLabel,
+                onDateFilter: (v) => setState(() {
+                  _dateFilter = v;
+                  _dateAnchor = DateTime.now();
+                }),
+                onNavigateDate: _navigateDate,
+                categoryFilter: _categoryFilter,
+                onCategoryFilter: (v) =>
+                    setState(() => _categoryFilter = v),
+                allCategories: allCategories,
+              ),
+            ),
+
+          if (displayTx.isEmpty)
             SliverFillRemaining(
               hasScrollBody: false,
               child: Center(
@@ -179,13 +222,13 @@ class _AccountTransactionsScreenState
                   children: [
                     Icon(Icons.receipt_long_outlined,
                         size: 48, color: cs.onSurfaceVariant),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 12),
                     Text(
-                      'No transactions yet',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(color: cs.onSurfaceVariant),
+                      'No transactions',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: cs.onSurfaceVariant),
                     ),
                   ],
                 ),
@@ -193,7 +236,7 @@ class _AccountTransactionsScreenState
             )
           else
             SliverPadding(
-              padding: const EdgeInsets.only(bottom: 40),
+              padding: const EdgeInsets.only(bottom: 100),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (ctx, i) {
@@ -204,7 +247,8 @@ class _AccountTransactionsScreenState
                       date: date,
                       transactions: dayTxs,
                       focusAccount: account,
-                      onDelete: _confirmDelete,
+                      onTap: _openDetail,
+                      onLongPress: _editTransaction,
                     );
                   },
                   childCount: days.length,
@@ -217,17 +261,323 @@ class _AccountTransactionsScreenState
   }
 }
 
+// ─── Hero card ────────────────────────────────────────────────────────────────
+
+class _AccountHero extends StatelessWidget {
+  final Account account;
+  final ({double totalIn, double totalOut}) totals;
+  final String? typeFilter;
+  final ValueChanged<String?> onTypeFilter;
+  final bool filtersExpanded;
+  final bool hasActiveFilter;
+  final VoidCallback onToggleFilters;
+
+  const _AccountHero({
+    required this.account,
+    required this.totals,
+    required this.typeFilter,
+    required this.onTypeFilter,
+    required this.filtersExpanded,
+    required this.hasActiveFilter,
+    required this.onToggleFilters,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final sym = fx.currencySymbol(account.currencyCode);
+    final balPos = account.balance >= 0;
+    final balColor =
+        balPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final outColor = const Color(0xFFDC2626);
+    final filterActive = filtersExpanded || hasActiveFilter;
+
+    Widget filterChip(String key, IconData icon) {
+      final active = typeFilter == key;
+      return GestureDetector(
+        onTap: () => onTypeFilter(active ? null : key),
+        child: Container(
+          height: 30,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: active
+                ? cs.primary.withValues(alpha: 0.15)
+                : cs.primaryContainer.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Icon(icon, size: 15,
+              color: active ? cs.primary : cs.onSurfaceVariant),
+        ),
+      );
+    }
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+      decoration: BoxDecoration(
+        color: balColor.withValues(alpha: 0.07),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: balColor.withValues(alpha: 0.2)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('Balance',
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: cs.onSurfaceVariant,
+                            fontWeight: FontWeight.w500)),
+                    const SizedBox(height: 2),
+                    Text(
+                      '${account.balance > 0 ? '+' : ''}${account.balance.toStringAsFixed(2)} $sym',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w800,
+                        color: balColor,
+                        letterSpacing: -1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 1,
+                height: 44,
+                color: balColor.withValues(alpha: 0.2),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Out',
+                      style: TextStyle(
+                          fontSize: 11,
+                          color: cs.onSurfaceVariant,
+                          fontWeight: FontWeight.w500)),
+                  const SizedBox(height: 2),
+                  Text(
+                    '-${totals.totalOut.toStringAsFixed(2)} ${fx.currencySymbol(settings.baseCurrency)}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: outColor,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(child: filterChip(_kTypeIncome, Icons.arrow_downward_rounded)),
+              const SizedBox(width: 6),
+              Expanded(child: filterChip(_kTypeExpense, Icons.arrow_upward_rounded)),
+              const SizedBox(width: 6),
+              Expanded(child: filterChip(_kTypeTransfer, Icons.swap_horiz_rounded)),
+              const SizedBox(width: 6),
+              // Spacer chip (empty, no accounts filter needed)
+              Expanded(child: SizedBox(height: 30)),
+              const SizedBox(width: 6),
+              // Filters toggle
+              Expanded(
+                child: GestureDetector(
+                  onTap: onToggleFilters,
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: filterActive
+                          ? cs.primary.withValues(alpha: 0.15)
+                          : cs.primaryContainer.withValues(alpha: 0.5),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Icon(
+                      filtersExpanded
+                          ? Icons.keyboard_arrow_up_rounded
+                          : Icons.keyboard_arrow_down_rounded,
+                      size: 15,
+                      color: filterActive ? cs.primary : cs.onSurfaceVariant,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Filters panel ────────────────────────────────────────────────────────────
+
+class _AccountFiltersPanel extends StatelessWidget {
+  final String? dateFilter;
+  final String dateLabel;
+  final ValueChanged<String?> onDateFilter;
+  final ValueChanged<int> onNavigateDate;
+  final String? categoryFilter;
+  final ValueChanged<String?> onCategoryFilter;
+  final List<String> allCategories;
+
+  const _AccountFiltersPanel({
+    required this.dateFilter,
+    required this.dateLabel,
+    required this.onDateFilter,
+    required this.onNavigateDate,
+    required this.categoryFilter,
+    required this.onCategoryFilter,
+    required this.allCategories,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
+    Widget chip({required String label, required bool active, required VoidCallback onTap}) {
+      return GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: active
+                ? cs.primary.withValues(alpha: 0.12)
+                : cs.surfaceContainerHighest.withValues(alpha: 0.6),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: active
+                  ? cs.primary.withValues(alpha: 0.35)
+                  : cs.outlineVariant.withValues(alpha: 0.4),
+            ),
+          ),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: active ? cs.primary : cs.onSurfaceVariant,
+            ),
+          ),
+        ),
+      );
+    }
+
+    Widget sectionLabel(String label) => Text(
+          label,
+          style: TextStyle(
+            fontSize: 10,
+            letterSpacing: 0.8,
+            fontWeight: FontWeight.w700,
+            color: cs.primary,
+          ),
+        );
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      child: Container(
+        decoration: BoxDecoration(
+          color: cs.surfaceContainerLow,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.5)),
+        ),
+        padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            sectionLabel('DATE PERIOD'),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 6,
+              children: [
+                chip(label: 'Week', active: dateFilter == 'week', onTap: () => onDateFilter(dateFilter == 'week' ? null : 'week')),
+                chip(label: 'Month', active: dateFilter == 'month', onTap: () => onDateFilter(dateFilter == 'month' ? null : 'month')),
+                chip(label: 'Year', active: dateFilter == 'year', onTap: () => onDateFilter(dateFilter == 'year' ? null : 'year')),
+              ],
+            ),
+            if (dateFilter != null) ...[
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  _NavBtn(icon: Icons.chevron_left_rounded, onTap: () => onNavigateDate(-1)),
+                  const SizedBox(width: 10),
+                  Text(dateLabel,
+                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: cs.onSurface)),
+                  const SizedBox(width: 10),
+                  _NavBtn(icon: Icons.chevron_right_rounded, onTap: () => onNavigateDate(1)),
+                ],
+              ),
+            ],
+            if (allCategories.isNotEmpty) ...[
+              const SizedBox(height: 14),
+              sectionLabel('CATEGORY'),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 6,
+                runSpacing: 6,
+                children: allCategories
+                    .map((cat) => chip(
+                          label: cat,
+                          active: categoryFilter == cat,
+                          onTap: () => onCategoryFilter(categoryFilter == cat ? null : cat),
+                        ))
+                    .toList(),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NavBtn extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+  const _NavBtn({required this.icon, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 32,
+        height: 32,
+        decoration: BoxDecoration(
+          color: cs.primaryContainer.withValues(alpha: 0.5),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.4)),
+        ),
+        child: Icon(icon, size: 18, color: cs.primary),
+      ),
+    );
+  }
+}
+
+// ─── Day section ──────────────────────────────────────────────────────────────
+
 class _DaySection extends StatelessWidget {
   final DateTime date;
   final List<Transaction> transactions;
   final Account focusAccount;
-  final void Function(Transaction) onDelete;
+  final void Function(Transaction) onTap;
+  final void Function(Transaction) onLongPress;
 
   const _DaySection({
     required this.date,
     required this.transactions,
     required this.focusAccount,
-    required this.onDelete,
+    required this.onTap,
+    required this.onLongPress,
   });
 
   String _dayLabel() {
@@ -245,12 +595,12 @@ class _DaySection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 6),
+          padding: const EdgeInsets.fromLTRB(20, 16, 16, 6),
           child: Text(
             _dayLabel(),
             style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
                 color: cs.onSurfaceVariant,
                 letterSpacing: 0.1),
           ),
@@ -260,8 +610,7 @@ class _DaySection extends StatelessWidget {
           decoration: BoxDecoration(
             color: cs.surfaceContainerLow,
             borderRadius: BorderRadius.circular(16),
-            border:
-                Border.all(color: cs.outlineVariant.withValues(alpha: 0.5)),
+            border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.5)),
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16),
@@ -273,7 +622,8 @@ class _DaySection extends StatelessWidget {
                     _TxTile(
                       transaction: entry.value,
                       focusAccount: focusAccount,
-                      onDelete: () => onDelete(entry.value),
+                      onTap: () => onTap(entry.value),
+                      onLongPress: () => onLongPress(entry.value),
                     ),
                     if (!isLast)
                       Divider(
@@ -292,15 +642,19 @@ class _DaySection extends StatelessWidget {
   }
 }
 
+// ─── Transaction tile ─────────────────────────────────────────────────────────
+
 class _TxTile extends StatelessWidget {
   final Transaction transaction;
   final Account focusAccount;
-  final VoidCallback onDelete;
+  final VoidCallback onTap;
+  final VoidCallback onLongPress;
 
   const _TxTile({
     required this.transaction,
     required this.focusAccount,
-    required this.onDelete,
+    required this.onTap,
+    required this.onLongPress,
   });
 
   TxType get _type =>
@@ -320,16 +674,11 @@ class _TxTile extends StatelessWidget {
     return 'Transaction';
   }
 
-  // Show the counterpart account (not the focus account)
   String? _counterpart() {
     final t = transaction;
     final fid = focusAccount.id;
-    if (t.fromAccount?.id == fid && t.toAccount != null) {
-      return t.toAccount!.name;
-    }
-    if (t.toAccount?.id == fid && t.fromAccount != null) {
-      return t.fromAccount!.name;
-    }
+    if (t.fromAccount?.id == fid && t.toAccount != null) return t.toAccount!.name;
+    if (t.toAccount?.id == fid && t.fromAccount != null) return t.fromAccount!.name;
     return null;
   }
 
@@ -339,94 +688,66 @@ class _TxTile extends StatelessWidget {
     final typeColor = txColor(_type);
     final counterpart = _counterpart();
 
-    return Dismissible(
-      key: ValueKey(transaction.id),
-      direction: DismissDirection.endToStart,
-      confirmDismiss: (_) async {
-        onDelete();
-        return false;
-      },
-      background: Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 20),
-        color: Colors.red.withValues(alpha: 0.12),
-        child: const Icon(Icons.delete_outline_rounded,
-            color: Color(0xFFDC2626), size: 22),
-      ),
-      child: InkWell(
-        onLongPress: onDelete,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-          child: Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: typeColor.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(txIcon(_type), size: 18, color: typeColor),
+    return InkWell(
+      onTap: onTap,
+      onLongPress: onLongPress,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: typeColor.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(10),
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      _title(),
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: cs.onSurface),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 2),
-                    Row(
-                      children: [
-                        Icon(Icons.calendar_today_outlined,
-                            size: 10, color: cs.onSurfaceVariant),
-                        const SizedBox(width: 3),
-                        Text(
-                          DateFormat('d MMM yyyy').format(transaction.date),
-                          style: TextStyle(
-                              fontSize: 11, color: cs.onSurfaceVariant),
-                        ),
-                        if (counterpart != null) ...[
-                          Text('  ·  ',
-                              style: TextStyle(
-                                  fontSize: 11,
-                                  color: cs.onSurfaceVariant)),
-                          Expanded(
-                            child: Text(
-                              counterpart,
-                              style: TextStyle(
-                                  fontSize: 11,
-                                  color: cs.onSurfaceVariant),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+              child: Icon(txIcon(_type), size: 18, color: typeColor),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    _title(),
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: cs.onSurface),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2),
+                  Row(
+                    children: [
+                      if (counterpart != null)
+                        Expanded(
+                          child: Text(
+                            counterpart,
+                            style: TextStyle(
+                                fontSize: 11, color: cs.onSurfaceVariant),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ],
-                      ],
-                    ),
-                  ],
-                ),
+                        ),
+                    ],
+                  ),
+                ],
               ),
-              const SizedBox(width: 12),
-              if (transaction.nativeAmount != null)
-                Text(
-                  txAmountDisplay(
-                      _type, transaction.nativeAmount!, transaction.currencyCode ?? 'BAM'),
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: typeColor),
-                ),
-            ],
-          ),
+            ),
+            const SizedBox(width: 12),
+            if (transaction.nativeAmount != null)
+              Text(
+                txAmountDisplay(
+                    _type, transaction.nativeAmount!, transaction.currencyCode ?? 'BAM'),
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: typeColor),
+              ),
+          ],
         ),
       ),
     );

@@ -11,6 +11,7 @@ import '../utils/projections.dart' as proj;
 import '../utils/tx_display.dart';
 import 'new_planned_transaction_screen.dart';
 import 'review_screen.dart';
+import 'settings_screen.dart';
 import 'transaction_detail_screen.dart';
 
 const _kExpenseColor = Color(0xFFDC2626);
@@ -26,6 +27,8 @@ class PlanScreen extends StatefulWidget {
 
 class _PlanScreenState extends State<PlanScreen> {
   DateTime _snapshotDate = DateUtils.dateOnly(DateTime.now());
+  String? _typeFilter;
+  bool _detailExpanded = false;
 
   Future<void> _pickSnapshotDate() async {
     final picked = await showDatePicker(
@@ -37,9 +40,24 @@ class _PlanScreenState extends State<PlanScreen> {
     if (picked != null && mounted) setState(() => _snapshotDate = picked);
   }
 
-  bool _detailExpanded = false;
-
   void _confirm(PlannedTransaction pt) {
+    final today = DateUtils.dateOnly(DateTime.now());
+    final ptDate = DateUtils.dateOnly(pt.date);
+    final isRepeated = pt.repeatInterval != RepeatInterval.none;
+
+    if (isRepeated && ptDate.isAfter(today)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              'Cannot confirm — this recurrence is scheduled for ${DateFormat('d MMM').format(pt.date)}'),
+          behavior: SnackBarBehavior.floating,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      );
+      return;
+    }
+
     HapticFeedback.mediumImpact();
     showDialog(
       context: context,
@@ -57,7 +75,7 @@ class _PlanScreenState extends State<PlanScreen> {
           FilledButton(
             onPressed: () {
               Navigator.pop(ctx);
-              _realize(pt);
+              _realize(pt, realizationDate: today);
             },
             child: const Text('Confirm'),
           ),
@@ -66,7 +84,7 @@ class _PlanScreenState extends State<PlanScreen> {
     );
   }
 
-  void _realize(PlannedTransaction pt) {
+  void _realize(PlannedTransaction pt, {DateTime? realizationDate}) {
     if (pt.nativeAmount != null) {
       // Deduct from source in its native currency.
       if (pt.fromAccount != null) {
@@ -100,7 +118,7 @@ class _PlanScreenState extends State<PlanScreen> {
         toAccount: pt.toAccount,
         category: pt.category,
         description: pt.description,
-        date: pt.date,
+        date: realizationDate ?? pt.date,
         txType: pt.txType,
       ),
     );
@@ -163,6 +181,74 @@ class _PlanScreenState extends State<PlanScreen> {
     );
   }
 
+  void _deleteWithRepeatChoice(PlannedTransaction pt) {
+    if (pt.repeatInterval == RepeatInterval.none) {
+      _delete(pt);
+      return;
+    }
+
+    HapticFeedback.lightImpact();
+    showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('Delete repeated transaction?'),
+        content: const Text(
+            'Do you want to remove only this occurrence or cancel all future occurrences?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, 'this'),
+            child: const Text('This only'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, 'all'),
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('All'),
+          ),
+        ],
+      ),
+    ).then((choice) {
+      if (choice == null || !mounted) return;
+      if (choice == 'all') {
+        _delete(pt);
+      } else {
+        // Delete this occurrence and spawn the next one.
+        final nextDate = nextOccurrence(pt.date, pt.repeatInterval);
+        setState(() {
+          data.plannedTransactions.remove(pt);
+          data.plannedTransactions.add(PlannedTransaction(
+            nativeAmount: pt.nativeAmount,
+            currencyCode: pt.currencyCode,
+            destinationAmount: pt.destinationAmount,
+            fromAccount: pt.fromAccount,
+            toAccount: pt.toAccount,
+            category: pt.category,
+            description: pt.description,
+            date: nextDate,
+            txType: pt.txType,
+            repeatInterval: pt.repeatInterval,
+          ));
+          data.plannedTransactions
+              .sort((a, b) => a.date.compareTo(b.date));
+        });
+        widget.onChanged?.call();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Occurrence removed, next one scheduled'),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)),
+          ),
+        );
+      }
+    });
+  }
+
   Future<void> _addPlanned() async {
     final result = await Navigator.push<PlannedTransaction>(
       context,
@@ -181,6 +267,8 @@ class _PlanScreenState extends State<PlanScreen> {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
+      isDismissible: false,
+      enableDrag: false,
       builder: (ctx) => const AccountFormSheet(),
     );
     if (result != null) {
@@ -214,8 +302,6 @@ class _PlanScreenState extends State<PlanScreen> {
       MaterialPageRoute(
         builder: (_) => PlannedTransactionDetailScreen(
           pt: pt,
-          onEdit: () => _edit(pt),
-          onDelete: () => _delete(pt),
           onConfirm: () => _confirm(pt),
         ),
       ),
@@ -232,7 +318,28 @@ class _PlanScreenState extends State<PlanScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final planned = data.plannedTransactions;
+    final planned = _typeFilter == null
+        ? data.plannedTransactions
+        : data.plannedTransactions.where((pt) {
+            final type = pt.txType ??
+                classifyTransaction(
+                    from: pt.fromAccount, to: pt.toAccount);
+            if (_typeFilter == 'income') {
+              return type == TxType.income ||
+                  type == TxType.invoice ||
+                  type == TxType.collection;
+            } else if (_typeFilter == 'expense') {
+              return type == TxType.expense ||
+                  type == TxType.bill ||
+                  type == TxType.settlement ||
+                  type == TxType.advance;
+            } else if (_typeFilter == 'transfer') {
+              return type == TxType.transfer ||
+                  type == TxType.loan ||
+                  type == TxType.offset;
+            }
+            return true;
+          }).toList();
 
     // Compute once per build — used by both hero and detail card.
     final balances = proj.projectBalances(_snapshotDate);
@@ -249,6 +356,19 @@ class _PlanScreenState extends State<PlanScreen> {
             scrolledUnderElevation: 0,
             title: const Text('Plan'),
             actions: [
+              IconButton(
+                icon: const Icon(Icons.settings_outlined),
+                tooltip: 'Settings',
+                onPressed: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const SettingsScreen()),
+                  );
+                  if (mounted) setState(() {});
+                  widget.onChanged?.call();
+                },
+              ),
               if (_overdueCount > 0)
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
@@ -275,13 +395,15 @@ class _PlanScreenState extends State<PlanScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     _ProjectionHero(
-                  personal: snapshotPersonal,
-                  net: snapshotNet,
-                  date: _snapshotDate,
-                  expanded: _detailExpanded,
-                  onPickDate: _pickSnapshotDate,
-                  onToggle: () =>
-                      setState(() => _detailExpanded = !_detailExpanded),
+                      personal: snapshotPersonal,
+                      net: snapshotNet,
+                      date: _snapshotDate,
+                      expanded: _detailExpanded,
+                      typeFilter: _typeFilter,
+                      onPickDate: _pickSnapshotDate,
+                      onToggle: () =>
+                          setState(() => _detailExpanded = !_detailExpanded),
+                      onTypeFilter: (v) => setState(() => _typeFilter = v),
                     ),
                   ],
                 ),
@@ -311,7 +433,7 @@ class _PlanScreenState extends State<PlanScreen> {
             _PlanTimeline(
               planned: planned,
               onConfirm: _confirm,
-              onDelete: _delete,
+              onDelete: _deleteWithRepeatChoice,
               onEdit: _edit,
               onTap: _openPlannedDetail,
             ),
@@ -319,11 +441,10 @@ class _PlanScreenState extends State<PlanScreen> {
       ),
       floatingActionButton: planned.isEmpty
           ? null
-          : FloatingActionButton.extended(
+          : FloatingActionButton(
               heroTag: 'plan_fab',
               onPressed: _addPlanned,
-              icon: const Icon(Icons.add),
-              label: const Text('Plan'),
+              child: const Icon(Icons.add),
             ),
     );
   }
@@ -334,27 +455,25 @@ class _ProjectionHero extends StatelessWidget {
   final double net;
   final DateTime date;
   final bool expanded;
+  final String? typeFilter;
   final VoidCallback onPickDate;
   final VoidCallback onToggle;
+  final ValueChanged<String?> onTypeFilter;
 
   const _ProjectionHero({
     required this.personal,
     required this.net,
     required this.date,
     required this.expanded,
+    required this.typeFilter,
     required this.onPickDate,
     required this.onToggle,
+    required this.onTypeFilter,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final today = DateUtils.dateOnly(DateTime.now());
-    final sel = DateUtils.dateOnly(date);
-    final isToday = sel == today;
-    final dateLabel = isToday
-        ? 'Today'
-        : DateFormat('d MMM yyyy').format(date);
     final sym = fx.currencySymbol(settings.baseCurrency);
     final personalPos = personal >= 0;
     final netPos = net >= 0;
@@ -364,6 +483,43 @@ class _ProjectionHero extends StatelessWidget {
         personalPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
     final netColor =
         netPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+
+    Widget filterChip(String key, IconData icon) {
+      final active = typeFilter == key;
+      return GestureDetector(
+        onTap: () => onTypeFilter(active ? null : key),
+        child: Container(
+          height: 30,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: active
+                ? cs.primary.withValues(alpha: 0.15)
+                : cs.primaryContainer.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Icon(icon, size: 15,
+              color: active ? cs.primary : cs.onSurfaceVariant),
+        ),
+      );
+    }
+
+    Widget actionChip({required IconData icon, required bool active, required VoidCallback onTap}) {
+      return GestureDetector(
+        onTap: onTap,
+        child: Container(
+          height: 30,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: active
+                ? cs.primary.withValues(alpha: 0.15)
+                : cs.primaryContainer.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Icon(icon, size: 15,
+              color: active ? cs.primary : cs.onSurfaceVariant),
+        ),
+      );
+    }
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
@@ -383,7 +539,7 @@ class _ProjectionHero extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Balance',
+                    Text('Projected Balance',
                         style: TextStyle(
                             fontSize: 12,
                             color: cs.onSurfaceVariant,
@@ -431,74 +587,30 @@ class _ProjectionHero extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-
-          // Date picker + expand toggle row
+          // 5 equal chips
           Row(
             children: [
-              GestureDetector(
-                onTap: onPickDate,
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: cs.primaryContainer.withValues(alpha: 0.5),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.calendar_today_rounded,
-                          size: 12, color: cs.primary),
-                      const SizedBox(width: 5),
-                      Text(
-                        dateLabel,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: cs.primary,
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      Icon(Icons.arrow_drop_down_rounded,
-                          size: 16, color: cs.primary),
-                    ],
-                  ),
+              Expanded(child: filterChip('income', Icons.arrow_downward_rounded)),
+              const SizedBox(width: 6),
+              Expanded(child: filterChip('expense', Icons.arrow_upward_rounded)),
+              const SizedBox(width: 6),
+              Expanded(child: filterChip('transfer', Icons.swap_horiz_rounded)),
+              const SizedBox(width: 6),
+              Expanded(
+                child: actionChip(
+                  icon: Icons.calendar_today_rounded,
+                  active: DateUtils.dateOnly(date) != DateUtils.dateOnly(DateTime.now()),
+                  onTap: onPickDate,
                 ),
               ),
-              const Spacer(),
-              GestureDetector(
-                onTap: onToggle,
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: cs.primaryContainer.withValues(alpha: 0.5),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.account_balance_outlined,
-                          size: 12, color: cs.primary),
-                      const SizedBox(width: 5),
-                      Text(
-                        'Details',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: cs.primary,
-                        ),
-                      ),
-                      const SizedBox(width: 2),
-                      Icon(
-                        expanded
-                            ? Icons.keyboard_arrow_up_rounded
-                            : Icons.keyboard_arrow_down_rounded,
-                        size: 16,
-                        color: cs.primary,
-                      ),
-                    ],
-                  ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: actionChip(
+                  icon: expanded
+                      ? Icons.keyboard_arrow_up_rounded
+                      : Icons.keyboard_arrow_down_rounded,
+                  active: expanded,
+                  onTap: onToggle,
                 ),
               ),
             ],
@@ -542,18 +654,11 @@ class _ProjectionDetailCard extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                         color: cs.primary)),
                 const SizedBox(height: 6),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: personal
-                        .map((a) => _BalanceChip(
-                              name: a.name,
-                              balance: balances[a.id] ?? a.balance,
-                              currencyCode: a.currencyCode,
-                            ))
-                        .toList(),
-                  ),
-                ),
+                ...personal.map((a) => _BalanceChip(
+                      name: a.name,
+                      balance: balances[a.id] ?? a.balance,
+                      currencyCode: a.currencyCode,
+                    )),
               ],
               if (individuals.isNotEmpty) ...[
                 const SizedBox(height: 10),
@@ -564,19 +669,12 @@ class _ProjectionDetailCard extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                         color: cs.tertiary)),
                 const SizedBox(height: 6),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: individuals
-                        .map((a) => _BalanceChip(
-                              name: a.name,
-                              balance: balances[a.id] ?? a.balance,
-                              currencyCode: a.currencyCode,
-                              isPartner: true,
-                            ))
-                        .toList(),
-                  ),
-                ),
+                ...individuals.map((a) => _BalanceChip(
+                      name: a.name,
+                      balance: balances[a.id] ?? a.balance,
+                      currencyCode: a.currencyCode,
+                      isPartner: true,
+                    )),
               ],
               if (entities.isNotEmpty) ...[
                 const SizedBox(height: 10),
@@ -587,19 +685,12 @@ class _ProjectionDetailCard extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                         color: cs.secondary)),
                 const SizedBox(height: 6),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: entities
-                        .map((a) => _BalanceChip(
-                              name: a.name,
-                              balance: balances[a.id] ?? a.balance,
-                              currencyCode: a.currencyCode,
-                              isPartner: true,
-                            ))
-                        .toList(),
-                  ),
-                ),
+                ...entities.map((a) => _BalanceChip(
+                      name: a.name,
+                      balance: balances[a.id] ?? a.balance,
+                      currencyCode: a.currencyCode,
+                      isPartner: true,
+                    )),
               ],
             ],
           ),
@@ -695,7 +786,7 @@ class _PlanTimeline extends StatelessWidget {
     final days = grouped.keys.toList()..sort();
 
     return SliverPadding(
-      padding: const EdgeInsets.only(bottom: 100, top: 8),
+      padding: const EdgeInsets.only(bottom: 100),
       sliver: SliverList.builder(
         itemCount: days.length,
         itemBuilder: (ctx, i) {
@@ -772,136 +863,135 @@ class _DayGroupState extends State<_DayGroup> {
         .where((a) => a.group == AccountGroup.entities)
         .toList();
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Day header row
-          Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Day header — same style as track screen
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 6),
+          child: Row(
             children: [
-              // Timeline dot
-              Container(
-                width: 10,
-                height: 10,
-                margin: const EdgeInsets.only(right: 10),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: _isPast ? cs.error : cs.primary,
-                  border: Border.all(
-                    color: _isPast
-                        ? cs.error.withValues(alpha: 0.3)
-                        : cs.primary.withValues(alpha: 0.3),
-                    width: 3,
-                  ),
-                ),
-              ),
               Text(
                 _formatDate(widget.date),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
-                  color: _isPast ? cs.error : cs.onSurface,
-                  letterSpacing: -0.2,
+                  color: cs.onSurfaceVariant,
+                  letterSpacing: 0.1,
                 ),
               ),
-              if (_isPast) ...[
-                const SizedBox(width: 6),
+              const Spacer(),
+              if (_isPast)
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
-                    color: cs.errorContainer,
-                    borderRadius: BorderRadius.circular(6),
+                    color: cs.errorContainer.withValues(alpha: 0.8),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text('overdue',
-                      style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                          color: cs.onErrorContainer)),
+                  child: Text(
+                    'overdue',
+                    style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: cs.onErrorContainer),
+                  ),
                 ),
-              ],
             ],
           ),
-          const SizedBox(height: 8),
+        ),
 
-          // Card containing all items for this day
-          Card(
-            margin: const EdgeInsets.only(left: 10),
+        // Card — same container style as track screen
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          decoration: BoxDecoration(
+            color: cs.surfaceContainerLow,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+                color: cs.outlineVariant.withValues(alpha: 0.5)),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
             child: Column(
               children: [
                 // Planned transaction tiles
                 ...widget.planned.asMap().entries.map((entry) {
                   final idx = entry.key;
                   final pt = entry.value;
-                  return Column(
-                    children: [
-                      if (idx > 0)
-                        Divider(
-                            height: 1,
-                            indent: 56,
-                            color:
-                                cs.outlineVariant.withValues(alpha: 0.4)),
-                      _PlannedTile(
-                        pt: pt,
-                        onConfirm: () => widget.onConfirm(pt),
-                        onDelete: () => widget.onDelete(pt),
-                        onEdit: () => widget.onEdit(pt),
-                        onTap: () => widget.onTap(pt),
-                      ),
-                    ],
-                  );
-                }),
-
-                // Projection toggle
-                InkWell(
-                  onTap: () => setState(() => _showProjection = !_showProjection),
-                  borderRadius:
-                      const BorderRadius.vertical(bottom: Radius.circular(16)),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                    child: Row(
+                  return Dismissible(
+                    key: ValueKey(pt.id),
+                    direction: DismissDirection.horizontal,
+                    confirmDismiss: (direction) async {
+                      if (direction == DismissDirection.endToStart) {
+                        widget.onDelete(pt);
+                      } else {
+                        widget.onConfirm(pt);
+                      }
+                      return false;
+                    },
+                    background: Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.only(left: 20),
+                      color: const Color(0xFF16A34A).withValues(alpha: 0.12),
+                      child: const Icon(Icons.check_circle_outline_rounded,
+                          color: Color(0xFF16A34A), size: 22),
+                    ),
+                    secondaryBackground: Container(
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20),
+                      color: Colors.red.withValues(alpha: 0.12),
+                      child: const Icon(Icons.delete_outline_rounded,
+                          color: Color(0xFFDC2626), size: 22),
+                    ),
+                    child: Column(
                       children: [
-                        Icon(Icons.account_balance_outlined,
-                            size: 14, color: cs.primary),
-                        const SizedBox(width: 6),
-                        Text(
-                          'Projected balances',
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: cs.primary,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        const Spacer(),
-                        Icon(
-                          _showProjection
-                              ? Icons.keyboard_arrow_up_rounded
-                              : Icons.keyboard_arrow_down_rounded,
-                          size: 18,
-                          color: cs.primary,
+                        if (idx > 0)
+                          Divider(
+                              height: 0.5,
+                              indent: 56,
+                              color: cs.outlineVariant.withValues(alpha: 0.4)),
+                        _PlannedTile(
+                          pt: pt,
+                          onTap: () => widget.onTap(pt),
+                          onLongPress: () => widget.onEdit(pt),
+                          showProjection: idx == widget.planned.length - 1
+                              ? _showProjection
+                              : false,
+                          onToggleProjection: idx == widget.planned.length - 1
+                              ? () => setState(
+                                  () => _showProjection = !_showProjection)
+                              : null,
                         ),
                       ],
                     ),
-                  ),
-                ),
+                  );
+                }),
 
                 // Projection panel
                 if (_showProjection) ...[
-                  Divider(height: 1, color: cs.outlineVariant.withValues(alpha: 0.4)),
+                  Divider(
+                      height: 0.5,
+                      color: cs.outlineVariant.withValues(alpha: 0.4)),
                   _ProjectionPanel(
                     projectedBalances: widget.projectedBalances,
                     personal: personal,
                     individuals: individuals,
                     entities: entities,
+                    gainIds: {
+                      for (final pt in widget.planned)
+                        if (pt.toAccount != null) pt.toAccount!.id,
+                    },
+                    loseIds: {
+                      for (final pt in widget.planned)
+                        if (pt.fromAccount != null) pt.fromAccount!.id,
+                    },
                   ),
                 ],
               ],
             ),
           ),
-          const SizedBox(height: 4),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -911,12 +1001,16 @@ class _ProjectionPanel extends StatelessWidget {
   final List<Account> personal;
   final List<Account> individuals;
   final List<Account> entities;
+  final Set<String> gainIds;
+  final Set<String> loseIds;
 
   const _ProjectionPanel({
     required this.projectedBalances,
     required this.personal,
     required this.individuals,
     required this.entities,
+    this.gainIds = const {},
+    this.loseIds = const {},
   });
 
   @override
@@ -948,7 +1042,7 @@ class _ProjectionPanel extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Text('Personal total',
+                Text('Balance',
                     style: TextStyle(
                         fontSize: 12,
                         color: pos
@@ -976,18 +1070,13 @@ class _ProjectionPanel extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: cs.primary)),
             const SizedBox(height: 6),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: personal
-                    .map((a) => _BalanceChip(
-                          name: a.name,
-                          balance: projectedBalances[a.id] ?? a.balance,
-                          currencyCode: a.currencyCode,
-                        ))
-                    .toList(),
-              ),
-            ),
+            ...personal.map((a) => _BalanceChip(
+                  name: a.name,
+                  balance: projectedBalances[a.id] ?? a.balance,
+                  currencyCode: a.currencyCode,
+                  isGain: gainIds.contains(a.id),
+                  isLose: loseIds.contains(a.id),
+                )),
           ],
           if (individuals.isNotEmpty) ...[
             const SizedBox(height: 10),
@@ -998,19 +1087,14 @@ class _ProjectionPanel extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: cs.tertiary)),
             const SizedBox(height: 6),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: individuals
-                    .map((a) => _BalanceChip(
-                          name: a.name,
-                          balance: projectedBalances[a.id] ?? a.balance,
-                          currencyCode: a.currencyCode,
-                          isPartner: true,
-                        ))
-                    .toList(),
-              ),
-            ),
+            ...individuals.map((a) => _BalanceChip(
+                  name: a.name,
+                  balance: projectedBalances[a.id] ?? a.balance,
+                  currencyCode: a.currencyCode,
+                  isPartner: true,
+                  isGain: gainIds.contains(a.id),
+                  isLose: loseIds.contains(a.id),
+                )),
           ],
           if (entities.isNotEmpty) ...[
             const SizedBox(height: 10),
@@ -1021,19 +1105,14 @@ class _ProjectionPanel extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: cs.secondary)),
             const SizedBox(height: 6),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: entities
-                    .map((a) => _BalanceChip(
-                          name: a.name,
-                          balance: projectedBalances[a.id] ?? a.balance,
-                          currencyCode: a.currencyCode,
-                          isPartner: true,
-                        ))
-                    .toList(),
-              ),
-            ),
+            ...entities.map((a) => _BalanceChip(
+                  name: a.name,
+                  balance: projectedBalances[a.id] ?? a.balance,
+                  currencyCode: a.currencyCode,
+                  isPartner: true,
+                  isGain: gainIds.contains(a.id),
+                  isLose: loseIds.contains(a.id),
+                )),
           ],
         ],
       ),
@@ -1046,44 +1125,64 @@ class _BalanceChip extends StatelessWidget {
   final double balance;
   final String currencyCode;
   final bool isPartner;
+  final bool isGain;
+  final bool isLose;
 
   const _BalanceChip({
     required this.name,
     required this.balance,
     required this.currencyCode,
     this.isPartner = false,
+    this.isGain = false,
+    this.isLose = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final isPositive = balance >= 0;
-    final color = isPositive ? _kIncomeColor : _kExpenseColor;
+    final isAffected = isGain || isLose;
+    final color = isGain ? _kIncomeColor : isLose ? _kExpenseColor : null;
 
     return Container(
-      margin: const EdgeInsets.only(right: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      margin: const EdgeInsets.only(bottom: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.08),
+        color: isAffected
+            ? color!.withValues(alpha: 0.14)
+            : cs.surfaceContainerHighest.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: color.withValues(alpha: 0.25)),
+        border: Border.all(
+          color: isAffected
+              ? color!.withValues(alpha: 0.7)
+              : cs.outlineVariant.withValues(alpha: 0.4),
+          width: isAffected ? 1.5 : 1.0,
+        ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
+          if (isAffected)
+            Container(
+              width: 6,
+              height: 6,
+              margin: const EdgeInsets.only(right: 6),
+              decoration: BoxDecoration(
+                color: color,
+                shape: BoxShape.circle,
+              ),
+            ),
           Text(
             name,
             style: TextStyle(
-              fontSize: 10,
+              fontSize: 13,
               color: isPartner ? cs.tertiary : cs.primary,
-              fontWeight: FontWeight.w700,
+              fontWeight: isAffected ? FontWeight.w700 : FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 2),
+          const Spacer(),
           Text(
             '${balance > 0 ? '+' : ''}${balance.toStringAsFixed(2)} ${fx.currencySymbol(currencyCode)}',
             style: TextStyle(
-              color: color,
+              color: isAffected ? color : cs.onSurfaceVariant,
               fontWeight: FontWeight.w800,
               fontSize: 13,
             ),
@@ -1096,17 +1195,17 @@ class _BalanceChip extends StatelessWidget {
 
 class _PlannedTile extends StatelessWidget {
   final PlannedTransaction pt;
-  final VoidCallback onConfirm;
-  final VoidCallback onDelete;
-  final VoidCallback onEdit;
   final VoidCallback onTap;
+  final VoidCallback onLongPress;
+  final bool showProjection;
+  final VoidCallback? onToggleProjection;
 
   const _PlannedTile({
     required this.pt,
-    required this.onConfirm,
-    required this.onDelete,
-    required this.onEdit,
     required this.onTap,
+    required this.onLongPress,
+    this.showProjection = false,
+    this.onToggleProjection,
   });
 
   TxType get _type =>
@@ -1151,6 +1250,7 @@ class _PlannedTile extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
+      onLongPress: onLongPress,
       child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       child: Row(
@@ -1228,68 +1328,20 @@ class _PlannedTile extends StatelessWidget {
                 fontSize: 15,
               ),
             ),
-          const SizedBox(width: 4),
-
-          // Action menu
-          Builder(builder: (ctx) {
-            final today = DateUtils.dateOnly(DateTime.now());
-            final ptDate = DateUtils.dateOnly(pt.date);
-            final canConfirm = !ptDate.isAfter(today);
-            final cs2 = Theme.of(ctx).colorScheme;
-            return PopupMenuButton<String>(
-              icon: Icon(Icons.more_vert_rounded,
-                  size: 18, color: cs2.onSurfaceVariant),
-              itemBuilder: (_) => [
-                PopupMenuItem(
-                  value: 'confirm',
-                  enabled: canConfirm,
-                  child: Row(
-                    children: [
-                      Icon(Icons.check_circle_outline_rounded,
-                          size: 18,
-                          color: canConfirm
-                              ? cs2.primary
-                              : cs2.onSurface.withValues(alpha: 0.38)),
-                      const SizedBox(width: 10),
-                      Text('Confirm',
-                          style: TextStyle(
-                              color: canConfirm
-                                  ? null
-                                  : cs2.onSurface.withValues(alpha: 0.38))),
-                    ],
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 'edit',
-                  child: Row(
-                    children: [
-                      Icon(Icons.edit_outlined, size: 18, color: cs2.primary),
-                      const SizedBox(width: 10),
-                      const Text('Edit'),
-                    ],
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 'delete',
-                  child: Row(
-                    children: [
-                      Icon(Icons.delete_outline_rounded,
-                          size: 18, color: cs2.error),
-                      const SizedBox(width: 10),
-                      Text('Delete', style: TextStyle(color: cs2.error)),
-                    ],
-                  ),
-                ),
-              ],
-              onSelected: (v) {
-                if (v == 'confirm') onConfirm();
-                if (v == 'edit') onEdit();
-                if (v == 'delete') onDelete();
-              },
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-            );
-          }),
+          if (onToggleProjection != null) ...[
+            const SizedBox(width: 6),
+            GestureDetector(
+              onTap: onToggleProjection,
+              behavior: HitTestBehavior.opaque,
+              child: Icon(
+                showProjection
+                    ? Icons.keyboard_arrow_up_rounded
+                    : Icons.keyboard_arrow_down_rounded,
+                size: 18,
+                color: cs.onSurfaceVariant.withValues(alpha: 0.5),
+              ),
+            ),
+          ],
         ],
       ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import '../data/app_data.dart' as data;
+import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
 import '../utils/fx.dart' as fx;
@@ -28,9 +29,57 @@ class _NewPlannedTransactionScreenState
   String? _category;
   DateTime _date = DateTime.now().add(const Duration(days: 1));
   RepeatInterval _repeatInterval = RepeatInterval.none;
-  bool _showProjection = false;
+  bool _forceClose = false;
 
   bool get _isEdit => widget.existing != null;
+
+  bool get _isDirty {
+    if (_isEdit) {
+      final e = widget.existing!;
+      final origAmt = e.nativeAmount != null ? e.nativeAmount!.toStringAsFixed(2) : '';
+      if (_amountController.text.trim() != origAmt) return true;
+      if (_fromAccount != e.fromAccount) return true;
+      if (_toAccount != e.toAccount) return true;
+      if (_category != e.category) return true;
+      if (_descriptionController.text.trim() != (e.description ?? '')) return true;
+      if (!DateUtils.dateOnly(_date).isAtSameMomentAs(DateUtils.dateOnly(e.date))) return true;
+      if (_repeatInterval != e.repeatInterval) return true;
+      return false;
+    }
+    return _amountController.text.trim().isNotEmpty ||
+        _fromAccount != null ||
+        _toAccount != null ||
+        _category != null ||
+        _descriptionController.text.trim().isNotEmpty;
+  }
+
+  void _showDiscardDialog() {
+    showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('Discard changes?'),
+        content: const Text(
+            'You have unsaved changes. They will be lost if you leave now.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Keep editing'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Discard'),
+          ),
+        ],
+      ),
+    ).then((discard) {
+      if (discard == true && mounted) {
+        setState(() => _forceClose = true);
+        Navigator.of(context).pop();
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -94,7 +143,7 @@ class _NewPlannedTransactionScreenState
     HapticFeedback.mediumImpact();
     final type = _txType;
     final ccy = _fromAccount?.currencyCode ??
-        _toAccount?.currencyCode ?? 'BAM';
+        _toAccount?.currencyCode ?? settings.baseCurrency;
     Navigator.pop(
       context,
       PlannedTransaction(
@@ -131,7 +180,7 @@ class _NewPlannedTransactionScreenState
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      builder: (ctx) => _AccountPickerSheet(exclude: exclude),
+      builder: (ctx) => _AccountPickerSheet(exclude: exclude, date: _date),
     );
   }
 
@@ -163,14 +212,16 @@ class _NewPlannedTransactionScreenState
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final color = _amountColor;
+    final projected = proj.projectBalances(_date);
 
-    return Scaffold(
+    return PopScope(
+      canPop: !_isDirty || _forceClose,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _showDiscardDialog();
+      },
+      child: Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.close_rounded),
-          onPressed: () => Navigator.pop(context),
-        ),
         title: Text(_isEdit ? 'Edit Plan' : 'Plan Transaction'),
         actions: [
           TextButton.icon(
@@ -249,7 +300,7 @@ class _NewPlannedTransactionScreenState
                             Text(
                                 fx.currencySymbol(
                                   _fromAccount?.currencyCode ??
-                                  _toAccount?.currencyCode ?? 'BAM',
+                                  _toAccount?.currencyCode ?? settings.baseCurrency,
                                 ),
                                 style: TextStyle(
                                     fontSize: 32,
@@ -266,6 +317,9 @@ class _NewPlannedTransactionScreenState
                   _AccountPickerTile(
                     label: 'From',
                     account: _fromAccount,
+                    projectedBalance: _fromAccount != null
+                        ? (projected[_fromAccount!.id] ?? _fromAccount!.balance)
+                        : null,
                     onTap: () async {
                       final a = await _showAccountPicker(exclude: _toAccount);
                       if (a != null) setState(() => _fromAccount = a);
@@ -280,6 +334,9 @@ class _NewPlannedTransactionScreenState
                   _AccountPickerTile(
                     label: 'To',
                     account: _toAccount,
+                    projectedBalance: _toAccount != null
+                        ? (projected[_toAccount!.id] ?? _toAccount!.balance)
+                        : null,
                     onTap: () async {
                       final a = await _showAccountPicker(exclude: _fromAccount);
                       if (a != null) setState(() => _toAccount = a);
@@ -370,17 +427,6 @@ class _NewPlannedTransactionScreenState
                     value: _repeatInterval,
                     onChanged: (v) => setState(() => _repeatInterval = v),
                   ),
-                  const SizedBox(height: 16),
-
-                  // Projected balances (collapsible)
-                  _ProjectedBalancesCard(
-                    date: _date,
-                    dateLabel: _dateLabel,
-                    onPickDate: _pickDate,
-                    expanded: _showProjection,
-                    onToggle: () =>
-                        setState(() => _showProjection = !_showProjection),
-                  ),
                 ],
               ),
             ),
@@ -392,13 +438,14 @@ class _NewPlannedTransactionScreenState
             amount: _parsedAmount,
             currencySymbol: fx.currencySymbol(
               _fromAccount?.currencyCode ??
-              _toAccount?.currencyCode ?? 'BAM',
+              _toAccount?.currencyCode ?? settings.baseCurrency,
             ),
             dateLabel: _dateLabel,
             isEdit: _isEdit,
             onSave: _save,
           ),
         ],
+      ),
       ),
     );
   }
@@ -407,6 +454,7 @@ class _NewPlannedTransactionScreenState
 class _AccountPickerTile extends StatelessWidget {
   final String label;
   final Account? account;
+  final double? projectedBalance;
   final VoidCallback onTap;
   final VoidCallback? onClear;
 
@@ -414,6 +462,7 @@ class _AccountPickerTile extends StatelessWidget {
     required this.label,
     required this.account,
     required this.onTap,
+    this.projectedBalance,
     this.onClear,
   });
 
@@ -485,10 +534,10 @@ class _AccountPickerTile extends StatelessWidget {
                     ),
                     if (hasAccount)
                       Text(
-                        '${account!.balance > 0 ? '+' : ''}${account!.balance.toStringAsFixed(2)} ${fx.currencySymbol(account!.currencyCode)}',
+                        '${(projectedBalance ?? account!.balance) > 0 ? '+' : ''}${(projectedBalance ?? account!.balance).toStringAsFixed(2)} ${fx.currencySymbol(account!.currencyCode)}',
                         style: TextStyle(
                           fontSize: 12,
-                          color: account!.balance >= 0
+                          color: (projectedBalance ?? account!.balance) >= 0
                               ? const Color(0xFF16A34A)
                               : const Color(0xFFDC2626),
                           fontWeight: FontWeight.w600,
@@ -510,223 +559,6 @@ class _AccountPickerTile extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _ProjectedBalancesCard extends StatelessWidget {
-  final DateTime date;
-  final String dateLabel;
-  final VoidCallback onPickDate;
-  final bool expanded;
-  final VoidCallback onToggle;
-
-  const _ProjectedBalancesCard({
-    required this.date,
-    required this.dateLabel,
-    required this.onPickDate,
-    required this.expanded,
-    required this.onToggle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final balances = proj.projectBalances(date);
-    final personal =
-        data.accounts.where((a) => a.group == AccountGroup.personal).toList();
-    final individuals =
-        data.accounts.where((a) => a.group == AccountGroup.individuals).toList();
-    final entities =
-        data.accounts.where((a) => a.group == AccountGroup.entities).toList();
-    final totalPersonal = proj.personalTotal(balances);
-    final pos = totalPersonal >= 0;
-    final totColor =
-        pos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
-
-    return Card(
-      margin: EdgeInsets.zero,
-      child: Column(
-        children: [
-          InkWell(
-            onTap: onToggle,
-            borderRadius: expanded
-                ? const BorderRadius.vertical(top: Radius.circular(16))
-                : BorderRadius.circular(16),
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-              child: Row(
-                children: [
-                  Icon(Icons.account_balance_outlined,
-                      size: 16, color: cs.primary),
-                  const SizedBox(width: 8),
-                  Text('Snapshot on $dateLabel',
-                      style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: cs.primary)),
-                  const Spacer(),
-                  Text(
-                    '${totalPersonal > 0 ? '+' : ''}${totalPersonal.toStringAsFixed(2)} KM',
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                      color: totColor,
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  Icon(
-                    expanded
-                        ? Icons.keyboard_arrow_up_rounded
-                        : Icons.keyboard_arrow_down_rounded,
-                    size: 18,
-                    color: cs.onSurfaceVariant,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          if (expanded) ...[
-            Divider(
-                height: 1,
-                color: cs.outlineVariant.withValues(alpha: 0.4)),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(14, 10, 14, 14),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (personal.isNotEmpty) ...[
-                    Text('PERSONAL',
-                        style: TextStyle(
-                            fontSize: 10,
-                            letterSpacing: 0.8,
-                            fontWeight: FontWeight.w700,
-                            color: cs.primary)),
-                    const SizedBox(height: 6),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: personal
-                            .map((a) => _BalChip(
-                                  name: a.name,
-                                  balance: balances[a.id] ?? a.balance,
-                                  currencyCode: a.currencyCode,
-                                ))
-                            .toList(),
-                      ),
-                    ),
-                  ],
-                  if (individuals.isNotEmpty) ...[
-                    const SizedBox(height: 10),
-                    Text('INDIVIDUALS',
-                        style: TextStyle(
-                            fontSize: 10,
-                            letterSpacing: 0.8,
-                            fontWeight: FontWeight.w700,
-                            color: cs.tertiary)),
-                    const SizedBox(height: 6),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: individuals
-                            .map((a) => _BalChip(
-                                  name: a.name,
-                                  balance: balances[a.id] ?? a.balance,
-                                  currencyCode: a.currencyCode,
-                                  isPartner: true,
-                                ))
-                            .toList(),
-                      ),
-                    ),
-                  ],
-                  if (entities.isNotEmpty) ...[
-                    const SizedBox(height: 10),
-                    Text('ENTITIES',
-                        style: TextStyle(
-                            fontSize: 10,
-                            letterSpacing: 0.8,
-                            fontWeight: FontWeight.w700,
-                            color: cs.secondary)),
-                    const SizedBox(height: 6),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: entities
-                            .map((a) => _BalChip(
-                                  name: a.name,
-                                  balance: balances[a.id] ?? a.balance,
-                                  currencyCode: a.currencyCode,
-                                  isPartner: true,
-                                ))
-                            .toList(),
-                      ),
-                    ),
-                  ],
-                  const SizedBox(height: 10),
-                  TextButton.icon(
-                    onPressed: onPickDate,
-                    icon: const Icon(Icons.calendar_today_rounded, size: 14),
-                    label: const Text('Change date'),
-                    style: TextButton.styleFrom(
-                      visualDensity: VisualDensity.compact,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class _BalChip extends StatelessWidget {
-  final String name;
-  final double balance;
-  final String currencyCode;
-  final bool isPartner;
-
-  const _BalChip({
-    required this.name,
-    required this.balance,
-    required this.currencyCode,
-    this.isPartner = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final pos = balance >= 0;
-    final color =
-        pos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
-    return Container(
-      margin: const EdgeInsets.only(right: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: color.withValues(alpha: 0.25)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(name,
-              style: TextStyle(
-                  fontSize: 10,
-                  color: isPartner ? cs.tertiary : cs.primary,
-                  fontWeight: FontWeight.w700)),
-          const SizedBox(height: 2),
-          Text(
-            '${balance > 0 ? '+' : ''}${balance.toStringAsFixed(2)} ${fx.currencySymbol(currencyCode)}',
-            style: TextStyle(
-                color: color, fontWeight: FontWeight.w800, fontSize: 12),
-          ),
-        ],
       ),
     );
   }
@@ -859,11 +691,13 @@ class _RepeatPicker extends StatelessWidget {
 
 class _AccountPickerSheet extends StatelessWidget {
   final Account? exclude;
-  const _AccountPickerSheet({this.exclude});
+  final DateTime date;
+  const _AccountPickerSheet({this.exclude, required this.date});
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final balances = proj.projectBalances(date);
     final personal = data.accounts
         .where((a) => a.group == AccountGroup.personal && a != exclude)
         .toList();
@@ -873,6 +707,17 @@ class _AccountPickerSheet extends StatelessWidget {
     final entities = data.accounts
         .where((a) => a.group == AccountGroup.entities && a != exclude)
         .toList();
+
+    final today = DateUtils.dateOnly(DateTime.now());
+    final selectedDate = DateUtils.dateOnly(date);
+    final String dateNote;
+    if (selectedDate == today) {
+      dateNote = 'Balances as of today';
+    } else if (selectedDate == today.add(const Duration(days: 1))) {
+      dateNote = 'Projected balances for tomorrow';
+    } else {
+      dateNote = 'Projected balances for ${DateFormat('d MMM yyyy').format(date)}';
+    }
 
     return DraggableScrollableSheet(
       expand: false,
@@ -895,6 +740,9 @@ class _AccountPickerSheet extends StatelessWidget {
                   .textTheme
                   .titleMedium
                   ?.copyWith(fontWeight: FontWeight.w700)),
+          const SizedBox(height: 4),
+          Text(dateNote,
+              style: TextStyle(fontSize: 12, color: cs.onSurfaceVariant)),
           const SizedBox(height: 8),
           Expanded(
             child: ListView(
@@ -906,6 +754,7 @@ class _AccountPickerSheet extends StatelessWidget {
                   ...personal.map(
                     (a) => _AccountListTile(
                       account: a,
+                      projectedBalance: balances[a.id] ?? a.balance,
                       onTap: () => Navigator.pop(ctx, a),
                     ),
                   ),
@@ -915,6 +764,7 @@ class _AccountPickerSheet extends StatelessWidget {
                   ...individuals.map(
                     (a) => _AccountListTile(
                       account: a,
+                      projectedBalance: balances[a.id] ?? a.balance,
                       onTap: () => Navigator.pop(ctx, a),
                     ),
                   ),
@@ -924,6 +774,7 @@ class _AccountPickerSheet extends StatelessWidget {
                   ...entities.map(
                     (a) => _AccountListTile(
                       account: a,
+                      projectedBalance: balances[a.id] ?? a.balance,
                       onTap: () => Navigator.pop(ctx, a),
                     ),
                   ),
@@ -970,8 +821,13 @@ class _SheetHeader extends StatelessWidget {
 
 class _AccountListTile extends StatelessWidget {
   final Account account;
+  final double projectedBalance;
   final VoidCallback onTap;
-  const _AccountListTile({required this.account, required this.onTap});
+  const _AccountListTile({
+    required this.account,
+    required this.projectedBalance,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -988,7 +844,7 @@ class _AccountListTile extends StatelessWidget {
         : isEntities
             ? cs.onSecondaryContainer
             : cs.onTertiaryContainer;
-    final balPos = account.balance >= 0;
+    final balPos = projectedBalance >= 0;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
@@ -1027,7 +883,7 @@ class _AccountListTile extends StatelessWidget {
                           fontWeight: FontWeight.w600, fontSize: 15)),
                 ),
                 Text(
-                  '${account.balance > 0 ? '+' : ''}${account.balance.toStringAsFixed(2)} ${fx.currencySymbol(account.currencyCode)}',
+                  '${projectedBalance > 0 ? '+' : ''}${projectedBalance.toStringAsFixed(2)} ${fx.currencySymbol(account.currencyCode)}',
                   style: TextStyle(
                     color: balPos
                         ? const Color(0xFF16A34A)

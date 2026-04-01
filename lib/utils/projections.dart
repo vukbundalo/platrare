@@ -6,6 +6,34 @@ import '../models/account.dart';
 import '../models/planned_transaction.dart';
 import 'fx.dart' as fx;
 
+/// Returns historical native balances for every account at end-of-day on
+/// [date] by taking current real balances and reversing all transactions
+/// that occurred strictly after [date].
+Map<String, double> historicalBalances(DateTime date) {
+  final dayEnd = DateTime(date.year, date.month, date.day, 23, 59, 59);
+  final balances = {for (final a in data.accounts) a.id: a.balance};
+
+  for (final t in data.transactions) {
+    if (t.nativeAmount == null) continue;
+    if (!t.date.isAfter(dayEnd)) continue; // only reverse post-date txns
+
+    if (t.fromAccount != null) {
+      balances[t.fromAccount!.id] =
+          (balances[t.fromAccount!.id] ?? 0) + t.nativeAmount!;
+    }
+    if (t.toAccount != null) {
+      final credit = (t.destinationAmount != null &&
+              t.toAccount!.currencyCode != t.fromAccount?.currencyCode)
+          ? t.destinationAmount!
+          : t.nativeAmount!;
+      balances[t.toAccount!.id] =
+          (balances[t.toAccount!.id] ?? 0) - credit;
+    }
+  }
+
+  return balances;
+}
+
 /// Returns projected native balances for every account at end-of-day on [date],
 /// starting from current real balances and applying planned transactions
 /// whose date is on or before [date].

@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -17,36 +18,101 @@ class ReviewScreen extends StatefulWidget {
 }
 
 class _ReviewScreenState extends State<ReviewScreen> {
-  bool _spendingThisMonth = true;
+  String _displayCurrency = settings.baseCurrency;
+  // 'personal' | 'individuals' | 'entities' | 'statistics' | null
+  String? _activeSection;
+  // 'expense' | 'income' | null
+  String? _activeStats;
+  // 0 = all time, 1 = this month, 3 = 3 months, 6 = 6 months, 12 = 1 year
+  int _spendingMonths = 1;
+  // 0 = bars, 1 = donut
+  int _vizMode = 0;
+  // how many periods back from current (0 = most recent)
+  int _dateOffset = 0;
+
+  String get _periodLabel => switch (_spendingMonths) {
+    1 => '1M', 3 => '3M', 6 => '6M', 12 => '1Y', _ => 'ALL',
+  };
+
+  void _cyclePeriod() => setState(() {
+    _dateOffset = 0;
+    _spendingMonths = switch (_spendingMonths) {
+      1 => 3, 3 => 6, 6 => 12, 12 => 0, _ => 1,
+    };
+  });
+
+  void _cycleViz() => setState(() => _vizMode = (_vizMode + 1) % 2);
+  void _navigateBack() => setState(() => _dateOffset++);
+  void _navigateForward() => setState(() { if (_dateOffset > 0) _dateOffset--; });
+
+  // The active date window (start inclusive, end exclusive). null = no filter.
+  ({DateTime? start, DateTime? end}) get _dateRange {
+    if (_spendingMonths == 0) return (start: null, end: null);
+    final now = DateTime.now();
+    if (_spendingMonths == 12) {
+      final year = now.year - _dateOffset;
+      return (start: DateTime(year, 1, 1), end: DateTime(year + 1, 1, 1));
+    }
+    final endM = now.month + 1 - _dateOffset * _spendingMonths;
+    return (
+      start: DateTime(now.year, endM - _spendingMonths, 1),
+      end: DateTime(now.year, endM, 1),
+    );
+  }
+
+  DateTime? get _earliestTxDate => data.transactions.isEmpty
+      ? null
+      : data.transactions.map((t) => t.date).reduce((a, b) => a.isBefore(b) ? a : b);
+
+  String get _dateRangeLabel {
+    final now = DateTime.now();
+    if (_spendingMonths == 0) {
+      final earliest = _earliestTxDate;
+      if (earliest == null) return 'All time';
+      return '${DateFormat('MMM yyyy').format(earliest)} – ${DateFormat('MMM yyyy').format(now)}';
+    }
+    if (_spendingMonths == 12) return '${now.year - _dateOffset}';
+    final range = _dateRange;
+    final s = range.start!;
+    final lastMonth = DateTime(range.end!.year, range.end!.month - 1, 1);
+    if (_spendingMonths == 1) return DateFormat('MMMM yyyy').format(s);
+    if (s.year == lastMonth.year) {
+      return '${DateFormat('MMM').format(s)} – ${DateFormat('MMM yyyy').format(lastMonth)}';
+    }
+    return '${DateFormat('MMM yyyy').format(s)} – ${DateFormat('MMM yyyy').format(lastMonth)}';
+  }
 
   // ── Account mutations ──────────────────────────────────────────────────────
 
-  void _addAccount() async {
-    final result = await showModalBottomSheet<Account>(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      builder: (ctx) => const AccountFormSheet(),
+  Future<void> _addAccount() async {
+    final result = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(builder: (_) => const AccountFormScreen()),
     );
-    if (result != null) {
-      setState(() => data.accounts.add(result));
+    if (result == true) {
+      setState(() {});
       widget.onChanged?.call();
     }
   }
 
-  void _editAccount(Account account) async {
-    final deleted = await showModalBottomSheet<bool>(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      builder: (ctx) => AccountFormSheet(account: account),
+  Future<void> _editAccount(Account account) async {
+    final result = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(
+          builder: (_) => AccountFormScreen(existing: account)),
     );
-    if (deleted == true) {
-      setState(() => data.accounts.remove(account));
-    } else {
+    if (result == true) {
       setState(() {});
+      widget.onChanged?.call();
     }
-    widget.onChanged?.call();
+  }
+
+  void _openAccountTransactions(Account account) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (_) => AccountTransactionsScreen(account: account)),
+    );
   }
 
   // ── Computed values ────────────────────────────────────────────────────────
@@ -61,9 +127,42 @@ class _ReviewScreenState extends State<ReviewScreen> {
       .where((a) => a.includeInBalance)
       .fold(0.0, (sum, a) => sum + fx.toBase(a.balance, a.currencyCode));
 
+  // Returns {category: total} for income transactions, filtered by period
+  Map<String, ({double total, int count})> get _categoryIncome {
+    final range = _dateRange;
+    final result = <String, ({double total, int count})>{};
+
+    for (final t in data.transactions) {
+      final type = t.txType ??
+          classifyTransaction(from: t.fromAccount, to: t.toAccount);
+      const incomeTypes = {
+        TxType.income, TxType.invoice, TxType.collection, TxType.loan,
+      };
+      if (!incomeTypes.contains(type)) continue;
+      if (t.nativeAmount == null) continue;
+      if (range.start != null && t.date.isBefore(range.start!)) continue;
+      if (range.end != null && !t.date.isBefore(range.end!)) continue;
+
+      final baseValue = fx.toBase(
+          t.nativeAmount!, t.currencyCode ?? settings.baseCurrency);
+
+      final key = t.category ?? 'Uncategorized';
+      final existing = result[key];
+      if (existing == null) {
+        result[key] = (total: baseValue, count: 1);
+      } else {
+        result[key] = (
+          total: existing.total + baseValue,
+          count: existing.count + 1,
+        );
+      }
+    }
+    return result;
+  }
+
   // Returns {category: total} for expense transactions, filtered by period
   Map<String, ({double total, int count})> get _categorySpending {
-    final now = DateTime.now();
+    final range = _dateRange;
     final result = <String, ({double total, int count})>{};
 
     for (final t in data.transactions) {
@@ -74,15 +173,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
       };
       if (!expenseTypes.contains(type)) continue;
       if (t.nativeAmount == null) continue;
-      if (_spendingThisMonth &&
-          (t.date.year != now.year || t.date.month != now.month)) {
-        continue;
-      }
+      if (range.start != null && t.date.isBefore(range.start!)) continue;
+      if (range.end != null && !t.date.isBefore(range.end!)) continue;
 
-      // Rule 3: use the locked baseAmount for historical P&L charts so that
-      // past spending totals never mutate when exchange rates change.
-      final baseValue = t.baseAmount ??
-          fx.toBase(t.nativeAmount!, t.currencyCode ?? 'BAM');
+      final baseValue = fx.toBase(
+          t.nativeAmount!, t.currencyCode ?? settings.baseCurrency);
 
       final key = t.category ?? 'Uncategorized';
       final existing = result[key];
@@ -133,11 +228,28 @@ class _ReviewScreenState extends State<ReviewScreen> {
               IconButton(
                 icon: const Icon(Icons.settings_outlined),
                 tooltip: 'Settings',
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const SettingsScreen()),
-                ),
+                onPressed: () async {
+                  final prevSecondary = settings.secondaryCurrency;
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const SettingsScreen()),
+                  );
+                  if (mounted) {
+                    setState(() {
+                      if (_displayCurrency == prevSecondary) {
+                        _displayCurrency = settings.secondaryCurrency;
+                      }
+                      final validCurrencies = [settings.secondaryCurrency, settings.baseCurrency];
+                      if (!validCurrencies.contains(_displayCurrency)) {
+                        _displayCurrency = settings.baseCurrency;
+                      }
+                    });
+                    // Rebuild Track and Plan screens too so their
+                    // base-currency totals/symbols update immediately.
+                    widget.onChanged?.call();
+                  }
+                },
               ),
             ],
             flexibleSpace: FlexibleSpaceBar(
@@ -150,9 +262,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     _NetWorthHero(
                       personal: _personalTotal,
                       net: _netTotal,
-                      thisMonth: _spendingThisMonth,
-                      onToggle: () => setState(
-                          () => _spendingThisMonth = !_spendingThisMonth),
+                      displayCurrency: _displayCurrency,
+                      activeSection: _activeSection,
+                      onSelectSection: (s) => setState(() =>
+                          _activeSection = _activeSection == s ? null : s),
+                      onToggleCurrency: () => setState(() {
+                        _displayCurrency =
+                            _displayCurrency == settings.baseCurrency
+                                ? settings.secondaryCurrency
+                                : settings.baseCurrency;
+                      }),
                     ),
                   ],
                 ),
@@ -170,38 +289,71 @@ class _ReviewScreenState extends State<ReviewScreen> {
               padding: const EdgeInsets.only(bottom: 40),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
-                  // ── Accounts ────────────────────────────────────────────
-                  if (personal.isNotEmpty) ...[
+                  // ── Accounts (per-group toggles) ─────────────────────────
+                  if (_activeSection == 'personal' && personal.isNotEmpty) ...[
                     _SectionLabel('Personal'),
                     ...personal.map(
                       (a) => _AccountCard(
-                          account: a, onTap: () => _editAccount(a)),
+                          account: a,
+                          displayCurrency: _displayCurrency,
+                          onTap: () => _openAccountTransactions(a),
+                          onLongPress: () => _editAccount(a)),
                     ),
                     const SizedBox(height: 4),
                   ],
-                  if (individuals.isNotEmpty) ...[
+                  if (_activeSection == 'individuals' && individuals.isNotEmpty) ...[
                     _SectionLabel('Individuals'),
                     ...individuals.map(
                       (a) => _AccountCard(
-                          account: a, onTap: () => _editAccount(a)),
+                          account: a,
+                          displayCurrency: _displayCurrency,
+                          onTap: () => _openAccountTransactions(a),
+                          onLongPress: () => _editAccount(a)),
                     ),
                     const SizedBox(height: 4),
                   ],
-                  if (entities.isNotEmpty) ...[
+                  if (_activeSection == 'entities' && entities.isNotEmpty) ...[
                     _SectionLabel('Entities'),
                     ...entities.map(
                       (a) => _AccountCard(
-                          account: a, onTap: () => _editAccount(a)),
+                          account: a,
+                          displayCurrency: _displayCurrency,
+                          onTap: () => _openAccountTransactions(a),
+                          onLongPress: () => _editAccount(a)),
                     ),
                     const SizedBox(height: 4),
                   ],
 
-                  // ── Spending by category ─────────────────────────────────
-                  if (data.transactions.isNotEmpty)
-                    _SpendingSection(
-                      spending: _categorySpending,
-                      thisMonth: _spendingThisMonth,
+                  // ── Statistics ────────────────────────────────────────────
+                  if (_activeSection == 'statistics' && data.transactions.isNotEmpty) ...[
+                    _StatsHeader(
+                      activeStats: _activeStats,
+                      onSelectStats: (s) => setState(() =>
+                          _activeStats = _activeStats == s ? null : s),
+                      periodLabel: _periodLabel,
+                      dateRangeLabel: _dateRangeLabel,
+                      onCyclePeriod: _cyclePeriod,
+                      canNavigateForward: _dateOffset > 0,
+                      onNavigateBack: _navigateBack,
+                      onNavigateForward: _navigateForward,
+                      vizMode: _vizMode,
+                      onCycleViz: _cycleViz,
                     ),
+                    if (_activeStats == 'expense')
+                      _SpendingBody(
+                        spending: _categorySpending,
+                        periodLabel: _periodLabel,
+                        vizMode: _vizMode,
+                        displayCurrency: _displayCurrency,
+                      ),
+                    if (_activeStats == 'income')
+                      _IncomeBody(
+                        income: _categoryIncome,
+                        periodLabel: _periodLabel,
+                        vizMode: _vizMode,
+                        displayCurrency: _displayCurrency,
+                      ),
+                  ],
                 ]),
               ),
             ),
@@ -216,25 +368,65 @@ class _ReviewScreenState extends State<ReviewScreen> {
 class _NetWorthHero extends StatelessWidget {
   final double personal;
   final double net;
-  final bool thisMonth;
-  final VoidCallback onToggle;
+  final String displayCurrency;
+  final bool showPersonal;
+  final bool showIndividuals;
+  final bool showEntities;
+  final bool statisticsExpanded;
+  final VoidCallback onToggleCurrency;
+  final VoidCallback onTogglePersonal;
+  final VoidCallback onToggleIndividuals;
+  final VoidCallback onToggleEntities;
+  final VoidCallback onToggleStatistics;
+
   const _NetWorthHero({
     required this.personal,
     required this.net,
-    required this.thisMonth,
-    required this.onToggle,
+    required this.displayCurrency,
+    required this.showPersonal,
+    required this.showIndividuals,
+    required this.showEntities,
+    required this.statisticsExpanded,
+    required this.onToggleCurrency,
+    required this.onTogglePersonal,
+    required this.onToggleIndividuals,
+    required this.onToggleEntities,
+    required this.onToggleStatistics,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final netPos = net >= 0;
+    final displayPersonal =
+        fx.convert(personal, settings.baseCurrency, displayCurrency);
+    final displayNet =
+        fx.convert(net, settings.baseCurrency, displayCurrency);
+    final netPos = displayNet >= 0;
     final netColor =
         netPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
-    final balanceColor = personal >= 0
+    final balanceColor = displayPersonal >= 0
         ? const Color(0xFF16A34A)
         : const Color(0xFFDC2626);
-    final sym = fx.currencySymbol(settings.baseCurrency);
+    final sym = fx.currencySymbol(displayCurrency);
+    final isSecondary = displayCurrency == settings.secondaryCurrency;
+
+    Widget chip({required IconData icon, required bool active, required VoidCallback onTap, Widget? child}) {
+      return GestureDetector(
+        onTap: onTap,
+        child: Container(
+          height: 30,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: active
+                ? cs.primary.withValues(alpha: 0.15)
+                : cs.primaryContainer.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: child ?? Icon(icon, size: 15,
+              color: active ? cs.primary : cs.onSurfaceVariant),
+        ),
+      );
+    }
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
@@ -260,7 +452,7 @@ class _NetWorthHero extends StatelessWidget {
                             fontWeight: FontWeight.w500)),
                     const SizedBox(height: 2),
                     Text(
-                      '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
+                      '${displayPersonal > 0 ? '+' : ''}${displayPersonal.toStringAsFixed(2)} $sym',
                       style: TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.w800,
@@ -288,7 +480,7 @@ class _NetWorthHero extends StatelessWidget {
                           fontWeight: FontWeight.w500)),
                   const SizedBox(height: 2),
                   Text(
-                    '${net > 0 ? '+' : ''}${net.toStringAsFixed(2)} $sym',
+                    '${displayNet > 0 ? '+' : ''}${displayNet.toStringAsFixed(2)} $sym',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -301,40 +493,18 @@ class _NetWorthHero extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
+          // 5 equal chips: Personal | Individuals | Entities | Statistics | Currency
           Row(
             children: [
-              GestureDetector(
-                onTap: onToggle,
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: cs.primaryContainer.withValues(alpha: 0.5),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.pie_chart_outline_rounded,
-                          size: 12, color: cs.primary),
-                      const SizedBox(width: 5),
-                      Text(
-                        thisMonth
-                            ? DateFormat('MMMM').format(DateTime.now())
-                            : 'All time',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: cs.primary,
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      Icon(Icons.swap_horiz_rounded,
-                          size: 16, color: cs.primary),
-                    ],
-                  ),
-                ),
-              ),
+              Expanded(child: chip(icon: Icons.person_outline_rounded, active: showPersonal, onTap: onTogglePersonal)),
+              const SizedBox(width: 6),
+              Expanded(child: chip(icon: Icons.people_outline_rounded, active: showIndividuals, onTap: onToggleIndividuals)),
+              const SizedBox(width: 6),
+              Expanded(child: chip(icon: Icons.business_outlined, active: showEntities, onTap: onToggleEntities)),
+              const SizedBox(width: 6),
+              Expanded(child: chip(icon: Icons.bar_chart_rounded, active: statisticsExpanded, onTap: onToggleStatistics)),
+              const SizedBox(width: 6),
+              Expanded(child: chip(icon: Icons.currency_exchange_rounded, active: isSecondary, onTap: onToggleCurrency)),
             ],
           ),
         ],
@@ -343,224 +513,551 @@ class _NetWorthHero extends StatelessWidget {
   }
 }
 
-// ─── Spending section ─────────────────────────────────────────────────────────
+// ─── Stats header (shared chips + date navigator) ─────────────────────────────
 
-class _SpendingSection extends StatelessWidget {
-  final Map<String, ({double total, int count})> spending;
-  final bool thisMonth;
+class _StatsHeader extends StatelessWidget {
+  final bool showExpense;
+  final bool showIncome;
+  final VoidCallback onToggleExpense;
+  final VoidCallback onToggleIncome;
+  final String periodLabel;
+  final String dateRangeLabel;
+  final VoidCallback onCyclePeriod;
+  final bool canNavigateForward;
+  final VoidCallback onNavigateBack;
+  final VoidCallback onNavigateForward;
+  final int vizMode;
+  final VoidCallback onCycleViz;
 
-  const _SpendingSection({
-    required this.spending,
-    required this.thisMonth,
+  const _StatsHeader({
+    required this.showExpense,
+    required this.showIncome,
+    required this.onToggleExpense,
+    required this.onToggleIncome,
+    required this.periodLabel,
+    required this.dateRangeLabel,
+    required this.onCyclePeriod,
+    required this.canNavigateForward,
+    required this.onNavigateBack,
+    required this.onNavigateForward,
+    required this.vizMode,
+    required this.onCycleViz,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final sorted = spending.entries.toList()
-      ..sort((a, b) => b.value.total.compareTo(a.value.total));
-    final maxAmount =
-        sorted.isEmpty ? 1.0 : sorted.first.value.total;
-    final totalSpent =
-        sorted.fold(0.0, (s, e) => s + e.value.total);
+    final isAllTime = periodLabel == 'ALL';
+    final vizIcon = vizMode == 1 ? Icons.donut_large_rounded : Icons.bar_chart_rounded;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 16, 16, 6),
-          child: Text('SPENDING',
-              style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
-                  color: cs.primary,
-                  letterSpacing: 0.8)),
+    Widget chip({required IconData icon, required bool active, required VoidCallback onTap, String? label}) =>
+      GestureDetector(
+        onTap: onTap,
+        child: Container(
+          height: 30,
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: active
+                ? cs.primary.withValues(alpha: 0.15)
+                : cs.primaryContainer.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: label != null
+              ? Text(label,
+                  style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      color: active ? cs.primary : cs.onSurfaceVariant))
+              : Icon(icon, size: 15,
+                  color: active ? cs.primary : cs.onSurfaceVariant),
         ),
+      );
 
-        if (sorted.isEmpty)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.pie_chart_outline_rounded,
-                        size: 18, color: cs.onSurfaceVariant),
-                    const SizedBox(width: 10),
-                    Text(
-                      thisMonth
-                          ? 'No expenses this month'
-                          : 'No expenses recorded',
-                      style: TextStyle(
-                          color: cs.onSurfaceVariant, fontSize: 14),
-                    ),
-                  ],
+    Widget navBtn({required IconData icon, required bool enabled, required VoidCallback onTap}) =>
+      GestureDetector(
+        onTap: enabled ? onTap : null,
+        child: Container(
+          width: 30,
+          height: 30,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: enabled
+                ? cs.primary.withValues(alpha: 0.15)
+                : cs.primaryContainer.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Icon(icon, size: 16,
+              color: enabled ? cs.primary : cs.onSurfaceVariant.withValues(alpha: 0.4)),
+        ),
+      );
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+      child: Column(
+        children: [
+          // Chip row: [expense] [income]  ←spacer→  [period] [viz]
+          Row(
+            children: [
+              chip(
+                icon: Icons.arrow_upward_rounded,
+                active: showExpense,
+                onTap: onToggleExpense,
+              ),
+              const SizedBox(width: 6),
+              chip(
+                icon: Icons.arrow_downward_rounded,
+                active: showIncome,
+                onTap: onToggleIncome,
+              ),
+              const Spacer(),
+              chip(
+                icon: Icons.calendar_today_outlined,
+                active: true,
+                onTap: onCyclePeriod,
+                label: periodLabel,
+              ),
+              const SizedBox(width: 6),
+              chip(
+                icon: vizIcon,
+                active: true,
+                onTap: onCycleViz,
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          // Date navigator row
+          Row(
+            children: [
+              if (!isAllTime)
+                navBtn(icon: Icons.chevron_left_rounded, enabled: true, onTap: onNavigateBack),
+              if (!isAllTime) const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  dateRangeLabel,
+                  textAlign: isAllTime ? TextAlign.start : TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: cs.onSurfaceVariant,
+                  ),
                 ),
               ),
-            ),
-          )
-        else ...[
-          // Total row
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 6),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 10),
-                child: Row(
-                  children: [
-                    Icon(Icons.summarize_outlined,
-                        size: 16, color: cs.onSurfaceVariant),
-                    const SizedBox(width: 8),
-                    Text('Total spent',
-                        style: TextStyle(
-                            fontSize: 13, color: cs.onSurfaceVariant)),
-                    const Spacer(),
-                    Text(
-                      '${totalSpent > 0 ? '-' : ''}${totalSpent.toStringAsFixed(2)} KM',
-                      style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFFDC2626)),
-                    ),
-                  ],
+              if (!isAllTime) const SizedBox(width: 6),
+              if (!isAllTime)
+                navBtn(
+                  icon: Icons.chevron_right_rounded,
+                  enabled: canNavigateForward,
+                  onTap: onNavigateForward,
                 ),
-              ),
-            ),
+            ],
           ),
-          // Per-category rows
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Card(
-              child: Column(
-                children: sorted.asMap().entries.map((entry) {
-                  final isLast = entry.key == sorted.length - 1;
-                  final cat = entry.value.key;
-                  final info = entry.value.value;
-                  final frac =
-                      maxAmount > 0 ? info.total / maxAmount : 0.0;
-                  return _CategoryRow(
-                    category: cat,
-                    total: info.total,
-                    count: info.count,
-                    fraction: frac,
-                    isLast: isLast,
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-          const SizedBox(height: 4),
         ],
-      ],
+      ),
     );
   }
 }
 
-class _CategoryRow extends StatelessWidget {
-  final String category;
-  final double total;
-  final int count;
-  final double fraction;
-  final bool isLast;
+// ─── Spending body ────────────────────────────────────────────────────────────
 
-  const _CategoryRow({
-    required this.category,
-    required this.total,
-    required this.count,
-    required this.fraction,
-    required this.isLast,
+class _SpendingBody extends StatelessWidget {
+  final Map<String, ({double total, int count})> spending;
+  final String periodLabel;
+  final int vizMode;
+  final String displayCurrency;
+
+  const _SpendingBody({
+    required this.spending,
+    required this.periodLabel,
+    required this.vizMode,
+    required this.displayCurrency,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     const expenseColor = Color(0xFFDC2626);
+    final sorted = spending.entries.toList()
+      ..sort((a, b) => b.value.total.compareTo(a.value.total));
+    final maxAmount = sorted.isEmpty ? 1.0 : sorted.first.value.total;
+    final totalSpentBase = sorted.fold(0.0, (s, e) => s + e.value.total);
+    final totalSpent = fx.convert(totalSpentBase, settings.baseCurrency, displayCurrency);
+    final sym = fx.currencySymbol(displayCurrency);
+
+    final emptyMsg = switch (periodLabel) {
+      '1M' => 'No expenses this month',
+      'ALL' => 'No expenses recorded',
+      _ => 'No expenses in the last $periodLabel',
+    };
+
+    if (sorted.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.pie_chart_outline_rounded, size: 18, color: cs.onSurfaceVariant),
+                const SizedBox(width: 10),
+                Text(emptyMsg, style: TextStyle(color: cs.onSurfaceVariant, fontSize: 14)),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
 
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 6),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Row(
                 children: [
-                  // Category icon
-                  Container(
-                    width: 34,
-                    height: 34,
-                    decoration: BoxDecoration(
-                      color:
-                          expenseColor.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        category[0].toUpperCase(),
-                        style: const TextStyle(
-                          color: expenseColor,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
+                  Icon(Icons.arrow_upward_rounded, size: 16, color: expenseColor),
+                  const SizedBox(width: 8),
+                  Text('Total spent',
+                      style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant)),
+                  const Spacer(),
+                  Text(
+                    '-${totalSpent.toStringAsFixed(2)} $sym',
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w800, color: expenseColor),
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
+                ],
+              ),
+            ),
+          ),
+        ),
+        if (vizMode == 1)
+          _DonutView(sorted: sorted, displayCurrency: displayCurrency)
+        else
+          _BarsView(
+            sorted: sorted,
+            maxAmount: maxAmount,
+            displayCurrency: displayCurrency,
+            barColor: expenseColor,
+          ),
+        const SizedBox(height: 8),
+      ],
+    );
+  }
+}
+
+// ─── Income body ──────────────────────────────────────────────────────────────
+
+class _IncomeBody extends StatelessWidget {
+  final Map<String, ({double total, int count})> income;
+  final String periodLabel;
+  final int vizMode;
+  final String displayCurrency;
+
+  const _IncomeBody({
+    required this.income,
+    required this.periodLabel,
+    required this.vizMode,
+    required this.displayCurrency,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    const incomeColor = Color(0xFF16A34A);
+    final sorted = income.entries.toList()
+      ..sort((a, b) => b.value.total.compareTo(a.value.total));
+    final maxAmount = sorted.isEmpty ? 1.0 : sorted.first.value.total;
+    final totalReceivedBase = sorted.fold(0.0, (s, e) => s + e.value.total);
+    final totalReceived = fx.convert(totalReceivedBase, settings.baseCurrency, displayCurrency);
+    final sym = fx.currencySymbol(displayCurrency);
+
+    final emptyMsg = switch (periodLabel) {
+      '1M' => 'No income this month',
+      'ALL' => 'No income recorded',
+      _ => 'No income in the last $periodLabel',
+    };
+
+    if (sorted.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.pie_chart_outline_rounded, size: 18, color: cs.onSurfaceVariant),
+                const SizedBox(width: 10),
+                Text(emptyMsg, style: TextStyle(color: cs.onSurfaceVariant, fontSize: 14)),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 6),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Row(
+                children: [
+                  Icon(Icons.arrow_downward_rounded, size: 16, color: incomeColor),
+                  const SizedBox(width: 8),
+                  Text('Total received',
+                      style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant)),
+                  const Spacer(),
+                  Text(
+                    '+${totalReceived.toStringAsFixed(2)} $sym',
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w800, color: incomeColor),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        if (vizMode == 1)
+          _DonutView(sorted: sorted, displayCurrency: displayCurrency)
+        else
+          _BarsView(
+            sorted: sorted,
+            maxAmount: maxAmount,
+            displayCurrency: displayCurrency,
+            barColor: incomeColor,
+          ),
+        const SizedBox(height: 8),
+      ],
+    );
+  }
+}
+
+// ─── Chart palette ────────────────────────────────────────────────────────────
+
+const _kChartColors = [
+  Color(0xFF6366F1), Color(0xFF22C55E), Color(0xFFF59E0B),
+  Color(0xFFEC4899), Color(0xFF14B8A6), Color(0xFFF97316),
+  Color(0xFF8B5CF6), Color(0xFF06B6D4), Color(0xFFEF4444),
+  Color(0xFF84CC16),
+];
+
+// ─── Bars view ────────────────────────────────────────────────────────────────
+
+class _BarsView extends StatelessWidget {
+  final List<MapEntry<String, ({double total, int count})>> sorted;
+  final double maxAmount;
+  final String displayCurrency;
+  final Color barColor;
+
+  const _BarsView({
+    required this.sorted,
+    required this.maxAmount,
+    required this.displayCurrency,
+    required this.barColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Column(
+            children: sorted.asMap().entries.map((entry) {
+              final isLast = entry.key == sorted.length - 1;
+              final cat = entry.value.key;
+              final info = entry.value.value;
+              final frac = maxAmount > 0 ? info.total / maxAmount : 0.0;
+              final amount = fx.convert(info.total, settings.baseCurrency, displayCurrency);
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(category,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14)),
-                        Text(
-                          '$count transaction${count == 1 ? '' : 's'}',
-                          style: TextStyle(
-                              fontSize: 11,
-                              color: cs.onSurfaceVariant),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(cat,
+                                  style: const TextStyle(
+                                      fontSize: 13, fontWeight: FontWeight.w600),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              '${amount.toStringAsFixed(2)} ${fx.currencySymbol(displayCurrency)}',
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w700,
+                                  color: barColor),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 6),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(6),
+                          child: LinearProgressIndicator(
+                            value: frac,
+                            minHeight: 10,
+                            backgroundColor: barColor.withValues(alpha: 0.1),
+                            valueColor: AlwaysStoppedAnimation<Color>(barColor),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  Text(
-                    '${total > 0 ? '-' : ''}${total.toStringAsFixed(2)} KM',
-                    style: const TextStyle(
-                      color: expenseColor,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 14,
+                  if (!isLast)
+                    Divider(
+                        height: 0.5,
+                        indent: 14,
+                        color: cs.outlineVariant.withValues(alpha: 0.4)),
+                ],
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Donut view ───────────────────────────────────────────────────────────────
+
+class _DonutView extends StatelessWidget {
+  final List<MapEntry<String, ({double total, int count})>> sorted;
+  final String displayCurrency;
+
+  const _DonutView({required this.sorted, required this.displayCurrency});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final total = sorted.fold(0.0, (s, e) => s + e.value.total);
+    final fractions =
+        sorted.map((e) => total > 0 ? e.value.total / total : 0.0).toList();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 170,
+                child: CustomPaint(
+                  painter: _DonutPainter(fractions: fractions),
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('${sorted.length}',
+                            style: const TextStyle(
+                                fontSize: 28, fontWeight: FontWeight.w800)),
+                        Text(
+                          sorted.length == 1 ? 'category' : 'categories',
+                          style: TextStyle(
+                              fontSize: 11, color: cs.onSurfaceVariant),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              // Progress bar
-              ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: LinearProgressIndicator(
-                  value: fraction,
-                  minHeight: 4,
-                  backgroundColor:
-                      expenseColor.withValues(alpha: 0.1),
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                      expenseColor),
                 ),
               ),
+              Divider(height: 16, color: cs.outlineVariant.withValues(alpha: 0.4)),
+              // Legend
+              ...sorted.asMap().entries.map((entry) {
+                final idx = entry.key;
+                final cat = entry.value.key;
+                final info = entry.value.value;
+                final color = _kChartColors[idx % _kChartColors.length];
+                final amount = fx.convert(
+                    info.total, settings.baseCurrency, displayCurrency);
+                final pct = total > 0 ? info.total / total * 100 : 0.0;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 10,
+                        height: 10,
+                        decoration:
+                            BoxDecoration(color: color, shape: BoxShape.circle),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(cat,
+                            style: const TextStyle(
+                                fontSize: 13, fontWeight: FontWeight.w500),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                      Text('${pct.toStringAsFixed(1)}%',
+                          style: TextStyle(
+                              fontSize: 12, color: cs.onSurfaceVariant)),
+                      const SizedBox(width: 12),
+                      Text(
+                        '${amount.toStringAsFixed(2)} ${fx.currencySymbol(displayCurrency)}',
+                        style: const TextStyle(
+                            fontSize: 13, fontWeight: FontWeight.w700),
+                      ),
+                    ],
+                  ),
+                );
+              }),
             ],
           ),
         ),
-        if (!isLast)
-          Divider(
-            height: 0.5,
-            indent: 58,
-            color: cs.outlineVariant.withValues(alpha: 0.4),
-          ),
-      ],
+      ),
     );
   }
+}
+
+class _DonutPainter extends CustomPainter {
+  final List<double> fractions;
+  _DonutPainter({required this.fractions});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = math.min(size.width, size.height) / 2 - 4;
+    const strokeWidth = 32.0;
+
+    var startAngle = -math.pi / 2;
+    const gap = 0.04;
+
+    for (int i = 0; i < fractions.length; i++) {
+      final sweep = fractions[i] * 2 * math.pi;
+      if (sweep < gap) { startAngle += sweep; continue; }
+      final paint = Paint()
+        ..color = _kChartColors[i % _kChartColors.length]
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = strokeWidth
+        ..strokeCap = StrokeCap.butt;
+
+      canvas.drawArc(
+        Rect.fromCircle(center: center, radius: radius - strokeWidth / 2),
+        startAngle + gap / 2,
+        sweep - gap,
+        false,
+        paint,
+      );
+      startAngle += sweep;
+    }
+  }
+
+  @override
+  bool shouldRepaint(_DonutPainter old) => old.fractions != fractions;
 }
 
 // ─── Shared widgets ───────────────────────────────────────────────────────────
@@ -588,15 +1085,30 @@ class _SectionLabel extends StatelessWidget {
 
 class _AccountCard extends StatelessWidget {
   final Account account;
+  final String displayCurrency;
   final VoidCallback onTap;
-  const _AccountCard({required this.account, required this.onTap});
+  final VoidCallback onLongPress;
+  const _AccountCard({
+    required this.account,
+    required this.displayCurrency,
+    required this.onTap,
+    required this.onLongPress,
+  });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final isPersonal = account.group == AccountGroup.personal;
     final isEntities = account.group == AccountGroup.entities;
-    final isPositive = account.balance >= 0;
+    // Show native when base chip is selected; convert when secondary is active.
+    final isSecondary = displayCurrency != settings.baseCurrency;
+    final shownBalance = isSecondary
+        ? fx.convert(account.balance, account.currencyCode, displayCurrency)
+        : account.balance;
+    final shownSymbol = isSecondary
+        ? fx.currencySymbol(displayCurrency)
+        : fx.currencySymbol(account.currencyCode);
+    final isPositive = shownBalance >= 0;
     final balanceColor =
         isPositive ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
 
@@ -623,6 +1135,7 @@ class _AccountCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         child: InkWell(
           onTap: onTap,
+          onLongPress: onLongPress,
           borderRadius: BorderRadius.circular(14),
           child: Padding(
             padding:
@@ -665,7 +1178,7 @@ class _AccountCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${account.balance > 0 ? '+' : ''}${account.balance.toStringAsFixed(2)} ${fx.currencySymbol(account.currencyCode)}',
+                      '${shownBalance > 0 ? '+' : ''}${shownBalance.toStringAsFixed(2)} $shownSymbol',
                       style: TextStyle(
                           color: balanceColor,
                           fontWeight: FontWeight.w800,
@@ -678,9 +1191,6 @@ class _AccountCard extends StatelessWidget {
                               color: cs.onSurfaceVariant)),
                   ],
                 ),
-                const SizedBox(width: 4),
-                Icon(Icons.chevron_right_rounded,
-                    size: 18, color: cs.onSurfaceVariant),
               ],
             ),
           ),
@@ -757,6 +1267,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
   late AccountGroup _group;
   late bool _includeInBalance;
   late String _currencyCode;
+  bool _forceClose = false;
 
   @override
   void initState() {
@@ -771,6 +1282,50 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
     _group = widget.account?.group ?? AccountGroup.personal;
     _includeInBalance = widget.account?.includeInBalance ?? true;
     _currencyCode = widget.account?.currencyCode ?? settings.baseCurrency;
+  }
+
+  bool get _isDirty {
+    if (widget.account != null) {
+      return _nameController.text.trim() != widget.account!.name ||
+          _balanceController.text.trim() !=
+              widget.account!.balance.toStringAsFixed(2) ||
+          _group != widget.account!.group ||
+          _includeInBalance != widget.account!.includeInBalance ||
+          _currencyCode != widget.account!.currencyCode;
+    }
+    return _nameController.text.trim().isNotEmpty ||
+        _balanceController.text.trim().isNotEmpty ||
+        _currencyCode != settings.baseCurrency ||
+        _group != AccountGroup.personal ||
+        !_includeInBalance;
+  }
+
+  void _showDiscardDialog() {
+    showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('Discard changes?'),
+        content: const Text(
+            'You have unsaved changes. They will be lost if you leave now.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Keep editing'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Discard'),
+          ),
+        ],
+      ),
+    ).then((discard) {
+      if (discard == true && mounted) {
+        setState(() => _forceClose = true);
+        Navigator.of(context).pop();
+      }
+    });
   }
 
   @override
@@ -855,7 +1410,12 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
     final cs = Theme.of(context).colorScheme;
     final isEdit = widget.account != null;
 
-    return Padding(
+    return PopScope(
+      canPop: !_isDirty || _forceClose,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _showDiscardDialog();
+      },
+      child: Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: SingleChildScrollView(
@@ -876,11 +1436,29 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                   ),
                 ),
               ),
-              Text(isEdit ? 'Edit Account' : 'New Account',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge
-                      ?.copyWith(fontWeight: FontWeight.w700)),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(isEdit ? 'Edit Account' : 'New Account',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge
+                            ?.copyWith(fontWeight: FontWeight.w700)),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close_rounded),
+                    onPressed: () {
+                      if (_isDirty) {
+                        _showDiscardDialog();
+                      } else {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ],
+              ),
               const SizedBox(height: 20),
               SegmentedButton<AccountGroup>(
                 segments: const [
@@ -976,23 +1554,6 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
               ),
               if (isEdit) ...[
                 const SizedBox(height: 8),
-                OutlinedButton.icon(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => AccountTransactionsScreen(
-                          account: widget.account!),
-                    ),
-                  ),
-                  icon: const Icon(Icons.receipt_long_outlined, size: 18),
-                  label: const Text('See all transactions'),
-                  style: OutlinedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14)),
-                    minimumSize: const Size(double.infinity, 48),
-                  ),
-                ),
-                const SizedBox(height: 8),
                 TextButton.icon(
                   onPressed: _delete,
                   icon: const Icon(Icons.delete_outline_rounded,
@@ -1008,6 +1569,310 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
               ],
             ],
           ),
+        ),
+      ),
+      ),
+    );
+  }
+}
+
+// ─── Account Form Screen (full-screen push) ──────────────────────────────────
+
+class AccountFormScreen extends StatefulWidget {
+  final Account? existing;
+  const AccountFormScreen({super.key, this.existing});
+
+  @override
+  State<AccountFormScreen> createState() => _AccountFormScreenState();
+}
+
+class _AccountFormScreenState extends State<AccountFormScreen> {
+  late final TextEditingController _nameController;
+  late final TextEditingController _balanceController;
+  late AccountGroup _group;
+  late bool _includeInBalance;
+  late String _currencyCode;
+  bool _forceClose = false;
+
+  bool get _isEdit => widget.existing != null;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController =
+        TextEditingController(text: widget.existing?.name ?? '');
+    _balanceController = TextEditingController(
+      text: widget.existing != null
+          ? widget.existing!.balance.toStringAsFixed(2)
+          : '',
+    );
+    _group = widget.existing?.group ?? AccountGroup.personal;
+    _includeInBalance = widget.existing?.includeInBalance ?? true;
+    _currencyCode =
+        widget.existing?.currencyCode ?? settings.baseCurrency;
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _balanceController.dispose();
+    super.dispose();
+  }
+
+  bool get _isDirty {
+    if (_isEdit) {
+      return _nameController.text.trim() != widget.existing!.name ||
+          _balanceController.text.trim() !=
+              widget.existing!.balance.toStringAsFixed(2) ||
+          _group != widget.existing!.group ||
+          _includeInBalance != widget.existing!.includeInBalance;
+    }
+    return _nameController.text.trim().isNotEmpty ||
+        _balanceController.text.trim().isNotEmpty ||
+        _currencyCode != settings.baseCurrency ||
+        _group != AccountGroup.personal ||
+        !_includeInBalance;
+  }
+
+  bool get _canSave => _nameController.text.trim().isNotEmpty;
+
+  void _showDiscardDialog() {
+    showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('Discard changes?'),
+        content: const Text(
+            'You have unsaved changes. They will be lost if you leave now.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Keep editing'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Discard'),
+          ),
+        ],
+      ),
+    ).then((discard) {
+      if (discard == true && mounted) {
+        setState(() => _forceClose = true);
+        Navigator.of(context).pop();
+      }
+    });
+  }
+
+  void _save() {
+    final name = _nameController.text.trim();
+    if (name.isEmpty) return;
+    final balance =
+        double.tryParse(_balanceController.text.trim().replaceAll(',', '.')) ??
+            0.0;
+    if (_isEdit) {
+      widget.existing!.name = name;
+      widget.existing!.balance = balance;
+      widget.existing!.group = _group;
+      widget.existing!.includeInBalance = _includeInBalance;
+    } else {
+      data.accounts.add(Account(
+        name: name,
+        group: _group,
+        balance: balance,
+        includeInBalance: _includeInBalance,
+        currencyCode: _currencyCode,
+      ));
+    }
+    HapticFeedback.lightImpact();
+    Navigator.pop(context, true);
+  }
+
+  void _confirmDelete() {
+    HapticFeedback.mediumImpact();
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('Delete account?'),
+        content: const Text('This account will be removed permanently.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              data.accounts.remove(widget.existing);
+              Navigator.pop(context, true);
+            },
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _pickCurrency() async {
+    final result = await showModalBottomSheet<String>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (ctx) => _CurrencyPickerSheet(selected: _currencyCode),
+    );
+    if (result != null && mounted) setState(() => _currencyCode = result);
+  }
+
+  String get _groupDescription => switch (_group) {
+        AccountGroup.personal => 'Your own wallets & bank accounts',
+        AccountGroup.individuals => 'Family, friends, individuals',
+        AccountGroup.entities => 'Entities, utilities, organisations',
+      };
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
+    return PopScope(
+      canPop: !_isDirty || _forceClose,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _showDiscardDialog();
+      },
+      child: Scaffold(
+        backgroundColor: cs.surface,
+        appBar: AppBar(
+          title: Text(_isEdit ? 'Edit Account' : 'New Account'),
+          centerTitle: false,
+          backgroundColor: cs.surface,
+          surfaceTintColor: Colors.transparent,
+          actions: _isEdit
+              ? [
+                  IconButton(
+                    icon: Icon(Icons.delete_outline_rounded, color: cs.error),
+                    tooltip: 'Delete account',
+                    onPressed: _confirmDelete,
+                  ),
+                  const SizedBox(width: 4),
+                ]
+              : null,
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SegmentedButton<AccountGroup>(
+                      segments: const [
+                        ButtonSegment(
+                          value: AccountGroup.personal,
+                          icon: Icon(
+                              Icons.account_balance_wallet_outlined,
+                              size: 16),
+                          label: Text('Personal'),
+                        ),
+                        ButtonSegment(
+                          value: AccountGroup.individuals,
+                          icon: Icon(Icons.person_outline_rounded, size: 16),
+                          label: Text('Individual'),
+                        ),
+                        ButtonSegment(
+                          value: AccountGroup.entities,
+                          icon: Icon(Icons.business_outlined, size: 16),
+                          label: Text('Entity'),
+                        ),
+                      ],
+                      selected: {_group},
+                      onSelectionChanged: (s) =>
+                          setState(() => _group = s.first),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      _groupDescription,
+                      style: TextStyle(
+                          fontSize: 12, color: cs.onSurfaceVariant),
+                    ),
+                    const SizedBox(height: 20),
+                    TextField(
+                      controller: _nameController,
+                      autofocus: !_isEdit,
+                      textCapitalization: TextCapitalization.words,
+                      decoration:
+                          const InputDecoration(labelText: 'Account name'),
+                      onChanged: (_) => setState(() {}),
+                    ),
+                    const SizedBox(height: 12),
+                    if (!_isEdit)
+                      _CurrencyTile(
+                          currencyCode: _currencyCode, onTap: _pickCurrency)
+                    else
+                      _CurrencyTile(
+                          currencyCode: _currencyCode, onTap: null),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: _balanceController,
+                      keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true, signed: true),
+                      decoration: InputDecoration(
+                        labelText: 'Current balance',
+                        suffixText:
+                            '  ${fx.currencySymbol(_currencyCode)}',
+                      ),
+                      onChanged: (_) => setState(() {}),
+                    ),
+                    const SizedBox(height: 12),
+                    Material(
+                      color: cs.surfaceContainerLow,
+                      borderRadius: BorderRadius.circular(12),
+                      child: SwitchListTile.adaptive(
+                        value: _includeInBalance,
+                        onChanged: (v) =>
+                            setState(() => _includeInBalance = v),
+                        title: const Text('Include in net worth',
+                            style: TextStyle(fontSize: 14)),
+                        subtitle: Text(
+                          'Toggle off for credit cards or excluded accounts',
+                          style: TextStyle(
+                              fontSize: 12, color: cs.onSurfaceVariant),
+                        ),
+                        dense: true,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(
+                  16, 10, 16, MediaQuery.of(context).padding.bottom + 10),
+              decoration: BoxDecoration(
+                color: cs.surface,
+                border: Border(
+                    top: BorderSide(
+                        color: cs.outlineVariant.withValues(alpha: 0.4),
+                        width: 0.5)),
+              ),
+              child: FilledButton(
+                onPressed: _canSave ? _save : null,
+                style: FilledButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14)),
+                  minimumSize: const Size(double.infinity, 52),
+                ),
+                child: Text(_isEdit ? 'Save Changes' : 'Add Account',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w700, fontSize: 16)),
+              ),
+            ),
+          ],
         ),
       ),
     );

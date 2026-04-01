@@ -5,6 +5,9 @@
 /// Net Worth, monthly stats) are expressed in this currency.
 String baseCurrency = 'BAM';
 
+/// The secondary display currency shown as an alternative on the Review screen.
+String secondaryCurrency = 'EUR';
+
 /// Live exchange rates expressed as:
 ///   1 unit of [key] = [value] units of BAM (the internal numeraire).
 ///

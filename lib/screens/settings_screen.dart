@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/app_data.dart' as data;
+import '../data/user_settings.dart' as settings;
+import '../utils/fx.dart' as fx;
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -9,6 +11,150 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
+    Widget currencyCard({
+      required IconData icon,
+      required String title,
+      required String subtitle,
+      required String badge,
+      required VoidCallback onTap,
+    }) {
+      return Card(
+        margin: EdgeInsets.zero,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            child: Row(
+              children: [
+                Icon(icon, size: 20, color: cs.primary),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 14)),
+                      Text(subtitle,
+                          style: TextStyle(
+                              fontSize: 12, color: cs.onSurfaceVariant)),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: cs.primaryContainer.withValues(alpha: 0.6),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    badge,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 13,
+                        color: cs.primary),
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Icon(Icons.chevron_right_rounded,
+                    size: 18, color: cs.onSurfaceVariant),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Settings'),
+        backgroundColor: cs.surface,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+        children: [
+          _SectionLabel('Display'),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.home_rounded,
+            title: 'Base currency',
+            subtitle:
+                '${settings.baseCurrency} · ${settings.currencyNames[settings.baseCurrency] ?? settings.baseCurrency}',
+            badge: fx.currencySymbol(settings.baseCurrency),
+            onTap: () async {
+              final picked = await showModalBottomSheet<String>(
+                context: context,
+                isScrollControlled: true,
+                useSafeArea: true,
+                builder: (_) =>
+                    _CurrencyPickerSheet(current: settings.baseCurrency),
+              );
+              if (picked != null) {
+                setState(() => settings.baseCurrency = picked);
+              }
+            },
+          ),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.currency_exchange_rounded,
+            title: 'Secondary display currency',
+            subtitle:
+                '${settings.secondaryCurrency} · ${settings.currencyNames[settings.secondaryCurrency] ?? settings.secondaryCurrency}',
+            badge: fx.currencySymbol(settings.secondaryCurrency),
+            onTap: () async {
+              final picked = await showModalBottomSheet<String>(
+                context: context,
+                isScrollControlled: true,
+                useSafeArea: true,
+                builder: (_) =>
+                    _CurrencyPickerSheet(current: settings.secondaryCurrency),
+              );
+              if (picked != null) {
+                setState(() => settings.secondaryCurrency = picked);
+              }
+            },
+          ),
+          const SizedBox(height: 24),
+          _SectionLabel('Categories'),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.label_outline_rounded,
+            title: 'Categories',
+            subtitle:
+                '${data.incomeCategories.length} income · ${data.expenseCategories.length} expense',
+            badge:
+                '${data.incomeCategories.length + data.expenseCategories.length}',
+            onTap: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => const CategoriesScreen()),
+              );
+              setState(() {});
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Categories screen ────────────────────────────────────────────────────────
+
+class CategoriesScreen extends StatefulWidget {
+  const CategoriesScreen({super.key});
+
+  @override
+  State<CategoriesScreen> createState() => _CategoriesScreenState();
+}
+
+class _CategoriesScreenState extends State<CategoriesScreen> {
   void _addCategory(List<String> targetList) async {
     final controller = TextEditingController();
     try {
@@ -81,14 +227,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: const Text('Categories'),
         backgroundColor: cs.surface,
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         children: [
-          _SectionLabel('Categories'),
-          const SizedBox(height: 8),
           Card(
             margin: EdgeInsets.zero,
             child: Padding(
@@ -127,6 +271,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 }
 
+// ─── Shared widgets ───────────────────────────────────────────────────────────
+
 class _SectionLabel extends StatelessWidget {
   final String title;
   const _SectionLabel(this.title);
@@ -140,6 +286,132 @@ class _SectionLabel extends StatelessWidget {
         fontWeight: FontWeight.w700,
         color: Theme.of(context).colorScheme.primary,
         letterSpacing: 0.8,
+      ),
+    );
+  }
+}
+
+// ─── Currency Picker Sheet ─────────────────────────────────────────────────────
+
+class _CurrencyPickerSheet extends StatefulWidget {
+  final String current;
+  const _CurrencyPickerSheet({required this.current});
+
+  @override
+  State<_CurrencyPickerSheet> createState() => _CurrencyPickerSheetState();
+}
+
+class _CurrencyPickerSheetState extends State<_CurrencyPickerSheet> {
+  final _searchController = TextEditingController();
+  String _query = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final filtered = settings.supportedCurrencies
+        .where((c) {
+          if (_query.isEmpty) return true;
+          final q = _query.toLowerCase();
+          return c.toLowerCase().contains(q) ||
+              (settings.currencyNames[c]?.toLowerCase().contains(q) ?? false);
+        })
+        .toList();
+
+    return DraggableScrollableSheet(
+      expand: false,
+      initialChildSize: 0.7,
+      maxChildSize: 0.95,
+      builder: (ctx, ctrl) => Column(
+        children: [
+          const SizedBox(height: 8),
+          Container(
+            width: 36,
+            height: 4,
+            decoration: BoxDecoration(
+              color: cs.outlineVariant,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: TextField(
+              controller: _searchController,
+              autofocus: true,
+              decoration: InputDecoration(
+                hintText: 'Search currencies…',
+                prefixIcon: const Icon(Icons.search_rounded, size: 20),
+                suffixIcon: _query.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.close_rounded, size: 18),
+                        onPressed: () => setState(() {
+                          _searchController.clear();
+                          _query = '';
+                        }),
+                      )
+                    : null,
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(vertical: 10),
+              ),
+              onChanged: (v) => setState(() => _query = v),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Expanded(
+            child: ListView.builder(
+              controller: ctrl,
+              itemCount: filtered.length,
+              itemBuilder: (_, i) {
+                final code = filtered[i];
+                final name = settings.currencyNames[code] ?? code;
+                final isSelected = code == widget.current;
+                return ListTile(
+                  leading: Container(
+                    width: 44,
+                    height: 34,
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? cs.primaryContainer
+                          : cs.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Text(
+                        fx.currencySymbol(code),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 13,
+                          color:
+                              isSelected ? cs.primary : cs.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
+                  ),
+                  title: Text(code,
+                      style: TextStyle(
+                          fontWeight: isSelected
+                              ? FontWeight.w700
+                              : FontWeight.w500,
+                          fontSize: 14)),
+                  subtitle: Text(name,
+                      style: TextStyle(
+                          fontSize: 12, color: cs.onSurfaceVariant)),
+                  trailing: isSelected
+                      ? Icon(Icons.check_rounded,
+                          color: cs.primary, size: 18)
+                      : null,
+                  onTap: () => Navigator.pop(ctx, code),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -165,19 +437,14 @@ class _SubSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(
-              label.toUpperCase(),
-              style: TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 0.8,
-                color: color,
-              ),
-            ),
-            const Spacer(),
-          ],
+        Text(
+          label.toUpperCase(),
+          style: TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 0.8,
+            color: color,
+          ),
         ),
         const SizedBox(height: 8),
         Wrap(
