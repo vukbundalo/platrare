@@ -1396,8 +1396,10 @@ class _SpendingBody extends StatelessWidget {
         ),
         if (vizMode == 1) ...[
           Builder(builder: (context) {
-            final donutSorted =
-                sorted.where((e) => e.value.total > 0).toList();
+            final compareDonut = stableDonutColorKeys != null;
+            final donutSorted = compareDonut
+                ? sorted
+                : sorted.where((e) => e.value.total > 0).toList();
             if (donutSorted.isEmpty) {
               return Padding(
                 padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 0),
@@ -1579,8 +1581,10 @@ class _IncomeBody extends StatelessWidget {
         ),
         if (vizMode == 1) ...[
           Builder(builder: (context) {
-            final donutSorted =
-                sorted.where((e) => e.value.total > 0).toList();
+            final compareDonut = stableDonutColorKeys != null;
+            final donutSorted = compareDonut
+                ? sorted
+                : sorted.where((e) => e.value.total > 0).toList();
             if (donutSorted.isEmpty) {
               return Padding(
                 padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 0),
