@@ -264,8 +264,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       net: _netTotal,
                       displayCurrency: _displayCurrency,
                       activeSection: _activeSection,
-                      onSelectSection: (s) => setState(() =>
-                          _activeSection = _activeSection == s ? null : s),
+                      onSelectSection: (s) => setState(() {
+                        if (_activeSection == s) {
+                          _activeSection = null;
+                        } else {
+                          _activeSection = s;
+                          if (s == 'statistics' && _activeStats == null) {
+                            _activeStats = 'expense';
+                          }
+                        }
+                      }),
                       onToggleCurrency: () => setState(() {
                         _displayCurrency =
                             _displayCurrency == settings.baseCurrency
@@ -369,29 +377,17 @@ class _NetWorthHero extends StatelessWidget {
   final double personal;
   final double net;
   final String displayCurrency;
-  final bool showPersonal;
-  final bool showIndividuals;
-  final bool showEntities;
-  final bool statisticsExpanded;
+  final String? activeSection;
+  final void Function(String section) onSelectSection;
   final VoidCallback onToggleCurrency;
-  final VoidCallback onTogglePersonal;
-  final VoidCallback onToggleIndividuals;
-  final VoidCallback onToggleEntities;
-  final VoidCallback onToggleStatistics;
 
   const _NetWorthHero({
     required this.personal,
     required this.net,
     required this.displayCurrency,
-    required this.showPersonal,
-    required this.showIndividuals,
-    required this.showEntities,
-    required this.statisticsExpanded,
+    required this.activeSection,
+    required this.onSelectSection,
     required this.onToggleCurrency,
-    required this.onTogglePersonal,
-    required this.onToggleIndividuals,
-    required this.onToggleEntities,
-    required this.onToggleStatistics,
   });
 
   @override
@@ -493,18 +489,38 @@ class _NetWorthHero extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          // 5 equal chips: Personal | Individuals | Entities | Statistics | Currency
+          // 4 section chips (mutually exclusive) + currency (independent)
           Row(
             children: [
-              Expanded(child: chip(icon: Icons.person_outline_rounded, active: showPersonal, onTap: onTogglePersonal)),
+              Expanded(
+                  child: chip(
+                      icon: Icons.person_outline_rounded,
+                      active: activeSection == 'personal',
+                      onTap: () => onSelectSection('personal'))),
               const SizedBox(width: 6),
-              Expanded(child: chip(icon: Icons.people_outline_rounded, active: showIndividuals, onTap: onToggleIndividuals)),
+              Expanded(
+                  child: chip(
+                      icon: Icons.people_outline_rounded,
+                      active: activeSection == 'individuals',
+                      onTap: () => onSelectSection('individuals'))),
               const SizedBox(width: 6),
-              Expanded(child: chip(icon: Icons.business_outlined, active: showEntities, onTap: onToggleEntities)),
+              Expanded(
+                  child: chip(
+                      icon: Icons.business_outlined,
+                      active: activeSection == 'entities',
+                      onTap: () => onSelectSection('entities'))),
               const SizedBox(width: 6),
-              Expanded(child: chip(icon: Icons.bar_chart_rounded, active: statisticsExpanded, onTap: onToggleStatistics)),
+              Expanded(
+                  child: chip(
+                      icon: Icons.bar_chart_rounded,
+                      active: activeSection == 'statistics',
+                      onTap: () => onSelectSection('statistics'))),
               const SizedBox(width: 6),
-              Expanded(child: chip(icon: Icons.currency_exchange_rounded, active: isSecondary, onTap: onToggleCurrency)),
+              Expanded(
+                  child: chip(
+                      icon: Icons.currency_exchange_rounded,
+                      active: isSecondary,
+                      onTap: onToggleCurrency)),
             ],
           ),
         ],
@@ -516,10 +532,8 @@ class _NetWorthHero extends StatelessWidget {
 // ─── Stats header (shared chips + date navigator) ─────────────────────────────
 
 class _StatsHeader extends StatelessWidget {
-  final bool showExpense;
-  final bool showIncome;
-  final VoidCallback onToggleExpense;
-  final VoidCallback onToggleIncome;
+  final String? activeStats;
+  final void Function(String s) onSelectStats;
   final String periodLabel;
   final String dateRangeLabel;
   final VoidCallback onCyclePeriod;
@@ -530,10 +544,8 @@ class _StatsHeader extends StatelessWidget {
   final VoidCallback onCycleViz;
 
   const _StatsHeader({
-    required this.showExpense,
-    required this.showIncome,
-    required this.onToggleExpense,
-    required this.onToggleIncome,
+    required this.activeStats,
+    required this.onSelectStats,
     required this.periodLabel,
     required this.dateRangeLabel,
     required this.onCyclePeriod,
@@ -601,14 +613,14 @@ class _StatsHeader extends StatelessWidget {
             children: [
               chip(
                 icon: Icons.arrow_upward_rounded,
-                active: showExpense,
-                onTap: onToggleExpense,
+                active: activeStats == 'expense',
+                onTap: () => onSelectStats('expense'),
               ),
               const SizedBox(width: 6),
               chip(
                 icon: Icons.arrow_downward_rounded,
-                active: showIncome,
-                onTap: onToggleIncome,
+                active: activeStats == 'income',
+                onTap: () => onSelectStats('income'),
               ),
               const Spacer(),
               chip(
