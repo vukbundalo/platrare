@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -945,42 +947,61 @@ class _TrackDateNavBar extends StatelessWidget {
 // ─── Account / category: same 30px stadium pills as Track hero chips ─────────
 
 /// Matches [_TrackHero] main chips: fixed height 30, primaryContainer fill.
-/// [maxChipWidth] caps width so [Text] ellipsis does not expand to the full
-/// [Wrap] row (which would force one chip per line).
+/// Width follows the label (text + horizontal padding); only caps at
+/// [stripMaxWidth] when the string would not fit on one line.
 Widget _trackNamePill(
   BuildContext context, {
   required String label,
   required bool selected,
   required VoidCallback onTap,
-  required double maxChipWidth,
+  required double stripMaxWidth,
   String? semanticsLabel,
 }) {
   final cs = Theme.of(context).colorScheme;
+  const padH = 10.0;
+  final style = TextStyle(
+    fontSize: 11,
+    fontWeight: FontWeight.w700,
+    color: selected ? cs.primary : cs.onSurfaceVariant,
+    height: 1.1,
+  );
+  final cap = (stripMaxWidth * 0.98).clamp(80.0, 360.0);
+  final maxTextW = math.max(0.0, cap - 2 * padH);
+  final tp = TextPainter(
+    text: TextSpan(text: label, style: style),
+    maxLines: 1,
+    ellipsis: '…',
+    textDirection: Directionality.of(context),
+    textScaler: MediaQuery.textScalerOf(context),
+  )..layout(maxWidth: maxTextW);
+  final chipW = tp.didExceedMaxLines
+      ? cap
+      : math.min(cap, math.max(32.0, tp.width + 2 * padH));
+
   final inner = GestureDetector(
     onTap: onTap,
     behavior: HitTestBehavior.opaque,
-    child: ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: maxChipWidth),
-      child: Container(
-        height: 30,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        alignment: Alignment.center,
+    child: SizedBox(
+      width: chipW,
+      height: 30,
+      child: DecoratedBox(
         decoration: BoxDecoration(
           color: selected
               ? cs.primary.withValues(alpha: 0.15)
               : cs.primaryContainer.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Text(
-          label,
-          maxLines: 1,
-          softWrap: false,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w700,
-            color: selected ? cs.primary : cs.onSurfaceVariant,
-            height: 1.1,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: padH),
+          child: Center(
+            child: Text(
+              label,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              style: style,
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ),
@@ -1022,9 +1043,7 @@ class _TrackFilterStrip extends StatelessWidget {
     Widget accountSection() {
       return LayoutBuilder(
         builder: (context, c) {
-          // Upper bound per chip so labels pack horizontally; short names stay narrow.
-          final maxChip =
-              (c.maxWidth * 0.42).clamp(72.0, 168.0);
+          final stripW = c.maxWidth;
           return Wrap(
             spacing: 4,
             runSpacing: 4,
@@ -1035,7 +1054,7 @@ class _TrackFilterStrip extends StatelessWidget {
                 context,
                 label: 'All',
                 selected: accountFilter == null,
-                maxChipWidth: maxChip,
+                stripMaxWidth: stripW,
                 onTap: () => onAccountFilter(null),
                 semanticsLabel: 'All accounts',
               ),
@@ -1044,7 +1063,7 @@ class _TrackFilterStrip extends StatelessWidget {
                   context,
                   label: a.name,
                   selected: accountFilter?.id == a.id,
-                  maxChipWidth: maxChip,
+                  stripMaxWidth: stripW,
                   onTap: () {
                     if (accountFilter?.id == a.id) {
                       onAccountFilter(null);
@@ -1063,8 +1082,7 @@ class _TrackFilterStrip extends StatelessWidget {
     Widget categorySection() {
       return LayoutBuilder(
         builder: (context, c) {
-          final maxChip =
-              (c.maxWidth * 0.42).clamp(72.0, 168.0);
+          final stripW = c.maxWidth;
           return Wrap(
             spacing: 4,
             runSpacing: 4,
@@ -1075,7 +1093,7 @@ class _TrackFilterStrip extends StatelessWidget {
                 context,
                 label: 'All',
                 selected: categoryFilter == null,
-                maxChipWidth: maxChip,
+                stripMaxWidth: stripW,
                 onTap: () => onCategoryFilter(null),
                 semanticsLabel: 'All categories',
               ),
@@ -1084,7 +1102,7 @@ class _TrackFilterStrip extends StatelessWidget {
                   context,
                   label: cat,
                   selected: categoryFilter == cat,
-                  maxChipWidth: maxChip,
+                  stripMaxWidth: stripW,
                   onTap: () {
                     if (categoryFilter == cat) {
                       onCategoryFilter(null);
