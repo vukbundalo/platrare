@@ -40,7 +40,7 @@ Map<String, double> historicalBalances(DateTime date) {
 ///
 /// Repeated transactions are expanded into all occurrences up to [date].
 /// Balances remain in each account's own currency (Rule 2).
-/// Use [personalTotal] / [netWorthInBase] to convert to the base currency.
+/// Use [personalTotal] (book + overdraft on personal) / [netWorthInBase] (book only).
 Map<String, double> projectBalances(DateTime date) {
   final dayEnd = DateTime(date.year, date.month, date.day, 23, 59, 59);
   final balances = {for (final a in data.accounts) a.id: a.balance};
@@ -76,13 +76,13 @@ Map<String, double> projectBalances(DateTime date) {
   return balances;
 }
 
-/// Sum of projected personal account balances converted to base currency
-/// using LIVE exchange rates (Rule 5).
+/// Projected personal **headroom** (book + overdraft where set) at live rates.
 double personalTotal(Map<String, double> balances) {
   return data.accounts
       .where((a) => a.group == AccountGroup.personal)
       .fold(0.0, (sum, a) {
-    final native = balances[a.id] ?? a.balance;
+    final book = balances[a.id] ?? a.balance;
+    final native = a.personalHeadroomNative(book);
     return sum + fx.toBase(native, a.currencyCode);
   });
 }

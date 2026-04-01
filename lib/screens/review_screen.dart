@@ -119,12 +119,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   // Rule 5: multiply CURRENT native balances by CURRENT live rates.
   // Never sum historical locked baseAmounts for the balance sheet.
-  /// Personal accounts only, **book** balances at live FX (not overdraft headroom).
+  /// Personal spending power: **book + overdraft limit** per account at live FX.
+  /// (Bank line increases what you can use without changing ledger net.)
   double get _personalTotal => data.accounts
       .where((a) => a.group == AccountGroup.personal)
-      .fold(0.0, (sum, a) => sum + fx.toBase(a.balance, a.currencyCode));
+      .fold(0.0, (sum, a) => sum +
+          fx.toBase(a.personalHeadroomNative(a.balance), a.currencyCode));
 
-  /// True net: sum of **ledger** balances for every account at live FX (debts + credits).
+  /// True net: sum of **ledger** balances only at live FX (overdraft limit excluded).
   double get _netTotal => data.accounts.fold(
       0.0,
       (sum, a) => sum + fx.toBase(a.balance, a.currencyCode));

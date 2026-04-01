@@ -78,6 +78,12 @@ class Account {
   double get availableToSpend =>
       hasOverdraftFacility ? balance + overdraftLimit : balance;
 
+  /// Personal “Balance” hero / Plan personal row: [bookNative] plus overdraft line
+  /// (same as [availableToSpend] when [bookNative] is current [balance]). Net worth
+  /// uses book only so facility does not double-count debt vs spending power.
+  double personalHeadroomNative(double bookNative) =>
+      hasOverdraftFacility ? bookNative + overdraftLimit : bookNative;
+
   static AccountGroup _typeToGroup(AccountType? t) =>
       t == AccountType.personal ? AccountGroup.personal : AccountGroup.personal;
 
