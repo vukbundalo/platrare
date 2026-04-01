@@ -946,9 +946,9 @@ class _TrackDateNavBar extends StatelessWidget {
 
 // ─── Account / category: same 30px stadium pills as Track hero chips ─────────
 
-/// Matches [_TrackHero] main chips: fixed height 30, primaryContainer fill.
-/// Width follows the label (text + horizontal padding); only caps at
-/// [stripMaxWidth] when the string would not fit on one line.
+/// Same colors as [_TrackHero] chips. One-line width = full label + padding
+/// when it fits [stripMaxWidth]; otherwise wraps (no ellipsis) so text is
+/// never clipped with "…".
 Widget _trackNamePill(
   BuildContext context, {
   required String label,
@@ -965,48 +965,68 @@ Widget _trackNamePill(
     color: selected ? cs.primary : cs.onSurfaceVariant,
     height: 1.1,
   );
-  final cap = (stripMaxWidth * 0.98).clamp(80.0, 360.0);
-  final maxTextW = math.max(0.0, cap - 2 * padH);
-  final tp = TextPainter(
+  final fill = selected
+      ? cs.primary.withValues(alpha: 0.15)
+      : cs.primaryContainer.withValues(alpha: 0.5);
+  final radius = BorderRadius.circular(20);
+
+  final oneLine = TextPainter(
     text: TextSpan(text: label, style: style),
     maxLines: 1,
-    ellipsis: '…',
     textDirection: Directionality.of(context),
     textScaler: MediaQuery.textScalerOf(context),
-  )..layout(maxWidth: maxTextW);
-  final chipW = tp.didExceedMaxLines
-      ? cap
-      : math.min(cap, math.max(32.0, tp.width + 2 * padH));
+  )..layout(maxWidth: double.infinity);
 
-  final inner = GestureDetector(
-    onTap: onTap,
-    behavior: HitTestBehavior.opaque,
-    child: SizedBox(
-      width: chipW,
-      height: 30,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: selected
-              ? cs.primary.withValues(alpha: 0.15)
-              : cs.primaryContainer.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(20),
+  final chipWOneLine = oneLine.width + 2 * padH;
+  final fitsOneLine = chipWOneLine <= stripMaxWidth;
+
+  late final Widget inner;
+  if (fitsOneLine) {
+    inner = GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: SizedBox(
+        width: math.max(32.0, chipWOneLine),
+        height: 30,
+        child: DecoratedBox(
+          decoration: BoxDecoration(color: fill, borderRadius: radius),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: padH),
+            child: Center(
+              child: Text(
+                label,
+                maxLines: 1,
+                softWrap: false,
+                style: style,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: padH),
-          child: Center(
+      ),
+    );
+  } else {
+    inner = GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: stripMaxWidth),
+        child: DecoratedBox(
+          decoration: BoxDecoration(color: fill, borderRadius: radius),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: padH, vertical: 7),
             child: Text(
               label,
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.ellipsis,
               style: style,
+              softWrap: true,
               textAlign: TextAlign.center,
             ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
+
   if (semanticsLabel == null) return inner;
   return Semantics(
     label: semanticsLabel,
@@ -1048,7 +1068,7 @@ class _TrackFilterStrip extends StatelessWidget {
             spacing: 4,
             runSpacing: 4,
             alignment: WrapAlignment.start,
-            crossAxisAlignment: WrapCrossAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.start,
             children: [
               _trackNamePill(
                 context,
@@ -1087,7 +1107,7 @@ class _TrackFilterStrip extends StatelessWidget {
             spacing: 4,
             runSpacing: 4,
             alignment: WrapAlignment.start,
-            crossAxisAlignment: WrapCrossAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.start,
             children: [
               _trackNamePill(
                 context,
