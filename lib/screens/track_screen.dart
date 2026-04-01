@@ -33,6 +33,8 @@ bool _inGroup(TxType t, String group) => switch (group) {
   _ => true,
 };
 
+enum _TrackFilterPanel { none, type, date, account, category, sort }
+
 class _TrackScreenState extends State<TrackScreen> {
   // ── Pagination ──────────────────────────────────────────────────────────────
   final _scrollController = ScrollController();
@@ -45,6 +47,7 @@ class _TrackScreenState extends State<TrackScreen> {
   String? _dateFilter;
   DateTime _dateAnchor = DateTime.now();
   bool _newestFirst = true;
+  _TrackFilterPanel _trackPanel = _TrackFilterPanel.none;
 
   bool get _hasActiveFilter =>
       _typeFilter != null ||
@@ -60,19 +63,40 @@ class _TrackScreenState extends State<TrackScreen> {
         _dateFilter = null;
         _dateAnchor = DateTime.now();
         _newestFirst = true;
+        _trackPanel = _TrackFilterPanel.none;
       });
 
-  void _cycleTypeFilter() => setState(() {
-        if (_typeFilter == null) {
-          _typeFilter = _kTypeIncome;
-        } else if (_typeFilter == _kTypeIncome) {
-          _typeFilter = _kTypeExpense;
-        } else if (_typeFilter == _kTypeExpense) {
-          _typeFilter = _kTypeTransfer;
-        } else {
-          _typeFilter = null;
-        }
+  void _toggleTrackPanel(_TrackFilterPanel panel) => setState(() {
+        _trackPanel = _trackPanel == panel ? _TrackFilterPanel.none : panel;
       });
+
+  void _navigateDate(int direction) {
+    setState(() {
+      var next = switch (_dateFilter) {
+        'day' => DateTime(_dateAnchor.year, _dateAnchor.month,
+            _dateAnchor.day + direction),
+        'week' => DateTime(_dateAnchor.year, _dateAnchor.month,
+            _dateAnchor.day + direction * 7),
+        'month' => DateTime(_dateAnchor.year, _dateAnchor.month + direction,
+            _dateAnchor.day),
+        'year' => DateTime(_dateAnchor.year + direction, _dateAnchor.month,
+            _dateAnchor.day),
+        _ => _dateAnchor,
+      };
+      if (_dateFilter == 'day') {
+        final today = DateUtils.dateOnly(DateTime.now());
+        final n = DateUtils.dateOnly(next);
+        if (n.isAfter(today)) next = _dateAnchor;
+      }
+      _dateAnchor = next;
+    });
+  }
+
+  bool get _canNavigateDateForward {
+    if (_dateFilter != 'day') return true;
+    return DateUtils.dateOnly(_dateAnchor)
+        .isBefore(DateUtils.dateOnly(DateTime.now()));
+  }
 
   /// Inclusive start / exclusive end for the selected date period.
   (DateTime, DateTime) get _dateRange {
@@ -110,14 +134,6 @@ class _TrackScreenState extends State<TrackScreen> {
       'year' => DateFormat('yyyy').format(a),
       _ => '',
     };
-  }
-
-  String get _dateChipLabel {
-    if (_dateFilter == null) {
-      return DateFormat('MMM yyyy').format(DateTime.now());
-    }
-    if (_dateFilter == 'all') return 'All time';
-    return _dateLabel;
   }
 
   @override
@@ -241,52 +257,20 @@ class _TrackScreenState extends State<TrackScreen> {
     );
   }
 
-  Future<void> _showTrackDateSheet() async {
-    final result = await showModalBottomSheet<({String? mode, DateTime anchor})>(
-      context: context,
-      showDragHandle: true,
-      isScrollControlled: true,
-      builder: (ctx) => _TrackDateRangeSheet(
-        dateFilter: _dateFilter,
-        dateAnchor: _dateAnchor,
-      ),
-    );
-    if (result != null && mounted) {
-      setState(() {
-        _dateFilter = result.mode;
-        _dateAnchor = result.anchor;
-      });
+  double get _trackExpandedHeight {
+    switch (_trackPanel) {
+      case _TrackFilterPanel.none:
+        return 210;
+      case _TrackFilterPanel.date:
+        if (_dateFilter != null && _dateFilter != 'all') return 318;
+        return 260;
+      case _TrackFilterPanel.account:
+      case _TrackFilterPanel.category:
+        return 268;
+      case _TrackFilterPanel.type:
+      case _TrackFilterPanel.sort:
+        return 260;
     }
-  }
-
-  Future<void> _showAccountFilterSheet() async {
-    await showModalBottomSheet<void>(
-      context: context,
-      showDragHandle: true,
-      isScrollControlled: true,
-      builder: (ctx) => _AccountPickerSheet(
-        selected: _accountFilter,
-        onPick: (a) {
-          Navigator.pop(ctx);
-          setState(() => _accountFilter = a);
-        },
-      ),
-    );
-  }
-
-  Future<void> _showCategoryFilterSheet() async {
-    await showModalBottomSheet<void>(
-      context: context,
-      showDragHandle: true,
-      isScrollControlled: true,
-      builder: (ctx) => _CategoryPickerSheet(
-        selected: _categoryFilter,
-        onPick: (c) {
-          Navigator.pop(ctx);
-          setState(() => _categoryFilter = c);
-        },
-      ),
-    );
   }
 
   @override
@@ -322,7 +306,7 @@ class _TrackScreenState extends State<TrackScreen> {
       slivers: [
         SliverAppBar(
           pinned: true,
-          expandedHeight: 210,
+          expandedHeight: _trackExpandedHeight,
           backgroundColor: cs.surface,
           scrolledUnderElevation: 0,
           title: const Text('Track'),
@@ -350,18 +334,37 @@ class _TrackScreenState extends State<TrackScreen> {
                   _TrackHero(
                     totalIn: 0,
                     totalOut: 0,
-                    typeFilter: null,
-                    onCycleType: _cycleTypeFilter,
+                    panel: _trackPanel,
+                    onTogglePanel: _toggleTrackPanel,
+                    typeFilter: _typeFilter,
+                    onTypeFilter: (g) => setState(() => _typeFilter = g),
                     dateFilter: _dateFilter,
-                    dateChipLabel: _dateChipLabel,
-                    onOpenDateSheet: _showTrackDateSheet,
+                    dateNavLabel: _dateLabel,
+                    onPickDateMode: (mode) => setState(() {
+                      final prev = _dateFilter;
+                      _dateFilter = mode;
+                      if (mode != prev && mode != null && mode != 'all') {
+                        _dateAnchor = DateTime.now();
+                      }
+                    }),
+                    onNavigateDate: _navigateDate,
+                    canNavigateDateForward: _canNavigateDateForward,
+                    accounts: data.accounts,
                     accountFilter: _accountFilter,
-                    onOpenAccountSheet: _showAccountFilterSheet,
+                    onAccountFilter: (a) => setState(() => _accountFilter = a),
+                    categories: <String>{
+                      ...data.incomeCategories,
+                      ...data.expenseCategories,
+                    }.toList()
+                      ..sort(),
                     categoryFilter: _categoryFilter,
-                    onOpenCategorySheet: _showCategoryFilterSheet,
+                    onCategoryFilter: (c) =>
+                        setState(() => _categoryFilter = c),
                     newestFirst: _newestFirst,
-                    onToggleSort: () =>
-                        setState(() => _newestFirst = !_newestFirst),
+                    onPickSort: (v) => setState(() {
+                      _newestFirst = v;
+                      _trackPanel = _TrackFilterPanel.none;
+                    }),
                   ),
                 ],
               ),
@@ -458,7 +461,7 @@ class _TrackScreenState extends State<TrackScreen> {
       slivers: [
         SliverAppBar(
           pinned: true,
-          expandedHeight: 210,
+          expandedHeight: _trackExpandedHeight,
           backgroundColor: cs.surface,
           scrolledUnderElevation: 0,
           title: const Text('Track'),
@@ -486,18 +489,37 @@ class _TrackScreenState extends State<TrackScreen> {
                   _TrackHero(
                     totalIn: totals.totalIn,
                     totalOut: totals.totalOut,
+                    panel: _trackPanel,
+                    onTogglePanel: _toggleTrackPanel,
                     typeFilter: _typeFilter,
-                    onCycleType: _cycleTypeFilter,
+                    onTypeFilter: (g) => setState(() => _typeFilter = g),
                     dateFilter: _dateFilter,
-                    dateChipLabel: _dateChipLabel,
-                    onOpenDateSheet: _showTrackDateSheet,
+                    dateNavLabel: _dateLabel,
+                    onPickDateMode: (mode) => setState(() {
+                      final prev = _dateFilter;
+                      _dateFilter = mode;
+                      if (mode != prev && mode != null && mode != 'all') {
+                        _dateAnchor = DateTime.now();
+                      }
+                    }),
+                    onNavigateDate: _navigateDate,
+                    canNavigateDateForward: _canNavigateDateForward,
+                    accounts: data.accounts,
                     accountFilter: _accountFilter,
-                    onOpenAccountSheet: _showAccountFilterSheet,
+                    onAccountFilter: (a) => setState(() => _accountFilter = a),
+                    categories: <String>{
+                      ...data.incomeCategories,
+                      ...data.expenseCategories,
+                    }.toList()
+                      ..sort(),
                     categoryFilter: _categoryFilter,
-                    onOpenCategorySheet: _showCategoryFilterSheet,
+                    onCategoryFilter: (c) =>
+                        setState(() => _categoryFilter = c),
                     newestFirst: _newestFirst,
-                    onToggleSort: () =>
-                        setState(() => _newestFirst = !_newestFirst),
+                    onPickSort: (v) => setState(() {
+                      _newestFirst = v;
+                      _trackPanel = _TrackFilterPanel.none;
+                    }),
                   ),
                 ],
               ),
@@ -572,38 +594,62 @@ class _TrackScreenState extends State<TrackScreen> {
   }
 }
 
-// ─── Track hero (totals + 5 filter chips) ────────────────────────────────────
+// ─── Track hero (totals + filter chips + inline panels) ─────────────────────
 
 class _TrackHero extends StatelessWidget {
   final double totalIn;
   final double totalOut;
+  final _TrackFilterPanel panel;
+  final void Function(_TrackFilterPanel) onTogglePanel;
   final String? typeFilter;
-  final VoidCallback onCycleType;
+  final void Function(String?) onTypeFilter;
   final String? dateFilter;
-  final String dateChipLabel;
-  final VoidCallback onOpenDateSheet;
+  final String dateNavLabel;
+  final void Function(String?) onPickDateMode;
+  final void Function(int direction) onNavigateDate;
+  final bool canNavigateDateForward;
+  final List<Account> accounts;
   final Account? accountFilter;
-  final VoidCallback onOpenAccountSheet;
+  final void Function(Account?) onAccountFilter;
+  final List<String> categories;
   final String? categoryFilter;
-  final VoidCallback onOpenCategorySheet;
+  final void Function(String?) onCategoryFilter;
   final bool newestFirst;
-  final VoidCallback onToggleSort;
+  final void Function(bool newestFirst) onPickSort;
 
   const _TrackHero({
     required this.totalIn,
     required this.totalOut,
+    required this.panel,
+    required this.onTogglePanel,
     required this.typeFilter,
-    required this.onCycleType,
+    required this.onTypeFilter,
     required this.dateFilter,
-    required this.dateChipLabel,
-    required this.onOpenDateSheet,
+    required this.dateNavLabel,
+    required this.onPickDateMode,
+    required this.onNavigateDate,
+    required this.canNavigateDateForward,
+    required this.accounts,
     required this.accountFilter,
-    required this.onOpenAccountSheet,
+    required this.onAccountFilter,
+    required this.categories,
     required this.categoryFilter,
-    required this.onOpenCategorySheet,
+    required this.onCategoryFilter,
     required this.newestFirst,
-    required this.onToggleSort,
+    required this.onPickSort,
   });
+
+  static Color _distinctColor(String key) {
+    final h = key.hashCode % 360;
+    return HSLColor.fromAHSL(1, h.toDouble(), 0.42, 0.4).toColor();
+  }
+
+  IconData _typeMainIcon() {
+    if (typeFilter == null) return Icons.filter_list_rounded;
+    if (typeFilter == _kTypeIncome) return Icons.south_west_rounded;
+    if (typeFilter == _kTypeExpense) return Icons.north_east_rounded;
+    return Icons.swap_horiz_rounded;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -614,46 +660,268 @@ class _TrackHero extends StatelessWidget {
         netPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
     final sym = fx.currencySymbol(settings.baseCurrency);
 
-    (IconData icon, String label) typeVisual() {
-      if (typeFilter == null) {
-        return (Icons.payments_outlined, 'All');
-      }
-      if (typeFilter == _kTypeIncome) {
-        return (Icons.south_west_rounded, 'In');
-      }
-      if (typeFilter == _kTypeExpense) {
-        return (Icons.north_east_rounded, 'Out');
-      }
-      return (Icons.swap_horiz_rounded, 'Xfer');
-    }
-
-    final tv = typeVisual();
-
-    Widget filterChip({
+    // Same footprint as _NetWorthHero: height 30, icon 15, 6px gaps, Expanded.
+    Widget mainChip({
+      required IconData icon,
       required bool active,
       required VoidCallback onTap,
-      required Widget child,
+      String? semanticsLabel,
     }) {
+      final chip = GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
+        child: Container(
+          height: 30,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: active
+                ? cs.primary.withValues(alpha: 0.15)
+                : cs.primaryContainer.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Icon(icon, size: 15,
+              color: active ? cs.primary : cs.onSurfaceVariant),
+        ),
+      );
       return Expanded(
-        child: GestureDetector(
-          onTap: onTap,
-          behavior: HitTestBehavior.opaque,
-          child: Container(
-            height: 30,
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal: 2),
-            decoration: BoxDecoration(
-              color: active
-                  ? cs.primary.withValues(alpha: 0.15)
-                  : cs.primaryContainer.withValues(alpha: 0.5),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: child,
+        child: semanticsLabel == null
+            ? chip
+            : Semantics(
+                label: semanticsLabel,
+                button: true,
+                child: chip,
+              ),
+      );
+    }
+
+    Widget subIconChip({
+      required bool selected,
+      required IconData icon,
+      Color? iconColor,
+      required VoidCallback onTap,
+      String? semanticsLabel,
+    }) {
+      final core = Container(
+        width: 30,
+        height: 30,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: selected
+              ? cs.primary.withValues(alpha: 0.15)
+              : cs.primaryContainer.withValues(alpha: 0.5),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Icon(icon, size: 15,
+            color: selected
+                ? cs.primary
+                : (iconColor ?? cs.onSurfaceVariant)),
+      );
+      return Padding(
+        padding: const EdgeInsets.only(right: 6),
+        child: semanticsLabel == null
+            ? GestureDetector(onTap: onTap, child: core)
+            : Semantics(
+                label: semanticsLabel,
+                button: true,
+                selected: selected,
+                child: GestureDetector(onTap: onTap, child: core),
+              ),
+      );
+    }
+
+    Widget typeSubRow() {
+      Widget rowChip(String? group, IconData icon) {
+        final sel = typeFilter == group;
+        return Expanded(
+          child: GestureDetector(
+            onTap: () => onTypeFilter(group),
+            behavior: HitTestBehavior.opaque,
+            child: Container(
+              height: 30,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: sel
+                    ? cs.primary.withValues(alpha: 0.15)
+                    : cs.primaryContainer.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Icon(icon, size: 15,
+                  color: sel ? cs.primary : cs.onSurfaceVariant),
             ),
           ),
+        );
+      }
+
+      return Row(
+        children: [
+          rowChip(null, Icons.layers_outlined),
+          const SizedBox(width: 6),
+          rowChip(_kTypeIncome, Icons.south_west_rounded),
+          const SizedBox(width: 6),
+          rowChip(_kTypeExpense, Icons.north_east_rounded),
+          const SizedBox(width: 6),
+          rowChip(_kTypeTransfer, Icons.swap_horiz_rounded),
+        ],
+      );
+    }
+
+    Widget dateSubPanel() {
+      final modes = <({String? mode, IconData icon, String semantics})>[
+        (mode: null, icon: Icons.event_available_outlined, semantics: 'This month'),
+        (mode: 'day', icon: Icons.today_outlined, semantics: 'Day'),
+        (mode: 'week', icon: Icons.view_week_outlined, semantics: 'Week'),
+        (mode: 'month', icon: Icons.calendar_month_outlined, semantics: 'Month'),
+        (mode: 'year', icon: Icons.date_range_outlined, semantics: 'Year'),
+        (mode: 'all', icon: Icons.all_inclusive_rounded, semantics: 'All time'),
+      ];
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                for (final m in modes)
+                  subIconChip(
+                    selected: dateFilter == m.mode,
+                    icon: m.icon,
+                    onTap: () => onPickDateMode(m.mode),
+                    semanticsLabel: m.semantics,
+                  ),
+              ],
+            ),
+          ),
+          if (dateFilter != null && dateFilter != 'all') ...[
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                _NavButton(
+                  icon: Icons.chevron_left_rounded,
+                  onTap: () => onNavigateDate(-1),
+                ),
+                Expanded(
+                  child: Text(
+                    dateNavLabel,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: cs.onSurface,
+                    ),
+                  ),
+                ),
+                _NavButton(
+                  icon: Icons.chevron_right_rounded,
+                  onTap: canNavigateDateForward
+                      ? () => onNavigateDate(1)
+                      : null,
+                ),
+              ],
+            ),
+          ],
+        ],
+      );
+    }
+
+    Widget accountSubPanel() {
+      return SizedBox(
+        height: 30,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: [
+            subIconChip(
+              selected: accountFilter == null,
+              icon: Icons.layers_clear_rounded,
+              onTap: () => onAccountFilter(null),
+              semanticsLabel: 'All accounts',
+            ),
+            for (final a in accounts)
+              subIconChip(
+                selected: accountFilter?.id == a.id,
+                icon: Icons.account_balance_wallet_outlined,
+                iconColor: _distinctColor(a.id),
+                onTap: () => onAccountFilter(
+                    accountFilter?.id == a.id ? null : a),
+                semanticsLabel: a.name,
+              ),
+          ],
         ),
+      );
+    }
+
+    Widget categorySubPanel() {
+      return SizedBox(
+        height: 30,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: [
+            subIconChip(
+              selected: categoryFilter == null,
+              icon: Icons.label_off_outlined,
+              onTap: () => onCategoryFilter(null),
+              semanticsLabel: 'All categories',
+            ),
+            for (final c in categories)
+              subIconChip(
+                selected: categoryFilter == c,
+                icon: Icons.label_outline_rounded,
+                iconColor: _distinctColor(c),
+                onTap: () => onCategoryFilter(
+                    categoryFilter == c ? null : c),
+                semanticsLabel: c,
+              ),
+          ],
+        ),
+      );
+    }
+
+    Widget sortSubRow() {
+      return Row(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () => onPickSort(true),
+              behavior: HitTestBehavior.opaque,
+              child: Container(
+                height: 30,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: newestFirst
+                      ? cs.primary.withValues(alpha: 0.15)
+                      : cs.primaryContainer.withValues(alpha: 0.5),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Icon(Icons.arrow_downward_rounded, size: 15,
+                    color: newestFirst
+                        ? cs.primary
+                        : cs.onSurfaceVariant),
+              ),
+            ),
+          ),
+          const SizedBox(width: 6),
+          Expanded(
+            child: GestureDetector(
+              onTap: () => onPickSort(false),
+              behavior: HitTestBehavior.opaque,
+              child: Container(
+                height: 30,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: !newestFirst
+                      ? cs.primary.withValues(alpha: 0.15)
+                      : cs.primaryContainer.withValues(alpha: 0.5),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Icon(Icons.arrow_upward_rounded, size: 15,
+                    color: !newestFirst
+                        ? cs.primary
+                        : cs.onSurfaceVariant),
+              ),
+            ),
+          ),
+        ],
       );
     }
 
@@ -724,459 +992,66 @@ class _TrackHero extends StatelessWidget {
           const SizedBox(height: 10),
           Row(
             children: [
-              Tooltip(
-                message: 'Transaction type',
-                child: filterChip(
-                  active: typeFilter != null,
-                  onTap: onCycleType,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(tv.$1,
-                          size: 14,
-                          color: typeFilter != null
-                              ? cs.primary
-                              : cs.onSurfaceVariant),
-                      const SizedBox(width: 4),
-                      Text(
-                        tv.$2,
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                          color: typeFilter != null
-                              ? cs.primary
-                              : cs.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              mainChip(
+                icon: _typeMainIcon(),
+                active: typeFilter != null || panel == _TrackFilterPanel.type,
+                onTap: () => onTogglePanel(_TrackFilterPanel.type),
+                semanticsLabel: 'Transaction type filter',
               ),
               const SizedBox(width: 6),
-              Tooltip(
-                message: dateChipLabel,
-                child: filterChip(
-                  active: dateFilter != null,
-                  onTap: onOpenDateSheet,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.calendar_today_outlined,
-                          size: 13,
-                          color: dateFilter != null
-                              ? cs.primary
-                              : cs.onSurfaceVariant),
-                      const SizedBox(width: 3),
-                      ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 56),
-                        child: Text(
-                          dateChipLabel,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
-                            color: dateFilter != null
-                                ? cs.primary
-                                : cs.onSurfaceVariant,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              mainChip(
+                icon: Icons.calendar_today_outlined,
+                active: dateFilter != null || panel == _TrackFilterPanel.date,
+                onTap: () => onTogglePanel(_TrackFilterPanel.date),
+                semanticsLabel: 'Date range filter',
               ),
               const SizedBox(width: 6),
-              Tooltip(
-                message:
-                    accountFilter != null ? accountFilter!.name : 'Account',
-                child: filterChip(
-                  active: accountFilter != null,
-                  onTap: onOpenAccountSheet,
-                  child: Icon(
-                    Icons.account_balance_wallet_outlined,
-                    size: 15,
-                    color: accountFilter != null
-                        ? cs.primary
-                        : cs.onSurfaceVariant,
-                  ),
-                ),
+              mainChip(
+                icon: Icons.account_balance_wallet_outlined,
+                active: accountFilter != null ||
+                    panel == _TrackFilterPanel.account,
+                onTap: () => onTogglePanel(_TrackFilterPanel.account),
+                semanticsLabel: 'Account filter',
               ),
               const SizedBox(width: 6),
-              Tooltip(
-                message: categoryFilter ?? 'Category',
-                child: filterChip(
-                  active: categoryFilter != null,
-                  onTap: onOpenCategorySheet,
-                  child: Icon(
-                    Icons.label_outline_rounded,
-                    size: 15,
-                    color: categoryFilter != null
-                        ? cs.primary
-                        : cs.onSurfaceVariant,
-                  ),
-                ),
+              mainChip(
+                icon: Icons.label_outline_rounded,
+                active: categoryFilter != null ||
+                    panel == _TrackFilterPanel.category,
+                onTap: () => onTogglePanel(_TrackFilterPanel.category),
+                semanticsLabel: 'Category filter',
               ),
               const SizedBox(width: 6),
-              Tooltip(
-                message: newestFirst
-                    ? 'Newest first — tap for oldest first'
-                    : 'Oldest first — tap for newest first',
-                child: filterChip(
-                  active: !newestFirst,
-                  onTap: onToggleSort,
-                  child: Icon(
-                    newestFirst
-                        ? Icons.arrow_downward_rounded
-                        : Icons.arrow_upward_rounded,
-                    size: 15,
-                    color: !newestFirst ? cs.primary : cs.onSurfaceVariant,
-                  ),
-                ),
+              mainChip(
+                icon: newestFirst
+                    ? Icons.arrow_downward_rounded
+                    : Icons.arrow_upward_rounded,
+                active: !newestFirst || panel == _TrackFilterPanel.sort,
+                onTap: () => onTogglePanel(_TrackFilterPanel.sort),
+                semanticsLabel: 'Sort order',
               ),
             ],
           ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─── Date range bottom sheet ─────────────────────────────────────────────────
-
-class _TrackDateRangeSheet extends StatefulWidget {
-  final String? dateFilter;
-  final DateTime dateAnchor;
-
-  const _TrackDateRangeSheet({
-    required this.dateFilter,
-    required this.dateAnchor,
-  });
-
-  @override
-  State<_TrackDateRangeSheet> createState() => _TrackDateRangeSheetState();
-}
-
-class _TrackDateRangeSheetState extends State<_TrackDateRangeSheet> {
-  late String? _mode;
-  late DateTime _anchor;
-
-  @override
-  void initState() {
-    super.initState();
-    _mode = widget.dateFilter;
-    _anchor = widget.dateAnchor;
-  }
-
-  String _navLabel() {
-    final a = _anchor;
-    return switch (_mode) {
-      null => DateFormat('MMMM yyyy').format(DateTime.now()),
-      'all' => 'All time',
-      'day' => DateFormat('EEE, d MMM yyyy').format(a),
-      'week' => () {
-          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
-          final sun = DateTime(mon.year, mon.month, mon.day + 6);
-          final sameMon = mon.month == sun.month;
-          return sameMon
-              ? '${DateFormat('d').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}'
-              : '${DateFormat('d MMM').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}';
-        }(),
-      'month' => DateFormat('MMMM yyyy').format(a),
-      'year' => DateFormat('yyyy').format(a),
-      _ => '',
-    };
-  }
-
-  bool get _canNavigateForward {
-    if (_mode != 'day') return true;
-    return DateUtils.dateOnly(_anchor)
-        .isBefore(DateUtils.dateOnly(DateTime.now()));
-  }
-
-  void _navigate(int direction) {
-    setState(() {
-      var next = switch (_mode) {
-        'day' => DateTime(_anchor.year, _anchor.month, _anchor.day + direction),
-        'week' => DateTime(_anchor.year, _anchor.month, _anchor.day + direction * 7),
-        'month' => DateTime(_anchor.year, _anchor.month + direction, _anchor.day),
-        'year' => DateTime(_anchor.year + direction, _anchor.month, _anchor.day),
-        _ => _anchor,
-      };
-      if (_mode == 'day') {
-        final today = DateUtils.dateOnly(DateTime.now());
-        final n = DateUtils.dateOnly(next);
-        if (n.isAfter(today)) next = _anchor;
-      }
-      _anchor = next;
-    });
-  }
-
-  Widget _modeChip({
-    required String label,
-    required String? value,
-  }) {
-    final cs = Theme.of(context).colorScheme;
-    final sel = _mode == value;
-    return FilterChip(
-      label: Text(label),
-      selected: sel,
-      onSelected: (_) {
-        setState(() {
-          final prev = _mode;
-          _mode = value;
-          if (value != prev && value != null && value != 'all') {
-            _anchor = DateTime.now();
-          }
-        });
-      },
-      visualDensity: VisualDensity.compact,
-      selectedColor: cs.primary.withValues(alpha: 0.18),
-      checkmarkColor: cs.primary,
-      labelStyle: TextStyle(
-        fontSize: 12,
-        fontWeight: FontWeight.w600,
-        color: sel ? cs.primary : cs.onSurfaceVariant,
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final bottom = MediaQuery.paddingOf(context).bottom;
-
-    return Padding(
-      padding: EdgeInsets.fromLTRB(20, 8, 20, 16 + bottom),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            'Date range',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _modeChip(label: 'This month', value: null),
-              _modeChip(label: 'Day', value: 'day'),
-              _modeChip(label: 'Week', value: 'week'),
-              _modeChip(label: 'Month', value: 'month'),
-              _modeChip(label: 'Year', value: 'year'),
-              _modeChip(label: 'All time', value: 'all'),
-            ],
-          ),
-          if (_mode != null && _mode != 'all') ...[
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                _NavButton(
-                  icon: Icons.chevron_left_rounded,
-                  onTap: () => _navigate(-1),
-                ),
-                Expanded(
-                  child: Text(
-                    _navLabel(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: cs.onSurface,
-                    ),
-                  ),
-                ),
-                _NavButton(
-                  icon: Icons.chevron_right_rounded,
-                  onTap: _canNavigateForward ? () => _navigate(1) : null,
-                ),
-              ],
-            ),
+          if (panel == _TrackFilterPanel.type) ...[
+            const SizedBox(height: 8),
+            typeSubRow(),
           ],
-          const SizedBox(height: 20),
-          FilledButton(
-            onPressed: () {
-              Navigator.pop(context, (mode: _mode, anchor: _anchor));
-            },
-            child: const Text('Apply'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─── Account picker sheet ────────────────────────────────────────────────────
-
-class _AccountPickerSheet extends StatelessWidget {
-  final Account? selected;
-  final void Function(Account?) onPick;
-
-  const _AccountPickerSheet({
-    required this.selected,
-    required this.onPick,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final h = MediaQuery.sizeOf(context).height * 0.52;
-    final bottom = MediaQuery.paddingOf(context).bottom;
-
-    Widget section(String title, Color color, List<Account> accounts) {
-      if (accounts.isEmpty) return const SizedBox.shrink();
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 11,
-                letterSpacing: 0.6,
-                fontWeight: FontWeight.w800,
-                color: color,
-              ),
-            ),
-          ),
-          ...accounts.map((a) {
-            final isSel = selected?.id == a.id;
-            return ListTile(
-              leading: Icon(
-                Icons.account_balance_rounded,
-                color: isSel ? cs.primary : cs.onSurfaceVariant,
-                size: 22,
-              ),
-              title: Text(a.name),
-              trailing: isSel
-                  ? Icon(Icons.check_rounded, color: cs.primary)
-                  : null,
-              onTap: () => onPick(isSel ? null : a),
-            );
-          }),
-        ],
-      );
-    }
-
-    final personal = data.accounts
-        .where((a) => a.group == AccountGroup.personal)
-        .toList();
-    final individuals = data.accounts
-        .where((a) => a.group == AccountGroup.individuals)
-        .toList();
-    final entities = data.accounts
-        .where((a) => a.group == AccountGroup.entities)
-        .toList();
-
-    return SizedBox(
-      height: h + bottom,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 4),
-            child: Text(
-              'Account',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-            ),
-          ),
-          Expanded(
-            child: ListView(
-              children: [
-                ListTile(
-                  leading: Icon(Icons.all_inclusive_rounded,
-                      color: selected == null ? cs.primary : cs.onSurfaceVariant),
-                  title: const Text('All accounts'),
-                  trailing: selected == null
-                      ? Icon(Icons.check_rounded, color: cs.primary)
-                      : null,
-                  onTap: () => onPick(null),
-                ),
-                section('PERSONAL', cs.primary, personal),
-                section('INDIVIDUALS', cs.tertiary, individuals),
-                section('ENTITIES', cs.secondary, entities),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─── Category picker sheet ───────────────────────────────────────────────────
-
-class _CategoryPickerSheet extends StatelessWidget {
-  final String? selected;
-  final void Function(String?) onPick;
-
-  const _CategoryPickerSheet({
-    required this.selected,
-    required this.onPick,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final h = MediaQuery.sizeOf(context).height * 0.48;
-    final bottom = MediaQuery.paddingOf(context).bottom;
-    final cats = <String>{
-      ...data.incomeCategories,
-      ...data.expenseCategories,
-    }.toList()
-      ..sort();
-
-    return SizedBox(
-      height: h + bottom,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 4),
-            child: Text(
-              'Category',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-            ),
-          ),
-          Expanded(
-            child: ListView(
-              children: [
-                ListTile(
-                  leading: Icon(Icons.clear_all_rounded,
-                      color: selected == null ? cs.primary : cs.onSurfaceVariant),
-                  title: const Text('All categories'),
-                  trailing: selected == null
-                      ? Icon(Icons.check_rounded, color: cs.primary)
-                      : null,
-                  onTap: () => onPick(null),
-                ),
-                ...cats.map((c) {
-                  final isSel = selected == c;
-                  return ListTile(
-                    leading: Icon(
-                      Icons.label_outline_rounded,
-                      color: isSel ? cs.primary : cs.onSurfaceVariant,
-                      size: 22,
-                    ),
-                    title: Text(c),
-                    trailing: isSel
-                        ? Icon(Icons.check_rounded, color: cs.primary)
-                        : null,
-                    onTap: () => onPick(isSel ? null : c),
-                  );
-                }),
-              ],
-            ),
-          ),
+          if (panel == _TrackFilterPanel.date) ...[
+            const SizedBox(height: 8),
+            dateSubPanel(),
+          ],
+          if (panel == _TrackFilterPanel.account) ...[
+            const SizedBox(height: 8),
+            accountSubPanel(),
+          ],
+          if (panel == _TrackFilterPanel.category) ...[
+            const SizedBox(height: 8),
+            categorySubPanel(),
+          ],
+          if (panel == _TrackFilterPanel.sort) ...[
+            const SizedBox(height: 8),
+            sortSubRow(),
+          ],
         ],
       ),
     );
