@@ -438,7 +438,7 @@ class _TrackScreenState extends State<TrackScreen> {
         if (_trackPanel != _TrackFilterPanel.none)
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+              padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
               child: _TrackFilterStrip(
                 panel: _trackPanel,
                 accounts: data.accounts,
@@ -606,7 +606,7 @@ class _TrackScreenState extends State<TrackScreen> {
         if (_trackPanel != _TrackFilterPanel.none)
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+              padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
               child: _TrackFilterStrip(
                 panel: _trackPanel,
                 accounts: data.accounts,
@@ -942,7 +942,51 @@ class _TrackDateNavBar extends StatelessWidget {
   }
 }
 
-// ─── Account / category: full-width Wrap, chip height from label ─────────────
+// ─── Account / category: same 30px stadium pills as Track hero chips ─────────
+
+/// Matches [_TrackHero] main chips: fixed height 30, primaryContainer fill.
+Widget _trackNamePill(
+  BuildContext context, {
+  required String label,
+  required bool selected,
+  required VoidCallback onTap,
+  String? semanticsLabel,
+}) {
+  final cs = Theme.of(context).colorScheme;
+  final child = GestureDetector(
+    onTap: onTap,
+    behavior: HitTestBehavior.opaque,
+    child: Container(
+      height: 30,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: selected
+            ? cs.primary.withValues(alpha: 0.15)
+            : cs.primaryContainer.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        label,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
+          color: selected ? cs.primary : cs.onSurfaceVariant,
+          height: 1.1,
+        ),
+      ),
+    ),
+  );
+  if (semanticsLabel == null) return child;
+  return Semantics(
+    label: semanticsLabel,
+    button: true,
+    selected: selected,
+    child: child,
+  );
+}
 
 class _TrackFilterStrip extends StatelessWidget {
   final _TrackFilterPanel panel;
@@ -965,58 +1009,36 @@ class _TrackFilterStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-
-    Widget namedChip({
-      required String label,
-      required bool selected,
-      required void Function(bool) onSelected,
-    }) {
-      return FilterChip(
-        label: Text(
-          label,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: selected ? cs.primary : cs.onSurface,
-          ),
-        ),
-        selected: selected,
-        onSelected: onSelected,
-        showCheckmark: false,
-        selectedColor: cs.primary.withValues(alpha: 0.15),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        side: BorderSide(
-          color: selected
-              ? cs.primary.withValues(alpha: 0.35)
-              : cs.outlineVariant.withValues(alpha: 0.5),
-        ),
-      );
-    }
+    final accountsSorted = List<Account>.from(accounts)
+      ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
     Widget accountSection() {
       return Wrap(
-        spacing: 8,
-        runSpacing: 8,
+        spacing: 4,
+        runSpacing: 4,
+        alignment: WrapAlignment.start,
+        crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          namedChip(
-            label: 'All accounts',
+          _trackNamePill(
+            context,
+            label: 'All',
             selected: accountFilter == null,
-            onSelected: (s) {
-              if (s) onAccountFilter(null);
-            },
+            onTap: () => onAccountFilter(null),
+            semanticsLabel: 'All accounts',
           ),
-          for (final a in accounts)
-            namedChip(
+          for (final a in accountsSorted)
+            _trackNamePill(
+              context,
               label: a.name,
               selected: accountFilter?.id == a.id,
-              onSelected: (s) {
-                if (s) {
-                  onAccountFilter(a);
-                } else if (accountFilter?.id == a.id) {
+              onTap: () {
+                if (accountFilter?.id == a.id) {
                   onAccountFilter(null);
+                } else {
+                  onAccountFilter(a);
                 }
               },
+              semanticsLabel: a.name,
             ),
         ],
       );
@@ -1024,27 +1046,31 @@ class _TrackFilterStrip extends StatelessWidget {
 
     Widget categorySection() {
       return Wrap(
-        spacing: 8,
-        runSpacing: 8,
+        spacing: 4,
+        runSpacing: 4,
+        alignment: WrapAlignment.start,
+        crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          namedChip(
-            label: 'All categories',
+          _trackNamePill(
+            context,
+            label: 'All',
             selected: categoryFilter == null,
-            onSelected: (s) {
-              if (s) onCategoryFilter(null);
-            },
+            onTap: () => onCategoryFilter(null),
+            semanticsLabel: 'All categories',
           ),
           for (final c in categories)
-            namedChip(
+            _trackNamePill(
+              context,
               label: c,
               selected: categoryFilter == c,
-              onSelected: (s) {
-                if (s) {
-                  onCategoryFilter(c);
-                } else if (categoryFilter == c) {
+              onTap: () {
+                if (categoryFilter == c) {
                   onCategoryFilter(null);
+                } else {
+                  onCategoryFilter(c);
                 }
               },
+              semanticsLabel: c,
             ),
         ],
       );
