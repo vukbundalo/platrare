@@ -35,6 +35,69 @@ List<String> _orderedCategoryKeysForCompare(
   return list;
 }
 
+// ─── Calendar 3M / 6M (quarters & half-years) ─────────────────────────────────
+
+int _calendarQuarter(int month) => ((month - 1) ~/ 3) + 1;
+
+DateTime _quarterStart(int year, int quarter) =>
+    DateTime(year, (quarter - 1) * 3 + 1, 1);
+
+DateTime _quarterEndExclusive(int year, int quarter) {
+  if (quarter == 4) return DateTime(year + 1, 1, 1);
+  return DateTime(year, quarter * 3 + 1, 1);
+}
+
+({DateTime start, DateTime end}) _boundsQuarterContaining(int year, int month) {
+  final q = _calendarQuarter(month);
+  return (
+    start: _quarterStart(year, q),
+    end: _quarterEndExclusive(year, q),
+  );
+}
+
+({DateTime start, DateTime end}) _boundsHalfYearContaining(int year, int month) {
+  if (month <= 6) {
+    return (start: DateTime(year, 1, 1), end: DateTime(year, 7, 1));
+  }
+  return (start: DateTime(year, 7, 1), end: DateTime(year + 1, 1, 1));
+}
+
+DateTime _quarterStartContaining(DateTime d) =>
+    _quarterStart(d.year, _calendarQuarter(d.month));
+
+DateTime _halfYearStartContaining(DateTime d) =>
+    d.month <= 6 ? DateTime(d.year, 1, 1) : DateTime(d.year, 7, 1);
+
+({DateTime start, DateTime end}) _quarterByOffsetFrom(DateTime now, int offset) {
+  var y = now.year;
+  var q = _calendarQuarter(now.month);
+  for (var i = 0; i < offset; i++) {
+    q--;
+    if (q < 1) {
+      q = 4;
+      y--;
+    }
+  }
+  return (
+    start: _quarterStart(y, q),
+    end: _quarterEndExclusive(y, q),
+  );
+}
+
+({DateTime start, DateTime end}) _halfYearByOffsetFrom(DateTime now, int offset) {
+  var y = now.year;
+  var h = now.month <= 6 ? 1 : 2;
+  for (var i = 0; i < offset; i++) {
+    if (h == 1) {
+      h = 2;
+      y--;
+    } else {
+      h = 1;
+    }
+  }
+  return _boundsHalfYearContaining(y, h == 1 ? 1 : 7);
+}
+
 class ReviewScreen extends StatefulWidget {
   final VoidCallback? onChanged;
   const ReviewScreen({super.key, this.onChanged});
@@ -49,7 +112,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   String? _activeSection;
   // 'expense' | 'income' | null
   String? _activeStats;
-  // 0 = all time, 1 = this month, 3 = 3 months, 6 = 6 months, 12 = 1 year
+  // 0 = all time, 1 = calendar month, 3 = calendar quarter, 6 = half-year, 12 = year
   int _spendingMonths = 1;
   // 0 = bars, 1 = donut
   int _vizMode = 0;
@@ -148,9 +211,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
       case 1:
         return (start: a, end: DateTime(a.year, a.month + 1, 1));
       case 3:
-        return (start: a, end: DateTime(a.year, a.month + 3, 1));
+        final q = _boundsQuarterContaining(a.year, a.month);
+        return (start: q.start, end: q.end);
       case 6:
-        return (start: a, end: DateTime(a.year, a.month + 6, 1));
+        final h = _boundsHalfYearContaining(a.year, a.month);
+        return (start: h.start, end: h.end);
       case 12:
         return (
           start: DateTime(a.year, 1, 1),
@@ -207,6 +272,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
       if (_spendingMonths == 12) {
         _compareMonthA = DateTime(_compareMonthA.year, 1, 1);
         _compareMonthB = DateTime(_compareMonthB.year, 1, 1);
+      } else if (_spendingMonths == 3) {
+        _compareMonthA = _quarterStartContaining(_compareMonthA);
+        _compareMonthB = _quarterStartContaining(_compareMonthB);
+      } else if (_spendingMonths == 6) {
+        _compareMonthA = _halfYearStartContaining(_compareMonthA);
+        _compareMonthB = _halfYearStartContaining(_compareMonthB);
       }
     } else {
       _spendingMonths = switch (_spendingMonths) {
@@ -226,6 +297,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
     if (_spendingMonths == 12) {
       final year = now.year - _dateOffset;
       return (start: DateTime(year, 1, 1), end: DateTime(year + 1, 1, 1));
+    }
+    if (_spendingMonths == 3) {
+      final r = _quarterByOffsetFrom(now, _dateOffset);
+      return (start: r.start, end: r.end);
+    }
+    if (_spendingMonths == 6) {
+      final r = _halfYearByOffsetFrom(now, _dateOffset);
+      return (start: r.start, end: r.end);
     }
     final endM = now.month + 1 - _dateOffset * _spendingMonths;
     return (
