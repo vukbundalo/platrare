@@ -8,38 +8,36 @@ import '../models/planned_transaction.dart';
 final _cash = Account(
   name: 'Cash',
   group: AccountGroup.personal,
-  balance: 180.00,
+  balance: 1000.00,
   currencyCode: 'BAM',
 );
 
 final _card = Account(
   name: 'Debit Card',
   group: AccountGroup.personal,
-  balance: 2340.50,
+  balance: 1000.00,
   currencyCode: 'BAM',
-  // Example: 2× pay advance line — book balance + limit = spending headroom.
-  overdraftLimit: 13600.00,
 );
 
 final _eurSavings = Account(
   name: 'EUR Savings',
   group: AccountGroup.personal,
-  balance: 850.00,
-  currencyCode: 'EUR',
+  balance: 1000.00,
+  currencyCode: 'BAM',
 );
 
 // — Individuals —
 final _nevena = Account(
   name: 'Nevena',
   group: AccountGroup.individuals,
-  balance: 150.00, // she owes me 150 BAM
+  balance: 1000.00,
   currencyCode: 'BAM',
 );
 
 final _marko = Account(
   name: 'Marko',
   group: AccountGroup.individuals,
-  balance: -300.00, // I owe him 300 BAM
+  balance: 1000.00,
   currencyCode: 'BAM',
 );
 
@@ -47,14 +45,14 @@ final _marko = Account(
 final _telecom = Account(
   name: 'M:tel',
   group: AccountGroup.entities,
-  balance: -25.00, // outstanding bill
+  balance: 1000.00,
   currencyCode: 'BAM',
 );
 
 final _electricity = Account(
   name: 'Elektroprivreda',
   group: AccountGroup.entities,
-  balance: 0,
+  balance: 1000.00,
   currencyCode: 'BAM',
 );
 
