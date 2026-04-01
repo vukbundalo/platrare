@@ -1821,6 +1821,10 @@ class _DonutView extends StatelessWidget {
                 final pct = total > 0 ? info.total / total * 100 : 0.0;
                 final legSize = narrowLegend ? 11.0 : 13.0;
                 final pctSize = narrowLegend ? 10.0 : 12.0;
+                final sym = fx.currencySymbol(displayCurrency);
+                // Fixed-width numeric columns so % and amounts line up on every row.
+                final pctW = narrowLegend ? 34.0 : 50.0;
+                final amtW = narrowLegend ? 68.0 : 92.0;
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Row(
@@ -1839,32 +1843,42 @@ class _DonutView extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis),
                       ),
-                      if (!narrowLegend) ...[
-                        Text('${pct.toStringAsFixed(1)}%',
-                            style: TextStyle(
-                                fontSize: pctSize, color: cs.onSurfaceVariant)),
-                        const SizedBox(width: 12),
-                        Text(
-                          '${amount.toStringAsFixed(2)} ${fx.currencySymbol(displayCurrency)}',
+                      SizedBox(
+                        width: pctW,
+                        child: Text(
+                          narrowLegend
+                              ? '${pct.toStringAsFixed(0)}%'
+                              : '${pct.toStringAsFixed(1)}%',
+                          textAlign: TextAlign.end,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                              fontSize: legSize, fontWeight: FontWeight.w700),
-                        ),
-                      ]
-                      else
-                        Flexible(
-                          child: Text(
-                            '${pct.toStringAsFixed(0)}% · '
-                            '${amount.toStringAsFixed(1)} ${fx.currencySymbol(displayCurrency)}',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                              fontSize: legSize,
-                              fontWeight: FontWeight.w600,
-                              color: cs.onSurfaceVariant,
-                            ),
+                            fontSize: pctSize,
+                            color: cs.onSurfaceVariant,
                           ),
                         ),
+                      ),
+                      SizedBox(width: narrowLegend ? 6 : 10),
+                      SizedBox(
+                        width: amtW,
+                        child: Text(
+                          narrowLegend
+                              ? '${amount.toStringAsFixed(1)} $sym'
+                              : '${amount.toStringAsFixed(2)} $sym',
+                          textAlign: TextAlign.end,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: legSize,
+                            fontWeight: narrowLegend
+                                ? FontWeight.w600
+                                : FontWeight.w700,
+                            color: narrowLegend
+                                ? cs.onSurfaceVariant
+                                : cs.onSurface,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 );
