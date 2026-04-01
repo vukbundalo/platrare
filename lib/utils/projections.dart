@@ -82,16 +82,16 @@ double personalTotal(Map<String, double> balances) {
   return data.accounts
       .where((a) => a.group == AccountGroup.personal)
       .fold(0.0, (sum, a) {
-    final book = balances[a.id] ?? a.balance;
-    return sum + fx.toBase(a.nativeForTotals(book), a.currencyCode);
+    final native = balances[a.id] ?? a.balance;
+    return sum + fx.toBase(native, a.currencyCode);
   });
 }
 
-/// Sum of ALL accounts at live rates (available headroom when overdraft is set).
+/// Sum of ALL accounts’ **book** balances at live rates (real net position).
 double netWorthInBase(Map<String, double> balances) {
   return data.accounts.fold(0.0, (sum, a) {
-    final book = balances[a.id] ?? a.balance;
-    return sum + fx.toBase(a.nativeForTotals(book), a.currencyCode);
+    final native = balances[a.id] ?? a.balance;
+    return sum + fx.toBase(native, a.currencyCode);
   });
 }
 

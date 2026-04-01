@@ -119,15 +119,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   // Rule 5: multiply CURRENT native balances by CURRENT live rates.
   // Never sum historical locked baseAmounts for the balance sheet.
+  /// Personal accounts only, **book** balances at live FX (not overdraft headroom).
   double get _personalTotal => data.accounts
       .where((a) => a.group == AccountGroup.personal)
-      .fold(0.0, (sum, a) =>
-          sum + fx.toBase(a.nativeForTotals(a.balance), a.currencyCode));
+      .fold(0.0, (sum, a) => sum + fx.toBase(a.balance, a.currencyCode));
 
+  /// True net: sum of **ledger** balances for every account at live FX (debts + credits).
   double get _netTotal => data.accounts.fold(
       0.0,
-      (sum, a) =>
-          sum + fx.toBase(a.nativeForTotals(a.balance), a.currencyCode));
+      (sum, a) => sum + fx.toBase(a.balance, a.currencyCode));
 
   // Returns {category: total} for income transactions, filtered by period
   Map<String, ({double total, int count})> get _categoryIncome {
@@ -1210,7 +1210,7 @@ class _AccountCard extends StatelessWidget {
                     if (account.hasOverdraftFacility) ...[
                       const SizedBox(height: 2),
                       Text(
-                        'Book ${shownBook > 0 ? '+' : ''}${shownBook.toStringAsFixed(2)} $shownSymbol',
+                        '${shownBook > 0 ? '+' : ''}${shownBook.toStringAsFixed(2)} $shownSymbol',
                         style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
