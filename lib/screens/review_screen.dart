@@ -566,12 +566,13 @@ class _StatsHeader extends StatelessWidget {
     final isAllTime = periodLabel == 'ALL';
     final vizIcon = vizMode == 1 ? Icons.donut_large_rounded : Icons.bar_chart_rounded;
 
+    // Same footprint as _NetWorthHero chips: full row width, height 30, 6px gaps.
     Widget chip({required IconData icon, required bool active, required VoidCallback onTap, String? label}) =>
       GestureDetector(
         onTap: onTap,
+        behavior: HitTestBehavior.opaque,
         child: Container(
           height: 30,
-          padding: const EdgeInsets.symmetric(horizontal: 12),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: active
@@ -582,7 +583,7 @@ class _StatsHeader extends StatelessWidget {
           child: label != null
               ? Text(label,
                   style: TextStyle(
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: FontWeight.w700,
                       color: active ? cs.primary : cs.onSurfaceVariant))
               : Icon(icon, size: 15,
@@ -593,9 +594,10 @@ class _StatsHeader extends StatelessWidget {
     Widget navBtn({required IconData icon, required bool enabled, required VoidCallback onTap}) =>
       GestureDetector(
         onTap: enabled ? onTap : null,
+        behavior: HitTestBehavior.opaque,
         child: Container(
-          width: 30,
-          height: 30,
+          width: 36,
+          height: 36,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: enabled
@@ -603,7 +605,7 @@ class _StatsHeader extends StatelessWidget {
                 : cs.primaryContainer.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(20),
           ),
-          child: Icon(icon, size: 16,
+          child: Icon(icon, size: 18,
               color: enabled ? cs.primary : cs.onSurfaceVariant.withValues(alpha: 0.4)),
         ),
       );
@@ -612,32 +614,40 @@ class _StatsHeader extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
       child: Column(
         children: [
-          // Chip row: [expense] [income]  ←spacer→  [period] [viz]
+          // Chip row: equal-width cells like the hero’s 5 chips (easier to tap).
           Row(
             children: [
-              chip(
-                icon: Icons.arrow_upward_rounded,
-                active: activeStats == 'expense',
-                onTap: () => onSelectStats('expense'),
+              Expanded(
+                child: chip(
+                  icon: Icons.arrow_upward_rounded,
+                  active: activeStats == 'expense',
+                  onTap: () => onSelectStats('expense'),
+                ),
               ),
               const SizedBox(width: 6),
-              chip(
-                icon: Icons.arrow_downward_rounded,
-                active: activeStats == 'income',
-                onTap: () => onSelectStats('income'),
-              ),
-              const Spacer(),
-              chip(
-                icon: Icons.calendar_today_outlined,
-                active: true,
-                onTap: onCyclePeriod,
-                label: periodLabel,
+              Expanded(
+                child: chip(
+                  icon: Icons.arrow_downward_rounded,
+                  active: activeStats == 'income',
+                  onTap: () => onSelectStats('income'),
+                ),
               ),
               const SizedBox(width: 6),
-              chip(
-                icon: vizIcon,
-                active: true,
-                onTap: onCycleViz,
+              Expanded(
+                child: chip(
+                  icon: Icons.calendar_today_outlined,
+                  active: true,
+                  onTap: onCyclePeriod,
+                  label: periodLabel,
+                ),
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: chip(
+                  icon: vizIcon,
+                  active: true,
+                  onTap: onCycleViz,
+                ),
               ),
             ],
           ),
