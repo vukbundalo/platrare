@@ -286,16 +286,17 @@ class _AccountHero extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final sym = fx.currencySymbol(account.currencyCode);
-    final balPos = account.balance >= 0;
-    final balColor =
-        balPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
-    final avail = account.hasOverdraftFacility ? account.availableToSpend : null;
-    final availPos = avail != null && avail >= 0;
-    final availColor = avail == null
-        ? balColor
-        : (availPos
-            ? const Color(0xFF16A34A)
-            : const Color(0xFFDC2626));
+    final bookAmt = account.balance;
+    final mainAmt = account.hasOverdraftFacility
+        ? account.availableToSpend
+        : account.balance;
+    final bookPos = bookAmt >= 0;
+    final mainPos = mainAmt >= 0;
+    final bookColor =
+        bookPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final mainColor =
+        mainPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final heroTint = mainColor;
     final outColor = const Color(0xFFDC2626);
     final filterActive = filtersExpanded || hasActiveFilter;
 
@@ -321,9 +322,9 @@ class _AccountHero extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
       decoration: BoxDecoration(
-        color: balColor.withValues(alpha: 0.07),
+        color: heroTint.withValues(alpha: 0.07),
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: balColor.withValues(alpha: 0.2)),
+        border: Border.all(color: heroTint.withValues(alpha: 0.2)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -337,7 +338,7 @@ class _AccountHero extends StatelessWidget {
                   children: [
                     Text(
                         account.hasOverdraftFacility
-                            ? 'Book balance'
+                            ? 'Available'
                             : 'Balance',
                         style: TextStyle(
                             fontSize: 12,
@@ -345,29 +346,29 @@ class _AccountHero extends StatelessWidget {
                             fontWeight: FontWeight.w500)),
                     const SizedBox(height: 2),
                     Text(
-                      '${account.balance > 0 ? '+' : ''}${account.balance.toStringAsFixed(2)} $sym',
+                      '${mainAmt > 0 ? '+' : ''}${mainAmt.toStringAsFixed(2)} $sym',
                       style: TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.w800,
-                        color: balColor,
+                        color: mainColor,
                         letterSpacing: -1,
                       ),
                     ),
-                    if (avail != null) ...[
+                    if (account.hasOverdraftFacility) ...[
                       const SizedBox(height: 6),
                       Text(
-                        'Available to spend',
+                        'Book balance',
                         style: TextStyle(
                             fontSize: 11,
                             color: cs.onSurfaceVariant,
                             fontWeight: FontWeight.w500)),
                       const SizedBox(height: 2),
                       Text(
-                        '${avail > 0 ? '+' : ''}${avail.toStringAsFixed(2)} $sym',
+                        '${bookAmt > 0 ? '+' : ''}${bookAmt.toStringAsFixed(2)} $sym',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: availColor,
+                          color: bookColor,
                           letterSpacing: -0.5,
                         ),
                       ),
@@ -378,7 +379,7 @@ class _AccountHero extends StatelessWidget {
               Container(
                 width: 1,
                 height: 44,
-                color: balColor.withValues(alpha: 0.2),
+                color: heroTint.withValues(alpha: 0.2),
                 margin: const EdgeInsets.symmetric(horizontal: 16),
               ),
               Column(

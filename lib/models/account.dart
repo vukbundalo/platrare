@@ -78,6 +78,10 @@ class Account {
   double get availableToSpend =>
       hasOverdraftFacility ? balance + overdraftLimit : balance;
 
+  /// Ledger [bookNative] (from projections/history) rolled up like [availableToSpend].
+  double nativeForTotals(double bookNative) =>
+      hasOverdraftFacility ? bookNative + overdraftLimit : bookNative;
+
   static AccountGroup _typeToGroup(AccountType? t) =>
       t == AccountType.personal ? AccountGroup.personal : AccountGroup.personal;
 

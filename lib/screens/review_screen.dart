@@ -121,10 +121,13 @@ class _ReviewScreenState extends State<ReviewScreen> {
   // Never sum historical locked baseAmounts for the balance sheet.
   double get _personalTotal => data.accounts
       .where((a) => a.group == AccountGroup.personal)
-      .fold(0.0, (sum, a) => sum + fx.toBase(a.balance, a.currencyCode));
+      .fold(0.0, (sum, a) =>
+          sum + fx.toBase(a.nativeForTotals(a.balance), a.currencyCode));
 
-  double get _netTotal => data.accounts
-      .fold(0.0, (sum, a) => sum + fx.toBase(a.balance, a.currencyCode));
+  double get _netTotal => data.accounts.fold(
+      0.0,
+      (sum, a) =>
+          sum + fx.toBase(a.nativeForTotals(a.balance), a.currencyCode));
 
   // Returns {category: total} for income transactions, filtered by period
   Map<String, ({double total, int count})> get _categoryIncome {
@@ -1113,28 +1116,24 @@ class _AccountCard extends StatelessWidget {
     final isEntities = account.group == AccountGroup.entities;
     // Show native when base chip is selected; convert when secondary is active.
     final isSecondary = displayCurrency != settings.baseCurrency;
-    final shownBalance = isSecondary
+    final shownBook = isSecondary
         ? fx.convert(account.balance, account.currencyCode, displayCurrency)
         : account.balance;
-    final shownAvailable = account.hasOverdraftFacility
+    final shownMain = account.hasOverdraftFacility
         ? (isSecondary
             ? fx.convert(account.availableToSpend, account.currencyCode,
                 displayCurrency)
             : account.availableToSpend)
-        : null;
+        : shownBook;
     final shownSymbol = isSecondary
         ? fx.currencySymbol(displayCurrency)
         : fx.currencySymbol(account.currencyCode);
-    final isPositive = shownBalance >= 0;
-    final balanceColor =
-        isPositive ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
-    final availPositive =
-        shownAvailable != null && shownAvailable >= 0;
-    final availColor = shownAvailable == null
-        ? balanceColor
-        : (availPositive
-            ? const Color(0xFF16A34A)
-            : const Color(0xFFDC2626));
+    final mainPositive = shownMain >= 0;
+    final mainColor =
+        mainPositive ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final bookPositive = shownBook >= 0;
+    final bookColor =
+        bookPositive ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
 
     final avatarBg = isPersonal
         ? cs.primaryContainer
@@ -1202,20 +1201,20 @@ class _AccountCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${shownBalance > 0 ? '+' : ''}${shownBalance.toStringAsFixed(2)} $shownSymbol',
+                      '${shownMain > 0 ? '+' : ''}${shownMain.toStringAsFixed(2)} $shownSymbol',
                       style: TextStyle(
-                          color: balanceColor,
+                          color: mainColor,
                           fontWeight: FontWeight.w800,
                           fontSize: 16),
                     ),
                     if (account.hasOverdraftFacility) ...[
                       const SizedBox(height: 2),
                       Text(
-                        'Available ${shownAvailable! > 0 ? '+' : ''}${shownAvailable.toStringAsFixed(2)} $shownSymbol',
+                        'Book ${shownBook > 0 ? '+' : ''}${shownBook.toStringAsFixed(2)} $shownSymbol',
                         style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
-                            color: availColor),
+                            color: bookColor),
                       ),
                     ],
                   ],
