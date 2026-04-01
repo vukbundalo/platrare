@@ -9,7 +9,7 @@ import '../utils/fx.dart' as fx;
 import '../utils/projections.dart' as proj;
 import '../utils/tx_display.dart';
 import 'new_transaction_screen.dart';
-import 'review_screen.dart';
+import 'review_screen.dart' show AccountFormSheet;
 import 'settings_screen.dart';
 import 'transaction_detail_screen.dart';
 
@@ -41,23 +41,17 @@ class _TrackScreenState extends State<TrackScreen> {
   String? _typeFilter;      // _kTypeIncome / _kTypeExpense / _kTypeTransfer
   Account? _accountFilter;
   String? _categoryFilter;
-  bool _filtersExpanded = false;
-  bool _accountsExpanded = false;
-
-  // ── Date filter ─────────────────────────────────────────────────────────────
-  String? _dateFilter;     // 'week' | 'month' | 'year'
+  /// null = current calendar month only; 'day'|'week'|'month'|'year'|'all' = explicit
+  String? _dateFilter;
   DateTime _dateAnchor = DateTime.now();
-
-  int get _extraFilterCount => [
-    _dateFilter,
-    _categoryFilter,
-  ].where((e) => e != null).length;
+  bool _newestFirst = true;
 
   bool get _hasActiveFilter =>
       _typeFilter != null ||
       _accountFilter != null ||
       _categoryFilter != null ||
-      _dateFilter != null;
+      _dateFilter != null ||
+      !_newestFirst;
 
   void _clearFilters() => setState(() {
         _typeFilter = null;
@@ -65,45 +59,46 @@ class _TrackScreenState extends State<TrackScreen> {
         _categoryFilter = null;
         _dateFilter = null;
         _dateAnchor = DateTime.now();
-        _accountsExpanded = false;
-        _filtersExpanded = false;
+        _newestFirst = true;
+      });
+
+  void _cycleTypeFilter() => setState(() {
+        if (_typeFilter == null) {
+          _typeFilter = _kTypeIncome;
+        } else if (_typeFilter == _kTypeIncome) {
+          _typeFilter = _kTypeExpense;
+        } else if (_typeFilter == _kTypeExpense) {
+          _typeFilter = _kTypeTransfer;
+        } else {
+          _typeFilter = null;
+        }
       });
 
   /// Inclusive start / exclusive end for the selected date period.
   (DateTime, DateTime) get _dateRange {
     final a = _dateAnchor;
     return switch (_dateFilter) {
+      'day' => (
+          DateTime(a.year, a.month, a.day),
+          DateTime(a.year, a.month, a.day + 1),
+        ),
       'week' => () {
           final mon =
               DateTime(a.year, a.month, a.day - (a.weekday - 1));
           return (mon, DateTime(mon.year, mon.month, mon.day + 7));
         }(),
       'month' => (DateTime(a.year, a.month), DateTime(a.year, a.month + 1)),
-      'year'  => (DateTime(a.year),          DateTime(a.year + 1)),
-      _       => (DateTime(0),               DateTime(9999)),
+      'year' => (DateTime(a.year), DateTime(a.year + 1)),
+      _ => (DateTime(0), DateTime(9999)),
     };
-  }
-
-  /// Move the date anchor forward (+1) or backward (-1) by one period step.
-  void _navigateDate(int direction) {
-    setState(() {
-      _dateAnchor = switch (_dateFilter) {
-        'week'  => DateTime(_dateAnchor.year, _dateAnchor.month,
-                       _dateAnchor.day + direction * 7),
-        'month' => DateTime(_dateAnchor.year, _dateAnchor.month + direction,
-                       _dateAnchor.day),
-        'year'  => DateTime(_dateAnchor.year + direction, _dateAnchor.month,
-                       _dateAnchor.day),
-        _       => _dateAnchor,
-      };
-    });
   }
 
   /// Human-readable label for the current date anchor + period.
   String get _dateLabel {
     final a = _dateAnchor;
     return switch (_dateFilter) {
-      'week'  => () {
+      'day' => DateFormat('EEE, d MMM yyyy').format(a),
+      'week' => () {
           final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
           final sun = DateTime(mon.year, mon.month, mon.day + 6);
           final sameMon = mon.month == sun.month;
@@ -112,9 +107,17 @@ class _TrackScreenState extends State<TrackScreen> {
               : '${DateFormat('d MMM').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}';
         }(),
       'month' => DateFormat('MMMM yyyy').format(a),
-      'year'  => DateFormat('yyyy').format(a),
-      _       => '',
+      'year' => DateFormat('yyyy').format(a),
+      _ => '',
     };
+  }
+
+  String get _dateChipLabel {
+    if (_dateFilter == null) {
+      return DateFormat('MMM yyyy').format(DateTime.now());
+    }
+    if (_dateFilter == 'all') return 'All time';
+    return _dateLabel;
   }
 
   @override
@@ -158,9 +161,16 @@ class _TrackScreenState extends State<TrackScreen> {
   }
 
   List<Transaction> get _filteredTx {
-    // Date filter → search all history; otherwise current month only.
-    Iterable<Transaction> source =
-        _dateFilter != null ? data.transactions : _visibleTx;
+    Iterable<Transaction> source;
+    if (_dateFilter == null) {
+      source = _visibleTx;
+    } else if (_dateFilter == 'all') {
+      source = data.transactions;
+    } else {
+      final (start, end) = _dateRange;
+      source = data.transactions.where(
+          (t) => !t.date.isBefore(start) && t.date.isBefore(end));
+    }
 
     if (_typeFilter != null) {
       source = source.where((t) {
@@ -178,12 +188,6 @@ class _TrackScreenState extends State<TrackScreen> {
 
     if (_categoryFilter != null) {
       source = source.where((t) => t.category == _categoryFilter);
-    }
-
-    if (_dateFilter != null) {
-      final (start, end) = _dateRange;
-      source = source.where(
-          (t) => !t.date.isBefore(start) && t.date.isBefore(end));
     }
 
     return source.toList();
@@ -233,6 +237,54 @@ class _TrackScreenState extends State<TrackScreen> {
         builder: (_) => TransactionDetailScreen(
           transaction: t,
         ),
+      ),
+    );
+  }
+
+  Future<void> _showTrackDateSheet() async {
+    final result = await showModalBottomSheet<({String? mode, DateTime anchor})>(
+      context: context,
+      showDragHandle: true,
+      isScrollControlled: true,
+      builder: (ctx) => _TrackDateRangeSheet(
+        dateFilter: _dateFilter,
+        dateAnchor: _dateAnchor,
+      ),
+    );
+    if (result != null && mounted) {
+      setState(() {
+        _dateFilter = result.mode;
+        _dateAnchor = result.anchor;
+      });
+    }
+  }
+
+  Future<void> _showAccountFilterSheet() async {
+    await showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      isScrollControlled: true,
+      builder: (ctx) => _AccountPickerSheet(
+        selected: _accountFilter,
+        onPick: (a) {
+          Navigator.pop(ctx);
+          setState(() => _accountFilter = a);
+        },
+      ),
+    );
+  }
+
+  Future<void> _showCategoryFilterSheet() async {
+    await showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      isScrollControlled: true,
+      builder: (ctx) => _CategoryPickerSheet(
+        selected: _categoryFilter,
+        onPick: (c) {
+          Navigator.pop(ctx);
+          setState(() => _categoryFilter = c);
+        },
       ),
     );
   }
@@ -295,17 +347,21 @@ class _TrackScreenState extends State<TrackScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  _FilterHero(
+                  _TrackHero(
                     totalIn: 0,
                     totalOut: 0,
                     typeFilter: null,
-                    onTypeFilter: (_) {},
-                    filtersExpanded: false,
-                    extraFilterCount: 0,
-                    onToggleFilters: () {},
-                    accountsExpanded: false,
-                    hasAccountFilter: false,
-                    onToggleAccounts: () {},
+                    onCycleType: _cycleTypeFilter,
+                    dateFilter: _dateFilter,
+                    dateChipLabel: _dateChipLabel,
+                    onOpenDateSheet: _showTrackDateSheet,
+                    accountFilter: _accountFilter,
+                    onOpenAccountSheet: _showAccountFilterSheet,
+                    categoryFilter: _categoryFilter,
+                    onOpenCategorySheet: _showCategoryFilterSheet,
+                    newestFirst: _newestFirst,
+                    onToggleSort: () =>
+                        setState(() => _newestFirst = !_newestFirst),
                   ),
                 ],
               ),
@@ -389,7 +445,13 @@ class _TrackScreenState extends State<TrackScreen> {
       final key = DateFormat('yyyy-MM-dd').format(t.date);
       grouped.putIfAbsent(key, () => []).add(t);
     }
-    final days = grouped.keys.toList()..sort((a, b) => b.compareTo(a));
+    for (final list in grouped.values) {
+      list.sort((a, b) => _newestFirst
+          ? b.date.compareTo(a.date)
+          : a.date.compareTo(b.date));
+    }
+    final days = grouped.keys.toList()
+      ..sort((a, b) => _newestFirst ? b.compareTo(a) : a.compareTo(b));
 
     return CustomScrollView(
       controller: _scrollController,
@@ -421,50 +483,27 @@ class _TrackScreenState extends State<TrackScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  _FilterHero(
+                  _TrackHero(
                     totalIn: totals.totalIn,
                     totalOut: totals.totalOut,
                     typeFilter: _typeFilter,
-                    onTypeFilter: (v) => setState(() => _typeFilter = v),
-                    filtersExpanded: _filtersExpanded,
-                    extraFilterCount: _extraFilterCount,
-                    onToggleFilters: () =>
-                        setState(() => _filtersExpanded = !_filtersExpanded),
-                    accountsExpanded: _accountsExpanded,
-                    hasAccountFilter: _accountFilter != null,
-                    onToggleAccounts: () =>
-                        setState(() => _accountsExpanded = !_accountsExpanded),
+                    onCycleType: _cycleTypeFilter,
+                    dateFilter: _dateFilter,
+                    dateChipLabel: _dateChipLabel,
+                    onOpenDateSheet: _showTrackDateSheet,
+                    accountFilter: _accountFilter,
+                    onOpenAccountSheet: _showAccountFilterSheet,
+                    categoryFilter: _categoryFilter,
+                    onOpenCategorySheet: _showCategoryFilterSheet,
+                    newestFirst: _newestFirst,
+                    onToggleSort: () =>
+                        setState(() => _newestFirst = !_newestFirst),
                   ),
                 ],
               ),
             ),
           ),
         ),
-
-        // Accounts panel
-        if (_accountsExpanded)
-          SliverToBoxAdapter(
-            child: _AccountsPanel(
-              accountFilter: _accountFilter,
-              onAccountFilter: (a) => setState(() => _accountFilter = a),
-            ),
-          ),
-
-        // Filters panel
-        if (_filtersExpanded)
-          SliverToBoxAdapter(
-            child: _FiltersPanel(
-              dateFilter: _dateFilter,
-              dateLabel: _dateLabel,
-              onDateFilter: (v) => setState(() {
-                _dateFilter = v;
-                _dateAnchor = DateTime.now();
-              }),
-              onNavigateDate: _navigateDate,
-              categoryFilter: _categoryFilter,
-              onCategoryFilter: (v) => setState(() => _categoryFilter = v),
-            ),
-          ),
 
         if (displayTx.isEmpty)
           SliverFillRemaining(
@@ -533,31 +572,37 @@ class _TrackScreenState extends State<TrackScreen> {
   }
 }
 
-// ─── Filter hero ─────────────────────────────────────────────────────────────
+// ─── Track hero (totals + 5 filter chips) ────────────────────────────────────
 
-class _FilterHero extends StatelessWidget {
+class _TrackHero extends StatelessWidget {
   final double totalIn;
   final double totalOut;
   final String? typeFilter;
-  final ValueChanged<String?> onTypeFilter;
-  final bool filtersExpanded;
-  final int extraFilterCount;
-  final VoidCallback onToggleFilters;
-  final bool accountsExpanded;
-  final bool hasAccountFilter;
-  final VoidCallback onToggleAccounts;
+  final VoidCallback onCycleType;
+  final String? dateFilter;
+  final String dateChipLabel;
+  final VoidCallback onOpenDateSheet;
+  final Account? accountFilter;
+  final VoidCallback onOpenAccountSheet;
+  final String? categoryFilter;
+  final VoidCallback onOpenCategorySheet;
+  final bool newestFirst;
+  final VoidCallback onToggleSort;
 
-  const _FilterHero({
+  const _TrackHero({
     required this.totalIn,
     required this.totalOut,
     required this.typeFilter,
-    required this.onTypeFilter,
-    required this.filtersExpanded,
-    required this.extraFilterCount,
-    required this.onToggleFilters,
-    required this.accountsExpanded,
-    required this.hasAccountFilter,
-    required this.onToggleAccounts,
+    required this.onCycleType,
+    required this.dateFilter,
+    required this.dateChipLabel,
+    required this.onOpenDateSheet,
+    required this.accountFilter,
+    required this.onOpenAccountSheet,
+    required this.categoryFilter,
+    required this.onOpenCategorySheet,
+    required this.newestFirst,
+    required this.onToggleSort,
   });
 
   @override
@@ -569,26 +614,48 @@ class _FilterHero extends StatelessWidget {
         netPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
     final sym = fx.currencySymbol(settings.baseCurrency);
 
-    Widget chip(String label, String key, IconData icon) {
-      final active = typeFilter == key;
-      return GestureDetector(
-        onTap: () => onTypeFilter(active ? null : key),
-        child: Container(
-          height: 30,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: active
-                ? cs.primary.withValues(alpha: 0.15)
-                : cs.primaryContainer.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(20),
+    (IconData icon, String label) typeVisual() {
+      if (typeFilter == null) {
+        return (Icons.payments_outlined, 'All');
+      }
+      if (typeFilter == _kTypeIncome) {
+        return (Icons.south_west_rounded, 'In');
+      }
+      if (typeFilter == _kTypeExpense) {
+        return (Icons.north_east_rounded, 'Out');
+      }
+      return (Icons.swap_horiz_rounded, 'Xfer');
+    }
+
+    final tv = typeVisual();
+
+    Widget filterChip({
+      required bool active,
+      required VoidCallback onTap,
+      required Widget child,
+    }) {
+      return Expanded(
+        child: GestureDetector(
+          onTap: onTap,
+          behavior: HitTestBehavior.opaque,
+          child: Container(
+            height: 30,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 2),
+            decoration: BoxDecoration(
+              color: active
+                  ? cs.primary.withValues(alpha: 0.15)
+                  : cs.primaryContainer.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: child,
+            ),
           ),
-          child: Icon(icon, size: 15,
-              color: active ? cs.primary : cs.onSurfaceVariant),
         ),
       );
     }
-
-    final filterActive = filtersExpanded || extraFilterCount > 0;
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
@@ -657,84 +724,113 @@ class _FilterHero extends StatelessWidget {
           const SizedBox(height: 10),
           Row(
             children: [
-              Expanded(child: chip('Income', _kTypeIncome, Icons.arrow_downward_rounded)),
-              const SizedBox(width: 6),
-              Expanded(child: chip('Expense', _kTypeExpense, Icons.arrow_upward_rounded)),
-              const SizedBox(width: 6),
-              Expanded(child: chip('Transfer', _kTypeTransfer, Icons.swap_horiz_rounded)),
-              const SizedBox(width: 6),
-              // Accounts toggle
-              Expanded(
-                child: GestureDetector(
-                  onTap: onToggleAccounts,
-                  child: Container(
-                    height: 30,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: (accountsExpanded || hasAccountFilter)
-                          ? cs.primary.withValues(alpha: 0.15)
-                          : cs.primaryContainer.withValues(alpha: 0.5),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Icon(
-                      Icons.account_balance_wallet_outlined,
-                      size: 15,
-                      color: (accountsExpanded || hasAccountFilter)
-                          ? cs.primary
-                          : cs.onSurfaceVariant,
-                    ),
+              Tooltip(
+                message: 'Transaction type',
+                child: filterChip(
+                  active: typeFilter != null,
+                  onTap: onCycleType,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(tv.$1,
+                          size: 14,
+                          color: typeFilter != null
+                              ? cs.primary
+                              : cs.onSurfaceVariant),
+                      const SizedBox(width: 4),
+                      Text(
+                        tv.$2,
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: typeFilter != null
+                              ? cs.primary
+                              : cs.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
               const SizedBox(width: 6),
-              // Filters toggle
-              Expanded(
-                child: GestureDetector(
-                  onTap: onToggleFilters,
-                  child: Stack(
-                    clipBehavior: Clip.none,
+              Tooltip(
+                message: dateChipLabel,
+                child: filterChip(
+                  active: dateFilter != null,
+                  onTap: onOpenDateSheet,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Container(
-                        height: 30,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: filterActive
-                              ? cs.primary.withValues(alpha: 0.15)
-                              : cs.primaryContainer.withValues(alpha: 0.5),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Icon(
-                          filtersExpanded
-                              ? Icons.keyboard_arrow_up_rounded
-                              : Icons.keyboard_arrow_down_rounded,
-                          size: 15,
-                          color: filterActive ? cs.primary : cs.onSurfaceVariant,
-                        ),
-                      ),
-                      if (extraFilterCount > 0)
-                        Positioned(
-                          top: -4,
-                          right: -4,
-                          child: Container(
-                            width: 14,
-                            height: 14,
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: Text(
-                                '$extraFilterCount',
-                                style: const TextStyle(
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
+                      Icon(Icons.calendar_today_outlined,
+                          size: 13,
+                          color: dateFilter != null
+                              ? cs.primary
+                              : cs.onSurfaceVariant),
+                      const SizedBox(width: 3),
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 56),
+                        child: Text(
+                          dateChipLabel,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                            color: dateFilter != null
+                                ? cs.primary
+                                : cs.onSurfaceVariant,
                           ),
                         ),
+                      ),
                     ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 6),
+              Tooltip(
+                message:
+                    accountFilter != null ? accountFilter!.name : 'Account',
+                child: filterChip(
+                  active: accountFilter != null,
+                  onTap: onOpenAccountSheet,
+                  child: Icon(
+                    Icons.account_balance_wallet_outlined,
+                    size: 15,
+                    color: accountFilter != null
+                        ? cs.primary
+                        : cs.onSurfaceVariant,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 6),
+              Tooltip(
+                message: categoryFilter ?? 'Category',
+                child: filterChip(
+                  active: categoryFilter != null,
+                  onTap: onOpenCategorySheet,
+                  child: Icon(
+                    Icons.label_outline_rounded,
+                    size: 15,
+                    color: categoryFilter != null
+                        ? cs.primary
+                        : cs.onSurfaceVariant,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 6),
+              Tooltip(
+                message: newestFirst
+                    ? 'Newest first — tap for oldest first'
+                    : 'Oldest first — tap for newest first',
+                child: filterChip(
+                  active: !newestFirst,
+                  onTap: onToggleSort,
+                  child: Icon(
+                    newestFirst
+                        ? Icons.arrow_downward_rounded
+                        : Icons.arrow_upward_rounded,
+                    size: 15,
+                    color: !newestFirst ? cs.primary : cs.onSurfaceVariant,
                   ),
                 ),
               ),
@@ -746,175 +842,226 @@ class _FilterHero extends StatelessWidget {
   }
 }
 
-// ─── Filters panel ───────────────────────────────────────────────────────────
+// ─── Date range bottom sheet ─────────────────────────────────────────────────
 
-class _FiltersPanel extends StatelessWidget {
+class _TrackDateRangeSheet extends StatefulWidget {
   final String? dateFilter;
-  final String dateLabel;
-  final ValueChanged<String?> onDateFilter;
-  final ValueChanged<int> onNavigateDate;
-  final String? categoryFilter;
-  final ValueChanged<String?> onCategoryFilter;
+  final DateTime dateAnchor;
 
-  const _FiltersPanel({
+  const _TrackDateRangeSheet({
     required this.dateFilter,
-    required this.dateLabel,
-    required this.onDateFilter,
-    required this.onNavigateDate,
-    required this.categoryFilter,
-    required this.onCategoryFilter,
+    required this.dateAnchor,
   });
+
+  @override
+  State<_TrackDateRangeSheet> createState() => _TrackDateRangeSheetState();
+}
+
+class _TrackDateRangeSheetState extends State<_TrackDateRangeSheet> {
+  late String? _mode;
+  late DateTime _anchor;
+
+  @override
+  void initState() {
+    super.initState();
+    _mode = widget.dateFilter;
+    _anchor = widget.dateAnchor;
+  }
+
+  String _navLabel() {
+    final a = _anchor;
+    return switch (_mode) {
+      null => DateFormat('MMMM yyyy').format(DateTime.now()),
+      'all' => 'All time',
+      'day' => DateFormat('EEE, d MMM yyyy').format(a),
+      'week' => () {
+          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
+          final sun = DateTime(mon.year, mon.month, mon.day + 6);
+          final sameMon = mon.month == sun.month;
+          return sameMon
+              ? '${DateFormat('d').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}'
+              : '${DateFormat('d MMM').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}';
+        }(),
+      'month' => DateFormat('MMMM yyyy').format(a),
+      'year' => DateFormat('yyyy').format(a),
+      _ => '',
+    };
+  }
+
+  bool get _canNavigateForward {
+    if (_mode != 'day') return true;
+    return DateUtils.dateOnly(_anchor)
+        .isBefore(DateUtils.dateOnly(DateTime.now()));
+  }
+
+  void _navigate(int direction) {
+    setState(() {
+      var next = switch (_mode) {
+        'day' => DateTime(_anchor.year, _anchor.month, _anchor.day + direction),
+        'week' => DateTime(_anchor.year, _anchor.month, _anchor.day + direction * 7),
+        'month' => DateTime(_anchor.year, _anchor.month + direction, _anchor.day),
+        'year' => DateTime(_anchor.year + direction, _anchor.month, _anchor.day),
+        _ => _anchor,
+      };
+      if (_mode == 'day') {
+        final today = DateUtils.dateOnly(DateTime.now());
+        final n = DateUtils.dateOnly(next);
+        if (n.isAfter(today)) next = _anchor;
+      }
+      _anchor = next;
+    });
+  }
+
+  Widget _modeChip({
+    required String label,
+    required String? value,
+  }) {
+    final cs = Theme.of(context).colorScheme;
+    final sel = _mode == value;
+    return FilterChip(
+      label: Text(label),
+      selected: sel,
+      onSelected: (_) {
+        setState(() {
+          final prev = _mode;
+          _mode = value;
+          if (value != prev && value != null && value != 'all') {
+            _anchor = DateTime.now();
+          }
+        });
+      },
+      visualDensity: VisualDensity.compact,
+      selectedColor: cs.primary.withValues(alpha: 0.18),
+      checkmarkColor: cs.primary,
+      labelStyle: TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
+        color: sel ? cs.primary : cs.onSurfaceVariant,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-
-    final allCategories = [
-      ...data.incomeCategories,
-      ...data.expenseCategories,
-    ];
-
-    Widget chip({
-      required String label,
-      required bool active,
-      required VoidCallback onTap,
-      IconData? icon,
-    }) {
-      return GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: active
-                ? cs.primary.withValues(alpha: 0.12)
-                : cs.surfaceContainerHighest.withValues(alpha: 0.6),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: active
-                  ? cs.primary.withValues(alpha: 0.35)
-                  : cs.outlineVariant.withValues(alpha: 0.4),
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (icon != null) ...[
-                Icon(icon, size: 13,
-                    color: active ? cs.primary : cs.onSurfaceVariant),
-                const SizedBox(width: 5),
-              ],
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: active ? cs.primary : cs.onSurfaceVariant,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    Widget sectionLabel(String label) => Text(
-          label,
-          style: TextStyle(
-            fontSize: 10,
-            letterSpacing: 0.8,
-            fontWeight: FontWeight.w700,
-            color: cs.primary,
-          ),
-        );
+    final bottom = MediaQuery.paddingOf(context).bottom;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-      child: Container(
-        decoration: BoxDecoration(
-          color: cs.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.5)),
-        ),
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ── Date period ───────────────────────────────────────────
-            sectionLabel('DATE PERIOD'),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 6,
+      padding: EdgeInsets.fromLTRB(20, 8, 20, 16 + bottom),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            'Date range',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _modeChip(label: 'This month', value: null),
+              _modeChip(label: 'Day', value: 'day'),
+              _modeChip(label: 'Week', value: 'week'),
+              _modeChip(label: 'Month', value: 'month'),
+              _modeChip(label: 'Year', value: 'year'),
+              _modeChip(label: 'All time', value: 'all'),
+            ],
+          ),
+          if (_mode != null && _mode != 'all') ...[
+            const SizedBox(height: 16),
+            Row(
               children: [
-                chip(label: 'Week', active: dateFilter == 'week', onTap: () => onDateFilter(dateFilter == 'week' ? null : 'week')),
-                chip(label: 'Month', active: dateFilter == 'month', onTap: () => onDateFilter(dateFilter == 'month' ? null : 'month')),
-                chip(label: 'Year', active: dateFilter == 'year', onTap: () => onDateFilter(dateFilter == 'year' ? null : 'year')),
-              ],
-            ),
-            if (dateFilter != null) ...[
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  _NavButton(
-                    icon: Icons.chevron_left_rounded,
-                    onTap: () => onNavigateDate(-1),
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    dateLabel,
+                _NavButton(
+                  icon: Icons.chevron_left_rounded,
+                  onTap: () => _navigate(-1),
+                ),
+                Expanded(
+                  child: Text(
+                    _navLabel(),
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: cs.onSurface,
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  _NavButton(
-                    icon: Icons.chevron_right_rounded,
-                    onTap: () => onNavigateDate(1),
-                  ),
-                ],
-              ),
-            ],
-
-            // ── Category ──────────────────────────────────────────────
-            if (allCategories.isNotEmpty) ...[
-              const SizedBox(height: 14),
-              sectionLabel('CATEGORY'),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 6,
-                runSpacing: 6,
-                children: allCategories
-                    .map((cat) => chip(
-                          label: cat,
-                          active: categoryFilter == cat,
-                          onTap: () => onCategoryFilter(
-                              categoryFilter == cat ? null : cat),
-                        ))
-                    .toList(),
-              ),
-            ],
+                ),
+                _NavButton(
+                  icon: Icons.chevron_right_rounded,
+                  onTap: _canNavigateForward ? () => _navigate(1) : null,
+                ),
+              ],
+            ),
           ],
-        ),
+          const SizedBox(height: 20),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(context, (mode: _mode, anchor: _anchor));
+            },
+            child: const Text('Apply'),
+          ),
+        ],
       ),
     );
   }
 }
 
-// ─── Accounts panel ───────────────────────────────────────────────────────────
+// ─── Account picker sheet ────────────────────────────────────────────────────
 
-class _AccountsPanel extends StatelessWidget {
-  final Account? accountFilter;
-  final ValueChanged<Account?> onAccountFilter;
+class _AccountPickerSheet extends StatelessWidget {
+  final Account? selected;
+  final void Function(Account?) onPick;
 
-  const _AccountsPanel({
-    required this.accountFilter,
-    required this.onAccountFilter,
+  const _AccountPickerSheet({
+    required this.selected,
+    required this.onPick,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final h = MediaQuery.sizeOf(context).height * 0.52;
+    final bottom = MediaQuery.paddingOf(context).bottom;
+
+    Widget section(String title, Color color, List<Account> accounts) {
+      if (accounts.isEmpty) return const SizedBox.shrink();
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 11,
+                letterSpacing: 0.6,
+                fontWeight: FontWeight.w800,
+                color: color,
+              ),
+            ),
+          ),
+          ...accounts.map((a) {
+            final isSel = selected?.id == a.id;
+            return ListTile(
+              leading: Icon(
+                Icons.account_balance_rounded,
+                color: isSel ? cs.primary : cs.onSurfaceVariant,
+                size: 22,
+              ),
+              title: Text(a.name),
+              trailing: isSel
+                  ? Icon(Icons.check_rounded, color: cs.primary)
+                  : null,
+              onTap: () => onPick(isSel ? null : a),
+            );
+          }),
+        ],
+      );
+    }
 
     final personal = data.accounts
         .where((a) => a.group == AccountGroup.personal)
@@ -926,79 +1073,111 @@ class _AccountsPanel extends StatelessWidget {
         .where((a) => a.group == AccountGroup.entities)
         .toList();
 
-    Widget accountChip(Account a) {
-      final active = accountFilter?.id == a.id;
-      return GestureDetector(
-        onTap: () => onAccountFilter(active ? null : a),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: active
-                ? cs.primary.withValues(alpha: 0.12)
-                : cs.surfaceContainerHighest.withValues(alpha: 0.6),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: active
-                  ? cs.primary.withValues(alpha: 0.35)
-                  : cs.outlineVariant.withValues(alpha: 0.4),
+    return SizedBox(
+      height: h + bottom,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 4),
+            child: Text(
+              'Account',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
             ),
           ),
-          child: Text(
-            a.name,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: active ? cs.primary : cs.onSurfaceVariant,
+          Expanded(
+            child: ListView(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.all_inclusive_rounded,
+                      color: selected == null ? cs.primary : cs.onSurfaceVariant),
+                  title: const Text('All accounts'),
+                  trailing: selected == null
+                      ? Icon(Icons.check_rounded, color: cs.primary)
+                      : null,
+                  onTap: () => onPick(null),
+                ),
+                section('PERSONAL', cs.primary, personal),
+                section('INDIVIDUALS', cs.tertiary, individuals),
+                section('ENTITIES', cs.secondary, entities),
+              ],
             ),
           ),
-        ),
-      );
-    }
+        ],
+      ),
+    );
+  }
+}
 
-    Widget sectionLabel(String label, Color color) => Text(
-          label,
-          style: TextStyle(
-            fontSize: 10,
-            letterSpacing: 0.8,
-            fontWeight: FontWeight.w700,
-            color: color,
+// ─── Category picker sheet ───────────────────────────────────────────────────
+
+class _CategoryPickerSheet extends StatelessWidget {
+  final String? selected;
+  final void Function(String?) onPick;
+
+  const _CategoryPickerSheet({
+    required this.selected,
+    required this.onPick,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final h = MediaQuery.sizeOf(context).height * 0.48;
+    final bottom = MediaQuery.paddingOf(context).bottom;
+    final cats = <String>{
+      ...data.incomeCategories,
+      ...data.expenseCategories,
+    }.toList()
+      ..sort();
+
+    return SizedBox(
+      height: h + bottom,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 4),
+            child: Text(
+              'Category',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
           ),
-        );
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-      child: Container(
-        decoration: BoxDecoration(
-          color: cs.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.5)),
-        ),
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (personal.isNotEmpty) ...[
-              sectionLabel('PERSONAL', cs.primary),
-              const SizedBox(height: 8),
-              Wrap(spacing: 6, runSpacing: 6,
-                  children: personal.map(accountChip).toList()),
-            ],
-            if (individuals.isNotEmpty) ...[
-              if (personal.isNotEmpty) const SizedBox(height: 12),
-              sectionLabel('INDIVIDUALS', cs.tertiary),
-              const SizedBox(height: 8),
-              Wrap(spacing: 6, runSpacing: 6,
-                  children: individuals.map(accountChip).toList()),
-            ],
-            if (entities.isNotEmpty) ...[
-              if (personal.isNotEmpty || individuals.isNotEmpty) const SizedBox(height: 12),
-              sectionLabel('ENTITIES', cs.secondary),
-              const SizedBox(height: 8),
-              Wrap(spacing: 6, runSpacing: 6,
-                  children: entities.map(accountChip).toList()),
-            ],
-          ],
-        ),
+          Expanded(
+            child: ListView(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.clear_all_rounded,
+                      color: selected == null ? cs.primary : cs.onSurfaceVariant),
+                  title: const Text('All categories'),
+                  trailing: selected == null
+                      ? Icon(Icons.check_rounded, color: cs.primary)
+                      : null,
+                  onTap: () => onPick(null),
+                ),
+                ...cats.map((c) {
+                  final isSel = selected == c;
+                  return ListTile(
+                    leading: Icon(
+                      Icons.label_outline_rounded,
+                      color: isSel ? cs.primary : cs.onSurfaceVariant,
+                      size: 22,
+                    ),
+                    title: Text(c),
+                    trailing: isSel
+                        ? Icon(Icons.check_rounded, color: cs.primary)
+                        : null,
+                    onTap: () => onPick(isSel ? null : c),
+                  );
+                }),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -1006,23 +1185,30 @@ class _AccountsPanel extends StatelessWidget {
 
 class _NavButton extends StatelessWidget {
   final IconData icon;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   const _NavButton({required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final enabled = onTap != null;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 32,
         height: 32,
         decoration: BoxDecoration(
-          color: cs.primaryContainer.withValues(alpha: 0.5),
+          color: enabled
+              ? cs.primaryContainer.withValues(alpha: 0.5)
+              : cs.surfaceContainerHighest.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.4)),
         ),
-        child: Icon(icon, size: 18, color: cs.primary),
+        child: Icon(
+          icon,
+          size: 18,
+          color: enabled ? cs.primary : cs.onSurfaceVariant.withValues(alpha: 0.35),
+        ),
       ),
     );
   }
