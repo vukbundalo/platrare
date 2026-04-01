@@ -822,6 +822,10 @@ class _DayGroupState extends State<_DayGroup> {
     return DateFormat('EEE, d MMM yyyy').format(d);
   }
 
+  bool get _isPast =>
+      DateUtils.dateOnly(widget.date)
+          .isBefore(DateUtils.dateOnly(DateTime.now()));
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
@@ -852,6 +856,23 @@ class _DayGroupState extends State<_DayGroup> {
                   letterSpacing: 0.1,
                 ),
               ),
+              const Spacer(),
+              if (_isPast)
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: cs.errorContainer.withValues(alpha: 0.8),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    'overdue',
+                    style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: cs.onErrorContainer),
+                  ),
+                ),
             ],
           ),
         ),
@@ -873,9 +894,6 @@ class _DayGroupState extends State<_DayGroup> {
                 ...widget.planned.asMap().entries.map((entry) {
                   final idx = entry.key;
                   final pt = entry.value;
-                  final today = DateUtils.dateOnly(DateTime.now());
-                  final ptDay = DateUtils.dateOnly(pt.date);
-                  final isOverdue = ptDay.isBefore(today);
                   return Dismissible(
                     key: ValueKey(pt.id),
                     direction: DismissDirection.horizontal,
@@ -902,32 +920,12 @@ class _DayGroupState extends State<_DayGroup> {
                           color: Color(0xFFDC2626), size: 22),
                     ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         if (idx > 0)
                           Divider(
                               height: 0.5,
                               indent: 56,
                               color: cs.outlineVariant.withValues(alpha: 0.4)),
-                        if (isOverdue)
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
-                            child: Row(
-                              children: [
-                                Icon(Icons.warning_amber_rounded,
-                                    size: 14, color: cs.error),
-                                const SizedBox(width: 6),
-                                Text(
-                                  'Overdue',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w700,
-                                    color: cs.error,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                         _PlannedTile(
                           pt: pt,
                           onTap: () => widget.onTap(pt),
