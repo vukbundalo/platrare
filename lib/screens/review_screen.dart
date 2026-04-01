@@ -120,11 +120,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
   // Rule 5: multiply CURRENT native balances by CURRENT live rates.
   // Never sum historical locked baseAmounts for the balance sheet.
   double get _personalTotal => data.accounts
-      .where((a) => a.group == AccountGroup.personal && a.includeInBalance)
+      .where((a) => a.group == AccountGroup.personal)
       .fold(0.0, (sum, a) => sum + fx.toBase(a.balance, a.currencyCode));
 
   double get _netTotal => data.accounts
-      .where((a) => a.includeInBalance)
       .fold(0.0, (sum, a) => sum + fx.toBase(a.balance, a.currencyCode));
 
   // Returns {category: total} for income transactions, filtered by period
@@ -1117,12 +1116,25 @@ class _AccountCard extends StatelessWidget {
     final shownBalance = isSecondary
         ? fx.convert(account.balance, account.currencyCode, displayCurrency)
         : account.balance;
+    final shownAvailable = account.hasOverdraftFacility
+        ? (isSecondary
+            ? fx.convert(account.availableToSpend, account.currencyCode,
+                displayCurrency)
+            : account.availableToSpend)
+        : null;
     final shownSymbol = isSecondary
         ? fx.currencySymbol(displayCurrency)
         : fx.currencySymbol(account.currencyCode);
     final isPositive = shownBalance >= 0;
     final balanceColor =
         isPositive ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final availPositive =
+        shownAvailable != null && shownAvailable >= 0;
+    final availColor = shownAvailable == null
+        ? balanceColor
+        : (availPositive
+            ? const Color(0xFF16A34A)
+            : const Color(0xFFDC2626));
 
     final avatarBg = isPersonal
         ? cs.primaryContainer
@@ -1196,11 +1208,16 @@ class _AccountCard extends StatelessWidget {
                           fontWeight: FontWeight.w800,
                           fontSize: 16),
                     ),
-                    if (!account.includeInBalance)
-                      Text('excluded',
-                          style: TextStyle(
-                              fontSize: 10,
-                              color: cs.onSurfaceVariant)),
+                    if (account.hasOverdraftFacility) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        'Available ${shownAvailable! > 0 ? '+' : ''}${shownAvailable.toStringAsFixed(2)} $shownSymbol',
+                        style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: availColor),
+                      ),
+                    ],
                   ],
                 ),
               ],
@@ -1276,10 +1293,16 @@ class AccountFormSheet extends StatefulWidget {
 class _AccountFormSheetState extends State<AccountFormSheet> {
   late final TextEditingController _nameController;
   late final TextEditingController _balanceController;
+  late final TextEditingController _overdraftController;
   late AccountGroup _group;
-  late bool _includeInBalance;
   late String _currencyCode;
   bool _forceClose = false;
+
+  double _parseOverdraftLimit() {
+    final t = _overdraftController.text.trim();
+    if (t.isEmpty) return 0;
+    return (double.tryParse(t.replaceAll(',', '.')) ?? 0).clamp(0.0, 1e15);
+  }
 
   @override
   void initState() {
@@ -1291,8 +1314,12 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
           ? widget.account!.balance.toStringAsFixed(2)
           : '',
     );
+    _overdraftController = TextEditingController(
+      text: widget.account != null && widget.account!.overdraftLimit > 0
+          ? widget.account!.overdraftLimit.toStringAsFixed(2)
+          : '',
+    );
     _group = widget.account?.group ?? AccountGroup.personal;
-    _includeInBalance = widget.account?.includeInBalance ?? true;
     _currencyCode = widget.account?.currencyCode ?? settings.baseCurrency;
   }
 
@@ -1302,14 +1329,14 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
           _balanceController.text.trim() !=
               widget.account!.balance.toStringAsFixed(2) ||
           _group != widget.account!.group ||
-          _includeInBalance != widget.account!.includeInBalance ||
+          _parseOverdraftLimit() != widget.account!.overdraftLimit ||
           _currencyCode != widget.account!.currencyCode;
     }
     return _nameController.text.trim().isNotEmpty ||
         _balanceController.text.trim().isNotEmpty ||
+        _parseOverdraftLimit() > 0 ||
         _currencyCode != settings.baseCurrency ||
-        _group != AccountGroup.personal ||
-        !_includeInBalance;
+        _group != AccountGroup.personal;
   }
 
   void _showDiscardDialog() {
@@ -1344,6 +1371,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
   void dispose() {
     _nameController.dispose();
     _balanceController.dispose();
+    _overdraftController.dispose();
     super.dispose();
   }
 
@@ -1363,11 +1391,12 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
     final balance = double.tryParse(
             _balanceController.text.trim().replaceAll(',', '.')) ??
         0.0;
+    final overdraft = _parseOverdraftLimit();
     if (widget.account != null) {
       widget.account!.name = name;
       widget.account!.balance = balance;
       widget.account!.group = _group;
-      widget.account!.includeInBalance = _includeInBalance;
+      widget.account!.overdraftLimit = overdraft;
       Navigator.pop(context, false);
     } else {
       Navigator.pop(
@@ -1376,7 +1405,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
           name: name,
           group: _group,
           balance: balance,
-          includeInBalance: _includeInBalance,
+          overdraftLimit: overdraft,
           currencyCode: _currencyCode,
         ),
       );
@@ -1528,28 +1557,22 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                 keyboardType: const TextInputType.numberWithOptions(
                     decimal: true, signed: true),
                 decoration: InputDecoration(
-                  labelText: 'Current balance',
+                  labelText: 'Book balance',
+                  helperText:
+                      'Actual position; negative means you owe (e.g. bank advance).',
                   suffixText: ' ${fx.currencySymbol(_currencyCode)}',
                 ),
               ),
               const SizedBox(height: 12),
-              Material(
-                color: cs.surfaceContainerLow,
-                borderRadius: BorderRadius.circular(12),
-                child: SwitchListTile.adaptive(
-                  value: _includeInBalance,
-                  onChanged: (v) =>
-                      setState(() => _includeInBalance = v),
-                  title: const Text('Include in net worth',
-                      style: TextStyle(fontSize: 14)),
-                  subtitle: Text(
-                    'Toggle off for credit cards or excluded accounts',
-                    style: TextStyle(
-                        fontSize: 12, color: cs.onSurfaceVariant),
-                  ),
-                  dense: true,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+              TextField(
+                controller: _overdraftController,
+                keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true, signed: false),
+                decoration: InputDecoration(
+                  labelText: 'Overdraft / advance limit',
+                  helperText:
+                      'Optional. Available to spend = balance + limit. Leave empty if none.',
+                  suffixText: ' ${fx.currencySymbol(_currencyCode)}',
                 ),
               ),
               const SizedBox(height: 20),
@@ -1601,12 +1624,18 @@ class AccountFormScreen extends StatefulWidget {
 class _AccountFormScreenState extends State<AccountFormScreen> {
   late final TextEditingController _nameController;
   late final TextEditingController _balanceController;
+  late final TextEditingController _overdraftController;
   late AccountGroup _group;
-  late bool _includeInBalance;
   late String _currencyCode;
   bool _forceClose = false;
 
   bool get _isEdit => widget.existing != null;
+
+  double _parseOverdraftLimit() {
+    final t = _overdraftController.text.trim();
+    if (t.isEmpty) return 0;
+    return (double.tryParse(t.replaceAll(',', '.')) ?? 0).clamp(0.0, 1e15);
+  }
 
   @override
   void initState() {
@@ -1618,8 +1647,12 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
           ? widget.existing!.balance.toStringAsFixed(2)
           : '',
     );
+    _overdraftController = TextEditingController(
+      text: widget.existing != null && widget.existing!.overdraftLimit > 0
+          ? widget.existing!.overdraftLimit.toStringAsFixed(2)
+          : '',
+    );
     _group = widget.existing?.group ?? AccountGroup.personal;
-    _includeInBalance = widget.existing?.includeInBalance ?? true;
     _currencyCode =
         widget.existing?.currencyCode ?? settings.baseCurrency;
   }
@@ -1628,6 +1661,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
   void dispose() {
     _nameController.dispose();
     _balanceController.dispose();
+    _overdraftController.dispose();
     super.dispose();
   }
 
@@ -1637,13 +1671,13 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
           _balanceController.text.trim() !=
               widget.existing!.balance.toStringAsFixed(2) ||
           _group != widget.existing!.group ||
-          _includeInBalance != widget.existing!.includeInBalance;
+          _parseOverdraftLimit() != widget.existing!.overdraftLimit;
     }
     return _nameController.text.trim().isNotEmpty ||
         _balanceController.text.trim().isNotEmpty ||
+        _parseOverdraftLimit() > 0 ||
         _currencyCode != settings.baseCurrency ||
-        _group != AccountGroup.personal ||
-        !_includeInBalance;
+        _group != AccountGroup.personal;
   }
 
   bool get _canSave => _nameController.text.trim().isNotEmpty;
@@ -1683,17 +1717,18 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
     final balance =
         double.tryParse(_balanceController.text.trim().replaceAll(',', '.')) ??
             0.0;
+    final overdraft = _parseOverdraftLimit();
     if (_isEdit) {
       widget.existing!.name = name;
       widget.existing!.balance = balance;
       widget.existing!.group = _group;
-      widget.existing!.includeInBalance = _includeInBalance;
+      widget.existing!.overdraftLimit = overdraft;
     } else {
       data.accounts.add(Account(
         name: name,
         group: _group,
         balance: balance,
-        includeInBalance: _includeInBalance,
+        overdraftLimit: overdraft,
         currencyCode: _currencyCode,
       ));
     }
@@ -1832,31 +1867,27 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                       keyboardType: const TextInputType.numberWithOptions(
                           decimal: true, signed: true),
                       decoration: InputDecoration(
-                        labelText: 'Current balance',
+                        labelText: 'Book balance',
+                        helperText:
+                            'Negative = debt on this account (e.g. salary advance).',
                         suffixText:
                             '  ${fx.currencySymbol(_currencyCode)}',
                       ),
                       onChanged: (_) => setState(() {}),
                     ),
                     const SizedBox(height: 12),
-                    Material(
-                      color: cs.surfaceContainerLow,
-                      borderRadius: BorderRadius.circular(12),
-                      child: SwitchListTile.adaptive(
-                        value: _includeInBalance,
-                        onChanged: (v) =>
-                            setState(() => _includeInBalance = v),
-                        title: const Text('Include in net worth',
-                            style: TextStyle(fontSize: 14)),
-                        subtitle: Text(
-                          'Toggle off for credit cards or excluded accounts',
-                          style: TextStyle(
-                              fontSize: 12, color: cs.onSurfaceVariant),
-                        ),
-                        dense: true,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
+                    TextField(
+                      controller: _overdraftController,
+                      keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true, signed: false),
+                      decoration: InputDecoration(
+                        labelText: 'Overdraft / advance limit',
+                        helperText:
+                            'Available to spend = balance + limit. Empty = no facility.',
+                        suffixText:
+                            '  ${fx.currencySymbol(_currencyCode)}',
                       ),
+                      onChanged: (_) => setState(() {}),
                     ),
                   ],
                 ),

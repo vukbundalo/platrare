@@ -10,7 +10,6 @@ final _cash = Account(
   group: AccountGroup.personal,
   balance: 180.00,
   currencyCode: 'BAM',
-  includeInBalance: true,
 );
 
 final _card = Account(
@@ -18,7 +17,8 @@ final _card = Account(
   group: AccountGroup.personal,
   balance: 2340.50,
   currencyCode: 'BAM',
-  includeInBalance: true,
+  // Example: 2× pay advance line — book balance + limit = spending headroom.
+  overdraftLimit: 13600.00,
 );
 
 final _eurSavings = Account(
@@ -26,7 +26,6 @@ final _eurSavings = Account(
   group: AccountGroup.personal,
   balance: 850.00,
   currencyCode: 'EUR',
-  includeInBalance: true,
 );
 
 // — Individuals —
@@ -35,7 +34,6 @@ final _nevena = Account(
   group: AccountGroup.individuals,
   balance: 150.00, // she owes me 150 BAM
   currencyCode: 'BAM',
-  includeInBalance: false,
 );
 
 final _marko = Account(
@@ -43,7 +41,6 @@ final _marko = Account(
   group: AccountGroup.individuals,
   balance: -300.00, // I owe him 300 BAM
   currencyCode: 'BAM',
-  includeInBalance: false,
 );
 
 // — Entities —
@@ -52,7 +49,6 @@ final _telecom = Account(
   group: AccountGroup.entities,
   balance: -25.00, // outstanding bill
   currencyCode: 'BAM',
-  includeInBalance: false,
 );
 
 final _electricity = Account(
@@ -60,7 +56,6 @@ final _electricity = Account(
   group: AccountGroup.entities,
   balance: 0,
   currencyCode: 'BAM',
-  includeInBalance: false,
 );
 
 final List<Account> accounts = [

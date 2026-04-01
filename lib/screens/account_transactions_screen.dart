@@ -289,6 +289,13 @@ class _AccountHero extends StatelessWidget {
     final balPos = account.balance >= 0;
     final balColor =
         balPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final avail = account.hasOverdraftFacility ? account.availableToSpend : null;
+    final availPos = avail != null && avail >= 0;
+    final availColor = avail == null
+        ? balColor
+        : (availPos
+            ? const Color(0xFF16A34A)
+            : const Color(0xFFDC2626));
     final outColor = const Color(0xFFDC2626);
     final filterActive = filtersExpanded || hasActiveFilter;
 
@@ -328,7 +335,10 @@ class _AccountHero extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Balance',
+                    Text(
+                        account.hasOverdraftFacility
+                            ? 'Book balance'
+                            : 'Balance',
                         style: TextStyle(
                             fontSize: 12,
                             color: cs.onSurfaceVariant,
@@ -343,6 +353,25 @@ class _AccountHero extends StatelessWidget {
                         letterSpacing: -1,
                       ),
                     ),
+                    if (avail != null) ...[
+                      const SizedBox(height: 6),
+                      Text(
+                        'Available to spend',
+                        style: TextStyle(
+                            fontSize: 11,
+                            color: cs.onSurfaceVariant,
+                            fontWeight: FontWeight.w500)),
+                      const SizedBox(height: 2),
+                      Text(
+                        '${avail > 0 ? '+' : ''}${avail.toStringAsFixed(2)} $sym',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: availColor,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),

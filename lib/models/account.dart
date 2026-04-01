@@ -54,7 +54,11 @@ class Account {
   /// for separate currencies.
   String currencyCode;
 
-  bool includeInBalance;
+  /// Bank overdraft / salary-advance facility in this account's currency.
+  /// [balance] is the **book** position (negative = you owe the bank).
+  /// Spending headroom ≈ [balance] + [overdraftLimit] (e.g. balance -6800,
+  /// limit 13600 → 6800 still available). When 0, there is no facility.
+  double overdraftLimit;
 
   Account({
     String? id,
@@ -63,9 +67,16 @@ class Account {
     AccountType? type,
     this.balance = 0.0,
     this.currencyCode = 'BAM',
-    this.includeInBalance = true,
+    this.overdraftLimit = 0.0,
   }) : id = id ?? const Uuid().v4(),
        group = group ?? _typeToGroup(type);
+
+  bool get hasOverdraftFacility => overdraftLimit > 0;
+
+  /// Amount still usable for spending with an active overdraft/advance line.
+  /// Below zero means over the agreed facility.
+  double get availableToSpend =>
+      hasOverdraftFacility ? balance + overdraftLimit : balance;
 
   static AccountGroup _typeToGroup(AccountType? t) =>
       t == AccountType.personal ? AccountGroup.personal : AccountGroup.personal;
@@ -90,14 +101,14 @@ class Account {
     AccountGroup? group,
     double? balance,
     String? currencyCode,
-    bool? includeInBalance,
+    double? overdraftLimit,
   }) => Account(
     id: id,
     name: name ?? this.name,
     group: group ?? this.group,
     balance: balance ?? this.balance,
     currencyCode: currencyCode ?? this.currencyCode,
-    includeInBalance: includeInBalance ?? this.includeInBalance,
+    overdraftLimit: overdraftLimit ?? this.overdraftLimit,
   );
 
   @override

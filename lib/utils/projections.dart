@@ -87,11 +87,9 @@ double personalTotal(Map<String, double> balances) {
   });
 }
 
-/// Sum of ALL accounts (that opt-in) converted to base currency at live rates.
+/// Sum of ALL accounts converted to base currency at live rates (book balances).
 double netWorthInBase(Map<String, double> balances) {
-  return data.accounts
-      .where((a) => a.includeInBalance)
-      .fold(0.0, (sum, a) {
+  return data.accounts.fold(0.0, (sum, a) {
     final native = balances[a.id] ?? a.balance;
     return sum + fx.toBase(native, a.currencyCode);
   });
