@@ -85,7 +85,9 @@ class _TrackScreenState extends State<TrackScreen> {
       });
 
   /// Cycles: this month (null) → navigable month → week → year → null.
+  /// Closes account/category strip so date nav is the only secondary UI.
   void _cycleDateFilter() => setState(() {
+        _trackPanel = _TrackFilterPanel.none;
         if (_dateFilter == null) {
           _dateFilter = 'month';
           _dateAnchor = DateTime.now();
@@ -107,43 +109,13 @@ class _TrackScreenState extends State<TrackScreen> {
       _dateFilter == 'month' ||
       _dateFilter == 'year';
 
-  IconData get _dateChipIcon => switch (_dateFilter) {
-        'month' => Icons.calendar_month_outlined,
-        'week' => Icons.view_week_outlined,
-        'year' => Icons.date_range_outlined,
-        _ => Icons.calendar_today_outlined,
+  /// Shown on the date chip for month / week / year (calendar icon when null).
+  String? get _dateChipModeLetter => switch (_dateFilter) {
+        'month' => 'M',
+        'week' => 'W',
+        'year' => 'Y',
+        _ => null,
       };
-
-  DateTime _snapPickedDate(DateTime picked, String mode) {
-    switch (mode) {
-      case 'week':
-        return DateTime(
-          picked.year,
-          picked.month,
-          picked.day - (picked.weekday - DateTime.monday),
-        );
-      case 'month':
-        return DateTime(picked.year, picked.month, 1);
-      case 'year':
-        return DateTime(picked.year, 1, 1);
-      default:
-        return picked;
-    }
-  }
-
-  Future<void> _pickTrackDate() async {
-    if (!_hasNavigableDateFilter) return;
-    final mode = _dateFilter!;
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: _dateAnchor,
-      firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null && mounted) {
-      setState(() => _dateAnchor = _snapPickedDate(picked, mode));
-    }
-  }
 
   void _navigateDate(int direction) {
     setState(() {
@@ -410,7 +382,7 @@ class _TrackScreenState extends State<TrackScreen> {
                     onTogglePanel: _toggleTrackPanel,
                     typeFilter: _typeFilter,
                     onCycleType: _cycleTypeFilter,
-                    dateChipIcon: _dateChipIcon,
+                    dateModeLetter: _dateChipModeLetter,
                     dateFilterActive: _dateFilter != null,
                     onCycleDate: _cycleDateFilter,
                     accountFilter: _accountFilter,
@@ -423,7 +395,8 @@ class _TrackScreenState extends State<TrackScreen> {
             ),
           ),
         ),
-        if (_hasNavigableDateFilter)
+        if (_hasNavigableDateFilter &&
+            _trackPanel == _TrackFilterPanel.none)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
@@ -433,7 +406,6 @@ class _TrackScreenState extends State<TrackScreen> {
                 onNavigateForward: _canNavigateDateForward
                     ? () => _navigateDate(1)
                     : null,
-                onPickDate: _pickTrackDate,
               ),
             ),
           ),
@@ -578,7 +550,7 @@ class _TrackScreenState extends State<TrackScreen> {
                     onTogglePanel: _toggleTrackPanel,
                     typeFilter: _typeFilter,
                     onCycleType: _cycleTypeFilter,
-                    dateChipIcon: _dateChipIcon,
+                    dateModeLetter: _dateChipModeLetter,
                     dateFilterActive: _dateFilter != null,
                     onCycleDate: _cycleDateFilter,
                     accountFilter: _accountFilter,
@@ -591,7 +563,8 @@ class _TrackScreenState extends State<TrackScreen> {
             ),
           ),
         ),
-        if (_hasNavigableDateFilter)
+        if (_hasNavigableDateFilter &&
+            _trackPanel == _TrackFilterPanel.none)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
@@ -601,7 +574,6 @@ class _TrackScreenState extends State<TrackScreen> {
                 onNavigateForward: _canNavigateDateForward
                     ? () => _navigateDate(1)
                     : null,
-                onPickDate: _pickTrackDate,
               ),
             ),
           ),
@@ -701,7 +673,8 @@ class _TrackHero extends StatelessWidget {
   final void Function(_TrackFilterPanel) onTogglePanel;
   final String? typeFilter;
   final VoidCallback onCycleType;
-  final IconData dateChipIcon;
+  /// `M` / `W` / `Y` when that period mode is active; null → calendar icon.
+  final String? dateModeLetter;
   final bool dateFilterActive;
   final VoidCallback onCycleDate;
   final Account? accountFilter;
@@ -716,7 +689,7 @@ class _TrackHero extends StatelessWidget {
     required this.onTogglePanel,
     required this.typeFilter,
     required this.onCycleType,
-    required this.dateChipIcon,
+    required this.dateModeLetter,
     required this.dateFilterActive,
     required this.onCycleDate,
     required this.accountFilter,
@@ -771,6 +744,49 @@ class _TrackHero extends StatelessWidget {
                 button: true,
                 child: chip,
               ),
+      );
+    }
+
+    Widget mainDateChip() {
+      final active = dateFilterActive;
+      final letter = dateModeLetter;
+      final chip = GestureDetector(
+        onTap: onCycleDate,
+        behavior: HitTestBehavior.opaque,
+        child: Container(
+          height: 30,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: active
+                ? cs.primary.withValues(alpha: 0.15)
+                : cs.primaryContainer.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: letter != null
+              ? Text(
+                  letter,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                    color: active ? cs.primary : cs.onSurfaceVariant,
+                  ),
+                )
+              : Icon(
+                  Icons.calendar_today_outlined,
+                  size: 15,
+                  color: active ? cs.primary : cs.onSurfaceVariant,
+                ),
+        ),
+      );
+      final semantics = letter != null
+          ? 'Date: ${letter == 'M' ? 'month' : letter == 'W' ? 'week' : 'year'} — tap to change mode'
+          : 'Date: this month — tap for month, week, or year mode';
+      return Expanded(
+        child: Semantics(
+          label: semantics,
+          button: true,
+          child: chip,
+        ),
       );
     }
 
@@ -848,12 +864,7 @@ class _TrackHero extends StatelessWidget {
                 semanticsLabel: 'Transaction type: cycle all, income, expense, transfer',
               ),
               const SizedBox(width: 6),
-              mainChip(
-                icon: dateChipIcon,
-                active: dateFilterActive,
-                onTap: onCycleDate,
-                semanticsLabel: 'Date range: cycle month, week, year',
-              ),
+              mainDateChip(),
               const SizedBox(width: 6),
               mainChip(
                 icon: Icons.account_balance_wallet_outlined,
@@ -887,19 +898,17 @@ class _TrackHero extends StatelessWidget {
   }
 }
 
-// ─── Date nav + calendar picker (below hero, week / month / year only) ───────
+// ─── Date nav (below hero): arrows only; label is not interactive ────────────
 
 class _TrackDateNavBar extends StatelessWidget {
   final String label;
   final VoidCallback onNavigateBack;
   final VoidCallback? onNavigateForward;
-  final VoidCallback onPickDate;
 
   const _TrackDateNavBar({
     required this.label,
     required this.onNavigateBack,
     required this.onNavigateForward,
-    required this.onPickDate,
   });
 
   @override
@@ -912,25 +921,17 @@ class _TrackDateNavBar extends StatelessWidget {
           onTap: onNavigateBack,
         ),
         Expanded(
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: onPickDate,
-              borderRadius: BorderRadius.circular(12),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                child: Text(
-                  label,
-                  textAlign: TextAlign.center,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: cs.onSurface,
-                  ),
-                ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: cs.onSurface,
               ),
             ),
           ),
