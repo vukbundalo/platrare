@@ -1,0 +1,22 @@
+---
+description: After implementation — Flutter reload/restart and git commit/push
+alwaysApply: true
+---
+
+## After completing implementation in this repo
+
+### Hot reload / hot restart
+
+- When Dart/Flutter code changes are done, check the **terminals** metadata (or active terminal output) for an existing **`flutter run`** (or equivalent Flutter debug) session for this project.
+- If such a session is running, trigger **hot reload** when a reload is sufficient (typical UI/state tweaks). Use **hot restart** when needed (e.g. changes to `main()`, global initialization, enum/constants used at startup, assets, or anything that hot reload does not pick up). In an interactive `flutter run` terminal, that is usually **`r`** for reload and **`R`** for restart.
+- If no Flutter run session is active, **do not** assume one exists—briefly tell the user to run the app or reload locally if they want to see changes.
+
+### Git commit and push
+
+- When the user has asked for code changes and has **not** explicitly asked to skip git (e.g. “don’t commit”, “no push”): after edits are done, **stage** the files you changed (and only what belongs to the task), **commit** with a **clear, accurate message** describing what was implemented, then **push** the **current branch** to `origin`.
+- Do **not** commit secrets, generated junk, or unrelated files. If the working tree has other unrelated edits, stage only paths tied to the completed work.
+- If a commit/push is inappropriate (ambiguous request, broken build, or user said not to), skip git and say why briefly.
+
+### Flutter checks
+
+- After substantive Dart edits, run **`flutter analyze`** on the affected scope (e.g. project or touched files) when practical before committing.
