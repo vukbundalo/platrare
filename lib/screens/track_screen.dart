@@ -945,46 +945,53 @@ class _TrackDateNavBar extends StatelessWidget {
 // ─── Account / category: same 30px stadium pills as Track hero chips ─────────
 
 /// Matches [_TrackHero] main chips: fixed height 30, primaryContainer fill.
+/// [maxChipWidth] caps width so [Text] ellipsis does not expand to the full
+/// [Wrap] row (which would force one chip per line).
 Widget _trackNamePill(
   BuildContext context, {
   required String label,
   required bool selected,
   required VoidCallback onTap,
+  required double maxChipWidth,
   String? semanticsLabel,
 }) {
   final cs = Theme.of(context).colorScheme;
-  final child = GestureDetector(
+  final inner = GestureDetector(
     onTap: onTap,
     behavior: HitTestBehavior.opaque,
-    child: Container(
-      height: 30,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: selected
-            ? cs.primary.withValues(alpha: 0.15)
-            : cs.primaryContainer.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(
-        label,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-          fontSize: 11,
-          fontWeight: FontWeight.w700,
-          color: selected ? cs.primary : cs.onSurfaceVariant,
-          height: 1.1,
+    child: ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: maxChipWidth),
+      child: Container(
+        height: 30,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: selected
+              ? cs.primary.withValues(alpha: 0.15)
+              : cs.primaryContainer.withValues(alpha: 0.5),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Text(
+          label,
+          maxLines: 1,
+          softWrap: false,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w700,
+            color: selected ? cs.primary : cs.onSurfaceVariant,
+            height: 1.1,
+          ),
         ),
       ),
     ),
   );
-  if (semanticsLabel == null) return child;
+  if (semanticsLabel == null) return inner;
   return Semantics(
     label: semanticsLabel,
     button: true,
     selected: selected,
-    child: child,
+    child: inner,
   );
 }
 
@@ -1013,66 +1020,83 @@ class _TrackFilterStrip extends StatelessWidget {
       ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
     Widget accountSection() {
-      return Wrap(
-        spacing: 4,
-        runSpacing: 4,
-        alignment: WrapAlignment.start,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        children: [
-          _trackNamePill(
-            context,
-            label: 'All',
-            selected: accountFilter == null,
-            onTap: () => onAccountFilter(null),
-            semanticsLabel: 'All accounts',
-          ),
-          for (final a in accountsSorted)
-            _trackNamePill(
-              context,
-              label: a.name,
-              selected: accountFilter?.id == a.id,
-              onTap: () {
-                if (accountFilter?.id == a.id) {
-                  onAccountFilter(null);
-                } else {
-                  onAccountFilter(a);
-                }
-              },
-              semanticsLabel: a.name,
-            ),
-        ],
+      return LayoutBuilder(
+        builder: (context, c) {
+          // Upper bound per chip so labels pack horizontally; short names stay narrow.
+          final maxChip =
+              (c.maxWidth * 0.42).clamp(72.0, 168.0);
+          return Wrap(
+            spacing: 4,
+            runSpacing: 4,
+            alignment: WrapAlignment.start,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              _trackNamePill(
+                context,
+                label: 'All',
+                selected: accountFilter == null,
+                maxChipWidth: maxChip,
+                onTap: () => onAccountFilter(null),
+                semanticsLabel: 'All accounts',
+              ),
+              for (final a in accountsSorted)
+                _trackNamePill(
+                  context,
+                  label: a.name,
+                  selected: accountFilter?.id == a.id,
+                  maxChipWidth: maxChip,
+                  onTap: () {
+                    if (accountFilter?.id == a.id) {
+                      onAccountFilter(null);
+                    } else {
+                      onAccountFilter(a);
+                    }
+                  },
+                  semanticsLabel: a.name,
+                ),
+            ],
+          );
+        },
       );
     }
 
     Widget categorySection() {
-      return Wrap(
-        spacing: 4,
-        runSpacing: 4,
-        alignment: WrapAlignment.start,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        children: [
-          _trackNamePill(
-            context,
-            label: 'All',
-            selected: categoryFilter == null,
-            onTap: () => onCategoryFilter(null),
-            semanticsLabel: 'All categories',
-          ),
-          for (final c in categories)
-            _trackNamePill(
-              context,
-              label: c,
-              selected: categoryFilter == c,
-              onTap: () {
-                if (categoryFilter == c) {
-                  onCategoryFilter(null);
-                } else {
-                  onCategoryFilter(c);
-                }
-              },
-              semanticsLabel: c,
-            ),
-        ],
+      return LayoutBuilder(
+        builder: (context, c) {
+          final maxChip =
+              (c.maxWidth * 0.42).clamp(72.0, 168.0);
+          return Wrap(
+            spacing: 4,
+            runSpacing: 4,
+            alignment: WrapAlignment.start,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              _trackNamePill(
+                context,
+                label: 'All',
+                selected: categoryFilter == null,
+                maxChipWidth: maxChip,
+                onTap: () => onCategoryFilter(null),
+                semanticsLabel: 'All categories',
+              ),
+              for (final cat in categories)
+                _trackNamePill(
+                  context,
+                  label: cat,
+                  selected: categoryFilter == cat,
+                  maxChipWidth: maxChip,
+                  onTap: () {
+                    if (categoryFilter == cat) {
+                      onCategoryFilter(null);
+                    } else {
+                      onCategoryFilter(cat);
+                    }
+                  },
+                  semanticsLabel: cat,
+                ),
+            ],
+          );
+        },
       );
     }
 
