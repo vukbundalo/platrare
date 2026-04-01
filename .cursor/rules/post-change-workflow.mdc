@@ -11,9 +11,23 @@ alwaysApply: true
 
 Use this order after Dart/Flutter edits:
 
-1. **Dart MCP (`user-dart`)** (preferred when the daemon is available): **`connect_dart_tooling_daemon`** needs a **DTD** URI (`ws:` / `wss:`), **not** the “Dart VM Service is available at: http://…” line from `flutter run` (that is a different endpoint). Sources for DTD: Command Palette **“Dart: Copy DTD Uri to Clipboard”** when using IDE Run/Debug, or start the app with **`flutter run -d <device> --print-dtd`** and use the printed URI. Then call **`hot_reload`** or **`hot_restart`** as appropriate. **`list_running_apps`** only reflects apps started via MCP **`launch_app`**—do not rely on it alone.
+1. **Dart MCP (`user-dart`)** (preferred when the daemon is available): **`connect_dart_tooling_daemon`** needs a **DTD** URI (`ws:` / `wss:`), **not** the “Dart VM Service is available at: http://…” line from `flutter run` (that is a different endpoint). Sources for DTD: Command Palette **“Dart: Copy DTD Uri to Clipboard”** when using IDE Run/Debug, or start the app with **`flutter run -d <device> --print-dtd`** and use the printed URI. Then call **`hot_reload`** or **`hot_restart`** as appropriate. **`list_running_apps`** only reflects apps started via MCP **`launch_app`**—do not rely on it alone. If **`connect_dart_tooling_daemon`** or **`hot_reload`** / **`hot_restart`** fails, or there was no prior DTD in this chat, use the reminder block **“When the automatic MCP reload step fails”** below.
 2. **Integrated terminal + `flutter run`**: If **terminals** show **`flutter run`** for this project, reload is **`r`** and restart is **`R`** in **that** terminal—but **the agent cannot reliably inject those keys**. Writing to **`/dev/ttys…`** (or similar) is **not** equivalent to keyboard input; Flutter often **ignores** it, while typing **`r`** yourself shows “Performing hot reload…”. **Do not** use TTY redirection; instead, **tell the user** to focus the **`flutter run`** terminal and press **`r`** or **`R`** after your edits (or use the **IDE debug toolbar**).
 3. **If the user wants hands-off reload**: they must provide a **DTD** URI (see item 1)—that is the path the agent can drive via MCP **`hot_reload`** / **`hot_restart`**.
+
+### When the automatic MCP reload step fails (no connection, error, or hot reload did nothing)
+
+**Tell the user** briefly and give this checklist (adapt device id if needed):
+
+1. **Run the app from the integrated terminal** in the project root, for example:
+   ```bash
+   cd /Users/vukbundalo/Desktop/platrare
+   flutter run -d 8B33FDCD-6C67-4F5D-BF4A-350E4D51B1D7 --print-dtd
+   ```
+   (`--print-dtd` makes the DTD line easy to spot; if they omit it, `flutter run` still prints **“The Dart Tooling Daemon is available at: ws://…”** after startup.)
+2. **Copy the DTD line only** — the one starting with **`ws://`** or **`wss://`** (from **“The Dart Tooling Daemon is available at:”**). **Do not** use the **“Dart VM Service”** `http://…` URL.
+3. **Paste that full `ws://…` URI into chat** once per `flutter run` session (it changes after a new run). The agent will call **`connect_dart_tooling_daemon`** then **`hot_reload`** / **`hot_restart`**.
+4. **Alternative:** IDE **Run and Debug** → Command Palette → **“Dart: Copy DTD Uri to Clipboard”** → paste here.
 
 ### Git commit and push
 
