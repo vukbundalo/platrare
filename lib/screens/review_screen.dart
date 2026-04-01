@@ -1211,12 +1211,23 @@ class _AccountCard extends StatelessWidget {
                     ),
                     if (account.hasOverdraftFacility) ...[
                       const SizedBox(height: 2),
-                      Text(
-                        '${shownBook > 0 ? '+' : ''}${shownBook.toStringAsFixed(2)} $shownSymbol',
-                        style: TextStyle(
+                      Text.rich(
+                        TextSpan(
+                          style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
-                            color: bookColor),
+                            color: cs.onSurfaceVariant,
+                          ),
+                          children: [
+                            const TextSpan(text: 'Real balance '),
+                            TextSpan(
+                              text:
+                                  '${shownBook > 0 ? '+' : ''}${shownBook.toStringAsFixed(2)} $shownSymbol',
+                              style: TextStyle(color: bookColor),
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.end,
                       ),
                     ],
                   ],
