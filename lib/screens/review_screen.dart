@@ -9,6 +9,32 @@ import '../utils/fx.dart' as fx;
 import 'account_transactions_screen.dart';
 import 'settings_screen.dart';
 
+/// Shared category order for compare mode: max per side, then combined, then name.
+List<String> _orderedCategoryKeysForCompare(
+  Map<String, ({double total, int count})> sideA,
+  Map<String, ({double total, int count})> sideB,
+  Map<String, ({double total, int count})> lifetime,
+) {
+  final keys = <String>{...sideA.keys, ...sideB.keys, ...lifetime.keys};
+  final list = keys.toList();
+  list.sort((k1, k2) {
+    final t1a = sideA[k1]?.total ?? 0;
+    final t1b = sideB[k1]?.total ?? 0;
+    final t2a = sideA[k2]?.total ?? 0;
+    final t2b = sideB[k2]?.total ?? 0;
+    final m1 = math.max(t1a, t1b);
+    final m2 = math.max(t2a, t2b);
+    final c = m2.compareTo(m1);
+    if (c != 0) return c;
+    final s1 = t1a + t1b;
+    final s2 = t2a + t2b;
+    final c2 = s2.compareTo(s1);
+    if (c2 != 0) return c2;
+    return k1.compareTo(k2);
+  });
+  return list;
+}
+
 class ReviewScreen extends StatefulWidget {
   final VoidCallback? onChanged;
   const ReviewScreen({super.key, this.onChanged});
@@ -30,15 +56,163 @@ class _ReviewScreenState extends State<ReviewScreen> {
   // how many periods back from current (0 = most recent)
   int _dateOffset = 0;
 
+  bool _compareMode = false;
+  /// Which comparison column the shared date navigator adjusts (left = A).
+  bool _compareNavTargetsLeft = true;
+  late DateTime _compareMonthA;
+  late DateTime _compareMonthB;
+
+  @override
+  void initState() {
+    super.initState();
+    final now = DateTime.now();
+    _compareMonthB = DateTime(now.year, now.month, 1);
+    _compareMonthA = now.month == 1
+        ? DateTime(now.year - 1, 12, 1)
+        : DateTime(now.year, now.month - 1, 1);
+  }
+
+  DateTime get _compareEarliestMonth {
+    final e = _earliestTxDate;
+    if (e == null) return DateTime(DateTime.now().year - 5, 1, 1);
+    return DateTime(e.year, e.month, 1);
+  }
+
+  DateTime get _compareLatestMonth =>
+      DateTime(DateTime.now().year, DateTime.now().month, 1);
+
+  DateTime get _compareNavMonth =>
+      _compareNavTargetsLeft ? _compareMonthA : _compareMonthB;
+
+  void _applyCompareNavMonth(DateTime monthStart) {
+    final m = DateTime(monthStart.year, monthStart.month, 1);
+    if (_compareNavTargetsLeft) {
+      _compareMonthA = m;
+    } else {
+      _compareMonthB = m;
+    }
+  }
+
+  void _compareNavigateBack() {
+    final cur = _compareNavMonth;
+    if (_spendingMonths == 12) {
+      final prev = DateTime(cur.year - 1, 1, 1);
+      if (prev.year >= _compareEarliestMonth.year) {
+        setState(() => _applyCompareNavMonth(prev));
+      }
+      return;
+    }
+    final prev = cur.month == 1
+        ? DateTime(cur.year - 1, 12, 1)
+        : DateTime(cur.year, cur.month - 1, 1);
+    if (!prev.isBefore(_compareEarliestMonth)) {
+      setState(() => _applyCompareNavMonth(prev));
+    }
+  }
+
+  void _compareNavigateForward() {
+    final cur = _compareNavMonth;
+    if (_spendingMonths == 12) {
+      final next = DateTime(cur.year + 1, 1, 1);
+      if (next.year <= _compareLatestMonth.year) {
+        setState(() => _applyCompareNavMonth(next));
+      }
+      return;
+    }
+    final next = cur.month == 12
+        ? DateTime(cur.year + 1, 1, 1)
+        : DateTime(cur.year, cur.month + 1, 1);
+    if (!next.isAfter(_compareLatestMonth)) {
+      setState(() => _applyCompareNavMonth(next));
+    }
+  }
+
+  bool get _compareCanNavigateBack {
+    if (_spendingMonths == 12) {
+      return _compareNavMonth.year > _compareEarliestMonth.year;
+    }
+    return _compareNavMonth.isAfter(_compareEarliestMonth);
+  }
+
+  bool get _compareCanNavigateForward {
+    if (_spendingMonths == 12) {
+      return _compareNavMonth.year < _compareLatestMonth.year;
+    }
+    return _compareNavMonth.isBefore(_compareLatestMonth);
+  }
+
+  /// Compare window [start, end) for a period anchored at the first day of [anchorMonth].
+  ({DateTime? start, DateTime? end}) _compareBounds(DateTime anchorMonth) {
+    final a = DateTime(anchorMonth.year, anchorMonth.month, 1);
+    switch (_spendingMonths) {
+      case 1:
+        return (start: a, end: DateTime(a.year, a.month + 1, 1));
+      case 3:
+        return (start: a, end: DateTime(a.year, a.month + 3, 1));
+      case 6:
+        return (start: a, end: DateTime(a.year, a.month + 6, 1));
+      case 12:
+        return (
+          start: DateTime(a.year, 1, 1),
+          end: DateTime(a.year + 1, 1, 1),
+        );
+      default:
+        return (start: a, end: DateTime(a.year, a.month + 1, 1));
+    }
+  }
+
+  String _compareRangeLabel(DateTime anchorMonth) {
+    final b = _compareBounds(anchorMonth);
+    final s = b.start;
+    final e = b.end;
+    if (s == null || e == null) return 'All time';
+    if (_spendingMonths == 1) return DateFormat('MMMM yyyy').format(s);
+    if (_spendingMonths == 12) return '${s.year}';
+    final lastMonth = DateTime(e.year, e.month - 1, 1);
+    if (s.year == lastMonth.year) {
+      return '${DateFormat('MMM').format(s)} – ${DateFormat('MMM yyyy').format(lastMonth)}';
+    }
+    return '${DateFormat('MMM yyyy').format(s)} – ${DateFormat('MMM yyyy').format(lastMonth)}';
+  }
+
+  /// Short label for A/B column tiles (compare header).
+  String _compareColumnShortLabel(DateTime anchorMonth) {
+    final b = _compareBounds(anchorMonth);
+    final s = b.start;
+    final e = b.end;
+    if (s == null || e == null) return 'All';
+    if (_spendingMonths == 1) return DateFormat('MMM yyyy').format(s);
+    if (_spendingMonths == 12) return '${s.year}';
+    final lastMonth = DateTime(e.year, e.month - 1, 1);
+    if (s.year == lastMonth.year) {
+      return '${DateFormat('MMM').format(s)}–${DateFormat('MMM yy').format(lastMonth)}';
+    }
+    return '${DateFormat('MMM yy').format(s)}–${DateFormat('MMM yy').format(lastMonth)}';
+  }
+
+
   String get _periodLabel => switch (_spendingMonths) {
     1 => '1M', 3 => '3M', 6 => '6M', 12 => '1Y', _ => 'ALL',
   };
 
   void _cyclePeriod() => setState(() {
     _dateOffset = 0;
-    _spendingMonths = switch (_spendingMonths) {
-      1 => 3, 3 => 6, 6 => 12, 12 => 0, _ => 1,
-    };
+    if (_compareMode) {
+      _spendingMonths = switch (_spendingMonths) {
+        1 => 3,
+        3 => 6,
+        6 => 12,
+        _ => 1,
+      };
+      if (_spendingMonths == 12) {
+        _compareMonthA = DateTime(_compareMonthA.year, 1, 1);
+        _compareMonthB = DateTime(_compareMonthB.year, 1, 1);
+      }
+    } else {
+      _spendingMonths = switch (_spendingMonths) {
+        1 => 3, 3 => 6, 6 => 12, 12 => 0, _ => 1,
+      };
+    }
   });
 
   void _cycleViz() => setState(() => _vizMode = (_vizMode + 1) % 2);
@@ -131,11 +305,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
       0.0,
       (sum, a) => sum + fx.toBase(a.balance, a.currencyCode));
 
-  // Returns {category: total} for income transactions, filtered by period
-  Map<String, ({double total, int count})> get _categoryIncome {
-    final range = _dateRange;
+  Map<String, ({double total, int count})> _categoryIncomeInRange(
+      DateTime? rangeStart, DateTime? rangeEnd) {
     final result = <String, ({double total, int count})>{};
-
     for (final t in data.transactions) {
       final type = t.txType ??
           classifyTransaction(from: t.fromAccount, to: t.toAccount);
@@ -144,8 +316,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
       };
       if (!incomeTypes.contains(type)) continue;
       if (t.nativeAmount == null) continue;
-      if (range.start != null && t.date.isBefore(range.start!)) continue;
-      if (range.end != null && !t.date.isBefore(range.end!)) continue;
+      if (rangeStart != null && t.date.isBefore(rangeStart)) continue;
+      if (rangeEnd != null && !t.date.isBefore(rangeEnd)) continue;
 
       final baseValue = fx.toBase(
           t.nativeAmount!, t.currencyCode ?? settings.baseCurrency);
@@ -164,11 +336,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
     return result;
   }
 
-  // Returns {category: total} for expense transactions, filtered by period
-  Map<String, ({double total, int count})> get _categorySpending {
+  Map<String, ({double total, int count})> get _categoryIncome {
     final range = _dateRange;
-    final result = <String, ({double total, int count})>{};
+    return _categoryIncomeInRange(range.start, range.end);
+  }
 
+  Map<String, ({double total, int count})> _categorySpendingInRange(
+      DateTime? rangeStart, DateTime? rangeEnd) {
+    final result = <String, ({double total, int count})>{};
     for (final t in data.transactions) {
       final type = t.txType ??
           classifyTransaction(from: t.fromAccount, to: t.toAccount);
@@ -177,8 +352,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
       };
       if (!expenseTypes.contains(type)) continue;
       if (t.nativeAmount == null) continue;
-      if (range.start != null && t.date.isBefore(range.start!)) continue;
-      if (range.end != null && !t.date.isBefore(range.end!)) continue;
+      if (rangeStart != null && t.date.isBefore(rangeStart)) continue;
+      if (rangeEnd != null && !t.date.isBefore(rangeEnd)) continue;
 
       final baseValue = fx.toBase(
           t.nativeAmount!, t.currencyCode ?? settings.baseCurrency);
@@ -195,6 +370,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
       }
     }
     return result;
+  }
+
+  Map<String, ({double total, int count})> get _categorySpending {
+    final range = _dateRange;
+    return _categorySpendingInRange(range.start, range.end);
   }
 
   @override
@@ -209,6 +389,55 @@ class _ReviewScreenState extends State<ReviewScreen> {
     final entities = data.accounts
         .where((a) => a.group == AccountGroup.entities)
         .toList();
+
+    List<MapEntry<String, ({double total, int count})>>? compareExpenseRowsA;
+    List<MapEntry<String, ({double total, int count})>>? compareExpenseRowsB;
+    var compareExpenseMax = 1.0;
+    List<String>? compareExpenseColorOrder;
+    List<MapEntry<String, ({double total, int count})>>? compareIncomeRowsA;
+    List<MapEntry<String, ({double total, int count})>>? compareIncomeRowsB;
+    var compareIncomeMax = 1.0;
+    List<String>? compareIncomeColorOrder;
+
+    if (_activeSection == 'statistics' &&
+        _compareMode &&
+        data.transactions.isNotEmpty) {
+      final ba = _compareBounds(_compareMonthA);
+      final bb = _compareBounds(_compareMonthB);
+      final ma = _categorySpendingInRange(ba.start, ba.end);
+      final mb = _categorySpendingInRange(bb.start, bb.end);
+      final mLife = _categorySpendingInRange(null, null);
+      final spendKeys = _orderedCategoryKeysForCompare(ma, mb, mLife);
+      compareExpenseColorOrder = spendKeys;
+      compareExpenseRowsA = spendKeys
+          .map((k) => MapEntry(k, ma[k] ?? (total: 0.0, count: 0)))
+          .toList();
+      compareExpenseRowsB = spendKeys
+          .map((k) => MapEntry(k, mb[k] ?? (total: 0.0, count: 0)))
+          .toList();
+      compareExpenseMax = spendKeys.fold(
+          0.0,
+          (m, k) => math.max(
+              m, math.max(ma[k]?.total ?? 0, mb[k]?.total ?? 0)));
+      if (compareExpenseMax <= 0) compareExpenseMax = 1.0;
+
+      final ia = _categoryIncomeInRange(ba.start, ba.end);
+      final ib = _categoryIncomeInRange(bb.start, bb.end);
+      final iLife = _categoryIncomeInRange(null, null);
+      final incKeys = _orderedCategoryKeysForCompare(ia, ib, iLife);
+      compareIncomeColorOrder = incKeys;
+      compareIncomeRowsA = incKeys
+          .map((k) => MapEntry(k, ia[k] ?? (total: 0.0, count: 0)))
+          .toList();
+      compareIncomeRowsB = incKeys
+          .map((k) => MapEntry(k, ib[k] ?? (total: 0.0, count: 0)))
+          .toList();
+      compareIncomeMax = incKeys.fold(
+          0.0,
+          (m, k) => math.max(
+              m, math.max(ia[k]?.total ?? 0, ib[k]?.total ?? 0)));
+      if (compareIncomeMax <= 0) compareIncomeMax = 1.0;
+    }
 
     return Scaffold(
       floatingActionButton: data.accounts.isEmpty
@@ -350,15 +579,114 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       onNavigateForward: _navigateForward,
                       vizMode: _vizMode,
                       onCycleViz: _cycleViz,
+                      compareMode: _compareMode,
+                      onToggleCompare: () => setState(() {
+                        _compareMode = !_compareMode;
+                        if (_compareMode) {
+                          _compareNavTargetsLeft = true;
+                          if (_spendingMonths == 0) _spendingMonths = 1;
+                        }
+                      }),
+                      compareShortLabelA:
+                          _compareColumnShortLabel(_compareMonthA),
+                      compareShortLabelB:
+                          _compareColumnShortLabel(_compareMonthB),
+                      compareSemanticsA:
+                          _compareRangeLabel(_compareMonthA),
+                      compareSemanticsB:
+                          _compareRangeLabel(_compareMonthB),
+                      compareNavTargetsLeft: _compareNavTargetsLeft,
+                      onCompareSelectLeft: () => setState(
+                          () => _compareNavTargetsLeft = true),
+                      onCompareSelectRight: () => setState(
+                          () => _compareNavTargetsLeft = false),
+                      compareDateRangeLabel:
+                          _compareRangeLabel(_compareNavMonth),
+                      compareCanNavigateBack: _compareCanNavigateBack,
+                      compareCanNavigateForward: _compareCanNavigateForward,
+                      onCompareNavigateBack: _compareNavigateBack,
+                      onCompareNavigateForward: _compareNavigateForward,
                     ),
-                    if (_activeStats == 'expense')
+                    if (_activeStats == 'expense' &&
+                        _compareMode &&
+                        compareExpenseRowsA != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: _CompareStatisticsPanels(
+                          colorScheme: cs,
+                          sideBySideBreakpoint: 520,
+                          leftBuilder: (narrow) => _SpendingBody(
+                            spending: const {},
+                            categoryRows: compareExpenseRowsA,
+                            sharedMaxAmount: compareExpenseMax,
+                            stableDonutColorKeys: compareExpenseColorOrder,
+                            periodLabel: _periodLabel,
+                            vizMode: _vizMode,
+                            displayCurrency: _displayCurrency,
+                            rangeLabel:
+                                _compareRangeLabel(_compareMonthA),
+                            compact: narrow,
+                            narrowCharts: narrow,
+                          ),
+                          rightBuilder: (narrow) => _SpendingBody(
+                            spending: const {},
+                            categoryRows: compareExpenseRowsB,
+                            sharedMaxAmount: compareExpenseMax,
+                            stableDonutColorKeys: compareExpenseColorOrder,
+                            periodLabel: _periodLabel,
+                            vizMode: _vizMode,
+                            displayCurrency: _displayCurrency,
+                            rangeLabel:
+                                _compareRangeLabel(_compareMonthB),
+                            compact: narrow,
+                            narrowCharts: narrow,
+                          ),
+                        ),
+                      ),
+                    if (_activeStats == 'expense' && !_compareMode)
                       _SpendingBody(
                         spending: _categorySpending,
                         periodLabel: _periodLabel,
                         vizMode: _vizMode,
                         displayCurrency: _displayCurrency,
                       ),
-                    if (_activeStats == 'income')
+                    if (_activeStats == 'income' &&
+                        _compareMode &&
+                        compareIncomeRowsA != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: _CompareStatisticsPanels(
+                          colorScheme: cs,
+                          sideBySideBreakpoint: 520,
+                          leftBuilder: (narrow) => _IncomeBody(
+                            income: const {},
+                            categoryRows: compareIncomeRowsA,
+                            sharedMaxAmount: compareIncomeMax,
+                            stableDonutColorKeys: compareIncomeColorOrder,
+                            periodLabel: _periodLabel,
+                            vizMode: _vizMode,
+                            displayCurrency: _displayCurrency,
+                            rangeLabel:
+                                _compareRangeLabel(_compareMonthA),
+                            compact: narrow,
+                            narrowCharts: narrow,
+                          ),
+                          rightBuilder: (narrow) => _IncomeBody(
+                            income: const {},
+                            categoryRows: compareIncomeRowsB,
+                            sharedMaxAmount: compareIncomeMax,
+                            stableDonutColorKeys: compareIncomeColorOrder,
+                            periodLabel: _periodLabel,
+                            vizMode: _vizMode,
+                            displayCurrency: _displayCurrency,
+                            rangeLabel:
+                                _compareRangeLabel(_compareMonthB),
+                            compact: narrow,
+                            narrowCharts: narrow,
+                          ),
+                        ),
+                      ),
+                    if (_activeStats == 'income' && !_compareMode)
                       _IncomeBody(
                         income: _categoryIncome,
                         periodLabel: _periodLabel,
@@ -546,6 +874,20 @@ class _StatsHeader extends StatelessWidget {
   final VoidCallback onNavigateForward;
   final int vizMode;
   final VoidCallback onCycleViz;
+  final bool compareMode;
+  final VoidCallback onToggleCompare;
+  final String compareShortLabelA;
+  final String compareShortLabelB;
+  final String compareSemanticsA;
+  final String compareSemanticsB;
+  final bool compareNavTargetsLeft;
+  final VoidCallback onCompareSelectLeft;
+  final VoidCallback onCompareSelectRight;
+  final String compareDateRangeLabel;
+  final bool compareCanNavigateBack;
+  final bool compareCanNavigateForward;
+  final VoidCallback onCompareNavigateBack;
+  final VoidCallback onCompareNavigateForward;
 
   const _StatsHeader({
     required this.activeStats,
@@ -558,6 +900,20 @@ class _StatsHeader extends StatelessWidget {
     required this.onNavigateForward,
     required this.vizMode,
     required this.onCycleViz,
+    required this.compareMode,
+    required this.onToggleCompare,
+    required this.compareShortLabelA,
+    required this.compareShortLabelB,
+    required this.compareSemanticsA,
+    required this.compareSemanticsB,
+    required this.compareNavTargetsLeft,
+    required this.onCompareSelectLeft,
+    required this.onCompareSelectRight,
+    required this.compareDateRangeLabel,
+    required this.compareCanNavigateBack,
+    required this.compareCanNavigateForward,
+    required this.onCompareNavigateBack,
+    required this.onCompareNavigateForward,
   });
 
   @override
@@ -581,11 +937,14 @@ class _StatsHeader extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
           child: label != null
-              ? Text(label,
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: active ? cs.primary : cs.onSurfaceVariant))
+              ? FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(label,
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: active ? cs.primary : cs.onSurfaceVariant)),
+                )
               : Icon(icon, size: 15,
                   color: active ? cs.primary : cs.onSurfaceVariant),
         ),
@@ -614,7 +973,7 @@ class _StatsHeader extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
       child: Column(
         children: [
-          // Chip row: equal-width cells like the hero’s 5 chips (easier to tap).
+          // Chip row: spent, received, period, viz, compare (same tap targets as hero).
           Row(
             children: [
               Expanded(
@@ -649,37 +1008,251 @@ class _StatsHeader extends StatelessWidget {
                   onTap: onCycleViz,
                 ),
               ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: chip(
+                  icon: Icons.compare_arrows_rounded,
+                  active: compareMode,
+                  onTap: onToggleCompare,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 8),
-          // Date navigator row
-          Row(
-            children: [
-              if (!isAllTime)
-                navBtn(icon: Icons.chevron_left_rounded, enabled: true, onTap: onNavigateBack),
-              if (!isAllTime) const SizedBox(width: 6),
-              Expanded(
-                child: Text(
-                  dateRangeLabel,
-                  textAlign: isAllTime ? TextAlign.start : TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: cs.onSurfaceVariant,
+          if (compareMode) ...[
+            Row(
+              children: [
+                Expanded(
+                  child: Semantics(
+                    button: true,
+                    selected: compareNavTargetsLeft,
+                    label: 'Comparison column A, $compareSemanticsA',
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: onCompareSelectLeft,
+                        borderRadius: BorderRadius.circular(20),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 180),
+                          curve: Curves.easeOutCubic,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: compareNavTargetsLeft
+                                  ? cs.primary
+                                  : cs.outlineVariant
+                                      .withValues(alpha: 0.55),
+                              width: compareNavTargetsLeft ? 2 : 1,
+                            ),
+                            color: compareNavTargetsLeft
+                                ? cs.primary.withValues(alpha: 0.12)
+                                : cs.surfaceContainerHighest
+                                    .withValues(alpha: 0.35),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'A',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w800,
+                                  color: cs.primary,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                compareShortLabelA,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w700,
+                                  color: cs.onSurface,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              if (!isAllTime) const SizedBox(width: 6),
-              if (!isAllTime)
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Semantics(
+                    button: true,
+                    selected: !compareNavTargetsLeft,
+                    label: 'Comparison column B, $compareSemanticsB',
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: onCompareSelectRight,
+                        borderRadius: BorderRadius.circular(20),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 180),
+                          curve: Curves.easeOutCubic,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: !compareNavTargetsLeft
+                                  ? cs.primary
+                                  : cs.outlineVariant
+                                      .withValues(alpha: 0.55),
+                              width: !compareNavTargetsLeft ? 2 : 1,
+                            ),
+                            color: !compareNavTargetsLeft
+                                ? cs.primary.withValues(alpha: 0.12)
+                                : cs.surfaceContainerHighest
+                                    .withValues(alpha: 0.35),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'B',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w800,
+                                  color: cs.primary,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                compareShortLabelB,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w700,
+                                  color: cs.onSurface,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                navBtn(
+                  icon: Icons.chevron_left_rounded,
+                  enabled: compareCanNavigateBack,
+                  onTap: onCompareNavigateBack,
+                ),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    compareDateRangeLabel,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: cs.onSurfaceVariant,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 6),
                 navBtn(
                   icon: Icons.chevron_right_rounded,
-                  enabled: canNavigateForward,
-                  onTap: onNavigateForward,
+                  enabled: compareCanNavigateForward,
+                  onTap: onCompareNavigateForward,
                 ),
-            ],
-          ),
+              ],
+            ),
+          ] else
+            Row(
+              children: [
+                if (!isAllTime)
+                  navBtn(icon: Icons.chevron_left_rounded, enabled: true, onTap: onNavigateBack),
+                if (!isAllTime) const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    dateRangeLabel,
+                    textAlign: isAllTime ? TextAlign.start : TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: cs.onSurfaceVariant,
+                    ),
+                  ),
+                ),
+                if (!isAllTime) const SizedBox(width: 6),
+                if (!isAllTime)
+                  navBtn(
+                    icon: Icons.chevron_right_rounded,
+                    enabled: canNavigateForward,
+                    onTap: onNavigateForward,
+                  ),
+              ],
+            ),
         ],
       ),
+    );
+  }
+}
+
+/// Stacks comparison panels vertically on narrow widths; side‑by‑side on wide.
+class _CompareStatisticsPanels extends StatelessWidget {
+  final ColorScheme colorScheme;
+  final double sideBySideBreakpoint;
+  final Widget Function(bool sideBySideColumns) leftBuilder;
+  final Widget Function(bool sideBySideColumns) rightBuilder;
+
+  const _CompareStatisticsPanels({
+    required this.colorScheme,
+    required this.sideBySideBreakpoint,
+    required this.leftBuilder,
+    required this.rightBuilder,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final sideBySide = constraints.maxWidth >= sideBySideBreakpoint;
+        if (!sideBySide) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              leftBuilder(false),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                child: Divider(
+                  height: 1,
+                  thickness: 1,
+                  color: colorScheme.outlineVariant.withValues(alpha: 0.45),
+                ),
+              ),
+              rightBuilder(false),
+            ],
+          );
+        }
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(child: leftBuilder(true)),
+            VerticalDivider(
+              width: 12,
+              thickness: 1,
+              color: colorScheme.outlineVariant.withValues(alpha: 0.45),
+            ),
+            Expanded(child: rightBuilder(true)),
+          ],
+        );
+      },
     );
   }
 }
@@ -688,37 +1261,85 @@ class _StatsHeader extends StatelessWidget {
 
 class _SpendingBody extends StatelessWidget {
   final Map<String, ({double total, int count})> spending;
+  /// When set, rows follow this order (including zeros); [spending] is ignored.
+  final List<MapEntry<String, ({double total, int count})>>? categoryRows;
+  /// Same max for both compare columns so bar lengths match.
+  final double? sharedMaxAmount;
+  /// Category order for stable donut colors across compare columns.
+  final List<String>? stableDonutColorKeys;
   final String periodLabel;
   final int vizMode;
   final String displayCurrency;
+  /// When set, empty state uses this (e.g. calendar month in compare mode).
+  final String? rangeLabel;
+  final bool compact;
+  /// Tighter bar/legend rows when columns are half‑width.
+  final bool narrowCharts;
 
   const _SpendingBody({
     required this.spending,
     required this.periodLabel,
     required this.vizMode,
     required this.displayCurrency,
+    this.categoryRows,
+    this.sharedMaxAmount,
+    this.stableDonutColorKeys,
+    this.rangeLabel,
+    this.compact = false,
+    this.narrowCharts = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     const expenseColor = Color(0xFFDC2626);
-    final sorted = spending.entries.toList()
-      ..sort((a, b) => b.value.total.compareTo(a.value.total));
-    final maxAmount = sorted.isEmpty ? 1.0 : sorted.first.value.total;
+    final hPad = compact ? 4.0 : 16.0;
+    final List<MapEntry<String, ({double total, int count})>> sorted;
+    final double maxAmount;
+    if (categoryRows != null) {
+      sorted = categoryRows!;
+      maxAmount = sharedMaxAmount ?? 1.0;
+    } else {
+      final list = spending.entries.toList()
+        ..sort((a, b) => b.value.total.compareTo(a.value.total));
+      sorted = list;
+      maxAmount = sorted.isEmpty ? 1.0 : sorted.first.value.total;
+    }
     final totalSpentBase = sorted.fold(0.0, (s, e) => s + e.value.total);
     final totalSpent = fx.convert(totalSpentBase, settings.baseCurrency, displayCurrency);
     final sym = fx.currencySymbol(displayCurrency);
 
-    final emptyMsg = switch (periodLabel) {
-      '1M' => 'No expenses this month',
-      'ALL' => 'No expenses recorded',
-      _ => 'No expenses in the last $periodLabel',
-    };
+    final emptyMsg = rangeLabel != null
+        ? 'No expenses in $rangeLabel'
+        : switch (periodLabel) {
+            '1M' => 'No expenses this month',
+            'ALL' => 'No expenses recorded',
+            _ => 'No expenses in the last $periodLabel',
+          };
 
-    if (sorted.isEmpty) {
+    if (categoryRows != null && sorted.isEmpty) {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+        padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 8),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.pie_chart_outline_rounded, size: 18, color: cs.onSurfaceVariant),
+                const SizedBox(width: 10),
+                Text('No categories to compare',
+                    style: TextStyle(color: cs.onSurfaceVariant, fontSize: 14)),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (categoryRows == null && sorted.isEmpty) {
+      return Padding(
+        padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 8),
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -738,35 +1359,83 @@ class _SpendingBody extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 6),
+          padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 6),
           child: Card(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding: EdgeInsets.symmetric(
+                  horizontal: compact ? 8 : 16, vertical: 10),
               child: Row(
                 children: [
                   Icon(Icons.arrow_upward_rounded, size: 16, color: expenseColor),
                   const SizedBox(width: 8),
-                  Text('Total spent',
-                      style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant)),
-                  const Spacer(),
-                  Text(
-                    '-${totalSpent.toStringAsFixed(2)} $sym',
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w800, color: expenseColor),
+                  Expanded(
+                    child: Text(
+                      rangeLabel != null ? 'Total spent ($rangeLabel)' : 'Total spent',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant),
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(
+                      '-${totalSpent.toStringAsFixed(2)} $sym',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        fontSize: compact ? 13 : 15,
+                        fontWeight: FontWeight.w800,
+                        color: expenseColor,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
         ),
-        if (vizMode == 1)
-          _DonutView(sorted: sorted, displayCurrency: displayCurrency)
-        else
+        if (vizMode == 1) ...[
+          Builder(builder: (context) {
+            final donutSorted =
+                sorted.where((e) => e.value.total > 0).toList();
+            if (donutSorted.isEmpty) {
+              return Padding(
+                padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 0),
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 28, horizontal: 16),
+                    child: Center(
+                      child: Text(
+                        rangeLabel != null
+                            ? 'No expenses in $rangeLabel'
+                            : 'No expenses in this period',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: cs.onSurfaceVariant, fontSize: 13),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
+            return _DonutView(
+              sorted: donutSorted,
+              displayCurrency: displayCurrency,
+              donutHeight: compact ? 120.0 : 170.0,
+              horizontalPadding: hPad,
+              narrowLegend: narrowCharts,
+              stableCategoryOrder: stableDonutColorKeys,
+            );
+          }),
+        ] else
           _BarsView(
             sorted: sorted,
             maxAmount: maxAmount,
             displayCurrency: displayCurrency,
             barColor: expenseColor,
+            horizontalPadding: hPad,
+            narrowLayout: narrowCharts,
           ),
         const SizedBox(height: 8),
       ],
@@ -778,37 +1447,80 @@ class _SpendingBody extends StatelessWidget {
 
 class _IncomeBody extends StatelessWidget {
   final Map<String, ({double total, int count})> income;
+  final List<MapEntry<String, ({double total, int count})>>? categoryRows;
+  final double? sharedMaxAmount;
+  final List<String>? stableDonutColorKeys;
   final String periodLabel;
   final int vizMode;
   final String displayCurrency;
+  final String? rangeLabel;
+  final bool compact;
+  final bool narrowCharts;
 
   const _IncomeBody({
     required this.income,
     required this.periodLabel,
     required this.vizMode,
     required this.displayCurrency,
+    this.categoryRows,
+    this.sharedMaxAmount,
+    this.stableDonutColorKeys,
+    this.rangeLabel,
+    this.compact = false,
+    this.narrowCharts = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     const incomeColor = Color(0xFF16A34A);
-    final sorted = income.entries.toList()
-      ..sort((a, b) => b.value.total.compareTo(a.value.total));
-    final maxAmount = sorted.isEmpty ? 1.0 : sorted.first.value.total;
+    final hPad = compact ? 4.0 : 16.0;
+    final List<MapEntry<String, ({double total, int count})>> sorted;
+    final double maxAmount;
+    if (categoryRows != null) {
+      sorted = categoryRows!;
+      maxAmount = sharedMaxAmount ?? 1.0;
+    } else {
+      final list = income.entries.toList()
+        ..sort((a, b) => b.value.total.compareTo(a.value.total));
+      sorted = list;
+      maxAmount = sorted.isEmpty ? 1.0 : sorted.first.value.total;
+    }
     final totalReceivedBase = sorted.fold(0.0, (s, e) => s + e.value.total);
     final totalReceived = fx.convert(totalReceivedBase, settings.baseCurrency, displayCurrency);
     final sym = fx.currencySymbol(displayCurrency);
 
-    final emptyMsg = switch (periodLabel) {
-      '1M' => 'No income this month',
-      'ALL' => 'No income recorded',
-      _ => 'No income in the last $periodLabel',
-    };
+    final emptyMsg = rangeLabel != null
+        ? 'No income in $rangeLabel'
+        : switch (periodLabel) {
+            '1M' => 'No income this month',
+            'ALL' => 'No income recorded',
+            _ => 'No income in the last $periodLabel',
+          };
 
-    if (sorted.isEmpty) {
+    if (categoryRows != null && sorted.isEmpty) {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+        padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 8),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.pie_chart_outline_rounded, size: 18, color: cs.onSurfaceVariant),
+                const SizedBox(width: 10),
+                Text('No categories to compare',
+                    style: TextStyle(color: cs.onSurfaceVariant, fontSize: 14)),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (categoryRows == null && sorted.isEmpty) {
+      return Padding(
+        padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 8),
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -828,35 +1540,85 @@ class _IncomeBody extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 6),
+          padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 6),
           child: Card(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding: EdgeInsets.symmetric(
+                  horizontal: compact ? 8 : 16, vertical: 10),
               child: Row(
                 children: [
                   Icon(Icons.arrow_downward_rounded, size: 16, color: incomeColor),
                   const SizedBox(width: 8),
-                  Text('Total received',
-                      style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant)),
-                  const Spacer(),
-                  Text(
-                    '+${totalReceived.toStringAsFixed(2)} $sym',
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w800, color: incomeColor),
+                  Expanded(
+                    child: Text(
+                      rangeLabel != null
+                          ? 'Total received ($rangeLabel)'
+                          : 'Total received',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant),
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(
+                      '+${totalReceived.toStringAsFixed(2)} $sym',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        fontSize: compact ? 13 : 15,
+                        fontWeight: FontWeight.w800,
+                        color: incomeColor,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
         ),
-        if (vizMode == 1)
-          _DonutView(sorted: sorted, displayCurrency: displayCurrency)
-        else
+        if (vizMode == 1) ...[
+          Builder(builder: (context) {
+            final donutSorted =
+                sorted.where((e) => e.value.total > 0).toList();
+            if (donutSorted.isEmpty) {
+              return Padding(
+                padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 0),
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 28, horizontal: 16),
+                    child: Center(
+                      child: Text(
+                        rangeLabel != null
+                            ? 'No income in $rangeLabel'
+                            : 'No income in this period',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: cs.onSurfaceVariant, fontSize: 13),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
+            return _DonutView(
+              sorted: donutSorted,
+              displayCurrency: displayCurrency,
+              donutHeight: compact ? 120.0 : 170.0,
+              horizontalPadding: hPad,
+              narrowLegend: narrowCharts,
+              stableCategoryOrder: stableDonutColorKeys,
+            );
+          }),
+        ] else
           _BarsView(
             sorted: sorted,
             maxAmount: maxAmount,
             displayCurrency: displayCurrency,
             barColor: incomeColor,
+            horizontalPadding: hPad,
+            narrowLayout: narrowCharts,
           ),
         const SizedBox(height: 8),
       ],
@@ -880,19 +1642,27 @@ class _BarsView extends StatelessWidget {
   final double maxAmount;
   final String displayCurrency;
   final Color barColor;
+  final double horizontalPadding;
+  final bool narrowLayout;
 
   const _BarsView({
     required this.sorted,
     required this.maxAmount,
     required this.displayCurrency,
     required this.barColor,
+    this.horizontalPadding = 16,
+    this.narrowLayout = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final innerH = horizontalPadding < 12 ? 8.0 : 14.0;
+    final nameSize = narrowLayout ? 12.0 : 13.0;
+    final amtSize = narrowLayout ? 11.0 : 13.0;
+    final gap = narrowLayout ? 4.0 : 8.0;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
@@ -906,26 +1676,34 @@ class _BarsView extends StatelessWidget {
               return Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: innerH, vertical: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
                             Expanded(
+                              flex: narrowLayout ? 11 : 10,
                               child: Text(cat,
-                                  style: const TextStyle(
-                                      fontSize: 13, fontWeight: FontWeight.w600),
+                                  style: TextStyle(
+                                      fontSize: nameSize,
+                                      fontWeight: FontWeight.w600),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis),
                             ),
-                            const SizedBox(width: 8),
-                            Text(
-                              '${amount.toStringAsFixed(2)} ${fx.currencySymbol(displayCurrency)}',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w700,
-                                  color: barColor),
+                            SizedBox(width: gap),
+                            Flexible(
+                              flex: narrowLayout ? 9 : 8,
+                              child: Text(
+                                '${amount.toStringAsFixed(2)} ${fx.currencySymbol(displayCurrency)}',
+                                textAlign: TextAlign.end,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: amtSize,
+                                    fontWeight: FontWeight.w700,
+                                    color: barColor),
+                              ),
                             ),
                           ],
                         ),
@@ -945,7 +1723,7 @@ class _BarsView extends StatelessWidget {
                   if (!isLast)
                     Divider(
                         height: 0.5,
-                        indent: 14,
+                        indent: innerH,
                         color: cs.outlineVariant.withValues(alpha: 0.4)),
                 ],
               );
@@ -962,8 +1740,29 @@ class _BarsView extends StatelessWidget {
 class _DonutView extends StatelessWidget {
   final List<MapEntry<String, ({double total, int count})>> sorted;
   final String displayCurrency;
+  final double donutHeight;
+  final double horizontalPadding;
+  final bool narrowLegend;
+  /// When set, category colors match this order (e.g. across compare columns).
+  final List<String>? stableCategoryOrder;
 
-  const _DonutView({required this.sorted, required this.displayCurrency});
+  const _DonutView({
+    required this.sorted,
+    required this.displayCurrency,
+    this.donutHeight = 170,
+    this.horizontalPadding = 16,
+    this.narrowLegend = false,
+    this.stableCategoryOrder,
+  });
+
+  Color _colorForCategory(String category, int positionInList) {
+    final order = stableCategoryOrder;
+    if (order != null) {
+      final i = order.indexOf(category);
+      if (i >= 0) return _kChartColors[i % _kChartColors.length];
+    }
+    return _kChartColors[positionInList % _kChartColors.length];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -971,25 +1770,35 @@ class _DonutView extends StatelessWidget {
     final total = sorted.fold(0.0, (s, e) => s + e.value.total);
     final fractions =
         sorted.map((e) => total > 0 ? e.value.total / total : 0.0).toList();
+    final segmentColors = sorted
+        .asMap()
+        .entries
+        .map((e) => _colorForCategory(e.value.key, e.key))
+        .toList();
+    final innerPad = horizontalPadding < 12 ? 8.0 : 16.0;
+    final countSize = donutHeight < 150 ? 22.0 : 28.0;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+          padding: EdgeInsets.fromLTRB(innerPad, 16, innerPad, 12),
           child: Column(
             children: [
               SizedBox(
-                height: 170,
+                height: donutHeight,
                 child: CustomPaint(
-                  painter: _DonutPainter(fractions: fractions),
+                  painter: _DonutPainter(
+                    fractions: fractions,
+                    segmentColors: segmentColors,
+                  ),
                   child: Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text('${sorted.length}',
-                            style: const TextStyle(
-                                fontSize: 28, fontWeight: FontWeight.w800)),
+                            style: TextStyle(
+                                fontSize: countSize, fontWeight: FontWeight.w800)),
                         Text(
                           sorted.length == 1 ? 'category' : 'categories',
                           style: TextStyle(
@@ -1006,37 +1815,56 @@ class _DonutView extends StatelessWidget {
                 final idx = entry.key;
                 final cat = entry.value.key;
                 final info = entry.value.value;
-                final color = _kChartColors[idx % _kChartColors.length];
+                final color = _colorForCategory(cat, idx);
                 final amount = fx.convert(
                     info.total, settings.baseCurrency, displayCurrency);
                 final pct = total > 0 ? info.total / total * 100 : 0.0;
+                final legSize = narrowLegend ? 11.0 : 13.0;
+                final pctSize = narrowLegend ? 10.0 : 12.0;
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Row(
                     children: [
                       Container(
-                        width: 10,
-                        height: 10,
+                        width: narrowLegend ? 8 : 10,
+                        height: narrowLegend ? 8 : 10,
                         decoration:
                             BoxDecoration(color: color, shape: BoxShape.circle),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: narrowLegend ? 6 : 8),
                       Expanded(
                         child: Text(cat,
-                            style: const TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.w500),
+                            style: TextStyle(
+                                fontSize: legSize, fontWeight: FontWeight.w500),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis),
                       ),
-                      Text('${pct.toStringAsFixed(1)}%',
+                      if (!narrowLegend) ...[
+                        Text('${pct.toStringAsFixed(1)}%',
+                            style: TextStyle(
+                                fontSize: pctSize, color: cs.onSurfaceVariant)),
+                        const SizedBox(width: 12),
+                        Text(
+                          '${amount.toStringAsFixed(2)} ${fx.currencySymbol(displayCurrency)}',
                           style: TextStyle(
-                              fontSize: 12, color: cs.onSurfaceVariant)),
-                      const SizedBox(width: 12),
-                      Text(
-                        '${amount.toStringAsFixed(2)} ${fx.currencySymbol(displayCurrency)}',
-                        style: const TextStyle(
-                            fontSize: 13, fontWeight: FontWeight.w700),
-                      ),
+                              fontSize: legSize, fontWeight: FontWeight.w700),
+                        ),
+                      ]
+                      else
+                        Flexible(
+                          child: Text(
+                            '${pct.toStringAsFixed(0)}% · '
+                            '${amount.toStringAsFixed(1)} ${fx.currencySymbol(displayCurrency)}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                              fontSize: legSize,
+                              fontWeight: FontWeight.w600,
+                              color: cs.onSurfaceVariant,
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 );
@@ -1051,7 +1879,12 @@ class _DonutView extends StatelessWidget {
 
 class _DonutPainter extends CustomPainter {
   final List<double> fractions;
-  _DonutPainter({required this.fractions});
+  final List<Color> segmentColors;
+
+  _DonutPainter({
+    required this.fractions,
+    required this.segmentColors,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -1066,7 +1899,7 @@ class _DonutPainter extends CustomPainter {
       final sweep = fractions[i] * 2 * math.pi;
       if (sweep < gap) { startAngle += sweep; continue; }
       final paint = Paint()
-        ..color = _kChartColors[i % _kChartColors.length]
+        ..color = segmentColors[i % segmentColors.length]
         ..style = PaintingStyle.stroke
         ..strokeWidth = strokeWidth
         ..strokeCap = StrokeCap.butt;
@@ -1083,7 +1916,8 @@ class _DonutPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_DonutPainter old) => old.fractions != fractions;
+  bool shouldRepaint(_DonutPainter old) =>
+      old.fractions != fractions || old.segmentColors != segmentColors;
 }
 
 // ─── Shared widgets ───────────────────────────────────────────────────────────
