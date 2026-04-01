@@ -1558,9 +1558,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                 keyboardType: const TextInputType.numberWithOptions(
                     decimal: true, signed: true),
                 decoration: InputDecoration(
-                  labelText: 'Book balance',
-                  helperText:
-                      'Actual position; negative means you owe (e.g. bank advance).',
+                  labelText: 'Real balance',
                   suffixText: ' ${fx.currencySymbol(_currencyCode)}',
                 ),
               ),
@@ -1571,8 +1569,6 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                     decimal: true, signed: false),
                 decoration: InputDecoration(
                   labelText: 'Overdraft / advance limit',
-                  helperText:
-                      'Optional. Available to spend = balance + limit. Leave empty if none.',
                   suffixText: ' ${fx.currencySymbol(_currencyCode)}',
                 ),
               ),
@@ -1868,9 +1864,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                       keyboardType: const TextInputType.numberWithOptions(
                           decimal: true, signed: true),
                       decoration: InputDecoration(
-                        labelText: 'Book balance',
-                        helperText:
-                            'Negative = debt on this account (e.g. salary advance).',
+                        labelText: 'Real balance',
                         suffixText:
                             '  ${fx.currencySymbol(_currencyCode)}',
                       ),
@@ -1883,8 +1877,6 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                           decimal: true, signed: false),
                       decoration: InputDecoration(
                         labelText: 'Overdraft / advance limit',
-                        helperText:
-                            'Available to spend = balance + limit. Empty = no facility.',
                         suffixText:
                             '  ${fx.currencySymbol(_currencyCode)}',
                       ),

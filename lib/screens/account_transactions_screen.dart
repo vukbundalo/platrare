@@ -357,7 +357,7 @@ class _AccountHero extends StatelessWidget {
                     if (account.hasOverdraftFacility) ...[
                       const SizedBox(height: 6),
                       Text(
-                        'Book balance',
+                        'Real balance',
                         style: TextStyle(
                             fontSize: 11,
                             color: cs.onSurfaceVariant,
