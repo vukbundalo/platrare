@@ -50,9 +50,12 @@ If **hot reload** runs but UI looks stale, try **hot restart** once before askin
 
 ### Git commit and push
 
-- When the user has asked for code changes and has **not** explicitly asked to skip git (e.g. “don’t commit”, “no push”): after edits are done, **stage** the files you changed (and only what belongs to the task), **commit** with a **clear, accurate message** describing what was implemented, then **push** the **current branch** to `origin`.
-- Do **not** commit secrets, generated junk, or unrelated files. If the working tree has other unrelated edits, stage only paths tied to the completed work.
-- If a commit/push is inappropriate (ambiguous request, broken build, or user said not to), skip git and say why briefly.
+- **Commit after every completed user request** that produced code or project file changes, unless they explicitly asked to skip (e.g. “don’t commit”, “WIP only”). Treat this as part of finishing the task, not optional.
+- **Stage** only paths that belong to the completed work. Do **not** commit secrets, generated junk, or unrelated files.
+- **Commit messages must be informative for `git revert` / history browsing:** use a short imperative subject (what changed), and when the change is non-trivial add a blank line and a body listing scope, behavior, or files touched so a future reader can decide whether to revert without reading the diff.
+- Example subject style: `Plan: hide timeline for future snapshot projections` — not `fix` or `updates`.
+- After committing, **push** the **current branch** to `origin` when the user has **not** asked to skip push, unless there is a good reason (e.g. offline-only session, or they asked for local commits only).
+- If a commit is inappropriate (nothing changed, ambiguous request, broken build, or user said not to), skip git and say why briefly.
 
 ### Flutter checks
 
