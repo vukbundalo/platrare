@@ -104,20 +104,26 @@ class TrackPlanFilterChipRow extends StatelessWidget {
                 : cs.primaryContainer.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(20),
           ),
-          child: letter != null
-              ? Text(
-                  letter,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                    color: active ? cs.primary : cs.onSurfaceVariant,
-                  ),
-                )
-              : Icon(
-                  Icons.calendar_today_outlined,
-                  size: 15,
-                  color: active ? cs.primary : cs.onSurfaceVariant,
-                ),
+          child: SizedBox(
+            width: 24,
+            height: 24,
+            child: Center(
+              child: letter != null
+                  ? Text(
+                      letter,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                        color: active ? cs.primary : cs.onSurfaceVariant,
+                      ),
+                    )
+                  : Icon(
+                      Icons.calendar_today_outlined,
+                      size: 15,
+                      color: active ? cs.primary : cs.onSurfaceVariant,
+                    ),
+            ),
+          ),
         ),
       );
       final semantics = letter != null
@@ -132,8 +138,6 @@ class TrackPlanFilterChipRow extends StatelessWidget {
       );
     }
 
-    final gapAfterDate = dateFilterActive ? 16.0 : 6.0;
-
     final row = Row(
       children: [
         mainChip(
@@ -145,7 +149,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
         ),
         const SizedBox(width: 6),
         mainDateChip(),
-        SizedBox(width: gapAfterDate),
+        const SizedBox(width: 6),
         mainChip(
           icon: Icons.account_balance_wallet_outlined,
           active: accountFilter != null ||

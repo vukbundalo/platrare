@@ -1008,6 +1008,7 @@ class _TransactionTile extends StatelessWidget {
 
   void _delete(BuildContext context) {
     final t = transaction;
+    final index = data.transactions.indexOf(t);
     if (t.nativeAmount != null) {
       // Reverse the balance changes in each account's native currency.
       if (t.fromAccount != null) t.fromAccount!.balance += t.nativeAmount!;
@@ -1021,14 +1022,34 @@ class _TransactionTile extends StatelessWidget {
     data.transactions.remove(t);
     onRefresh();
     HapticFeedback.mediumImpact();
-    ScaffoldMessenger.of(context).showSnackBar(
+    final messenger = ScaffoldMessenger.of(context);
+    messenger.clearSnackBars();
+    messenger.showSnackBar(
       SnackBar(
         content: const Text('Transaction deleted'),
         behavior: SnackBarBehavior.floating,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 4),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            messenger.clearSnackBars();
+            if (t.nativeAmount != null) {
+              if (t.fromAccount != null) {
+                t.fromAccount!.balance -= t.nativeAmount!;
+              }
+              if (t.toAccount != null) {
+                t.toAccount!.balance +=
+                    (t.destinationAmount ?? t.nativeAmount!);
+              }
+            }
+            final insertAt = index < 0 ? 0 : index.clamp(0, data.transactions.length);
+            data.transactions.insert(insertAt, t);
+            onRefresh();
+          },
+        ),
       ),
     );
   }
@@ -1126,29 +1147,36 @@ class _TransactionTile extends StatelessWidget {
             ),
             if (transaction.nativeAmount != null) ...[
               const SizedBox(width: 8),
-              Text(_amountDisplay(),
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: _amountColor(context))),
-            ],
-            if (onToggleHistory != null) ...[
-              const SizedBox(width: 6),
-              GestureDetector(
-                onTap: onToggleHistory,
-                behavior: HitTestBehavior.opaque,
-                child: Icon(
-                  showHistory
-                      ? Icons.keyboard_arrow_up_rounded
-                      : Icons.keyboard_arrow_down_rounded,
-                  size: 18,
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurfaceVariant
-                      .withValues(alpha: 0.5),
-                ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Text(_amountDisplay(),
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: _amountColor(context))),
               ),
             ],
+            if (onToggleHistory != null)
+              SizedBox(
+                width: 48,
+                height: 48,
+                child: GestureDetector(
+                  onTap: onToggleHistory,
+                  behavior: HitTestBehavior.opaque,
+                  child: Center(
+                    child: Icon(
+                      showHistory
+                          ? Icons.keyboard_arrow_up_rounded
+                          : Icons.keyboard_arrow_down_rounded,
+                      size: 22,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurfaceVariant
+                          .withValues(alpha: 0.55),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
         ),

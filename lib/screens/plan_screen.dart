@@ -375,6 +375,7 @@ class _PlanScreenState extends State<PlanScreen> {
   void _delete(PlannedTransaction pt) {
     HapticFeedback.lightImpact();
     setState(() => data.plannedTransactions.remove(pt));
+    widget.onChanged?.call();
     final messenger = ScaffoldMessenger.of(context);
     messenger.clearSnackBars();
     messenger.showSnackBar(
@@ -391,6 +392,7 @@ class _PlanScreenState extends State<PlanScreen> {
               data.plannedTransactions.add(pt);
               data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
             });
+            widget.onChanged?.call();
           },
         ),
       ),
@@ -406,28 +408,51 @@ class _PlanScreenState extends State<PlanScreen> {
     HapticFeedback.lightImpact();
     showDialog<String>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('Delete repeated transaction?'),
-        content: const Text(
-            'Do you want to remove only this occurrence or cancel all future occurrences?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+      builder: (ctx) {
+        final error = Theme.of(ctx).colorScheme.error;
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text('Repeating transaction'),
+          content: const Text(
+            'Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.',
           ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, 'this'),
-            child: const Text('This only'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(ctx, 'all'),
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('All'),
-          ),
-        ],
-      ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      child: const Text('Cancel'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      onPressed: () => Navigator.pop(ctx, 'all'),
+                      style: TextButton.styleFrom(foregroundColor: error),
+                      child: const Text('Delete all'),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  SizedBox(
+                    width: double.infinity,
+                    child: FilledButton(
+                      onPressed: () => Navigator.pop(ctx, 'this'),
+                      child: const Text('Skip this only'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     ).then((choice) {
       if (choice == null || !mounted) return;
       if (choice == 'all') {
@@ -435,30 +460,47 @@ class _PlanScreenState extends State<PlanScreen> {
       } else {
         // Delete this occurrence and spawn the next one.
         final nextDate = nextOccurrence(pt.date, pt.repeatInterval);
+        final spawned = PlannedTransaction(
+          nativeAmount: pt.nativeAmount,
+          currencyCode: pt.currencyCode,
+          destinationAmount: pt.destinationAmount,
+          fromAccount: pt.fromAccount,
+          toAccount: pt.toAccount,
+          category: pt.category,
+          description: pt.description,
+          date: nextDate,
+          txType: pt.txType,
+          repeatInterval: pt.repeatInterval,
+        );
         setState(() {
           data.plannedTransactions.remove(pt);
-          data.plannedTransactions.add(PlannedTransaction(
-            nativeAmount: pt.nativeAmount,
-            currencyCode: pt.currencyCode,
-            destinationAmount: pt.destinationAmount,
-            fromAccount: pt.fromAccount,
-            toAccount: pt.toAccount,
-            category: pt.category,
-            description: pt.description,
-            date: nextDate,
-            txType: pt.txType,
-            repeatInterval: pt.repeatInterval,
-          ));
+          data.plannedTransactions.add(spawned);
           data.plannedTransactions
               .sort((a, b) => a.date.compareTo(b.date));
         });
         widget.onChanged?.call();
-        ScaffoldMessenger.of(context).showSnackBar(
+        final messenger = ScaffoldMessenger.of(context);
+        messenger.clearSnackBars();
+        messenger.showSnackBar(
           SnackBar(
-            content: const Text('Occurrence removed, next one scheduled'),
+            content: const Text('This occurrence skipped — next one scheduled'),
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12)),
+            duration: const Duration(seconds: 4),
+            action: SnackBarAction(
+              label: 'Undo',
+              onPressed: () {
+                messenger.clearSnackBars();
+                setState(() {
+                  data.plannedTransactions.remove(spawned);
+                  data.plannedTransactions.add(pt);
+                  data.plannedTransactions
+                      .sort((a, b) => a.date.compareTo(b.date));
+                });
+                widget.onChanged?.call();
+              },
+            ),
           ),
         );
       }
@@ -1751,30 +1793,38 @@ class _PlannedTile extends StatelessWidget {
           ),
           const SizedBox(width: 8),
 
-          // Amount
+          // Amount (inset from expand control so taps are easier to separate)
           if (pt.nativeAmount != null)
-            Text(
-              txAmountDisplay(_type, pt.nativeAmount!, pt.currencyCode ?? 'BAM'),
-              style: TextStyle(
-                color: _typeColor,
-                fontWeight: FontWeight.w800,
-                fontSize: 15,
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: Text(
+                txAmountDisplay(
+                    _type, pt.nativeAmount!, pt.currencyCode ?? 'BAM'),
+                style: TextStyle(
+                  color: _typeColor,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 15,
+                ),
               ),
             ),
-          if (onToggleProjection != null) ...[
-            const SizedBox(width: 6),
-            GestureDetector(
-              onTap: onToggleProjection,
-              behavior: HitTestBehavior.opaque,
-              child: Icon(
-                showProjection
-                    ? Icons.keyboard_arrow_up_rounded
-                    : Icons.keyboard_arrow_down_rounded,
-                size: 18,
-                color: cs.onSurfaceVariant.withValues(alpha: 0.5),
+          if (onToggleProjection != null)
+            SizedBox(
+              width: 48,
+              height: 48,
+              child: GestureDetector(
+                onTap: onToggleProjection,
+                behavior: HitTestBehavior.opaque,
+                child: Center(
+                  child: Icon(
+                    showProjection
+                        ? Icons.keyboard_arrow_up_rounded
+                        : Icons.keyboard_arrow_down_rounded,
+                    size: 22,
+                    color: cs.onSurfaceVariant.withValues(alpha: 0.55),
+                  ),
+                ),
               ),
             ),
-          ],
         ],
       ),
       ),
