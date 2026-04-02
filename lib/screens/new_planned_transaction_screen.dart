@@ -766,12 +766,12 @@ class _WeekendAdjustmentPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final datePhrase = DateFormat('d MMMM').format(nominalDate);
+    final day = nominalDate.day;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'If the $datePhrase falls on a weekend?',
+          'If the $day falls on a weekend?',
           style: Theme.of(context)
               .textTheme
               .labelLarge
