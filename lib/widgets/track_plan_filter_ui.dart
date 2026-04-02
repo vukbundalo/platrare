@@ -131,6 +131,8 @@ class TrackPlanFilterChipRow extends StatelessWidget {
       );
     }
 
+    final gapAfterDate = dateFilterActive ? 16.0 : 6.0;
+
     final row = Row(
       children: [
         mainChip(
@@ -142,7 +144,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
         ),
         const SizedBox(width: 6),
         mainDateChip(),
-        const SizedBox(width: 6),
+        SizedBox(width: gapAfterDate),
         mainChip(
           icon: Icons.account_balance_wallet_outlined,
           active: accountFilter != null ||
@@ -397,8 +399,8 @@ class TrackPlanFilterStrip extends StatelessWidget {
           return Wrap(
             spacing: 4,
             runSpacing: 4,
-            alignment: WrapAlignment.start,
-            crossAxisAlignment: WrapCrossAlignment.start,
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               trackPlanNamePill(
                 context,
@@ -436,8 +438,8 @@ class TrackPlanFilterStrip extends StatelessWidget {
           return Wrap(
             spacing: 4,
             runSpacing: 4,
-            alignment: WrapAlignment.start,
-            crossAxisAlignment: WrapCrossAlignment.start,
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               trackPlanNamePill(
                 context,
