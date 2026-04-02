@@ -6,6 +6,8 @@ import '../models/account.dart';
 import '../models/transaction.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/tx_display.dart';
+import '../widgets/app_hero_layout.dart';
+import '../widgets/track_plan_filter_ui.dart';
 import 'transaction_detail_screen.dart';
 import 'new_transaction_screen.dart';
 
@@ -35,31 +37,51 @@ class _AccountTransactionsScreenState
   String? _categoryFilter;
   String? _dateFilter;
   DateTime _dateAnchor = DateTime.now();
-  bool _filtersExpanded = false;
+  bool _newestFirst = true;
+  TrackPlanFilterPanel _filterPanel = TrackPlanFilterPanel.none;
 
-  List<Transaction> get _allTx => data.transactions
+  List<Transaction> get _allAccountTx => data.transactions
       .where((t) =>
           t.fromAccount?.id == widget.account.id ||
           t.toAccount?.id == widget.account.id)
-      .toList()
-    ..sort((a, b) => b.date.compareTo(a.date));
+      .toList();
+
+  (DateTime, DateTime) get _currentMonthRange {
+    final now = DateTime.now();
+    final start = DateTime(now.year, now.month, 1);
+    final end = DateTime(now.year, now.month + 1, 1);
+    return (start, end);
+  }
+
+  List<Transaction> get _visibleAccountTx {
+    final (start, end) = _currentMonthRange;
+    return _allAccountTx
+        .where((t) => !t.date.isBefore(start) && t.date.isBefore(end))
+        .toList();
+  }
 
   (DateTime, DateTime) get _dateRange {
     final a = _dateAnchor;
     return switch (_dateFilter) {
-      'week'  => () {
-          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
+      'day' => (
+          DateTime(a.year, a.month, a.day),
+          DateTime(a.year, a.month, a.day + 1),
+        ),
+      'week' => () {
+          final mon =
+              DateTime(a.year, a.month, a.day - (a.weekday - 1));
           return (mon, DateTime(mon.year, mon.month, mon.day + 7));
         }(),
       'month' => (DateTime(a.year, a.month), DateTime(a.year, a.month + 1)),
-      'year'  => (DateTime(a.year), DateTime(a.year + 1)),
-      _       => (DateTime(0), DateTime(9999)),
+      'year' => (DateTime(a.year), DateTime(a.year + 1)),
+      _ => (DateTime(0), DateTime(9999)),
     };
   }
 
   String get _dateLabel {
     final a = _dateAnchor;
     return switch (_dateFilter) {
+      'day' => DateFormat('EEE, d MMM yyyy').format(a),
       'week' => () {
           final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
           final sun = DateTime(mon.year, mon.month, mon.day + 6);
@@ -69,13 +91,116 @@ class _AccountTransactionsScreenState
               : '${DateFormat('d MMM').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}';
         }(),
       'month' => DateFormat('MMMM yyyy').format(a),
-      'year'  => DateFormat('yyyy').format(a),
-      _       => '',
+      'year' => DateFormat('yyyy').format(a),
+      _ => '',
+    };
+  }
+
+  bool get _hasNavigableDateFilter =>
+      _dateFilter == 'week' ||
+      _dateFilter == 'month' ||
+      _dateFilter == 'year';
+
+  String? get _dateChipModeLetter => switch (_dateFilter) {
+        'month' => 'M',
+        'week' => 'W',
+        'year' => 'Y',
+        _ => null,
+      };
+
+  bool get _hasActiveFilter =>
+      _typeFilter != null ||
+      _categoryFilter != null ||
+      _dateFilter != null ||
+      !_newestFirst;
+
+  void _toggleFilterPanel(TrackPlanFilterPanel panel) {
+    if (panel == TrackPlanFilterPanel.account) return;
+    setState(() {
+      _filterPanel = _filterPanel == panel ? TrackPlanFilterPanel.none : panel;
+    });
+  }
+
+  void _cycleTypeFilter() => setState(() {
+        if (_typeFilter == null) {
+          _typeFilter = _kTypeIncome;
+        } else if (_typeFilter == _kTypeIncome) {
+          _typeFilter = _kTypeExpense;
+        } else if (_typeFilter == _kTypeExpense) {
+          _typeFilter = _kTypeTransfer;
+        } else {
+          _typeFilter = null;
+        }
+      });
+
+  void _cycleDateFilter() => setState(() {
+        _filterPanel = TrackPlanFilterPanel.none;
+        if (_dateFilter == null) {
+          _dateFilter = 'month';
+          _dateAnchor = DateTime.now();
+        } else if (_dateFilter == 'month') {
+          _dateFilter = 'week';
+          _dateAnchor = DateTime.now();
+        } else if (_dateFilter == 'week') {
+          _dateFilter = 'year';
+          _dateAnchor = DateTime.now();
+        } else {
+          _dateFilter = null;
+        }
+      });
+
+  void _toggleSort() => setState(() => _newestFirst = !_newestFirst);
+
+  void _navigateDate(int direction) {
+    setState(() {
+      var next = switch (_dateFilter) {
+        'day' => DateTime(_dateAnchor.year, _dateAnchor.month,
+            _dateAnchor.day + direction),
+        'week' => DateTime(_dateAnchor.year, _dateAnchor.month,
+            _dateAnchor.day + direction * 7),
+        'month' => DateTime(_dateAnchor.year, _dateAnchor.month + direction,
+            _dateAnchor.day),
+        'year' => DateTime(_dateAnchor.year + direction, _dateAnchor.month,
+            _dateAnchor.day),
+        _ => _dateAnchor,
+      };
+      if (_dateFilter == 'day') {
+        final today = DateUtils.dateOnly(DateTime.now());
+        final n = DateUtils.dateOnly(next);
+        if (n.isAfter(today)) next = _dateAnchor;
+      }
+      _dateAnchor = next;
+    });
+  }
+
+  bool get _canNavigateDateForward {
+    final now = DateTime.now();
+    return switch (_dateFilter) {
+      'day' => DateUtils.dateOnly(_dateAnchor)
+          .isBefore(DateUtils.dateOnly(now)),
+      'week' => () {
+          final a = _dateAnchor;
+          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
+          final nMon =
+              DateTime(now.year, now.month, now.day - (now.weekday - 1));
+          return mon.isBefore(nMon);
+        }(),
+      'month' => DateTime(_dateAnchor.year, _dateAnchor.month)
+          .isBefore(DateTime(now.year, now.month)),
+      'year' => _dateAnchor.year < now.year,
+      _ => true,
     };
   }
 
   List<Transaction> get _filteredTx {
-    Iterable<Transaction> source = _allTx;
+    Iterable<Transaction> source;
+    if (_dateFilter == null) {
+      source = _visibleAccountTx;
+    } else {
+      final (start, end) = _dateRange;
+      source = _allAccountTx.where(
+          (t) => !t.date.isBefore(start) && t.date.isBefore(end));
+    }
 
     if (_typeFilter != null) {
       source = source.where((t) {
@@ -87,12 +212,6 @@ class _AccountTransactionsScreenState
 
     if (_categoryFilter != null) {
       source = source.where((t) => t.category == _categoryFilter);
-    }
-
-    if (_dateFilter != null) {
-      final (start, end) = _dateRange;
-      source = source.where(
-          (t) => !t.date.isBefore(start) && t.date.isBefore(end));
     }
 
     return source.toList();
@@ -112,20 +231,6 @@ class _AccountTransactionsScreenState
       }
     }
     return (totalIn: totalIn, totalOut: totalOut);
-  }
-
-  void _navigateDate(int direction) {
-    setState(() {
-      _dateAnchor = switch (_dateFilter) {
-        'week'  => DateTime(_dateAnchor.year, _dateAnchor.month,
-                       _dateAnchor.day + direction * 7),
-        'month' => DateTime(_dateAnchor.year, _dateAnchor.month + direction,
-                       _dateAnchor.day),
-        'year'  => DateTime(_dateAnchor.year + direction, _dateAnchor.month,
-                       _dateAnchor.day),
-        _       => _dateAnchor,
-      };
-    });
   }
 
   void _openDetail(Transaction t) {
@@ -155,12 +260,19 @@ class _AccountTransactionsScreenState
       final key = DateFormat('yyyy-MM-dd').format(t.date);
       grouped.putIfAbsent(key, () => []).add(t);
     }
-    final days = grouped.keys.toList()..sort((a, b) => b.compareTo(a));
+    for (final list in grouped.values) {
+      list.sort((a, b) => _newestFirst
+          ? b.date.compareTo(a.date)
+          : a.date.compareTo(b.date));
+    }
+    final days = grouped.keys.toList()
+      ..sort((a, b) => _newestFirst ? b.compareTo(a) : a.compareTo(b));
 
-    final allCategories = [
+    final categoriesSorted = <String>{
       ...data.incomeCategories,
       ...data.expenseCategories,
-    ];
+    }.toList()
+      ..sort();
 
     return Scaffold(
       backgroundColor: cs.surface,
@@ -179,40 +291,55 @@ class _AccountTransactionsScreenState
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    _AccountHero(
+                    _AccountTxHero(
                       account: account,
-                      totals: totals,
+                      totalIn: totals.totalIn,
+                      totalOut: totals.totalOut,
+                      panel: _filterPanel,
+                      onTogglePanel: _toggleFilterPanel,
                       typeFilter: _typeFilter,
-                      onTypeFilter: (v) => setState(() => _typeFilter = v),
-                      filtersExpanded: _filtersExpanded,
-                      hasActiveFilter: _categoryFilter != null || _dateFilter != null,
-                      onToggleFilters: () =>
-                          setState(() => _filtersExpanded = !_filtersExpanded),
+                      onCycleType: _cycleTypeFilter,
+                      dateModeLetter: _dateChipModeLetter,
+                      dateFilterActive: _dateFilter != null,
+                      onCycleDate: _cycleDateFilter,
+                      categoryFilter: _categoryFilter,
+                      newestFirst: _newestFirst,
+                      onToggleSort: _toggleSort,
                     ),
                   ],
                 ),
               ),
             ),
           ),
-
-          // Filters panel
-          if (_filtersExpanded)
+          if (_hasNavigableDateFilter)
             SliverToBoxAdapter(
-              child: _AccountFiltersPanel(
-                dateFilter: _dateFilter,
-                dateLabel: _dateLabel,
-                onDateFilter: (v) => setState(() {
-                  _dateFilter = v;
-                  _dateAnchor = DateTime.now();
-                }),
-                onNavigateDate: _navigateDate,
-                categoryFilter: _categoryFilter,
-                onCategoryFilter: (v) =>
-                    setState(() => _categoryFilter = v),
-                allCategories: allCategories,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                child: TrackPlanDateNavBar(
+                  label: _dateLabel,
+                  onNavigateBack: () => _navigateDate(-1),
+                  onNavigateForward: _canNavigateDateForward
+                      ? () => _navigateDate(1)
+                      : null,
+                ),
               ),
             ),
-
+          if (_filterPanel != TrackPlanFilterPanel.none)
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
+                child: TrackPlanFilterStrip(
+                  panel: _filterPanel,
+                  accounts: data.accounts,
+                  accountFilter: null,
+                  onAccountFilter: (_) {},
+                  categories: categoriesSorted,
+                  categoryFilter: _categoryFilter,
+                  onCategoryFilter: (c) =>
+                      setState(() => _categoryFilter = c),
+                ),
+              ),
+            ),
           if (displayTx.isEmpty)
             SliverFillRemaining(
               hasScrollBody: false,
@@ -220,11 +347,19 @@ class _AccountTransactionsScreenState
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.receipt_long_outlined,
-                        size: 48, color: cs.onSurfaceVariant),
+                    Icon(
+                      _hasActiveFilter
+                          ? Icons.search_off_rounded
+                          : Icons.receipt_long_outlined,
+                      size: 48,
+                      color: cs.onSurfaceVariant,
+                    ),
                     const SizedBox(height: 12),
                     Text(
-                      'No transactions',
+                      _hasActiveFilter
+                          ? 'No transactions for applied filters'
+                          : 'No transactions for ${DateFormat('MMMM').format(DateTime.now())}',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -234,360 +369,195 @@ class _AccountTransactionsScreenState
                 ),
               ),
             )
-          else
-            SliverPadding(
-              padding: const EdgeInsets.only(bottom: 100),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (ctx, i) {
-                    final day = days[i];
-                    final dayTxs = grouped[day]!;
-                    final date = DateTime.parse(day);
-                    return _DaySection(
-                      date: date,
-                      transactions: dayTxs,
-                      focusAccount: account,
-                      onTap: _openDetail,
-                      onLongPress: _editTransaction,
-                    );
-                  },
-                  childCount: days.length,
+          else ...[
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (ctx, i) {
+                  final day = days[i];
+                  final dayTxs = grouped[day]!;
+                  final date = DateTime.parse(day);
+                  return _DaySection(
+                    date: date,
+                    transactions: dayTxs,
+                    focusAccount: account,
+                    onTap: _openDetail,
+                    onLongPress: _editTransaction,
+                  );
+                },
+                childCount: days.length,
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 80,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: !_hasActiveFilter &&
+                            _allAccountTx.length > displayTx.length
+                        ? Text(
+                            'More transactions outside this period',
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: cs.onSurfaceVariant),
+                          )
+                        : const SizedBox.shrink(),
+                  ),
                 ),
               ),
             ),
+          ],
         ],
       ),
     );
   }
 }
 
-// ─── Hero card ────────────────────────────────────────────────────────────────
+// ─── Hero (balance + period In/Out + Track-style chips) ─────────────────────
 
-class _AccountHero extends StatelessWidget {
+class _AccountTxHero extends StatelessWidget {
   final Account account;
-  final ({double totalIn, double totalOut}) totals;
+  final double totalIn;
+  final double totalOut;
+  final TrackPlanFilterPanel panel;
+  final void Function(TrackPlanFilterPanel) onTogglePanel;
   final String? typeFilter;
-  final ValueChanged<String?> onTypeFilter;
-  final bool filtersExpanded;
-  final bool hasActiveFilter;
-  final VoidCallback onToggleFilters;
+  final VoidCallback onCycleType;
+  final String? dateModeLetter;
+  final bool dateFilterActive;
+  final VoidCallback onCycleDate;
+  final String? categoryFilter;
+  final bool newestFirst;
+  final VoidCallback onToggleSort;
 
-  const _AccountHero({
+  const _AccountTxHero({
     required this.account,
-    required this.totals,
+    required this.totalIn,
+    required this.totalOut,
+    required this.panel,
+    required this.onTogglePanel,
     required this.typeFilter,
-    required this.onTypeFilter,
-    required this.filtersExpanded,
-    required this.hasActiveFilter,
-    required this.onToggleFilters,
+    required this.onCycleType,
+    required this.dateModeLetter,
+    required this.dateFilterActive,
+    required this.onCycleDate,
+    required this.categoryFilter,
+    required this.newestFirst,
+    required this.onToggleSort,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final sym = fx.currencySymbol(account.currencyCode);
-    final bookAmt = account.balance;
     final mainAmt = account.hasOverdraftFacility
         ? account.availableToSpend
         : account.balance;
-    final bookPos = bookAmt >= 0;
-    final mainPos = mainAmt >= 0;
-    final bookColor =
-        bookPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
-    final mainColor =
-        mainPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
-    final heroTint = mainColor;
-    final outColor = const Color(0xFFDC2626);
-    final filterActive = filtersExpanded || hasActiveFilter;
-
-    Widget filterChip(String key, IconData icon) {
-      final active = typeFilter == key;
-      return GestureDetector(
-        onTap: () => onTypeFilter(active ? null : key),
-        child: Container(
-          height: 30,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: active
-                ? cs.primary.withValues(alpha: 0.15)
-                : cs.primaryContainer.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Icon(icon, size: 15,
-              color: active ? cs.primary : cs.onSurfaceVariant),
-        ),
-      );
-    }
+    final net = totalIn - totalOut;
+    final borderColor =
+        net >= 0 ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final baseSym = fx.currencySymbol(settings.baseCurrency);
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+      padding: AppHeroConstants.cardPadding,
       decoration: BoxDecoration(
-        color: heroTint.withValues(alpha: 0.07),
+        color: borderColor.withValues(alpha: 0.07),
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: heroTint.withValues(alpha: 0.2)),
+        border: Border.all(color: borderColor.withValues(alpha: 0.2)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                        account.hasOverdraftFacility
-                            ? 'Available'
-                            : 'Balance',
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: cs.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
-                    const SizedBox(height: 2),
-                    Text(
-                      '${mainAmt > 0 ? '+' : ''}${mainAmt.toStringAsFixed(2)} $sym',
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.w800,
-                        color: mainColor,
-                        letterSpacing: -1,
-                      ),
-                    ),
-                    if (account.hasOverdraftFacility) ...[
-                      const SizedBox(height: 6),
-                      Text(
-                        'Real balance',
-                        style: TextStyle(
-                            fontSize: 11,
-                            color: cs.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
-                      const SizedBox(height: 2),
-                      Text(
-                        '${bookAmt > 0 ? '+' : ''}${bookAmt.toStringAsFixed(2)} $sym',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: bookColor,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-              Container(
-                width: 1,
-                height: 44,
-                color: heroTint.withValues(alpha: 0.2),
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text('Out',
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: cs.onSurfaceVariant,
-                          fontWeight: FontWeight.w500)),
-                  const SizedBox(height: 2),
-                  Text(
-                    '-${totals.totalOut.toStringAsFixed(2)} ${fx.currencySymbol(settings.baseCurrency)}',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: outColor,
-                      letterSpacing: -0.5,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(child: filterChip(_kTypeIncome, Icons.arrow_downward_rounded)),
-              const SizedBox(width: 6),
-              Expanded(child: filterChip(_kTypeExpense, Icons.arrow_upward_rounded)),
-              const SizedBox(width: 6),
-              Expanded(child: filterChip(_kTypeTransfer, Icons.swap_horiz_rounded)),
-              const SizedBox(width: 6),
-              // Spacer chip (empty, no accounts filter needed)
-              Expanded(child: SizedBox(height: 30)),
-              const SizedBox(width: 6),
-              // Filters toggle
-              Expanded(
-                child: GestureDetector(
-                  onTap: onToggleFilters,
-                  child: Container(
-                    height: 30,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: filterActive
-                          ? cs.primary.withValues(alpha: 0.15)
-                          : cs.primaryContainer.withValues(alpha: 0.5),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Icon(
-                      filtersExpanded
-                          ? Icons.keyboard_arrow_up_rounded
-                          : Icons.keyboard_arrow_down_rounded,
-                      size: 15,
-                      color: filterActive ? cs.primary : cs.onSurfaceVariant,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─── Filters panel ────────────────────────────────────────────────────────────
-
-class _AccountFiltersPanel extends StatelessWidget {
-  final String? dateFilter;
-  final String dateLabel;
-  final ValueChanged<String?> onDateFilter;
-  final ValueChanged<int> onNavigateDate;
-  final String? categoryFilter;
-  final ValueChanged<String?> onCategoryFilter;
-  final List<String> allCategories;
-
-  const _AccountFiltersPanel({
-    required this.dateFilter,
-    required this.dateLabel,
-    required this.onDateFilter,
-    required this.onNavigateDate,
-    required this.categoryFilter,
-    required this.onCategoryFilter,
-    required this.allCategories,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-
-    Widget chip({required String label, required bool active, required VoidCallback onTap}) {
-      return GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: active
-                ? cs.primary.withValues(alpha: 0.12)
-                : cs.surfaceContainerHighest.withValues(alpha: 0.6),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: active
-                  ? cs.primary.withValues(alpha: 0.35)
-                  : cs.outlineVariant.withValues(alpha: 0.4),
-            ),
-          ),
-          child: Text(
-            label,
+          Text(
+            '${account.hasOverdraftFacility ? 'Available' : 'Balance'} · '
+            '${mainAmt > 0 ? '+' : ''}${mainAmt.toStringAsFixed(2)} $sym',
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: active ? cs.primary : cs.onSurfaceVariant,
+              color: cs.onSurfaceVariant,
             ),
           ),
-        ),
-      );
-    }
-
-    Widget sectionLabel(String label) => Text(
-          label,
-          style: TextStyle(
-            fontSize: 10,
-            letterSpacing: 0.8,
-            fontWeight: FontWeight.w700,
-            color: cs.primary,
-          ),
-        );
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-      child: Container(
-        decoration: BoxDecoration(
-          color: cs.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.5)),
-        ),
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            sectionLabel('DATE PERIOD'),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 6,
+          if (account.hasOverdraftFacility) ...[
+            const SizedBox(height: 2),
+            Text(
+              'Book · ${account.balance > 0 ? '+' : ''}'
+              '${account.balance.toStringAsFixed(2)} $sym',
+              style: TextStyle(
+                fontSize: 10,
+                color: cs.onSurfaceVariant,
+              ),
+            ),
+          ],
+          const SizedBox(height: 8),
+          HeroTwoColumnMetricsRow(
+            dividerColor: borderColor.withValues(alpha: 0.2),
+            leftColumn: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                chip(label: 'Week', active: dateFilter == 'week', onTap: () => onDateFilter(dateFilter == 'week' ? null : 'week')),
-                chip(label: 'Month', active: dateFilter == 'month', onTap: () => onDateFilter(dateFilter == 'month' ? null : 'month')),
-                chip(label: 'Year', active: dateFilter == 'year', onTap: () => onDateFilter(dateFilter == 'year' ? null : 'year')),
+                Text(
+                  'In',
+                  style: TextStyle(
+                    fontSize: AppHeroConstants.labelFontSize,
+                    color: cs.onSurfaceVariant,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: AppHeroConstants.labelToAmountGap),
+                Text(
+                  '+${totalIn.toStringAsFixed(2)} $baseSym',
+                  style: const TextStyle(
+                    fontSize: AppHeroConstants.primaryAmountFontSize,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF16A34A),
+                    letterSpacing: -1,
+                  ),
+                ),
               ],
             ),
-            if (dateFilter != null) ...[
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  _NavBtn(icon: Icons.chevron_left_rounded, onTap: () => onNavigateDate(-1)),
-                  const SizedBox(width: 10),
-                  Text(dateLabel,
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: cs.onSurface)),
-                  const SizedBox(width: 10),
-                  _NavBtn(icon: Icons.chevron_right_rounded, onTap: () => onNavigateDate(1)),
-                ],
-              ),
-            ],
-            if (allCategories.isNotEmpty) ...[
-              const SizedBox(height: 14),
-              sectionLabel('CATEGORY'),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 6,
-                runSpacing: 6,
-                children: allCategories
-                    .map((cat) => chip(
-                          label: cat,
-                          active: categoryFilter == cat,
-                          onTap: () => onCategoryFilter(categoryFilter == cat ? null : cat),
-                        ))
-                    .toList(),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _NavBtn extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onTap;
-  const _NavBtn({required this.icon, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 32,
-        height: 32,
-        decoration: BoxDecoration(
-          color: cs.primaryContainer.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.4)),
-        ),
-        child: Icon(icon, size: 18, color: cs.primary),
+            rightColumn: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Out',
+                  style: TextStyle(
+                    fontSize: AppHeroConstants.secondaryLabelFontSize,
+                    color: cs.onSurfaceVariant,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: AppHeroConstants.labelToAmountGap),
+                Text(
+                  '-${totalOut.toStringAsFixed(2)} $baseSym',
+                  style: const TextStyle(
+                    fontSize: AppHeroConstants.secondaryAmountFontSize,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFFDC2626),
+                    letterSpacing: -0.5,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
+          TrackPlanFilterChipRow(
+            panel: panel,
+            onTogglePanel: onTogglePanel,
+            typeFilter: typeFilter,
+            onCycleType: onCycleType,
+            dateModeLetter: dateModeLetter,
+            dateFilterActive: dateFilterActive,
+            onCycleDate: onCycleDate,
+            accountFilter: null,
+            categoryFilter: categoryFilter,
+            newestFirst: newestFirst,
+            onToggleSort: onToggleSort,
+            accountChipEnabled: false,
+          ),
+        ],
       ),
     );
   }

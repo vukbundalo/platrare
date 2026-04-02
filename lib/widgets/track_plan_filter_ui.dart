@@ -28,6 +28,9 @@ class TrackPlanFilterChipRow extends StatelessWidget {
   /// When false, chips stay visible but do not respond (e.g. Plan future snapshot).
   final bool enabled;
 
+  /// When false, the wallet chip is shown muted and non-interactive (single-account views).
+  final bool accountChipEnabled;
+
   const TrackPlanFilterChipRow({
     super.key,
     required this.panel,
@@ -43,6 +46,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
     required this.onToggleSort,
     this.invertSortChipActive = false,
     this.enabled = true,
+    this.accountChipEnabled = true,
   });
 
   IconData _typeMainIcon() {
@@ -150,13 +154,40 @@ class TrackPlanFilterChipRow extends StatelessWidget {
         const SizedBox(width: 6),
         mainDateChip(),
         const SizedBox(width: 6),
-        mainChip(
-          icon: Icons.account_balance_wallet_outlined,
-          active: accountFilter != null ||
-              panel == TrackPlanFilterPanel.account,
-          onTap: () => onTogglePanel(TrackPlanFilterPanel.account),
-          semanticsLabel: 'Account filter',
-        ),
+        accountChipEnabled
+            ? mainChip(
+                icon: Icons.account_balance_wallet_outlined,
+                active: accountFilter != null ||
+                    panel == TrackPlanFilterPanel.account,
+                onTap: () => onTogglePanel(TrackPlanFilterPanel.account),
+                semanticsLabel: 'Account filter',
+              )
+            : Expanded(
+                child: Tooltip(
+                  message: 'Already filtered to this account',
+                  child: Opacity(
+                    opacity: 0.45,
+                    child: IgnorePointer(
+                      child: ExcludeSemantics(
+                        child: Container(
+                          height: AppHeroConstants.filterChipHeight,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color:
+                                cs.primaryContainer.withValues(alpha: 0.5),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Icon(
+                            Icons.account_balance_wallet_outlined,
+                            size: 15,
+                            color: cs.onSurfaceVariant,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
         const SizedBox(width: 6),
         mainChip(
           icon: Icons.label_outline_rounded,
