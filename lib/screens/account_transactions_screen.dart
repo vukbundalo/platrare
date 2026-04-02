@@ -292,7 +292,6 @@ class _AccountTransactionsScreenState
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     _AccountTxHero(
-                      account: account,
                       totalIn: totals.totalIn,
                       totalOut: totals.totalOut,
                       panel: _filterPanel,
@@ -414,10 +413,9 @@ class _AccountTransactionsScreenState
   }
 }
 
-// ─── Hero (balance + period In/Out + Track-style chips) ─────────────────────
+// ─── Hero (period In/Out + Track-style chips) ─────────────────────────────────
 
 class _AccountTxHero extends StatelessWidget {
-  final Account account;
   final double totalIn;
   final double totalOut;
   final TrackPlanFilterPanel panel;
@@ -432,7 +430,6 @@ class _AccountTxHero extends StatelessWidget {
   final VoidCallback onToggleSort;
 
   const _AccountTxHero({
-    required this.account,
     required this.totalIn,
     required this.totalOut,
     required this.panel,
@@ -450,10 +447,6 @@ class _AccountTxHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final sym = fx.currencySymbol(account.currencyCode);
-    final mainAmt = account.hasOverdraftFacility
-        ? account.availableToSpend
-        : account.balance;
     final net = totalIn - totalOut;
     final borderColor =
         net >= 0 ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
@@ -470,27 +463,6 @@ class _AccountTxHero extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            '${account.hasOverdraftFacility ? 'Available' : 'Balance'} · '
-            '${mainAmt > 0 ? '+' : ''}${mainAmt.toStringAsFixed(2)} $sym',
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: cs.onSurfaceVariant,
-            ),
-          ),
-          if (account.hasOverdraftFacility) ...[
-            const SizedBox(height: 2),
-            Text(
-              'Book · ${account.balance > 0 ? '+' : ''}'
-              '${account.balance.toStringAsFixed(2)} $sym',
-              style: TextStyle(
-                fontSize: 10,
-                color: cs.onSurfaceVariant,
-              ),
-            ),
-          ],
-          const SizedBox(height: 8),
           HeroTwoColumnMetricsRow(
             dividerColor: borderColor.withValues(alpha: 0.2),
             leftColumn: Column(
