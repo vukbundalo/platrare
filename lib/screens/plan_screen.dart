@@ -162,6 +162,15 @@ class _PlanScreenState extends State<PlanScreen> {
     };
   }
 
+  /// Default list window when the date chip is on “this month” (calendar icon):
+  /// `[first day of this calendar month, first day of next month)`.
+  (DateTime, DateTime) get _currentMonthRange {
+    final now = DateTime.now();
+    final start = DateTime(now.year, now.month, 1);
+    final end = DateTime(now.year, now.month + 1, 1);
+    return (start, end);
+  }
+
   (DateTime, DateTime) get _dateRange {
     final a = _dateAnchor;
     return switch (_dateFilter) {
@@ -221,6 +230,10 @@ class _PlanScreenState extends State<PlanScreen> {
     Iterable<PlannedTransaction> source = data.plannedTransactions;
     if (_dateFilter != null) {
       final (start, end) = _dateRange;
+      source = source.where(
+          (pt) => !pt.date.isBefore(start) && pt.date.isBefore(end));
+    } else {
+      final (start, end) = _currentMonthRange;
       source = source.where(
           (pt) => !pt.date.isBefore(start) && pt.date.isBefore(end));
     }
