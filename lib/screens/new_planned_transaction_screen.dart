@@ -487,6 +487,7 @@ class _NewPlannedTransactionScreenState
                       _repeatInterval == RepeatInterval.yearly) ...[
                     const SizedBox(height: 12),
                     _WeekendAdjustmentPicker(
+                      nominalDate: DateUtils.dateOnly(_date),
                       value: _weekendAdjustment,
                       onChanged: (v) =>
                           setState(() => _weekendAdjustment = v),
@@ -753,41 +754,28 @@ class _RepeatPicker extends StatelessWidget {
 }
 
 class _WeekendAdjustmentPicker extends StatelessWidget {
+  final DateTime nominalDate;
   final WeekendAdjustment value;
   final ValueChanged<WeekendAdjustment> onChanged;
 
   const _WeekendAdjustmentPicker({
+    required this.nominalDate,
     required this.value,
     required this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
+    final datePhrase = DateFormat('d MMM y').format(nominalDate);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Icon(Icons.date_range_rounded, size: 16, color: cs.onSurfaceVariant),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                'If that day is a weekend',
-                style: Theme.of(context)
-                    .textTheme
-                    .labelLarge
-                    ?.copyWith(fontWeight: FontWeight.w600),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 4),
         Text(
-          'The date you pick is the day-of-month each period (e.g. the 15th). '
-          'This adjusts when it would fall on Saturday or Sunday.',
-          style: TextStyle(
-              fontSize: 12, color: cs.onSurfaceVariant, height: 1.35),
+          'If the $datePhrase falls on a weekend?',
+          style: Theme.of(context)
+              .textTheme
+              .labelLarge
+              ?.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
         Wrap(
