@@ -257,7 +257,7 @@ class _PlanScreenState extends State<PlanScreen> {
 
     HapticFeedback.mediumImpact();
     final nextAfterScheduled = earlyRepeat
-        ? nextOccurrence(pt.date, pt.repeatInterval)
+        ? nextPlannedEffectiveDate(pt, pt.date)
         : null;
     showDialog(
       context: context,
@@ -331,7 +331,7 @@ class _PlanScreenState extends State<PlanScreen> {
 
     // Auto-spawn the next occurrence for repeated transactions.
     if (pt.repeatInterval != RepeatInterval.none) {
-      final nextDate = nextOccurrence(pt.date, pt.repeatInterval);
+      final nextDate = nextPlannedEffectiveDate(pt, pt.date);
       data.plannedTransactions.add(PlannedTransaction(
         nativeAmount: pt.nativeAmount,
         currencyCode: pt.currencyCode,
@@ -343,6 +343,8 @@ class _PlanScreenState extends State<PlanScreen> {
         date: nextDate,
         txType: pt.txType,
         repeatInterval: pt.repeatInterval,
+        repeatDayOfMonth: pt.repeatDayOfMonth,
+        weekendAdjustment: pt.weekendAdjustment,
       ));
       data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
     }
@@ -447,7 +449,7 @@ class _PlanScreenState extends State<PlanScreen> {
         _delete(pt);
       } else {
         // Delete this occurrence and spawn the next one.
-        final nextDate = nextOccurrence(pt.date, pt.repeatInterval);
+        final nextDate = nextPlannedEffectiveDate(pt, pt.date);
         final spawned = PlannedTransaction(
           nativeAmount: pt.nativeAmount,
           currencyCode: pt.currencyCode,
@@ -459,6 +461,8 @@ class _PlanScreenState extends State<PlanScreen> {
           date: nextDate,
           txType: pt.txType,
           repeatInterval: pt.repeatInterval,
+          repeatDayOfMonth: pt.repeatDayOfMonth,
+          weekendAdjustment: pt.weekendAdjustment,
         );
         setState(() {
           data.plannedTransactions.remove(pt);

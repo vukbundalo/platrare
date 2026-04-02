@@ -29,6 +29,7 @@ class _NewPlannedTransactionScreenState
   String? _category;
   DateTime _date = DateTime.now().add(const Duration(days: 1));
   RepeatInterval _repeatInterval = RepeatInterval.none;
+  WeekendAdjustment _weekendAdjustment = WeekendAdjustment.ignore;
   bool _forceClose = false;
 
   bool get _isEdit => widget.existing != null;
@@ -42,8 +43,23 @@ class _NewPlannedTransactionScreenState
       if (_toAccount != e.toAccount) return true;
       if (_category != e.category) return true;
       if (_descriptionController.text.trim() != (e.description ?? '')) return true;
-      if (!DateUtils.dateOnly(_date).isAtSameMomentAs(DateUtils.dateOnly(e.date))) return true;
+      if (_repeatInterval == RepeatInterval.monthly ||
+          _repeatInterval == RepeatInterval.yearly) {
+        final newEff = applyWeekendAdjustment(
+            DateUtils.dateOnly(_date), _weekendAdjustment);
+        if (!DateUtils.dateOnly(newEff)
+            .isAtSameMomentAs(DateUtils.dateOnly(e.date))) {
+          return true;
+        }
+        if ((e.repeatDayOfMonth ?? e.date.day) != _date.day) return true;
+      } else {
+        if (!DateUtils.dateOnly(_date)
+            .isAtSameMomentAs(DateUtils.dateOnly(e.date))) {
+          return true;
+        }
+      }
       if (_repeatInterval != e.repeatInterval) return true;
+      if (_weekendAdjustment != e.weekendAdjustment) return true;
       return false;
     }
     return _amountController.text.trim().isNotEmpty ||
@@ -97,8 +113,22 @@ class _NewPlannedTransactionScreenState
       _fromAccount = e.fromAccount;
       _toAccount = e.toAccount;
       _category = e.category;
-      _date = e.date;
       _repeatInterval = e.repeatInterval;
+      _weekendAdjustment = e.weekendAdjustment;
+      if (e.repeatInterval == RepeatInterval.monthly ||
+          e.repeatInterval == RepeatInterval.yearly) {
+        final dom = e.repeatDayOfMonth ?? e.date.day;
+        var nominal =
+            dateWithDayInMonth(e.date.year, e.date.month, dom);
+        final expected = DateUtils.dateOnly(
+            applyWeekendAdjustment(nominal, e.weekendAdjustment));
+        if (expected != DateUtils.dateOnly(e.date)) {
+          nominal = DateUtils.dateOnly(e.date);
+        }
+        _date = nominal;
+      } else {
+        _date = e.date;
+      }
     }
   }
 
@@ -144,6 +174,12 @@ class _NewPlannedTransactionScreenState
     final type = _txType;
     final ccy = _fromAccount?.currencyCode ??
         _toAccount?.currencyCode ?? settings.baseCurrency;
+    final nominal = DateUtils.dateOnly(_date);
+    final isMonthYear = _repeatInterval == RepeatInterval.monthly ||
+        _repeatInterval == RepeatInterval.yearly;
+    final effectiveDate = isMonthYear
+        ? applyWeekendAdjustment(nominal, _weekendAdjustment)
+        : nominal;
     Navigator.pop(
       context,
       PlannedTransaction(
@@ -157,9 +193,12 @@ class _NewPlannedTransactionScreenState
         description: _descriptionController.text.trim().isEmpty
             ? null
             : _descriptionController.text.trim(),
-        date: _date,
+        date: effectiveDate,
         txType: type,
         repeatInterval: _repeatInterval,
+        repeatDayOfMonth: isMonthYear ? nominal.day : null,
+        weekendAdjustment:
+            isMonthYear ? _weekendAdjustment : WeekendAdjustment.ignore,
       ),
     );
   }
@@ -180,17 +219,28 @@ class _NewPlannedTransactionScreenState
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      builder: (ctx) => _AccountPickerSheet(exclude: exclude, date: _date),
+      builder: (ctx) =>
+          _AccountPickerSheet(exclude: exclude, date: _projectionDateForAccounts),
     );
+  }
+
+  /// Date used for projected balances (effective date, not nominal).
+  DateTime get _projectionDateForAccounts {
+    if (_repeatInterval == RepeatInterval.monthly ||
+        _repeatInterval == RepeatInterval.yearly) {
+      return applyWeekendAdjustment(
+          DateUtils.dateOnly(_date), _weekendAdjustment);
+    }
+    return _date;
   }
 
   String get _dateLabel {
     final today = DateUtils.dateOnly(DateTime.now());
     final tomorrow = today.add(const Duration(days: 1));
-    final selected = DateUtils.dateOnly(_date);
+    final selected = DateUtils.dateOnly(_projectionDateForAccounts);
     if (selected == today) return 'Today';
     if (selected == tomorrow) return 'Tomorrow';
-    return DateFormat('d MMM yyyy').format(_date);
+    return DateFormat('d MMM yyyy').format(selected);
   }
 
   TxType get _txType =>
@@ -212,7 +262,7 @@ class _NewPlannedTransactionScreenState
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final color = _amountColor;
-    final projected = proj.projectBalances(_date);
+    final projected = proj.projectBalances(_projectionDateForAccounts);
 
     return PopScope(
       canPop: !_isDirty || _forceClose,
@@ -425,8 +475,23 @@ class _NewPlannedTransactionScreenState
                   // Repeat interval
                   _RepeatPicker(
                     value: _repeatInterval,
-                    onChanged: (v) => setState(() => _repeatInterval = v),
+                    onChanged: (v) => setState(() {
+                      _repeatInterval = v;
+                      if (v != RepeatInterval.monthly &&
+                          v != RepeatInterval.yearly) {
+                        _weekendAdjustment = WeekendAdjustment.ignore;
+                      }
+                    }),
                   ),
+                  if (_repeatInterval == RepeatInterval.monthly ||
+                      _repeatInterval == RepeatInterval.yearly) ...[
+                    const SizedBox(height: 12),
+                    _WeekendAdjustmentPicker(
+                      value: _weekendAdjustment,
+                      onChanged: (v) =>
+                          setState(() => _weekendAdjustment = v),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -679,6 +744,61 @@ class _RepeatPicker extends StatelessWidget {
               avatar: r == RepeatInterval.none
                   ? null
                   : Icon(Icons.repeat_rounded, size: 14),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+}
+
+class _WeekendAdjustmentPicker extends StatelessWidget {
+  final WeekendAdjustment value;
+  final ValueChanged<WeekendAdjustment> onChanged;
+
+  const _WeekendAdjustmentPicker({
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(Icons.date_range_rounded, size: 16, color: cs.onSurfaceVariant),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                'If that day is a weekend',
+                style: Theme.of(context)
+                    .textTheme
+                    .labelLarge
+                    ?.copyWith(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        Text(
+          'The date you pick is the day-of-month each period (e.g. the 15th). '
+          'This adjusts when it would fall on Saturday or Sunday.',
+          style: TextStyle(
+              fontSize: 12, color: cs.onSurfaceVariant, height: 1.35),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 6,
+          children: WeekendAdjustment.values.map((w) {
+            final selected = value == w;
+            return FilterChip(
+              label: Text(weekendAdjustmentLabel(w)),
+              selected: selected,
+              onSelected: (_) => onChanged(w),
             );
           }).toList(),
         ),

@@ -123,11 +123,7 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
       pt.txType ??
       classifyTransaction(from: pt.fromAccount, to: pt.toAccount);
 
-  bool get _canConfirm {
-    if (pt.repeatInterval == RepeatInterval.none) return true;
-    return !DateUtils.dateOnly(pt.date)
-        .isAfter(DateUtils.dateOnly(DateTime.now()));
-  }
+  bool get _canConfirm => true;
 
   @override
   Widget build(BuildContext context) {
@@ -207,6 +203,22 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
                 value: repeatLabel(pt.repeatInterval),
                 color: color,
               ),
+            if (pt.repeatInterval == RepeatInterval.monthly ||
+                pt.repeatInterval == RepeatInterval.yearly) ...[
+              if (pt.repeatDayOfMonth != null)
+                _DetailRow(
+                  icon: Icons.event_repeat_rounded,
+                  label: 'Day of month',
+                  value: '${pt.repeatDayOfMonth}',
+                  color: color,
+                ),
+              _DetailRow(
+                icon: Icons.event_busy_outlined,
+                label: 'Weekends',
+                value: weekendAdjustmentLabel(pt.weekendAdjustment),
+                color: color,
+              ),
+            ],
             if (pt.destinationAmount != null)
               _DetailRow(
                 icon: Icons.currency_exchange_rounded,
