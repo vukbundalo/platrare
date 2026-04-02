@@ -13,9 +13,29 @@ import 'new_planned_transaction_screen.dart';
 import 'review_screen.dart';
 import 'settings_screen.dart';
 import 'transaction_detail_screen.dart';
+import '../widgets/track_plan_filter_ui.dart';
 
 const _kExpenseColor = Color(0xFFDC2626);
 const _kIncomeColor = Color(0xFF16A34A);
+
+const _kTypeIncome = 'income';
+const _kTypeExpense = 'expense';
+const _kTypeTransfer = 'transfer';
+
+bool _inGroup(TxType t, String group) => switch (group) {
+      _kTypeIncome =>
+        const {TxType.income, TxType.collection, TxType.loan, TxType.invoice}
+            .contains(t),
+      _kTypeExpense => const {
+          TxType.expense,
+          TxType.bill,
+          TxType.settlement,
+          TxType.advance,
+        }.contains(t),
+      _kTypeTransfer =>
+        const {TxType.transfer, TxType.offset}.contains(t),
+      _ => true,
+    };
 
 class PlanScreen extends StatefulWidget {
   final VoidCallback? onChanged;
@@ -26,9 +46,156 @@ class PlanScreen extends StatefulWidget {
 }
 
 class _PlanScreenState extends State<PlanScreen> {
+  /// Projection date for hero totals and per-account breakdown.
   DateTime _snapshotDate = DateUtils.dateOnly(DateTime.now());
   String? _typeFilter;
+  Account? _accountFilter;
+  String? _categoryFilter;
+  String? _dateFilter;
+  DateTime _dateAnchor = DateTime.now();
+  bool _newestFirst = true;
+  TrackPlanFilterPanel _planPanel = TrackPlanFilterPanel.none;
   bool _detailExpanded = false;
+
+  bool get _hasActiveFilter =>
+      _typeFilter != null ||
+      _accountFilter != null ||
+      _categoryFilter != null ||
+      _dateFilter != null ||
+      !_newestFirst;
+
+  void _clearFilters() => setState(() {
+        _typeFilter = null;
+        _accountFilter = null;
+        _categoryFilter = null;
+        _dateFilter = null;
+        _dateAnchor = DateTime.now();
+        _newestFirst = true;
+        _planPanel = TrackPlanFilterPanel.none;
+      });
+
+  void _togglePlanPanel(TrackPlanFilterPanel panel) => setState(() {
+        _planPanel = _planPanel == panel ? TrackPlanFilterPanel.none : panel;
+      });
+
+  void _cycleTypeFilter() => setState(() {
+        if (_typeFilter == null) {
+          _typeFilter = _kTypeIncome;
+        } else if (_typeFilter == _kTypeIncome) {
+          _typeFilter = _kTypeExpense;
+        } else if (_typeFilter == _kTypeExpense) {
+          _typeFilter = _kTypeTransfer;
+        } else {
+          _typeFilter = null;
+        }
+      });
+
+  void _cycleDateFilter() => setState(() {
+        _planPanel = TrackPlanFilterPanel.none;
+        if (_dateFilter == null) {
+          _dateFilter = 'month';
+          _dateAnchor = DateTime.now();
+        } else if (_dateFilter == 'month') {
+          _dateFilter = 'week';
+          _dateAnchor = DateTime.now();
+        } else if (_dateFilter == 'week') {
+          _dateFilter = 'year';
+          _dateAnchor = DateTime.now();
+        } else {
+          _dateFilter = null;
+        }
+      });
+
+  void _toggleSort() => setState(() => _newestFirst = !_newestFirst);
+
+  bool get _hasNavigableDateFilter =>
+      _dateFilter == 'week' ||
+      _dateFilter == 'month' ||
+      _dateFilter == 'year';
+
+  String? get _dateChipModeLetter => switch (_dateFilter) {
+        'month' => 'M',
+        'week' => 'W',
+        'year' => 'Y',
+        _ => null,
+      };
+
+  void _navigateDate(int direction) {
+    setState(() {
+      var next = switch (_dateFilter) {
+        'day' => DateTime(_dateAnchor.year, _dateAnchor.month,
+            _dateAnchor.day + direction),
+        'week' => DateTime(_dateAnchor.year, _dateAnchor.month,
+            _dateAnchor.day + direction * 7),
+        'month' => DateTime(_dateAnchor.year, _dateAnchor.month + direction,
+            _dateAnchor.day),
+        'year' => DateTime(_dateAnchor.year + direction, _dateAnchor.month,
+            _dateAnchor.day),
+        _ => _dateAnchor,
+      };
+      if (_dateFilter == 'day') {
+        final today = DateUtils.dateOnly(DateTime.now());
+        final n = DateUtils.dateOnly(next);
+        if (n.isAfter(today)) next = _dateAnchor;
+      }
+      _dateAnchor = next;
+    });
+  }
+
+  bool get _canNavigateDateForward {
+    final now = DateTime.now();
+    return switch (_dateFilter) {
+      'day' => DateUtils.dateOnly(_dateAnchor)
+          .isBefore(DateUtils.dateOnly(now)),
+      'week' => () {
+          final a = _dateAnchor;
+          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
+          final nMon =
+              DateTime(now.year, now.month, now.day - (now.weekday - 1));
+          return mon.isBefore(nMon);
+        }(),
+      'month' => DateTime(_dateAnchor.year, _dateAnchor.month)
+          .isBefore(DateTime(now.year, now.month)),
+      'year' => _dateAnchor.year < now.year,
+      _ => true,
+    };
+  }
+
+  (DateTime, DateTime) get _dateRange {
+    final a = _dateAnchor;
+    return switch (_dateFilter) {
+      'day' => (
+          DateTime(a.year, a.month, a.day),
+          DateTime(a.year, a.month, a.day + 1),
+        ),
+      'week' => () {
+          final mon =
+              DateTime(a.year, a.month, a.day - (a.weekday - 1));
+          return (mon, DateTime(mon.year, mon.month, mon.day + 7));
+        }(),
+      'month' => (DateTime(a.year, a.month), DateTime(a.year, a.month + 1)),
+      'year' => (DateTime(a.year), DateTime(a.year + 1)),
+      _ => (DateTime(0), DateTime(9999)),
+    };
+  }
+
+  String get _dateLabel {
+    final a = _dateAnchor;
+    return switch (_dateFilter) {
+      'day' => DateFormat('EEE, d MMM yyyy').format(a),
+      'week' => () {
+          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
+          final sun = DateTime(mon.year, mon.month, mon.day + 6);
+          final sameMon = mon.month == sun.month;
+          return sameMon
+              ? '${DateFormat('d').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}'
+              : '${DateFormat('d MMM').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}';
+        }(),
+      'month' => DateFormat('MMMM yyyy').format(a),
+      'year' => DateFormat('yyyy').format(a),
+      _ => '',
+    };
+  }
 
   Future<void> _pickSnapshotDate() async {
     final picked = await showDatePicker(
@@ -38,6 +205,40 @@ class _PlanScreenState extends State<PlanScreen> {
       lastDate: DateTime.now().add(const Duration(days: 1825)),
     );
     if (picked != null && mounted) setState(() => _snapshotDate = picked);
+  }
+
+  /// Snapshot is strictly after today — list filters and timeline are hidden.
+  bool get _isFutureProjection =>
+      DateUtils.dateOnly(_snapshotDate)
+          .isAfter(DateUtils.dateOnly(DateTime.now()));
+
+  void _clearProjectionToToday() => setState(() {
+        _snapshotDate = DateUtils.dateOnly(DateTime.now());
+      });
+
+  List<PlannedTransaction> get _filteredPlanned {
+    Iterable<PlannedTransaction> source = data.plannedTransactions;
+    if (_dateFilter != null) {
+      final (start, end) = _dateRange;
+      source = source.where(
+          (pt) => !pt.date.isBefore(start) && pt.date.isBefore(end));
+    }
+    if (_typeFilter != null) {
+      source = source.where((pt) {
+        final type = pt.txType ??
+            classifyTransaction(from: pt.fromAccount, to: pt.toAccount);
+        return _inGroup(type, _typeFilter!);
+      });
+    }
+    if (_accountFilter != null) {
+      final id = _accountFilter!.id;
+      source = source.where(
+          (pt) => pt.fromAccount?.id == id || pt.toAccount?.id == id);
+    }
+    if (_categoryFilter != null) {
+      source = source.where((pt) => pt.category == _categoryFilter);
+    }
+    return source.toList();
   }
 
   void _confirm(PlannedTransaction pt) {
@@ -311,33 +512,37 @@ class _PlanScreenState extends State<PlanScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final planned = _typeFilter == null
-        ? data.plannedTransactions
-        : data.plannedTransactions.where((pt) {
-            final type = pt.txType ??
-                classifyTransaction(
-                    from: pt.fromAccount, to: pt.toAccount);
-            if (_typeFilter == 'income') {
-              return type == TxType.income ||
-                  type == TxType.invoice ||
-                  type == TxType.collection;
-            } else if (_typeFilter == 'expense') {
-              return type == TxType.expense ||
-                  type == TxType.bill ||
-                  type == TxType.settlement ||
-                  type == TxType.advance;
-            } else if (_typeFilter == 'transfer') {
-              return type == TxType.transfer ||
-                  type == TxType.loan ||
-                  type == TxType.offset;
-            }
-            return true;
-          }).toList();
+    final planned = _filteredPlanned;
 
     // Compute once per build — used by both hero and detail card.
     final balances = proj.projectBalances(_snapshotDate);
     final snapshotPersonal = proj.personalTotal(balances);
     final snapshotNet = proj.netWorthInBase(balances);
+
+    Widget? fab;
+    if (data.accounts.isNotEmpty) {
+      if (_isFutureProjection) {
+        fab = FloatingActionButton.extended(
+          heroTag: 'plan_fab',
+          onPressed: _clearProjectionToToday,
+          icon: const Icon(Icons.today_rounded),
+          label: const Text('Clear projections'),
+        );
+      } else if (_hasActiveFilter) {
+        fab = FloatingActionButton.extended(
+          heroTag: 'plan_fab',
+          onPressed: _clearFilters,
+          icon: const Icon(Icons.filter_alt_off_rounded),
+          label: const Text('Clear filters'),
+        );
+      } else if (planned.isNotEmpty) {
+        fab = FloatingActionButton(
+          heroTag: 'plan_fab',
+          onPressed: _addPlanned,
+          child: const Icon(Icons.add_rounded),
+        );
+      }
+    }
 
     return Scaffold(
       body: CustomScrollView(
@@ -373,13 +578,24 @@ class _PlanScreenState extends State<PlanScreen> {
                     _ProjectionHero(
                       personal: snapshotPersonal,
                       net: snapshotNet,
-                      date: _snapshotDate,
-                      expanded: _detailExpanded,
-                      typeFilter: _typeFilter,
-                      onPickDate: _pickSnapshotDate,
-                      onToggle: () =>
+                      snapshotDate: _snapshotDate,
+                      isFutureSnapshot: _isFutureProjection,
+                      detailExpanded: _detailExpanded,
+                      showFilterChips: !_isFutureProjection,
+                      onPickSnapshotDate: _pickSnapshotDate,
+                      onTapBalance: () =>
                           setState(() => _detailExpanded = !_detailExpanded),
-                      onTypeFilter: (v) => setState(() => _typeFilter = v),
+                      panel: _planPanel,
+                      onTogglePanel: _togglePlanPanel,
+                      typeFilter: _typeFilter,
+                      onCycleType: _cycleTypeFilter,
+                      dateModeLetter: _dateChipModeLetter,
+                      dateFilterActive: _dateFilter != null,
+                      onCycleDate: _cycleDateFilter,
+                      accountFilter: _accountFilter,
+                      categoryFilter: _categoryFilter,
+                      newestFirst: _newestFirst,
+                      onToggleSort: _toggleSort,
                     ),
                   ],
                 ),
@@ -387,41 +603,73 @@ class _PlanScreenState extends State<PlanScreen> {
             ),
           ),
 
-          // Expanded per-account detail card
-          if (_detailExpanded)
+          if (!_isFutureProjection &&
+              _hasNavigableDateFilter &&
+              _planPanel == TrackPlanFilterPanel.none)
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                child: TrackPlanDateNavBar(
+                  label: _dateLabel,
+                  onNavigateBack: () => _navigateDate(-1),
+                  onNavigateForward: _canNavigateDateForward
+                      ? () => _navigateDate(1)
+                      : null,
+                ),
+              ),
+            ),
+          if (!_isFutureProjection && _planPanel != TrackPlanFilterPanel.none)
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
+                child: TrackPlanFilterStrip(
+                  panel: _planPanel,
+                  accounts: data.accounts,
+                  accountFilter: _accountFilter,
+                  onAccountFilter: (a) => setState(() => _accountFilter = a),
+                  categories: <String>{
+                    ...data.incomeCategories,
+                    ...data.expenseCategories,
+                  }.toList()
+                    ..sort(),
+                  categoryFilter: _categoryFilter,
+                  onCategoryFilter: (c) => setState(() => _categoryFilter = c),
+                ),
+              ),
+            ),
+
+          if (_isFutureProjection || _detailExpanded)
             SliverToBoxAdapter(
               child: _ProjectionDetailCard(balances: balances),
             ),
-          if (planned.isEmpty)
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: data.accounts.isEmpty
-                  ? _EmptyState(
-                      onAdd: _addAccount,
-                      hasAccounts: false,
-                    )
-                  : _EmptyState(
-                      onAdd: _addPlanned,
-                      hasAccounts: true,
-                    ),
-            )
-          else
-            _PlanTimeline(
-              planned: planned,
-              onConfirm: _confirm,
-              onDelete: _deleteWithRepeatChoice,
-              onEdit: _edit,
-              onTap: _openPlannedDetail,
-            ),
+          if (!_isFutureProjection)
+            if (planned.isEmpty)
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: data.accounts.isEmpty
+                    ? _EmptyState(
+                        onAdd: _addAccount,
+                        hasAccounts: false,
+                      )
+                    : _EmptyState(
+                        onAdd: _addPlanned,
+                        hasAccounts: true,
+                      ),
+              )
+            else
+              _PlanTimeline(
+                planned: planned,
+                newestFirst: _newestFirst,
+                onConfirm: _confirm,
+                onDelete: _deleteWithRepeatChoice,
+                onEdit: _edit,
+                onTap: _openPlannedDetail,
+              ),
+          if (_isFutureProjection)
+            const SliverToBoxAdapter(child: SizedBox(height: 88)),
         ],
       ),
-      floatingActionButton: planned.isEmpty
-          ? null
-          : FloatingActionButton(
-              heroTag: 'plan_fab',
-              onPressed: _addPlanned,
-              child: const Icon(Icons.add),
-            ),
+      floatingActionButton: fab,
     );
   }
 }
@@ -429,22 +677,45 @@ class _PlanScreenState extends State<PlanScreen> {
 class _ProjectionHero extends StatelessWidget {
   final double personal;
   final double net;
-  final DateTime date;
-  final bool expanded;
+  final DateTime snapshotDate;
+  /// Future snapshot: balances-only mode below; amount is not tappable.
+  final bool isFutureSnapshot;
+  final bool detailExpanded;
+  final bool showFilterChips;
+  final VoidCallback onPickSnapshotDate;
+  final VoidCallback onTapBalance;
+  final TrackPlanFilterPanel panel;
+  final void Function(TrackPlanFilterPanel) onTogglePanel;
   final String? typeFilter;
-  final VoidCallback onPickDate;
-  final VoidCallback onToggle;
-  final ValueChanged<String?> onTypeFilter;
+  final VoidCallback onCycleType;
+  final String? dateModeLetter;
+  final bool dateFilterActive;
+  final VoidCallback onCycleDate;
+  final Account? accountFilter;
+  final String? categoryFilter;
+  final bool newestFirst;
+  final VoidCallback onToggleSort;
 
   const _ProjectionHero({
     required this.personal,
     required this.net,
-    required this.date,
-    required this.expanded,
+    required this.snapshotDate,
+    required this.isFutureSnapshot,
+    required this.detailExpanded,
+    required this.showFilterChips,
+    required this.onPickSnapshotDate,
+    required this.onTapBalance,
+    required this.panel,
+    required this.onTogglePanel,
     required this.typeFilter,
-    required this.onPickDate,
-    required this.onToggle,
-    required this.onTypeFilter,
+    required this.onCycleType,
+    required this.dateModeLetter,
+    required this.dateFilterActive,
+    required this.onCycleDate,
+    required this.accountFilter,
+    required this.categoryFilter,
+    required this.newestFirst,
+    required this.onToggleSort,
   });
 
   @override
@@ -460,43 +731,6 @@ class _ProjectionHero extends StatelessWidget {
     final netColor =
         netPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
 
-    Widget filterChip(String key, IconData icon) {
-      final active = typeFilter == key;
-      return GestureDetector(
-        onTap: () => onTypeFilter(active ? null : key),
-        child: Container(
-          height: 30,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: active
-                ? cs.primary.withValues(alpha: 0.15)
-                : cs.primaryContainer.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Icon(icon, size: 15,
-              color: active ? cs.primary : cs.onSurfaceVariant),
-        ),
-      );
-    }
-
-    Widget actionChip({required IconData icon, required bool active, required VoidCallback onTap}) {
-      return GestureDetector(
-        onTap: onTap,
-        child: Container(
-          height: 30,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: active
-                ? cs.primary.withValues(alpha: 0.15)
-                : cs.primaryContainer.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Icon(icon, size: 15,
-              color: active ? cs.primary : cs.onSurfaceVariant),
-        ),
-      );
-    }
-
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
       decoration: BoxDecoration(
@@ -507,35 +741,93 @@ class _ProjectionHero extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Balance / Net row
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Projected Balance',
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: cs.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
-                    const SizedBox(height: 2),
-                    Text(
-                      '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.w800,
-                        color: personalColor,
-                        letterSpacing: -1,
+                    Semantics(
+                      label:
+                          'Projection date ${DateFormat('EEE, d MMM yyyy').format(snapshotDate)}. Double tap to choose date',
+                      button: true,
+                      child: InkWell(
+                        onTap: onPickSnapshotDate,
+                        borderRadius: BorderRadius.circular(8),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  DateFormat('EEE, d MMM yyyy')
+                                      .format(snapshotDate),
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: cs.onSurface,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              Icon(
+                                Icons.calendar_today_outlined,
+                                size: 14,
+                                color: cs.primary,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
+                    if (isFutureSnapshot)
+                      Semantics(
+                        label:
+                            'Projected personal balance ${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2),
+                          child: Text(
+                            '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.w800,
+                              color: personalColor,
+                              letterSpacing: -1,
+                            ),
+                          ),
+                        ),
+                      )
+                    else
+                      Semantics(
+                        label: detailExpanded
+                            ? 'Hide projected balances by account'
+                            : 'Show projected balances by account',
+                        button: true,
+                        child: InkWell(
+                          onTap: onTapBalance,
+                          borderRadius: BorderRadius.circular(8),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 2),
+                            child: Text(
+                              '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
+                              style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.w800,
+                                color: personalColor,
+                                letterSpacing: -1,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),
               Container(
                 width: 1,
-                height: 44,
+                height: 48,
                 color: borderColor.withValues(alpha: 0.2),
                 margin: const EdgeInsets.symmetric(horizontal: 16),
               ),
@@ -562,35 +854,22 @@ class _ProjectionHero extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
-          // 5 equal chips
-          Row(
-            children: [
-              Expanded(child: filterChip('income', Icons.arrow_downward_rounded)),
-              const SizedBox(width: 6),
-              Expanded(child: filterChip('expense', Icons.arrow_upward_rounded)),
-              const SizedBox(width: 6),
-              Expanded(child: filterChip('transfer', Icons.swap_horiz_rounded)),
-              const SizedBox(width: 6),
-              Expanded(
-                child: actionChip(
-                  icon: Icons.calendar_today_rounded,
-                  active: DateUtils.dateOnly(date) != DateUtils.dateOnly(DateTime.now()),
-                  onTap: onPickDate,
-                ),
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: actionChip(
-                  icon: expanded
-                      ? Icons.keyboard_arrow_up_rounded
-                      : Icons.keyboard_arrow_down_rounded,
-                  active: expanded,
-                  onTap: onToggle,
-                ),
-              ),
-            ],
-          ),
+          if (showFilterChips) ...[
+            const SizedBox(height: 10),
+            TrackPlanFilterChipRow(
+              panel: panel,
+              onTogglePanel: onTogglePanel,
+              typeFilter: typeFilter,
+              onCycleType: onCycleType,
+              dateModeLetter: dateModeLetter,
+              dateFilterActive: dateFilterActive,
+              onCycleDate: onCycleDate,
+              accountFilter: accountFilter,
+              categoryFilter: categoryFilter,
+              newestFirst: newestFirst,
+              onToggleSort: onToggleSort,
+            ),
+          ],
         ],
       ),
     );
@@ -739,6 +1018,7 @@ class _EmptyState extends StatelessWidget {
 
 class _PlanTimeline extends StatelessWidget {
   final List<PlannedTransaction> planned;
+  final bool newestFirst;
   final void Function(PlannedTransaction) onConfirm;
   final void Function(PlannedTransaction) onDelete;
   final void Function(PlannedTransaction) onEdit;
@@ -746,6 +1026,7 @@ class _PlanTimeline extends StatelessWidget {
 
   const _PlanTimeline({
     required this.planned,
+    required this.newestFirst,
     required this.onConfirm,
     required this.onDelete,
     required this.onEdit,
@@ -759,7 +1040,13 @@ class _PlanTimeline extends StatelessWidget {
       final key = DateFormat('yyyy-MM-dd').format(pt.date);
       grouped.putIfAbsent(key, () => []).add(pt);
     }
-    final days = grouped.keys.toList()..sort();
+    for (final list in grouped.values) {
+      list.sort((a, b) => newestFirst
+          ? b.date.compareTo(a.date)
+          : a.date.compareTo(b.date));
+    }
+    final days = grouped.keys.toList()
+      ..sort((a, b) => newestFirst ? b.compareTo(a) : a.compareTo(b));
 
     return SliverPadding(
       padding: const EdgeInsets.only(bottom: 100),

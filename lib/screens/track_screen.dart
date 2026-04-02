@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +12,7 @@ import 'new_transaction_screen.dart';
 import 'review_screen.dart' show AccountFormSheet;
 import 'settings_screen.dart';
 import 'transaction_detail_screen.dart';
+import '../widgets/track_plan_filter_ui.dart';
 
 class TrackScreen extends StatefulWidget {
   final VoidCallback? onChanged;
@@ -35,8 +34,6 @@ bool _inGroup(TxType t, String group) => switch (group) {
   _ => true,
 };
 
-enum _TrackFilterPanel { none, account, category }
-
 class _TrackScreenState extends State<TrackScreen> {
   // ── Pagination ──────────────────────────────────────────────────────────────
   final _scrollController = ScrollController();
@@ -49,7 +46,7 @@ class _TrackScreenState extends State<TrackScreen> {
   String? _dateFilter;
   DateTime _dateAnchor = DateTime.now();
   bool _newestFirst = true;
-  _TrackFilterPanel _trackPanel = _TrackFilterPanel.none;
+  TrackPlanFilterPanel _trackPanel = TrackPlanFilterPanel.none;
 
   bool get _hasActiveFilter =>
       _typeFilter != null ||
@@ -65,11 +62,11 @@ class _TrackScreenState extends State<TrackScreen> {
         _dateFilter = null;
         _dateAnchor = DateTime.now();
         _newestFirst = true;
-        _trackPanel = _TrackFilterPanel.none;
+        _trackPanel = TrackPlanFilterPanel.none;
       });
 
-  void _toggleTrackPanel(_TrackFilterPanel panel) => setState(() {
-        _trackPanel = _trackPanel == panel ? _TrackFilterPanel.none : panel;
+  void _toggleTrackPanel(TrackPlanFilterPanel panel) => setState(() {
+        _trackPanel = _trackPanel == panel ? TrackPlanFilterPanel.none : panel;
       });
 
   void _cycleTypeFilter() => setState(() {
@@ -86,8 +83,8 @@ class _TrackScreenState extends State<TrackScreen> {
 
   /// Cycles: this month (null) → navigable month → week → year → null.
   /// Closes account/category strip so date nav is the only secondary UI.
-  void _cycleDateFilter() => setState(() {
-        _trackPanel = _TrackFilterPanel.none;
+  void _cycleDateFilter() =>     setState(() {
+        _trackPanel = TrackPlanFilterPanel.none;
         if (_dateFilter == null) {
           _dateFilter = 'month';
           _dateAnchor = DateTime.now();
@@ -396,11 +393,11 @@ class _TrackScreenState extends State<TrackScreen> {
           ),
         ),
         if (_hasNavigableDateFilter &&
-            _trackPanel == _TrackFilterPanel.none)
+            _trackPanel == TrackPlanFilterPanel.none)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-              child: _TrackDateNavBar(
+              child: TrackPlanDateNavBar(
                 label: _dateLabel,
                 onNavigateBack: () => _navigateDate(-1),
                 onNavigateForward: _canNavigateDateForward
@@ -409,11 +406,11 @@ class _TrackScreenState extends State<TrackScreen> {
               ),
             ),
           ),
-        if (_trackPanel != _TrackFilterPanel.none)
+        if (_trackPanel != TrackPlanFilterPanel.none)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
-              child: _TrackFilterStrip(
+              child: TrackPlanFilterStrip(
                 panel: _trackPanel,
                 accounts: data.accounts,
                 accountFilter: _accountFilter,
@@ -564,11 +561,11 @@ class _TrackScreenState extends State<TrackScreen> {
           ),
         ),
         if (_hasNavigableDateFilter &&
-            _trackPanel == _TrackFilterPanel.none)
+            _trackPanel == TrackPlanFilterPanel.none)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-              child: _TrackDateNavBar(
+              child: TrackPlanDateNavBar(
                 label: _dateLabel,
                 onNavigateBack: () => _navigateDate(-1),
                 onNavigateForward: _canNavigateDateForward
@@ -577,11 +574,11 @@ class _TrackScreenState extends State<TrackScreen> {
               ),
             ),
           ),
-        if (_trackPanel != _TrackFilterPanel.none)
+        if (_trackPanel != TrackPlanFilterPanel.none)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
-              child: _TrackFilterStrip(
+              child: TrackPlanFilterStrip(
                 panel: _trackPanel,
                 accounts: data.accounts,
                 accountFilter: _accountFilter,
@@ -669,8 +666,8 @@ class _TrackScreenState extends State<TrackScreen> {
 class _TrackHero extends StatelessWidget {
   final double totalIn;
   final double totalOut;
-  final _TrackFilterPanel panel;
-  final void Function(_TrackFilterPanel) onTogglePanel;
+  final TrackPlanFilterPanel panel;
+  final void Function(TrackPlanFilterPanel) onTogglePanel;
   final String? typeFilter;
   final VoidCallback onCycleType;
   /// `M` / `W` / `Y` when that period mode is active; null → calendar icon.
@@ -698,13 +695,6 @@ class _TrackHero extends StatelessWidget {
     required this.onToggleSort,
   });
 
-  IconData _typeMainIcon() {
-    if (typeFilter == null) return Icons.filter_list_rounded;
-    if (typeFilter == _kTypeIncome) return Icons.south_west_rounded;
-    if (typeFilter == _kTypeExpense) return Icons.north_east_rounded;
-    return Icons.swap_horiz_rounded;
-  }
-
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
@@ -713,82 +703,6 @@ class _TrackHero extends StatelessWidget {
     final borderColor =
         netPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
     final sym = fx.currencySymbol(settings.baseCurrency);
-
-    Widget mainChip({
-      required IconData icon,
-      required bool active,
-      required VoidCallback onTap,
-      String? semanticsLabel,
-    }) {
-      final chip = GestureDetector(
-        onTap: onTap,
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          height: 30,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: active
-                ? cs.primary.withValues(alpha: 0.15)
-                : cs.primaryContainer.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Icon(icon, size: 15,
-              color: active ? cs.primary : cs.onSurfaceVariant),
-        ),
-      );
-      return Expanded(
-        child: semanticsLabel == null
-            ? chip
-            : Semantics(
-                label: semanticsLabel,
-                button: true,
-                child: chip,
-              ),
-      );
-    }
-
-    Widget mainDateChip() {
-      final active = dateFilterActive;
-      final letter = dateModeLetter;
-      final chip = GestureDetector(
-        onTap: onCycleDate,
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          height: 30,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: active
-                ? cs.primary.withValues(alpha: 0.15)
-                : cs.primaryContainer.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: letter != null
-              ? Text(
-                  letter,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                    color: active ? cs.primary : cs.onSurfaceVariant,
-                  ),
-                )
-              : Icon(
-                  Icons.calendar_today_outlined,
-                  size: 15,
-                  color: active ? cs.primary : cs.onSurfaceVariant,
-                ),
-        ),
-      );
-      final semantics = letter != null
-          ? 'Date: ${letter == 'M' ? 'month' : letter == 'W' ? 'week' : 'year'} — tap to change mode'
-          : 'Date: this month — tap for month, week, or year mode';
-      return Expanded(
-        child: Semantics(
-          label: semantics,
-          button: true,
-          child: chip,
-        ),
-      );
-    }
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
@@ -855,329 +769,20 @@ class _TrackHero extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          Row(
-            children: [
-              mainChip(
-                icon: _typeMainIcon(),
-                active: typeFilter != null,
-                onTap: onCycleType,
-                semanticsLabel: 'Transaction type: cycle all, income, expense, transfer',
-              ),
-              const SizedBox(width: 6),
-              mainDateChip(),
-              const SizedBox(width: 6),
-              mainChip(
-                icon: Icons.account_balance_wallet_outlined,
-                active: accountFilter != null ||
-                    panel == _TrackFilterPanel.account,
-                onTap: () => onTogglePanel(_TrackFilterPanel.account),
-                semanticsLabel: 'Account filter',
-              ),
-              const SizedBox(width: 6),
-              mainChip(
-                icon: Icons.label_outline_rounded,
-                active: categoryFilter != null ||
-                    panel == _TrackFilterPanel.category,
-                onTap: () => onTogglePanel(_TrackFilterPanel.category),
-                semanticsLabel: 'Category filter',
-              ),
-              const SizedBox(width: 6),
-              mainChip(
-                icon: newestFirst
-                    ? Icons.arrow_downward_rounded
-                    : Icons.arrow_upward_rounded,
-                active: !newestFirst,
-                onTap: onToggleSort,
-                semanticsLabel: 'Sort: toggle newest or oldest first',
-              ),
-            ],
+          TrackPlanFilterChipRow(
+            panel: panel,
+            onTogglePanel: onTogglePanel,
+            typeFilter: typeFilter,
+            onCycleType: onCycleType,
+            dateModeLetter: dateModeLetter,
+            dateFilterActive: dateFilterActive,
+            onCycleDate: onCycleDate,
+            accountFilter: accountFilter,
+            categoryFilter: categoryFilter,
+            newestFirst: newestFirst,
+            onToggleSort: onToggleSort,
           ),
         ],
-      ),
-    );
-  }
-}
-
-// ─── Date nav (below hero): arrows only; label is not interactive ────────────
-
-class _TrackDateNavBar extends StatelessWidget {
-  final String label;
-  final VoidCallback onNavigateBack;
-  final VoidCallback? onNavigateForward;
-
-  const _TrackDateNavBar({
-    required this.label,
-    required this.onNavigateBack,
-    required this.onNavigateForward,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return Row(
-      children: [
-        _NavButton(
-          icon: Icons.chevron_left_rounded,
-          onTap: onNavigateBack,
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-            child: Text(
-              label,
-              textAlign: TextAlign.center,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: cs.onSurface,
-              ),
-            ),
-          ),
-        ),
-        _NavButton(
-          icon: Icons.chevron_right_rounded,
-          onTap: onNavigateForward,
-        ),
-      ],
-    );
-  }
-}
-
-// ─── Account / category: same 30px stadium pills as Track hero chips ─────────
-
-/// [TextPainter.width] can be slightly tight vs painted glyphs; add slack so
-/// the last letter is not clipped at the pill edge.
-const _kTrackChipTextSlop = 5.0;
-
-/// Same colors as [_TrackHero] chips. One-line width = full label + padding
-/// when it fits [stripMaxWidth]; otherwise wraps (no ellipsis) so text is
-/// never clipped with "…".
-Widget _trackNamePill(
-  BuildContext context, {
-  required String label,
-  required bool selected,
-  required VoidCallback onTap,
-  required double stripMaxWidth,
-  String? semanticsLabel,
-}) {
-  final cs = Theme.of(context).colorScheme;
-  const padH = 12.0;
-  final style = TextStyle(
-    fontSize: 11,
-    fontWeight: FontWeight.w700,
-    color: selected ? cs.primary : cs.onSurfaceVariant,
-    height: 1.1,
-  );
-  final fill = selected
-      ? cs.primary.withValues(alpha: 0.15)
-      : cs.primaryContainer.withValues(alpha: 0.5);
-  final radius = BorderRadius.circular(20);
-
-  final oneLine = TextPainter(
-    text: TextSpan(text: label, style: style),
-    maxLines: 1,
-    textDirection: Directionality.of(context),
-    textScaler: MediaQuery.textScalerOf(context),
-  )..layout(maxWidth: double.infinity);
-
-  final chipWOneLine =
-      oneLine.width.ceilToDouble() + 2 * padH + _kTrackChipTextSlop;
-  final fitsOneLine = chipWOneLine <= stripMaxWidth;
-
-  late final Widget inner;
-  if (fitsOneLine) {
-    inner = GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: SizedBox(
-        width: math.max(36.0, chipWOneLine),
-        height: 30,
-        child: DecoratedBox(
-          decoration: BoxDecoration(color: fill, borderRadius: radius),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: padH),
-            child: Center(
-              child: Text(
-                label,
-                maxLines: 1,
-                softWrap: false,
-                style: style,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  } else {
-    inner = GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: stripMaxWidth),
-        child: DecoratedBox(
-          decoration: BoxDecoration(color: fill, borderRadius: radius),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: padH, vertical: 7),
-            child: Text(
-              label,
-              style: style,
-              softWrap: true,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  if (semanticsLabel == null) return inner;
-  return Semantics(
-    label: semanticsLabel,
-    button: true,
-    selected: selected,
-    child: inner,
-  );
-}
-
-class _TrackFilterStrip extends StatelessWidget {
-  final _TrackFilterPanel panel;
-  final List<Account> accounts;
-  final Account? accountFilter;
-  final void Function(Account?) onAccountFilter;
-  final List<String> categories;
-  final String? categoryFilter;
-  final void Function(String?) onCategoryFilter;
-
-  const _TrackFilterStrip({
-    required this.panel,
-    required this.accounts,
-    required this.accountFilter,
-    required this.onAccountFilter,
-    required this.categories,
-    required this.categoryFilter,
-    required this.onCategoryFilter,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final accountsSorted = List<Account>.from(accounts)
-      ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-
-    Widget accountSection() {
-      return LayoutBuilder(
-        builder: (context, c) {
-          final stripW = c.maxWidth;
-          return Wrap(
-            spacing: 4,
-            runSpacing: 4,
-            alignment: WrapAlignment.start,
-            crossAxisAlignment: WrapCrossAlignment.start,
-            children: [
-              _trackNamePill(
-                context,
-                label: 'All',
-                selected: accountFilter == null,
-                stripMaxWidth: stripW,
-                onTap: () => onAccountFilter(null),
-                semanticsLabel: 'All accounts',
-              ),
-              for (final a in accountsSorted)
-                _trackNamePill(
-                  context,
-                  label: a.name,
-                  selected: accountFilter?.id == a.id,
-                  stripMaxWidth: stripW,
-                  onTap: () {
-                    if (accountFilter?.id == a.id) {
-                      onAccountFilter(null);
-                    } else {
-                      onAccountFilter(a);
-                    }
-                  },
-                  semanticsLabel: a.name,
-                ),
-            ],
-          );
-        },
-      );
-    }
-
-    Widget categorySection() {
-      return LayoutBuilder(
-        builder: (context, c) {
-          final stripW = c.maxWidth;
-          return Wrap(
-            spacing: 4,
-            runSpacing: 4,
-            alignment: WrapAlignment.start,
-            crossAxisAlignment: WrapCrossAlignment.start,
-            children: [
-              _trackNamePill(
-                context,
-                label: 'All',
-                selected: categoryFilter == null,
-                stripMaxWidth: stripW,
-                onTap: () => onCategoryFilter(null),
-                semanticsLabel: 'All categories',
-              ),
-              for (final cat in categories)
-                _trackNamePill(
-                  context,
-                  label: cat,
-                  selected: categoryFilter == cat,
-                  stripMaxWidth: stripW,
-                  onTap: () {
-                    if (categoryFilter == cat) {
-                      onCategoryFilter(null);
-                    } else {
-                      onCategoryFilter(cat);
-                    }
-                  },
-                  semanticsLabel: cat,
-                ),
-            ],
-          );
-        },
-      );
-    }
-
-    return switch (panel) {
-      _TrackFilterPanel.account => accountSection(),
-      _TrackFilterPanel.category => categorySection(),
-      _TrackFilterPanel.none => const SizedBox.shrink(),
-    };
-  }
-}
-
-class _NavButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback? onTap;
-  const _NavButton({required this.icon, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final enabled = onTap != null;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 32,
-        height: 32,
-        decoration: BoxDecoration(
-          color: enabled
-              ? cs.primaryContainer.withValues(alpha: 0.5)
-              : cs.surfaceContainerHighest.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.4)),
-        ),
-        child: Icon(
-          icon,
-          size: 18,
-          color: enabled ? cs.primary : cs.onSurfaceVariant.withValues(alpha: 0.35),
-        ),
       ),
     );
   }
