@@ -282,7 +282,11 @@ class _TrackScreenState extends State<TrackScreen> {
       builder: (ctx) => const AccountFormSheet(),
     );
     if (result != null) {
-      setState(() => data.accounts.add(result));
+      setState(() {
+        if (!data.accounts.contains(result)) {
+          data.accounts.add(result);
+        }
+      });
       widget.onChanged?.call();
     }
   }

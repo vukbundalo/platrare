@@ -5,7 +5,9 @@ import 'package:intl/intl.dart';
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
+import '../utils/balance_correction.dart';
 import '../utils/fx.dart' as fx;
+import '../utils/tx_display.dart';
 import 'account_transactions_screen.dart';
 import 'settings_screen.dart';
 import '../widgets/app_hero_layout.dart';
@@ -2435,6 +2437,37 @@ class _EmptyAccountsHint extends StatelessWidget {
 
 // ─── Account Form Sheet ───────────────────────────────────────────────────────
 
+Future<void> _showBalanceCorrectionDialog(
+  BuildContext context, {
+  required double previousBook,
+  required double newBook,
+  required Account account,
+  required BalanceCorrectionResult correction,
+}) async {
+  final sym = fx.currencySymbol(account.currencyCode);
+  final label = txLabel(correction.type!).toLowerCase();
+  await showDialog<void>(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      title: const Text('Balance adjusted in Track'),
+      content: Text(
+        'Real balance was updated from ${previousBook.toStringAsFixed(2)} to '
+        '${newBook.toStringAsFixed(2)} $sym.\n\n'
+        'A matching $label of ${fx.formatNative(correction.amount!, account.currencyCode)} '
+        'was added to History (category: Balance adjustment) so your running balance '
+        'stays consistent with your transactions.',
+      ),
+      actions: [
+        FilledButton(
+          onPressed: () => Navigator.pop(ctx),
+          child: const Text('OK'),
+        ),
+      ],
+    ),
+  );
+}
+
 class AccountFormSheet extends StatefulWidget {
   final Account? account;
   const AccountFormSheet({super.key, this.account});
@@ -2538,7 +2571,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
     if (result != null) setState(() => _currencyCode = result);
   }
 
-  void _save() {
+  Future<void> _save() async {
     final name = _nameController.text.trim();
     if (name.isEmpty) return;
     final balance = double.tryParse(
@@ -2546,11 +2579,31 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
         0.0;
     final overdraft = _parseOverdraftLimit();
     if (widget.account != null) {
-      widget.account!.name = name;
-      widget.account!.balance = balance;
-      widget.account!.group = _group;
-      widget.account!.overdraftLimit = overdraft;
-      Navigator.pop(context, false);
+      final acc = widget.account!;
+      final previousBook = acc.balance;
+      acc.name = name;
+      acc.group = _group;
+      acc.overdraftLimit = overdraft;
+
+      final correction = applyLedgerBalanceCorrection(
+        account: acc,
+        previousBookBalance: previousBook,
+        newBookBalance: balance,
+      );
+      if (!correction.inserted) {
+        acc.balance = balance;
+      }
+      HapticFeedback.lightImpact();
+      if (mounted && correction.inserted) {
+        await _showBalanceCorrectionDialog(
+          context,
+          previousBook: previousBook,
+          newBook: balance,
+          account: acc,
+          correction: correction,
+        );
+      }
+      if (mounted) Navigator.pop(context, acc);
     } else {
       Navigator.pop(
         context,
@@ -2726,7 +2779,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
               ),
               const SizedBox(height: 20),
               FilledButton(
-                onPressed: _save,
+                onPressed: () => _save(),
                 style: FilledButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14)),
@@ -2860,7 +2913,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
     });
   }
 
-  void _save() {
+  Future<void> _save() async {
     final name = _nameController.text.trim();
     if (name.isEmpty) return;
     final balance =
@@ -2868,10 +2921,31 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
             0.0;
     final overdraft = _parseOverdraftLimit();
     if (_isEdit) {
-      widget.existing!.name = name;
-      widget.existing!.balance = balance;
-      widget.existing!.group = _group;
-      widget.existing!.overdraftLimit = overdraft;
+      final acc = widget.existing!;
+      final previousBook = acc.balance;
+      acc.name = name;
+      acc.group = _group;
+      acc.overdraftLimit = overdraft;
+
+      final correction = applyLedgerBalanceCorrection(
+        account: acc,
+        previousBookBalance: previousBook,
+        newBookBalance: balance,
+      );
+      if (!correction.inserted) {
+        acc.balance = balance;
+      }
+      HapticFeedback.lightImpact();
+      if (mounted && correction.inserted) {
+        await _showBalanceCorrectionDialog(
+          context,
+          previousBook: previousBook,
+          newBook: balance,
+          account: acc,
+          correction: correction,
+        );
+      }
+      if (mounted) Navigator.pop(context, true);
     } else {
       data.accounts.add(Account(
         name: name,
@@ -2880,9 +2954,9 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
         overdraftLimit: overdraft,
         currencyCode: _currencyCode,
       ));
+      HapticFeedback.lightImpact();
+      if (mounted) Navigator.pop(context, true);
     }
-    HapticFeedback.lightImpact();
-    Navigator.pop(context, true);
   }
 
   void _confirmDelete() {
@@ -3049,7 +3123,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                         width: 0.5)),
               ),
               child: FilledButton(
-                onPressed: _canSave ? _save : null,
+                onPressed: _canSave ? () => _save() : null,
                 style: FilledButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14)),
