@@ -415,6 +415,14 @@ List<Transaction> _buildSeedTransactions() {
     txType: TxType.expense,
   ));
 
+  // Track only shows today/past; drop future-dated seed rows (balances replay below).
+  final n = DateTime.now();
+  final todayDay = DateTime(n.year, n.month, n.day);
+  txs.removeWhere((t) {
+    final d = DateTime(t.date.year, t.date.month, t.date.day);
+    return d.isAfter(todayDay);
+  });
+
   txs.sort((a, b) => a.date.compareTo(b.date));
   return txs;
 }
