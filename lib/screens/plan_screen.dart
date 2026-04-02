@@ -53,7 +53,8 @@ class _PlanScreenState extends State<PlanScreen> {
   String? _categoryFilter;
   String? _dateFilter;
   DateTime _dateAnchor = DateTime.now();
-  bool _newestFirst = true;
+  /// Planned list: oldest → newest by default (overdue / soonest days first).
+  bool _newestFirst = false;
   TrackPlanFilterPanel _planPanel = TrackPlanFilterPanel.none;
   bool _detailExpanded = false;
 
@@ -62,7 +63,7 @@ class _PlanScreenState extends State<PlanScreen> {
       _accountFilter != null ||
       _categoryFilter != null ||
       _dateFilter != null ||
-      !_newestFirst;
+      _newestFirst;
 
   void _clearFilters() => setState(() {
         _typeFilter = null;
@@ -70,7 +71,7 @@ class _PlanScreenState extends State<PlanScreen> {
         _categoryFilter = null;
         _dateFilter = null;
         _dateAnchor = DateTime.now();
-        _newestFirst = true;
+        _newestFirst = false;
         _planPanel = TrackPlanFilterPanel.none;
       });
 
