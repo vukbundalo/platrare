@@ -766,7 +766,7 @@ class _WeekendAdjustmentPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final datePhrase = DateFormat('d MMM y').format(nominalDate);
+    final datePhrase = DateFormat('d MMMM').format(nominalDate);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
