@@ -665,10 +665,14 @@ class _PlanScreenState extends State<PlanScreen> {
                         onAdd: _addAccount,
                         hasAccounts: false,
                       )
-                    : _EmptyState(
-                        onAdd: _addPlanned,
-                        hasAccounts: true,
-                      ),
+                    : data.plannedTransactions.isEmpty
+                        ? _EmptyState(
+                            onAdd: _addPlanned,
+                            hasAccounts: true,
+                          )
+                        : _PlanFilteredEmpty(
+                            hasExplicitFilters: _hasActiveFilter,
+                          ),
               )
             else
               _PlanTimeline(
@@ -964,6 +968,47 @@ class _ProjectionDetailCard extends StatelessWidget {
               ],
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Shown when filters (or the default month window) hide all planned items but
+/// some exist at other dates — mirrors Track’s “no results” pattern.
+class _PlanFilteredEmpty extends StatelessWidget {
+  final bool hasExplicitFilters;
+
+  const _PlanFilteredEmpty({required this.hasExplicitFilters});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final monthLabel = DateFormat('MMMM yyyy').format(DateTime.now());
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.search_off_rounded,
+              size: 48,
+              color: cs.onSurfaceVariant,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              hasExplicitFilters
+                  ? 'No planned transactions for applied filters'
+                  : 'No planned transactions in $monthLabel',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: cs.onSurfaceVariant,
+              ),
+            ),
+          ],
         ),
       ),
     );
