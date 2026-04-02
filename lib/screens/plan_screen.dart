@@ -266,9 +266,9 @@ class _PlanScreenState extends State<PlanScreen> {
         title: const Text('Confirm transaction?'),
         content: Text(
           earlyRepeat
-              ? 'This repeat is slated for ${DateFormat('d MMM y').format(pt.date)}. '
-                  'It will appear in History with today’s date (${DateFormat('d MMM y').format(today)}). '
-                  'The next planned occurrence stays on ${DateFormat('d MMM y').format(nextAfterScheduled!)}.'
+              ? 'This occurrence is scheduled for ${DateFormat('d MMM y').format(pt.date)}. '
+                  'It will be recorded in History with today’s date (${DateFormat('d MMM y').format(today)}). '
+                  'The next occurrence remains on ${DateFormat('d MMM y').format(nextAfterScheduled!)}.'
               : 'This will apply the transaction to your real account balances and move it to History.',
         ),
         actions: [
