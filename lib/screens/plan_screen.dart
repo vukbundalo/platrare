@@ -595,7 +595,7 @@ class _PlanScreenState extends State<PlanScreen> {
                       snapshotDate: _snapshotDate,
                       isFutureSnapshot: _isFutureProjection,
                       detailExpanded: _detailExpanded,
-                      showFilterChips: !_isFutureProjection,
+                      filterChipsEnabled: !_isFutureProjection,
                       onPickSnapshotDate: _pickSnapshotDate,
                       onTapBalance: () =>
                           setState(() => _detailExpanded = !_detailExpanded),
@@ -699,7 +699,8 @@ class _ProjectionHero extends StatelessWidget {
   /// Future snapshot: balances-only mode below; amount is not tappable.
   final bool isFutureSnapshot;
   final bool detailExpanded;
-  final bool showFilterChips;
+  /// Hero chips stay visible; when false they are dimmed and non-interactive.
+  final bool filterChipsEnabled;
   final VoidCallback onPickSnapshotDate;
   final VoidCallback onTapBalance;
   final TrackPlanFilterPanel panel;
@@ -720,7 +721,7 @@ class _ProjectionHero extends StatelessWidget {
     required this.snapshotDate,
     required this.isFutureSnapshot,
     required this.detailExpanded,
-    required this.showFilterChips,
+    required this.filterChipsEnabled,
     required this.onPickSnapshotDate,
     required this.onTapBalance,
     required this.panel,
@@ -872,23 +873,22 @@ class _ProjectionHero extends StatelessWidget {
               ),
             ],
           ),
-          if (showFilterChips) ...[
-            const SizedBox(height: 10),
-            TrackPlanFilterChipRow(
-              panel: panel,
-              onTogglePanel: onTogglePanel,
-              typeFilter: typeFilter,
-              onCycleType: onCycleType,
-              dateModeLetter: dateModeLetter,
-              dateFilterActive: dateFilterActive,
-              onCycleDate: onCycleDate,
-              accountFilter: accountFilter,
-              categoryFilter: categoryFilter,
-              newestFirst: newestFirst,
-              onToggleSort: onToggleSort,
-              invertSortChipActive: true,
-            ),
-          ],
+          const SizedBox(height: 10),
+          TrackPlanFilterChipRow(
+            panel: panel,
+            onTogglePanel: onTogglePanel,
+            typeFilter: typeFilter,
+            onCycleType: onCycleType,
+            dateModeLetter: dateModeLetter,
+            dateFilterActive: dateFilterActive,
+            onCycleDate: onCycleDate,
+            accountFilter: accountFilter,
+            categoryFilter: categoryFilter,
+            newestFirst: newestFirst,
+            onToggleSort: onToggleSort,
+            invertSortChipActive: true,
+            enabled: filterChipsEnabled,
+          ),
         ],
       ),
     );

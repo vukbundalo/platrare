@@ -24,6 +24,8 @@ class TrackPlanFilterChipRow extends StatelessWidget {
   /// When false (Track), filled chip when oldest-first. When true (Plan), filled
   /// only when newest-first so default oldest-first + arrow up stays neutral.
   final bool invertSortChipActive;
+  /// When false, chips stay visible but do not respond (e.g. Plan future snapshot).
+  final bool enabled;
 
   const TrackPlanFilterChipRow({
     super.key,
@@ -39,6 +41,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
     required this.newestFirst,
     required this.onToggleSort,
     this.invertSortChipActive = false,
+    this.enabled = true,
   });
 
   IconData _typeMainIcon() {
@@ -128,7 +131,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
       );
     }
 
-    return Row(
+    final row = Row(
       children: [
         mainChip(
           icon: _typeMainIcon(),
@@ -166,6 +169,21 @@ class TrackPlanFilterChipRow extends StatelessWidget {
         ),
       ],
     );
+
+    if (!enabled) {
+      return Semantics(
+        enabled: false,
+        label:
+            'List filters disabled while viewing a future projection date. Clear projections to use filters.',
+        child: Opacity(
+          opacity: 0.5,
+          child: IgnorePointer(
+            child: ExcludeSemantics(child: row),
+          ),
+        ),
+      );
+    }
+    return row;
   }
 }
 
