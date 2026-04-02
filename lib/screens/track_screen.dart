@@ -12,6 +12,7 @@ import 'new_transaction_screen.dart';
 import 'review_screen.dart' show AccountFormSheet;
 import 'settings_screen.dart';
 import 'transaction_detail_screen.dart';
+import '../widgets/app_hero_layout.dart';
 import '../widgets/track_plan_filter_ui.dart';
 
 class TrackScreen extends StatefulWidget {
@@ -705,7 +706,7 @@ class _TrackHero extends StatelessWidget {
     final sym = fx.currencySymbol(settings.baseCurrency);
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+      padding: AppHeroConstants.cardPadding,
       decoration: BoxDecoration(
         color: borderColor.withValues(alpha: 0.07),
         borderRadius: BorderRadius.circular(18),
@@ -714,61 +715,58 @@ class _TrackHero extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('In',
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: cs.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
-                    const SizedBox(height: 2),
-                    Text(
-                      '+${totalIn.toStringAsFixed(2)} $sym',
-                      style: const TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF16A34A),
-                        letterSpacing: -1,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: 1,
-                height: 44,
-                color: borderColor.withValues(alpha: 0.2),
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text('Out',
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: cs.onSurfaceVariant,
-                          fontWeight: FontWeight.w500)),
-                  const SizedBox(height: 2),
-                  Text(
-                    '-${totalOut.toStringAsFixed(2)} $sym',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFFDC2626),
-                      letterSpacing: -0.5,
-                    ),
+          HeroTwoColumnMetricsRow(
+            dividerColor: borderColor.withValues(alpha: 0.2),
+            leftColumn: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'In',
+                  style: TextStyle(
+                    fontSize: AppHeroConstants.labelFontSize,
+                    color: cs.onSurfaceVariant,
+                    fontWeight: FontWeight.w500,
                   ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(height: AppHeroConstants.labelToAmountGap),
+                Text(
+                  '+${totalIn.toStringAsFixed(2)} $sym',
+                  style: const TextStyle(
+                    fontSize: AppHeroConstants.primaryAmountFontSize,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF16A34A),
+                    letterSpacing: -1,
+                  ),
+                ),
+              ],
+            ),
+            rightColumn: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Out',
+                  style: TextStyle(
+                    fontSize: AppHeroConstants.secondaryLabelFontSize,
+                    color: cs.onSurfaceVariant,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: AppHeroConstants.labelToAmountGap),
+                Text(
+                  '-${totalOut.toStringAsFixed(2)} $sym',
+                  style: const TextStyle(
+                    fontSize: AppHeroConstants.secondaryAmountFontSize,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFFDC2626),
+                    letterSpacing: -0.5,
+                  ),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
           TrackPlanFilterChipRow(
             panel: panel,
             onTogglePanel: onTogglePanel,

@@ -13,6 +13,7 @@ import 'new_planned_transaction_screen.dart';
 import 'review_screen.dart';
 import 'settings_screen.dart';
 import 'transaction_detail_screen.dart';
+import '../widgets/app_hero_layout.dart';
 import '../widgets/track_plan_filter_ui.dart';
 
 const _kExpenseColor = Color(0xFFDC2626);
@@ -751,7 +752,7 @@ class _ProjectionHero extends StatelessWidget {
         netPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+      padding: AppHeroConstants.cardPadding,
       decoration: BoxDecoration(
         color: borderColor.withValues(alpha: 0.07),
         borderRadius: BorderRadius.circular(18),
@@ -760,120 +761,106 @@ class _ProjectionHero extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Semantics(
-                      label:
-                          'Projection date ${DateFormat('EEE, d MMM yyyy').format(snapshotDate)}. Double tap to choose date',
-                      button: true,
-                      child: InkWell(
-                        onTap: onPickSnapshotDate,
-                        borderRadius: BorderRadius.circular(8),
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 4),
-                          child: Row(
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  DateFormat('EEE, d MMM yyyy')
-                                      .format(snapshotDate),
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: cs.onSurface,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 4),
-                              Icon(
-                                Icons.calendar_today_outlined,
-                                size: 14,
-                                color: cs.primary,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    if (isFutureSnapshot)
-                      Semantics(
-                        label:
-                            'Projected personal balance ${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2),
+          HeroTwoColumnMetricsRow(
+            dividerColor: borderColor.withValues(alpha: 0.2),
+            leftColumn: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Semantics(
+                  label:
+                      'Projection date ${DateFormat('EEE, d MMM yyyy').format(snapshotDate)}. Double tap to choose date',
+                  button: true,
+                  child: InkWell(
+                    onTap: onPickSnapshotDate,
+                    borderRadius: BorderRadius.circular(8),
+                    child: Row(
+                      children: [
+                        Expanded(
                           child: Text(
-                            '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
+                            DateFormat('EEE, d MMM yyyy').format(snapshotDate),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontSize: 26,
-                              fontWeight: FontWeight.w800,
-                              color: personalColor,
-                              letterSpacing: -1,
+                              fontSize: AppHeroConstants.labelFontSize,
+                              fontWeight: FontWeight.w500,
+                              color: cs.onSurfaceVariant,
                             ),
                           ),
                         ),
-                      )
-                    else
-                      Semantics(
-                        label: detailExpanded
-                            ? 'Hide projected balances by account'
-                            : 'Show projected balances by account',
-                        button: true,
-                        child: InkWell(
-                          onTap: onTapBalance,
-                          borderRadius: BorderRadius.circular(8),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 2),
-                            child: Text(
-                              '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
-                              style: TextStyle(
-                                fontSize: 26,
-                                fontWeight: FontWeight.w800,
-                                color: personalColor,
-                                letterSpacing: -1,
-                              ),
-                            ),
-                          ),
+                        const SizedBox(width: 4),
+                        Icon(
+                          Icons.calendar_today_outlined,
+                          size: 14,
+                          color: cs.primary,
                         ),
-                      ),
-                  ],
-                ),
-              ),
-              Container(
-                width: 1,
-                height: 48,
-                color: borderColor.withValues(alpha: 0.2),
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text('Net',
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: cs.onSurfaceVariant,
-                          fontWeight: FontWeight.w500)),
-                  const SizedBox(height: 2),
-                  Text(
-                    '${net > 0 ? '+' : ''}${net.toStringAsFixed(2)} $sym',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: netColor,
-                      letterSpacing: -0.5,
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(height: AppHeroConstants.labelToAmountGap),
+                if (isFutureSnapshot)
+                  Semantics(
+                    label:
+                        'Projected personal balance ${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
+                    child: Text(
+                      '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
+                      style: TextStyle(
+                        fontSize: AppHeroConstants.primaryAmountFontSize,
+                        fontWeight: FontWeight.w800,
+                        color: personalColor,
+                        letterSpacing: -1,
+                      ),
+                    ),
+                  )
+                else
+                  Semantics(
+                    label: detailExpanded
+                        ? 'Hide projected balances by account'
+                        : 'Show projected balances by account',
+                    button: true,
+                    child: InkWell(
+                      onTap: onTapBalance,
+                      borderRadius: BorderRadius.circular(8),
+                      child: Text(
+                        '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
+                        style: TextStyle(
+                          fontSize: AppHeroConstants.primaryAmountFontSize,
+                          fontWeight: FontWeight.w800,
+                          color: personalColor,
+                          letterSpacing: -1,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            rightColumn: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Net',
+                  style: TextStyle(
+                    fontSize: AppHeroConstants.secondaryLabelFontSize,
+                    color: cs.onSurfaceVariant,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: AppHeroConstants.labelToAmountGap),
+                Text(
+                  '${net > 0 ? '+' : ''}${net.toStringAsFixed(2)} $sym',
+                  style: TextStyle(
+                    fontSize: AppHeroConstants.secondaryAmountFontSize,
+                    fontWeight: FontWeight.w700,
+                    color: netColor,
+                    letterSpacing: -0.5,
+                  ),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
           TrackPlanFilterChipRow(
             panel: panel,
             onTogglePanel: onTogglePanel,

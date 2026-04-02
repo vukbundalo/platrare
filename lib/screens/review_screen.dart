@@ -8,6 +8,7 @@ import '../models/account.dart';
 import '../utils/fx.dart' as fx;
 import 'account_transactions_screen.dart';
 import 'settings_screen.dart';
+import '../widgets/app_hero_layout.dart';
 
 /// Shared category order for compare mode: max per side, then combined, then name.
 List<String> _orderedCategoryKeysForCompare(
@@ -836,7 +837,7 @@ class _NetWorthHero extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+      padding: AppHeroConstants.cardPadding,
       decoration: BoxDecoration(
         color: balanceColor.withValues(alpha: 0.07),
         borderRadius: BorderRadius.circular(18),
@@ -845,61 +846,58 @@ class _NetWorthHero extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('Balance',
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: cs.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
-                    const SizedBox(height: 2),
-                    Text(
-                      '${displayPersonal > 0 ? '+' : ''}${displayPersonal.toStringAsFixed(2)} $sym',
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.w800,
-                        color: balanceColor,
-                        letterSpacing: -1,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: 1,
-                height: 44,
-                color: netColor.withValues(alpha: 0.2),
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text('Net',
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: cs.onSurfaceVariant,
-                          fontWeight: FontWeight.w500)),
-                  const SizedBox(height: 2),
-                  Text(
-                    '${displayNet > 0 ? '+' : ''}${displayNet.toStringAsFixed(2)} $sym',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: netColor,
-                      letterSpacing: -0.5,
-                    ),
+          HeroTwoColumnMetricsRow(
+            dividerColor: netColor.withValues(alpha: 0.2),
+            leftColumn: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Balance',
+                  style: TextStyle(
+                    fontSize: AppHeroConstants.labelFontSize,
+                    color: cs.onSurfaceVariant,
+                    fontWeight: FontWeight.w500,
                   ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(height: AppHeroConstants.labelToAmountGap),
+                Text(
+                  '${displayPersonal > 0 ? '+' : ''}${displayPersonal.toStringAsFixed(2)} $sym',
+                  style: TextStyle(
+                    fontSize: AppHeroConstants.primaryAmountFontSize,
+                    fontWeight: FontWeight.w800,
+                    color: balanceColor,
+                    letterSpacing: -1,
+                  ),
+                ),
+              ],
+            ),
+            rightColumn: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Net',
+                  style: TextStyle(
+                    fontSize: AppHeroConstants.secondaryLabelFontSize,
+                    color: cs.onSurfaceVariant,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: AppHeroConstants.labelToAmountGap),
+                Text(
+                  '${displayNet > 0 ? '+' : ''}${displayNet.toStringAsFixed(2)} $sym',
+                  style: TextStyle(
+                    fontSize: AppHeroConstants.secondaryAmountFontSize,
+                    fontWeight: FontWeight.w700,
+                    color: netColor,
+                    letterSpacing: -0.5,
+                  ),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
           // 4 section chips (mutually exclusive) + currency (independent)
           Row(
             children: [
