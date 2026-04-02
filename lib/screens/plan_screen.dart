@@ -874,7 +874,6 @@ class _ProjectionDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
     final personal = data.accounts
         .where((a) => a.group == AccountGroup.personal)
         .toList();
@@ -886,59 +885,197 @@ class _ProjectionDetailCard extends StatelessWidget {
         .toList();
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-      child: Card(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (personal.isNotEmpty) ...[
+            const _PlanProjectionSectionLabel('Personal'),
+            ...personal.map(
+              (a) => _ProjectionAccountCard(
+                account: a,
+                projectedBookNative: balances[a.id] ?? a.balance,
+              ),
+            ),
+            const SizedBox(height: 4),
+          ],
+          if (individuals.isNotEmpty) ...[
+            const _PlanProjectionSectionLabel('Individuals'),
+            ...individuals.map(
+              (a) => _ProjectionAccountCard(
+                account: a,
+                projectedBookNative: balances[a.id] ?? a.balance,
+              ),
+            ),
+            const SizedBox(height: 4),
+          ],
+          if (entities.isNotEmpty) ...[
+            const _PlanProjectionSectionLabel('Entities'),
+            ...entities.map(
+              (a) => _ProjectionAccountCard(
+                account: a,
+                projectedBookNative: balances[a.id] ?? a.balance,
+              ),
+            ),
+            const SizedBox(height: 4),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+/// Same typography and padding as Review’s `_SectionLabel`.
+class _PlanProjectionSectionLabel extends StatelessWidget {
+  final String title;
+  const _PlanProjectionSectionLabel(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 6),
+      child: Text(
+        title.toUpperCase(),
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
+          color: Theme.of(context).colorScheme.primary,
+          letterSpacing: 0.8,
+        ),
+      ),
+    );
+  }
+}
+
+/// Same layout as Review’s `_AccountCard` (avatar, name, group, amounts); read-only.
+class _ProjectionAccountCard extends StatelessWidget {
+  final Account account;
+  final double projectedBookNative;
+
+  const _ProjectionAccountCard({
+    required this.account,
+    required this.projectedBookNative,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final isPersonal = account.group == AccountGroup.personal;
+    final isEntities = account.group == AccountGroup.entities;
+
+    final shownBook = projectedBookNative;
+    final shownMain = account.hasOverdraftFacility
+        ? account.personalHeadroomNative(projectedBookNative)
+        : projectedBookNative;
+    final shownSymbol = fx.currencySymbol(account.currencyCode);
+    final mainPositive = shownMain >= 0;
+    final mainColor =
+        mainPositive ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final bookPositive = shownBook >= 0;
+    final bookColor =
+        bookPositive ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+
+    final avatarBg = isPersonal
+        ? cs.primaryContainer
+        : isEntities
+            ? cs.secondaryContainer
+            : cs.tertiaryContainer;
+    final avatarFg = isPersonal
+        ? cs.onPrimaryContainer
+        : isEntities
+            ? cs.onSecondaryContainer
+            : cs.onTertiaryContainer;
+    final groupLabel = isPersonal
+        ? 'Personal'
+        : isEntities
+            ? 'Entity'
+            : 'Individual';
+
+    final initial = account.name.isNotEmpty ? account.name[0].toUpperCase() : '?';
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
+      child: Material(
+        color: cs.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(14),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(12, 12, 12, 14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          child: Row(
             children: [
-              if (personal.isNotEmpty) ...[
-                Text('PERSONAL',
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: avatarBg,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Center(
+                  child: Text(
+                    initial,
                     style: TextStyle(
-                        fontSize: 10,
-                        letterSpacing: 0.8,
-                        fontWeight: FontWeight.w700,
-                        color: cs.primary)),
-                const SizedBox(height: 6),
-                ...personal.map((a) => _BalanceChip(
-                      name: a.name,
-                      balance: balances[a.id] ?? a.balance,
-                      currencyCode: a.currencyCode,
-                    )),
-              ],
-              if (individuals.isNotEmpty) ...[
-                const SizedBox(height: 10),
-                Text('INDIVIDUALS',
+                      color: avatarFg,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 17,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      account.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                      ),
+                    ),
+                    Text(
+                      groupLabel,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: cs.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '${shownMain > 0 ? '+' : ''}${shownMain.toStringAsFixed(2)} $shownSymbol',
                     style: TextStyle(
-                        fontSize: 10,
-                        letterSpacing: 0.8,
-                        fontWeight: FontWeight.w700,
-                        color: cs.tertiary)),
-                const SizedBox(height: 6),
-                ...individuals.map((a) => _BalanceChip(
-                      name: a.name,
-                      balance: balances[a.id] ?? a.balance,
-                      currencyCode: a.currencyCode,
-                      isPartner: true,
-                    )),
-              ],
-              if (entities.isNotEmpty) ...[
-                const SizedBox(height: 10),
-                Text('ENTITIES',
-                    style: TextStyle(
-                        fontSize: 10,
-                        letterSpacing: 0.8,
-                        fontWeight: FontWeight.w700,
-                        color: cs.secondary)),
-                const SizedBox(height: 6),
-                ...entities.map((a) => _BalanceChip(
-                      name: a.name,
-                      balance: balances[a.id] ?? a.balance,
-                      currencyCode: a.currencyCode,
-                      isPartner: true,
-                    )),
-              ],
+                      color: mainColor,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 16,
+                    ),
+                  ),
+                  if (account.hasOverdraftFacility) ...[
+                    const SizedBox(height: 2),
+                    Text.rich(
+                      TextSpan(
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: cs.onSurfaceVariant,
+                        ),
+                        children: [
+                          const TextSpan(text: 'Real balance '),
+                          TextSpan(
+                            text:
+                                '${shownBook > 0 ? '+' : ''}${shownBook.toStringAsFixed(2)} $shownSymbol',
+                            style: TextStyle(color: bookColor),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.end,
+                    ),
+                  ],
+                ],
+              ),
             ],
           ),
         ),
