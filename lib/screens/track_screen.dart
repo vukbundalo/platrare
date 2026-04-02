@@ -83,8 +83,8 @@ class _TrackScreenState extends State<TrackScreen> {
       });
 
   /// Cycles: this month (null) → navigable month → week → year → null.
-  /// Closes account/category strip so date nav is the only secondary UI.
-  void _cycleDateFilter() =>     setState(() {
+  /// Closes account/category strip when switching date mode only.
+  void _cycleDateFilter() => setState(() {
         _trackPanel = TrackPlanFilterPanel.none;
         if (_dateFilter == null) {
           _dateFilter = 'month';
@@ -393,8 +393,7 @@ class _TrackScreenState extends State<TrackScreen> {
             ),
           ),
         ),
-        if (_hasNavigableDateFilter &&
-            _trackPanel == TrackPlanFilterPanel.none)
+        if (_hasNavigableDateFilter)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
@@ -561,8 +560,7 @@ class _TrackScreenState extends State<TrackScreen> {
             ),
           ),
         ),
-        if (_hasNavigableDateFilter &&
-            _trackPanel == TrackPlanFilterPanel.none)
+        if (_hasNavigableDateFilter)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),

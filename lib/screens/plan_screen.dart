@@ -618,9 +618,7 @@ class _PlanScreenState extends State<PlanScreen> {
             ),
           ),
 
-          if (!_isFutureProjection &&
-              _hasNavigableDateFilter &&
-              _planPanel == TrackPlanFilterPanel.none)
+          if (!_isFutureProjection && _hasNavigableDateFilter)
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
