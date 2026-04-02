@@ -774,27 +774,15 @@ class _ProjectionHero extends StatelessWidget {
                   child: InkWell(
                     onTap: onPickSnapshotDate,
                     borderRadius: BorderRadius.circular(8),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            DateFormat('EEE, d MMM yyyy').format(snapshotDate),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: AppHeroConstants.labelFontSize,
-                              fontWeight: FontWeight.w500,
-                              color: cs.onSurfaceVariant,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        Icon(
-                          Icons.calendar_today_outlined,
-                          size: 14,
-                          color: cs.primary,
-                        ),
-                      ],
+                    child: Text(
+                      DateFormat('EEE, d MMM yyyy').format(snapshotDate),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: AppHeroConstants.labelFontSize,
+                        fontWeight: FontWeight.w500,
+                        color: cs.onSurfaceVariant,
+                      ),
                     ),
                   ),
                 ),
