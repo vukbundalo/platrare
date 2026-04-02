@@ -151,6 +151,15 @@ class _AccountTransactionsScreenState
 
   void _toggleSort() => setState(() => _newestFirst = !_newestFirst);
 
+  void _clearFilters() => setState(() {
+        _typeFilter = null;
+        _categoryFilter = null;
+        _dateFilter = null;
+        _dateAnchor = DateTime.now();
+        _newestFirst = true;
+        _filterPanel = TrackPlanFilterPanel.none;
+      });
+
   void _navigateDate(int direction) {
     setState(() {
       var next = switch (_dateFilter) {
@@ -276,6 +285,14 @@ class _AccountTransactionsScreenState
 
     return Scaffold(
       backgroundColor: cs.surface,
+      floatingActionButton: _hasActiveFilter
+          ? FloatingActionButton.extended(
+              heroTag: 'account_tx_clear_filters',
+              onPressed: _clearFilters,
+              icon: const Icon(Icons.filter_alt_off_rounded),
+              label: const Text('Clear filters'),
+            )
+          : null,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
