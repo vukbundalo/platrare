@@ -21,6 +21,9 @@ class TrackPlanFilterChipRow extends StatelessWidget {
   final String? categoryFilter;
   final bool newestFirst;
   final VoidCallback onToggleSort;
+  /// When false (Track), filled chip when oldest-first. When true (Plan), filled
+  /// only when newest-first so default oldest-first + arrow up stays neutral.
+  final bool invertSortChipActive;
 
   const TrackPlanFilterChipRow({
     super.key,
@@ -35,6 +38,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
     required this.categoryFilter,
     required this.newestFirst,
     required this.onToggleSort,
+    this.invertSortChipActive = false,
   });
 
   IconData _typeMainIcon() {
@@ -156,7 +160,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
           icon: newestFirst
               ? Icons.arrow_downward_rounded
               : Icons.arrow_upward_rounded,
-          active: !newestFirst,
+          active: invertSortChipActive ? newestFirst : !newestFirst,
           onTap: onToggleSort,
           semanticsLabel: 'Sort: toggle newest or oldest first',
         ),

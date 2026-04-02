@@ -869,6 +869,7 @@ class _ProjectionHero extends StatelessWidget {
               categoryFilter: categoryFilter,
               newestFirst: newestFirst,
               onToggleSort: onToggleSort,
+              invertSortChipActive: true,
             ),
           ],
         ],
