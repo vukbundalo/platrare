@@ -122,45 +122,38 @@ class _PlanScreenState extends State<PlanScreen> {
         _ => null,
       };
 
+  /// Same horizon as the projection snapshot date picker — Plan is forward-looking.
+  static const Duration _kPlanListForwardHorizon = Duration(days: 1825);
+
+  DateTime get _planListLatestNavDate =>
+      DateUtils.dateOnly(DateTime.now().add(_kPlanListForwardHorizon));
+
+  DateTime _planDateAnchorAfterStep(int direction) {
+    final a = _dateAnchor;
+    return switch (_dateFilter) {
+      'day' => DateTime(a.year, a.month, a.day + direction),
+      'week' => DateTime(a.year, a.month, a.day + direction * 7),
+      'month' => DateTime(a.year, a.month + direction, a.day),
+      'year' => DateTime(a.year + direction, a.month, a.day),
+      _ => a,
+    };
+  }
+
   void _navigateDate(int direction) {
     setState(() {
-      var next = switch (_dateFilter) {
-        'day' => DateTime(_dateAnchor.year, _dateAnchor.month,
-            _dateAnchor.day + direction),
-        'week' => DateTime(_dateAnchor.year, _dateAnchor.month,
-            _dateAnchor.day + direction * 7),
-        'month' => DateTime(_dateAnchor.year, _dateAnchor.month + direction,
-            _dateAnchor.day),
-        'year' => DateTime(_dateAnchor.year + direction, _dateAnchor.month,
-            _dateAnchor.day),
-        _ => _dateAnchor,
-      };
-      if (_dateFilter == 'day') {
-        final today = DateUtils.dateOnly(DateTime.now());
-        final n = DateUtils.dateOnly(next);
-        if (n.isAfter(today)) next = _dateAnchor;
+      var next = _planDateAnchorAfterStep(direction);
+      if (direction > 0) {
+        final cap = _planListLatestNavDate;
+        if (DateUtils.dateOnly(next).isAfter(cap)) next = _dateAnchor;
       }
       _dateAnchor = next;
     });
   }
 
   bool get _canNavigateDateForward {
-    final now = DateTime.now();
-    return switch (_dateFilter) {
-      'day' => DateUtils.dateOnly(_dateAnchor)
-          .isBefore(DateUtils.dateOnly(now)),
-      'week' => () {
-          final a = _dateAnchor;
-          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
-          final nMon =
-              DateTime(now.year, now.month, now.day - (now.weekday - 1));
-          return mon.isBefore(nMon);
-        }(),
-      'month' => DateTime(_dateAnchor.year, _dateAnchor.month)
-          .isBefore(DateTime(now.year, now.month)),
-      'year' => _dateAnchor.year < now.year,
-      _ => true,
-    };
+    if (_dateFilter == null) return true;
+    final next = _planDateAnchorAfterStep(1);
+    return !DateUtils.dateOnly(next).isAfter(_planListLatestNavDate);
   }
 
   /// Default list window when the date chip is on “this month” (calendar icon):
