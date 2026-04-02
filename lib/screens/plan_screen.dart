@@ -260,28 +260,23 @@ class _PlanScreenState extends State<PlanScreen> {
     final today = DateUtils.dateOnly(DateTime.now());
     final ptDate = DateUtils.dateOnly(pt.date);
     final isRepeated = pt.repeatInterval != RepeatInterval.none;
-
-    if (isRepeated && ptDate.isAfter(today)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-              'Cannot confirm — this recurrence is scheduled for ${DateFormat('d MMM').format(pt.date)}'),
-          behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-      );
-      return;
-    }
+    final earlyRepeat = isRepeated && ptDate.isAfter(today);
 
     HapticFeedback.mediumImpact();
+    final nextAfterScheduled = earlyRepeat
+        ? nextOccurrence(pt.date, pt.repeatInterval)
+        : null;
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Text('Confirm transaction?'),
-        content: const Text(
-          'This will apply the transaction to your real account balances and move it to History.',
+        content: Text(
+          earlyRepeat
+              ? 'This repeat is slated for ${DateFormat('d MMM y').format(pt.date)}. '
+                  'It will appear in History with today’s date (${DateFormat('d MMM y').format(today)}). '
+                  'The next planned occurrence stays on ${DateFormat('d MMM y').format(nextAfterScheduled!)}.'
+              : 'This will apply the transaction to your real account balances and move it to History.',
         ),
         actions: [
           TextButton(
