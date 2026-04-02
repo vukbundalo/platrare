@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../models/account.dart';
+import 'app_hero_layout.dart';
 
 /// Shared by Track and Plan: account/category strip + main chip row.
 enum TrackPlanFilterPanel { none, account, category }
@@ -65,7 +66,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
         onTap: onTap,
         behavior: HitTestBehavior.opaque,
         child: Container(
-          height: 30,
+          height: AppHeroConstants.filterChipHeight,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: active
@@ -95,7 +96,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
         onTap: onCycleDate,
         behavior: HitTestBehavior.opaque,
         child: Container(
-          height: 30,
+          height: AppHeroConstants.filterChipHeight,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: active
@@ -279,6 +280,10 @@ class TrackPlanNavButton extends StatelessWidget {
 
 const kTrackPlanChipTextSlop = 5.0;
 
+/// Max width per pill in horizontal strips (matches Review compare chips).
+const kTrackPlanFilterStripChipMaxWidth = 220.0;
+
+
 Widget trackPlanNamePill(
   BuildContext context, {
   required String label,
@@ -309,54 +314,33 @@ Widget trackPlanNamePill(
 
   final chipWOneLine =
       oneLine.width.ceilToDouble() + 2 * padH + kTrackPlanChipTextSlop;
-  final fitsOneLine = chipWOneLine <= stripMaxWidth;
+  final chipW =
+      math.min(stripMaxWidth, math.max(36.0, chipWOneLine));
 
-  late final Widget inner;
-  if (fitsOneLine) {
-    inner = GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: SizedBox(
-        width: math.max(36.0, chipWOneLine),
-        height: 30,
-        child: DecoratedBox(
-          decoration: BoxDecoration(color: fill, borderRadius: radius),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: padH),
-            child: Center(
-              child: Text(
-                label,
-                maxLines: 1,
-                softWrap: false,
-                style: style,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  } else {
-    inner = GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: stripMaxWidth),
-        child: DecoratedBox(
-          decoration: BoxDecoration(color: fill, borderRadius: radius),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: padH, vertical: 7),
+  final inner = GestureDetector(
+    onTap: onTap,
+    behavior: HitTestBehavior.opaque,
+    child: SizedBox(
+      width: chipW,
+      height: AppHeroConstants.filterChipHeight,
+      child: DecoratedBox(
+        decoration: BoxDecoration(color: fill, borderRadius: radius),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: padH),
+          child: Center(
             child: Text(
               label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: false,
               style: style,
-              softWrap: true,
               textAlign: TextAlign.center,
             ),
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
 
   if (semanticsLabel == null) return inner;
   return Semantics(
@@ -393,80 +377,84 @@ class TrackPlanFilterStrip extends StatelessWidget {
       ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
     Widget accountSection() {
-      return LayoutBuilder(
-        builder: (context, c) {
-          final stripW = c.maxWidth;
-          return Wrap(
-            spacing: 4,
-            runSpacing: 4,
-            alignment: WrapAlignment.center,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              trackPlanNamePill(
-                context,
-                label: 'All',
-                selected: accountFilter == null,
-                stripMaxWidth: stripW,
-                onTap: () => onAccountFilter(null),
-                semanticsLabel: 'All accounts',
-              ),
-              for (final a in accountsSorted)
-                trackPlanNamePill(
-                  context,
-                  label: a.name,
-                  selected: accountFilter?.id == a.id,
-                  stripMaxWidth: stripW,
-                  onTap: () {
-                    if (accountFilter?.id == a.id) {
-                      onAccountFilter(null);
-                    } else {
-                      onAccountFilter(a);
-                    }
-                  },
-                  semanticsLabel: a.name,
-                ),
-            ],
-          );
-        },
+      final items = <Widget>[
+        trackPlanNamePill(
+          context,
+          label: 'All',
+          selected: accountFilter == null,
+          stripMaxWidth: kTrackPlanFilterStripChipMaxWidth,
+          onTap: () => onAccountFilter(null),
+          semanticsLabel: 'All accounts',
+        ),
+        ...accountsSorted.map(
+          (a) => trackPlanNamePill(
+            context,
+            label: a.name,
+            selected: accountFilter?.id == a.id,
+            stripMaxWidth: kTrackPlanFilterStripChipMaxWidth,
+            onTap: () {
+              if (accountFilter?.id == a.id) {
+                onAccountFilter(null);
+              } else {
+                onAccountFilter(a);
+              }
+            },
+            semanticsLabel: a.name,
+          ),
+        ),
+      ];
+      return SizedBox(
+        height: AppHeroConstants.filterChipHeight,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.zero,
+          physics: const BouncingScrollPhysics(),
+          itemCount: items.length,
+          separatorBuilder: (context, index) => const SizedBox(width: 8),
+          itemBuilder: (context, index) =>
+              Center(child: items[index]),
+        ),
       );
     }
 
     Widget categorySection() {
-      return LayoutBuilder(
-        builder: (context, c) {
-          final stripW = c.maxWidth;
-          return Wrap(
-            spacing: 4,
-            runSpacing: 4,
-            alignment: WrapAlignment.center,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              trackPlanNamePill(
-                context,
-                label: 'All',
-                selected: categoryFilter == null,
-                stripMaxWidth: stripW,
-                onTap: () => onCategoryFilter(null),
-                semanticsLabel: 'All categories',
-              ),
-              for (final cat in categories)
-                trackPlanNamePill(
-                  context,
-                  label: cat,
-                  selected: categoryFilter == cat,
-                  stripMaxWidth: stripW,
-                  onTap: () {
-                    if (categoryFilter == cat) {
-                      onCategoryFilter(null);
-                    } else {
-                      onCategoryFilter(cat);
-                    }
-                  },
-                  semanticsLabel: cat,
-                ),
-            ],
-          );
-        },
+      final items = <Widget>[
+        trackPlanNamePill(
+          context,
+          label: 'All',
+          selected: categoryFilter == null,
+          stripMaxWidth: kTrackPlanFilterStripChipMaxWidth,
+          onTap: () => onCategoryFilter(null),
+          semanticsLabel: 'All categories',
+        ),
+        ...categories.map(
+          (cat) => trackPlanNamePill(
+            context,
+            label: cat,
+            selected: categoryFilter == cat,
+            stripMaxWidth: kTrackPlanFilterStripChipMaxWidth,
+            onTap: () {
+              if (categoryFilter == cat) {
+                onCategoryFilter(null);
+              } else {
+                onCategoryFilter(cat);
+              }
+            },
+            semanticsLabel: cat,
+          ),
+        ),
+      ];
+      return SizedBox(
+        height: AppHeroConstants.filterChipHeight,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.zero,
+          physics: const BouncingScrollPhysics(),
+          itemCount: items.length,
+          separatorBuilder: (context, index) => const SizedBox(width: 8),
+          itemBuilder: (context, index) =>
+              Center(child: items[index]),
+        ),
       );
     }
 

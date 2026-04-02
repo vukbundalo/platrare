@@ -43,7 +43,7 @@ class _TrackScreenState extends State<TrackScreen> {
   String? _typeFilter;      // _kTypeIncome / _kTypeExpense / _kTypeTransfer
   Account? _accountFilter;
   String? _categoryFilter;
-  /// null = current calendar month only; UI cycles week/month/year; 'day'|'all' still supported in data paths.
+  /// null = current calendar month only [start, next month); UI cycles week/month/year; 'day'|'all' in data paths.
   String? _dateFilter;
   DateTime _dateAnchor = DateTime.now();
   bool _newestFirst = true;
@@ -205,16 +205,21 @@ class _TrackScreenState extends State<TrackScreen> {
     super.dispose();
   }
 
-  /// First day of the current month.
-  DateTime get _currentMonthStart {
+  /// Default window when the date chip is on “this month” (calendar icon): same as Plan — current month only.
+  (DateTime, DateTime) get _currentMonthRange {
     final now = DateTime.now();
-    return DateTime(now.year, now.month, 1);
+    final start = DateTime(now.year, now.month, 1);
+    final end = DateTime(now.year, now.month + 1, 1);
+    return (start, end);
   }
 
-  /// Transactions within the current month, newest first.
-  List<Transaction> get _visibleTx => data.transactions
-      .where((t) => !t.date.isBefore(_currentMonthStart))
-      .toList();
+  /// Transactions in the current calendar month only (when [_dateFilter] is null).
+  List<Transaction> get _visibleTx {
+    final (start, end) = _currentMonthRange;
+    return data.transactions
+        .where((t) => !t.date.isBefore(start) && t.date.isBefore(end))
+        .toList();
+  }
 
   /// Income and expense totals reflecting the current filter/window.
   ({double totalIn, double totalOut}) get _periodTotals {

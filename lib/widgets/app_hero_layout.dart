@@ -8,6 +8,8 @@ abstract final class AppHeroConstants {
   static const double dividerHeight = 44;
   static const double dividerMarginH = 16;
   static const double chipGapBelowMetrics = 10;
+  /// Hero filter row, Review stats row, Track/Plan strips — same tap height.
+  static const double filterChipHeight = 30;
   static const int leftColumnFlex = 3;
   static const int rightColumnFlex = 2;
 
