@@ -1977,6 +1977,30 @@ abstract class AppLocalizations {
   /// **'List filters disabled while viewing a future projection date. Clear projections to use filters.'**
   String get semanticsFiltersDisabled;
 
+  /// No description provided for @semanticsFiltersDisabledNeedAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'List filters disabled. Add an account first.'**
+  String get semanticsFiltersDisabledNeedAccount;
+
+  /// No description provided for @semanticsFiltersDisabledNeedPlannedTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'List filters disabled. Add a planned transaction first.'**
+  String get semanticsFiltersDisabledNeedPlannedTransaction;
+
+  /// No description provided for @semanticsFiltersDisabledNeedRecordedTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'List filters disabled. Record a transaction first.'**
+  String get semanticsFiltersDisabledNeedRecordedTransaction;
+
+  /// No description provided for @semanticsReviewSectionChipsDisabledNeedAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Section and currency controls disabled. Add an account first.'**
+  String get semanticsReviewSectionChipsDisabledNeedAccount;
+
   /// No description provided for @semanticsChartStyle.
   ///
   /// In en, this message translates to:

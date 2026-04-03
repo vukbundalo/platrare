@@ -1085,6 +1085,22 @@ class AppLocalizationsEn extends AppLocalizations {
       'List filters disabled while viewing a future projection date. Clear projections to use filters.';
 
   @override
+  String get semanticsFiltersDisabledNeedAccount =>
+      'List filters disabled. Add an account first.';
+
+  @override
+  String get semanticsFiltersDisabledNeedPlannedTransaction =>
+      'List filters disabled. Add a planned transaction first.';
+
+  @override
+  String get semanticsFiltersDisabledNeedRecordedTransaction =>
+      'List filters disabled. Record a transaction first.';
+
+  @override
+  String get semanticsReviewSectionChipsDisabledNeedAccount =>
+      'Section and currency controls disabled. Add an account first.';
+
+  @override
   String get semanticsChartStyle => 'Chart style';
 
   @override

@@ -465,12 +465,22 @@ class _TrackScreenState extends State<TrackScreen> {
         }
       });
     }
+    final trackChipsEnabled = activeAccounts(data.accounts).isNotEmpty &&
+        data.transactions.isNotEmpty;
+    if (!trackChipsEnabled &&
+        (_trackPanel != TrackPlanFilterPanel.none || _hasActiveFilter)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _clearFilters();
+      });
+    }
     final cs = Theme.of(context).colorScheme;
     final allTx = data.transactions;
 
     return Scaffold(
       backgroundColor: cs.surface,
-      body: allTx.isEmpty ? _emptyBody(context) : _listBody(context),
+      body: allTx.isEmpty
+          ? _emptyBody(context, trackChipsEnabled)
+          : _listBody(context, trackChipsEnabled),
       floatingActionButton: allTx.isEmpty
           ? null
           : _hasActiveFilter
@@ -488,10 +498,13 @@ class _TrackScreenState extends State<TrackScreen> {
     );
   }
 
-  Widget _emptyBody(BuildContext context) {
+  Widget _emptyBody(BuildContext context, bool trackChipsEnabled) {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
     final hasAccounts = activeAccounts(data.accounts).isNotEmpty;
+    final trackDisabledSemantics = !hasAccounts
+        ? l10n.semanticsFiltersDisabledNeedAccount
+        : l10n.semanticsFiltersDisabledNeedRecordedTransaction;
 
     return CustomScrollView(
       slivers: [
@@ -536,13 +549,15 @@ class _TrackScreenState extends State<TrackScreen> {
                     categoryFilter: _categoryFilter,
                     newestFirst: _newestFirst,
                     onToggleSort: _toggleSort,
+                    filterChipsEnabled: trackChipsEnabled,
+                    filterChipsDisabledSemantics: trackDisabledSemantics,
                   ),
                 ],
               ),
             ),
           ),
         ),
-        if (_hasNavigableDateFilter)
+        if (trackChipsEnabled && _hasNavigableDateFilter)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
@@ -555,7 +570,7 @@ class _TrackScreenState extends State<TrackScreen> {
               ),
             ),
           ),
-        if (_trackPanel != TrackPlanFilterPanel.none)
+        if (trackChipsEnabled && _trackPanel != TrackPlanFilterPanel.none)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
@@ -644,9 +659,14 @@ class _TrackScreenState extends State<TrackScreen> {
     );
   }
 
-  Widget _listBody(BuildContext context) {
+  Widget _listBody(BuildContext context, bool trackChipsEnabled) {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
+    final trackDisabledSemantics = activeAccounts(data.accounts).isEmpty
+        ? l10n.semanticsFiltersDisabledNeedAccount
+        : data.transactions.isEmpty
+            ? l10n.semanticsFiltersDisabledNeedRecordedTransaction
+            : l10n.semanticsFiltersDisabled;
     final isFiltered = _hasActiveFilter;
     final displayTx = _applySearch(_baseFilteredTx, context);
     final totals = _periodTotals;
@@ -705,13 +725,15 @@ class _TrackScreenState extends State<TrackScreen> {
                     categoryFilter: _categoryFilter,
                     newestFirst: _newestFirst,
                     onToggleSort: _toggleSort,
+                    filterChipsEnabled: trackChipsEnabled,
+                    filterChipsDisabledSemantics: trackDisabledSemantics,
                   ),
                 ],
               ),
             ),
           ),
         ),
-        if (_hasNavigableDateFilter)
+        if (trackChipsEnabled && _hasNavigableDateFilter)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
@@ -743,7 +765,7 @@ class _TrackScreenState extends State<TrackScreen> {
             ),
           ),
         ),
-        if (_trackPanel != TrackPlanFilterPanel.none)
+        if (trackChipsEnabled && _trackPanel != TrackPlanFilterPanel.none)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
@@ -842,6 +864,8 @@ class _TrackHero extends StatelessWidget {
   final String? categoryFilter;
   final bool newestFirst;
   final VoidCallback onToggleSort;
+  final bool filterChipsEnabled;
+  final String filterChipsDisabledSemantics;
 
   const _TrackHero({
     required this.totalIn,
@@ -857,6 +881,8 @@ class _TrackHero extends StatelessWidget {
     required this.categoryFilter,
     required this.newestFirst,
     required this.onToggleSort,
+    required this.filterChipsEnabled,
+    required this.filterChipsDisabledSemantics,
   });
 
   @override
@@ -942,6 +968,8 @@ class _TrackHero extends StatelessWidget {
             categoryFilter: categoryFilter,
             newestFirst: newestFirst,
             onToggleSort: onToggleSort,
+            enabled: filterChipsEnabled,
+            disabledSemanticsLabel: filterChipsDisabledSemantics,
           ),
         ],
       ),

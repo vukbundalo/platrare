@@ -328,6 +328,19 @@ class _AccountTransactionsScreenState
     final account = widget.account;
     final displayTx = _filteredTx;
     final totals = _totals;
+    final acctChipsEnabled = activeAccounts(data.accounts).isNotEmpty &&
+        _allAccountTx.isNotEmpty;
+    if (!acctChipsEnabled &&
+        (_filterPanel != TrackPlanFilterPanel.none || _hasActiveFilter)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _clearFilters();
+      });
+    }
+    final acctFilterDisabledSemantics = activeAccounts(data.accounts).isEmpty
+        ? l10n.semanticsFiltersDisabledNeedAccount
+        : _allAccountTx.isEmpty
+            ? l10n.semanticsFiltersDisabledNeedRecordedTransaction
+            : l10n.semanticsFiltersDisabled;
 
     _syncAccountLazyWindowSignature();
     final dayBundle =
@@ -384,13 +397,15 @@ class _AccountTransactionsScreenState
                       categoryFilter: _categoryFilter,
                       newestFirst: _newestFirst,
                       onToggleSort: _toggleSort,
+                      filterChipsEnabled: acctChipsEnabled,
+                      filterChipsDisabledSemantics: acctFilterDisabledSemantics,
                     ),
                   ],
                 ),
               ),
             ),
           ),
-          if (_hasNavigableDateFilter)
+          if (acctChipsEnabled && _hasNavigableDateFilter)
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
@@ -403,7 +418,7 @@ class _AccountTransactionsScreenState
                 ),
               ),
             ),
-          if (_filterPanel != TrackPlanFilterPanel.none)
+          if (acctChipsEnabled && _filterPanel != TrackPlanFilterPanel.none)
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
@@ -493,6 +508,8 @@ class _AccountTxHero extends StatelessWidget {
   final String? categoryFilter;
   final bool newestFirst;
   final VoidCallback onToggleSort;
+  final bool filterChipsEnabled;
+  final String filterChipsDisabledSemantics;
 
   const _AccountTxHero({
     required this.totalIn,
@@ -507,6 +524,8 @@ class _AccountTxHero extends StatelessWidget {
     required this.categoryFilter,
     required this.newestFirst,
     required this.onToggleSort,
+    required this.filterChipsEnabled,
+    required this.filterChipsDisabledSemantics,
   });
 
   @override
@@ -594,6 +613,8 @@ class _AccountTxHero extends StatelessWidget {
             newestFirst: newestFirst,
             onToggleSort: onToggleSort,
             accountChipEnabled: false,
+            enabled: filterChipsEnabled,
+            disabledSemanticsLabel: filterChipsDisabledSemantics,
           ),
         ],
       ),

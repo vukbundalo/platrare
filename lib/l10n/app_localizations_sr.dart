@@ -1093,6 +1093,22 @@ class AppLocalizationsSr extends AppLocalizations {
       'Filteri liste su onemogućeni dok gledate budući datum projekcije. Uklonite projekcije da koristite filtere.';
 
   @override
+  String get semanticsFiltersDisabledNeedAccount =>
+      'Filteri liste su onemogućeni. Prvo dodajte nalog.';
+
+  @override
+  String get semanticsFiltersDisabledNeedPlannedTransaction =>
+      'Filteri liste su onemogućeni. Prvo dodajte planiranu transakciju.';
+
+  @override
+  String get semanticsFiltersDisabledNeedRecordedTransaction =>
+      'Filteri liste su onemogućeni. Prvo evidentirajte transakciju.';
+
+  @override
+  String get semanticsReviewSectionChipsDisabledNeedAccount =>
+      'Kontrole za odeljak i valutu su onemogućene. Prvo dodajte nalog.';
+
+  @override
   String get semanticsChartStyle => 'Stil grafikona';
 
   @override
@@ -2213,6 +2229,22 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   @override
   String get semanticsFiltersDisabled =>
       'Filteri liste su onemogućeni dok gledate budući datum projekcije. Uklonite projekcije da koristite filtere.';
+
+  @override
+  String get semanticsFiltersDisabledNeedAccount =>
+      'Filteri liste su onemogućeni. Prvo dodajte nalog.';
+
+  @override
+  String get semanticsFiltersDisabledNeedPlannedTransaction =>
+      'Filteri liste su onemogućeni. Prvo dodajte planiranu transakciju.';
+
+  @override
+  String get semanticsFiltersDisabledNeedRecordedTransaction =>
+      'Filteri liste su onemogućeni. Prvo evidentirajte transakciju.';
+
+  @override
+  String get semanticsReviewSectionChipsDisabledNeedAccount =>
+      'Kontrole za odeljak i valutu su onemogućene. Prvo dodajte nalog.';
 
   @override
   String get semanticsChartStyle => 'Stil grafikona';

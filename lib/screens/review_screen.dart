@@ -647,6 +647,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       personal: _personalTotal,
                       net: _netTotal,
                       displayCurrency: _displayCurrency,
+                      sectionChipsEnabled: visibleAccounts.isNotEmpty,
                       activeSection: _activeSection,
                       onSelectSection: (s) => setState(() {
                         if (_activeSection == s) {
@@ -878,6 +879,7 @@ class _NetWorthHero extends StatelessWidget {
   final double personal;
   final double net;
   final String displayCurrency;
+  final bool sectionChipsEnabled;
   final String? activeSection;
   final void Function(String section) onSelectSection;
   final VoidCallback onToggleCurrency;
@@ -886,6 +888,7 @@ class _NetWorthHero extends StatelessWidget {
     required this.personal,
     required this.net,
     required this.displayCurrency,
+    required this.sectionChipsEnabled,
     required this.activeSection,
     required this.onSelectSection,
     required this.onToggleCurrency,
@@ -989,39 +992,54 @@ class _NetWorthHero extends StatelessWidget {
           ),
           const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
           // 4 section chips (mutually exclusive) + currency (independent)
-          Row(
-            children: [
-              Expanded(
-                  child: chip(
-                      icon: Icons.person_outline_rounded,
-                      active: activeSection == 'personal',
-                      onTap: () => onSelectSection('personal'))),
-              const SizedBox(width: 6),
-              Expanded(
-                  child: chip(
-                      icon: Icons.people_outline_rounded,
-                      active: activeSection == 'individuals',
-                      onTap: () => onSelectSection('individuals'))),
-              const SizedBox(width: 6),
-              Expanded(
-                  child: chip(
-                      icon: Icons.business_outlined,
-                      active: activeSection == 'entities',
-                      onTap: () => onSelectSection('entities'))),
-              const SizedBox(width: 6),
-              Expanded(
-                  child: chip(
-                      icon: Icons.bar_chart_rounded,
-                      active: activeSection == 'statistics',
-                      onTap: () => onSelectSection('statistics'))),
-              const SizedBox(width: 6),
-              Expanded(
-                  child: chip(
-                      icon: Icons.currency_exchange_rounded,
-                      active: isSecondary,
-                      onTap: onToggleCurrency)),
-            ],
-          ),
+          Builder(builder: (context) {
+            final chipRow = Row(
+              children: [
+                Expanded(
+                    child: chip(
+                        icon: Icons.person_outline_rounded,
+                        active: activeSection == 'personal',
+                        onTap: () => onSelectSection('personal'))),
+                const SizedBox(width: 6),
+                Expanded(
+                    child: chip(
+                        icon: Icons.people_outline_rounded,
+                        active: activeSection == 'individuals',
+                        onTap: () => onSelectSection('individuals'))),
+                const SizedBox(width: 6),
+                Expanded(
+                    child: chip(
+                        icon: Icons.business_outlined,
+                        active: activeSection == 'entities',
+                        onTap: () => onSelectSection('entities'))),
+                const SizedBox(width: 6),
+                Expanded(
+                    child: chip(
+                        icon: Icons.bar_chart_rounded,
+                        active: activeSection == 'statistics',
+                        onTap: () => onSelectSection('statistics'))),
+                const SizedBox(width: 6),
+                Expanded(
+                    child: chip(
+                        icon: Icons.currency_exchange_rounded,
+                        active: isSecondary,
+                        onTap: onToggleCurrency)),
+              ],
+            );
+            if (!sectionChipsEnabled) {
+              return Semantics(
+                enabled: false,
+                label: l10n.semanticsReviewSectionChipsDisabledNeedAccount,
+                child: Opacity(
+                  opacity: 0.5,
+                  child: IgnorePointer(
+                    child: ExcludeSemantics(child: chipRow),
+                  ),
+                ),
+              );
+            }
+            return chipRow;
+          }),
         ],
       ),
     );

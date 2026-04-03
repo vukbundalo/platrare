@@ -638,6 +638,24 @@ class _PlanScreenState extends State<PlanScreen> {
         }
       });
     }
+    final l10n = AppLocalizations.of(context);
+    final hasAccounts = activeAccounts(data.accounts).isNotEmpty;
+    final hasPlanned = data.plannedTransactions.isNotEmpty;
+    final planChipsEnabled =
+        !_isFutureProjection && hasAccounts && hasPlanned;
+    if (!planChipsEnabled &&
+        (_planPanel != TrackPlanFilterPanel.none || _hasActiveFilter)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _clearFilters();
+      });
+    }
+    final planFilterDisabledSemantics = _isFutureProjection
+        ? l10n.semanticsFiltersDisabled
+        : !hasAccounts
+            ? l10n.semanticsFiltersDisabledNeedAccount
+            : !hasPlanned
+                ? l10n.semanticsFiltersDisabledNeedPlannedTransaction
+                : l10n.semanticsFiltersDisabled;
     final cs = Theme.of(context).colorScheme;
     final planned = _filteredPlanned;
     _syncPlanLazyWindowSignature();
@@ -716,7 +734,8 @@ class _PlanScreenState extends State<PlanScreen> {
                       snapshotDate: _snapshotDate,
                       isFutureSnapshot: _isFutureProjection,
                       detailExpanded: _detailExpanded,
-                      filterChipsEnabled: !_isFutureProjection,
+                      filterChipsEnabled: planChipsEnabled,
+                      filterChipsDisabledSemantics: planFilterDisabledSemantics,
                       onPickSnapshotDate: _pickSnapshotDate,
                       onTapBalance: () =>
                           setState(() => _detailExpanded = !_detailExpanded),
@@ -738,7 +757,7 @@ class _PlanScreenState extends State<PlanScreen> {
             ),
           ),
 
-          if (!_isFutureProjection && _hasNavigableDateFilter)
+          if (planChipsEnabled && _hasNavigableDateFilter)
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
@@ -751,7 +770,7 @@ class _PlanScreenState extends State<PlanScreen> {
                 ),
               ),
             ),
-          if (!_isFutureProjection && _planPanel != TrackPlanFilterPanel.none)
+          if (planChipsEnabled && _planPanel != TrackPlanFilterPanel.none)
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
@@ -820,6 +839,7 @@ class _ProjectionHero extends StatelessWidget {
   final bool detailExpanded;
   /// Hero chips stay visible; when false they are dimmed and non-interactive.
   final bool filterChipsEnabled;
+  final String filterChipsDisabledSemantics;
   final VoidCallback onPickSnapshotDate;
   final VoidCallback onTapBalance;
   final TrackPlanFilterPanel panel;
@@ -841,6 +861,7 @@ class _ProjectionHero extends StatelessWidget {
     required this.isFutureSnapshot,
     required this.detailExpanded,
     required this.filterChipsEnabled,
+    required this.filterChipsDisabledSemantics,
     required this.onPickSnapshotDate,
     required this.onTapBalance,
     required this.panel,
@@ -982,6 +1003,7 @@ class _ProjectionHero extends StatelessWidget {
             onToggleSort: onToggleSort,
             invertSortChipActive: true,
             enabled: filterChipsEnabled,
+            disabledSemanticsLabel: filterChipsDisabledSemantics,
           ),
         ],
       ),

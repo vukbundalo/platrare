@@ -39,6 +39,9 @@ class TrackPlanFilterChipRow extends StatelessWidget {
   /// When false, chips stay visible but do not respond (e.g. Plan future snapshot).
   final bool enabled;
 
+  /// Screen reader label when [enabled] is false. Defaults to [AppLocalizations.semanticsFiltersDisabled].
+  final String? disabledSemanticsLabel;
+
   /// When false, the wallet chip is shown muted and non-interactive (single-account views).
   final bool accountChipEnabled;
 
@@ -57,6 +60,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
     required this.onToggleSort,
     this.invertSortChipActive = false,
     this.enabled = true,
+    this.disabledSemanticsLabel,
     this.accountChipEnabled = true,
   });
 
@@ -230,7 +234,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
     if (!enabled) {
       return Semantics(
         enabled: false,
-        label: l10n.semanticsFiltersDisabled,
+        label: disabledSemanticsLabel ?? l10n.semanticsFiltersDisabled,
         child: Opacity(
           opacity: 0.5,
           child: IgnorePointer(
