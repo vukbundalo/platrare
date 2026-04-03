@@ -702,6 +702,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchCurrencies => 'Search currencies…';
 
   @override
+  String get period1M => '1M';
+
+  @override
+  String get period3M => '3M';
+
+  @override
+  String get period6M => '6M';
+
+  @override
+  String get period1Y => '1Y';
+
+  @override
+  String get periodAll => 'ALL';
+
+  @override
+  String get categoryLabel => 'category';
+
+  @override
+  String get categoriesLabel => 'categories';
+
+  @override
+  String transactionSavedMessage(String type, String amount) {
+    return '$type saved  •  $amount';
+  }
+
+  @override
   String get tooltipSettings => 'Settings';
 
   @override
@@ -1013,6 +1039,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String semanticsProjectedBalance(String amount) {
     return 'Projected personal balance $amount';
   }
+
+  @override
+  String get statsEmptyTitle => 'No transactions yet';
+
+  @override
+  String get statsEmptySubtitle => 'Your spending statistics will appear here';
 
   @override
   String get semanticsShowProjections => 'Show projected balances by account';

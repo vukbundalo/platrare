@@ -290,9 +290,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
     return '${formatAppDate(context, 'MMM yyyy', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
   }
 
-  String get _periodLabel => switch (_spendingMonths) {
-    1 => '1M', 3 => '3M', 6 => '6M', 12 => '1Y', _ => 'ALL',
-  };
+  String _periodLabel(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return switch (_spendingMonths) {
+      1 => l10n.period1M,
+      3 => l10n.period3M,
+      6 => l10n.period6M,
+      12 => l10n.period1Y,
+      _ => l10n.periodAll,
+    };
+  }
 
   void _cyclePeriod() => setState(() {
     _dateOffset = 0;
@@ -372,10 +379,19 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   // ── Account mutations ──────────────────────────────────────────────────────
 
+  AccountGroup? get _activeGroupFromSection => switch (_activeSection) {
+        'personal' => AccountGroup.personal,
+        'individuals' => AccountGroup.individuals,
+        'entities' => AccountGroup.entities,
+        _ => null,
+      };
+
   Future<void> _addAccount() async {
     final result = await Navigator.push<bool>(
       context,
-      MaterialPageRoute(builder: (_) => const AccountFormScreen()),
+      MaterialPageRoute(
+          builder: (_) =>
+              AccountFormScreen(initialGroup: _activeGroupFromSection)),
     );
     if (result == true) {
       setState(() {});
@@ -701,6 +717,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   ],
 
                   // ── Statistics ────────────────────────────────────────────
+                  if (_activeSection == 'statistics' && data.transactions.isEmpty) ...[
+                    _StatsEmptyState(),
+                  ],
                   if (_activeSection == 'statistics' && data.transactions.isNotEmpty) ...[
                     _StatsHeader(
                       activeStats: statsTab,
@@ -708,7 +727,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         // Always keep exactly one of expense/income selected.
                         _activeStats = s;
                       }),
-                      periodLabel: _periodLabel,
+                      periodLabel: _periodLabel(context),
+                      spendingMonths: _spendingMonths,
                       dateRangeLabel: _dateRangeLabel(context),
                       onCyclePeriod: _cyclePeriod,
                       canNavigateForward: _dateOffset > 0,
@@ -786,7 +806,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     if (statsTab == 'expense' && !_compareMode)
                       _SpendingBody(
                         spending: _categorySpending,
-                        periodLabel: _periodLabel,
+                        periodLabel: _periodLabel(context),
+                        spendingMonths: _spendingMonths,
                         vizMode: _vizMode,
                         displayCurrency: _displayCurrency,
                       ),
@@ -833,7 +854,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     if (statsTab == 'income' && !_compareMode)
                       _IncomeBody(
                         income: _categoryIncome,
-                        periodLabel: _periodLabel,
+                        periodLabel: _periodLabel(context),
+                        spendingMonths: _spendingMonths,
                         vizMode: _vizMode,
                         displayCurrency: _displayCurrency,
                       ),
@@ -1009,6 +1031,7 @@ class _StatsHeader extends StatelessWidget {
   final String? activeStats;
   final void Function(String s) onSelectStats;
   final String periodLabel;
+  final int spendingMonths;
   final String dateRangeLabel;
   final VoidCallback onCyclePeriod;
   final bool canNavigateForward;
@@ -1027,6 +1050,7 @@ class _StatsHeader extends StatelessWidget {
     required this.activeStats,
     required this.onSelectStats,
     required this.periodLabel,
+    required this.spendingMonths,
     required this.dateRangeLabel,
     required this.onCyclePeriod,
     required this.canNavigateForward,
@@ -1045,7 +1069,7 @@ class _StatsHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
-    final isAllTime = periodLabel == 'ALL';
+    final isAllTime = spendingMonths == 0;
     final vizIcon = vizMode == 1 ? Icons.donut_large_rounded : Icons.bar_chart_rounded;
 
     // Same footprint as _NetWorthHero chips: full row width, shared chip height, 6px gaps.
@@ -1679,12 +1703,14 @@ class _CompareCategoryAmountsPanel extends StatelessWidget {
 class _SpendingBody extends StatelessWidget {
   final Map<String, ({double total, int count})> spending;
   final String periodLabel;
+  final int spendingMonths;
   final int vizMode;
   final String displayCurrency;
 
   const _SpendingBody({
     required this.spending,
     required this.periodLabel,
+    required this.spendingMonths,
     required this.vizMode,
     required this.displayCurrency,
   });
@@ -1702,9 +1728,9 @@ class _SpendingBody extends StatelessWidget {
     final totalSpent = fx.convert(totalSpentBase, settings.baseCurrency, displayCurrency);
     final sym = fx.currencySymbol(displayCurrency);
 
-    final emptyMsg = switch (periodLabel) {
-      '1M' => l10n.statsNoExpensesMonth,
-      'ALL' => l10n.statsNoExpensesAll,
+    final emptyMsg = switch (spendingMonths) {
+      1 => l10n.statsNoExpensesMonth,
+      0 => l10n.statsNoExpensesAll,
       _ => l10n.statsNoExpensesPeriod(periodLabel),
     };
 
@@ -1813,12 +1839,14 @@ class _SpendingBody extends StatelessWidget {
 class _IncomeBody extends StatelessWidget {
   final Map<String, ({double total, int count})> income;
   final String periodLabel;
+  final int spendingMonths;
   final int vizMode;
   final String displayCurrency;
 
   const _IncomeBody({
     required this.income,
     required this.periodLabel,
+    required this.spendingMonths,
     required this.vizMode,
     required this.displayCurrency,
   });
@@ -1836,9 +1864,9 @@ class _IncomeBody extends StatelessWidget {
     final totalReceived = fx.convert(totalReceivedBase, settings.baseCurrency, displayCurrency);
     final sym = fx.currencySymbol(displayCurrency);
 
-    final emptyMsg = switch (periodLabel) {
-      '1M' => l10n.statsNoIncomeMonth,
-      'ALL' => l10n.statsNoIncomeAll,
+    final emptyMsg = switch (spendingMonths) {
+      1 => l10n.statsNoIncomeMonth,
+      0 => l10n.statsNoIncomeAll,
       _ => l10n.statsNoIncomePeriod(periodLabel),
     };
 
@@ -2111,7 +2139,9 @@ class _DonutView extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: countSize, fontWeight: FontWeight.w800)),
                         Text(
-                          sorted.length == 1 ? 'category' : 'categories',
+                          sorted.length == 1
+                              ? AppLocalizations.of(context).categoryLabel
+                              : AppLocalizations.of(context).categoriesLabel,
                           style: TextStyle(
                               fontSize: 11, color: cs.onSurfaceVariant),
                         ),
@@ -2404,6 +2434,50 @@ class _AccountCard extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _StatsEmptyState extends StatelessWidget {
+  const _StatsEmptyState();
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 48),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 72,
+            height: 72,
+            decoration: BoxDecoration(
+              color: cs.primaryContainer.withValues(alpha: 0.5),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(Icons.bar_chart_rounded, size: 36, color: cs.primary),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            l10n.statsEmptyTitle,
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            l10n.statsEmptySubtitle,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 14,
+              color: cs.onSurfaceVariant,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -3001,7 +3075,8 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
 
 class AccountFormScreen extends StatefulWidget {
   final Account? existing;
-  const AccountFormScreen({super.key, this.existing});
+  final AccountGroup? initialGroup;
+  const AccountFormScreen({super.key, this.existing, this.initialGroup});
 
   @override
   State<AccountFormScreen> createState() => _AccountFormScreenState();
@@ -3038,7 +3113,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
           ? widget.existing!.overdraftLimit.toStringAsFixed(2)
           : '',
     );
-    _group = widget.existing?.group ?? AccountGroup.personal;
+    _group = widget.existing?.group ?? widget.initialGroup ?? AccountGroup.personal;
     _currencyCode =
         widget.existing?.currencyCode ?? settings.baseCurrency;
   }
@@ -3059,11 +3134,12 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
           _group != widget.existing!.group ||
           _parseOverdraftLimit() != widget.existing!.overdraftLimit;
     }
+    final defaultGroup = widget.initialGroup ?? AccountGroup.personal;
     return _nameController.text.trim().isNotEmpty ||
         _balanceController.text.trim().isNotEmpty ||
         _parseOverdraftLimit() > 0 ||
         _currencyCode != settings.baseCurrency ||
-        _group != AccountGroup.personal;
+        _group != defaultGroup;
   }
 
   bool get _canSave => _nameController.text.trim().isNotEmpty;
@@ -3680,7 +3756,7 @@ class _CurrencyPickerSheetState extends State<_CurrencyPickerSheet> {
                 autofocus: true,
                 onChanged: _onSearch,
                 decoration: InputDecoration(
-                  hintText: 'Search currency…',
+                  hintText: AppLocalizations.of(context).searchCurrencies,
                   prefixIcon: const Icon(Icons.search_rounded),
                   suffixIcon: _searchController.text.isNotEmpty
                       ? IconButton(

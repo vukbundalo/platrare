@@ -227,6 +227,17 @@
   "categoryAdd": "Dodaj",
   "searchCurrencies": "Pretraži valute\u2026",
 
+  "period1M": "1M",
+  "period3M": "3M",
+  "period6M": "6M",
+  "period1Y": "1G",
+  "periodAll": "SVE",
+
+  "categoryLabel": "kategorija",
+  "categoriesLabel": "kategorije",
+
+  "transactionSavedMessage": "{type} \u2014 sačuvano  \u2022  {amount}",
+
   "tooltipSettings": "Podešavanja",
   "tooltipAddAccount": "Dodaj račun",
   "tooltipRemoveAccount": "Ukloni račun",
@@ -329,6 +340,8 @@
 
   "semanticsProjectionDate": "Datum projekcije {date}. Dvaput dodirnite za izbor datuma",
   "semanticsProjectedBalance": "Projektovano lično stanje {amount}",
+  "statsEmptyTitle": "Još nema transakcija",
+  "statsEmptySubtitle": "Vaša statistika potrošnje će se pojaviti ovdje",
   "semanticsShowProjections": "Prikaži projektovana stanja po računu",
   "semanticsHideProjections": "Sakrij projektovana stanja po računu",
   "semanticsDateAllTime": "Datum: celo vreme \u2014 dodirnite za promenu režima",

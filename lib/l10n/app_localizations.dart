@@ -1305,6 +1305,54 @@ abstract class AppLocalizations {
   /// **'Search currencies…'**
   String get searchCurrencies;
 
+  /// No description provided for @period1M.
+  ///
+  /// In en, this message translates to:
+  /// **'1M'**
+  String get period1M;
+
+  /// No description provided for @period3M.
+  ///
+  /// In en, this message translates to:
+  /// **'3M'**
+  String get period3M;
+
+  /// No description provided for @period6M.
+  ///
+  /// In en, this message translates to:
+  /// **'6M'**
+  String get period6M;
+
+  /// No description provided for @period1Y.
+  ///
+  /// In en, this message translates to:
+  /// **'1Y'**
+  String get period1Y;
+
+  /// No description provided for @periodAll.
+  ///
+  /// In en, this message translates to:
+  /// **'ALL'**
+  String get periodAll;
+
+  /// No description provided for @categoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'category'**
+  String get categoryLabel;
+
+  /// No description provided for @categoriesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'categories'**
+  String get categoriesLabel;
+
+  /// No description provided for @transactionSavedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{type} saved  •  {amount}'**
+  String transactionSavedMessage(String type, String amount);
+
   /// No description provided for @tooltipSettings.
   ///
   /// In en, this message translates to:
@@ -1850,6 +1898,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Projected personal balance {amount}'**
   String semanticsProjectedBalance(String amount);
+
+  /// No description provided for @statsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions yet'**
+  String get statsEmptyTitle;
+
+  /// No description provided for @statsEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your spending statistics will appear here'**
+  String get statsEmptySubtitle;
 
   /// No description provided for @semanticsShowProjections.
   ///

@@ -223,7 +223,8 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
     HapticFeedback.lightImpact();
 
     final savedColor = txColor(type);
-    final savedLabel = l10nTxLabel(context, type);
+    final rawLabel = l10nTxLabel(context, type);
+    final titleLabel = '${rawLabel[0]}${rawLabel.substring(1).toLowerCase()}';
 
     if (mounted) {
       Navigator.pop(context, true);
@@ -231,7 +232,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
         SnackBar(
           content: Text(_isEdit
               ? AppLocalizations.of(context).transactionUpdated
-              : '${savedLabel[0]}${savedLabel.substring(1).toLowerCase()} saved  •  ${fx.formatNative(nativeAmt, ccy)}'),
+              : AppLocalizations.of(context).transactionSavedMessage(titleLabel, fx.formatNative(nativeAmt, ccy))),
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 2),
           shape:

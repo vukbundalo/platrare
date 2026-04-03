@@ -84,10 +84,14 @@ String currencySymbol(String code) => switch (code) {
       _ => code,
     };
 
+const _zeroDecimalCurrencies = {'JPY', 'KRW', 'VND', 'CLP', 'HUF', 'IDR'};
+
 /// Format an absolute (unsigned) amount with its currency symbol after.
 /// e.g. formatNative(123.45, 'EUR') → '123.45 €'
-String formatNative(double amount, String currencyCode) =>
-    '${amount.abs().toStringAsFixed(2)} ${currencySymbol(currencyCode)}';
+String formatNative(double amount, String currencyCode) {
+  final decimals = _zeroDecimalCurrencies.contains(currencyCode) ? 0 : 2;
+  return '${amount.abs().toStringAsFixed(decimals)} ${currencySymbol(currencyCode)}';
+}
 
 /// Format an amount in the global base currency.
 String formatBase(double amount) =>

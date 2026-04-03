@@ -301,6 +301,23 @@
   "categoryAdd": "Add",
   "searchCurrencies": "Search currencies\u2026",
 
+  "period1M": "1M",
+  "period3M": "3M",
+  "period6M": "6M",
+  "period1Y": "1Y",
+  "periodAll": "ALL",
+
+  "categoryLabel": "category",
+  "categoriesLabel": "categories",
+
+  "transactionSavedMessage": "{type} saved  \u2022  {amount}",
+  "@transactionSavedMessage": {
+    "placeholders": {
+      "type": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+
   "tooltipSettings": "Settings",
   "tooltipAddAccount": "Add account",
   "tooltipRemoveAccount": "Remove account",
@@ -440,6 +457,8 @@
       "amount": {"type": "String"}
     }
   },
+  "statsEmptyTitle": "No transactions yet",
+  "statsEmptySubtitle": "Your spending statistics will appear here",
   "semanticsShowProjections": "Show projected balances by account",
   "semanticsHideProjections": "Hide projected balances by account",
   "semanticsDateAllTime": "Date: all time \u2014 tap to change mode",

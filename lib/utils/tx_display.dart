@@ -12,19 +12,6 @@ Color txColor(TxType t) => switch (t) {
       TxType.bill => const Color(0xFFD97706),
     };
 
-String txLabel(TxType t) => switch (t) {
-      TxType.income => 'INCOME',
-      TxType.expense => 'EXPENSE',
-      TxType.invoice => 'INVOICE',
-      TxType.bill => 'BILL',
-      TxType.advance => 'ADVANCE',
-      TxType.settlement => 'SETTLEMENT',
-      TxType.loan => 'LOAN',
-      TxType.collection => 'COLLECTION',
-      TxType.offset => 'OFFSET',
-      TxType.transfer => 'TRANSFER',
-    };
-
 IconData txIcon(TxType t) => switch (t) {
       TxType.income || TxType.collection => Icons.arrow_downward_rounded,
       TxType.expense || TxType.settlement => Icons.arrow_outward_rounded,

@@ -636,6 +636,8 @@ class _PlanScreenState extends State<PlanScreen> {
         builder: (_) => PlannedTransactionDetailScreen(
           pt: pt,
           onConfirm: () => _confirm(pt),
+          onEdit: () => _edit(pt),
+          onDelete: () => _deleteWithRepeatChoice(pt),
         ),
       ),
     );
@@ -1618,7 +1620,7 @@ class _ProjectionPanel extends StatelessWidget {
                         fontWeight: FontWeight.w600)),
                 const Spacer(),
                 Text(
-                  '${total > 0 ? '+' : ''}${total.toStringAsFixed(2)} KM',
+                  '${total > 0 ? '+' : ''}${total.toStringAsFixed(2)} ${fx.currencySymbol(settings.baseCurrency)}',
                   style: TextStyle(
                       color: pos ? _kIncomeColor : _kExpenseColor,
                       fontWeight: FontWeight.w800,

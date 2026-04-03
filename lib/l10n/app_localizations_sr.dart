@@ -705,6 +705,32 @@ class AppLocalizationsSr extends AppLocalizations {
   String get searchCurrencies => 'Pretraži valute…';
 
   @override
+  String get period1M => '1M';
+
+  @override
+  String get period3M => '3M';
+
+  @override
+  String get period6M => '6M';
+
+  @override
+  String get period1Y => '1G';
+
+  @override
+  String get periodAll => 'SVE';
+
+  @override
+  String get categoryLabel => 'kategorija';
+
+  @override
+  String get categoriesLabel => 'kategorije';
+
+  @override
+  String transactionSavedMessage(String type, String amount) {
+    return '$type — sačuvano  •  $amount';
+  }
+
+  @override
   String get tooltipSettings => 'Podešavanja';
 
   @override
@@ -1018,6 +1044,13 @@ class AppLocalizationsSr extends AppLocalizations {
   String semanticsProjectedBalance(String amount) {
     return 'Projektovano lično stanje $amount';
   }
+
+  @override
+  String get statsEmptyTitle => 'Još nema transakcija';
+
+  @override
+  String get statsEmptySubtitle =>
+      'Vaša statistika potrošnje će se pojaviti ovdje';
 
   @override
   String get semanticsShowProjections =>
@@ -1773,6 +1806,32 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   String get searchCurrencies => 'Pretraži valute…';
 
   @override
+  String get period1M => '1M';
+
+  @override
+  String get period3M => '3M';
+
+  @override
+  String get period6M => '6M';
+
+  @override
+  String get period1Y => '1G';
+
+  @override
+  String get periodAll => 'SVE';
+
+  @override
+  String get categoryLabel => 'kategorija';
+
+  @override
+  String get categoriesLabel => 'kategorije';
+
+  @override
+  String transactionSavedMessage(String type, String amount) {
+    return '$type — sačuvano  •  $amount';
+  }
+
+  @override
   String get tooltipSettings => 'Podešavanja';
 
   @override
@@ -2086,6 +2145,13 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   String semanticsProjectedBalance(String amount) {
     return 'Projektovano lično stanje $amount';
   }
+
+  @override
+  String get statsEmptyTitle => 'Još nema transakcija';
+
+  @override
+  String get statsEmptySubtitle =>
+      'Vaša statistika potrošnje će se pojaviti ovdje';
 
   @override
   String get semanticsShowProjections =>
