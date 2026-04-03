@@ -2,11 +2,22 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/account.dart';
+import '../utils/app_format.dart';
 import 'app_hero_layout.dart';
 
 /// Shared by Track and Plan: account/category strip + main chip row.
 enum TrackPlanFilterPanel { none, account, category }
+
+String _semanticsDateModeWord(AppLocalizations l10n, String letter) {
+  return switch (letter) {
+    'M' => l10n.repeatMonthly,
+    'W' => l10n.repeatWeekly,
+    'Y' => l10n.repeatYearly,
+    _ => l10n.repeatYearly,
+  };
+}
 
 // ─── Main filter chip row (matches Track hero bottom row) ─────────────────────
 
@@ -59,6 +70,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     Widget mainChip({
       required IconData icon,
@@ -138,9 +150,9 @@ class TrackPlanFilterChipRow extends StatelessWidget {
       );
       final semantics = letter != null
           ? letter == '∞'
-              ? 'Date: all time — tap to change mode'
-              : 'Date: ${letter == 'M' ? 'month' : letter == 'W' ? 'week' : 'year'} — tap to change mode'
-          : 'Date: this month — tap for month, week, year, or all time';
+              ? l10n.semanticsDateAllTime
+              : l10n.semanticsDateMode(_semanticsDateModeWord(l10n, letter))
+          : l10n.semanticsDateThisMonth;
       return Expanded(
         child: Semantics(
           label: semantics,
@@ -156,8 +168,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
           icon: _typeMainIcon(),
           active: typeFilter != null,
           onTap: onCycleType,
-          semanticsLabel:
-              'Transaction type: cycle all, income, expense, transfer',
+          semanticsLabel: l10n.semanticsTxTypeCycle,
         ),
         const SizedBox(width: 6),
         mainDateChip(),
@@ -168,11 +179,11 @@ class TrackPlanFilterChipRow extends StatelessWidget {
                 active: accountFilter != null ||
                     panel == TrackPlanFilterPanel.account,
                 onTap: () => onTogglePanel(TrackPlanFilterPanel.account),
-                semanticsLabel: 'Account filter',
+                semanticsLabel: l10n.semanticsAccountFilter,
               )
             : Expanded(
                 child: Tooltip(
-                  message: 'Already filtered to this account',
+                  message: l10n.semanticsAlreadyFiltered,
                   child: Opacity(
                     opacity: 0.45,
                     child: IgnorePointer(
@@ -202,7 +213,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
           active: categoryFilter != null ||
               panel == TrackPlanFilterPanel.category,
           onTap: () => onTogglePanel(TrackPlanFilterPanel.category),
-          semanticsLabel: 'Category filter',
+          semanticsLabel: l10n.semanticsCategoryFilter,
         ),
         const SizedBox(width: 6),
         mainChip(
@@ -211,7 +222,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
               : Icons.arrow_upward_rounded,
           active: invertSortChipActive ? newestFirst : !newestFirst,
           onTap: onToggleSort,
-          semanticsLabel: 'Sort: toggle newest or oldest first',
+          semanticsLabel: l10n.semanticsSortToggle,
         ),
       ],
     );
@@ -219,8 +230,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
     if (!enabled) {
       return Semantics(
         enabled: false,
-        label:
-            'List filters disabled while viewing a future projection date. Clear projections to use filters.',
+        label: l10n.semanticsFiltersDisabled,
         child: Opacity(
           opacity: 0.5,
           child: IgnorePointer(
@@ -416,6 +426,7 @@ class TrackPlanFilterStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final accountsSorted = List<Account>.from(accounts)
       ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
@@ -423,11 +434,11 @@ class TrackPlanFilterStrip extends StatelessWidget {
       final items = <Widget>[
         trackPlanNamePill(
           context,
-          label: 'All',
+          label: l10n.filterAll,
           selected: accountFilter == null,
           stripMaxWidth: kTrackPlanFilterStripChipMaxWidth,
           onTap: () => onAccountFilter(null),
-          semanticsLabel: 'All accounts',
+          semanticsLabel: l10n.filterAllAccounts,
         ),
         ...accountsSorted.map(
           (a) => trackPlanNamePill(
@@ -464,27 +475,30 @@ class TrackPlanFilterStrip extends StatelessWidget {
       final items = <Widget>[
         trackPlanNamePill(
           context,
-          label: 'All',
+          label: l10n.filterAll,
           selected: categoryFilter == null,
           stripMaxWidth: kTrackPlanFilterStripChipMaxWidth,
           onTap: () => onCategoryFilter(null),
-          semanticsLabel: 'All categories',
+          semanticsLabel: l10n.filterAllCategories,
         ),
         ...categories.map(
-          (cat) => trackPlanNamePill(
-            context,
-            label: cat,
-            selected: categoryFilter == cat,
-            stripMaxWidth: kTrackPlanFilterStripChipMaxWidth,
-            onTap: () {
-              if (categoryFilter == cat) {
-                onCategoryFilter(null);
-              } else {
-                onCategoryFilter(cat);
-              }
-            },
-            semanticsLabel: cat,
-          ),
+          (cat) {
+            final catLabel = l10nCategoryName(context, cat);
+            return trackPlanNamePill(
+              context,
+              label: catLabel,
+              selected: categoryFilter == cat,
+              stripMaxWidth: kTrackPlanFilterStripChipMaxWidth,
+              onTap: () {
+                if (categoryFilter == cat) {
+                  onCategoryFilter(null);
+                } else {
+                  onCategoryFilter(cat);
+                }
+              },
+              semanticsLabel: catLabel,
+            );
+          },
         ),
       ];
       return SizedBox(
