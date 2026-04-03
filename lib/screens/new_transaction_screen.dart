@@ -1,14 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:open_filex/open_filex.dart';
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
+import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../models/transaction.dart';
+import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/tx_display.dart';
 
@@ -62,18 +63,17 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('Discard changes?'),
-        content: const Text(
-            'You have unsaved changes. They will be lost if you leave now.'),
+        title: Text(AppLocalizations.of(ctx).discardTitle),
+        content: Text(AppLocalizations.of(ctx).discardBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Keep editing'),
+            child: Text(AppLocalizations.of(ctx).keepEditing),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Discard'),
+            child: Text(AppLocalizations.of(ctx).discard),
           ),
         ],
       ),
@@ -151,9 +151,11 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
     return txColor(_txType);
   }
 
-  String _deriveLabel() {
-    if (_fromAccount == null && _toAccount == null) return 'TRANSACTION';
-    return txLabel(_txType);
+  String _deriveLabel(BuildContext context) {
+    if (_fromAccount == null && _toAccount == null) {
+      return AppLocalizations.of(context).txLabelTransaction;
+    }
+    return l10nTxLabel(context, _txType);
   }
 
   void _save() {
@@ -221,14 +223,14 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
     HapticFeedback.lightImpact();
 
     final savedColor = txColor(type);
-    final savedLabel = txLabel(type);
+    final savedLabel = l10nTxLabel(context, type);
 
     if (mounted) {
       Navigator.pop(context, true);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(_isEdit
-              ? 'Transaction updated'
+              ? AppLocalizations.of(context).transactionUpdated
               : '${savedLabel[0]}${savedLabel.substring(1).toLowerCase()} saved  •  ${fx.formatNative(nativeAmt, ccy)}'),
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 2),
@@ -305,16 +307,17 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     final today = DateUtils.dateOnly(DateTime.now());
     final sel = DateUtils.dateOnly(_date);
     final dateLabel = sel == today
-        ? 'Today'
+        ? l10n.dateToday
         : sel == today.subtract(const Duration(days: 1))
-            ? 'Yesterday'
-            : DateFormat('MMM d').format(_date);
+            ? l10n.dateYesterday
+            : formatAppDate(context, 'MMM d', _date);
 
     final tc = _deriveColor(cs);
-    final label = _deriveLabel();
+    final label = _deriveLabel(context);
 
     return PopScope(
       canPop: !_isDirty || _forceClose,
@@ -324,7 +327,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       child: Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
-        title: Text(_isEdit ? 'Edit Transaction' : 'New Transaction'),
+        title: Text(_isEdit ? l10n.editTransactionTitle : l10n.newTransactionTitle),
         actions: [
           GestureDetector(
             onTap: _pickDate,
@@ -439,11 +442,11 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                   const SizedBox(height: 24),
 
                   // ── Accounts ─────────────────────────────────────────
-                  _SectionLabel('Accounts'),
+                  _SectionLabel(AppLocalizations.of(context).sectionAccounts),
                   const SizedBox(height: 8),
 
                   _AccountTile(
-                    label: 'From',
+                    label: AppLocalizations.of(context).labelFrom,
                     account: _fromAccount,
                     accentColor: const Color(0xFFDC2626),
                     icon: Icons.arrow_upward_rounded,
@@ -460,7 +463,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                   const SizedBox(height: 8),
 
                   _AccountTile(
-                    label: 'To',
+                    label: AppLocalizations.of(context).labelTo,
                     account: _toAccount,
                     accentColor: const Color(0xFF16A34A),
                     icon: Icons.arrow_downward_rounded,
@@ -495,7 +498,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         const SizedBox(height: 24),
-                        _SectionLabel('Category'),
+                        _SectionLabel(AppLocalizations.of(context).sectionCategory),
                         const SizedBox(height: 8),
                         Wrap(
                           spacing: 8,
@@ -503,7 +506,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                           children: cats.map((cat) {
                             final sel = _category == cat;
                             return FilterChip(
-                              label: Text(cat),
+                              label: Text(l10nCategoryName(context, cat)),
                               selected: sel,
                               selectedColor: cs.primaryContainer,
                               checkmarkColor: cs.primary,
@@ -531,8 +534,9 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                   // ── Destination amount (cross-currency only, Rule 4) ──
                   if (_isCrossCurrency) ...[
                     const SizedBox(height: 20),
-                    _SectionLabel(
-                        'Amount received by ${_toAccount!.name} (${_toAccount!.currencyCode})'),
+                    _SectionLabel(AppLocalizations.of(context)
+                        .amountReceivedBy(
+                            _toAccount!.name, _toAccount!.currencyCode)),
                     const SizedBox(height: 8),
                     TextField(
                       controller: _destinationAmountController,
@@ -543,8 +547,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                             '  ${fx.currencySymbol(_toAccount!.currencyCode)}',
                         hintText: '0.00',
                         helperText:
-                            'Enter the exact amount the destination account receives. '
-                            'This locks the real exchange rate used.',
+                            AppLocalizations.of(context).amountReceivedHelper,
                       ),
                       onChanged: (_) => setState(() {}),
                     ),
@@ -556,8 +559,9 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                   TextField(
                     controller: _noteController,
                     decoration: InputDecoration(
-                      labelText: 'Note',
-                      hintText: 'Optional description',
+                      labelText: AppLocalizations.of(context).labelNote,
+                      hintText:
+                          AppLocalizations.of(context).hintOptionalDescription,
                       prefixIcon: Icon(Icons.notes_rounded,
                           color: cs.onSurfaceVariant, size: 20),
                     ),
@@ -567,7 +571,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 
                   // ── Attachments ───────────────────────────────────────
                   const SizedBox(height: 20),
-                  _SectionLabel('Attachments'),
+                  _SectionLabel(AppLocalizations.of(context).sectionAttachments),
                   const SizedBox(height: 8),
                   _AttachmentsSection(
                     attachments: _attachments,
@@ -645,7 +649,10 @@ class _SaveBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(isEdit ? 'Update Transaction' : 'Save Transaction',
+            Text(
+                isEdit
+                    ? AppLocalizations.of(context).updateTransaction
+                    : AppLocalizations.of(context).saveTransaction,
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
             if (amount != null) ...[
@@ -774,7 +781,9 @@ class _AccountTile extends StatelessWidget {
                   ),
                   const SizedBox(height: 1),
                   Text(
-                    has ? account!.name : 'Select account',
+                    has
+                        ? account!.name
+                        : AppLocalizations.of(context).selectAccount,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight:
@@ -880,7 +889,7 @@ class _AccountPickerSheet extends StatelessWidget {
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text('Select Account',
+              child: Text(AppLocalizations.of(context).selectAccountTitle,
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
@@ -893,21 +902,31 @@ class _AccountPickerSheet extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
                 children: [
                   if (personal.isNotEmpty) ...[
-                    _sheetHeader(context, 'Personal', cs.primary),
+                    _sheetHeader(
+                        context,
+                        l10nAccountSectionTitle(context, AccountGroup.personal),
+                        cs.primary),
                     const SizedBox(height: 6),
                     ...personal.map((a) =>
                         _sheetTile(context, account: a, isPersonal: true)),
                   ],
                   if (individuals.isNotEmpty) ...[
                     const SizedBox(height: 12),
-                    _sheetHeader(context, 'Individuals', cs.tertiary),
+                    _sheetHeader(
+                        context,
+                        l10nAccountSectionTitle(
+                            context, AccountGroup.individuals),
+                        cs.tertiary),
                     const SizedBox(height: 6),
                     ...individuals.map((a) =>
                         _sheetTile(context, account: a, isPersonal: false)),
                   ],
                   if (entities.isNotEmpty) ...[
                     const SizedBox(height: 12),
-                    _sheetHeader(context, 'Entities', cs.secondary),
+                    _sheetHeader(
+                        context,
+                        l10nAccountSectionTitle(context, AccountGroup.entities),
+                        cs.secondary),
                     const SizedBox(height: 6),
                     ...entities.map((a) =>
                         _sheetTile(context, account: a, isPersonal: false)),
@@ -916,7 +935,8 @@ class _AccountPickerSheet extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(32),
                       child: Center(
-                        child: Text('No accounts available',
+                        child: Text(
+                            AppLocalizations.of(context).noAccountsAvailable,
                             style:
                                 TextStyle(color: cs.onSurfaceVariant)),
                       ),
@@ -1047,22 +1067,22 @@ class _AttachSourceSheet extends StatelessWidget {
             ),
             _SourceTile(
               icon: Icons.camera_alt_rounded,
-              label: 'Take photo',
-              subtitle: 'Use camera to capture a receipt',
+              label: AppLocalizations.of(context).attachTakePhoto,
+              subtitle: AppLocalizations.of(context).attachTakePhotoSub,
               onTap: () => Navigator.pop(context, _AttachSource.camera),
             ),
             const SizedBox(height: 8),
             _SourceTile(
               icon: Icons.photo_library_rounded,
-              label: 'Choose from gallery',
-              subtitle: 'Select photos from your library',
+              label: AppLocalizations.of(context).attachChooseGallery,
+              subtitle: AppLocalizations.of(context).attachChooseGallerySub,
               onTap: () => Navigator.pop(context, _AttachSource.gallery),
             ),
             const SizedBox(height: 8),
             _SourceTile(
               icon: Icons.folder_open_rounded,
-              label: 'Browse files',
-              subtitle: 'Attach PDFs, documents or other files',
+              label: AppLocalizations.of(context).attachBrowseFiles,
+              subtitle: AppLocalizations.of(context).attachBrowseFilesSub,
               onTap: () => Navigator.pop(context, _AttachSource.files),
             ),
           ],
@@ -1259,7 +1279,7 @@ class _AttachmentsSection extends StatelessWidget {
                 Icon(Icons.attach_file_rounded, size: 16, color: cs.primary),
                 const SizedBox(width: 6),
                 Text(
-                  'Attach',
+                  AppLocalizations.of(context).attachButton,
                   style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
