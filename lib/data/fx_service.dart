@@ -13,7 +13,7 @@ const String _cacheKey = 'cached_fx_rates';
 const Duration _staleness = Duration(hours: 6);
 
 /// Singleton service that keeps [settings.exchangeRates] up-to-date with ECB
-/// data via the Frankfurter API.
+/// data via the Frankfurter API (v2 on api.frankfurter.dev, with legacy fallback).
 class FxService {
   FxService._();
   static final FxService instance = FxService._();
@@ -46,18 +46,44 @@ class FxService {
   /// Returns silently on failure (keeps existing rates).
   Future<void> refreshRates() async {
     try {
-      final uri = Uri.parse('https://api.frankfurter.dev/latest?base=EUR');
-      final response = await http.get(uri).timeout(const Duration(seconds: 10));
-      if (response.statusCode != 200) {
-        debugPrint('[FxService] HTTP ${response.statusCode} – keeping cached rates');
+      final v2 = Uri.parse('https://api.frankfurter.dev/v2/rates?base=EUR');
+      final response =
+          await http.get(v2).timeout(const Duration(seconds: 10));
+
+      Map<String, double>? apiRates;
+      DateTime? updatedAt;
+
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(response.body);
+        if (decoded is List<dynamic>) {
+          apiRates = _parseFrankfurterV2(decoded, outDataAsOf: (d) => updatedAt = d);
+        }
+      }
+
+      // Legacy v1 shape (still served on api.frankfurter.app as of 2026).
+      if (apiRates == null || apiRates.isEmpty) {
+        final legacy = Uri.parse('https://api.frankfurter.app/latest?base=EUR');
+        final legacyRes =
+            await http.get(legacy).timeout(const Duration(seconds: 10));
+        if (legacyRes.statusCode != 200) {
+          debugPrint(
+            '[FxService] HTTP ${legacyRes.statusCode} – keeping cached rates',
+          );
+          return;
+        }
+        final body = jsonDecode(legacyRes.body) as Map<String, dynamic>;
+        apiRates = (body['rates'] as Map<String, dynamic>)
+            .map((k, v) => MapEntry(k, (v as num).toDouble()));
+        updatedAt = DateTime.tryParse(body['date'] as String? ?? '')
+            ?.toUtc();
+      }
+
+      if (apiRates.isEmpty) {
+        debugPrint('[FxService] Empty rate payload – keeping cached rates');
         return;
       }
 
-      final body = jsonDecode(response.body) as Map<String, dynamic>;
-      final apiRates = (body['rates'] as Map<String, dynamic>)
-          .map((k, v) => MapEntry(k, (v as num).toDouble()));
-
-      final now = DateTime.now().toUtc();
+      final now = updatedAt ?? DateTime.now().toUtc();
       _applyApiRates(apiRates);
       _lastUpdated = now;
 
@@ -66,6 +92,31 @@ class FxService {
     } catch (e) {
       debugPrint('[FxService] Refresh failed: $e – keeping cached/hardcoded rates');
     }
+  }
+
+  /// Frankfurter v2 returns a JSON array of `{date, base, quote, rate}`.
+  static Map<String, double> _parseFrankfurterV2(
+    List<dynamic> rows, {
+    void Function(DateTime?)? outDataAsOf,
+  }) {
+    final out = <String, double>{};
+    DateTime? newest;
+    for (final row in rows) {
+      if (row is! Map<String, dynamic>) continue;
+      final quote = row['quote'] as String?;
+      final rate = row['rate'];
+      if (quote == null || quote == 'EUR' || rate is! num) continue;
+      out[quote] = rate.toDouble();
+      final ds = row['date'] as String?;
+      if (ds != null) {
+        final d = DateTime.tryParse(ds);
+        if (d != null && (newest == null || d.isAfter(newest))) {
+          newest = d;
+        }
+      }
+    }
+    outDataAsOf?.call(newest?.toUtc());
+    return out;
   }
 
   // ---------------------------------------------------------------------------
