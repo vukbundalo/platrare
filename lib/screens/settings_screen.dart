@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../data/app_data.dart' as data;
+import '../data/locale_prefs.dart';
 import '../data/user_settings.dart' as settings;
+import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../utils/fx.dart' as fx;
 
@@ -12,9 +14,85 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  String _languageSubtitle(AppLocalePreference p, AppLocalizations l10n) {
+    return switch (p) {
+      AppLocalePreference.system => l10n.settingsLanguageSubtitleSystem,
+      AppLocalePreference.english => l10n.settingsLanguageSubtitleEnglish,
+      AppLocalePreference.serbianLatin =>
+        l10n.settingsLanguageSubtitleSerbianLatin,
+    };
+  }
+
+  String _languageBadge(AppLocalePreference p) => switch (p) {
+        AppLocalePreference.system => '···',
+        AppLocalePreference.english => 'EN',
+        AppLocalePreference.serbianLatin => 'SR',
+      };
+
+  void _openLanguagePicker(BuildContext context, AppLocalizations l10n) {
+    final current = appLocalePreference.value;
+    showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      useSafeArea: true,
+      builder: (ctx) {
+        final sheetCs = Theme.of(ctx).colorScheme;
+        Widget option({
+          required String title,
+          required AppLocalePreference value,
+        }) {
+          final selected = current == value;
+          return ListTile(
+            title: Text(title),
+            trailing: selected
+                ? Icon(Icons.check_rounded, color: sheetCs.primary)
+                : null,
+            onTap: () {
+              setAppLocalePreference(value);
+              Navigator.pop(ctx);
+              setState(() {});
+            },
+          );
+        }
+
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 4),
+                child: Text(
+                  l10n.settingsLanguagePickerTitle,
+                  style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
+              ),
+              option(
+                title: l10n.settingsLanguageOptionSystem,
+                value: AppLocalePreference.system,
+              ),
+              option(
+                title: l10n.settingsLanguageOptionEnglish,
+                value: AppLocalePreference.english,
+              ),
+              option(
+                title: l10n.settingsLanguageOptionSerbianLatin,
+                value: AppLocalePreference.serbianLatin,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     final archivedCount = data.accounts.where((a) => a.archived).length;
 
     Widget currencyCard({
@@ -75,17 +153,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(l10n.settingsTitle),
         backgroundColor: cs.surface,
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         children: [
-          _SectionLabel('Display'),
+          _SectionLabel(l10n.settingsSectionDisplay),
           const SizedBox(height: 8),
           currencyCard(
             icon: Icons.home_rounded,
-            title: 'Base currency',
+            title: l10n.settingsBaseCurrency,
             subtitle:
                 '${settings.baseCurrency} · ${settings.currencyNames[settings.baseCurrency] ?? settings.baseCurrency}',
             badge: fx.currencySymbol(settings.baseCurrency),
@@ -105,7 +183,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 8),
           currencyCard(
             icon: Icons.currency_exchange_rounded,
-            title: 'Secondary display currency',
+            title: l10n.settingsSecondaryCurrency,
             subtitle:
                 '${settings.secondaryCurrency} · ${settings.currencyNames[settings.secondaryCurrency] ?? settings.secondaryCurrency}',
             badge: fx.currencySymbol(settings.secondaryCurrency),
@@ -123,13 +201,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
           const SizedBox(height: 24),
-          _SectionLabel('Categories'),
+          _SectionLabel(l10n.settingsSectionLanguage),
+          const SizedBox(height: 8),
+          ListenableBuilder(
+            listenable: appLocalePreference,
+            builder: (context, _) {
+              final pref = appLocalePreference.value;
+              return currencyCard(
+                icon: Icons.language_rounded,
+                title: l10n.settingsLanguage,
+                subtitle: _languageSubtitle(pref, l10n),
+                badge: _languageBadge(pref),
+                onTap: () => _openLanguagePicker(context, l10n),
+              );
+            },
+          ),
+          const SizedBox(height: 24),
+          _SectionLabel(l10n.settingsSectionCategories),
           const SizedBox(height: 8),
           currencyCard(
             icon: Icons.label_outline_rounded,
-            title: 'Categories',
-            subtitle:
-                '${data.incomeCategories.length} income · ${data.expenseCategories.length} expense',
+            title: l10n.settingsCategories,
+            subtitle: l10n.settingsCategoriesSubtitle(
+              data.incomeCategories.length,
+              data.expenseCategories.length,
+            ),
             badge:
                 '${data.incomeCategories.length + data.expenseCategories.length}',
             onTap: () async {
@@ -142,14 +238,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
           const SizedBox(height: 24),
-          _SectionLabel('Accounts'),
+          _SectionLabel(l10n.settingsSectionAccounts),
           const SizedBox(height: 8),
           currencyCard(
             icon: Icons.inventory_2_outlined,
-            title: 'Archived accounts',
+            title: l10n.settingsArchivedAccounts,
             subtitle: archivedCount == 0
-                ? 'None right now — archive from account edit when balance is clear'
-                : '$archivedCount hidden from Review and pickers',
+                ? l10n.settingsArchivedAccountsSubtitleZero
+                : l10n.settingsArchivedAccountsSubtitleCount(archivedCount),
             badge: '$archivedCount',
             onTap: () async {
               await Navigator.push<void>(
@@ -177,21 +273,22 @@ class ArchivedAccountsScreen extends StatefulWidget {
 }
 
 class _ArchivedAccountsScreenState extends State<ArchivedAccountsScreen> {
-  String _groupLabel(AccountGroup g) => switch (g) {
-        AccountGroup.personal => 'Personal',
-        AccountGroup.individuals => 'Individual',
-        AccountGroup.entities => 'Entity',
+  String _groupLabel(AccountGroup g, AppLocalizations l10n) => switch (g) {
+        AccountGroup.personal => l10n.accountGroupPersonal,
+        AccountGroup.individuals => l10n.accountGroupIndividual,
+        AccountGroup.entities => l10n.accountGroupEntity,
       };
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     final archived =
         data.accounts.where((a) => a.archived).toList();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Archived accounts'),
+        title: Text(l10n.archivedAccountsTitle),
         backgroundColor: cs.surface,
       ),
       body: archived.isEmpty
@@ -208,14 +305,14 @@ class _ArchivedAccountsScreenState extends State<ArchivedAccountsScreen> {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'No archived accounts',
+                      l10n.archivedAccountsEmptyTitle,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w700,
                           ),
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'When you archive an account from Review, it will appear here. You can restore it anytime.',
+                      l10n.archivedAccountsEmptyBody,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: cs.onSurfaceVariant,
@@ -236,12 +333,12 @@ class _ArchivedAccountsScreenState extends State<ArchivedAccountsScreen> {
                   margin: EdgeInsets.zero,
                   child: ListTile(
                     title: Text(a.name),
-                    subtitle: Text(_groupLabel(a.group)),
+                    subtitle: Text(_groupLabel(a.group, l10n)),
                     trailing: TextButton(
                       onPressed: () {
                         setState(() => a.archived = false);
                       },
-                      child: const Text('Restore'),
+                      child: Text(l10n.restore),
                     ),
                   ),
                 );

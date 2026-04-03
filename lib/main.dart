@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'data/locale_prefs.dart';
+import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'screens/track_screen.dart';
 import 'screens/plan_screen.dart';
 import 'screens/review_screen.dart';
 import 'utils/fx.dart' as fx;
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initAppLocale();
   // Run multi-currency logic test in debug mode (Rules 3, 4, 5).
   assert(() {
     debugPrint('[FX Test] ${fx.runFxLogicTest()}');
@@ -23,15 +26,61 @@ void main() {
 class PlatrareApp extends StatelessWidget {
   const PlatrareApp({super.key});
 
+  /// Match [deviceLocale] to a supported locale, or null if no match.
+  static Locale? _tryMatchLocale(
+      Locale deviceLocale, Iterable<Locale> supported) {
+    if (deviceLocale.languageCode == 'sr') {
+      return const Locale.fromSubtags(languageCode: 'sr', scriptCode: 'Latn');
+    }
+    for (final supportedLocale in supported) {
+      final deviceScript = deviceLocale.scriptCode;
+      final supportedScript = supportedLocale.scriptCode;
+      if (supportedLocale.languageCode == deviceLocale.languageCode &&
+          ((deviceScript == null || deviceScript.isEmpty) ||
+              supportedScript == deviceScript)) {
+        return supportedLocale;
+      }
+    }
+    return null;
+  }
+
+  static Locale _resolveLocale(Locale? locale, Iterable<Locale> supported) {
+    if (locale != null) {
+      final m = _tryMatchLocale(locale, supported);
+      if (m != null) return m;
+    }
+    for (final s in supported) {
+      if (s.languageCode == 'en') return s;
+    }
+    return supported.first;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Platrare',
-      debugShowCheckedModeBanner: false,
-      theme: _buildTheme(Brightness.light),
-      darkTheme: _buildTheme(Brightness.dark),
-      themeMode: ThemeMode.system,
-      home: const HomePage(),
+    return ValueListenableBuilder<AppLocalePreference>(
+      valueListenable: appLocalePreference,
+      builder: (context, pref, _) {
+        return MaterialApp(
+          title: 'Platrare',
+          debugShowCheckedModeBanner: false,
+          theme: _buildTheme(Brightness.light),
+          darkTheme: _buildTheme(Brightness.dark),
+          themeMode: ThemeMode.system,
+          locale: localeForMaterialApp(pref),
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          localeListResolutionCallback: (locales, supported) {
+            if (locales != null && locales.isNotEmpty) {
+              for (final deviceLocale in locales) {
+                final match = _tryMatchLocale(deviceLocale, supported);
+                if (match != null) return match;
+              }
+            }
+            return _resolveLocale(null, supported);
+          },
+          home: const HomePage(),
+        );
+      },
     );
   }
 
@@ -159,21 +208,21 @@ class _HomePageState extends State<HomePage> {
         child: NavigationBar(
           selectedIndex: _currentIndex,
           onDestinationSelected: (i) => setState(() => _currentIndex = i),
-          destinations: const [
+          destinations: [
             NavigationDestination(
-              icon: Icon(Icons.event_note_outlined),
-              selectedIcon: Icon(Icons.event_note_rounded),
-              label: 'Plan',
+              icon: const Icon(Icons.event_note_outlined),
+              selectedIcon: const Icon(Icons.event_note_rounded),
+              label: AppLocalizations.of(context).navPlan,
             ),
             NavigationDestination(
-              icon: Icon(Icons.receipt_long_outlined),
-              selectedIcon: Icon(Icons.receipt_long_rounded),
-              label: 'Track',
+              icon: const Icon(Icons.receipt_long_outlined),
+              selectedIcon: const Icon(Icons.receipt_long_rounded),
+              label: AppLocalizations.of(context).navTrack,
             ),
             NavigationDestination(
-              icon: Icon(Icons.analytics_outlined),
-              selectedIcon: Icon(Icons.analytics_rounded),
-              label: 'Review',
+              icon: const Icon(Icons.analytics_outlined),
+              selectedIcon: const Icon(Icons.analytics_rounded),
+              label: AppLocalizations.of(context).navReview,
             ),
           ],
         ),

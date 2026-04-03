@@ -1,0 +1,48 @@
+{
+  "@@locale": "en",
+  "appTitle": "Platrare",
+  "@appTitle": {
+    "description": "Application title"
+  },
+  "navPlan": "Plan",
+  "navTrack": "Track",
+  "navReview": "Review",
+  "settingsTitle": "Settings",
+  "settingsSectionDisplay": "Display",
+  "settingsSectionLanguage": "Language",
+  "settingsSectionCategories": "Categories",
+  "settingsSectionAccounts": "Accounts",
+  "settingsBaseCurrency": "Base currency",
+  "settingsSecondaryCurrency": "Secondary display currency",
+  "settingsCategories": "Categories",
+  "settingsCategoriesSubtitle": "{incomeCount} income · {expenseCount} expense",
+  "@settingsCategoriesSubtitle": {
+    "placeholders": {
+      "incomeCount": {"type": "int"},
+      "expenseCount": {"type": "int"}
+    }
+  },
+  "settingsArchivedAccounts": "Archived accounts",
+  "settingsArchivedAccountsSubtitleZero": "None right now — archive from account edit when balance is clear",
+  "settingsArchivedAccountsSubtitleCount": "{count} hidden from Review and pickers",
+  "@settingsArchivedAccountsSubtitleCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsLanguage": "App language",
+  "settingsLanguageSubtitleSystem": "Following system settings",
+  "settingsLanguageSubtitleEnglish": "English",
+  "settingsLanguageSubtitleSerbianLatin": "Serbian (Latin)",
+  "settingsLanguagePickerTitle": "App language",
+  "settingsLanguageOptionSystem": "System default",
+  "settingsLanguageOptionEnglish": "English",
+  "settingsLanguageOptionSerbianLatin": "Serbian (Latin)",
+  "archivedAccountsTitle": "Archived accounts",
+  "archivedAccountsEmptyTitle": "No archived accounts",
+  "archivedAccountsEmptyBody": "When you archive an account from Review, it will appear here. You can restore it anytime.",
+  "accountGroupPersonal": "Personal",
+  "accountGroupIndividual": "Individual",
+  "accountGroupEntity": "Entity",
+  "restore": "Restore"
+}
