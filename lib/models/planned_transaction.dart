@@ -15,21 +15,6 @@ enum WeekendAdjustment {
   nextMonday,
 }
 
-String weekendAdjustmentLabel(WeekendAdjustment w) => switch (w) {
-      WeekendAdjustment.ignore => 'No change',
-      WeekendAdjustment.previousFriday => 'Move to Friday',
-      WeekendAdjustment.nextMonday => 'Move to Monday',
-    };
-
-/// Returns the label shown in the UI for a repeat interval.
-String repeatLabel(RepeatInterval r) => switch (r) {
-      RepeatInterval.none => 'No repeat',
-      RepeatInterval.daily => 'Daily',
-      RepeatInterval.weekly => 'Weekly',
-      RepeatInterval.monthly => 'Monthly',
-      RepeatInterval.yearly => 'Yearly',
-    };
-
 /// Advances [date] by [every] × [interval] steps.
 /// Monthly/yearly use end-of-month clamping so e.g. Jan 31 → Feb 28.
 DateTime nextOccurrence(DateTime date, RepeatInterval interval,
@@ -164,6 +149,12 @@ class PlannedTransaction {
 
   final DateTime createdAt;
 
+  /// Last user edit time (DB-ready).
+  final DateTime? updatedAt;
+
+  /// Receipts / documents (same as [Transaction.attachments]).
+  final List<String> attachments;
+
   /// Backward-compatibility alias.
   double? get amount => nativeAmount;
 
@@ -186,6 +177,9 @@ class PlannedTransaction {
     this.repeatEndAfter,
     this.repeatConfirmedCount = 0,
     DateTime? createdAt,
-  }) : id = id ?? const Uuid().v4(),
-       createdAt = createdAt ?? DateTime.now();
+    this.updatedAt,
+    List<String>? attachments,
+  })  : id = id ?? const Uuid().v4(),
+        createdAt = createdAt ?? DateTime.now(),
+        attachments = attachments ?? const [];
 }

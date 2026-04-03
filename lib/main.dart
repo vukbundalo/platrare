@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'data/currency_prefs.dart';
 import 'data/fx_service.dart';
 import 'data/locale_prefs.dart';
 import 'data/theme_prefs.dart';
@@ -13,6 +14,7 @@ import 'utils/fx.dart' as fx;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Future.wait([initAppLocale(), initAppTheme()]);
+  await loadCurrencyPreferences();
   await initializeDateFormatting('en');
   await initializeDateFormatting('sr');
   await initializeDateFormatting('sr_Latn');

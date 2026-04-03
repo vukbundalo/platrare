@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
+import '../data/data_repository.dart';
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
@@ -372,8 +373,7 @@ class _PlanScreenState extends State<PlanScreen> {
     final rate = fx.rateToBase(ccy);
     final baseAmt = pt.nativeAmount != null ? pt.nativeAmount! * rate : null;
 
-    data.transactions.insert(
-      0,
+    DataRepository.addTransaction(
       Transaction(
         nativeAmount: pt.nativeAmount,
         currencyCode: ccy,
@@ -386,34 +386,38 @@ class _PlanScreenState extends State<PlanScreen> {
         description: pt.description,
         date: realizationDate ?? pt.date,
         txType: pt.txType,
+        attachments: List<String>.from(pt.attachments),
       ),
     );
 
-    data.plannedTransactions.remove(pt);
+    DataRepository.removePlanned(pt);
 
     if (pt.repeatInterval != RepeatInterval.none) {
       final nextDate = nextPlannedEffectiveDate(pt, pt.date);
       final nextCount = pt.repeatConfirmedCount + 1;
       if (shouldSpawnNextOccurrence(pt, nextDate)) {
-        data.plannedTransactions.add(PlannedTransaction(
-          nativeAmount: pt.nativeAmount,
-          currencyCode: pt.currencyCode,
-          destinationAmount: pt.destinationAmount,
-          fromAccount: pt.fromAccount,
-          toAccount: pt.toAccount,
-          category: pt.category,
-          description: pt.description,
-          date: nextDate,
-          txType: pt.txType,
-          repeatInterval: pt.repeatInterval,
-          repeatEvery: pt.repeatEvery,
-          repeatDayOfMonth: pt.repeatDayOfMonth,
-          weekendAdjustment: pt.weekendAdjustment,
-          repeatEndDate: pt.repeatEndDate,
-          repeatEndAfter: pt.repeatEndAfter,
-          repeatConfirmedCount: nextCount,
-        ));
-        data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
+        DataRepository.addPlanned(
+          PlannedTransaction(
+            nativeAmount: pt.nativeAmount,
+            currencyCode: pt.currencyCode,
+            destinationAmount: pt.destinationAmount,
+            fromAccount: pt.fromAccount,
+            toAccount: pt.toAccount,
+            category: pt.category,
+            description: pt.description,
+            date: nextDate,
+            txType: pt.txType,
+            repeatInterval: pt.repeatInterval,
+            repeatEvery: pt.repeatEvery,
+            repeatDayOfMonth: pt.repeatDayOfMonth,
+            weekendAdjustment: pt.weekendAdjustment,
+            repeatEndDate: pt.repeatEndDate,
+            repeatEndAfter: pt.repeatEndAfter,
+            repeatConfirmedCount: nextCount,
+            createdAt: pt.createdAt,
+            attachments: List<String>.from(pt.attachments),
+          ),
+        );
       }
     }
 
@@ -434,7 +438,7 @@ class _PlanScreenState extends State<PlanScreen> {
 
   void _delete(PlannedTransaction pt) {
     HapticFeedback.lightImpact();
-    setState(() => data.plannedTransactions.remove(pt));
+    setState(() => DataRepository.removePlanned(pt));
     widget.onChanged?.call();
     final messenger = ScaffoldMessenger.of(context);
     messenger.clearSnackBars();
@@ -450,10 +454,7 @@ class _PlanScreenState extends State<PlanScreen> {
           label: AppLocalizations.of(context).undo,
           onPressed: () {
             messenger.clearSnackBars();
-            setState(() {
-              data.plannedTransactions.add(pt);
-              data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
-            });
+            setState(() => DataRepository.addPlanned(pt));
             widget.onChanged?.call();
           },
         ),
@@ -540,12 +541,12 @@ class _PlanScreenState extends State<PlanScreen> {
           repeatEndDate: pt.repeatEndDate,
           repeatEndAfter: pt.repeatEndAfter,
           repeatConfirmedCount: pt.repeatConfirmedCount,
+          createdAt: pt.createdAt,
+          attachments: List<String>.from(pt.attachments),
         );
         setState(() {
-          data.plannedTransactions.remove(pt);
-          data.plannedTransactions.add(spawned);
-          data.plannedTransactions
-              .sort((a, b) => a.date.compareTo(b.date));
+          DataRepository.removePlanned(pt);
+          DataRepository.addPlanned(spawned);
         });
         widget.onChanged?.call();
         final messenger = ScaffoldMessenger.of(context);
@@ -564,10 +565,8 @@ class _PlanScreenState extends State<PlanScreen> {
               onPressed: () {
                 messenger.clearSnackBars();
                 setState(() {
-                  data.plannedTransactions.remove(spawned);
-                  data.plannedTransactions.add(pt);
-                  data.plannedTransactions
-                      .sort((a, b) => a.date.compareTo(b.date));
+                  DataRepository.removePlanned(spawned);
+                  DataRepository.addPlanned(pt);
                 });
                 widget.onChanged?.call();
               },
@@ -584,10 +583,7 @@ class _PlanScreenState extends State<PlanScreen> {
       MaterialPageRoute(builder: (_) => const NewPlannedTransactionScreen()),
     );
     if (result != null) {
-      setState(() {
-        data.plannedTransactions.add(result);
-        data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
-      });
+      setState(() => DataRepository.addPlanned(result));
     }
   }
 
@@ -601,11 +597,7 @@ class _PlanScreenState extends State<PlanScreen> {
       builder: (ctx) => const AccountFormSheet(),
     );
     if (result is Account) {
-      setState(() {
-        if (!data.accounts.contains(result)) {
-          data.accounts.add(result);
-        }
-      });
+      setState(() => DataRepository.addAccount(result));
       widget.onChanged?.call();
     }
   }
@@ -617,15 +609,7 @@ class _PlanScreenState extends State<PlanScreen> {
           builder: (_) => NewPlannedTransactionScreen(existing: pt)),
     );
     if (result != null) {
-      setState(() {
-        final idx = data.plannedTransactions.indexWhere((t) => t.id == pt.id);
-        if (idx >= 0) {
-          data.plannedTransactions[idx] = result;
-        } else {
-          data.plannedTransactions.add(result);
-        }
-        data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
-      });
+      setState(() => DataRepository.replacePlanned(pt, result));
     }
   }
 

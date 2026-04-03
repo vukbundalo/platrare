@@ -1,4 +1,4 @@
-import '../data/app_data.dart' as data;
+import '../data/data_repository.dart';
 import '../models/account.dart';
 import '../models/transaction.dart';
 import 'fx.dart' as fx;
@@ -44,8 +44,7 @@ BalanceCorrectionResult applyLedgerBalanceCorrection({
   if (from != null) from.balance -= amount;
   if (to != null) to.balance += amount;
 
-  data.transactions.insert(
-    0,
+  DataRepository.addTransaction(
     Transaction(
       nativeAmount: amount,
       currencyCode: ccy,

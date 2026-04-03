@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:open_filex/open_filex.dart';
 import '../data/app_data.dart' as data;
+import '../data/data_repository.dart';
 import '../data/user_settings.dart' as settings;
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
@@ -206,19 +207,13 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       date: _date,
       txType: type,
       attachments: List.from(_attachments),
+      createdAt: widget.existing?.createdAt,
     );
 
-    if (_isEdit) {
-      final idx =
-          data.transactions.indexWhere((t) => t.id == widget.existing!.id);
-      if (idx >= 0) {
-        data.transactions[idx] = newTx;
-      } else {
-        data.transactions.insert(0, newTx);
-      }
-    } else {
-      data.transactions.insert(0, newTx);
-    }
+    DataRepository.replaceOrInsertTransaction(
+      newTx,
+      isUpdate: _isEdit,
+    );
 
     HapticFeedback.lightImpact();
 
@@ -249,7 +244,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       context: context,
       initialDate: _date,
       firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 730)),
     );
     if (picked != null && mounted) setState(() => _date = picked);
   }

@@ -44,6 +44,19 @@ class Transaction {
 
   final DateTime createdAt;
 
+  /// Set when the row is edited after creation (DB-ready audit field).
+  final DateTime? updatedAt;
+
+  /// Stable account ids for persistence when [fromAccount]/[toAccount] are null.
+  final String? fromAccountId;
+  final String? toAccountId;
+
+  /// Denormalized labels at save time so history stays readable after account delete.
+  final String? fromSnapshotName;
+  final String? fromSnapshotCurrency;
+  final String? toSnapshotName;
+  final String? toSnapshotCurrency;
+
   /// Backward-compatibility alias — existing display code reads `.amount`.
   double? get amount => nativeAmount;
 
@@ -62,6 +75,13 @@ class Transaction {
     this.txType,
     List<String>? attachments,
     DateTime? createdAt,
+    this.updatedAt,
+    this.fromAccountId,
+    this.toAccountId,
+    this.fromSnapshotName,
+    this.fromSnapshotCurrency,
+    this.toSnapshotName,
+    this.toSnapshotCurrency,
   })  : id = id ?? const Uuid().v4(),
         date = date ?? DateTime.now(),
         attachments = attachments ?? const [],

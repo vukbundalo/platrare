@@ -29,8 +29,11 @@ String txAmountDisplay(TxType t, double nativeAmount,
     [String currencyCode = 'BAM']) {
   final sym = fx.currencySymbol(currencyCode);
   final abs = nativeAmount.abs();
-  if (abs == 0) return '0.00 $sym';
-  final absStr = '${abs.toStringAsFixed(2)} $sym';
+  if (abs == 0) {
+    final z = fx.formatNativeAmountDigits(0, currencyCode);
+    return '$z $sym';
+  }
+  final absStr = '${fx.formatNativeAmountDigits(abs, currencyCode)} $sym';
   return switch (t) {
     TxType.income ||
     TxType.collection ||

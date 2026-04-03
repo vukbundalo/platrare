@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import '../data/app_data.dart' as data;
+import '../data/currency_localized_names.dart';
+import '../data/currency_prefs.dart';
+import '../data/fx_service.dart';
 import '../data/locale_prefs.dart';
 import '../data/theme_prefs.dart';
 import '../data/user_settings.dart' as settings;
+import '../utils/app_format.dart';
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
-import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
 
 class SettingsScreen extends StatefulWidget {
@@ -181,7 +184,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       required IconData icon,
       required String title,
       required String subtitle,
-      required String badge,
+      String? badge,
       required VoidCallback onTap,
     }) {
       return Card(
@@ -208,22 +211,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ],
                   ),
                 ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: cs.primaryContainer.withValues(alpha: 0.6),
-                    borderRadius: BorderRadius.circular(20),
+                if (badge != null)
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: cs.primaryContainer.withValues(alpha: 0.6),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      badge,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 13,
+                          color: cs.primary),
+                    ),
                   ),
-                  child: Text(
-                    badge,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 13,
-                        color: cs.primary),
-                  ),
-                ),
-                const SizedBox(width: 4),
+                if (badge != null) const SizedBox(width: 4),
                 Icon(Icons.chevron_right_rounded,
                     size: 18, color: cs.onSurfaceVariant),
               ],
@@ -247,7 +251,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             icon: Icons.home_rounded,
             title: l10n.settingsBaseCurrency,
             subtitle:
-                '${settings.baseCurrency} · ${settings.currencyNames[settings.baseCurrency] ?? settings.baseCurrency}',
+                '${settings.baseCurrency} · ${currencyDisplayName(settings.baseCurrency, Localizations.localeOf(context))}',
             badge: fx.currencySymbol(settings.baseCurrency),
             onTap: () async {
               final picked = await showModalBottomSheet<String>(
@@ -259,6 +263,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               );
               if (picked != null) {
                 setState(() => settings.baseCurrency = picked);
+                await saveCurrencyPreferences();
               }
             },
           ),
@@ -267,7 +272,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             icon: Icons.currency_exchange_rounded,
             title: l10n.settingsSecondaryCurrency,
             subtitle:
-                '${settings.secondaryCurrency} · ${settings.currencyNames[settings.secondaryCurrency] ?? settings.secondaryCurrency}',
+                '${settings.secondaryCurrency} · ${currencyDisplayName(settings.secondaryCurrency, Localizations.localeOf(context))}',
             badge: fx.currencySymbol(settings.secondaryCurrency),
             onTap: () async {
               final picked = await showModalBottomSheet<String>(
@@ -279,7 +284,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
               );
               if (picked != null) {
                 setState(() => settings.secondaryCurrency = picked);
+                await saveCurrencyPreferences();
               }
+            },
+          ),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.update_rounded,
+            title: l10n.settingsExchangeRatesTitle,
+            subtitle: FxService.instance.lastUpdated != null
+                ? l10n.settingsExchangeRatesUpdated(formatAppDate(
+                    context,
+                    'y-MM-dd HH:mm',
+                    FxService.instance.lastUpdated!.toLocal(),
+                  ))
+                : l10n.settingsExchangeRatesNeverUpdated,
+            badge: l10n.settingsExchangeRatesSource,
+            onTap: () async {
+              await FxService.instance.refreshRates();
+              if (context.mounted) setState(() {});
             },
           ),
           const SizedBox(height: 24),
@@ -630,12 +653,13 @@ class _CurrencyPickerSheetState extends State<_CurrencyPickerSheet> {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context);
     final filtered = settings.supportedCurrencies
         .where((c) {
           if (_query.isEmpty) return true;
           final q = _query.toLowerCase();
-          return c.toLowerCase().contains(q) ||
-              (settings.currencyNames[c]?.toLowerCase().contains(q) ?? false);
+          final name = currencyDisplayName(c, locale).toLowerCase();
+          return c.toLowerCase().contains(q) || name.contains(q);
         })
         .toList();
 
@@ -685,7 +709,8 @@ class _CurrencyPickerSheetState extends State<_CurrencyPickerSheet> {
               itemCount: filtered.length,
               itemBuilder: (_, i) {
                 final code = filtered[i];
-                final name = settings.currencyNames[code] ?? code;
+                final name =
+                    currencyDisplayName(code, Localizations.localeOf(context));
                 final isSelected = code == widget.current;
                 return ListTile(
                   leading: Container(

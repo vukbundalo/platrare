@@ -482,5 +482,18 @@
     "placeholders": {
       "label": {"type": "String"}
     }
-  }
+  },
+
+  "trackSearchHint": "Search description, category, account…",
+  "trackSearchClear": "Clear search",
+
+  "settingsExchangeRatesTitle": "Exchange rates",
+  "settingsExchangeRatesUpdated": "Last updated: {time}",
+  "@settingsExchangeRatesUpdated": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "settingsExchangeRatesNeverUpdated": "Using offline or bundled rates — tap to refresh",
+  "settingsExchangeRatesSource": "ECB"
 }

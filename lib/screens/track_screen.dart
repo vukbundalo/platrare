@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
+import '../data/data_repository.dart';
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/transaction.dart';
@@ -57,13 +58,15 @@ class _TrackScreenState extends State<TrackScreen> {
   DateTime _dateAnchor = DateTime.now();
   bool _newestFirst = true;
   TrackPlanFilterPanel _trackPanel = TrackPlanFilterPanel.none;
+  String _searchQuery = '';
 
   bool get _hasActiveFilter =>
       _typeFilter != null ||
       _accountFilter != null ||
       _categoryFilter != null ||
       _dateFilter != null ||
-      !_newestFirst;
+      !_newestFirst ||
+      _searchQuery.trim().isNotEmpty;
 
   void _clearFilters() => setState(() {
         _typeFilter = null;
@@ -73,6 +76,7 @@ class _TrackScreenState extends State<TrackScreen> {
         _dateAnchor = DateTime.now();
         _newestFirst = true;
         _trackPanel = TrackPlanFilterPanel.none;
+        _searchQuery = '';
       });
 
   void _toggleTrackPanel(TrackPlanFilterPanel panel) => setState(() {
@@ -214,12 +218,13 @@ class _TrackScreenState extends State<TrackScreen> {
 
   void _onTrackScrollLoadMoreDays() {
     if (_dateFilter != 'all') return;
+    if (_searchQuery.trim().isNotEmpty) return;
     if (!_scrollController.hasClients) return;
     final pos = _scrollController.position;
     if (!pos.hasPixels || !pos.hasContentDimensions) return;
     if (pos.pixels < pos.maxScrollExtent - 360) return;
 
-    final g = DayGroupedTransactions.build(_filteredTx, _newestFirst);
+    final g = DayGroupedTransactions.build(_baseFilteredTx, _newestFirst);
     if (!shouldLazyLoadDaySections(_dateFilter, g.dayKeys.length)) return;
     if (_visibleTrackDaySlots >= g.dayKeys.length) return;
 
@@ -238,7 +243,7 @@ class _TrackScreenState extends State<TrackScreen> {
       _accountFilter?.id,
       _categoryFilter,
       _newestFirst,
-      _filteredTx.length,
+      _baseFilteredTx.length,
       data.transactions.length,
     );
     if (_trackLazyListSig != sig) {
@@ -272,7 +277,7 @@ class _TrackScreenState extends State<TrackScreen> {
 
   /// Income and expense totals reflecting the current filter/window.
   ({double totalIn, double totalOut}) get _periodTotals {
-    final source = _filteredTx;
+    final source = _baseFilteredTx;
     double totalIn = 0, totalOut = 0;
     for (final t in source) {
       final type = t.txType ??
@@ -288,7 +293,8 @@ class _TrackScreenState extends State<TrackScreen> {
     return (totalIn: totalIn, totalOut: totalOut);
   }
 
-  List<Transaction> get _filteredTx {
+  /// Filters only (no text search). Used for hero totals and lazy-load signature.
+  List<Transaction> get _baseFilteredTx {
     Iterable<Transaction> source;
     if (_dateFilter == null) {
       source = _visibleTx;
@@ -311,7 +317,12 @@ class _TrackScreenState extends State<TrackScreen> {
     if (_accountFilter != null && !_accountFilter!.archived) {
       final id = _accountFilter!.id;
       source = source.where(
-          (t) => t.fromAccount?.id == id || t.toAccount?.id == id);
+        (t) =>
+            t.fromAccount?.id == id ||
+            t.toAccount?.id == id ||
+            t.fromAccountId == id ||
+            t.toAccountId == id,
+      );
     }
 
     if (_categoryFilter != null) {
@@ -319,6 +330,29 @@ class _TrackScreenState extends State<TrackScreen> {
     }
 
     return source.toList();
+  }
+
+  List<Transaction> _applySearch(
+      List<Transaction> txs, BuildContext context) {
+    final q = _searchQuery.trim().toLowerCase();
+    if (q.isEmpty) return txs;
+    return txs.where((t) {
+      if (t.description?.toLowerCase().contains(q) ?? false) return true;
+      final cat = t.category;
+      if (cat != null) {
+        if (cat.toLowerCase().contains(q)) return true;
+        if (l10nCategoryName(context, cat).toLowerCase().contains(q)) {
+          return true;
+        }
+      }
+      final fn = t.fromAccount?.name ?? t.fromSnapshotName;
+      final tn = t.toAccount?.name ?? t.toSnapshotName;
+      if (fn != null && fn.toLowerCase().contains(q)) return true;
+      if (tn != null && tn.toLowerCase().contains(q)) return true;
+      final amt = t.nativeAmount;
+      if (amt != null && amt.toString().contains(q)) return true;
+      return false;
+    }).toList();
   }
 
   Future<void> _addAccount() async {
@@ -332,9 +366,7 @@ class _TrackScreenState extends State<TrackScreen> {
     );
     if (result is Account) {
       setState(() {
-        if (!data.accounts.contains(result)) {
-          data.accounts.add(result);
-        }
+        DataRepository.addAccount(result);
       });
       widget.onChanged?.call();
     }
@@ -384,7 +416,7 @@ class _TrackScreenState extends State<TrackScreen> {
             (t.destinationAmount ?? t.nativeAmount!);
       }
     }
-    data.transactions.remove(t);
+    DataRepository.removeTransaction(t);
     setState(() {});
     widget.onChanged?.call();
     HapticFeedback.mediumImpact();
@@ -413,7 +445,7 @@ class _TrackScreenState extends State<TrackScreen> {
               }
             }
             final insertAt = index < 0 ? 0 : index.clamp(0, data.transactions.length);
-            data.transactions.insert(insertAt, t);
+            DataRepository.insertTransactionAt(insertAt, t);
             setState(() {});
             widget.onChanged?.call();
           },
@@ -616,7 +648,7 @@ class _TrackScreenState extends State<TrackScreen> {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
     final isFiltered = _hasActiveFilter;
-    final displayTx = _filteredTx;
+    final displayTx = _applySearch(_baseFilteredTx, context);
     final totals = _periodTotals;
 
     _syncTrackLazyWindowSignature();
@@ -692,6 +724,25 @@ class _TrackScreenState extends State<TrackScreen> {
               ),
             ),
           ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+            child: TextField(
+              onChanged: (v) => setState(() => _searchQuery = v),
+              decoration: InputDecoration(
+                hintText: l10n.trackSearchHint,
+                prefixIcon: const Icon(Icons.search_rounded, size: 22),
+                suffixIcon: _searchQuery.isNotEmpty
+                    ? IconButton(
+                        tooltip: l10n.trackSearchClear,
+                        icon: const Icon(Icons.clear_rounded),
+                        onPressed: () => setState(() => _searchQuery = ''),
+                      )
+                    : null,
+              ),
+            ),
+          ),
+        ),
         if (_trackPanel != TrackPlanFilterPanel.none)
           SliverToBoxAdapter(
             child: Padding(
@@ -1095,7 +1146,7 @@ class _TransactionTile extends StatelessWidget {
             (t.destinationAmount ?? t.nativeAmount!);
       }
     }
-    data.transactions.remove(t);
+    DataRepository.removeTransaction(t);
     onRefresh();
     HapticFeedback.mediumImpact();
     final messenger = ScaffoldMessenger.of(context);
@@ -1123,7 +1174,7 @@ class _TransactionTile extends StatelessWidget {
               }
             }
             final insertAt = index < 0 ? 0 : index.clamp(0, data.transactions.length);
-            data.transactions.insert(insertAt, t);
+            DataRepository.insertTransactionAt(insertAt, t);
             onRefresh();
           },
         ),

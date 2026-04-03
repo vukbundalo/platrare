@@ -1994,6 +1994,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Period: {label}'**
   String semanticsPeriod(String label);
+
+  /// No description provided for @trackSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search description, category, account…'**
+  String get trackSearchHint;
+
+  /// No description provided for @trackSearchClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get trackSearchClear;
+
+  /// No description provided for @settingsExchangeRatesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange rates'**
+  String get settingsExchangeRatesTitle;
+
+  /// No description provided for @settingsExchangeRatesUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Last updated: {time}'**
+  String settingsExchangeRatesUpdated(String time);
+
+  /// No description provided for @settingsExchangeRatesNeverUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Using offline or bundled rates — tap to refresh'**
+  String get settingsExchangeRatesNeverUpdated;
+
+  /// No description provided for @settingsExchangeRatesSource.
+  ///
+  /// In en, this message translates to:
+  /// **'ECB'**
+  String get settingsExchangeRatesSource;
 }
 
 class _AppLocalizationsDelegate

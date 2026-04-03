@@ -158,7 +158,7 @@ class _NewPlannedTransactionScreenState
     final text = _amountController.text.trim().replaceAll(',', '.');
     if (text.isEmpty) return null;
     final v = double.tryParse(text);
-    if (v == null || v == 0) return null;
+    if (v == null || v <= 0) return null;
     return v;
   }
 
@@ -216,6 +216,9 @@ class _NewPlannedTransactionScreenState
             ? _repeatEndAfter
             : null,
         repeatConfirmedCount: widget.existing?.repeatConfirmedCount ?? 0,
+        createdAt: widget.existing?.createdAt,
+        updatedAt: widget.existing != null ? DateTime.now() : null,
+        attachments: List<String>.from(widget.existing?.attachments ?? const []),
       ),
     );
   }

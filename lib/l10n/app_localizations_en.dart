@@ -1095,4 +1095,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String semanticsPeriod(String label) {
     return 'Period: $label';
   }
+
+  @override
+  String get trackSearchHint => 'Search description, category, account…';
+
+  @override
+  String get trackSearchClear => 'Clear search';
+
+  @override
+  String get settingsExchangeRatesTitle => 'Exchange rates';
+
+  @override
+  String settingsExchangeRatesUpdated(String time) {
+    return 'Last updated: $time';
+  }
+
+  @override
+  String get settingsExchangeRatesNeverUpdated =>
+      'Using offline or bundled rates — tap to refresh';
+
+  @override
+  String get settingsExchangeRatesSource => 'ECB';
 }

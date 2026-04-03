@@ -355,5 +355,18 @@
   "semanticsFiltersDisabled": "Filteri liste su onemogućeni dok gledate budući datum projekcije. Uklonite projekcije da koristite filtere.",
   "semanticsChartStyle": "Stil grafikona",
   "semanticsChartStyleUnavailable": "Stil grafikona (nedostupno u režimu poređenja)",
-  "semanticsPeriod": "Period: {label}"
+  "semanticsPeriod": "Period: {label}",
+
+  "trackSearchHint": "Pretraga opisa, kategorije, računa…",
+  "trackSearchClear": "Obriši pretragu",
+
+  "settingsExchangeRatesTitle": "Kursna lista",
+  "settingsExchangeRatesUpdated": "Posljednje ažuriranje: {time}",
+  "@settingsExchangeRatesUpdated": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "settingsExchangeRatesNeverUpdated": "Koriste se ugrađeni ili keširani kursevi — dodirnite za osvježavanje",
+  "settingsExchangeRatesSource": "ECB"
 }

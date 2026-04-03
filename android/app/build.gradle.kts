@@ -20,7 +20,6 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.platrare.app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
@@ -32,8 +31,11 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            // Play Store / production: copy android/key.properties.example to
+            // android/key.properties, add a keystore, and wire signingConfigs per
+            // https://docs.flutter.dev/deployment/android#signing-the-app
+            //
+            // Debug signing keeps local `flutter run --release` working without secrets.
             signingConfig = signingConfigs.getByName("debug")
         }
     }

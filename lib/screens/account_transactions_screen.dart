@@ -52,7 +52,9 @@ class _AccountTransactionsScreenState
   List<Transaction> get _allAccountTx => data.transactions
       .where((t) =>
           t.fromAccount?.id == widget.account.id ||
-          t.toAccount?.id == widget.account.id)
+          t.toAccount?.id == widget.account.id ||
+          t.fromAccountId == widget.account.id ||
+          t.toAccountId == widget.account.id)
       .toList();
 
   (DateTime, DateTime) get _currentMonthRange {
@@ -711,16 +713,25 @@ class _TxTile extends StatelessWidget {
     if (t.fromAccount != null && t.toAccount != null) {
       return '${t.fromAccount!.name} → ${t.toAccount!.name}';
     }
+    if (t.fromSnapshotName != null && t.toSnapshotName != null) {
+      return '${t.fromSnapshotName} → ${t.toSnapshotName}';
+    }
     if (t.fromAccount != null) return t.fromAccount!.name;
     if (t.toAccount != null) return t.toAccount!.name;
+    if (t.fromSnapshotName != null) return t.fromSnapshotName!;
+    if (t.toSnapshotName != null) return t.toSnapshotName!;
     return l10n.trackTransaction;
   }
 
   String? _counterpart() {
     final t = transaction;
     final fid = focusAccount.id;
-    if (t.fromAccount?.id == fid && t.toAccount != null) return t.toAccount!.name;
-    if (t.toAccount?.id == fid && t.fromAccount != null) return t.fromAccount!.name;
+    if (t.fromAccount?.id == fid || t.fromAccountId == fid) {
+      return t.toAccount?.name ?? t.toSnapshotName;
+    }
+    if (t.toAccount?.id == fid || t.toAccountId == fid) {
+      return t.fromAccount?.name ?? t.fromSnapshotName;
+    }
     return null;
   }
 

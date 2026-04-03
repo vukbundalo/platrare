@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
+import '../data/currency_localized_names.dart';
+import '../data/data_repository.dart';
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../l10n/app_localizations.dart';
@@ -12,6 +14,7 @@ import '../utils/fx.dart' as fx;
 import 'account_transactions_screen.dart';
 import 'settings_screen.dart';
 import '../widgets/app_hero_layout.dart';
+import '../widgets/review_stats_empty_state.dart';
 
 /// Shared category order for compare mode: max per side, then combined, then name.
 List<String> _orderedCategoryKeysForCompare(
@@ -718,7 +721,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
                   // ── Statistics ────────────────────────────────────────────
                   if (_activeSection == 'statistics' && data.transactions.isEmpty) ...[
-                    _StatsEmptyState(),
+                    const ReviewStatsEmptyState(),
                   ],
                   if (_activeSection == 'statistics' && data.transactions.isNotEmpty) ...[
                     _StatsHeader(
@@ -2439,50 +2442,6 @@ class _AccountCard extends StatelessWidget {
   }
 }
 
-class _StatsEmptyState extends StatelessWidget {
-  const _StatsEmptyState();
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final l10n = AppLocalizations.of(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 48),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 72,
-            height: 72,
-            decoration: BoxDecoration(
-              color: cs.primaryContainer.withValues(alpha: 0.5),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(Icons.bar_chart_rounded, size: 36, color: cs.primary),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            l10n.statsEmptyTitle,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium
-                ?.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            l10n.statsEmptySubtitle,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              color: cs.onSurfaceVariant,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _EmptyAccountsHint extends StatelessWidget {
   final VoidCallback onAdd;
   const _EmptyAccountsHint({required this.onAdd});
@@ -2857,7 +2816,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
               onPressed: () {
                 Navigator.pop(ctx);
                 removePlannedReferencingAccount(acc, data.plannedTransactions);
-                data.accounts.remove(acc);
+                DataRepository.removeAccount(acc);
                 if (mounted) {
                   Navigator.pop(context, kAccountFormSheetDeleted);
                 }
@@ -2885,7 +2844,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
           FilledButton(
             onPressed: () {
               Navigator.pop(ctx);
-              data.accounts.remove(acc);
+              DataRepository.removeAccount(acc);
               if (mounted) {
                 Navigator.pop(context, kAccountFormSheetDeleted);
               }
@@ -3222,7 +3181,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
       }
       if (mounted) Navigator.pop(context, true);
     } else {
-      data.accounts.add(Account(
+      DataRepository.addAccount(Account(
         name: name,
         group: _group,
         balance: balance,
@@ -3370,7 +3329,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
               onPressed: () {
                 Navigator.pop(ctx);
                 removePlannedReferencingAccount(acc, data.plannedTransactions);
-                data.accounts.remove(acc);
+                DataRepository.removeAccount(acc);
                 if (mounted) Navigator.pop(context, true);
               },
               style: FilledButton.styleFrom(backgroundColor: Colors.red),
@@ -3396,7 +3355,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
           FilledButton(
             onPressed: () {
               Navigator.pop(ctx);
-              data.accounts.remove(acc);
+              DataRepository.removeAccount(acc);
               if (mounted) Navigator.pop(context, true);
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
@@ -3669,7 +3628,8 @@ class _CurrencyTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
-    final name = settings.currencyNames[currencyCode] ?? currencyCode;
+    final name =
+        currencyDisplayName(currencyCode, Localizations.localeOf(context));
     final symbol = fx.currencySymbol(currencyCode);
     final enabled = onTap != null;
 
@@ -3719,12 +3679,12 @@ class _CurrencyPickerSheetState extends State<_CurrencyPickerSheet> {
 
   void _onSearch(String query) {
     final q = query.toLowerCase().trim();
+    final locale = Localizations.localeOf(context);
     setState(() {
       _filtered = q.isEmpty
           ? settings.supportedCurrencies
           : settings.supportedCurrencies.where((code) {
-              final name =
-                  (settings.currencyNames[code] ?? '').toLowerCase();
+              final name = currencyDisplayName(code, locale).toLowerCase();
               return code.toLowerCase().contains(q) || name.contains(q);
             }).toList();
     });
@@ -3776,7 +3736,8 @@ class _CurrencyPickerSheetState extends State<_CurrencyPickerSheet> {
                 itemCount: _filtered.length,
                 itemBuilder: (ctx, i) {
                   final code = _filtered[i];
-                  final name = settings.currencyNames[code] ?? code;
+                  final name = currencyDisplayName(
+                      code, Localizations.localeOf(ctx));
                   final symbol = fx.currencySymbol(code);
                   final isSelected = code == widget.selected;
                   return ListTile(

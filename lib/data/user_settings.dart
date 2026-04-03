@@ -1,5 +1,5 @@
 // Global user preferences — currency settings.
-// In a production app these would be persisted to SharedPreferences.
+// [baseCurrency] / [secondaryCurrency] are loaded and saved via [currency_prefs.dart].
 
 /// The user's home currency. All high-level dashboard summaries (Balance,
 /// Net Worth, monthly stats) are expressed in this currency.
@@ -15,7 +15,7 @@ String secondaryCurrency = 'EUR';
 /// live data is available (first-ever launch with no network).
 final Map<String, double> exchangeRates = {
   'BAM': 1.0000,
-  'EUR': 1.9560, // fixed peg
+  'EUR': 1.95583, // CB BiH peg (must match [FxService] peg)
   'USD': 1.8200,
   'GBP': 2.2800,
   'CHF': 2.0200,
@@ -81,57 +81,3 @@ const List<String> supportedCurrencies = [
   'AED', 'SAR', 'QAR', 'KWD', 'BHD', 'OMR',
   'ILS',
 ];
-
-/// Human-readable currency names for the currency picker UI.
-const Map<String, String> currencyNames = {
-  'BAM': 'Bosnian Mark',
-  'EUR': 'Euro',
-  'USD': 'US Dollar',
-  'GBP': 'British Pound',
-  'CHF': 'Swiss Franc',
-  'JPY': 'Japanese Yen',
-  'CAD': 'Canadian Dollar',
-  'AUD': 'Australian Dollar',
-  'NZD': 'New Zealand Dollar',
-  'SEK': 'Swedish Krona',
-  'NOK': 'Norwegian Krone',
-  'DKK': 'Danish Krone',
-  'HKD': 'Hong Kong Dollar',
-  'SGD': 'Singapore Dollar',
-  'CNY': 'Chinese Yuan',
-  'KRW': 'South Korean Won',
-  'INR': 'Indian Rupee',
-  'BDT': 'Bangladeshi Taka',
-  'PKR': 'Pakistani Rupee',
-  'THB': 'Thai Baht',
-  'MYR': 'Malaysian Ringgit',
-  'IDR': 'Indonesian Rupiah',
-  'PHP': 'Philippine Peso',
-  'VND': 'Vietnamese Dong',
-  'BRL': 'Brazilian Real',
-  'MXN': 'Mexican Peso',
-  'CLP': 'Chilean Peso',
-  'COP': 'Colombian Peso',
-  'PEN': 'Peruvian Sol',
-  'ARS': 'Argentine Peso',
-  'ZAR': 'South African Rand',
-  'NGN': 'Nigerian Naira',
-  'GHS': 'Ghanaian Cedi',
-  'EGP': 'Egyptian Pound',
-  'MAD': 'Moroccan Dirham',
-  'TND': 'Tunisian Dinar',
-  'RUB': 'Russian Ruble',
-  'TRY': 'Turkish Lira',
-  'PLN': 'Polish Zloty',
-  'CZK': 'Czech Koruna',
-  'HUF': 'Hungarian Forint',
-  'RSD': 'Serbian Dinar',
-  'UAH': 'Ukrainian Hryvnia',
-  'AED': 'UAE Dirham',
-  'SAR': 'Saudi Riyal',
-  'QAR': 'Qatari Riyal',
-  'KWD': 'Kuwaiti Dinar',
-  'BHD': 'Bahraini Dinar',
-  'OMR': 'Omani Rial',
-  'ILS': 'Israeli Shekel',
-};

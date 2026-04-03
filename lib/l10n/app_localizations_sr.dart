@@ -1103,6 +1103,27 @@ class AppLocalizationsSr extends AppLocalizations {
   String semanticsPeriod(String label) {
     return 'Period: $label';
   }
+
+  @override
+  String get trackSearchHint => 'Pretraga opisa, kategorije, računa…';
+
+  @override
+  String get trackSearchClear => 'Obriši pretragu';
+
+  @override
+  String get settingsExchangeRatesTitle => 'Kursna lista';
+
+  @override
+  String settingsExchangeRatesUpdated(String time) {
+    return 'Posljednje ažuriranje: $time';
+  }
+
+  @override
+  String get settingsExchangeRatesNeverUpdated =>
+      'Koriste se ugrađeni ili keširani kursevi — dodirnite za osvježavanje';
+
+  @override
+  String get settingsExchangeRatesSource => 'ECB';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).
@@ -2204,4 +2225,25 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   String semanticsPeriod(String label) {
     return 'Period: $label';
   }
+
+  @override
+  String get trackSearchHint => 'Pretraga opisa, kategorije, računa…';
+
+  @override
+  String get trackSearchClear => 'Obriši pretragu';
+
+  @override
+  String get settingsExchangeRatesTitle => 'Kursna lista';
+
+  @override
+  String settingsExchangeRatesUpdated(String time) {
+    return 'Posljednje ažuriranje: $time';
+  }
+
+  @override
+  String get settingsExchangeRatesNeverUpdated =>
+      'Koriste se ugrađeni ili keširani kursevi — dodirnite za osvježavanje';
+
+  @override
+  String get settingsExchangeRatesSource => 'ECB';
 }
