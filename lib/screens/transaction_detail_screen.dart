@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:open_filex/open_filex.dart';
+import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../models/transaction.dart';
 import '../models/planned_transaction.dart';
+import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/tx_display.dart';
 
@@ -25,6 +26,7 @@ class TransactionDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final type = _type;
     final t = transaction;
@@ -33,7 +35,7 @@ class TransactionDetailScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
-        title: const Text('Transaction'),
+        title: Text(l10n.detailTransactionTitle),
         centerTitle: false,
         backgroundColor: cs.surface,
         surfaceTintColor: Colors.transparent,
@@ -46,14 +48,14 @@ class TransactionDetailScreen extends StatelessWidget {
           _DetailCard(children: [
             _DetailRow(
               icon: Icons.calendar_today_outlined,
-              label: 'Date',
-              value: DateFormat('EEEE, d MMMM yyyy').format(t.date),
+              label: l10n.detailDate,
+              value: formatAppDate(context, 'EEEE, d MMMM yyyy', t.date),
               color: color,
             ),
             if (t.fromAccount != null)
               _DetailRow(
                 icon: Icons.outbox_outlined,
-                label: 'From',
+                label: l10n.detailFrom,
                 value: t.fromAccount!.name,
                 subtitle: t.fromAccount!.currencyCode,
                 color: color,
@@ -61,7 +63,7 @@ class TransactionDetailScreen extends StatelessWidget {
             if (t.toAccount != null)
               _DetailRow(
                 icon: Icons.inbox_outlined,
-                label: 'To',
+                label: l10n.detailTo,
                 value: t.toAccount!.name,
                 subtitle: t.toAccount!.currencyCode,
                 color: color,
@@ -69,21 +71,21 @@ class TransactionDetailScreen extends StatelessWidget {
             if (t.category != null)
               _DetailRow(
                 icon: Icons.label_outline_rounded,
-                label: 'Category',
-                value: t.category!,
+                label: l10n.detailCategory,
+                value: l10nCategoryName(context, t.category!),
                 color: color,
               ),
             if (t.description != null)
               _DetailRow(
                 icon: Icons.notes_rounded,
-                label: 'Note',
+                label: l10n.detailNote,
                 value: t.description!,
                 color: color,
               ),
             if (t.destinationAmount != null)
               _DetailRow(
                 icon: Icons.currency_exchange_rounded,
-                label: 'Destination amount',
+                label: l10n.detailDestinationAmount,
                 value:
                     '${t.destinationAmount!.toStringAsFixed(2)} ${fx.currencySymbol(t.toAccount?.currencyCode ?? 'BAM')}',
                 color: color,
@@ -91,7 +93,7 @@ class TransactionDetailScreen extends StatelessWidget {
             if (t.exchangeRate != null && t.exchangeRate != 1.0)
               _DetailRow(
                 icon: Icons.swap_vert_rounded,
-                label: 'Exchange rate',
+                label: l10n.detailExchangeRate,
                 value:
                     '1 ${fx.currencySymbol(t.currencyCode ?? 'BAM')} = ${t.exchangeRate!.toStringAsFixed(4)} ${fx.currencySymbol(t.toAccount?.currencyCode ?? 'BAM')}',
                 color: color,
@@ -127,6 +129,7 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final type = _type;
     final color = txColor(type);
@@ -134,7 +137,7 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
-        title: const Text('Planned'),
+        title: Text(l10n.detailPlannedTitle),
         centerTitle: false,
         backgroundColor: cs.surface,
         surfaceTintColor: Colors.transparent,
@@ -149,7 +152,7 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
                     onConfirm();
                   },
                   icon: const Icon(Icons.check_circle_outline_rounded),
-                  label: const Text('Confirm transaction'),
+                  label: Text(l10n.detailConfirmTransaction),
                 ),
               ),
             )
@@ -162,14 +165,14 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
           _DetailCard(children: [
             _DetailRow(
               icon: Icons.calendar_today_outlined,
-              label: 'Date',
-              value: DateFormat('EEEE, d MMMM yyyy').format(pt.date),
+              label: l10n.detailDate,
+              value: formatAppDate(context, 'EEEE, d MMMM yyyy', pt.date),
               color: color,
             ),
             if (pt.fromAccount != null)
               _DetailRow(
                 icon: Icons.outbox_outlined,
-                label: 'From',
+                label: l10n.detailFrom,
                 value: pt.fromAccount!.name,
                 subtitle: pt.fromAccount!.currencyCode,
                 color: color,
@@ -177,7 +180,7 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
             if (pt.toAccount != null)
               _DetailRow(
                 icon: Icons.inbox_outlined,
-                label: 'To',
+                label: l10n.detailTo,
                 value: pt.toAccount!.name,
                 subtitle: pt.toAccount!.currencyCode,
                 color: color,
@@ -185,22 +188,22 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
             if (pt.category != null)
               _DetailRow(
                 icon: Icons.label_outline_rounded,
-                label: 'Category',
-                value: pt.category!,
+                label: l10n.detailCategory,
+                value: l10nCategoryName(context, pt.category!),
                 color: color,
               ),
             if (pt.description != null)
               _DetailRow(
                 icon: Icons.notes_rounded,
-                label: 'Note',
+                label: l10n.detailNote,
                 value: pt.description!,
                 color: color,
               ),
             if (pt.repeatInterval != RepeatInterval.none)
               _DetailRow(
                 icon: Icons.repeat_rounded,
-                label: 'Repeats',
-                value: repeatLabel(pt.repeatInterval),
+                label: l10n.detailRepeats,
+                value: l10nRepeatLabel(context, pt.repeatInterval),
                 color: color,
               ),
             if (pt.repeatInterval == RepeatInterval.monthly ||
@@ -208,21 +211,21 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
               if (pt.repeatDayOfMonth != null)
                 _DetailRow(
                   icon: Icons.event_repeat_rounded,
-                  label: 'Day of month',
+                  label: l10n.detailDayOfMonth,
                   value: '${pt.repeatDayOfMonth}',
                   color: color,
                 ),
               _DetailRow(
                 icon: Icons.event_busy_outlined,
-                label: 'Weekends',
-                value: weekendAdjustmentLabel(pt.weekendAdjustment),
+                label: l10n.detailWeekends,
+                value: l10nWeekendLabel(context, pt.weekendAdjustment),
                 color: color,
               ),
             ],
             if (pt.destinationAmount != null)
               _DetailRow(
                 icon: Icons.currency_exchange_rounded,
-                label: 'Destination amount',
+                label: l10n.detailDestinationAmount,
                 value:
                     '${pt.destinationAmount!.toStringAsFixed(2)} ${fx.currencySymbol(pt.toAccount?.currencyCode ?? 'BAM')}',
                 color: color,
@@ -278,7 +281,7 @@ class _Header extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  txLabel(type),
+                  l10nTxLabel(context, type),
                   style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
@@ -430,6 +433,7 @@ class _AttachmentsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
@@ -458,14 +462,14 @@ class _AttachmentsCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Attachments',
+                    Text(l10n.detailAttachments,
                         style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
                             color: cs.onSurfaceVariant,
                             letterSpacing: 0.2)),
                     const SizedBox(height: 2),
-                    Text('${attachments.length} file${attachments.length == 1 ? '' : 's'}',
+                    Text(l10n.detailFileCount(attachments.length),
                         style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600)),

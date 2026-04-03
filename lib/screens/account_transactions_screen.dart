@@ -1,12 +1,13 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/transaction.dart';
+import '../l10n/app_localizations.dart';
+import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/tx_display.dart';
@@ -86,20 +87,20 @@ class _AccountTransactionsScreenState
     };
   }
 
-  String get _dateLabel {
+  String _dateLabel(BuildContext context) {
     final a = _dateAnchor;
     return switch (_dateFilter) {
-      'day' => DateFormat('EEE, d MMM yyyy').format(a),
+      'day' => formatAppDate(context, 'EEE, d MMM yyyy', a),
       'week' => () {
           final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
           final sun = DateTime(mon.year, mon.month, mon.day + 6);
           final sameMon = mon.month == sun.month;
           return sameMon
-              ? '${DateFormat('d').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}'
-              : '${DateFormat('d MMM').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}';
+              ? '${formatAppDate(context, 'd', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}'
+              : '${formatAppDate(context, 'd MMM', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}';
         }(),
-      'month' => DateFormat('MMMM yyyy').format(a),
-      'year' => DateFormat('yyyy').format(a),
+      'month' => formatAppDate(context, 'MMMM yyyy', a),
+      'year' => formatAppDate(context, 'yyyy', a),
       _ => '',
     };
   }
@@ -320,6 +321,7 @@ class _AccountTransactionsScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final account = widget.account;
     final displayTx = _filteredTx;
@@ -348,7 +350,7 @@ class _AccountTransactionsScreenState
               heroTag: 'account_tx_clear_filters',
               onPressed: _clearFilters,
               icon: const Icon(Icons.filter_alt_off_rounded),
-              label: const Text('Clear filters'),
+              label: Text(l10n.filterClearFilters),
             )
           : null,
       body: CustomScrollView(
@@ -391,7 +393,7 @@ class _AccountTransactionsScreenState
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
                 child: TrackPlanDateNavBar(
-                  label: _dateLabel,
+                  label: _dateLabel(context),
                   onNavigateBack: () => _navigateDate(-1),
                   onNavigateForward: _canNavigateDateForward
                       ? () => _navigateDate(1)
@@ -432,10 +434,12 @@ class _AccountTransactionsScreenState
                     const SizedBox(height: 12),
                     Text(
                       _hasActiveFilter
-                          ? 'No transactions for applied filters'
+                          ? l10n.emptyNoTransactionsForFilters
                           : _dateFilter == 'all'
-                              ? 'No transactions for this account'
-                              : 'No transactions for ${DateFormat('MMMM').format(DateTime.now())}',
+                              ? l10n.emptyNoTransactionsForAccount
+                              : l10n.emptyNoTransactionsForMonth(
+                                  formatAppDate(
+                                      context, 'MMMM', DateTime.now())),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 15,
@@ -505,6 +509,7 @@ class _AccountTxHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final net = totalIn - totalOut;
     final borderColor =
@@ -529,7 +534,7 @@ class _AccountTxHero extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'In',
+                  l10n.heroIn,
                   style: TextStyle(
                     fontSize: AppHeroConstants.labelFontSize,
                     color: cs.onSurfaceVariant,
@@ -553,7 +558,7 @@ class _AccountTxHero extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Out',
+                  l10n.heroOut,
                   style: TextStyle(
                     fontSize: AppHeroConstants.secondaryLabelFontSize,
                     color: cs.onSurfaceVariant,
@@ -611,12 +616,15 @@ class _DaySection extends StatelessWidget {
     required this.onLongPress,
   });
 
-  String _dayLabel() {
+  String _dayLabel(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final today = DateUtils.dateOnly(DateTime.now());
     final target = DateUtils.dateOnly(date);
-    if (target == today) return 'Today';
-    if (target == today.subtract(const Duration(days: 1))) return 'Yesterday';
-    return DateFormat('EEEE, d MMM yyyy').format(date);
+    if (target == today) return l10n.dateToday;
+    if (target == today.subtract(const Duration(days: 1))) {
+      return l10n.dateYesterday;
+    }
+    return formatAppDate(context, 'EEEE, d MMM yyyy', date);
   }
 
   @override
@@ -628,7 +636,7 @@ class _DaySection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 6),
           child: Text(
-            _dayLabel(),
+            _dayLabel(context),
             style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
@@ -693,16 +701,17 @@ class _TxTile extends StatelessWidget {
       classifyTransaction(
           from: transaction.fromAccount, to: transaction.toAccount);
 
-  String _title() {
+  String _title(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final t = transaction;
     if (t.description != null) return t.description!;
-    if (t.category != null) return t.category!;
+    if (t.category != null) return l10nCategoryName(context, t.category!);
     if (t.fromAccount != null && t.toAccount != null) {
       return '${t.fromAccount!.name} → ${t.toAccount!.name}';
     }
     if (t.fromAccount != null) return t.fromAccount!.name;
     if (t.toAccount != null) return t.toAccount!.name;
-    return 'Transaction';
+    return l10n.trackTransaction;
   }
 
   String? _counterpart() {
@@ -742,7 +751,7 @@ class _TxTile extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    _title(),
+                    _title(context),
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
