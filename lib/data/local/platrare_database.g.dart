@@ -100,6 +100,17 @@ class $DbAccountsTable extends DbAccounts
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _sortOrderMeta = const VerificationMeta(
     'sortOrder',
   );
@@ -122,6 +133,7 @@ class $DbAccountsTable extends DbAccounts
     overdraftLimit,
     archived,
     createdAt,
+    updatedAt,
     sortOrder,
   ];
   @override
@@ -195,6 +207,12 @@ class $DbAccountsTable extends DbAccounts
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
     if (data.containsKey('sort_order')) {
       context.handle(
         _sortOrderMeta,
@@ -242,6 +260,10 @@ class $DbAccountsTable extends DbAccounts
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
       )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
       sortOrder: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}sort_order'],
@@ -264,6 +286,7 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
   final double overdraftLimit;
   final bool archived;
   final DateTime createdAt;
+  final DateTime? updatedAt;
   final int sortOrder;
   const AccountRow({
     required this.id,
@@ -274,6 +297,7 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
     required this.overdraftLimit,
     required this.archived,
     required this.createdAt,
+    this.updatedAt,
     required this.sortOrder,
   });
   @override
@@ -287,6 +311,9 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
     map['overdraft_limit'] = Variable<double>(overdraftLimit);
     map['archived'] = Variable<bool>(archived);
     map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
     map['sort_order'] = Variable<int>(sortOrder);
     return map;
   }
@@ -301,6 +328,9 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
       overdraftLimit: Value(overdraftLimit),
       archived: Value(archived),
       createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
       sortOrder: Value(sortOrder),
     );
   }
@@ -319,6 +349,7 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
       overdraftLimit: serializer.fromJson<double>(json['overdraftLimit']),
       archived: serializer.fromJson<bool>(json['archived']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
       sortOrder: serializer.fromJson<int>(json['sortOrder']),
     );
   }
@@ -334,6 +365,7 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
       'overdraftLimit': serializer.toJson<double>(overdraftLimit),
       'archived': serializer.toJson<bool>(archived),
       'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
       'sortOrder': serializer.toJson<int>(sortOrder),
     };
   }
@@ -347,6 +379,7 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
     double? overdraftLimit,
     bool? archived,
     DateTime? createdAt,
+    Value<DateTime?> updatedAt = const Value.absent(),
     int? sortOrder,
   }) => AccountRow(
     id: id ?? this.id,
@@ -357,6 +390,7 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
     overdraftLimit: overdraftLimit ?? this.overdraftLimit,
     archived: archived ?? this.archived,
     createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
     sortOrder: sortOrder ?? this.sortOrder,
   );
   AccountRow copyWithCompanion(DbAccountsCompanion data) {
@@ -375,6 +409,7 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
           : this.overdraftLimit,
       archived: data.archived.present ? data.archived.value : this.archived,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       sortOrder: data.sortOrder.present ? data.sortOrder.value : this.sortOrder,
     );
   }
@@ -390,6 +425,7 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
           ..write('overdraftLimit: $overdraftLimit, ')
           ..write('archived: $archived, ')
           ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
           ..write('sortOrder: $sortOrder')
           ..write(')'))
         .toString();
@@ -405,6 +441,7 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
     overdraftLimit,
     archived,
     createdAt,
+    updatedAt,
     sortOrder,
   );
   @override
@@ -419,6 +456,7 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
           other.overdraftLimit == this.overdraftLimit &&
           other.archived == this.archived &&
           other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
           other.sortOrder == this.sortOrder);
 }
 
@@ -431,6 +469,7 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
   final Value<double> overdraftLimit;
   final Value<bool> archived;
   final Value<DateTime> createdAt;
+  final Value<DateTime?> updatedAt;
   final Value<int> sortOrder;
   final Value<int> rowid;
   const DbAccountsCompanion({
@@ -442,6 +481,7 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
     this.overdraftLimit = const Value.absent(),
     this.archived = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
     this.sortOrder = const Value.absent(),
     this.rowid = const Value.absent(),
   });
@@ -454,6 +494,7 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
     this.overdraftLimit = const Value.absent(),
     this.archived = const Value.absent(),
     required DateTime createdAt,
+    this.updatedAt = const Value.absent(),
     this.sortOrder = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
@@ -469,6 +510,7 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
     Expression<double>? overdraftLimit,
     Expression<bool>? archived,
     Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
     Expression<int>? sortOrder,
     Expression<int>? rowid,
   }) {
@@ -481,6 +523,7 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
       if (overdraftLimit != null) 'overdraft_limit': overdraftLimit,
       if (archived != null) 'archived': archived,
       if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
       if (sortOrder != null) 'sort_order': sortOrder,
       if (rowid != null) 'rowid': rowid,
     });
@@ -495,6 +538,7 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
     Value<double>? overdraftLimit,
     Value<bool>? archived,
     Value<DateTime>? createdAt,
+    Value<DateTime?>? updatedAt,
     Value<int>? sortOrder,
     Value<int>? rowid,
   }) {
@@ -507,6 +551,7 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
       overdraftLimit: overdraftLimit ?? this.overdraftLimit,
       archived: archived ?? this.archived,
       createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
       sortOrder: sortOrder ?? this.sortOrder,
       rowid: rowid ?? this.rowid,
     );
@@ -539,6 +584,9 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
     if (sortOrder.present) {
       map['sort_order'] = Variable<int>(sortOrder.value);
     }
@@ -559,6 +607,7 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
           ..write('overdraftLimit: $overdraftLimit, ')
           ..write('archived: $archived, ')
           ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
           ..write('sortOrder: $sortOrder, ')
           ..write('rowid: $rowid')
           ..write(')'))
@@ -3228,6 +3277,7 @@ typedef $$DbAccountsTableCreateCompanionBuilder =
       Value<double> overdraftLimit,
       Value<bool> archived,
       required DateTime createdAt,
+      Value<DateTime?> updatedAt,
       Value<int> sortOrder,
       Value<int> rowid,
     });
@@ -3241,6 +3291,7 @@ typedef $$DbAccountsTableUpdateCompanionBuilder =
       Value<double> overdraftLimit,
       Value<bool> archived,
       Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
       Value<int> sortOrder,
       Value<int> rowid,
     });
@@ -3291,6 +3342,11 @@ class $$DbAccountsTableFilterComposer
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -3349,6 +3405,11 @@ class $$DbAccountsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get sortOrder => $composableBuilder(
     column: $table.sortOrder,
     builder: (column) => ColumnOrderings(column),
@@ -3394,6 +3455,9 @@ class $$DbAccountsTableAnnotationComposer
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
   GeneratedColumn<int> get sortOrder =>
       $composableBuilder(column: $table.sortOrder, builder: (column) => column);
 }
@@ -3437,6 +3501,7 @@ class $$DbAccountsTableTableManager
                 Value<double> overdraftLimit = const Value.absent(),
                 Value<bool> archived = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
                 Value<int> sortOrder = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => DbAccountsCompanion(
@@ -3448,6 +3513,7 @@ class $$DbAccountsTableTableManager
                 overdraftLimit: overdraftLimit,
                 archived: archived,
                 createdAt: createdAt,
+                updatedAt: updatedAt,
                 sortOrder: sortOrder,
                 rowid: rowid,
               ),
@@ -3461,6 +3527,7 @@ class $$DbAccountsTableTableManager
                 Value<double> overdraftLimit = const Value.absent(),
                 Value<bool> archived = const Value.absent(),
                 required DateTime createdAt,
+                Value<DateTime?> updatedAt = const Value.absent(),
                 Value<int> sortOrder = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => DbAccountsCompanion.insert(
@@ -3472,6 +3539,7 @@ class $$DbAccountsTableTableManager
                 overdraftLimit: overdraftLimit,
                 archived: archived,
                 createdAt: createdAt,
+                updatedAt: updatedAt,
                 sortOrder: sortOrder,
                 rowid: rowid,
               ),

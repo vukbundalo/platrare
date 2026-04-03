@@ -16,14 +16,8 @@ class DataRepository {
 
   static Future<void> addTransaction(Transaction t) async {
     final normalized = TransactionNormalizer.normalize(t);
+    await _db.transactionUpsertTransactionAndAccounts(normalized);
     data.transactions.insert(0, normalized);
-    await _db.upsertTransaction(normalized);
-    if (normalized.fromAccount != null) {
-      await _db.upsertAccount(normalized.fromAccount!);
-    }
-    if (normalized.toAccount != null) {
-      await _db.upsertAccount(normalized.toAccount!);
-    }
   }
 
   static Future<void> replaceOrInsertTransaction(
@@ -34,48 +28,38 @@ class DataRepository {
       t,
       isUpdate: isUpdate,
     );
+    await _db.transactionUpsertTransactionAndAccounts(normalized);
     final idx = data.transactions.indexWhere((x) => x.id == normalized.id);
     if (idx >= 0) {
       data.transactions[idx] = normalized;
     } else {
       data.transactions.insert(0, normalized);
     }
-    await _db.upsertTransaction(normalized);
-    if (normalized.fromAccount != null) {
-      await _db.upsertAccount(normalized.fromAccount!);
-    }
-    if (normalized.toAccount != null) {
-      await _db.upsertAccount(normalized.toAccount!);
-    }
   }
 
   static Future<void> removeTransaction(Transaction t) async {
+    await _db.transactionDeleteTransactionAndUpsertAccounts(
+      t.id,
+      t.fromAccount,
+      t.toAccount,
+    );
     data.transactions.removeWhere((x) => x.id == t.id);
-    await _db.deleteTransactionRow(t.id);
-    if (t.fromAccount != null) await _db.upsertAccount(t.fromAccount!);
-    if (t.toAccount != null) await _db.upsertAccount(t.toAccount!);
   }
 
   static Future<void> insertTransactionAt(int index, Transaction t) async {
     final normalized = TransactionNormalizer.normalize(t);
+    await _db.transactionUpsertTransactionAndAccounts(normalized);
     final i = index.clamp(0, data.transactions.length);
     data.transactions.insert(i, normalized);
-    await _db.upsertTransaction(normalized);
-    if (normalized.fromAccount != null) {
-      await _db.upsertAccount(normalized.fromAccount!);
-    }
-    if (normalized.toAccount != null) {
-      await _db.upsertAccount(normalized.toAccount!);
-    }
   }
 
   // --- Accounts --------------------------------------------------------------
 
   static Future<void> addAccount(Account a) async {
+    await _db.upsertAccount(a);
     if (!data.accounts.contains(a)) {
       data.accounts.add(a);
     }
-    await _db.upsertAccount(a);
   }
 
   /// Persists current field values on an existing in-memory [Account] (same id).

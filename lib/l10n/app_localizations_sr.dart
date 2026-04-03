@@ -615,6 +615,35 @@ class AppLocalizationsSr extends AppLocalizations {
   }
 
   @override
+  String get settingsSectionData => 'Podaci';
+
+  @override
+  String get settingsVerifyLedger => 'Proveri knjigu';
+
+  @override
+  String get settingsVerifyLedgerSubtitle =>
+      'Ponovi transakcije i uporedi sa sačuvanim stanjima';
+
+  @override
+  String get ledgerVerifyDialogTitle => 'Provera knjige';
+
+  @override
+  String get ledgerVerifyAllMatch => 'Sva stanja se poklapaju.';
+
+  @override
+  String get ledgerVerifyMismatchesTitle => 'Razlike';
+
+  @override
+  String ledgerVerifyMismatchDetails(
+    String accountName,
+    String stored,
+    String replayed,
+    String diff,
+  ) {
+    return '$accountName\nSačuvano: $stored\nPonovo: $replayed\nRazlika: $diff';
+  }
+
+  @override
   String get settingsLanguage => 'Jezik aplikacije';
 
   @override
@@ -1754,6 +1783,35 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   @override
   String settingsArchivedAccountsSubtitleCount(int count) {
     return '$count sakriveno iz pregleda i biranja';
+  }
+
+  @override
+  String get settingsSectionData => 'Podaci';
+
+  @override
+  String get settingsVerifyLedger => 'Proveri knjigu';
+
+  @override
+  String get settingsVerifyLedgerSubtitle =>
+      'Ponovi transakcije i uporedi sa sačuvanim stanjima';
+
+  @override
+  String get ledgerVerifyDialogTitle => 'Provera knjige';
+
+  @override
+  String get ledgerVerifyAllMatch => 'Sva stanja se poklapaju.';
+
+  @override
+  String get ledgerVerifyMismatchesTitle => 'Razlike';
+
+  @override
+  String ledgerVerifyMismatchDetails(
+    String accountName,
+    String stored,
+    String replayed,
+    String diff,
+  ) {
+    return '$accountName\nSačuvano: $stored\nPonovo: $replayed\nRazlika: $diff';
   }
 
   @override

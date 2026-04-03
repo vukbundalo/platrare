@@ -263,6 +263,21 @@
       "count": {"type": "int"}
     }
   },
+  "settingsSectionData": "Data",
+  "settingsVerifyLedger": "Verify ledger",
+  "settingsVerifyLedgerSubtitle": "Replay transactions and compare to stored balances",
+  "ledgerVerifyDialogTitle": "Ledger verification",
+  "ledgerVerifyAllMatch": "All accounts match.",
+  "ledgerVerifyMismatchesTitle": "Mismatches",
+  "ledgerVerifyMismatchDetails": "{accountName}\nStored: {stored}\nReplay: {replayed}\nDifference: {diff}",
+  "@ledgerVerifyMismatchDetails": {
+    "placeholders": {
+      "accountName": {"type": "String"},
+      "stored": {"type": "String"},
+      "replayed": {"type": "String"},
+      "diff": {"type": "String"}
+    }
+  },
   "settingsLanguage": "App language",
   "settingsLanguageSubtitleSystem": "Following system settings",
   "settingsLanguageSubtitleEnglish": "English",

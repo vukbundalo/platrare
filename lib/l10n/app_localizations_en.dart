@@ -612,6 +612,35 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get settingsSectionData => 'Data';
+
+  @override
+  String get settingsVerifyLedger => 'Verify ledger';
+
+  @override
+  String get settingsVerifyLedgerSubtitle =>
+      'Replay transactions and compare to stored balances';
+
+  @override
+  String get ledgerVerifyDialogTitle => 'Ledger verification';
+
+  @override
+  String get ledgerVerifyAllMatch => 'All accounts match.';
+
+  @override
+  String get ledgerVerifyMismatchesTitle => 'Mismatches';
+
+  @override
+  String ledgerVerifyMismatchDetails(
+    String accountName,
+    String stored,
+    String replayed,
+    String diff,
+  ) {
+    return '$accountName\nStored: $stored\nReplay: $replayed\nDifference: $diff';
+  }
+
+  @override
   String get settingsLanguage => 'App language';
 
   @override

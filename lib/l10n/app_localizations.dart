@@ -1131,6 +1131,53 @@ abstract class AppLocalizations {
   /// **'{count} hidden from Review and pickers'**
   String settingsArchivedAccountsSubtitleCount(int count);
 
+  /// No description provided for @settingsSectionData.
+  ///
+  /// In en, this message translates to:
+  /// **'Data'**
+  String get settingsSectionData;
+
+  /// No description provided for @settingsVerifyLedger.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify ledger'**
+  String get settingsVerifyLedger;
+
+  /// No description provided for @settingsVerifyLedgerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay transactions and compare to stored balances'**
+  String get settingsVerifyLedgerSubtitle;
+
+  /// No description provided for @ledgerVerifyDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger verification'**
+  String get ledgerVerifyDialogTitle;
+
+  /// No description provided for @ledgerVerifyAllMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'All accounts match.'**
+  String get ledgerVerifyAllMatch;
+
+  /// No description provided for @ledgerVerifyMismatchesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mismatches'**
+  String get ledgerVerifyMismatchesTitle;
+
+  /// No description provided for @ledgerVerifyMismatchDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'{accountName}\nStored: {stored}\nReplay: {replayed}\nDifference: {diff}'**
+  String ledgerVerifyMismatchDetails(
+    String accountName,
+    String stored,
+    String replayed,
+    String diff,
+  );
+
   /// No description provided for @settingsLanguage.
   ///
   /// In en, this message translates to:

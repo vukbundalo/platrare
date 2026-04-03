@@ -62,6 +62,10 @@ class Account {
   bool archived;
 
   final DateTime createdAt;
+
+  /// Last time this row was written to local storage (sync / conflict helpers).
+  DateTime? updatedAt;
+
   int sortOrder;
 
   Account({
@@ -73,6 +77,7 @@ class Account {
     this.overdraftLimit = 0.0,
     this.archived = false,
     DateTime? createdAt,
+    this.updatedAt,
     this.sortOrder = 0,
   }) : id = id ?? const Uuid().v4(),
        group = group ?? AccountGroup.personal,
@@ -99,6 +104,7 @@ class Account {
     double? overdraftLimit,
     bool? archived,
     DateTime? createdAt,
+    DateTime? updatedAt,
     int? sortOrder,
   }) => Account(
     id: id,
@@ -109,6 +115,7 @@ class Account {
     overdraftLimit: overdraftLimit ?? this.overdraftLimit,
     archived: archived ?? this.archived,
     createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
     sortOrder: sortOrder ?? this.sortOrder,
   );
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/app_data.dart' as data;
 import '../data/data_repository.dart';
+import '../data/ledger_verify.dart';
 import '../data/currency_localized_names.dart';
 import '../data/currency_prefs.dart';
 import '../data/fx_service.dart';
@@ -110,6 +111,64 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ],
           ),
+        );
+      },
+    );
+  }
+
+  void _showLedgerVerify(BuildContext context, AppLocalizations l10n) {
+    final mismatches = verifyLedger(
+      accounts: data.accounts,
+      transactions: data.transactions,
+    );
+    if (!context.mounted) return;
+    showDialog<void>(
+      context: context,
+      builder: (ctx) {
+        String fmt(double x) => x.toStringAsFixed(2);
+        return AlertDialog(
+          title: Text(l10n.ledgerVerifyDialogTitle),
+          content: SingleChildScrollView(
+            child: mismatches.isEmpty
+                ? Text(l10n.ledgerVerifyAllMatch)
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        l10n.ledgerVerifyMismatchesTitle,
+                        style: const TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                      const SizedBox(height: 8),
+                      ...mismatches.map((m) {
+                        var name = m.accountId;
+                        for (final a in data.accounts) {
+                          if (a.id == m.accountId) {
+                            name = a.name;
+                            break;
+                          }
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: Text(
+                            l10n.ledgerVerifyMismatchDetails(
+                              name,
+                              fmt(m.storedBalance),
+                              fmt(m.recomputedBalance),
+                              fmt(m.delta),
+                            ),
+                          ),
+                        );
+                      }),
+                    ],
+                  ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(l10n.close),
+            ),
+          ],
         );
       },
     );
@@ -382,6 +441,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
               );
               if (mounted) setState(() {});
             },
+          ),
+          const SizedBox(height: 24),
+          _SectionLabel(l10n.settingsSectionData),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.fact_check_outlined,
+            title: l10n.settingsVerifyLedger,
+            subtitle: l10n.settingsVerifyLedgerSubtitle,
+            onTap: () => _showLedgerVerify(context, l10n),
           ),
         ],
       ),

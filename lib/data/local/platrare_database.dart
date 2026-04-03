@@ -25,6 +25,7 @@ class DbAccounts extends Table {
   RealColumn get overdraftLimit => real().withDefault(const Constant(0))();
   BoolColumn get archived => boolean().withDefault(const Constant(false))();
   DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
   IntColumn get sortOrder => integer().withDefault(const Constant(0))();
 
   @override
@@ -135,14 +136,21 @@ class PlatrareDatabase extends _$PlatrareDatabase {
   }
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async {
           await m.createAll();
         },
-        onUpgrade: (m, from, to) async {},
+        onUpgrade: (m, from, to) async {
+          if (from < 2) {
+            await m.addColumn(dbAccounts, dbAccounts.updatedAt);
+            await customStatement(
+              'UPDATE db_accounts SET updated_at = created_at WHERE updated_at IS NULL',
+            );
+          }
+        },
       );
 
   static const List<String> _seedIncome = [
@@ -252,6 +260,7 @@ class PlatrareDatabase extends _$PlatrareDatabase {
         overdraftLimit: r.overdraftLimit,
         archived: r.archived,
         createdAt: r.createdAt,
+        updatedAt: r.updatedAt,
         sortOrder: r.sortOrder,
       );
 
@@ -333,17 +342,21 @@ class PlatrareDatabase extends _$PlatrareDatabase {
     );
   }
 
-  DbAccountsCompanion _accountCompanion(Account a) => DbAccountsCompanion(
-        id: Value(a.id),
-        name: Value(a.name),
-        groupIndex: Value(a.group.index),
-        balance: Value(a.balance),
-        currencyCode: Value(a.currencyCode),
-        overdraftLimit: Value(a.overdraftLimit),
-        archived: Value(a.archived),
-        createdAt: Value(a.createdAt),
-        sortOrder: Value(a.sortOrder),
-      );
+  DbAccountsCompanion _accountCompanionForPersist(Account a) {
+    final now = DateTime.now();
+    return DbAccountsCompanion(
+      id: Value(a.id),
+      name: Value(a.name),
+      groupIndex: Value(a.group.index),
+      balance: Value(a.balance),
+      currencyCode: Value(a.currencyCode),
+      overdraftLimit: Value(a.overdraftLimit),
+      archived: Value(a.archived),
+      createdAt: Value(a.createdAt),
+      updatedAt: Value(now),
+      sortOrder: Value(a.sortOrder),
+    );
+  }
 
   DbTransactionsCompanion _transactionCompanion(Transaction t) =>
       DbTransactionsCompanion(
@@ -393,7 +406,7 @@ class PlatrareDatabase extends _$PlatrareDatabase {
       );
 
   Future<void> upsertAccount(Account a) => into(dbAccounts).insertOnConflictUpdate(
-        _accountCompanion(a),
+        _accountCompanionForPersist(a),
       );
 
   Future<void> deleteAccountRow(String id) =>
@@ -404,6 +417,41 @@ class PlatrareDatabase extends _$PlatrareDatabase {
 
   Future<void> deleteTransactionRow(String id) =>
       (delete(dbTransactions)..where((t) => t.id.equals(id))).go();
+
+  /// Single SQLite commit: transaction row + affected account rows.
+  Future<void> transactionUpsertTransactionAndAccounts(Transaction t) async {
+    await transaction(() async {
+      await into(dbTransactions).insertOnConflictUpdate(_transactionCompanion(t));
+      if (t.fromAccount != null) {
+        await into(dbAccounts)
+            .insertOnConflictUpdate(_accountCompanionForPersist(t.fromAccount!));
+      }
+      if (t.toAccount != null) {
+        await into(dbAccounts)
+            .insertOnConflictUpdate(_accountCompanionForPersist(t.toAccount!));
+      }
+    });
+  }
+
+  /// Single SQLite commit: remove transaction row + persist adjusted accounts.
+  Future<void> transactionDeleteTransactionAndUpsertAccounts(
+    String transactionId,
+    Account? fromAccount,
+    Account? toAccount,
+  ) async {
+    await transaction(() async {
+      await (delete(dbTransactions)..where((x) => x.id.equals(transactionId)))
+          .go();
+      if (fromAccount != null) {
+        await into(dbAccounts)
+            .insertOnConflictUpdate(_accountCompanionForPersist(fromAccount));
+      }
+      if (toAccount != null) {
+        await into(dbAccounts)
+            .insertOnConflictUpdate(_accountCompanionForPersist(toAccount));
+      }
+    });
+  }
 
   Future<void> upsertPlanned(PlannedTransaction p) => into(dbPlannedTransactions)
       .insertOnConflictUpdate(_plannedCompanion(p));
