@@ -1333,6 +1333,21 @@ class _TransactionTile extends StatelessWidget {
                     ),
                   ),
                 ),
+              )
+            else
+              SizedBox(
+                width: 48,
+                height: 48,
+                child: Center(
+                  child: Container(
+                    width: 4,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: cs.onSurfaceVariant.withValues(alpha: 0.22),
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
               ),
           ],
         ),
