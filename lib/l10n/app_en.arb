@@ -4,9 +4,206 @@
   "@appTitle": {
     "description": "Application title"
   },
+
   "navPlan": "Plan",
   "navTrack": "Track",
   "navReview": "Review",
+
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "close": "Close",
+  "add": "Add",
+  "undo": "Undo",
+  "confirm": "Confirm",
+  "restore": "Restore",
+
+  "heroIn": "In",
+  "heroOut": "Out",
+  "heroNet": "Net",
+  "heroBalance": "Balance",
+  "realBalance": "Real balance",
+
+  "filterClearFilters": "Clear filters",
+  "filterClearProjections": "Clear projections",
+  "filterAll": "All",
+  "filterAllAccounts": "All accounts",
+  "filterAllCategories": "All categories",
+
+  "txLabelIncome": "INCOME",
+  "txLabelExpense": "EXPENSE",
+  "txLabelInvoice": "INVOICE",
+  "txLabelBill": "BILL",
+  "txLabelAdvance": "ADVANCE",
+  "txLabelSettlement": "SETTLEMENT",
+  "txLabelLoan": "LOAN",
+  "txLabelCollection": "COLLECTION",
+  "txLabelOffset": "OFFSET",
+  "txLabelTransfer": "TRANSFER",
+  "txLabelTransaction": "TRANSACTION",
+
+  "repeatNone": "No repeat",
+  "repeatDaily": "Daily",
+  "repeatWeekly": "Weekly",
+  "repeatMonthly": "Monthly",
+  "repeatYearly": "Yearly",
+
+  "weekendNoChange": "No change",
+  "weekendFriday": "Move to Friday",
+  "weekendMonday": "Move to Monday",
+  "weekendQuestion": "If the {day} falls on a weekend?",
+  "@weekendQuestion": {
+    "placeholders": {
+      "day": {"type": "String"}
+    }
+  },
+
+  "dateToday": "Today",
+  "dateTomorrow": "Tomorrow",
+  "dateYesterday": "Yesterday",
+  "statsAllTime": "All time",
+
+  "accountGroupPersonal": "Personal",
+  "accountGroupIndividual": "Individual",
+  "accountGroupEntity": "Entity",
+  "accountSectionIndividuals": "Individuals",
+  "accountSectionEntities": "Entities",
+
+  "emptyNoTransactionsYet": "No transactions yet",
+  "emptyNoAccountsYet": "No accounts yet",
+  "emptyRecordFirstTransaction": "Tap the button below to record your first transaction.",
+  "emptyAddFirstAccountTx": "Add your first account before recording transactions.",
+  "emptyAddFirstAccountPlan": "Add your first account before planning transactions.",
+  "emptyAddFirstAccountReview": "Add your first account to start tracking your finances.",
+  "emptyAddTransaction": "Add transaction",
+  "emptyAddAccount": "Add account",
+  "emptyNoTransactionsForFilters": "No transactions for applied filters",
+  "emptyNoTransactionsInHistory": "No transactions in history",
+  "emptyNoTransactionsForMonth": "No transactions for {month}",
+  "@emptyNoTransactionsForMonth": {
+    "placeholders": {
+      "month": {"type": "String"}
+    }
+  },
+  "emptyNoTransactionsForAccount": "No transactions for this account",
+
+  "trackTransactionDeleted": "Transaction deleted",
+  "trackDeleteTitle": "Delete transaction?",
+  "trackDeleteBody": "This will reverse the account balance changes.",
+  "trackTransaction": "Transaction",
+
+  "planConfirmTitle": "Confirm transaction?",
+  "planConfirmBodyEarly": "This occurrence is scheduled for {date}. It will be recorded in History with today\u2019s date ({todayDate}). The next occurrence remains on {nextDate}.",
+  "@planConfirmBodyEarly": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "todayDate": {"type": "String"},
+      "nextDate": {"type": "String"}
+    }
+  },
+  "planConfirmBodyNormal": "This will apply the transaction to your real account balances and move it to History.",
+  "planTransactionConfirmed": "Transaction confirmed and applied",
+  "planTransactionRemoved": "Planned transaction removed",
+  "planRepeatingTitle": "Repeating transaction",
+  "planRepeatingBody": "Skip only this date\u2014the series continues with the next occurrence\u2014or delete every remaining occurrence from your plan.",
+  "planDeleteAll": "Delete all",
+  "planSkipThisOnly": "Skip this only",
+  "planOccurrenceSkipped": "This occurrence skipped \u2014 next one scheduled",
+  "planNothingPlanned": "Nothing planned for now",
+  "planPlanBody": "Plan upcoming transactions.",
+  "planAddPlan": "Add plan",
+  "planNoPlannedForFilters": "No planned transactions for applied filters",
+  "planNoPlannedInMonth": "No planned transactions in {month}",
+  "@planNoPlannedInMonth": {
+    "placeholders": {
+      "month": {"type": "String"}
+    }
+  },
+  "planOverdue": "overdue",
+  "planPlannedTransaction": "Planned transaction",
+
+  "discardTitle": "Discard changes?",
+  "discardBody": "You have unsaved changes. They will be lost if you leave now.",
+  "keepEditing": "Keep editing",
+  "discard": "Discard",
+
+  "newTransactionTitle": "New Transaction",
+  "editTransactionTitle": "Edit Transaction",
+  "transactionUpdated": "Transaction updated",
+  "sectionAccounts": "Accounts",
+  "labelFrom": "From",
+  "labelTo": "To",
+  "sectionCategory": "Category",
+  "sectionAttachments": "Attachments",
+  "labelNote": "Note",
+  "hintOptionalDescription": "Optional description",
+  "updateTransaction": "Update Transaction",
+  "saveTransaction": "Save Transaction",
+  "selectAccount": "Select account",
+  "selectAccountTitle": "Select Account",
+  "noAccountsAvailable": "No accounts available",
+  "amountReceivedBy": "Amount received by {name} ({currency})",
+  "@amountReceivedBy": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "currency": {"type": "String"}
+    }
+  },
+  "amountReceivedHelper": "Enter the exact amount the destination account receives. This locks the real exchange rate used.",
+
+  "attachTakePhoto": "Take photo",
+  "attachTakePhotoSub": "Use camera to capture a receipt",
+  "attachChooseGallery": "Choose from gallery",
+  "attachChooseGallerySub": "Select photos from your library",
+  "attachBrowseFiles": "Browse files",
+  "attachBrowseFilesSub": "Attach PDFs, documents or other files",
+  "attachButton": "Attach",
+
+  "editPlanTitle": "Edit Plan",
+  "planTransactionTitle": "Plan Transaction",
+  "tapToSelect": "Tap to select",
+  "updatePlan": "Update Plan",
+  "addToPlan": "Add to Plan",
+  "labelRepeat": "Repeat",
+  "selectPlannedDate": "Select planned date",
+  "balancesAsOfToday": "Balances as of today",
+  "projectedBalancesForTomorrow": "Projected balances for tomorrow",
+  "projectedBalancesForDate": "Projected balances for {date}",
+  "@projectedBalancesForDate": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "destReceivesLabel": "{name} receives ({currency})",
+  "@destReceivesLabel": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "currency": {"type": "String"}
+    }
+  },
+  "destHelper": "Estimated destination amount. Exact rate is locked at confirmation.",
+  "descriptionOptional": "Description (optional)",
+
+  "detailTransactionTitle": "Transaction",
+  "detailPlannedTitle": "Planned",
+  "detailConfirmTransaction": "Confirm transaction",
+  "detailDate": "Date",
+  "detailFrom": "From",
+  "detailTo": "To",
+  "detailCategory": "Category",
+  "detailNote": "Note",
+  "detailDestinationAmount": "Destination amount",
+  "detailExchangeRate": "Exchange rate",
+  "detailRepeats": "Repeats",
+  "detailDayOfMonth": "Day of month",
+  "detailWeekends": "Weekends",
+  "detailAttachments": "Attachments",
+  "detailFileCount": "{count, plural, =1{1 file} other{{count} files}}",
+  "@detailFileCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
   "settingsTitle": "Settings",
   "settingsSectionDisplay": "Display",
   "settingsSectionLanguage": "Language",
@@ -15,7 +212,7 @@
   "settingsBaseCurrency": "Base currency",
   "settingsSecondaryCurrency": "Secondary display currency",
   "settingsCategories": "Categories",
-  "settingsCategoriesSubtitle": "{incomeCount} income · {expenseCount} expense",
+  "settingsCategoriesSubtitle": "{incomeCount} income \u00b7 {expenseCount} expense",
   "@settingsCategoriesSubtitle": {
     "placeholders": {
       "incomeCount": {"type": "int"},
@@ -23,7 +220,7 @@
     }
   },
   "settingsArchivedAccounts": "Archived accounts",
-  "settingsArchivedAccountsSubtitleZero": "None right now — archive from account edit when balance is clear",
+  "settingsArchivedAccountsSubtitleZero": "None right now \u2014 archive from account edit when balance is clear",
   "settingsArchivedAccountsSubtitleCount": "{count} hidden from Review and pickers",
   "@settingsArchivedAccountsSubtitleCount": {
     "placeholders": {
@@ -38,11 +235,184 @@
   "settingsLanguageOptionSystem": "System default",
   "settingsLanguageOptionEnglish": "English",
   "settingsLanguageOptionSerbianLatin": "Serbian (Latin)",
+
   "archivedAccountsTitle": "Archived accounts",
   "archivedAccountsEmptyTitle": "No archived accounts",
   "archivedAccountsEmptyBody": "When you archive an account from Review, it will appear here. You can restore it anytime.",
-  "accountGroupPersonal": "Personal",
-  "accountGroupIndividual": "Individual",
-  "accountGroupEntity": "Entity",
-  "restore": "Restore"
+
+  "categoriesTitle": "Categories",
+  "newCategoryTitle": "New Category",
+  "categoryNameLabel": "Category name",
+  "deleteCategoryTitle": "Delete category?",
+  "deleteCategoryBody": "\"{category}\" will be removed from the list.",
+  "@deleteCategoryBody": {
+    "placeholders": {
+      "category": {"type": "String"}
+    }
+  },
+  "categoryIncome": "Income",
+  "categoryExpense": "Expense",
+  "categoryAdd": "Add",
+  "searchCurrencies": "Search currencies\u2026",
+
+  "tooltipSettings": "Settings",
+  "tooltipAddAccount": "Add account",
+  "tooltipRemoveAccount": "Remove account",
+
+  "accountNameTaken": "An account with this name already exists (active or archived). Choose a different name.",
+  "groupDescPersonal": "Your own wallets & bank accounts",
+  "groupDescIndividuals": "Family, friends, individuals",
+  "groupDescEntities": "Entities, utilities, organisations",
+
+  "cannotArchiveTitle": "Cannot archive yet",
+  "cannotArchiveBody": "Archive is only available when the book balance and overdraft limit are both effectively zero.",
+  "cannotArchiveBodyAdjust": "Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.",
+  "archiveAccountTitle": "Archive account?",
+  "archiveWithPlannedBody": "{count, plural, =1{1 planned transaction references this account.} other{{count} planned transactions reference this account.}} Remove them to keep your plan consistent with an archived account.",
+  "@archiveWithPlannedBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "removeAndArchive": "Remove planned & archive",
+  "archiveBody": "The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.",
+  "archiveAction": "Archive",
+  "archiveInstead": "Archive instead",
+
+  "cannotDeleteTitle": "Cannot delete account",
+  "cannotDeleteBodyShort": "This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.",
+  "cannotDeleteBodyHistory": "This account appears in your Track history. Deleting would break that history\u2014remove or reassign those transactions first.",
+  "cannotDeleteBodySuggestArchive": "This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared\u2014it will be hidden from lists but history stays intact.",
+
+  "deleteAccountTitle": "Delete account?",
+  "deleteAccountBodyPermanent": "This account will be removed permanently.",
+  "deleteWithPlannedBody": "{count, plural, =1{1 planned transaction references this account and will also be deleted.} other{{count} planned transactions reference this account and will also be deleted.}}",
+  "@deleteWithPlannedBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "deleteAllAndDelete": "Delete all",
+
+  "editAccountTitle": "Edit Account",
+  "newAccountTitle": "New Account",
+  "labelAccountName": "Account name",
+  "labelRealBalance": "Real balance",
+  "labelOverdraftLimit": "Overdraft / advance limit",
+  "labelCurrency": "Currency",
+  "saveChanges": "Save Changes",
+  "addAccountAction": "Add Account",
+
+  "removeAccountSheetTitle": "Remove account",
+  "deletePermanently": "Delete permanently",
+  "deletePermanentlySubtitle": "Only possible when this account is not used in Track. Planned items can be removed as part of delete.",
+  "archiveOptionSubtitle": "Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.",
+  "archivedBannerText": "This account is archived. It stays in your data but is hidden from lists and pickers.",
+
+  "balanceAdjustedTitle": "Balance adjusted in Track",
+  "balanceAdjustedBody": "Real balance was updated from {previous} to {current} {symbol}.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n\u2022 Real balance reflects the actual amount in this account.\n\u2022 Check History for the adjustment entry.",
+  "@balanceAdjustedBody": {
+    "placeholders": {
+      "previous": {"type": "String"},
+      "current": {"type": "String"},
+      "symbol": {"type": "String"}
+    }
+  },
+  "ok": "OK",
+
+  "statsUncategorized": "Uncategorized",
+  "statsNoCategories": "No categories in the selected periods for comparison.",
+  "statsNoTransactions": "No transactions",
+  "statsSpendingInCategory": "Spending in this category",
+  "statsIncomeInCategory": "Income in this category",
+  "statsDifference": "Difference (B vs A): ",
+  "statsNoExpensesMonth": "No expenses this month",
+  "statsNoExpensesAll": "No expenses recorded",
+  "statsNoExpensesPeriod": "No expenses in the last {period}",
+  "@statsNoExpensesPeriod": {
+    "placeholders": {
+      "period": {"type": "String"}
+    }
+  },
+  "statsTotalSpent": "Total spent",
+  "statsNoExpensesThisPeriod": "No expenses in this period",
+  "statsNoIncomeMonth": "No income this month",
+  "statsNoIncomeAll": "No income recorded",
+  "statsNoIncomePeriod": "No income in the last {period}",
+  "@statsNoIncomePeriod": {
+    "placeholders": {
+      "period": {"type": "String"}
+    }
+  },
+  "statsTotalReceived": "Total received",
+  "statsNoIncomeThisPeriod": "No income in this period",
+
+  "catSalary": "Salary",
+  "catFreelance": "Freelance",
+  "catConsulting": "Consulting",
+  "catGift": "Gift",
+  "catRental": "Rental",
+  "catDividends": "Dividends",
+  "catRefund": "Refund",
+  "catBonus": "Bonus",
+  "catInterest": "Interest",
+  "catSideHustle": "Side hustle",
+  "catSaleOfGoods": "Sale of goods",
+  "catOther": "Other",
+  "catGroceries": "Groceries",
+  "catDining": "Dining",
+  "catTransport": "Transport",
+  "catUtilities": "Utilities",
+  "catHousing": "Housing",
+  "catHealthcare": "Healthcare",
+  "catEntertainment": "Entertainment",
+  "catShopping": "Shopping",
+  "catTravel": "Travel",
+  "catEducation": "Education",
+  "catSubscriptions": "Subscriptions",
+  "catInsurance": "Insurance",
+  "catFuel": "Fuel",
+  "catGym": "Gym",
+  "catPets": "Pets",
+  "catKids": "Kids",
+  "catCharity": "Charity",
+  "catCoffee": "Coffee",
+  "catGifts": "Gifts",
+
+  "semanticsProjectionDate": "Projection date {date}. Double tap to choose date",
+  "@semanticsProjectionDate": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "semanticsProjectedBalance": "Projected personal balance {amount}",
+  "@semanticsProjectedBalance": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "semanticsShowProjections": "Show projected balances by account",
+  "semanticsHideProjections": "Hide projected balances by account",
+  "semanticsDateAllTime": "Date: all time \u2014 tap to change mode",
+  "semanticsDateMode": "Date: {mode} \u2014 tap to change mode",
+  "@semanticsDateMode": {
+    "placeholders": {
+      "mode": {"type": "String"}
+    }
+  },
+  "semanticsDateThisMonth": "Date: this month \u2014 tap for month, week, year, or all time",
+  "semanticsTxTypeCycle": "Transaction type: cycle all, income, expense, transfer",
+  "semanticsAccountFilter": "Account filter",
+  "semanticsAlreadyFiltered": "Already filtered to this account",
+  "semanticsCategoryFilter": "Category filter",
+  "semanticsSortToggle": "Sort: toggle newest or oldest first",
+  "semanticsFiltersDisabled": "List filters disabled while viewing a future projection date. Clear projections to use filters.",
+  "semanticsChartStyle": "Chart style",
+  "semanticsChartStyleUnavailable": "Chart style (unavailable in comparison mode)",
+  "semanticsPeriod": "Period: {label}",
+  "@semanticsPeriod": {
+    "placeholders": {
+      "label": {"type": "String"}
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'data/locale_prefs.dart';
 import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'screens/track_screen.dart';
@@ -10,6 +11,9 @@ import 'utils/fx.dart' as fx;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initAppLocale();
+  await initializeDateFormatting('en');
+  await initializeDateFormatting('sr');
+  await initializeDateFormatting('sr_Latn');
   // Run multi-currency logic test in debug mode (Rules 3, 4, 5).
   assert(() {
     debugPrint('[FX Test] ${fx.runFxLogicTest()}');
