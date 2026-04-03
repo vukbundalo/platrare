@@ -400,6 +400,7 @@
 
   "categoryBalanceAdjustment": "Balance adjustment",
   "descriptionBalanceCorrection": "Balance correction",
+  "descriptionOpeningBalance": "Opening balance",
 
   "statsUncategorized": "Uncategorized",
   "statsNoCategories": "No categories in the selected periods for comparison.",

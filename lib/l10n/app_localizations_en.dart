@@ -914,6 +914,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get descriptionBalanceCorrection => 'Balance correction';
 
   @override
+  String get descriptionOpeningBalance => 'Opening balance';
+
+  @override
   String get statsUncategorized => 'Uncategorized';
 
   @override

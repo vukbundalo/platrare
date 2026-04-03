@@ -143,6 +143,7 @@ String l10nSentinel(String? value, AppLocalizations l10n) {
   return switch (value) {
     '__balance_adjustment__' => l10n.categoryBalanceAdjustment,
     '__balance_correction__' => l10n.descriptionBalanceCorrection,
+    '__opening_balance__' => l10n.descriptionOpeningBalance,
     _ => value,
   };
 }

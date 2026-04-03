@@ -919,6 +919,9 @@ class AppLocalizationsSr extends AppLocalizations {
   String get descriptionBalanceCorrection => 'Korekcija bilansa';
 
   @override
+  String get descriptionOpeningBalance => 'Početno stanje';
+
+  @override
   String get statsUncategorized => 'Nekategorisano';
 
   @override
@@ -2088,6 +2091,9 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get descriptionBalanceCorrection => 'Korekcija bilansa';
+
+  @override
+  String get descriptionOpeningBalance => 'Početno stanje';
 
   @override
   String get statsUncategorized => 'Nekategorisano';

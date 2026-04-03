@@ -28,6 +28,8 @@ Future<BalanceCorrectionResult> applyLedgerBalanceCorrection({
   required Account account,
   required double previousBookBalance,
   required double newBookBalance,
+  String category = '__balance_adjustment__',
+  String description = '__balance_correction__',
 }) async {
   final delta = newBookBalance - previousBookBalance;
   if (delta.abs() < 1e-10) {
@@ -53,8 +55,8 @@ Future<BalanceCorrectionResult> applyLedgerBalanceCorrection({
       exchangeRate: rate,
       fromAccount: from,
       toAccount: to,
-      category: '__balance_adjustment__',
-      description: '__balance_correction__',
+      category: category,
+      description: description,
       date: DateTime.now(),
       txType: type,
     ),

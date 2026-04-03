@@ -1652,6 +1652,12 @@ abstract class AppLocalizations {
   /// **'Balance correction'**
   String get descriptionBalanceCorrection;
 
+  /// No description provided for @descriptionOpeningBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening balance'**
+  String get descriptionOpeningBalance;
+
   /// No description provided for @statsUncategorized.
   ///
   /// In en, this message translates to:

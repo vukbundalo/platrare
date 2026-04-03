@@ -1,6 +1,7 @@
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
 import '../models/transaction.dart';
+import '../utils/balance_correction.dart';
 import 'app_data.dart' as data;
 import 'local/platrare_database.dart';
 import 'planned_normalize.dart';
@@ -55,11 +56,30 @@ class DataRepository {
 
   // --- Accounts --------------------------------------------------------------
 
+  /// Persists the account and, when [a.balance] is non-zero, inserts an
+  /// opening-balance ledger row (from/to null) so verify-ledger replay matches.
   static Future<void> addAccount(Account a) async {
+    final opening = a.balance;
+    if (opening.abs() < 1e-10) {
+      await _db.upsertAccount(a);
+      if (!data.accounts.contains(a)) {
+        data.accounts.add(a);
+      }
+      return;
+    }
+
+    a.balance = 0;
     await _db.upsertAccount(a);
     if (!data.accounts.contains(a)) {
       data.accounts.add(a);
     }
+
+    await applyLedgerBalanceCorrection(
+      account: a,
+      previousBookBalance: 0,
+      newBookBalance: opening,
+      description: '__opening_balance__',
+    );
   }
 
   /// Persists current field values on an existing in-memory [Account] (same id).

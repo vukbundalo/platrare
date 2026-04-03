@@ -295,6 +295,7 @@
 
   "categoryBalanceAdjustment": "Korekcija stanja",
   "descriptionBalanceCorrection": "Korekcija bilansa",
+  "descriptionOpeningBalance": "Početno stanje",
 
   "statsUncategorized": "Nekategorisano",
   "statsNoCategories": "Nema kategorija u izabranim periodima za poređenje.",
