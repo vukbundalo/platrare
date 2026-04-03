@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
+import '../models/account.dart';
 import '../utils/fx.dart' as fx;
 
 class SettingsScreen extends StatefulWidget {
@@ -14,6 +15,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final archivedCount = data.accounts.where((a) => a.archived).length;
 
     Widget currencyCard({
       required IconData icon,
@@ -139,8 +141,112 @@ class _SettingsScreenState extends State<SettingsScreen> {
               setState(() {});
             },
           ),
+          const SizedBox(height: 24),
+          _SectionLabel('Accounts'),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.inventory_2_outlined,
+            title: 'Archived accounts',
+            subtitle: archivedCount == 0
+                ? 'None right now — archive from account edit when balance is clear'
+                : '$archivedCount hidden from Review and pickers',
+            badge: '$archivedCount',
+            onTap: () async {
+              await Navigator.push<void>(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const ArchivedAccountsScreen(),
+                ),
+              );
+              if (mounted) setState(() {});
+            },
+          ),
         ],
       ),
+    );
+  }
+}
+
+// ─── Archived accounts screen ─────────────────────────────────────────────────
+
+class ArchivedAccountsScreen extends StatefulWidget {
+  const ArchivedAccountsScreen({super.key});
+
+  @override
+  State<ArchivedAccountsScreen> createState() => _ArchivedAccountsScreenState();
+}
+
+class _ArchivedAccountsScreenState extends State<ArchivedAccountsScreen> {
+  String _groupLabel(AccountGroup g) => switch (g) {
+        AccountGroup.personal => 'Personal',
+        AccountGroup.individuals => 'Individual',
+        AccountGroup.entities => 'Entity',
+      };
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final archived =
+        data.accounts.where((a) => a.archived).toList();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Archived accounts'),
+        backgroundColor: cs.surface,
+      ),
+      body: archived.isEmpty
+          ? Center(
+              child: Padding(
+                padding: const EdgeInsets.all(32),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.inventory_2_outlined,
+                      size: 56,
+                      color: cs.onSurfaceVariant.withValues(alpha: 0.5),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'No archived accounts',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'When you archive an account from Review, it will appear here. You can restore it anytime.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: cs.onSurfaceVariant,
+                        height: 1.45,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : ListView.separated(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+              itemCount: archived.length,
+              separatorBuilder: (_, _) => const SizedBox(height: 4),
+              itemBuilder: (context, i) {
+                final a = archived[i];
+                return Card(
+                  margin: EdgeInsets.zero,
+                  child: ListTile(
+                    title: Text(a.name),
+                    subtitle: Text(_groupLabel(a.group)),
+                    trailing: TextButton(
+                      onPressed: () {
+                        setState(() => a.archived = false);
+                      },
+                      child: const Text('Restore'),
+                    ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }

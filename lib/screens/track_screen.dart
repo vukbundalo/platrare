@@ -1,10 +1,14 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/transaction.dart';
+import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/projections.dart' as proj;
 import '../utils/tx_display.dart';
@@ -38,6 +42,10 @@ bool _inGroup(TxType t, String group) => switch (group) {
 class _TrackScreenState extends State<TrackScreen> {
   // ── Pagination ──────────────────────────────────────────────────────────────
   final _scrollController = ScrollController();
+
+  /// Reset when filters / data window change; caps how many day sections build.
+  int _visibleTrackDaySlots = kLazyDayInitialCount;
+  int? _trackLazyListSig;
 
   // ── Filters ─────────────────────────────────────────────────────────────────
   String? _typeFilter;      // _kTypeIncome / _kTypeExpense / _kTypeTransfer
@@ -82,7 +90,7 @@ class _TrackScreenState extends State<TrackScreen> {
         }
       });
 
-  /// Cycles: this month (null) → navigable month → week → year → null.
+  /// Cycles: this month (null) → month → week → year → all time → null.
   /// Closes account/category strip when switching date mode only.
   void _cycleDateFilter() => setState(() {
         _trackPanel = TrackPlanFilterPanel.none;
@@ -95,6 +103,8 @@ class _TrackScreenState extends State<TrackScreen> {
         } else if (_dateFilter == 'week') {
           _dateFilter = 'year';
           _dateAnchor = DateTime.now();
+        } else if (_dateFilter == 'year') {
+          _dateFilter = 'all';
         } else {
           _dateFilter = null;
         }
@@ -107,11 +117,12 @@ class _TrackScreenState extends State<TrackScreen> {
       _dateFilter == 'month' ||
       _dateFilter == 'year';
 
-  /// Shown on the date chip for month / week / year (calendar icon when null).
+  /// Shown on the date chip (calendar when null = this month only).
   String? get _dateChipModeLetter => switch (_dateFilter) {
         'month' => 'M',
         'week' => 'W',
         'year' => 'Y',
+        'all' => '∞',
         _ => null,
       };
 
@@ -197,10 +208,47 @@ class _TrackScreenState extends State<TrackScreen> {
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onTrackScrollLoadMoreDays);
+  }
+
+  void _onTrackScrollLoadMoreDays() {
+    if (_dateFilter != 'all') return;
+    if (!_scrollController.hasClients) return;
+    final pos = _scrollController.position;
+    if (!pos.hasPixels || !pos.hasContentDimensions) return;
+    if (pos.pixels < pos.maxScrollExtent - 360) return;
+
+    final g = DayGroupedTransactions.build(_filteredTx, _newestFirst);
+    if (!shouldLazyLoadDaySections(_dateFilter, g.dayKeys.length)) return;
+    if (_visibleTrackDaySlots >= g.dayKeys.length) return;
+
+    setState(() {
+      _visibleTrackDaySlots = math.min(
+        _visibleTrackDaySlots + kLazyDayLoadBatch,
+        g.dayKeys.length,
+      );
+    });
+  }
+
+  void _syncTrackLazyWindowSignature() {
+    final sig = Object.hash(
+      _dateFilter,
+      _typeFilter,
+      _accountFilter?.id,
+      _categoryFilter,
+      _newestFirst,
+      _filteredTx.length,
+      data.transactions.length,
+    );
+    if (_trackLazyListSig != sig) {
+      _trackLazyListSig = sig;
+      _visibleTrackDaySlots = kLazyDayInitialCount;
+    }
   }
 
   @override
   void dispose() {
+    _scrollController.removeListener(_onTrackScrollLoadMoreDays);
     _scrollController.dispose();
     super.dispose();
   }
@@ -259,7 +307,7 @@ class _TrackScreenState extends State<TrackScreen> {
       });
     }
 
-    if (_accountFilter != null) {
+    if (_accountFilter != null && !_accountFilter!.archived) {
       final id = _accountFilter!.id;
       source = source.where(
           (t) => t.fromAccount?.id == id || t.toAccount?.id == id);
@@ -273,7 +321,7 @@ class _TrackScreenState extends State<TrackScreen> {
   }
 
   Future<void> _addAccount() async {
-    final result = await showModalBottomSheet<Account>(
+    final result = await showModalBottomSheet<Object?>(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
@@ -281,7 +329,7 @@ class _TrackScreenState extends State<TrackScreen> {
       enableDrag: false,
       builder: (ctx) => const AccountFormSheet(),
     );
-    if (result != null) {
+    if (result is Account) {
       setState(() {
         if (!data.accounts.contains(result)) {
           data.accounts.add(result);
@@ -326,6 +374,15 @@ class _TrackScreenState extends State<TrackScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_accountFilter != null && _accountFilter!.archived) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted &&
+            _accountFilter != null &&
+            _accountFilter!.archived) {
+          setState(() => _accountFilter = null);
+        }
+      });
+    }
     final cs = Theme.of(context).colorScheme;
     final allTx = data.transactions;
 
@@ -351,7 +408,7 @@ class _TrackScreenState extends State<TrackScreen> {
 
   Widget _emptyBody(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final hasAccounts = data.accounts.isNotEmpty;
+    final hasAccounts = activeAccounts(data.accounts).isNotEmpty;
 
     return CustomScrollView(
       slivers: [
@@ -421,7 +478,7 @@ class _TrackScreenState extends State<TrackScreen> {
               padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
               child: TrackPlanFilterStrip(
                 panel: _trackPanel,
-                accounts: data.accounts,
+                accounts: activeAccounts(data.accounts),
                 accountFilter: _accountFilter,
                 onAccountFilter: (a) => setState(() => _accountFilter = a),
                 categories: <String>{
@@ -506,18 +563,15 @@ class _TrackScreenState extends State<TrackScreen> {
     final displayTx = _filteredTx;
     final totals = _periodTotals;
 
-    final grouped = <String, List<Transaction>>{};
-    for (final t in displayTx) {
-      final key = DateFormat('yyyy-MM-dd').format(t.date);
-      grouped.putIfAbsent(key, () => []).add(t);
-    }
-    for (final list in grouped.values) {
-      list.sort((a, b) => _newestFirst
-          ? b.date.compareTo(a.date)
-          : a.date.compareTo(b.date));
-    }
-    final days = grouped.keys.toList()
-      ..sort((a, b) => _newestFirst ? b.compareTo(a) : a.compareTo(b));
+    _syncTrackLazyWindowSignature();
+    final dayBundle =
+        DayGroupedTransactions.build(displayTx, _newestFirst);
+    final days = dayBundle.dayKeys;
+    final grouped = dayBundle.grouped;
+    final lazyDays = shouldLazyLoadDaySections(_dateFilter, days.length);
+    final visibleDayCount = lazyDays
+        ? math.min(_visibleTrackDaySlots, days.length)
+        : days.length;
 
     return CustomScrollView(
       controller: _scrollController,
@@ -588,7 +642,7 @@ class _TrackScreenState extends State<TrackScreen> {
               padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
               child: TrackPlanFilterStrip(
                 panel: _trackPanel,
-                accounts: data.accounts,
+                accounts: activeAccounts(data.accounts),
                 accountFilter: _accountFilter,
                 onAccountFilter: (a) => setState(() => _accountFilter = a),
                 categories: <String>{
@@ -620,7 +674,9 @@ class _TrackScreenState extends State<TrackScreen> {
                   Text(
                     isFiltered
                         ? 'No transactions for applied filters'
-                        : 'No transactions for ${DateFormat('MMMM').format(DateTime.now())}',
+                        : _dateFilter == 'all'
+                            ? 'No transactions in history'
+                            : 'No transactions for ${DateFormat('MMMM').format(DateTime.now())}',
                     style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
@@ -649,16 +705,7 @@ class _TrackScreenState extends State<TrackScreen> {
                   onTap: _openTransactionDetail,
                 );
               },
-              childCount: days.length,
-            ),
-          ),
-
-          // Footer
-          SliverToBoxAdapter(
-            child: _EndOfHistoryFooter(
-              isEmpty: displayTx.isEmpty,
-              hasHiddenTx:
-                  !isFiltered && data.transactions.length > displayTx.length,
+              childCount: visibleDayCount,
             ),
           ),
 
@@ -787,46 +834,6 @@ class _TrackHero extends StatelessWidget {
             newestFirst: newestFirst,
             onToggleSort: onToggleSort,
           ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─── Pagination footers ───────────────────────────────────────────────────────
-
-class _EndOfHistoryFooter extends StatelessWidget {
-  final bool isEmpty;
-  final bool hasHiddenTx;
-
-  const _EndOfHistoryFooter({
-    required this.isEmpty,
-    required this.hasHiddenTx,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    if (isEmpty) return const SizedBox.shrink();
-    final cs = Theme.of(context).colorScheme;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Row(
-        children: [
-          const SizedBox(width: 24),
-          Expanded(
-              child:
-                  Divider(color: cs.outlineVariant.withValues(alpha: 0.5))),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Text(
-              hasHiddenTx ? 'All transactions loaded' : 'Beginning of history',
-              style: TextStyle(fontSize: 12, color: cs.onSurfaceVariant),
-            ),
-          ),
-          Expanded(
-              child:
-                  Divider(color: cs.outlineVariant.withValues(alpha: 0.5))),
-          const SizedBox(width: 24),
         ],
       ),
     );
@@ -1035,7 +1042,8 @@ class _TransactionTile extends StatelessWidget {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-        duration: const Duration(seconds: 4),
+        duration: const Duration(seconds: 5),
+        persist: false,
         action: SnackBarAction(
           label: 'Undo',
           onPressed: () {
@@ -1142,6 +1150,7 @@ class _TransactionTile extends StatelessWidget {
                     Text(subtitle,
                         style: TextStyle(
                             fontSize: 11,
+                            fontWeight: FontWeight.w400,
                             color: cs.onSurfaceVariant),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis),
@@ -1208,13 +1217,14 @@ class _HistoryPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final personal = data.accounts
+    final active = activeAccounts(data.accounts);
+    final personal = active
         .where((a) => a.group == AccountGroup.personal)
         .toList();
-    final individuals = data.accounts
+    final individuals = active
         .where((a) => a.group == AccountGroup.individuals)
         .toList();
-    final entities = data.accounts
+    final entities = active
         .where((a) => a.group == AccountGroup.entities)
         .toList();
 
@@ -1231,13 +1241,16 @@ class _HistoryPanel extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: cs.primary)),
             const SizedBox(height: 6),
-            ...personal.map((a) => _HistoryChip(
-                  name: a.name,
-                  balance: balances[a.id] ?? a.balance,
-                  currencyCode: a.currencyCode,
-                  isGain: gainIds.contains(a.id),
-                  isLose: loseIds.contains(a.id),
-                )),
+            ...personal.map((a) {
+              final book = balances[a.id] ?? a.balance;
+              return _HistoryChip(
+                name: a.name,
+                balance: a.personalHeadroomNative(book),
+                currencyCode: a.currencyCode,
+                isGain: gainIds.contains(a.id),
+                isLose: loseIds.contains(a.id),
+              );
+            }),
           ],
           if (individuals.isNotEmpty) ...[
             const SizedBox(height: 10),
@@ -1248,14 +1261,17 @@ class _HistoryPanel extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: cs.tertiary)),
             const SizedBox(height: 6),
-            ...individuals.map((a) => _HistoryChip(
-                  name: a.name,
-                  balance: balances[a.id] ?? a.balance,
-                  currencyCode: a.currencyCode,
-                  isPartner: true,
-                  isGain: gainIds.contains(a.id),
-                  isLose: loseIds.contains(a.id),
-                )),
+            ...individuals.map((a) {
+              final book = balances[a.id] ?? a.balance;
+              return _HistoryChip(
+                name: a.name,
+                balance: a.personalHeadroomNative(book),
+                currencyCode: a.currencyCode,
+                isPartner: true,
+                isGain: gainIds.contains(a.id),
+                isLose: loseIds.contains(a.id),
+              );
+            }),
           ],
           if (entities.isNotEmpty) ...[
             const SizedBox(height: 10),
@@ -1266,14 +1282,17 @@ class _HistoryPanel extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: cs.secondary)),
             const SizedBox(height: 6),
-            ...entities.map((a) => _HistoryChip(
-                  name: a.name,
-                  balance: balances[a.id] ?? a.balance,
-                  currencyCode: a.currencyCode,
-                  isPartner: true,
-                  isGain: gainIds.contains(a.id),
-                  isLose: loseIds.contains(a.id),
-                )),
+            ...entities.map((a) {
+              final book = balances[a.id] ?? a.balance;
+              return _HistoryChip(
+                name: a.name,
+                balance: a.personalHeadroomNative(book),
+                currencyCode: a.currencyCode,
+                isPartner: true,
+                isGain: gainIds.contains(a.id),
+                isLose: loseIds.contains(a.id),
+              );
+            }),
           ],
         ],
       ),

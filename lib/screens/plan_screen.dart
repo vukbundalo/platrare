@@ -1,11 +1,15 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
 import '../models/transaction.dart';
+import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/projections.dart' as proj;
 import '../utils/tx_display.dart';
@@ -59,6 +63,10 @@ class _PlanScreenState extends State<PlanScreen> {
   TrackPlanFilterPanel _planPanel = TrackPlanFilterPanel.none;
   bool _detailExpanded = false;
 
+  final _planScrollController = ScrollController();
+  int _planVisibleDaySlots = kLazyDayInitialCount;
+  int? _planLazyListSig;
+
   bool get _hasActiveFilter =>
       _typeFilter != null ||
       _accountFilter != null ||
@@ -103,6 +111,8 @@ class _PlanScreenState extends State<PlanScreen> {
         } else if (_dateFilter == 'week') {
           _dateFilter = 'year';
           _dateAnchor = DateTime.now();
+        } else if (_dateFilter == 'year') {
+          _dateFilter = 'all';
         } else {
           _dateFilter = null;
         }
@@ -119,6 +129,7 @@ class _PlanScreenState extends State<PlanScreen> {
         'month' => 'M',
         'week' => 'W',
         'year' => 'Y',
+        'all' => '∞',
         _ => null,
       };
 
@@ -222,11 +233,11 @@ class _PlanScreenState extends State<PlanScreen> {
 
   List<PlannedTransaction> get _filteredPlanned {
     Iterable<PlannedTransaction> source = data.plannedTransactions;
-    if (_dateFilter != null) {
+    if (_dateFilter != null && _dateFilter != 'all') {
       final (start, end) = _dateRange;
       source = source.where(
           (pt) => !pt.date.isBefore(start) && pt.date.isBefore(end));
-    } else {
+    } else if (_dateFilter == null) {
       final (start, end) = _currentMonthRange;
       source = source.where(
           (pt) => !pt.date.isBefore(start) && pt.date.isBefore(end));
@@ -238,7 +249,7 @@ class _PlanScreenState extends State<PlanScreen> {
         return _inGroup(type, _typeFilter!);
       });
     }
-    if (_accountFilter != null) {
+    if (_accountFilter != null && !_accountFilter!.archived) {
       final id = _accountFilter!.id;
       source = source.where(
           (pt) => pt.fromAccount?.id == id || pt.toAccount?.id == id);
@@ -247,6 +258,54 @@ class _PlanScreenState extends State<PlanScreen> {
       source = source.where((pt) => pt.category == _categoryFilter);
     }
     return source.toList();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _planScrollController.addListener(_onPlanScrollLoadMoreDays);
+  }
+
+  void _onPlanScrollLoadMoreDays() {
+    if (_dateFilter != 'all') return;
+    if (!_planScrollController.hasClients) return;
+    final pos = _planScrollController.position;
+    if (!pos.hasPixels || !pos.hasContentDimensions) return;
+    if (pos.pixels < pos.maxScrollExtent - 360) return;
+
+    final bundle = DayGroupedPlanned.build(_filteredPlanned, _newestFirst);
+    if (!shouldLazyLoadDaySections(_dateFilter, bundle.dayKeys.length)) return;
+    if (_planVisibleDaySlots >= bundle.dayKeys.length) return;
+
+    setState(() {
+      _planVisibleDaySlots = math.min(
+        _planVisibleDaySlots + kLazyDayLoadBatch,
+        bundle.dayKeys.length,
+      );
+    });
+  }
+
+  void _syncPlanLazyWindowSignature() {
+    final sig = Object.hash(
+      _dateFilter,
+      _typeFilter,
+      _accountFilter?.id,
+      _categoryFilter,
+      _newestFirst,
+      _filteredPlanned.length,
+      data.plannedTransactions.length,
+    );
+    if (_planLazyListSig != sig) {
+      _planLazyListSig = sig;
+      _planVisibleDaySlots = kLazyDayInitialCount;
+    }
+  }
+
+  @override
+  void dispose() {
+    _planScrollController.removeListener(_onPlanScrollLoadMoreDays);
+    _planScrollController.dispose();
+    super.dispose();
   }
 
   void _confirm(PlannedTransaction pt) {
@@ -358,6 +417,8 @@ class _PlanScreenState extends State<PlanScreen> {
         content: const Text('Transaction confirmed and applied'),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        duration: const Duration(seconds: 4),
+        margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
       ),
     );
   }
@@ -373,7 +434,9 @@ class _PlanScreenState extends State<PlanScreen> {
         content: const Text('Planned transaction removed'),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        duration: const Duration(seconds: 4),
+        margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+        duration: const Duration(seconds: 5),
+        persist: false,
         action: SnackBarAction(
           label: 'Undo',
           onPressed: () {
@@ -479,7 +542,9 @@ class _PlanScreenState extends State<PlanScreen> {
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12)),
-            duration: const Duration(seconds: 4),
+            margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            duration: const Duration(seconds: 5),
+            persist: false,
             action: SnackBarAction(
               label: 'Undo',
               onPressed: () {
@@ -513,7 +578,7 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 
   Future<void> _addAccount() async {
-    final result = await showModalBottomSheet<Account>(
+    final result = await showModalBottomSheet<Object?>(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
@@ -521,7 +586,7 @@ class _PlanScreenState extends State<PlanScreen> {
       enableDrag: false,
       builder: (ctx) => const AccountFormSheet(),
     );
-    if (result != null) {
+    if (result is Account) {
       setState(() {
         if (!data.accounts.contains(result)) {
           data.accounts.add(result);
@@ -564,8 +629,24 @@ class _PlanScreenState extends State<PlanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_accountFilter != null && _accountFilter!.archived) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted &&
+            _accountFilter != null &&
+            _accountFilter!.archived) {
+          setState(() => _accountFilter = null);
+        }
+      });
+    }
     final cs = Theme.of(context).colorScheme;
     final planned = _filteredPlanned;
+    _syncPlanLazyWindowSignature();
+    final planDayBundle = DayGroupedPlanned.build(planned, _newestFirst);
+    final lazyPlanDays =
+        shouldLazyLoadDaySections(_dateFilter, planDayBundle.dayKeys.length);
+    final planVisibleDayGroups = lazyPlanDays
+        ? math.min(_planVisibleDaySlots, planDayBundle.dayKeys.length)
+        : planDayBundle.dayKeys.length;
 
     // Compute once per build — used by both hero and detail card.
     final balances = proj.projectBalances(_snapshotDate);
@@ -573,7 +654,7 @@ class _PlanScreenState extends State<PlanScreen> {
     final snapshotNet = proj.netWorthInBase(balances);
 
     Widget? fab;
-    if (data.accounts.isNotEmpty) {
+    if (activeAccounts(data.accounts).isNotEmpty) {
       if (_isFutureProjection) {
         fab = FloatingActionButton.extended(
           heroTag: 'plan_fab',
@@ -599,6 +680,7 @@ class _PlanScreenState extends State<PlanScreen> {
 
     return Scaffold(
       body: CustomScrollView(
+        controller: _planScrollController,
         slivers: [
           SliverAppBar(
             pinned: true,
@@ -675,7 +757,7 @@ class _PlanScreenState extends State<PlanScreen> {
                 padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
                 child: TrackPlanFilterStrip(
                   panel: _planPanel,
-                  accounts: data.accounts,
+                  accounts: activeAccounts(data.accounts),
                   accountFilter: _accountFilter,
                   onAccountFilter: (a) => setState(() => _accountFilter = a),
                   categories: <String>{
@@ -693,11 +775,11 @@ class _PlanScreenState extends State<PlanScreen> {
             SliverToBoxAdapter(
               child: _ProjectionDetailCard(balances: balances),
             ),
-          if (!_isFutureProjection)
+          if (!_isFutureProjection && !_detailExpanded)
             if (planned.isEmpty)
               SliverFillRemaining(
                 hasScrollBody: false,
-                child: data.accounts.isEmpty
+                child: activeAccounts(data.accounts).isEmpty
                     ? _EmptyState(
                         onAdd: _addAccount,
                         hasAccounts: false,
@@ -713,14 +795,14 @@ class _PlanScreenState extends State<PlanScreen> {
               )
             else
               _PlanTimeline(
-                planned: planned,
-                newestFirst: _newestFirst,
+                bundle: planDayBundle,
+                visibleDayGroupCount: planVisibleDayGroups,
                 onConfirm: _confirm,
                 onDelete: _deleteWithRepeatChoice,
                 onEdit: _edit,
                 onTap: _openPlannedDetail,
               ),
-          if (_isFutureProjection)
+          if (_isFutureProjection || _detailExpanded)
             const SliverToBoxAdapter(child: SizedBox(height: 88)),
         ],
       ),
@@ -912,13 +994,14 @@ class _ProjectionDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final personal = data.accounts
+    final active = activeAccounts(data.accounts);
+    final personal = active
         .where((a) => a.group == AccountGroup.personal)
         .toList();
-    final individuals = data.accounts
+    final individuals = active
         .where((a) => a.group == AccountGroup.individuals)
         .toList();
-    final entities = data.accounts
+    final entities = active
         .where((a) => a.group == AccountGroup.entities)
         .toList();
 
@@ -1225,16 +1308,16 @@ class _EmptyState extends StatelessWidget {
 }
 
 class _PlanTimeline extends StatelessWidget {
-  final List<PlannedTransaction> planned;
-  final bool newestFirst;
+  final DayGroupedPlanned bundle;
+  final int visibleDayGroupCount;
   final void Function(PlannedTransaction) onConfirm;
   final void Function(PlannedTransaction) onDelete;
   final void Function(PlannedTransaction) onEdit;
   final void Function(PlannedTransaction) onTap;
 
   const _PlanTimeline({
-    required this.planned,
-    required this.newestFirst,
+    required this.bundle,
+    required this.visibleDayGroupCount,
     required this.onConfirm,
     required this.onDelete,
     required this.onEdit,
@@ -1243,25 +1326,16 @@ class _PlanTimeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final grouped = <String, List<PlannedTransaction>>{};
-    for (final pt in planned) {
-      final key = DateFormat('yyyy-MM-dd').format(pt.date);
-      grouped.putIfAbsent(key, () => []).add(pt);
-    }
-    for (final list in grouped.values) {
-      list.sort((a, b) => newestFirst
-          ? b.date.compareTo(a.date)
-          : a.date.compareTo(b.date));
-    }
-    final days = grouped.keys.toList()
-      ..sort((a, b) => newestFirst ? b.compareTo(a) : a.compareTo(b));
+    final keys = bundle.dayKeys;
+    final n = math.min(visibleDayGroupCount, keys.length);
+    final grouped = bundle.grouped;
 
     return SliverPadding(
       padding: const EdgeInsets.only(bottom: 100),
       sliver: SliverList.builder(
-        itemCount: days.length,
+        itemCount: n,
         itemBuilder: (ctx, i) {
-          final day = days[i];
+          final day = keys[i];
           final date = DateTime.parse(day);
           final dayPlanned = grouped[day]!;
           final projectedBalances = proj.projectBalances(date);
@@ -1324,13 +1398,14 @@ class _DayGroupState extends State<_DayGroup> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final personal = data.accounts
+    final active = activeAccounts(data.accounts);
+    final personal = active
         .where((a) => a.group == AccountGroup.personal)
         .toList();
-    final individuals = data.accounts
+    final individuals = active
         .where((a) => a.group == AccountGroup.individuals)
         .toList();
-    final entities = data.accounts
+    final entities = active
         .where((a) => a.group == AccountGroup.entities)
         .toList();
 
@@ -1419,7 +1494,7 @@ class _DayGroupState extends State<_DayGroup> {
                         if (idx > 0)
                           Divider(
                               height: 0.5,
-                              indent: 56,
+                              indent: 68,
                               color: cs.outlineVariant.withValues(alpha: 0.4)),
                         _PlannedTile(
                           pt: pt,
@@ -1541,13 +1616,16 @@ class _ProjectionPanel extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: cs.primary)),
             const SizedBox(height: 6),
-            ...personal.map((a) => _BalanceChip(
-                  name: a.name,
-                  balance: projectedBalances[a.id] ?? a.balance,
-                  currencyCode: a.currencyCode,
-                  isGain: gainIds.contains(a.id),
-                  isLose: loseIds.contains(a.id),
-                )),
+            ...personal.map((a) {
+              final book = projectedBalances[a.id] ?? a.balance;
+              return _BalanceChip(
+                name: a.name,
+                balance: a.personalHeadroomNative(book),
+                currencyCode: a.currencyCode,
+                isGain: gainIds.contains(a.id),
+                isLose: loseIds.contains(a.id),
+              );
+            }),
           ],
           if (individuals.isNotEmpty) ...[
             const SizedBox(height: 10),
@@ -1558,14 +1636,17 @@ class _ProjectionPanel extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: cs.tertiary)),
             const SizedBox(height: 6),
-            ...individuals.map((a) => _BalanceChip(
-                  name: a.name,
-                  balance: projectedBalances[a.id] ?? a.balance,
-                  currencyCode: a.currencyCode,
-                  isPartner: true,
-                  isGain: gainIds.contains(a.id),
-                  isLose: loseIds.contains(a.id),
-                )),
+            ...individuals.map((a) {
+              final book = projectedBalances[a.id] ?? a.balance;
+              return _BalanceChip(
+                name: a.name,
+                balance: a.personalHeadroomNative(book),
+                currencyCode: a.currencyCode,
+                isPartner: true,
+                isGain: gainIds.contains(a.id),
+                isLose: loseIds.contains(a.id),
+              );
+            }),
           ],
           if (entities.isNotEmpty) ...[
             const SizedBox(height: 10),
@@ -1576,14 +1657,17 @@ class _ProjectionPanel extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: cs.secondary)),
             const SizedBox(height: 6),
-            ...entities.map((a) => _BalanceChip(
-                  name: a.name,
-                  balance: projectedBalances[a.id] ?? a.balance,
-                  currencyCode: a.currencyCode,
-                  isPartner: true,
-                  isGain: gainIds.contains(a.id),
-                  isLose: loseIds.contains(a.id),
-                )),
+            ...entities.map((a) {
+              final book = projectedBalances[a.id] ?? a.balance;
+              return _BalanceChip(
+                name: a.name,
+                balance: a.personalHeadroomNative(book),
+                currencyCode: a.currencyCode,
+                isPartner: true,
+                isGain: gainIds.contains(a.id),
+                isLose: loseIds.contains(a.id),
+              );
+            }),
           ],
         ],
       ),
@@ -1723,35 +1807,37 @@ class _PlannedTile extends StatelessWidget {
       onTap: onTap,
       onLongPress: onLongPress,
       child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       child: Row(
         children: [
-          // Icon circle
           Container(
             width: 40,
             height: 40,
             decoration: BoxDecoration(
               color: _typeColor.withValues(alpha: 0.12),
-              shape: BoxShape.circle,
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(_typeIcon, size: 18, color: _typeColor),
           ),
           const SizedBox(width: 12),
 
-          // Title + subtitle
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   _buildTitle(),
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w600, fontSize: 14),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: cs.onSurface,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 if (subtitle != null || pt.repeatInterval != RepeatInterval.none) ...[
-                  const SizedBox(height: 3),
+                  const SizedBox(height: 2),
                   Row(
                     children: [
                       if (pt.repeatInterval != RepeatInterval.none) ...[
@@ -1763,20 +1849,23 @@ class _PlannedTile extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 11,
                               color: cs.primary,
-                              fontWeight: FontWeight.w600),
+                              fontWeight: FontWeight.w500),
                         ),
                         if (subtitle != null)
                           Text(' · ',
                               style: TextStyle(
                                   fontSize: 11,
-                                  color: cs.onSurfaceVariant)),
+                                  color: cs.onSurfaceVariant,
+                                  fontWeight: FontWeight.w400)),
                       ],
                       if (subtitle != null)
                         Expanded(
                           child: Text(
                             subtitle,
                             style: TextStyle(
-                                fontSize: 11, color: cs.onSurfaceVariant),
+                                fontSize: 11,
+                                color: cs.onSurfaceVariant,
+                                fontWeight: FontWeight.w400),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -1789,7 +1878,6 @@ class _PlannedTile extends StatelessWidget {
           ),
           const SizedBox(width: 8),
 
-          // Amount (inset from expand control so taps are easier to separate)
           if (pt.nativeAmount != null)
             Padding(
               padding: const EdgeInsets.only(right: 10),
@@ -1798,8 +1886,8 @@ class _PlannedTile extends StatelessWidget {
                     _type, pt.nativeAmount!, pt.currencyCode ?? 'BAM'),
                 style: TextStyle(
                   color: _typeColor,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
                 ),
               ),
             ),

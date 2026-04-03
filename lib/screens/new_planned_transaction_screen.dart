@@ -263,6 +263,10 @@ class _NewPlannedTransactionScreenState
     final cs = Theme.of(context).colorScheme;
     final color = _amountColor;
     final projected = proj.projectBalances(_projectionDateForAccounts);
+    final fromHeadroom = _fromAccount?.personalHeadroomNative(
+        projected[_fromAccount!.id] ?? _fromAccount!.balance);
+    final toHeadroom = _toAccount?.personalHeadroomNative(
+        projected[_toAccount!.id] ?? _toAccount!.balance);
 
     return PopScope(
       canPop: !_isDirty || _forceClose,
@@ -367,9 +371,9 @@ class _NewPlannedTransactionScreenState
                   _AccountPickerTile(
                     label: 'From',
                     account: _fromAccount,
-                    projectedBalance: _fromAccount != null
-                        ? (projected[_fromAccount!.id] ?? _fromAccount!.balance)
-                        : null,
+                    leadingIcon: Icons.arrow_upward_rounded,
+                    leadingIconAccent: const Color(0xFFDC2626),
+                    projectedBalance: fromHeadroom,
                     onTap: () async {
                       final a = await _showAccountPicker(exclude: _toAccount);
                       if (a != null) setState(() => _fromAccount = a);
@@ -384,9 +388,9 @@ class _NewPlannedTransactionScreenState
                   _AccountPickerTile(
                     label: 'To',
                     account: _toAccount,
-                    projectedBalance: _toAccount != null
-                        ? (projected[_toAccount!.id] ?? _toAccount!.balance)
-                        : null,
+                    leadingIcon: Icons.arrow_downward_rounded,
+                    leadingIconAccent: const Color(0xFF16A34A),
+                    projectedBalance: toHeadroom,
                     onTap: () async {
                       final a = await _showAccountPicker(exclude: _fromAccount);
                       if (a != null) setState(() => _toAccount = a);
@@ -520,6 +524,8 @@ class _NewPlannedTransactionScreenState
 class _AccountPickerTile extends StatelessWidget {
   final String label;
   final Account? account;
+  final IconData leadingIcon;
+  final Color leadingIconAccent;
   final double? projectedBalance;
   final VoidCallback onTap;
   final VoidCallback? onClear;
@@ -527,6 +533,8 @@ class _AccountPickerTile extends StatelessWidget {
   const _AccountPickerTile({
     required this.label,
     required this.account,
+    required this.leadingIcon,
+    required this.leadingIconAccent,
     required this.onTap,
     this.projectedBalance,
     this.onClear,
@@ -544,11 +552,6 @@ class _AccountPickerTile extends StatelessWidget {
         : isEntities
             ? cs.secondaryContainer
             : cs.tertiaryContainer;
-    final avatarFg = isPersonal
-        ? cs.onPrimaryContainer
-        : isEntities
-            ? cs.onSecondaryContainer
-            : cs.onTertiaryContainer;
 
     return Material(
       color: cs.surfaceContainerLow,
@@ -569,13 +572,12 @@ class _AccountPickerTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Center(
-                  child: Text(
-                    hasAccount ? account!.name[0].toUpperCase() : label[0],
-                    style: TextStyle(
-                      color: hasAccount ? avatarFg : cs.onSurfaceVariant,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 16,
-                    ),
+                  child: Icon(
+                    leadingIcon,
+                    size: 22,
+                    color: hasAccount
+                        ? leadingIconAccent
+                        : cs.onSurfaceVariant,
                   ),
                 ),
               ),
@@ -807,13 +809,22 @@ class _AccountPickerSheet extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
     final balances = proj.projectBalances(date);
     final personal = data.accounts
-        .where((a) => a.group == AccountGroup.personal && a != exclude)
+        .where((a) =>
+            !a.archived &&
+            a.group == AccountGroup.personal &&
+            a != exclude)
         .toList();
     final individuals = data.accounts
-        .where((a) => a.group == AccountGroup.individuals && a != exclude)
+        .where((a) =>
+            !a.archived &&
+            a.group == AccountGroup.individuals &&
+            a != exclude)
         .toList();
     final entities = data.accounts
-        .where((a) => a.group == AccountGroup.entities && a != exclude)
+        .where((a) =>
+            !a.archived &&
+            a.group == AccountGroup.entities &&
+            a != exclude)
         .toList();
 
     final today = DateUtils.dateOnly(DateTime.now());
@@ -862,7 +873,8 @@ class _AccountPickerSheet extends StatelessWidget {
                   ...personal.map(
                     (a) => _AccountListTile(
                       account: a,
-                      projectedBalance: balances[a.id] ?? a.balance,
+                      projectedBalance: a.personalHeadroomNative(
+                          balances[a.id] ?? a.balance),
                       onTap: () => Navigator.pop(ctx, a),
                     ),
                   ),
@@ -872,7 +884,8 @@ class _AccountPickerSheet extends StatelessWidget {
                   ...individuals.map(
                     (a) => _AccountListTile(
                       account: a,
-                      projectedBalance: balances[a.id] ?? a.balance,
+                      projectedBalance: a.personalHeadroomNative(
+                          balances[a.id] ?? a.balance),
                       onTap: () => Navigator.pop(ctx, a),
                     ),
                   ),
@@ -882,7 +895,8 @@ class _AccountPickerSheet extends StatelessWidget {
                   ...entities.map(
                     (a) => _AccountListTile(
                       account: a,
-                      projectedBalance: balances[a.id] ?? a.balance,
+                      projectedBalance: a.personalHeadroomNative(
+                          balances[a.id] ?? a.balance),
                       onTap: () => Navigator.pop(ctx, a),
                     ),
                   ),

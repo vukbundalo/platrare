@@ -446,7 +446,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                     label: 'From',
                     account: _fromAccount,
                     accentColor: const Color(0xFFDC2626),
-                    icon: Icons.account_balance_wallet_rounded,
+                    icon: Icons.arrow_upward_rounded,
                     onTap: () async {
                       final a = await _pickAccount(exclude: _toAccount);
                       if (a != null && mounted) {
@@ -463,7 +463,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                     label: 'To',
                     account: _toAccount,
                     accentColor: const Color(0xFF16A34A),
-                    icon: Icons.savings_rounded,
+                    icon: Icons.arrow_downward_rounded,
                     onTap: () async {
                       final a = await _pickAccount(exclude: _fromAccount);
                       if (a != null && mounted) {
@@ -721,11 +721,8 @@ class _AccountTile extends StatelessWidget {
         : isEntities
             ? cs.secondaryContainer
             : cs.tertiaryContainer;
-    final avatarText = isPersonal
-        ? cs.primary
-        : isEntities
-            ? cs.secondary
-            : cs.tertiary;
+    final headroom =
+        has ? account!.personalHeadroomNative(account!.balance) : 0.0;
 
     return GestureDetector(
       onTap: onTap,
@@ -754,16 +751,11 @@ class _AccountTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
-                child: has
-                    ? Text(
-                        account!.name[0].toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700,
-                          color: avatarText,
-                        ),
-                      )
-                    : Icon(icon, size: 18, color: cs.onSurfaceVariant),
+                child: Icon(
+                  icon,
+                  size: 22,
+                  color: has ? accentColor : cs.onSurfaceVariant,
+                ),
               ),
             ),
             const SizedBox(width: 12),
@@ -795,11 +787,11 @@ class _AccountTile extends StatelessWidget {
                   if (has) ...[
                     const SizedBox(height: 1),
                     Text(
-                      '${account!.balance > 0 ? '+' : ''}${account!.balance.toStringAsFixed(2)} ${fx.currencySymbol(account!.currencyCode)}',
+                      '${headroom > 0 ? '+' : ''}${headroom.toStringAsFixed(2)} ${fx.currencySymbol(account!.currencyCode)}',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: account!.balance >= 0
+                        color: headroom >= 0
                             ? const Color(0xFF16A34A)
                             : const Color(0xFFDC2626),
                       ),
@@ -835,20 +827,31 @@ class _AccountPickerSheet extends StatelessWidget {
 
   const _AccountPickerSheet({this.exclude});
 
-  String _fmt(Account a) =>
-      '${a.balance > 0 ? '+' : ''}${a.balance.toStringAsFixed(2)} ${fx.currencySymbol(a.currencyCode)}';
+  String _fmt(Account a) {
+    final h = a.personalHeadroomNative(a.balance);
+    return '${h > 0 ? '+' : ''}${h.toStringAsFixed(2)} ${fx.currencySymbol(a.currencyCode)}';
+  }
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final personal = data.accounts
-        .where((a) => a.group == AccountGroup.personal && a != exclude)
+        .where((a) =>
+            !a.archived &&
+            a.group == AccountGroup.personal &&
+            a != exclude)
         .toList();
     final individuals = data.accounts
-        .where((a) => a.group == AccountGroup.individuals && a != exclude)
+        .where((a) =>
+            !a.archived &&
+            a.group == AccountGroup.individuals &&
+            a != exclude)
         .toList();
     final entities = data.accounts
-        .where((a) => a.group == AccountGroup.entities && a != exclude)
+        .where((a) =>
+            !a.archived &&
+            a.group == AccountGroup.entities &&
+            a != exclude)
         .toList();
 
     return Container(
@@ -945,7 +948,8 @@ class _AccountPickerSheet extends StatelessWidget {
   Widget _sheetTile(BuildContext ctx,
       {required Account account, required bool isPersonal}) {
     final cs = Theme.of(ctx).colorScheme;
-    final pos = account.balance >= 0;
+    final headroom = account.personalHeadroomNative(account.balance);
+    final pos = headroom >= 0;
 
     return GestureDetector(
       onTap: () => Navigator.pop(ctx, account),

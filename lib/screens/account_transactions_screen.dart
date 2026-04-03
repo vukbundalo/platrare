@@ -1,9 +1,13 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/transaction.dart';
+import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/tx_display.dart';
 import '../widgets/app_hero_layout.dart';
@@ -39,6 +43,10 @@ class _AccountTransactionsScreenState
   DateTime _dateAnchor = DateTime.now();
   bool _newestFirst = true;
   TrackPlanFilterPanel _filterPanel = TrackPlanFilterPanel.none;
+
+  final _scrollController = ScrollController();
+  int _visibleAccountDaySlots = kLazyDayInitialCount;
+  int? _accountLazyListSig;
 
   List<Transaction> get _allAccountTx => data.transactions
       .where((t) =>
@@ -105,6 +113,7 @@ class _AccountTransactionsScreenState
         'month' => 'M',
         'week' => 'W',
         'year' => 'Y',
+        'all' => '∞',
         _ => null,
       };
 
@@ -144,6 +153,8 @@ class _AccountTransactionsScreenState
         } else if (_dateFilter == 'week') {
           _dateFilter = 'year';
           _dateAnchor = DateTime.now();
+        } else if (_dateFilter == 'year') {
+          _dateFilter = 'all';
         } else {
           _dateFilter = null;
         }
@@ -205,6 +216,8 @@ class _AccountTransactionsScreenState
     Iterable<Transaction> source;
     if (_dateFilter == null) {
       source = _visibleAccountTx;
+    } else if (_dateFilter == 'all') {
+      source = _allAccountTx;
     } else {
       final (start, end) = _dateRange;
       source = _allAccountTx.where(
@@ -249,6 +262,54 @@ class _AccountTransactionsScreenState
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onAccountScrollLoadMoreDays);
+  }
+
+  void _onAccountScrollLoadMoreDays() {
+    if (_dateFilter != 'all') return;
+    if (!_scrollController.hasClients) return;
+    final pos = _scrollController.position;
+    if (!pos.hasPixels || !pos.hasContentDimensions) return;
+    if (pos.pixels < pos.maxScrollExtent - 360) return;
+
+    final g = DayGroupedTransactions.build(_filteredTx, _newestFirst);
+    if (!shouldLazyLoadDaySections(_dateFilter, g.dayKeys.length)) return;
+    if (_visibleAccountDaySlots >= g.dayKeys.length) return;
+
+    setState(() {
+      _visibleAccountDaySlots = math.min(
+        _visibleAccountDaySlots + kLazyDayLoadBatch,
+        g.dayKeys.length,
+      );
+    });
+  }
+
+  void _syncAccountLazyWindowSignature() {
+    final sig = Object.hash(
+      _dateFilter,
+      _typeFilter,
+      _categoryFilter,
+      _newestFirst,
+      _filteredTx.length,
+      data.transactions.length,
+      widget.account.id,
+    );
+    if (_accountLazyListSig != sig) {
+      _accountLazyListSig = sig;
+      _visibleAccountDaySlots = kLazyDayInitialCount;
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onAccountScrollLoadMoreDays);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   Future<void> _editTransaction(Transaction t) async {
     final result = await Navigator.push<bool>(
       context,
@@ -264,18 +325,15 @@ class _AccountTransactionsScreenState
     final displayTx = _filteredTx;
     final totals = _totals;
 
-    final grouped = <String, List<Transaction>>{};
-    for (final t in displayTx) {
-      final key = DateFormat('yyyy-MM-dd').format(t.date);
-      grouped.putIfAbsent(key, () => []).add(t);
-    }
-    for (final list in grouped.values) {
-      list.sort((a, b) => _newestFirst
-          ? b.date.compareTo(a.date)
-          : a.date.compareTo(b.date));
-    }
-    final days = grouped.keys.toList()
-      ..sort((a, b) => _newestFirst ? b.compareTo(a) : a.compareTo(b));
+    _syncAccountLazyWindowSignature();
+    final dayBundle =
+        DayGroupedTransactions.build(displayTx, _newestFirst);
+    final days = dayBundle.dayKeys;
+    final grouped = dayBundle.grouped;
+    final lazyDays = shouldLazyLoadDaySections(_dateFilter, days.length);
+    final visibleDayCount = lazyDays
+        ? math.min(_visibleAccountDaySlots, days.length)
+        : days.length;
 
     final categoriesSorted = <String>{
       ...data.incomeCategories,
@@ -294,6 +352,7 @@ class _AccountTransactionsScreenState
             )
           : null,
       body: CustomScrollView(
+        controller: _scrollController,
         slivers: [
           SliverAppBar(
             pinned: true,
@@ -346,7 +405,7 @@ class _AccountTransactionsScreenState
                 padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
                 child: TrackPlanFilterStrip(
                   panel: _filterPanel,
-                  accounts: data.accounts,
+                  accounts: activeAccounts(data.accounts),
                   accountFilter: null,
                   onAccountFilter: (_) {},
                   categories: categoriesSorted,
@@ -374,7 +433,9 @@ class _AccountTransactionsScreenState
                     Text(
                       _hasActiveFilter
                           ? 'No transactions for applied filters'
-                          : 'No transactions for ${DateFormat('MMMM').format(DateTime.now())}',
+                          : _dateFilter == 'all'
+                              ? 'No transactions for this account'
+                              : 'No transactions for ${DateFormat('MMMM').format(DateTime.now())}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 15,
@@ -400,29 +461,10 @@ class _AccountTransactionsScreenState
                     onLongPress: _editTransaction,
                   );
                 },
-                childCount: days.length,
+                childCount: visibleDayCount,
               ),
             ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 80,
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: !_hasActiveFilter &&
-                            _allAccountTx.length > displayTx.length
-                        ? Text(
-                            'More transactions outside this period',
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: cs.onSurfaceVariant),
-                          )
-                        : const SizedBox.shrink(),
-                  ),
-                ),
-              ),
-            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 80)),
           ],
         ],
       ),
@@ -584,12 +626,12 @@ class _DaySection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 16, 16, 6),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 6),
           child: Text(
             _dayLabel(),
             style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
                 color: cs.onSurfaceVariant,
                 letterSpacing: 0.1),
           ),
@@ -708,33 +750,35 @@ class _TxTile extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 2),
-                  Row(
-                    children: [
-                      if (counterpart != null)
-                        Expanded(
-                          child: Text(
-                            counterpart,
-                            style: TextStyle(
-                                fontSize: 11, color: cs.onSurfaceVariant),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                    ],
-                  ),
+                  if (counterpart != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      counterpart,
+                      style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                          color: cs.onSurfaceVariant),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ],
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 8),
             if (transaction.nativeAmount != null)
-              Text(
-                txAmountDisplay(
-                    _type, transaction.nativeAmount!, transaction.currencyCode ?? 'BAM'),
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: typeColor),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Text(
+                  txAmountDisplay(
+                      _type,
+                      transaction.nativeAmount!,
+                      transaction.currencyCode ?? 'BAM'),
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: typeColor),
+                ),
               ),
           ],
         ),

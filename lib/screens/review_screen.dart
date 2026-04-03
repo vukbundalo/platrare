@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
@@ -489,13 +490,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final personal = data.accounts
+    final visibleAccounts = activeAccounts(data.accounts);
+    final personal = visibleAccounts
         .where((a) => a.group == AccountGroup.personal)
         .toList();
-    final individuals = data.accounts
+    final individuals = visibleAccounts
         .where((a) => a.group == AccountGroup.individuals)
         .toList();
-    final entities = data.accounts
+    final entities = visibleAccounts
         .where((a) => a.group == AccountGroup.entities)
         .toList();
     // Spent vs received: always one selected; fallback avoids empty body if unset.
@@ -565,7 +567,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     final compareIncomeB = compareIncomeRowsB;
 
     return Scaffold(
-      floatingActionButton: data.accounts.isEmpty
+      floatingActionButton: visibleAccounts.isEmpty
           ? null
           : FloatingActionButton(
               heroTag: 'review_fab',
@@ -645,7 +647,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
             ),
           ),
 
-          if (data.accounts.isEmpty)
+          if (visibleAccounts.isEmpty)
             SliverFillRemaining(
               hasScrollBody: false,
               child: _EmptyAccountsHint(onAdd: _addAccount),
@@ -1720,17 +1722,15 @@ class _SpendingBody extends StatelessWidget {
                       style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant),
                     ),
                   ),
-                  Flexible(
-                    child: Text(
-                      '-${totalSpent.toStringAsFixed(2)} $sym',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w800,
-                        color: expenseColor,
-                      ),
+                  Text(
+                    '-${totalSpent.toStringAsFixed(2)} $sym',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      color: expenseColor,
                     ),
                   ),
                 ],
@@ -1855,17 +1855,15 @@ class _IncomeBody extends StatelessWidget {
                       style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant),
                     ),
                   ),
-                  Flexible(
-                    child: Text(
-                      '+${totalReceived.toStringAsFixed(2)} $sym',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w800,
-                        color: incomeColor,
-                      ),
+                  Text(
+                    '+${totalReceived.toStringAsFixed(2)} $sym',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      color: incomeColor,
                     ),
                   ),
                 ],
@@ -1985,7 +1983,7 @@ class _BarsView extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis),
                             ),
                             SizedBox(width: gap),
-                            Flexible(
+                            Expanded(
                               flex: narrowLayout ? 9 : 8,
                               child: Text(
                                 '${amount.toStringAsFixed(2)} ${fx.currencySymbol(displayCurrency)}',
@@ -2574,6 +2572,22 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
   Future<void> _save() async {
     final name = _nameController.text.trim();
     if (name.isEmpty) return;
+    if (isAccountNameTaken(
+      name,
+      data.accounts,
+      exceptAccountId: widget.account?.id,
+    )) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'An account with this name already exists (active or archived). '
+            'Choose a different name.',
+          ),
+        ),
+      );
+      return;
+    }
     final balance = double.tryParse(
             _balanceController.text.trim().replaceAll(',', '.')) ??
         0.0;
@@ -2624,16 +2638,73 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
         AccountGroup.entities => 'Entities, utilities, organisations',
       };
 
-  void _delete() {
+  void _confirmArchiveSheet() {
+    final acc = widget.account!;
     HapticFeedback.mediumImpact();
-    showDialog(
+    if (acc.archived) return;
+    if (!canArchiveAccount(acc)) {
+      showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)),
+          title: const Text('Cannot archive yet'),
+          content: const Text(
+            'Archive is only available when the book balance and overdraft limit are both effectively zero.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    final nPlanned = plannedReferenceCount(acc, data.plannedTransactions);
+    void finish() {
+      acc.archived = true;
+      if (mounted) Navigator.pop(context, acc);
+    }
+    if (nPlanned > 0) {
+      showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)),
+          title: const Text('Archive account?'),
+          content: Text(
+            '$nPlanned planned transaction${nPlanned == 1 ? '' : 's'} reference this account. '
+            'Remove them to keep your plan consistent with an archived account.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                removePlannedReferencingAccount(acc, data.plannedTransactions);
+                finish();
+              },
+              child: const Text('Remove planned & archive'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20)),
-        title: const Text('Delete account?'),
-        content:
-            const Text('This account will be removed permanently.'),
+        title: const Text('Archive account?'),
+        content: const Text(
+          'The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
@@ -2642,7 +2713,90 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
           FilledButton(
             onPressed: () {
               Navigator.pop(ctx);
-              Navigator.pop(context, true);
+              finish();
+            },
+            child: const Text('Archive'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _delete() {
+    final acc = widget.account!;
+    HapticFeedback.mediumImpact();
+    if (accountReferencedInTrack(acc, data.transactions)) {
+      showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)),
+          title: const Text('Cannot delete account'),
+          content: const Text(
+            'This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    final nPlanned = plannedReferenceCount(acc, data.plannedTransactions);
+    if (nPlanned > 0) {
+      showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)),
+          title: const Text('Delete account?'),
+          content: Text(
+            '$nPlanned planned transaction${nPlanned == 1 ? '' : 's'} will be removed along with this account.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                removePlannedReferencingAccount(acc, data.plannedTransactions);
+                data.accounts.remove(acc);
+                if (mounted) {
+                  Navigator.pop(context, kAccountFormSheetDeleted);
+                }
+              },
+              style: FilledButton.styleFrom(backgroundColor: Colors.red),
+              child: const Text('Delete all'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20)),
+        title: const Text('Delete account?'),
+        content: const Text('This account will be removed permanently.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              data.accounts.remove(acc);
+              if (mounted) {
+                Navigator.pop(context, kAccountFormSheetDeleted);
+              }
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
             child: const Text('Delete'),
@@ -2791,11 +2945,22 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
               ),
               if (isEdit) ...[
                 const SizedBox(height: 8),
+                OutlinedButton(
+                  onPressed:
+                      widget.account!.archived ? null : _confirmArchiveSheet,
+                  style: OutlinedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14)),
+                    minimumSize: const Size(double.infinity, 44),
+                  ),
+                  child: const Text('Archive'),
+                ),
+                const SizedBox(height: 6),
                 TextButton.icon(
                   onPressed: _delete,
                   icon: const Icon(Icons.delete_outline_rounded,
                       size: 18),
-                  label: const Text('Delete Account'),
+                  label: const Text('Delete account'),
                   style: TextButton.styleFrom(
                     foregroundColor: cs.error,
                     shape: RoundedRectangleBorder(
@@ -2916,6 +3081,22 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
   Future<void> _save() async {
     final name = _nameController.text.trim();
     if (name.isEmpty) return;
+    if (isAccountNameTaken(
+      name,
+      data.accounts,
+      exceptAccountId: _isEdit ? widget.existing!.id : null,
+    )) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'An account with this name already exists (active or archived). '
+            'Choose a different name.',
+          ),
+        ),
+      );
+      return;
+    }
     final balance =
         double.tryParse(_balanceController.text.trim().replaceAll(',', '.')) ??
             0.0;
@@ -2959,9 +3140,161 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
     }
   }
 
-  void _confirmDelete() {
+  void _restoreArchived() {
+    widget.existing!.archived = false;
+    setState(() {});
+  }
+
+  void _confirmArchive() {
+    final acc = widget.existing!;
     HapticFeedback.mediumImpact();
-    showDialog(
+    if (acc.archived) return;
+    if (!canArchiveAccount(acc)) {
+      showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text('Cannot archive yet'),
+          content: const Text(
+            'Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    final nPlanned = plannedReferenceCount(acc, data.plannedTransactions);
+    void finish() {
+      acc.archived = true;
+      if (mounted) Navigator.pop(context, true);
+    }
+
+    if (nPlanned > 0) {
+      showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text('Archive account?'),
+          content: Text(
+            '$nPlanned planned transaction${nPlanned == 1 ? '' : 's'} reference this account. '
+            'Remove them to keep your plan consistent with an archived account.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                removePlannedReferencingAccount(acc, data.plannedTransactions);
+                finish();
+              },
+              child: const Text('Remove planned & archive'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('Archive account?'),
+        content: const Text(
+          'The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              finish();
+            },
+            child: const Text('Archive'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmDelete() {
+    final acc = widget.existing!;
+    HapticFeedback.mediumImpact();
+    if (accountReferencedInTrack(acc, data.transactions)) {
+      showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text('Cannot delete account'),
+          content: Text(
+            acc.archived
+                ? 'This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.'
+                : 'This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Close'),
+            ),
+            if (!acc.archived)
+              FilledButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  _confirmArchive();
+                },
+                child: const Text('Archive instead'),
+              ),
+          ],
+        ),
+      );
+      return;
+    }
+    final nPlanned = plannedReferenceCount(acc, data.plannedTransactions);
+    if (nPlanned > 0) {
+      showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text('Delete account?'),
+          content: Text(
+            '$nPlanned planned transaction${nPlanned == 1 ? '' : 's'} will be removed along with this account.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                removePlannedReferencingAccount(acc, data.plannedTransactions);
+                data.accounts.remove(acc);
+                if (mounted) Navigator.pop(context, true);
+              },
+              style: FilledButton.styleFrom(backgroundColor: Colors.red),
+              child: const Text('Delete all'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         shape:
@@ -2976,8 +3309,8 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
           FilledButton(
             onPressed: () {
               Navigator.pop(ctx);
-              data.accounts.remove(widget.existing);
-              Navigator.pop(context, true);
+              data.accounts.remove(acc);
+              if (mounted) Navigator.pop(context, true);
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
             child: const Text('Delete'),
@@ -3003,6 +3336,69 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
         AccountGroup.entities => 'Entities, utilities, organisations',
       };
 
+  void _showRemoveAccountSheet() {
+    HapticFeedback.lightImpact();
+    final acc = widget.existing!;
+    final cs = Theme.of(context).colorScheme;
+    showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      useSafeArea: true,
+      builder: (ctx) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
+                child: Text(
+                  'Remove account',
+                  style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.delete_outline_rounded, color: cs.error),
+                title: Text(
+                  'Delete permanently',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: cs.error,
+                  ),
+                ),
+                subtitle: const Text(
+                  'Only possible when this account is not used in Track. Planned items can be removed as part of delete.',
+                ),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  _confirmDelete();
+                },
+              ),
+              if (!acc.archived)
+                ListTile(
+                  leading: Icon(Icons.inventory_2_outlined, color: cs.primary),
+                  title: const Text(
+                    'Archive',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: const Text(
+                    'Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.',
+                  ),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    _confirmArchive();
+                  },
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
@@ -3023,10 +3419,9 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
               ? [
                   IconButton(
                     icon: Icon(Icons.delete_outline_rounded, color: cs.error),
-                    tooltip: 'Delete account',
-                    onPressed: _confirmDelete,
+                    tooltip: 'Remove account',
+                    onPressed: _showRemoveAccountSheet,
                   ),
-                  const SizedBox(width: 4),
                 ]
               : null,
         ),
@@ -3038,6 +3433,41 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    if (_isEdit && widget.existing!.archived)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: Material(
+                          color: cs.secondaryContainer
+                              .withValues(alpha: 0.65),
+                          borderRadius: BorderRadius.circular(14),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 12),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(Icons.inventory_2_outlined,
+                                    size: 22, color: cs.onSecondaryContainer),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Text(
+                                    'This account is archived. It stays in your data but is hidden from lists and pickers.',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      height: 1.35,
+                                      color: cs.onSecondaryContainer,
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: _restoreArchived,
+                                  child: const Text('Restore'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     SegmentedButton<AccountGroup>(
                       segments: const [
                         ButtonSegment(

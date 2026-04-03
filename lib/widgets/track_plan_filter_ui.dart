@@ -112,27 +112,35 @@ class TrackPlanFilterChipRow extends StatelessWidget {
             width: 24,
             height: 24,
             child: Center(
-              child: letter != null
-                  ? Text(
-                      letter,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
-                        color: active ? cs.primary : cs.onSurfaceVariant,
-                      ),
-                    )
-                  : Icon(
+              child: letter == null
+                  ? Icon(
                       Icons.calendar_today_outlined,
                       size: 15,
                       color: active ? cs.primary : cs.onSurfaceVariant,
-                    ),
+                    )
+                  : letter == '∞'
+                      ? Icon(
+                          Icons.all_inclusive_rounded,
+                          size: 16,
+                          color: active ? cs.primary : cs.onSurfaceVariant,
+                        )
+                      : Text(
+                          letter,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w800,
+                            color: active ? cs.primary : cs.onSurfaceVariant,
+                          ),
+                        ),
             ),
           ),
         ),
       );
       final semantics = letter != null
-          ? 'Date: ${letter == 'M' ? 'month' : letter == 'W' ? 'week' : 'year'} — tap to change mode'
-          : 'Date: this month — tap for month, week, or year mode';
+          ? letter == '∞'
+              ? 'Date: all time — tap to change mode'
+              : 'Date: ${letter == 'M' ? 'month' : letter == 'W' ? 'week' : 'year'} — tap to change mode'
+          : 'Date: this month — tap for month, week, year, or all time';
       return Expanded(
         child: Semantics(
           label: semantics,

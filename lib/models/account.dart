@@ -60,6 +60,9 @@ class Account {
   /// limit 13600 → 6800 still available). When 0, there is no facility.
   double overdraftLimit;
 
+  /// Hidden from pickers and Review lists; restore from Settings.
+  bool archived;
+
   Account({
     String? id,
     required this.name,
@@ -68,6 +71,7 @@ class Account {
     this.balance = 0.0,
     this.currencyCode = 'BAM',
     this.overdraftLimit = 0.0,
+    this.archived = false,
   }) : id = id ?? const Uuid().v4(),
        group = group ?? _typeToGroup(type);
 
@@ -108,6 +112,7 @@ class Account {
     double? balance,
     String? currencyCode,
     double? overdraftLimit,
+    bool? archived,
   }) => Account(
     id: id,
     name: name ?? this.name,
@@ -115,6 +120,7 @@ class Account {
     balance: balance ?? this.balance,
     currencyCode: currencyCode ?? this.currencyCode,
     overdraftLimit: overdraftLimit ?? this.overdraftLimit,
+    archived: archived ?? this.archived,
   );
 
   @override
