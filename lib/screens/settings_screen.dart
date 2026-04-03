@@ -4,6 +4,7 @@ import '../data/locale_prefs.dart';
 import '../data/user_settings.dart' as settings;
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
+import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
 
 class SettingsScreen extends StatefulWidget {
@@ -363,32 +364,35 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     try {
       final result = await showDialog<String>(
         context: context,
-        builder: (ctx) => AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: const Text('New Category'),
-          content: TextField(
-            controller: controller,
-            autofocus: true,
-            textCapitalization: TextCapitalization.words,
-            decoration: const InputDecoration(labelText: 'Category name'),
-            onSubmitted: (v) =>
-                Navigator.pop(ctx, v.trim().isEmpty ? null : v.trim()),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: const Text('Cancel'),
+        builder: (ctx) {
+          final l = AppLocalizations.of(ctx);
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20)),
+            title: Text(l.newCategoryTitle),
+            content: TextField(
+              controller: controller,
+              autofocus: true,
+              textCapitalization: TextCapitalization.words,
+              decoration: InputDecoration(labelText: l.categoryNameLabel),
+              onSubmitted: (v) =>
+                  Navigator.pop(ctx, v.trim().isEmpty ? null : v.trim()),
             ),
-            FilledButton(
-              onPressed: () {
-                final v = controller.text.trim();
-                Navigator.pop(ctx, v.isEmpty ? null : v);
-              },
-              child: const Text('Add'),
-            ),
-          ],
-        ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text(l.cancel),
+              ),
+              FilledButton(
+                onPressed: () {
+                  final v = controller.text.trim();
+                  Navigator.pop(ctx, v.isEmpty ? null : v);
+                },
+                child: Text(l.categoryAdd),
+              ),
+            ],
+          );
+        },
       );
       if (result != null && !targetList.contains(result)) {
         setState(() => targetList.add(result));
@@ -401,36 +405,41 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   void _deleteCategory(String category, List<String> targetList) {
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('Delete category?'),
-        content: Text('"$category" will be removed from the list.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () {
-              Navigator.pop(ctx);
-              setState(() => targetList.remove(category));
-            },
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
+      builder: (ctx) {
+        final l = AppLocalizations.of(ctx);
+        final displayName = l10nCategoryName(ctx, category);
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)),
+          title: Text(l.deleteCategoryTitle),
+          content: Text(l.deleteCategoryBody(displayName)),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(l.cancel),
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                setState(() => targetList.remove(category));
+              },
+              style: FilledButton.styleFrom(backgroundColor: Colors.red),
+              child: Text(l.delete),
+            ),
+          ],
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Categories'),
+        title: Text(l10n.categoriesTitle),
         backgroundColor: cs.surface,
       ),
       body: ListView(
@@ -444,7 +453,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _SubSection(
-                    label: 'Income',
+                    label: l10n.categoryIncome,
+                    addLabel: l10n.categoryAdd,
                     color: const Color(0xFF16A34A),
                     categories: data.incomeCategories,
                     onAdd: () => _addCategory(data.incomeCategories),
@@ -457,7 +467,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       color: cs.outlineVariant.withValues(alpha: 0.5)),
                   const SizedBox(height: 16),
                   _SubSection(
-                    label: 'Expense',
+                    label: l10n.categoryExpense,
+                    addLabel: l10n.categoryAdd,
                     color: const Color(0xFFDC2626),
                     categories: data.expenseCategories,
                     onAdd: () => _addCategory(data.expenseCategories),
@@ -517,6 +528,7 @@ class _CurrencyPickerSheetState extends State<_CurrencyPickerSheet> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     final filtered = settings.supportedCurrencies
         .where((c) {
           if (_query.isEmpty) return true;
@@ -548,7 +560,7 @@ class _CurrencyPickerSheetState extends State<_CurrencyPickerSheet> {
               controller: _searchController,
               autofocus: true,
               decoration: InputDecoration(
-                hintText: 'Search currencies…',
+                hintText: l10n.searchCurrencies,
                 prefixIcon: const Icon(Icons.search_rounded, size: 20),
                 suffixIcon: _query.isNotEmpty
                     ? IconButton(
@@ -622,6 +634,7 @@ class _CurrencyPickerSheetState extends State<_CurrencyPickerSheet> {
 
 class _SubSection extends StatelessWidget {
   final String label;
+  final String addLabel;
   final Color color;
   final List<String> categories;
   final VoidCallback onAdd;
@@ -629,6 +642,7 @@ class _SubSection extends StatelessWidget {
 
   const _SubSection({
     required this.label,
+    required this.addLabel,
     required this.color,
     required this.categories,
     required this.onAdd,
@@ -656,7 +670,10 @@ class _SubSection extends StatelessWidget {
           children: [
             ...categories.map(
               (cat) => Chip(
-                label: Text(cat, style: const TextStyle(fontSize: 12)),
+                label: Text(
+                  l10nCategoryName(context, cat),
+                  style: const TextStyle(fontSize: 12),
+                ),
                 onDeleted: () => onDelete(cat),
                 deleteIcon: const Icon(Icons.close_rounded, size: 13),
                 visualDensity: VisualDensity.compact,
@@ -666,7 +683,7 @@ class _SubSection extends StatelessWidget {
             ActionChip(
               avatar: Icon(Icons.add_rounded, size: 14, color: color),
               label: Text(
-                'Add',
+                addLabel,
                 style: TextStyle(
                   color: color,
                   fontWeight: FontWeight.w600,
