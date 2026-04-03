@@ -656,6 +656,21 @@ class _PlanScreenState extends State<PlanScreen> {
             : !hasPlanned
                 ? l10n.semanticsFiltersDisabledNeedPlannedTransaction
                 : l10n.semanticsFiltersDisabled;
+    final planHeroInteractive = hasAccounts && hasPlanned;
+    if (!planHeroInteractive && _detailExpanded) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) setState(() => _detailExpanded = false);
+      });
+    }
+    if (!planHeroInteractive && _isFutureProjection) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {
+            _snapshotDate = DateUtils.dateOnly(DateTime.now());
+          });
+        }
+      });
+    }
     final cs = Theme.of(context).colorScheme;
     final planned = _filteredPlanned;
     _syncPlanLazyWindowSignature();
@@ -734,6 +749,7 @@ class _PlanScreenState extends State<PlanScreen> {
                       snapshotDate: _snapshotDate,
                       isFutureSnapshot: _isFutureProjection,
                       detailExpanded: _detailExpanded,
+                      projectionHeroInteractive: planHeroInteractive,
                       filterChipsEnabled: planChipsEnabled,
                       filterChipsDisabledSemantics: planFilterDisabledSemantics,
                       onPickSnapshotDate: _pickSnapshotDate,
@@ -790,7 +806,8 @@ class _PlanScreenState extends State<PlanScreen> {
               ),
             ),
 
-          if (_isFutureProjection || _detailExpanded)
+          if (planHeroInteractive &&
+              (_isFutureProjection || _detailExpanded))
             SliverToBoxAdapter(
               child: _ProjectionDetailCard(balances: balances),
             ),
@@ -821,7 +838,8 @@ class _PlanScreenState extends State<PlanScreen> {
                 onEdit: _edit,
                 onTap: _openPlannedDetail,
               ),
-          if (_isFutureProjection || _detailExpanded)
+          if (planHeroInteractive &&
+              (_isFutureProjection || _detailExpanded))
             const SliverToBoxAdapter(child: SizedBox(height: 88)),
         ],
       ),
@@ -837,6 +855,8 @@ class _ProjectionHero extends StatelessWidget {
   /// Future snapshot: balances-only mode below; amount is not tappable.
   final bool isFutureSnapshot;
   final bool detailExpanded;
+  /// Date picker and personal-balance expand/collapse (non-future) require setup.
+  final bool projectionHeroInteractive;
   /// Hero chips stay visible; when false they are dimmed and non-interactive.
   final bool filterChipsEnabled;
   final String filterChipsDisabledSemantics;
@@ -860,6 +880,7 @@ class _ProjectionHero extends StatelessWidget {
     required this.snapshotDate,
     required this.isFutureSnapshot,
     required this.detailExpanded,
+    required this.projectionHeroInteractive,
     required this.filterChipsEnabled,
     required this.filterChipsDisabledSemantics,
     required this.onPickSnapshotDate,
@@ -879,6 +900,7 @@ class _ProjectionHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final sym = fx.currencySymbol(settings.baseCurrency);
     final personalPos = personal >= 0;
@@ -889,6 +911,37 @@ class _ProjectionHero extends StatelessWidget {
         personalPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
     final netColor =
         netPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+
+    final dateStr =
+        formatAppDate(context, 'EEE, d MMM yyyy', snapshotDate);
+    final dateText = Text(
+      dateStr,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        fontSize: AppHeroConstants.labelFontSize,
+        fontWeight: FontWeight.w500,
+        color: cs.onSurfaceVariant,
+      ),
+    );
+    final projectionDateControl = projectionHeroInteractive
+        ? Semantics(
+            label: l10n.semanticsProjectionDate(dateStr),
+            button: true,
+            child: InkWell(
+              onTap: onPickSnapshotDate,
+              borderRadius: BorderRadius.circular(8),
+              child: dateText,
+            ),
+          )
+        : Semantics(
+            enabled: false,
+            label: l10n.semanticsPlanProjectionControlsDisabled,
+            child: Opacity(
+              opacity: 0.5,
+              child: ExcludeSemantics(child: dateText),
+            ),
+          );
 
     return Container(
       padding: AppHeroConstants.cardPadding,
@@ -906,46 +959,30 @@ class _ProjectionHero extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Semantics(
-                  label: AppLocalizations.of(context).semanticsProjectionDate(
-                      formatAppDate(
-                          context, 'EEE, d MMM yyyy', snapshotDate)),
-                  button: true,
-                  child: InkWell(
-                    onTap: onPickSnapshotDate,
-                    borderRadius: BorderRadius.circular(8),
-                    child: Text(
-                      formatAppDate(context, 'EEE, d MMM yyyy', snapshotDate),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: AppHeroConstants.labelFontSize,
-                        fontWeight: FontWeight.w500,
-                        color: cs.onSurfaceVariant,
-                      ),
-                    ),
-                  ),
-                ),
+                projectionDateControl,
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
                 if (isFutureSnapshot)
                   Semantics(
-                    label: AppLocalizations.of(context).semanticsProjectedBalance(
+                    label: l10n.semanticsProjectedBalance(
                         '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym'),
-                    child: Text(
-                      '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
-                      style: TextStyle(
-                        fontSize: AppHeroConstants.primaryAmountFontSize,
-                        fontWeight: FontWeight.w800,
-                        color: personalColor,
-                        letterSpacing: -1,
+                    child: Opacity(
+                      opacity: projectionHeroInteractive ? 1 : 0.5,
+                      child: Text(
+                        '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
+                        style: TextStyle(
+                          fontSize: AppHeroConstants.primaryAmountFontSize,
+                          fontWeight: FontWeight.w800,
+                          color: personalColor,
+                          letterSpacing: -1,
+                        ),
                       ),
                     ),
                   )
-                else
+                else if (projectionHeroInteractive)
                   Semantics(
                     label: detailExpanded
-                        ? AppLocalizations.of(context).semanticsHideProjections
-                        : AppLocalizations.of(context).semanticsShowProjections,
+                        ? l10n.semanticsHideProjections
+                        : l10n.semanticsShowProjections,
                     button: true,
                     child: InkWell(
                       onTap: onTapBalance,
@@ -957,6 +994,25 @@ class _ProjectionHero extends StatelessWidget {
                           fontWeight: FontWeight.w800,
                           color: personalColor,
                           letterSpacing: -1,
+                        ),
+                      ),
+                    ),
+                  )
+                else
+                  Semantics(
+                    enabled: false,
+                    label: l10n.semanticsPlanProjectionControlsDisabled,
+                    child: Opacity(
+                      opacity: 0.5,
+                      child: ExcludeSemantics(
+                        child: Text(
+                          '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
+                          style: TextStyle(
+                            fontSize: AppHeroConstants.primaryAmountFontSize,
+                            fontWeight: FontWeight.w800,
+                            color: personalColor,
+                            letterSpacing: -1,
+                          ),
                         ),
                       ),
                     ),

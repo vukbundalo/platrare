@@ -1101,6 +1101,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Section and currency controls disabled. Add an account first.';
 
   @override
+  String get semanticsPlanProjectionControlsDisabled =>
+      'Projection date and balance breakdown disabled. Add an account and a planned transaction first.';
+
+  @override
   String get semanticsChartStyle => 'Chart style';
 
   @override

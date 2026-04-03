@@ -479,6 +479,7 @@
   "semanticsFiltersDisabledNeedPlannedTransaction": "List filters disabled. Add a planned transaction first.",
   "semanticsFiltersDisabledNeedRecordedTransaction": "List filters disabled. Record a transaction first.",
   "semanticsReviewSectionChipsDisabledNeedAccount": "Section and currency controls disabled. Add an account first.",
+  "semanticsPlanProjectionControlsDisabled": "Projection date and balance breakdown disabled. Add an account and a planned transaction first.",
   "semanticsChartStyle": "Chart style",
   "semanticsChartStyleUnavailable": "Chart style (unavailable in comparison mode)",
   "semanticsPeriod": "Period: {label}",

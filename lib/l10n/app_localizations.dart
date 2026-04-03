@@ -2001,6 +2001,12 @@ abstract class AppLocalizations {
   /// **'Section and currency controls disabled. Add an account first.'**
   String get semanticsReviewSectionChipsDisabledNeedAccount;
 
+  /// No description provided for @semanticsPlanProjectionControlsDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Projection date and balance breakdown disabled. Add an account and a planned transaction first.'**
+  String get semanticsPlanProjectionControlsDisabled;
+
   /// No description provided for @semanticsChartStyle.
   ///
   /// In en, this message translates to:

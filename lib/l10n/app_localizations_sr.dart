@@ -1109,6 +1109,10 @@ class AppLocalizationsSr extends AppLocalizations {
       'Kontrole za odeljak i valutu su onemogućene. Prvo dodajte nalog.';
 
   @override
+  String get semanticsPlanProjectionControlsDisabled =>
+      'Datum projekcije i detalji stanja su onemogućeni. Prvo dodajte nalog i planiranu transakciju.';
+
+  @override
   String get semanticsChartStyle => 'Stil grafikona';
 
   @override
@@ -2245,6 +2249,10 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   @override
   String get semanticsReviewSectionChipsDisabledNeedAccount =>
       'Kontrole za odeljak i valutu su onemogućene. Prvo dodajte nalog.';
+
+  @override
+  String get semanticsPlanProjectionControlsDisabled =>
+      'Datum projekcije i detalji stanja su onemogućeni. Prvo dodajte nalog i planiranu transakciju.';
 
   @override
   String get semanticsChartStyle => 'Stil grafikona';
