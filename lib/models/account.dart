@@ -1,7 +1,5 @@
 import 'package:uuid/uuid.dart';
 
-enum AccountType { personal, partner, vendor, incomeSource, category }
-
 /// Three-way group: your own accounts, individuals, and entities.
 enum AccountGroup { personal, individuals, entities }
 
@@ -63,17 +61,22 @@ class Account {
   /// Hidden from pickers and Review lists; restore from Settings.
   bool archived;
 
+  final DateTime createdAt;
+  int sortOrder;
+
   Account({
     String? id,
     required this.name,
     AccountGroup? group,
-    AccountType? type,
     this.balance = 0.0,
     this.currencyCode = 'BAM',
     this.overdraftLimit = 0.0,
     this.archived = false,
+    DateTime? createdAt,
+    this.sortOrder = 0,
   }) : id = id ?? const Uuid().v4(),
-       group = group ?? _typeToGroup(type);
+       group = group ?? AccountGroup.personal,
+       createdAt = createdAt ?? DateTime.now();
 
   bool get hasOverdraftFacility => overdraftLimit > 0;
 
@@ -88,24 +91,6 @@ class Account {
   double personalHeadroomNative(double bookNative) =>
       hasOverdraftFacility ? bookNative + overdraftLimit : bookNative;
 
-  static AccountGroup _typeToGroup(AccountType? t) =>
-      t == AccountType.personal ? AccountGroup.personal : AccountGroup.personal;
-
-  /// Backward-compat getter used by inactive screens that filter on AccountType.
-  AccountType get type => switch (group) {
-        AccountGroup.personal => AccountType.personal,
-        AccountGroup.individuals || AccountGroup.entities => AccountType.partner,
-      };
-
-  /// Backward-compat setter: maps partner → individuals.
-  set type(AccountType t) {
-    if (t == AccountType.personal) {
-      group = AccountGroup.personal;
-    } else if (group == AccountGroup.personal) {
-      group = AccountGroup.individuals;
-    }
-  }
-
   Account copyWith({
     String? name,
     AccountGroup? group,
@@ -113,6 +98,8 @@ class Account {
     String? currencyCode,
     double? overdraftLimit,
     bool? archived,
+    DateTime? createdAt,
+    int? sortOrder,
   }) => Account(
     id: id,
     name: name ?? this.name,
@@ -121,6 +108,8 @@ class Account {
     currencyCode: currencyCode ?? this.currencyCode,
     overdraftLimit: overdraftLimit ?? this.overdraftLimit,
     archived: archived ?? this.archived,
+    createdAt: createdAt ?? this.createdAt,
+    sortOrder: sortOrder ?? this.sortOrder,
   );
 
   @override

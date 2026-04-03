@@ -42,6 +42,8 @@ class Transaction {
   /// Local file paths for attached receipts / documents.
   final List<String> attachments;
 
+  final DateTime createdAt;
+
   /// Backward-compatibility alias — existing display code reads `.amount`.
   double? get amount => nativeAmount;
 
@@ -59,7 +61,9 @@ class Transaction {
     DateTime? date,
     this.txType,
     List<String>? attachments,
+    DateTime? createdAt,
   })  : id = id ?? const Uuid().v4(),
         date = date ?? DateTime.now(),
-        attachments = attachments ?? const [];
+        attachments = attachments ?? const [],
+        createdAt = createdAt ?? DateTime.now();
 }

@@ -162,6 +162,8 @@ class PlannedTransaction {
   /// How many times this series has been confirmed so far.
   final int repeatConfirmedCount;
 
+  final DateTime createdAt;
+
   /// Backward-compatibility alias.
   double? get amount => nativeAmount;
 
@@ -183,5 +185,7 @@ class PlannedTransaction {
     this.repeatEndDate,
     this.repeatEndAfter,
     this.repeatConfirmedCount = 0,
-  }) : id = id ?? const Uuid().v4();
+    DateTime? createdAt,
+  }) : id = id ?? const Uuid().v4(),
+       createdAt = createdAt ?? DateTime.now();
 }
