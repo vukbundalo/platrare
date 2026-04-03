@@ -853,6 +853,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ok => 'OK';
 
   @override
+  String get categoryBalanceAdjustment => 'Balance adjustment';
+
+  @override
+  String get descriptionBalanceCorrection => 'Balance correction';
+
+  @override
   String get statsUncategorized => 'Uncategorized';
 
   @override

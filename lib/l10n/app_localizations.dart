@@ -1545,6 +1545,18 @@ abstract class AppLocalizations {
   /// **'OK'**
   String get ok;
 
+  /// No description provided for @categoryBalanceAdjustment.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance adjustment'**
+  String get categoryBalanceAdjustment;
+
+  /// No description provided for @descriptionBalanceCorrection.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance correction'**
+  String get descriptionBalanceCorrection;
+
   /// No description provided for @statsUncategorized.
   ///
   /// In en, this message translates to:

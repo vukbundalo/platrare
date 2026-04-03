@@ -704,7 +704,9 @@ class _TxTile extends StatelessWidget {
   String _title(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final t = transaction;
-    if (t.description != null) return t.description!;
+    if (t.description != null) {
+      return l10nSentinel(t.description, AppLocalizations.of(context));
+    }
     if (t.category != null) return l10nCategoryName(context, t.category!);
     if (t.fromAccount != null && t.toAccount != null) {
       return '${t.fromAccount!.name} → ${t.toAccount!.name}';

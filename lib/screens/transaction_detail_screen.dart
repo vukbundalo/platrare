@@ -13,16 +13,50 @@ import '../utils/tx_display.dart';
 
 class TransactionDetailScreen extends StatelessWidget {
   final Transaction transaction;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
   const TransactionDetailScreen({
     super.key,
     required this.transaction,
+    this.onEdit,
+    this.onDelete,
   });
 
   TxType get _type =>
       transaction.txType ??
       classifyTransaction(
           from: transaction.fromAccount, to: transaction.toAccount);
+
+  void _confirmDelete(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text(l10n.trackDeleteTitle),
+        content: Text(l10n.trackDeleteBody),
+        icon: Icon(Icons.delete_outline_rounded,
+            color: Theme.of(context).colorScheme.error),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              Navigator.pop(context);
+              onDelete!();
+            },
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: Text(l10n.delete),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +73,23 @@ class TransactionDetailScreen extends StatelessWidget {
         centerTitle: false,
         backgroundColor: cs.surface,
         surfaceTintColor: Colors.transparent,
+        actions: [
+          if (onEdit != null)
+            IconButton(
+              icon: const Icon(Icons.edit_outlined),
+              tooltip: l10n.editTransactionTitle,
+              onPressed: () {
+                Navigator.pop(context);
+                onEdit!();
+              },
+            ),
+          if (onDelete != null)
+            IconButton(
+              icon: Icon(Icons.delete_outline_rounded, color: cs.error),
+              tooltip: l10n.delete,
+              onPressed: () => _confirmDelete(context),
+            ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 4, 16, 40),
@@ -79,7 +130,7 @@ class TransactionDetailScreen extends StatelessWidget {
               _DetailRow(
                 icon: Icons.notes_rounded,
                 label: l10n.detailNote,
-                value: t.description!,
+                value: l10nSentinel(t.description, l10n),
                 color: color,
               ),
             if (t.destinationAmount != null)
@@ -114,11 +165,15 @@ class TransactionDetailScreen extends StatelessWidget {
 class PlannedTransactionDetailScreen extends StatelessWidget {
   final PlannedTransaction pt;
   final VoidCallback onConfirm;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
   const PlannedTransactionDetailScreen({
     super.key,
     required this.pt,
     required this.onConfirm,
+    this.onEdit,
+    this.onDelete,
   });
 
   TxType get _type =>
@@ -126,6 +181,36 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
       classifyTransaction(from: pt.fromAccount, to: pt.toAccount);
 
   bool get _canConfirm => true;
+
+  void _confirmDeletePlanned(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text(l10n.trackDeleteTitle),
+        content: Text(l10n.planTransactionRemoved),
+        icon: Icon(Icons.delete_outline_rounded,
+            color: Theme.of(context).colorScheme.error),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              Navigator.pop(context);
+              onDelete!();
+            },
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: Text(l10n.delete),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +226,23 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
         centerTitle: false,
         backgroundColor: cs.surface,
         surfaceTintColor: Colors.transparent,
+        actions: [
+          if (onEdit != null)
+            IconButton(
+              icon: const Icon(Icons.edit_outlined),
+              tooltip: l10n.editPlanTitle,
+              onPressed: () {
+                Navigator.pop(context);
+                onEdit!();
+              },
+            ),
+          if (onDelete != null)
+            IconButton(
+              icon: Icon(Icons.delete_outline_rounded, color: cs.error),
+              tooltip: l10n.delete,
+              onPressed: () => _confirmDeletePlanned(context),
+            ),
+        ],
       ),
       bottomNavigationBar: _canConfirm
           ? SafeArea(
@@ -196,7 +298,7 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
               _DetailRow(
                 icon: Icons.notes_rounded,
                 label: l10n.detailNote,
-                value: pt.description!,
+                value: l10nSentinel(pt.description, l10n),
                 color: color,
               ),
             if (pt.repeatInterval != RepeatInterval.none) ...[

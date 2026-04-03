@@ -275,6 +275,9 @@
   "balanceAdjustedBody": "Stvarno stanje je ažurirano sa {previous} na {current} {symbol}.\n\nTransakcija za podešavanje stanja je kreirana u Evidenciji (Istorija) radi konzistentnosti knjiženja.\n\n\u2022 Stvarno stanje odražava stvarni iznos na ovom računu.\n\u2022 Proverite Istoriju za stavku podešavanja.",
   "ok": "U redu",
 
+  "categoryBalanceAdjustment": "Korekcija stanja",
+  "descriptionBalanceCorrection": "Korekcija bilansa",
+
   "statsUncategorized": "Nekategorisano",
   "statsNoCategories": "Nema kategorija u izabranim periodima za poređenje.",
   "statsNoTransactions": "Nema transakcija",

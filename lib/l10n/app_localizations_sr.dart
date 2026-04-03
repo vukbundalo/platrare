@@ -858,6 +858,12 @@ class AppLocalizationsSr extends AppLocalizations {
   String get ok => 'U redu';
 
   @override
+  String get categoryBalanceAdjustment => 'Korekcija stanja';
+
+  @override
+  String get descriptionBalanceCorrection => 'Korekcija bilansa';
+
+  @override
   String get statsUncategorized => 'Nekategorisano';
 
   @override
@@ -1918,6 +1924,12 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get ok => 'U redu';
+
+  @override
+  String get categoryBalanceAdjustment => 'Korekcija stanja';
+
+  @override
+  String get descriptionBalanceCorrection => 'Korekcija bilansa';
 
   @override
   String get statsUncategorized => 'Nekategorisano';

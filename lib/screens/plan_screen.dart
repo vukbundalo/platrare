@@ -1798,7 +1798,9 @@ class _PlannedTile extends StatelessWidget {
   IconData get _typeIcon => txIcon(_type);
 
   String _buildTitle(BuildContext context) {
-    if (pt.description != null) return pt.description!;
+    if (pt.description != null) {
+      return l10nSentinel(pt.description, AppLocalizations.of(context));
+    }
     if (pt.category != null) return l10nCategoryName(context, pt.category!);
     if (pt.fromAccount != null && pt.toAccount != null) {
       return '${pt.fromAccount!.name} → ${pt.toAccount!.name}';

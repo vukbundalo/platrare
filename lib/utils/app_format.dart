@@ -136,12 +136,24 @@ const _defaultCategoryKeys = <String, String>{
   'Gifts': 'catGifts',
 };
 
+/// Resolves `__sentinel__` keys stored in transaction category / description
+/// fields to their localized display strings.
+String l10nSentinel(String? value, AppLocalizations l10n) {
+  if (value == null) return '';
+  return switch (value) {
+    '__balance_adjustment__' => l10n.categoryBalanceAdjustment,
+    '__balance_correction__' => l10n.descriptionBalanceCorrection,
+    _ => value,
+  };
+}
+
 /// Translates a default category key to the current locale.
 /// User-added categories (not in the default set) are returned as-is.
 String l10nCategoryName(BuildContext context, String key) {
+  final l = AppLocalizations.of(context);
+  if (key == '__balance_adjustment__') return l.categoryBalanceAdjustment;
   final arbKey = _defaultCategoryKeys[key];
   if (arbKey == null) return key;
-  final l = AppLocalizations.of(context);
   return switch (arbKey) {
     'catSalary' => l.catSalary,
     'catFreelance' => l.catFreelance,

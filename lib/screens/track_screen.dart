@@ -368,6 +368,55 @@ class _TrackScreenState extends State<TrackScreen> {
       MaterialPageRoute(
         builder: (_) => TransactionDetailScreen(
           transaction: t,
+          onEdit: () => _editTransaction(t),
+          onDelete: () => _deleteTransaction(t),
+        ),
+      ),
+    );
+  }
+
+  void _deleteTransaction(Transaction t) {
+    final index = data.transactions.indexOf(t);
+    if (t.nativeAmount != null) {
+      if (t.fromAccount != null) t.fromAccount!.balance += t.nativeAmount!;
+      if (t.toAccount != null) {
+        t.toAccount!.balance -=
+            (t.destinationAmount ?? t.nativeAmount!);
+      }
+    }
+    data.transactions.remove(t);
+    setState(() {});
+    widget.onChanged?.call();
+    HapticFeedback.mediumImpact();
+    final messenger = ScaffoldMessenger.of(context);
+    messenger.clearSnackBars();
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(AppLocalizations.of(context).trackTransactionDeleted),
+        behavior: SnackBarBehavior.floating,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+        duration: const Duration(seconds: 5),
+        persist: false,
+        action: SnackBarAction(
+          label: AppLocalizations.of(context).undo,
+          onPressed: () {
+            messenger.clearSnackBars();
+            if (t.nativeAmount != null) {
+              if (t.fromAccount != null) {
+                t.fromAccount!.balance -= t.nativeAmount!;
+              }
+              if (t.toAccount != null) {
+                t.toAccount!.balance +=
+                    (t.destinationAmount ?? t.nativeAmount!);
+              }
+            }
+            final insertAt = index < 0 ? 0 : index.clamp(0, data.transactions.length);
+            data.transactions.insert(insertAt, t);
+            setState(() {});
+            widget.onChanged?.call();
+          },
         ),
       ),
     );
@@ -995,7 +1044,9 @@ class _TransactionTile extends StatelessWidget {
 
   String _title(BuildContext context) {
     final t = transaction;
-    if (t.description != null) return t.description!;
+    if (t.description != null) {
+      return l10nSentinel(t.description, AppLocalizations.of(context));
+    }
     if (t.category != null) return l10nCategoryName(context, t.category!);
     if (t.fromAccount != null && t.toAccount != null) {
       return '${t.fromAccount!.name} → ${t.toAccount!.name}';
