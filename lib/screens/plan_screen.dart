@@ -2,13 +2,14 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
 import '../models/transaction.dart';
+import '../l10n/app_localizations.dart';
+import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/projections.dart' as proj;
@@ -194,20 +195,20 @@ class _PlanScreenState extends State<PlanScreen> {
     };
   }
 
-  String get _dateLabel {
+  String _dateLabel(BuildContext context) {
     final a = _dateAnchor;
     return switch (_dateFilter) {
-      'day' => DateFormat('EEE, d MMM yyyy').format(a),
+      'day' => formatAppDate(context, 'EEE, d MMM yyyy', a),
       'week' => () {
           final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
           final sun = DateTime(mon.year, mon.month, mon.day + 6);
           final sameMon = mon.month == sun.month;
           return sameMon
-              ? '${DateFormat('d').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}'
-              : '${DateFormat('d MMM').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}';
+              ? '${formatAppDate(context, 'd', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}'
+              : '${formatAppDate(context, 'd MMM', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}';
         }(),
-      'month' => DateFormat('MMMM yyyy').format(a),
-      'year' => DateFormat('yyyy').format(a),
+      'month' => formatAppDate(context, 'MMMM yyyy', a),
+      'year' => formatAppDate(context, 'yyyy', a),
       _ => '',
     };
   }
@@ -322,25 +323,27 @@ class _PlanScreenState extends State<PlanScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('Confirm transaction?'),
+        title: Text(AppLocalizations.of(ctx).planConfirmTitle),
         content: Text(
           earlyRepeat
-              ? 'This occurrence is scheduled for ${DateFormat('d MMM y').format(pt.date)}. '
-                  'It will be recorded in History with today’s date (${DateFormat('d MMM y').format(today)}). '
-                  'The next occurrence remains on ${DateFormat('d MMM y').format(nextAfterScheduled!)}.'
-              : 'This will apply the transaction to your real account balances and move it to History.',
+              ? AppLocalizations.of(ctx).planConfirmBodyEarly(
+                  formatAppDate(ctx, 'd MMM y', pt.date),
+                  formatAppDate(ctx, 'd MMM y', today),
+                  formatAppDate(ctx, 'd MMM y', nextAfterScheduled!),
+                )
+              : AppLocalizations.of(ctx).planConfirmBodyNormal,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(ctx).cancel),
           ),
           FilledButton(
             onPressed: () {
               Navigator.pop(ctx);
               _realize(pt, realizationDate: today);
             },
-            child: const Text('Confirm'),
+            child: Text(AppLocalizations.of(ctx).confirm),
           ),
         ],
       ),
@@ -414,7 +417,7 @@ class _PlanScreenState extends State<PlanScreen> {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text('Transaction confirmed and applied'),
+        content: Text(AppLocalizations.of(context).planTransactionConfirmed),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         duration: const Duration(seconds: 4),
@@ -431,14 +434,14 @@ class _PlanScreenState extends State<PlanScreen> {
     messenger.clearSnackBars();
     messenger.showSnackBar(
       SnackBar(
-        content: const Text('Planned transaction removed'),
+        content: Text(AppLocalizations.of(context).planTransactionRemoved),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
         duration: const Duration(seconds: 5),
         persist: false,
         action: SnackBarAction(
-          label: 'Undo',
+          label: AppLocalizations.of(context).undo,
           onPressed: () {
             messenger.clearSnackBars();
             setState(() {
@@ -466,10 +469,8 @@ class _PlanScreenState extends State<PlanScreen> {
         return AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: const Text('Repeating transaction'),
-          content: const Text(
-            'Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.',
-          ),
+          title: Text(AppLocalizations.of(ctx).planRepeatingTitle),
+          content: Text(AppLocalizations.of(ctx).planRepeatingBody),
           actions: [
             Padding(
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
@@ -481,7 +482,7 @@ class _PlanScreenState extends State<PlanScreen> {
                     width: double.infinity,
                     child: TextButton(
                       onPressed: () => Navigator.pop(ctx),
-                      child: const Text('Cancel'),
+                      child: Text(AppLocalizations.of(ctx).cancel),
                     ),
                   ),
                   SizedBox(
@@ -489,7 +490,7 @@ class _PlanScreenState extends State<PlanScreen> {
                     child: TextButton(
                       onPressed: () => Navigator.pop(ctx, 'all'),
                       style: TextButton.styleFrom(foregroundColor: error),
-                      child: const Text('Delete all'),
+                      child: Text(AppLocalizations.of(ctx).planDeleteAll),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -497,7 +498,7 @@ class _PlanScreenState extends State<PlanScreen> {
                     width: double.infinity,
                     child: FilledButton(
                       onPressed: () => Navigator.pop(ctx, 'this'),
-                      child: const Text('Skip this only'),
+                      child: Text(AppLocalizations.of(ctx).planSkipThisOnly),
                     ),
                   ),
                 ],
@@ -538,7 +539,7 @@ class _PlanScreenState extends State<PlanScreen> {
         messenger.clearSnackBars();
         messenger.showSnackBar(
           SnackBar(
-            content: const Text('This occurrence skipped — next one scheduled'),
+            content: Text(AppLocalizations.of(context).planOccurrenceSkipped),
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12)),
@@ -546,7 +547,7 @@ class _PlanScreenState extends State<PlanScreen> {
             duration: const Duration(seconds: 5),
             persist: false,
             action: SnackBarAction(
-              label: 'Undo',
+              label: AppLocalizations.of(context).undo,
               onPressed: () {
                 messenger.clearSnackBars();
                 setState(() {
@@ -660,14 +661,14 @@ class _PlanScreenState extends State<PlanScreen> {
           heroTag: 'plan_fab',
           onPressed: _clearProjectionToToday,
           icon: const Icon(Icons.today_rounded),
-          label: const Text('Clear projections'),
+          label: Text(AppLocalizations.of(context).filterClearProjections),
         );
       } else if (_hasActiveFilter) {
         fab = FloatingActionButton.extended(
           heroTag: 'plan_fab',
           onPressed: _clearFilters,
           icon: const Icon(Icons.filter_alt_off_rounded),
-          label: const Text('Clear filters'),
+          label: Text(AppLocalizations.of(context).filterClearFilters),
         );
       } else if (planned.isNotEmpty) {
         fab = FloatingActionButton(
@@ -687,11 +688,11 @@ class _PlanScreenState extends State<PlanScreen> {
             expandedHeight: 210,
             backgroundColor: cs.surface,
             scrolledUnderElevation: 0,
-            title: const Text('Plan'),
+            title: Text(AppLocalizations.of(context).navPlan),
             actions: [
               IconButton(
                 icon: const Icon(Icons.settings_outlined),
-                tooltip: 'Settings',
+                tooltip: AppLocalizations.of(context).tooltipSettings,
                 onPressed: () async {
                   await Navigator.push(
                     context,
@@ -743,7 +744,7 @@ class _PlanScreenState extends State<PlanScreen> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
                 child: TrackPlanDateNavBar(
-                  label: _dateLabel,
+                  label: _dateLabel(context),
                   onNavigateBack: () => _navigateDate(-1),
                   onNavigateForward: _canNavigateDateForward
                       ? () => _navigateDate(1)
@@ -886,14 +887,15 @@ class _ProjectionHero extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Semantics(
-                  label:
-                      'Projection date ${DateFormat('EEE, d MMM yyyy').format(snapshotDate)}. Double tap to choose date',
+                  label: AppLocalizations.of(context).semanticsProjectionDate(
+                      formatAppDate(
+                          context, 'EEE, d MMM yyyy', snapshotDate)),
                   button: true,
                   child: InkWell(
                     onTap: onPickSnapshotDate,
                     borderRadius: BorderRadius.circular(8),
                     child: Text(
-                      DateFormat('EEE, d MMM yyyy').format(snapshotDate),
+                      formatAppDate(context, 'EEE, d MMM yyyy', snapshotDate),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -907,8 +909,8 @@ class _ProjectionHero extends StatelessWidget {
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
                 if (isFutureSnapshot)
                   Semantics(
-                    label:
-                        'Projected personal balance ${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
+                    label: AppLocalizations.of(context).semanticsProjectedBalance(
+                        '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym'),
                     child: Text(
                       '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
                       style: TextStyle(
@@ -922,8 +924,8 @@ class _ProjectionHero extends StatelessWidget {
                 else
                   Semantics(
                     label: detailExpanded
-                        ? 'Hide projected balances by account'
-                        : 'Show projected balances by account',
+                        ? AppLocalizations.of(context).semanticsHideProjections
+                        : AppLocalizations.of(context).semanticsShowProjections,
                     button: true,
                     child: InkWell(
                       onTap: onTapBalance,
@@ -946,7 +948,7 @@ class _ProjectionHero extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Net',
+                  AppLocalizations.of(context).heroNet,
                   style: TextStyle(
                     fontSize: AppHeroConstants.secondaryLabelFontSize,
                     color: cs.onSurfaceVariant,
@@ -1011,7 +1013,8 @@ class _ProjectionDetailCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (personal.isNotEmpty) ...[
-            const _PlanProjectionSectionLabel('Personal'),
+            _PlanProjectionSectionLabel(
+                l10nAccountSectionTitle(context, AccountGroup.personal)),
             ...personal.map(
               (a) => _ProjectionAccountCard(
                 account: a,
@@ -1021,7 +1024,8 @@ class _ProjectionDetailCard extends StatelessWidget {
             const SizedBox(height: 4),
           ],
           if (individuals.isNotEmpty) ...[
-            const _PlanProjectionSectionLabel('Individuals'),
+            _PlanProjectionSectionLabel(
+                l10nAccountSectionTitle(context, AccountGroup.individuals)),
             ...individuals.map(
               (a) => _ProjectionAccountCard(
                 account: a,
@@ -1031,7 +1035,8 @@ class _ProjectionDetailCard extends StatelessWidget {
             const SizedBox(height: 4),
           ],
           if (entities.isNotEmpty) ...[
-            const _PlanProjectionSectionLabel('Entities'),
+            _PlanProjectionSectionLabel(
+                l10nAccountSectionTitle(context, AccountGroup.entities)),
             ...entities.map(
               (a) => _ProjectionAccountCard(
                 account: a,
@@ -1106,11 +1111,8 @@ class _ProjectionAccountCard extends StatelessWidget {
         : isEntities
             ? cs.onSecondaryContainer
             : cs.onTertiaryContainer;
-    final groupLabel = isPersonal
-        ? 'Personal'
-        : isEntities
-            ? 'Entity'
-            : 'Individual';
+    final groupLabel =
+        l10nAccountCardGroupLabel(context, account.group);
 
     final initial = account.name.isNotEmpty ? account.name[0].toUpperCase() : '?';
 
@@ -1184,7 +1186,9 @@ class _ProjectionAccountCard extends StatelessWidget {
                           color: cs.onSurfaceVariant,
                         ),
                         children: [
-                          const TextSpan(text: 'Real balance '),
+                          TextSpan(
+                              text:
+                                  '${AppLocalizations.of(context).realBalance} '),
                           TextSpan(
                             text:
                                 '${shownBook > 0 ? '+' : ''}${shownBook.toStringAsFixed(2)} $shownSymbol',
@@ -1215,7 +1219,8 @@ class _PlanFilteredEmpty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final monthLabel = DateFormat('MMMM yyyy').format(DateTime.now());
+    final monthLabel =
+        formatAppDate(context, 'MMMM yyyy', DateTime.now());
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -1230,8 +1235,9 @@ class _PlanFilteredEmpty extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               hasExplicitFilters
-                  ? 'No planned transactions for applied filters'
-                  : 'No planned transactions in $monthLabel',
+                  ? AppLocalizations.of(context).planNoPlannedForFilters
+                  : AppLocalizations.of(context)
+                      .planNoPlannedInMonth(monthLabel),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 15,
@@ -1254,6 +1260,7 @@ class _EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Column(
@@ -1276,7 +1283,7 @@ class _EmptyState extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Text(
-            hasAccounts ? 'Nothing planned for now' : 'No accounts yet',
+            hasAccounts ? l10n.planNothingPlanned : l10n.emptyNoAccountsYet,
             style: Theme.of(context)
                 .textTheme
                 .titleLarge
@@ -1284,9 +1291,7 @@ class _EmptyState extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            hasAccounts
-                ? 'Plan upcoming transactions.'
-                : 'Add your first account before planning transactions.',
+            hasAccounts ? l10n.planPlanBody : l10n.emptyAddFirstAccountPlan,
             textAlign: TextAlign.center,
             style: TextStyle(color: cs.onSurfaceVariant, height: 1.5),
           ),
@@ -1294,7 +1299,7 @@ class _EmptyState extends StatelessWidget {
           FilledButton.icon(
             onPressed: onAdd,
             icon: const Icon(Icons.add),
-            label: Text(hasAccounts ? 'Add plan' : 'Add account'),
+            label: Text(hasAccounts ? l10n.planAddPlan : l10n.emptyAddAccount),
             style: FilledButton.styleFrom(
               minimumSize: const Size(200, 52),
               shape: RoundedRectangleBorder(
@@ -1380,15 +1385,18 @@ class _DayGroup extends StatefulWidget {
 class _DayGroupState extends State<_DayGroup> {
   bool _showProjection = false;
 
-  String _formatDate(DateTime d) {
+  String _formatDate(BuildContext context, DateTime d) {
+    final l10n = AppLocalizations.of(context);
     final today = DateUtils.dateOnly(DateTime.now());
     final tomorrow = today.add(const Duration(days: 1));
     final target = DateUtils.dateOnly(d);
-    if (target == today) return 'Today';
-    if (target == tomorrow) return 'Tomorrow';
+    if (target == today) return l10n.dateToday;
+    if (target == tomorrow) return l10n.dateTomorrow;
     final diff = target.difference(today).inDays;
-    if (diff > 0 && diff <= 6) return DateFormat('EEEE').format(d);
-    return DateFormat('EEE, d MMM yyyy').format(d);
+    if (diff > 0 && diff <= 6) {
+      return formatAppDate(context, 'EEEE', d);
+    }
+    return formatAppDate(context, 'EEE, d MMM yyyy', d);
   }
 
   bool get _isPast =>
@@ -1418,7 +1426,7 @@ class _DayGroupState extends State<_DayGroup> {
           child: Row(
             children: [
               Text(
-                _formatDate(widget.date),
+                _formatDate(context, widget.date),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
@@ -1436,7 +1444,7 @@ class _DayGroupState extends State<_DayGroup> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    'overdue',
+                    AppLocalizations.of(context).planOverdue,
                     style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
@@ -1588,7 +1596,7 @@ class _ProjectionPanel extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Text('Balance',
+                Text(AppLocalizations.of(context).heroBalance,
                     style: TextStyle(
                         fontSize: 12,
                         color: pos
@@ -1609,7 +1617,9 @@ class _ProjectionPanel extends StatelessWidget {
 
           if (personal.isNotEmpty) ...[
             const SizedBox(height: 10),
-            Text('PERSONAL',
+            Text(
+                l10nAccountSectionTitle(context, AccountGroup.personal)
+                    .toUpperCase(),
                 style: TextStyle(
                     fontSize: 10,
                     letterSpacing: 0.8,
@@ -1629,7 +1639,9 @@ class _ProjectionPanel extends StatelessWidget {
           ],
           if (individuals.isNotEmpty) ...[
             const SizedBox(height: 10),
-            Text('INDIVIDUALS',
+            Text(
+                l10nAccountSectionTitle(context, AccountGroup.individuals)
+                    .toUpperCase(),
                 style: TextStyle(
                     fontSize: 10,
                     letterSpacing: 0.8,
@@ -1650,7 +1662,9 @@ class _ProjectionPanel extends StatelessWidget {
           ],
           if (entities.isNotEmpty) ...[
             const SizedBox(height: 10),
-            Text('ENTITIES',
+            Text(
+                l10nAccountSectionTitle(context, AccountGroup.entities)
+                    .toUpperCase(),
                 style: TextStyle(
                     fontSize: 10,
                     letterSpacing: 0.8,
@@ -1770,7 +1784,7 @@ class _PlannedTile extends StatelessWidget {
   Color get _typeColor => txColor(_type);
   IconData get _typeIcon => txIcon(_type);
 
-  String _buildTitle() {
+  String _buildTitle(BuildContext context) {
     if (pt.description != null) return pt.description!;
     if (pt.category != null) return pt.category!;
     if (pt.fromAccount != null && pt.toAccount != null) {
@@ -1778,7 +1792,7 @@ class _PlannedTile extends StatelessWidget {
     }
     if (pt.fromAccount != null) return pt.fromAccount!.name;
     if (pt.toAccount != null) return pt.toAccount!.name;
-    return 'Planned transaction';
+    return AppLocalizations.of(context).planPlannedTransaction;
   }
 
   String? _buildSubtitle() {
@@ -1827,7 +1841,7 @@ class _PlannedTile extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  _buildTitle(),
+                  _buildTitle(context),
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
@@ -1845,7 +1859,7 @@ class _PlannedTile extends StatelessWidget {
                             size: 11, color: cs.primary),
                         const SizedBox(width: 3),
                         Text(
-                          repeatLabel(pt.repeatInterval),
+                          l10nRepeatLabel(context, pt.repeatInterval),
                           style: TextStyle(
                               fontSize: 11,
                               color: cs.primary,
