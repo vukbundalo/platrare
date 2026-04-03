@@ -526,6 +526,33 @@ class AppLocalizationsSr extends AppLocalizations {
   String get settingsLanguageOptionSerbianLatin => 'Srpski (latinica)';
 
   @override
+  String get settingsSectionAppearance => 'Izgled';
+
+  @override
+  String get settingsTheme => 'Tema';
+
+  @override
+  String get settingsThemeSubtitleSystem => 'Prati podešavanja sistema';
+
+  @override
+  String get settingsThemeSubtitleLight => 'Svetla';
+
+  @override
+  String get settingsThemeSubtitleDark => 'Tamna';
+
+  @override
+  String get settingsThemePickerTitle => 'Tema';
+
+  @override
+  String get settingsThemeOptionSystem => 'Podrazumevano (sistem)';
+
+  @override
+  String get settingsThemeOptionLight => 'Svetla';
+
+  @override
+  String get settingsThemeOptionDark => 'Tamna';
+
+  @override
   String get archivedAccountsTitle => 'Arhivirani računi';
 
   @override
@@ -1446,6 +1473,33 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get settingsLanguageOptionSerbianLatin => 'Srpski (latinica)';
+
+  @override
+  String get settingsSectionAppearance => 'Izgled';
+
+  @override
+  String get settingsTheme => 'Tema';
+
+  @override
+  String get settingsThemeSubtitleSystem => 'Prati podešavanja sistema';
+
+  @override
+  String get settingsThemeSubtitleLight => 'Svetla';
+
+  @override
+  String get settingsThemeSubtitleDark => 'Tamna';
+
+  @override
+  String get settingsThemePickerTitle => 'Tema';
+
+  @override
+  String get settingsThemeOptionSystem => 'Podrazumevano (sistem)';
+
+  @override
+  String get settingsThemeOptionLight => 'Svetla';
+
+  @override
+  String get settingsThemeOptionDark => 'Tamna';
 
   @override
   String get archivedAccountsTitle => 'Arhivirani računi';

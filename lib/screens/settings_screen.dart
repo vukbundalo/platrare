@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/app_data.dart' as data;
 import '../data/locale_prefs.dart';
+import '../data/theme_prefs.dart';
 import '../data/user_settings.dart' as settings;
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
@@ -29,6 +30,86 @@ class _SettingsScreenState extends State<SettingsScreen> {
         AppLocalePreference.english => 'EN',
         AppLocalePreference.serbianLatin => 'SR',
       };
+
+  String _themeSubtitle(AppThemePreference p, AppLocalizations l10n) =>
+      switch (p) {
+        AppThemePreference.system => l10n.settingsThemeSubtitleSystem,
+        AppThemePreference.light => l10n.settingsThemeSubtitleLight,
+        AppThemePreference.dark => l10n.settingsThemeSubtitleDark,
+      };
+
+  IconData _themeIcon(AppThemePreference p) => switch (p) {
+        AppThemePreference.system => Icons.brightness_auto_rounded,
+        AppThemePreference.light => Icons.light_mode_rounded,
+        AppThemePreference.dark => Icons.dark_mode_rounded,
+      };
+
+  void _openThemePicker(BuildContext context, AppLocalizations l10n) {
+    final current = appThemePreference.value;
+    showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      useSafeArea: true,
+      builder: (ctx) {
+        final sheetCs = Theme.of(ctx).colorScheme;
+        Widget option({
+          required String title,
+          required IconData icon,
+          required AppThemePreference value,
+        }) {
+          final selected = current == value;
+          return ListTile(
+            leading: Icon(icon,
+                size: 20,
+                color: selected ? sheetCs.primary : sheetCs.onSurfaceVariant),
+            title: Text(title),
+            trailing: selected
+                ? Icon(Icons.check_rounded, color: sheetCs.primary)
+                : null,
+            onTap: () {
+              setAppThemePreference(value);
+              Navigator.pop(ctx);
+              setState(() {});
+            },
+          );
+        }
+
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 4),
+                child: Text(
+                  l10n.settingsThemePickerTitle,
+                  style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
+              ),
+              option(
+                title: l10n.settingsThemeOptionSystem,
+                icon: Icons.brightness_auto_rounded,
+                value: AppThemePreference.system,
+              ),
+              option(
+                title: l10n.settingsThemeOptionLight,
+                icon: Icons.light_mode_rounded,
+                value: AppThemePreference.light,
+              ),
+              option(
+                title: l10n.settingsThemeOptionDark,
+                icon: Icons.dark_mode_rounded,
+                value: AppThemePreference.dark,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   void _openLanguagePicker(BuildContext context, AppLocalizations l10n) {
     final current = appLocalePreference.value;
@@ -199,6 +280,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
               if (picked != null) {
                 setState(() => settings.secondaryCurrency = picked);
               }
+            },
+          ),
+          const SizedBox(height: 24),
+          _SectionLabel(l10n.settingsSectionAppearance),
+          const SizedBox(height: 8),
+          ListenableBuilder(
+            listenable: appThemePreference,
+            builder: (context, _) {
+              final pref = appThemePreference.value;
+              return currencyCard(
+                icon: _themeIcon(pref),
+                title: l10n.settingsTheme,
+                subtitle: _themeSubtitle(pref, l10n),
+                badge: switch (pref) {
+                  AppThemePreference.system => '···',
+                  AppThemePreference.light => '☀',
+                  AppThemePreference.dark => '☾',
+                },
+                onTap: () => _openThemePicker(context, l10n),
+              );
             },
           ),
           const SizedBox(height: 24),

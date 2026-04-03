@@ -178,6 +178,16 @@
   "settingsLanguageOptionEnglish": "Engleski",
   "settingsLanguageOptionSerbianLatin": "Srpski (latinica)",
 
+  "settingsSectionAppearance": "Izgled",
+  "settingsTheme": "Tema",
+  "settingsThemeSubtitleSystem": "Prati podešavanja sistema",
+  "settingsThemeSubtitleLight": "Svetla",
+  "settingsThemeSubtitleDark": "Tamna",
+  "settingsThemePickerTitle": "Tema",
+  "settingsThemeOptionSystem": "Podrazumevano (sistem)",
+  "settingsThemeOptionLight": "Svetla",
+  "settingsThemeOptionDark": "Tamna",
+
   "archivedAccountsTitle": "Arhivirani računi",
   "archivedAccountsEmptyTitle": "Nema arhiviranih računa",
   "archivedAccountsEmptyBody": "Kada arhivirate račun u Pregledu, pojaviće se ovde. Uvek ga možete vratiti.",

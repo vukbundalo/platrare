@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'data/locale_prefs.dart';
+import 'data/theme_prefs.dart';
 import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'screens/track_screen.dart';
 import 'screens/plan_screen.dart';
@@ -10,19 +11,16 @@ import 'utils/fx.dart' as fx;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initAppLocale();
+  await Future.wait([initAppLocale(), initAppTheme()]);
   await initializeDateFormatting('en');
   await initializeDateFormatting('sr');
   await initializeDateFormatting('sr_Latn');
-  // Run multi-currency logic test in debug mode (Rules 3, 4, 5).
   assert(() {
     debugPrint('[FX Test] ${fx.runFxLogicTest()}');
     return true;
   }());
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-    statusBarBrightness: Brightness.light,
   ));
   runApp(const PlatrareApp());
 }
@@ -63,26 +61,31 @@ class PlatrareApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<AppLocalePreference>(
       valueListenable: appLocalePreference,
-      builder: (context, pref, _) {
-        return MaterialApp(
-          title: 'Platrare',
-          debugShowCheckedModeBanner: false,
-          theme: _buildTheme(Brightness.light),
-          darkTheme: _buildTheme(Brightness.dark),
-          themeMode: ThemeMode.system,
-          locale: localeForMaterialApp(pref),
-          supportedLocales: AppLocalizations.supportedLocales,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          localeListResolutionCallback: (locales, supported) {
-            if (locales != null && locales.isNotEmpty) {
-              for (final deviceLocale in locales) {
-                final match = _tryMatchLocale(deviceLocale, supported);
-                if (match != null) return match;
-              }
-            }
-            return _resolveLocale(null, supported);
+      builder: (context, localePref, _) {
+        return ValueListenableBuilder<AppThemePreference>(
+          valueListenable: appThemePreference,
+          builder: (context, themePref, _) {
+            return MaterialApp(
+              title: 'Platrare',
+              debugShowCheckedModeBanner: false,
+              theme: _buildTheme(Brightness.light),
+              darkTheme: _buildTheme(Brightness.dark),
+              themeMode: themeModeFor(themePref),
+              locale: localeForMaterialApp(localePref),
+              supportedLocales: AppLocalizations.supportedLocales,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              localeListResolutionCallback: (locales, supported) {
+                if (locales != null && locales.isNotEmpty) {
+                  for (final deviceLocale in locales) {
+                    final match = _tryMatchLocale(deviceLocale, supported);
+                    if (match != null) return match;
+                  }
+                }
+                return _resolveLocale(null, supported);
+              },
+              home: const HomePage(),
+            );
           },
-          home: const HomePage(),
         );
       },
     );

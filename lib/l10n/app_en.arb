@@ -236,6 +236,16 @@
   "settingsLanguageOptionEnglish": "English",
   "settingsLanguageOptionSerbianLatin": "Serbian (Latin)",
 
+  "settingsSectionAppearance": "Appearance",
+  "settingsTheme": "Theme",
+  "settingsThemeSubtitleSystem": "Following system settings",
+  "settingsThemeSubtitleLight": "Light",
+  "settingsThemeSubtitleDark": "Dark",
+  "settingsThemePickerTitle": "Theme",
+  "settingsThemeOptionSystem": "System default",
+  "settingsThemeOptionLight": "Light",
+  "settingsThemeOptionDark": "Dark",
+
   "archivedAccountsTitle": "Archived accounts",
   "archivedAccountsEmptyTitle": "No archived accounts",
   "archivedAccountsEmptyBody": "When you archive an account from Review, it will appear here. You can restore it anytime.",

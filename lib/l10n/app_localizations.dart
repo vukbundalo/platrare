@@ -1053,6 +1053,60 @@ abstract class AppLocalizations {
   /// **'Serbian (Latin)'**
   String get settingsLanguageOptionSerbianLatin;
 
+  /// No description provided for @settingsSectionAppearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get settingsSectionAppearance;
+
+  /// No description provided for @settingsTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsTheme;
+
+  /// No description provided for @settingsThemeSubtitleSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Following system settings'**
+  String get settingsThemeSubtitleSystem;
+
+  /// No description provided for @settingsThemeSubtitleLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settingsThemeSubtitleLight;
+
+  /// No description provided for @settingsThemeSubtitleDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settingsThemeSubtitleDark;
+
+  /// No description provided for @settingsThemePickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsThemePickerTitle;
+
+  /// No description provided for @settingsThemeOptionSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get settingsThemeOptionSystem;
+
+  /// No description provided for @settingsThemeOptionLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settingsThemeOptionLight;
+
+  /// No description provided for @settingsThemeOptionDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settingsThemeOptionDark;
+
   /// No description provided for @archivedAccountsTitle.
   ///
   /// In en, this message translates to:

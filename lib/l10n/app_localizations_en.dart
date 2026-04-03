@@ -527,6 +527,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLanguageOptionSerbianLatin => 'Serbian (Latin)';
 
   @override
+  String get settingsSectionAppearance => 'Appearance';
+
+  @override
+  String get settingsTheme => 'Theme';
+
+  @override
+  String get settingsThemeSubtitleSystem => 'Following system settings';
+
+  @override
+  String get settingsThemeSubtitleLight => 'Light';
+
+  @override
+  String get settingsThemeSubtitleDark => 'Dark';
+
+  @override
+  String get settingsThemePickerTitle => 'Theme';
+
+  @override
+  String get settingsThemeOptionSystem => 'System default';
+
+  @override
+  String get settingsThemeOptionLight => 'Light';
+
+  @override
+  String get settingsThemeOptionDark => 'Dark';
+
+  @override
   String get archivedAccountsTitle => 'Archived accounts';
 
   @override
