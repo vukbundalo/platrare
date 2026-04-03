@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'data/fx_service.dart';
 import 'data/locale_prefs.dart';
 import 'data/theme_prefs.dart';
 import 'l10n/app_localizations.dart' show AppLocalizations;
@@ -15,6 +16,7 @@ Future<void> main() async {
   await initializeDateFormatting('en');
   await initializeDateFormatting('sr');
   await initializeDateFormatting('sr_Latn');
+  await FxService.instance.init();
   assert(() {
     debugPrint('[FX Test] ${fx.runFxLogicTest()}');
     return true;

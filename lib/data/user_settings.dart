@@ -8,14 +8,11 @@ String baseCurrency = 'BAM';
 /// The secondary display currency shown as an alternative on the Review screen.
 String secondaryCurrency = 'EUR';
 
-/// Live exchange rates expressed as:
-///   1 unit of [key] = [value] units of BAM (the internal numeraire).
+/// Exchange rates: 1 unit of [key] = [value] units of BAM.
 ///
-/// To convert any foreign amount to [baseCurrency] the system multiplies by
-/// rates[foreignCcy] / rates[baseCurrency].  Because BAM is the internal
-/// numeraire, rates['BAM'] is always 1.0.
-///
-/// In a production app these values would be fetched from a live FX feed.
+/// On startup, [FxService] overwrites these with cached / live ECB rates.
+/// The values below are **hardcoded fallbacks** used only when no cached or
+/// live data is available (first-ever launch with no network).
 final Map<String, double> exchangeRates = {
   'BAM': 1.0000,
   'EUR': 1.9560, // fixed peg
