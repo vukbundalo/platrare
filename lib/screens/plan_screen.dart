@@ -391,24 +391,30 @@ class _PlanScreenState extends State<PlanScreen> {
 
     data.plannedTransactions.remove(pt);
 
-    // Auto-spawn the next occurrence for repeated transactions.
     if (pt.repeatInterval != RepeatInterval.none) {
       final nextDate = nextPlannedEffectiveDate(pt, pt.date);
-      data.plannedTransactions.add(PlannedTransaction(
-        nativeAmount: pt.nativeAmount,
-        currencyCode: pt.currencyCode,
-        destinationAmount: pt.destinationAmount,
-        fromAccount: pt.fromAccount,
-        toAccount: pt.toAccount,
-        category: pt.category,
-        description: pt.description,
-        date: nextDate,
-        txType: pt.txType,
-        repeatInterval: pt.repeatInterval,
-        repeatDayOfMonth: pt.repeatDayOfMonth,
-        weekendAdjustment: pt.weekendAdjustment,
-      ));
-      data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
+      final nextCount = pt.repeatConfirmedCount + 1;
+      if (shouldSpawnNextOccurrence(pt, nextDate)) {
+        data.plannedTransactions.add(PlannedTransaction(
+          nativeAmount: pt.nativeAmount,
+          currencyCode: pt.currencyCode,
+          destinationAmount: pt.destinationAmount,
+          fromAccount: pt.fromAccount,
+          toAccount: pt.toAccount,
+          category: pt.category,
+          description: pt.description,
+          date: nextDate,
+          txType: pt.txType,
+          repeatInterval: pt.repeatInterval,
+          repeatEvery: pt.repeatEvery,
+          repeatDayOfMonth: pt.repeatDayOfMonth,
+          weekendAdjustment: pt.weekendAdjustment,
+          repeatEndDate: pt.repeatEndDate,
+          repeatEndAfter: pt.repeatEndAfter,
+          repeatConfirmedCount: nextCount,
+        ));
+        data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
+      }
     }
 
     setState(() {});
@@ -512,8 +518,11 @@ class _PlanScreenState extends State<PlanScreen> {
       if (choice == 'all') {
         _delete(pt);
       } else {
-        // Delete this occurrence and spawn the next one.
         final nextDate = nextPlannedEffectiveDate(pt, pt.date);
+        if (!shouldSpawnNextOccurrence(pt, nextDate)) {
+          _delete(pt);
+          return;
+        }
         final spawned = PlannedTransaction(
           nativeAmount: pt.nativeAmount,
           currencyCode: pt.currencyCode,
@@ -525,8 +534,12 @@ class _PlanScreenState extends State<PlanScreen> {
           date: nextDate,
           txType: pt.txType,
           repeatInterval: pt.repeatInterval,
+          repeatEvery: pt.repeatEvery,
           repeatDayOfMonth: pt.repeatDayOfMonth,
           weekendAdjustment: pt.weekendAdjustment,
+          repeatEndDate: pt.repeatEndDate,
+          repeatEndAfter: pt.repeatEndAfter,
+          repeatConfirmedCount: pt.repeatConfirmedCount,
         );
         setState(() {
           data.plannedTransactions.remove(pt);
@@ -1858,12 +1871,16 @@ class _PlannedTile extends StatelessWidget {
                         Icon(Icons.repeat_rounded,
                             size: 11, color: cs.primary),
                         const SizedBox(width: 3),
-                        Text(
-                          l10nRepeatLabel(context, pt.repeatInterval),
-                          style: TextStyle(
-                              fontSize: 11,
-                              color: cs.primary,
-                              fontWeight: FontWeight.w500),
+                        Flexible(
+                          child: Text(
+                            l10nRepeatSummary(context, pt),
+                            style: TextStyle(
+                                fontSize: 11,
+                                color: cs.primary,
+                                fontWeight: FontWeight.w500),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         if (subtitle != null)
                           Text(' · ',

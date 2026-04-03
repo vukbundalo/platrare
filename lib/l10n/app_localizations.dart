@@ -321,6 +321,132 @@ abstract class AppLocalizations {
   /// **'Yearly'**
   String get repeatYearly;
 
+  /// No description provided for @repeatEveryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Every'**
+  String get repeatEveryLabel;
+
+  /// No description provided for @repeatEveryDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{day} other{{count} days}}'**
+  String repeatEveryDays(int count);
+
+  /// No description provided for @repeatEveryWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{week} other{{count} weeks}}'**
+  String repeatEveryWeeks(int count);
+
+  /// No description provided for @repeatEveryMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{month} other{{count} months}}'**
+  String repeatEveryMonths(int count);
+
+  /// No description provided for @repeatEveryYears.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{year} other{{count} years}}'**
+  String repeatEveryYears(int count);
+
+  /// No description provided for @repeatEndLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ends'**
+  String get repeatEndLabel;
+
+  /// No description provided for @repeatEndNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get repeatEndNever;
+
+  /// No description provided for @repeatEndOnDate.
+  ///
+  /// In en, this message translates to:
+  /// **'On date'**
+  String get repeatEndOnDate;
+
+  /// No description provided for @repeatEndAfterCount.
+  ///
+  /// In en, this message translates to:
+  /// **'After {count} times'**
+  String repeatEndAfterCount(int count);
+
+  /// No description provided for @repeatEndPickDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick end date'**
+  String get repeatEndPickDate;
+
+  /// No description provided for @repeatEndTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'times'**
+  String get repeatEndTimes;
+
+  /// No description provided for @repeatSummaryEvery.
+  ///
+  /// In en, this message translates to:
+  /// **'Every {count} {unit}'**
+  String repeatSummaryEvery(int count, String unit);
+
+  /// No description provided for @repeatSummaryUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'until {date}'**
+  String repeatSummaryUntil(String date);
+
+  /// No description provided for @repeatSummaryTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} times'**
+  String repeatSummaryTimes(int count);
+
+  /// No description provided for @repeatSummaryTimesRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{remaining} of {total} remaining'**
+  String repeatSummaryTimesRemaining(int remaining, int total);
+
+  /// No description provided for @detailRepeatEvery.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat every'**
+  String get detailRepeatEvery;
+
+  /// No description provided for @detailEnds.
+  ///
+  /// In en, this message translates to:
+  /// **'Ends'**
+  String get detailEnds;
+
+  /// No description provided for @detailEndsNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get detailEndsNever;
+
+  /// No description provided for @detailEndsOnDate.
+  ///
+  /// In en, this message translates to:
+  /// **'On {date}'**
+  String detailEndsOnDate(String date);
+
+  /// No description provided for @detailEndsAfterCount.
+  ///
+  /// In en, this message translates to:
+  /// **'After {count} times'**
+  String detailEndsAfterCount(int count);
+
+  /// No description provided for @detailProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get detailProgress;
+
   /// No description provided for @weekendNoChange.
   ///
   /// In en, this message translates to:

@@ -44,6 +44,31 @@
   "repeatMonthly": "Mesečno",
   "repeatYearly": "Godišnje",
 
+  "repeatEveryLabel": "Svaki",
+  "repeatEveryDays": "{count, plural, =1{dan} few{{count} dana} other{{count} dana}}",
+  "repeatEveryWeeks": "{count, plural, =1{nedelju} few{{count} nedelje} other{{count} nedelja}}",
+  "repeatEveryMonths": "{count, plural, =1{mesec} few{{count} meseca} other{{count} meseci}}",
+  "repeatEveryYears": "{count, plural, =1{godinu} few{{count} godine} other{{count} godina}}",
+
+  "repeatEndLabel": "Završava se",
+  "repeatEndNever": "Nikad",
+  "repeatEndOnDate": "Na datum",
+  "repeatEndAfterCount": "Posle {count} puta",
+  "repeatEndPickDate": "Izaberite krajnji datum",
+  "repeatEndTimes": "puta",
+
+  "repeatSummaryEvery": "Svaki {count} {unit}",
+  "repeatSummaryUntil": "do {date}",
+  "repeatSummaryTimes": "{count} puta",
+  "repeatSummaryTimesRemaining": "{remaining} od {total} preostalo",
+
+  "detailRepeatEvery": "Ponavlja se svaki",
+  "detailEnds": "Završava se",
+  "detailEndsNever": "Nikad",
+  "detailEndsOnDate": "Na {date}",
+  "detailEndsAfterCount": "Posle {count} puta",
+  "detailProgress": "Napredak",
+
   "weekendNoChange": "Bez promene",
   "weekendFriday": "Pomeri na petak",
   "weekendMonday": "Pomeri na ponedeljak",

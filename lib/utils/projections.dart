@@ -69,7 +69,9 @@ Map<String, double> projectBalances(DateTime date) {
       }
 
       if (pt.repeatInterval == RepeatInterval.none) break;
-      occurrence = nextPlannedEffectiveDate(pt, occurrence);
+      final next = nextPlannedEffectiveDate(pt, occurrence);
+      if (!shouldSpawnNextOccurrence(pt, next)) break;
+      occurrence = next;
     }
   }
 

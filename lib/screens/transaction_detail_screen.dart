@@ -199,13 +199,35 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
                 value: pt.description!,
                 color: color,
               ),
-            if (pt.repeatInterval != RepeatInterval.none)
+            if (pt.repeatInterval != RepeatInterval.none) ...[
               _DetailRow(
                 icon: Icons.repeat_rounded,
-                label: l10n.detailRepeats,
-                value: l10nRepeatLabel(context, pt.repeatInterval),
+                label: l10n.detailRepeatEvery,
+                value: l10nRepeatSummary(context, pt),
                 color: color,
               ),
+              _DetailRow(
+                icon: Icons.timer_off_outlined,
+                label: l10n.detailEnds,
+                value: pt.repeatEndDate != null
+                    ? l10n.detailEndsOnDate(
+                        formatAppDate(context, 'd MMM yyyy', pt.repeatEndDate!))
+                    : pt.repeatEndAfter != null
+                        ? l10n.detailEndsAfterCount(pt.repeatEndAfter!)
+                        : l10n.detailEndsNever,
+                color: color,
+              ),
+              if (pt.repeatEndAfter != null)
+                _DetailRow(
+                  icon: Icons.trending_up_rounded,
+                  label: l10n.detailProgress,
+                  value: l10n.repeatSummaryTimesRemaining(
+                    pt.repeatEndAfter! - pt.repeatConfirmedCount,
+                    pt.repeatEndAfter!,
+                  ),
+                  color: color,
+                ),
+            ],
             if (pt.repeatInterval == RepeatInterval.monthly ||
                 pt.repeatInterval == RepeatInterval.yearly) ...[
               if (pt.repeatDayOfMonth != null)

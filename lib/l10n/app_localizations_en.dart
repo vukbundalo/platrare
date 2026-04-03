@@ -120,6 +120,115 @@ class AppLocalizationsEn extends AppLocalizations {
   String get repeatYearly => 'Yearly';
 
   @override
+  String get repeatEveryLabel => 'Every';
+
+  @override
+  String repeatEveryDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: 'day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String repeatEveryWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count weeks',
+      one: 'week',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String repeatEveryMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count months',
+      one: 'month',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String repeatEveryYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count years',
+      one: 'year',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get repeatEndLabel => 'Ends';
+
+  @override
+  String get repeatEndNever => 'Never';
+
+  @override
+  String get repeatEndOnDate => 'On date';
+
+  @override
+  String repeatEndAfterCount(int count) {
+    return 'After $count times';
+  }
+
+  @override
+  String get repeatEndPickDate => 'Pick end date';
+
+  @override
+  String get repeatEndTimes => 'times';
+
+  @override
+  String repeatSummaryEvery(int count, String unit) {
+    return 'Every $count $unit';
+  }
+
+  @override
+  String repeatSummaryUntil(String date) {
+    return 'until $date';
+  }
+
+  @override
+  String repeatSummaryTimes(int count) {
+    return '$count times';
+  }
+
+  @override
+  String repeatSummaryTimesRemaining(int remaining, int total) {
+    return '$remaining of $total remaining';
+  }
+
+  @override
+  String get detailRepeatEvery => 'Repeat every';
+
+  @override
+  String get detailEnds => 'Ends';
+
+  @override
+  String get detailEndsNever => 'Never';
+
+  @override
+  String detailEndsOnDate(String date) {
+    return 'On $date';
+  }
+
+  @override
+  String detailEndsAfterCount(int count) {
+    return 'After $count times';
+  }
+
+  @override
+  String get detailProgress => 'Progress';
+
+  @override
   String get weekendNoChange => 'No change';
 
   @override

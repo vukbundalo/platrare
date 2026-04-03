@@ -59,6 +59,40 @@ String l10nRepeatLabel(BuildContext context, RepeatInterval r) {
   };
 }
 
+/// Localized interval-unit word (e.g. "day" / "weeks") for the custom repeat picker.
+String l10nRepeatEveryUnit(BuildContext context, RepeatInterval r, int count) {
+  final l = AppLocalizations.of(context);
+  return switch (r) {
+    RepeatInterval.none => '',
+    RepeatInterval.daily => l.repeatEveryDays(count),
+    RepeatInterval.weekly => l.repeatEveryWeeks(count),
+    RepeatInterval.monthly => l.repeatEveryMonths(count),
+    RepeatInterval.yearly => l.repeatEveryYears(count),
+  };
+}
+
+/// Human-readable repeat summary (e.g. "Every 2 weeks, until Jun 15").
+String l10nRepeatSummary(BuildContext context, PlannedTransaction pt) {
+  if (pt.repeatInterval == RepeatInterval.none) {
+    return l10nRepeatLabel(context, RepeatInterval.none);
+  }
+  final l = AppLocalizations.of(context);
+  final unit = l10nRepeatEveryUnit(context, pt.repeatInterval, pt.repeatEvery);
+  final buf = StringBuffer();
+  if (pt.repeatEvery == 1) {
+    buf.write(l10nRepeatLabel(context, pt.repeatInterval));
+  } else {
+    buf.write(l.repeatSummaryEvery(pt.repeatEvery, unit));
+  }
+  if (pt.repeatEndDate != null) {
+    final dateStr = formatAppDate(context, 'MMMd', pt.repeatEndDate!);
+    buf.write(', ${l.repeatSummaryUntil(dateStr)}');
+  } else if (pt.repeatEndAfter != null) {
+    buf.write(', ${l.repeatSummaryTimes(pt.repeatEndAfter!)}');
+  }
+  return buf.toString();
+}
+
 String l10nWeekendLabel(BuildContext context, WeekendAdjustment w) {
   final l = AppLocalizations.of(context);
   return switch (w) {

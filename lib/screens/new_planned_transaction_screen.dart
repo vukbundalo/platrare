@@ -30,7 +30,10 @@ class _NewPlannedTransactionScreenState
   String? _category;
   DateTime _date = DateTime.now().add(const Duration(days: 1));
   RepeatInterval _repeatInterval = RepeatInterval.none;
+  int _repeatEvery = 1;
   WeekendAdjustment _weekendAdjustment = WeekendAdjustment.ignore;
+  DateTime? _repeatEndDate;
+  int? _repeatEndAfter;
   bool _forceClose = false;
 
   bool get _isEdit => widget.existing != null;
@@ -60,7 +63,10 @@ class _NewPlannedTransactionScreenState
         }
       }
       if (_repeatInterval != e.repeatInterval) return true;
+      if (_repeatEvery != e.repeatEvery) return true;
       if (_weekendAdjustment != e.weekendAdjustment) return true;
+      if (_repeatEndDate != e.repeatEndDate) return true;
+      if (_repeatEndAfter != e.repeatEndAfter) return true;
       return false;
     }
     return _amountController.text.trim().isNotEmpty ||
@@ -114,7 +120,10 @@ class _NewPlannedTransactionScreenState
       _toAccount = e.toAccount;
       _category = e.category;
       _repeatInterval = e.repeatInterval;
+      _repeatEvery = e.repeatEvery;
       _weekendAdjustment = e.weekendAdjustment;
+      _repeatEndDate = e.repeatEndDate;
+      _repeatEndAfter = e.repeatEndAfter;
       if (e.repeatInterval == RepeatInterval.monthly ||
           e.repeatInterval == RepeatInterval.yearly) {
         final dom = e.repeatDayOfMonth ?? e.date.day;
@@ -196,9 +205,17 @@ class _NewPlannedTransactionScreenState
         date: effectiveDate,
         txType: type,
         repeatInterval: _repeatInterval,
+        repeatEvery: _repeatEvery,
         repeatDayOfMonth: isMonthYear ? nominal.day : null,
         weekendAdjustment:
             isMonthYear ? _weekendAdjustment : WeekendAdjustment.ignore,
+        repeatEndDate: _repeatInterval != RepeatInterval.none
+            ? _repeatEndDate
+            : null,
+        repeatEndAfter: _repeatInterval != RepeatInterval.none
+            ? _repeatEndAfter
+            : null,
+        repeatConfirmedCount: widget.existing?.repeatConfirmedCount ?? 0,
       ),
     );
   }
@@ -487,12 +504,44 @@ class _NewPlannedTransactionScreenState
                     value: _repeatInterval,
                     onChanged: (v) => setState(() {
                       _repeatInterval = v;
+                      if (v == RepeatInterval.none) {
+                        _repeatEvery = 1;
+                        _repeatEndDate = null;
+                        _repeatEndAfter = null;
+                      }
                       if (v != RepeatInterval.monthly &&
                           v != RepeatInterval.yearly) {
                         _weekendAdjustment = WeekendAdjustment.ignore;
                       }
                     }),
                   ),
+                  if (_repeatInterval != RepeatInterval.none) ...[
+                    const SizedBox(height: 12),
+                    _EveryNPicker(
+                      interval: _repeatInterval,
+                      value: _repeatEvery,
+                      onChanged: (v) =>
+                          setState(() => _repeatEvery = v),
+                    ),
+                    const SizedBox(height: 12),
+                    _EndConditionPicker(
+                      endDate: _repeatEndDate,
+                      endAfter: _repeatEndAfter,
+                      firstDate: _date,
+                      onEndDateChanged: (d) => setState(() {
+                        _repeatEndDate = d;
+                        _repeatEndAfter = null;
+                      }),
+                      onEndAfterChanged: (n) => setState(() {
+                        _repeatEndAfter = n;
+                        _repeatEndDate = null;
+                      }),
+                      onClear: () => setState(() {
+                        _repeatEndDate = null;
+                        _repeatEndAfter = null;
+                      }),
+                    ),
+                  ],
                   if (_repeatInterval == RepeatInterval.monthly ||
                       _repeatInterval == RepeatInterval.yearly) ...[
                     const SizedBox(height: 12),
@@ -761,6 +810,266 @@ class _RepeatPicker extends StatelessWidget {
             );
           }).toList(),
         ),
+      ],
+    );
+  }
+}
+
+class _EveryNPicker extends StatelessWidget {
+  final RepeatInterval interval;
+  final int value;
+  final ValueChanged<int> onChanged;
+
+  const _EveryNPicker({
+    required this.interval,
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
+    final unit = l10nRepeatEveryUnit(context, interval, value);
+    return Row(
+      children: [
+        Text(l10n.repeatEveryLabel,
+            style: Theme.of(context)
+                .textTheme
+                .labelLarge
+                ?.copyWith(fontWeight: FontWeight.w600)),
+        const SizedBox(width: 12),
+        Container(
+          decoration: BoxDecoration(
+            color: cs.surfaceContainerLow,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _StepButton(
+                icon: Icons.remove_rounded,
+                enabled: value > 1,
+                onTap: () => onChanged((value - 1).clamp(1, 999)),
+              ),
+              SizedBox(
+                width: 36,
+                child: Text(
+                  '$value',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: cs.onSurface,
+                  ),
+                ),
+              ),
+              _StepButton(
+                icon: Icons.add_rounded,
+                enabled: value < 99,
+                onTap: () => onChanged((value + 1).clamp(1, 999)),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 10),
+        Text(unit,
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: cs.onSurfaceVariant)),
+      ],
+    );
+  }
+}
+
+class _StepButton extends StatelessWidget {
+  final IconData icon;
+  final bool enabled;
+  final VoidCallback onTap;
+
+  const _StepButton({
+    required this.icon,
+    required this.enabled,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: enabled ? onTap : null,
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Icon(icon,
+              size: 18,
+              color: enabled ? cs.primary : cs.onSurface.withValues(alpha: 0.2)),
+        ),
+      ),
+    );
+  }
+}
+
+class _EndConditionPicker extends StatelessWidget {
+  final DateTime? endDate;
+  final int? endAfter;
+  final DateTime firstDate;
+  final ValueChanged<DateTime> onEndDateChanged;
+  final ValueChanged<int> onEndAfterChanged;
+  final VoidCallback onClear;
+
+  const _EndConditionPicker({
+    required this.endDate,
+    required this.endAfter,
+    required this.firstDate,
+    required this.onEndDateChanged,
+    required this.onEndAfterChanged,
+    required this.onClear,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
+    final isNever = endDate == null && endAfter == null;
+    final isDate = endDate != null;
+    final isCount = endAfter != null;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.repeatEndLabel,
+            style: Theme.of(context)
+                .textTheme
+                .labelLarge
+                ?.copyWith(fontWeight: FontWeight.w600)),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 6,
+          children: [
+            FilterChip(
+              label: Text(l10n.repeatEndNever),
+              selected: isNever,
+              onSelected: (_) => onClear(),
+            ),
+            FilterChip(
+              label: Text(l10n.repeatEndOnDate),
+              selected: isDate,
+              onSelected: (_) async {
+                final picked = await showDatePicker(
+                  context: context,
+                  initialDate: endDate ?? firstDate.add(const Duration(days: 30)),
+                  firstDate: firstDate,
+                  lastDate: firstDate.add(const Duration(days: 3650)),
+                  helpText: l10n.repeatEndPickDate,
+                );
+                if (picked != null) onEndDateChanged(picked);
+              },
+            ),
+            FilterChip(
+              label: Text(endAfter != null
+                  ? l10n.repeatEndAfterCount(endAfter!)
+                  : l10n.repeatEndAfterCount(3)),
+              selected: isCount,
+              onSelected: (_) {
+                if (!isCount) {
+                  onEndAfterChanged(3);
+                }
+              },
+            ),
+          ],
+        ),
+        if (isDate && endDate != null) ...[
+          const SizedBox(height: 8),
+          InkWell(
+            onTap: () async {
+              final picked = await showDatePicker(
+                context: context,
+                initialDate: endDate!,
+                firstDate: firstDate,
+                lastDate: firstDate.add(const Duration(days: 3650)),
+                helpText: l10n.repeatEndPickDate,
+              );
+              if (picked != null) onEndDateChanged(picked);
+            },
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: cs.primaryContainer.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.calendar_today_rounded,
+                      size: 14, color: cs.primary),
+                  const SizedBox(width: 8),
+                  Text(
+                    formatAppDate(context, 'd MMM yyyy', endDate!),
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: cs.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+        if (isCount) ...[
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: cs.surfaceContainerLow,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _StepButton(
+                      icon: Icons.remove_rounded,
+                      enabled: (endAfter ?? 2) > 2,
+                      onTap: () =>
+                          onEndAfterChanged(((endAfter ?? 2) - 1).clamp(2, 999)),
+                    ),
+                    SizedBox(
+                      width: 36,
+                      child: Text(
+                        '${endAfter ?? 2}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: cs.onSurface,
+                        ),
+                      ),
+                    ),
+                    _StepButton(
+                      icon: Icons.add_rounded,
+                      enabled: (endAfter ?? 2) < 999,
+                      onTap: () =>
+                          onEndAfterChanged(((endAfter ?? 2) + 1).clamp(2, 999)),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              Text(l10n.repeatEndTimes,
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: cs.onSurfaceVariant)),
+            ],
+          ),
+        ],
       ],
     );
   }

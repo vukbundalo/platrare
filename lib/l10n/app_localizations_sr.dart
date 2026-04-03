@@ -120,6 +120,119 @@ class AppLocalizationsSr extends AppLocalizations {
   String get repeatYearly => 'Godišnje';
 
   @override
+  String get repeatEveryLabel => 'Svaki';
+
+  @override
+  String repeatEveryDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dana',
+      few: '$count dana',
+      one: 'dan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String repeatEveryWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count nedelja',
+      few: '$count nedelje',
+      one: 'nedelju',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String repeatEveryMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count meseci',
+      few: '$count meseca',
+      one: 'mesec',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String repeatEveryYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count godina',
+      few: '$count godine',
+      one: 'godinu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get repeatEndLabel => 'Završava se';
+
+  @override
+  String get repeatEndNever => 'Nikad';
+
+  @override
+  String get repeatEndOnDate => 'Na datum';
+
+  @override
+  String repeatEndAfterCount(int count) {
+    return 'Posle $count puta';
+  }
+
+  @override
+  String get repeatEndPickDate => 'Izaberite krajnji datum';
+
+  @override
+  String get repeatEndTimes => 'puta';
+
+  @override
+  String repeatSummaryEvery(int count, String unit) {
+    return 'Svaki $count $unit';
+  }
+
+  @override
+  String repeatSummaryUntil(String date) {
+    return 'do $date';
+  }
+
+  @override
+  String repeatSummaryTimes(int count) {
+    return '$count puta';
+  }
+
+  @override
+  String repeatSummaryTimesRemaining(int remaining, int total) {
+    return '$remaining od $total preostalo';
+  }
+
+  @override
+  String get detailRepeatEvery => 'Ponavlja se svaki';
+
+  @override
+  String get detailEnds => 'Završava se';
+
+  @override
+  String get detailEndsNever => 'Nikad';
+
+  @override
+  String detailEndsOnDate(String date) {
+    return 'Na $date';
+  }
+
+  @override
+  String detailEndsAfterCount(int count) {
+    return 'Posle $count puta';
+  }
+
+  @override
+  String get detailProgress => 'Napredak';
+
+  @override
   String get weekendNoChange => 'Bez promene';
 
   @override
@@ -1067,6 +1180,119 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get repeatYearly => 'Godišnje';
+
+  @override
+  String get repeatEveryLabel => 'Svaki';
+
+  @override
+  String repeatEveryDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dana',
+      few: '$count dana',
+      one: 'dan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String repeatEveryWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count nedelja',
+      few: '$count nedelje',
+      one: 'nedelju',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String repeatEveryMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count meseci',
+      few: '$count meseca',
+      one: 'mesec',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String repeatEveryYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count godina',
+      few: '$count godine',
+      one: 'godinu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get repeatEndLabel => 'Završava se';
+
+  @override
+  String get repeatEndNever => 'Nikad';
+
+  @override
+  String get repeatEndOnDate => 'Na datum';
+
+  @override
+  String repeatEndAfterCount(int count) {
+    return 'Posle $count puta';
+  }
+
+  @override
+  String get repeatEndPickDate => 'Izaberite krajnji datum';
+
+  @override
+  String get repeatEndTimes => 'puta';
+
+  @override
+  String repeatSummaryEvery(int count, String unit) {
+    return 'Svaki $count $unit';
+  }
+
+  @override
+  String repeatSummaryUntil(String date) {
+    return 'do $date';
+  }
+
+  @override
+  String repeatSummaryTimes(int count) {
+    return '$count puta';
+  }
+
+  @override
+  String repeatSummaryTimesRemaining(int remaining, int total) {
+    return '$remaining od $total preostalo';
+  }
+
+  @override
+  String get detailRepeatEvery => 'Ponavlja se svaki';
+
+  @override
+  String get detailEnds => 'Završava se';
+
+  @override
+  String get detailEndsNever => 'Nikad';
+
+  @override
+  String detailEndsOnDate(String date) {
+    return 'Na $date';
+  }
+
+  @override
+  String detailEndsAfterCount(int count) {
+    return 'Posle $count puta';
+  }
+
+  @override
+  String get detailProgress => 'Napredak';
 
   @override
   String get weekendNoChange => 'Bez promene';

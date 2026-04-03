@@ -30,15 +30,17 @@ String repeatLabel(RepeatInterval r) => switch (r) {
       RepeatInterval.yearly => 'Yearly',
     };
 
-/// Advances [date] by one [interval] step.
+/// Advances [date] by [every] × [interval] steps.
 /// Monthly/yearly use end-of-month clamping so e.g. Jan 31 → Feb 28.
-DateTime nextOccurrence(DateTime date, RepeatInterval interval) {
+DateTime nextOccurrence(DateTime date, RepeatInterval interval,
+    [int every = 1]) {
+  final n = every.clamp(1, 999);
   return switch (interval) {
     RepeatInterval.none => date,
-    RepeatInterval.daily => date.add(const Duration(days: 1)),
-    RepeatInterval.weekly => date.add(const Duration(days: 7)),
-    RepeatInterval.monthly => _addMonths(date, 1),
-    RepeatInterval.yearly => _addMonths(date, 12),
+    RepeatInterval.daily => date.add(Duration(days: n)),
+    RepeatInterval.weekly => date.add(Duration(days: 7 * n)),
+    RepeatInterval.monthly => _addMonths(date, n),
+    RepeatInterval.yearly => _addMonths(date, 12 * n),
   };
 }
 
@@ -82,22 +84,37 @@ DateTime applyWeekendAdjustment(DateTime date, WeekendAdjustment policy) {
 DateTime nextPlannedEffectiveDate(
     PlannedTransaction pt, DateTime fromEffective) {
   final from = _dateOnly(fromEffective);
+  final every = pt.repeatEvery.clamp(1, 999);
   switch (pt.repeatInterval) {
     case RepeatInterval.none:
       return from;
     case RepeatInterval.daily:
-      return from.add(const Duration(days: 1));
+      return from.add(Duration(days: every));
     case RepeatInterval.weekly:
-      return from.add(const Duration(days: 7));
+      return from.add(Duration(days: 7 * every));
     case RepeatInterval.monthly:
     case RepeatInterval.yearly:
       final dom = pt.repeatDayOfMonth ?? from.day;
       final nominalThis = dateWithDayInMonth(from.year, from.month, dom);
-      final step = pt.repeatInterval == RepeatInterval.monthly ? 1 : 12;
+      final step =
+          (pt.repeatInterval == RepeatInterval.monthly ? 1 : 12) * every;
       final nextNominal = _addMonths(nominalThis, step);
       return _dateOnly(
           applyWeekendAdjustment(nextNominal, pt.weekendAdjustment));
   }
+}
+
+/// Whether the series should spawn another occurrence after the current one.
+/// Takes into account [repeatEndDate] and [repeatEndAfter].
+bool shouldSpawnNextOccurrence(PlannedTransaction pt, DateTime nextDate) {
+  if (pt.repeatInterval == RepeatInterval.none) return false;
+  if (pt.repeatEndDate != null) {
+    if (_dateOnly(nextDate).isAfter(_dateOnly(pt.repeatEndDate!))) return false;
+  }
+  if (pt.repeatEndAfter != null) {
+    if (pt.repeatConfirmedCount + 1 >= pt.repeatEndAfter!) return false;
+  }
+  return true;
 }
 
 class PlannedTransaction {
@@ -127,11 +144,23 @@ class PlannedTransaction {
   final TxType? txType;
   final RepeatInterval repeatInterval;
 
+  /// Repeat every N intervals (e.g. every 2 weeks). Defaults to 1.
+  final int repeatEvery;
+
   /// For monthly/yearly repeats: calendar day-of-month (e.g. 15). Null → use [date].day.
   final int? repeatDayOfMonth;
 
   /// For monthly/yearly: how weekend dates are shifted for each occurrence.
   final WeekendAdjustment weekendAdjustment;
+
+  /// Stop generating occurrences after this date (inclusive).
+  final DateTime? repeatEndDate;
+
+  /// Stop after this many confirmations. Null = infinite.
+  final int? repeatEndAfter;
+
+  /// How many times this series has been confirmed so far.
+  final int repeatConfirmedCount;
 
   /// Backward-compatibility alias.
   double? get amount => nativeAmount;
@@ -148,7 +177,11 @@ class PlannedTransaction {
     required this.date,
     this.txType,
     this.repeatInterval = RepeatInterval.none,
+    this.repeatEvery = 1,
     this.repeatDayOfMonth,
     this.weekendAdjustment = WeekendAdjustment.ignore,
+    this.repeatEndDate,
+    this.repeatEndAfter,
+    this.repeatConfirmedCount = 0,
   }) : id = id ?? const Uuid().v4();
 }
