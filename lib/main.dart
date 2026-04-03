@@ -10,6 +10,7 @@ import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'screens/track_screen.dart';
 import 'screens/plan_screen.dart';
 import 'screens/review_screen.dart';
+import 'theme/ledger_colors.dart';
 import 'utils/fx.dart' as fx;
 
 Future<void> main() async {
@@ -99,12 +100,14 @@ class PlatrareApp extends StatelessWidget {
   }
 
   ThemeData _buildTheme(Brightness brightness) {
-    const seed = Color(0xFF5B5BD6);
+    // Trust-forward cool blue anchor (replaces violet seed for calmer fintech feel).
+    const seed = Color(0xFF1D4ED8);
     final cs = ColorScheme.fromSeed(seedColor: seed, brightness: brightness);
 
     return ThemeData(
       useMaterial3: true,
       colorScheme: cs,
+      extensions: [LedgerColors.harmonized(cs)],
       appBarTheme: AppBarTheme(
         elevation: 0,
         scrolledUnderElevation: 0,

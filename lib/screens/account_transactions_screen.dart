@@ -10,6 +10,7 @@ import '../l10n/app_localizations.dart';
 import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
+import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
 import '../widgets/app_hero_layout.dart';
 import '../widgets/track_plan_filter_ui.dart';
@@ -532,9 +533,9 @@ class _AccountTxHero extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
+    final lc = context.ledgerColors;
     final net = totalIn - totalOut;
-    final borderColor =
-        net >= 0 ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final borderColor = net >= 0 ? lc.positive : lc.negative;
     final baseSym = fx.currencySymbol(settings.baseCurrency);
 
     return Container(
@@ -565,10 +566,10 @@ class _AccountTxHero extends StatelessWidget {
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
                 Text(
                   '+${totalIn.toStringAsFixed(2)} $baseSym',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppHeroConstants.primaryAmountFontSize,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF16A34A),
+                    color: lc.positive,
                     letterSpacing: -1,
                   ),
                 ),
@@ -589,10 +590,10 @@ class _AccountTxHero extends StatelessWidget {
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
                 Text(
                   '-${totalOut.toStringAsFixed(2)} $baseSym',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppHeroConstants.secondaryAmountFontSize,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFFDC2626),
+                    color: lc.negative,
                     letterSpacing: -0.5,
                   ),
                 ),
@@ -759,7 +760,7 @@ class _TxTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final typeColor = txColor(_type);
+    final typeColor = txColor(context, _type);
     final counterpart = _counterpart();
 
     return InkWell(

@@ -13,6 +13,7 @@ import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/projections.dart' as proj;
+import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
 import 'new_transaction_screen.dart';
 import 'review_screen.dart' show AccountFormSheet;
@@ -888,10 +889,10 @@ class _TrackHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final lc = context.ledgerColors;
     final net = totalIn - totalOut;
     final netPos = net >= 0;
-    final borderColor =
-        netPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final borderColor = netPos ? lc.positive : lc.negative;
     final sym = fx.currencySymbol(settings.baseCurrency);
 
     return Container(
@@ -921,10 +922,10 @@ class _TrackHero extends StatelessWidget {
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
                 Text(
                   '+${totalIn.toStringAsFixed(2)} $sym',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppHeroConstants.primaryAmountFontSize,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF16A34A),
+                    color: lc.positive,
                     letterSpacing: -1,
                   ),
                 ),
@@ -945,10 +946,10 @@ class _TrackHero extends StatelessWidget {
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
                 Text(
                   '-${totalOut.toStringAsFixed(2)} $sym',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppHeroConstants.secondaryAmountFontSize,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFFDC2626),
+                    color: lc.negative,
                     letterSpacing: -0.5,
                   ),
                 ),
@@ -1117,8 +1118,8 @@ class _TransactionTile extends StatelessWidget {
           from: transaction.fromAccount, to: transaction.toAccount);
 
   Color _iconBg(BuildContext ctx) =>
-      txColor(_type).withValues(alpha: 0.12);
-  Color _iconColor(BuildContext ctx) => txColor(_type);
+      txColor(ctx, _type).withValues(alpha: 0.12);
+  Color _iconColor(BuildContext ctx) => txColor(ctx, _type);
   IconData get _icon => txIcon(_type);
 
   String _title(BuildContext context) {
@@ -1159,7 +1160,7 @@ class _TransactionTile extends StatelessWidget {
     return txAmountDisplay(_type, amount, transaction.currencyCode ?? 'BAM');
   }
 
-  Color _amountColor(BuildContext ctx) => txColor(_type);
+  Color _amountColor(BuildContext ctx) => txColor(ctx, _type);
 
   Future<void> _delete(BuildContext context) async {
     final t = transaction;
@@ -1254,9 +1255,9 @@ class _TransactionTile extends StatelessWidget {
       background: Container(
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 20),
-        color: Colors.red.withValues(alpha: 0.12),
-        child: const Icon(Icons.delete_outline_rounded,
-            color: Color(0xFFDC2626), size: 22),
+        color: context.ledgerColors.negative.withValues(alpha: 0.12),
+        child: Icon(Icons.delete_outline_rounded,
+            color: context.ledgerColors.negative, size: 22),
       ),
       child: InkWell(
         onTap: () => onTap(transaction),
@@ -1358,9 +1359,6 @@ class _TransactionTile extends StatelessWidget {
 }
 
 // ─── History panel ────────────────────────────────────────────────────────────
-
-const _kHistoryIncomeColor = Color(0xFF16A34A);
-const _kHistoryExpenseColor = Color(0xFFDC2626);
 
 class _HistoryPanel extends StatelessWidget {
   final Map<String, double> balances;
@@ -1485,11 +1483,12 @@ class _HistoryChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final lc = context.ledgerColors;
     final isAffected = isGain || isLose;
     final color = isGain
-        ? _kHistoryIncomeColor
+        ? lc.positive
         : isLose
-            ? _kHistoryExpenseColor
+            ? lc.negative
             : null;
 
     return Container(

@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import '../models/account.dart';
+import '../theme/ledger_colors.dart';
 import 'fx.dart' as fx;
 
-Color txColor(TxType t) => switch (t) {
-      TxType.income || TxType.collection => const Color(0xFF16A34A),
-      TxType.expense || TxType.settlement => const Color(0xFFDC2626),
-      TxType.transfer || TxType.offset => const Color(0xFF2563EB),
-      TxType.advance => const Color(0xFF7C3AED),
-      TxType.loan => const Color(0xFF4F46E5),
-      TxType.invoice => const Color(0xFF0891B2),
-      TxType.bill => const Color(0xFFD97706),
-    };
+Color txColor(BuildContext context, TxType t) {
+  final lc = context.ledgerColors;
+  return switch (t) {
+    TxType.income || TxType.collection => lc.positive,
+    TxType.expense || TxType.settlement => lc.negative,
+    TxType.transfer || TxType.offset => lc.transfer,
+    TxType.advance => lc.advance,
+    TxType.loan => lc.loan,
+    TxType.invoice => lc.invoice,
+    TxType.bill => lc.bill,
+  };
+}
 
 IconData txIcon(TxType t) => switch (t) {
       TxType.income || TxType.collection => Icons.arrow_downward_rounded,

@@ -64,7 +64,7 @@ class TransactionDetailScreen extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
     final type = _type;
     final t = transaction;
-    final color = txColor(type);
+    final color = txColor(context, type);
 
     return Scaffold(
       backgroundColor: cs.surface,
@@ -217,7 +217,7 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final type = _type;
-    final color = txColor(type);
+    final color = txColor(context, type);
 
     return Scaffold(
       backgroundColor: cs.surface,
@@ -372,7 +372,7 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = txColor(type);
+    final color = txColor(context, type);
 
     return Container(
       width: double.infinity,

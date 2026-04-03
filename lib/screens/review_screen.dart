@@ -10,6 +10,7 @@ import '../models/account.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/app_format.dart';
 import '../utils/balance_correction.dart';
+import '../theme/ledger_colors.dart';
 import '../utils/fx.dart' as fx;
 import 'account_transactions_screen.dart';
 import 'settings_screen.dart';
@@ -897,17 +898,16 @@ class _NetWorthHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final lc = context.ledgerColors;
     final l10n = AppLocalizations.of(context);
     final displayPersonal =
         fx.convert(personal, settings.baseCurrency, displayCurrency);
     final displayNet =
         fx.convert(net, settings.baseCurrency, displayCurrency);
     final netPos = displayNet >= 0;
-    final netColor =
-        netPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
-    final balanceColor = displayPersonal >= 0
-        ? const Color(0xFF16A34A)
-        : const Color(0xFFDC2626);
+    final netColor = netPos ? lc.positive : lc.negative;
+    final balanceColor =
+        displayPersonal >= 0 ? lc.positive : lc.negative;
     final sym = fx.currencySymbol(displayCurrency);
     final isSecondary = displayCurrency == settings.secondaryCurrency;
 
@@ -1740,7 +1740,7 @@ class _SpendingBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
-    const expenseColor = Color(0xFFDC2626);
+    final expenseColor = context.ledgerColors.negative;
     const hPad = 16.0;
     final sorted = spending.entries.toList()
       ..sort((a, b) => b.value.total.compareTo(a.value.total));
@@ -1876,7 +1876,7 @@ class _IncomeBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
-    const incomeColor = Color(0xFF16A34A);
+    final incomeColor = context.ledgerColors.positive;
     const hPad = 16.0;
     final sorted = income.entries.toList()
       ..sort((a, b) => b.value.total.compareTo(a.value.total));
@@ -2337,6 +2337,7 @@ class _AccountCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final lc = context.ledgerColors;
     final isPersonal = account.group == AccountGroup.personal;
     final isEntities = account.group == AccountGroup.entities;
     // Show native when base chip is selected; convert when secondary is active.
@@ -2354,11 +2355,9 @@ class _AccountCard extends StatelessWidget {
         ? fx.currencySymbol(displayCurrency)
         : fx.currencySymbol(account.currencyCode);
     final mainPositive = shownMain >= 0;
-    final mainColor =
-        mainPositive ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final mainColor = mainPositive ? lc.positive : lc.negative;
     final bookPositive = shownBook >= 0;
-    final bookColor =
-        bookPositive ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final bookColor = bookPositive ? lc.positive : lc.negative;
 
     final avatarBg = isPersonal
         ? cs.primaryContainer

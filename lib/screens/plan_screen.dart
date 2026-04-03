@@ -14,6 +14,7 @@ import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/projections.dart' as proj;
+import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
 import 'new_planned_transaction_screen.dart';
 import 'review_screen.dart';
@@ -21,9 +22,6 @@ import 'settings_screen.dart';
 import 'transaction_detail_screen.dart';
 import '../widgets/app_hero_layout.dart';
 import '../widgets/track_plan_filter_ui.dart';
-
-const _kExpenseColor = Color(0xFFDC2626);
-const _kIncomeColor = Color(0xFF16A34A);
 
 const _kTypeIncome = 'income';
 const _kTypeExpense = 'expense';
@@ -911,15 +909,13 @@ class _ProjectionHero extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
+    final lc = context.ledgerColors;
     final sym = fx.currencySymbol(settings.baseCurrency);
     final personalPos = personal >= 0;
     final netPos = net >= 0;
-    final borderColor =
-        personalPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
-    final personalColor =
-        personalPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
-    final netColor =
-        netPos ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final borderColor = personalPos ? lc.positive : lc.negative;
+    final personalColor = personalPos ? lc.positive : lc.negative;
+    final netColor = netPos ? lc.positive : lc.negative;
 
     final dateStr =
         formatAppDate(context, 'EEE, d MMM yyyy', snapshotDate);
@@ -1172,6 +1168,7 @@ class _ProjectionAccountCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final lc = context.ledgerColors;
     final isPersonal = account.group == AccountGroup.personal;
     final isEntities = account.group == AccountGroup.entities;
 
@@ -1181,11 +1178,9 @@ class _ProjectionAccountCard extends StatelessWidget {
         : projectedBookNative;
     final shownSymbol = fx.currencySymbol(account.currencyCode);
     final mainPositive = shownMain >= 0;
-    final mainColor =
-        mainPositive ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final mainColor = mainPositive ? lc.positive : lc.negative;
     final bookPositive = shownBook >= 0;
-    final bookColor =
-        bookPositive ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+    final bookColor = bookPositive ? lc.positive : lc.negative;
 
     final avatarBg = isPersonal
         ? cs.primaryContainer
@@ -1492,6 +1487,7 @@ class _DayGroupState extends State<_DayGroup> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final lc = context.ledgerColors;
     final active = activeAccounts(data.accounts);
     final personal = active
         .where((a) => a.group == AccountGroup.personal)
@@ -1572,16 +1568,16 @@ class _DayGroupState extends State<_DayGroup> {
                     background: Container(
                       alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.only(left: 20),
-                      color: const Color(0xFF16A34A).withValues(alpha: 0.12),
-                      child: const Icon(Icons.check_circle_outline_rounded,
-                          color: Color(0xFF16A34A), size: 22),
+                      color: lc.positive.withValues(alpha: 0.12),
+                      child: Icon(Icons.check_circle_outline_rounded,
+                          color: lc.positive, size: 22),
                     ),
                     secondaryBackground: Container(
                       alignment: Alignment.centerRight,
                       padding: const EdgeInsets.only(right: 20),
-                      color: Colors.red.withValues(alpha: 0.12),
-                      child: const Icon(Icons.delete_outline_rounded,
-                          color: Color(0xFFDC2626), size: 22),
+                      color: lc.negative.withValues(alpha: 0.12),
+                      child: Icon(Icons.delete_outline_rounded,
+                          color: lc.negative, size: 22),
                     ),
                     child: Column(
                       children: [
@@ -1656,6 +1652,7 @@ class _ProjectionPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final lc = context.ledgerColors;
     final total = proj.personalTotal(projectedBalances);
     final pos = total >= 0;
 
@@ -1671,13 +1668,13 @@ class _ProjectionPanel extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               color: pos
-                  ? _kIncomeColor.withValues(alpha: 0.08)
-                  : _kExpenseColor.withValues(alpha: 0.08),
+                  ? lc.positive.withValues(alpha: 0.08)
+                  : lc.negative.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: pos
-                    ? _kIncomeColor.withValues(alpha: 0.25)
-                    : _kExpenseColor.withValues(alpha: 0.25),
+                    ? lc.positive.withValues(alpha: 0.25)
+                    : lc.negative.withValues(alpha: 0.25),
               ),
             ),
             child: Row(
@@ -1685,15 +1682,13 @@ class _ProjectionPanel extends StatelessWidget {
                 Text(AppLocalizations.of(context).heroBalance,
                     style: TextStyle(
                         fontSize: 12,
-                        color: pos
-                            ? _kIncomeColor
-                            : _kExpenseColor,
+                        color: pos ? lc.positive : lc.negative,
                         fontWeight: FontWeight.w600)),
                 const Spacer(),
                 Text(
                   '${total > 0 ? '+' : ''}${total.toStringAsFixed(2)} ${fx.currencySymbol(settings.baseCurrency)}',
                   style: TextStyle(
-                      color: pos ? _kIncomeColor : _kExpenseColor,
+                      color: pos ? lc.positive : lc.negative,
                       fontWeight: FontWeight.w800,
                       fontSize: 14),
                 ),
@@ -1795,8 +1790,9 @@ class _BalanceChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final lc = context.ledgerColors;
     final isAffected = isGain || isLose;
-    final color = isGain ? _kIncomeColor : isLose ? _kExpenseColor : null;
+    final color = isGain ? lc.positive : isLose ? lc.negative : null;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
@@ -1867,7 +1863,7 @@ class _PlannedTile extends StatelessWidget {
       pt.txType ??
       classifyTransaction(from: pt.fromAccount, to: pt.toAccount);
 
-  Color get _typeColor => txColor(_type);
+  Color _typeColor(BuildContext context) => txColor(context, _type);
   IconData get _typeIcon => txIcon(_type);
 
   String _buildTitle(BuildContext context) {
@@ -1918,10 +1914,10 @@ class _PlannedTile extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: _typeColor.withValues(alpha: 0.12),
+              color: _typeColor(context).withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(_typeIcon, size: 18, color: _typeColor),
+            child: Icon(_typeIcon, size: 18, color: _typeColor(context)),
           ),
           const SizedBox(width: 12),
 
@@ -1993,7 +1989,7 @@ class _PlannedTile extends StatelessWidget {
                 txAmountDisplay(
                     _type, pt.nativeAmount!, pt.currencyCode ?? 'BAM'),
                 style: TextStyle(
-                  color: _typeColor,
+                  color: _typeColor(context),
                   fontWeight: FontWeight.w700,
                   fontSize: 14,
                 ),

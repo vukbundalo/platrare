@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/app_data.dart' as data;
+import '../theme/ledger_colors.dart';
 import '../data/data_repository.dart';
 import '../data/ledger_verify.dart';
 import '../data/currency_localized_names.dart';
@@ -636,6 +637,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final lc = context.ledgerColors;
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
@@ -656,7 +658,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   _SubSection(
                     label: l10n.categoryIncome,
                     addLabel: l10n.categoryAdd,
-                    color: const Color(0xFF16A34A),
+                    color: lc.positive,
                     categories: data.incomeCategories,
                     onAdd: () => _addCategory(data.incomeCategories),
                     onDelete: (c) =>
@@ -670,7 +672,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   _SubSection(
                     label: l10n.categoryExpense,
                     addLabel: l10n.categoryAdd,
-                    color: const Color(0xFFDC2626),
+                    color: lc.negative,
                     categories: data.expenseCategories,
                     onAdd: () => _addCategory(data.expenseCategories),
                     onDelete: (c) =>

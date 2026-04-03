@@ -7,6 +7,7 @@ import '../models/planned_transaction.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
+import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
 import '../utils/projections.dart' as proj;
 
@@ -274,17 +275,17 @@ class _NewPlannedTransactionScreenState
     return l10nTxLabel(context, _txType);
   }
 
-  Color get _amountColor {
+  Color _amountColor(BuildContext context) {
     if (_fromAccount == null && _toAccount == null) {
       return Theme.of(context).colorScheme.primary;
     }
-    return txColor(_txType);
+    return txColor(context, _txType);
   }
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final color = _amountColor;
+    final color = _amountColor(context);
     final projected = proj.projectBalances(_projectionDateForAccounts);
     final fromHeadroom = _fromAccount?.personalHeadroomNative(
         projected[_fromAccount!.id] ?? _fromAccount!.balance);
@@ -397,7 +398,7 @@ class _NewPlannedTransactionScreenState
                     label: AppLocalizations.of(context).labelFrom,
                     account: _fromAccount,
                     leadingIcon: Icons.arrow_upward_rounded,
-                    leadingIconAccent: const Color(0xFFDC2626),
+                    leadingIconAccent: context.ledgerColors.negative,
                     projectedBalance: fromHeadroom,
                     onTap: () async {
                       final a = await _showAccountPicker(exclude: _toAccount);
@@ -414,7 +415,7 @@ class _NewPlannedTransactionScreenState
                     label: AppLocalizations.of(context).labelTo,
                     account: _toAccount,
                     leadingIcon: Icons.arrow_downward_rounded,
-                    leadingIconAccent: const Color(0xFF16A34A),
+                    leadingIconAccent: context.ledgerColors.positive,
                     projectedBalance: toHeadroom,
                     onTap: () async {
                       final a = await _showAccountPicker(exclude: _fromAccount);
@@ -601,6 +602,7 @@ class _AccountPickerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final lc = context.ledgerColors;
     final hasAccount = account != null;
     final isPersonal =
         hasAccount ? account!.group == AccountGroup.personal : true;
@@ -666,8 +668,8 @@ class _AccountPickerTile extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12,
                           color: (projectedBalance ?? account!.balance) >= 0
-                              ? const Color(0xFF16A34A)
-                              : const Color(0xFFDC2626),
+                              ? lc.positive
+                              : lc.negative,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -1283,6 +1285,7 @@ class _AccountListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final lc = context.ledgerColors;
     final isPersonal = account.group == AccountGroup.personal;
     final isEntities = account.group == AccountGroup.entities;
     final avatarBg = isPersonal
@@ -1336,9 +1339,7 @@ class _AccountListTile extends StatelessWidget {
                 Text(
                   '${projectedBalance > 0 ? '+' : ''}${projectedBalance.toStringAsFixed(2)} ${fx.currencySymbol(account.currencyCode)}',
                   style: TextStyle(
-                    color: balPos
-                        ? const Color(0xFF16A34A)
-                        : const Color(0xFFDC2626),
+                    color: balPos ? lc.positive : lc.negative,
                     fontWeight: FontWeight.w700,
                     fontSize: 14,
                   ),

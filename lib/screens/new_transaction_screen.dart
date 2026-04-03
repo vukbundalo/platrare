@@ -12,6 +12,7 @@ import '../models/account.dart';
 import '../models/transaction.dart';
 import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
+import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
 
 class NewTransactionScreen extends StatefulWidget {
@@ -147,9 +148,10 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   TxType get _txType =>
       classifyTransaction(from: _fromAccount, to: _toAccount);
 
-  Color _deriveColor(ColorScheme cs) {
+  Color _deriveColor(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     if (_fromAccount == null && _toAccount == null) return cs.primary;
-    return txColor(_txType);
+    return txColor(context, _txType);
   }
 
   String _deriveLabel(BuildContext context) {
@@ -218,7 +220,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 
     HapticFeedback.lightImpact();
 
-    final savedColor = txColor(type);
+    final savedColor = txColor(context, type);
     final rawLabel = l10nTxLabel(context, type);
     final titleLabel = '${rawLabel[0]}${rawLabel.substring(1).toLowerCase()}';
 
@@ -313,7 +315,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
             ? l10n.dateYesterday
             : formatAppDate(context, 'MMM d', _date);
 
-    final tc = _deriveColor(cs);
+    final tc = _deriveColor(context);
     final label = _deriveLabel(context);
 
     return PopScope(
@@ -445,7 +447,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                   _AccountTile(
                     label: AppLocalizations.of(context).labelFrom,
                     account: _fromAccount,
-                    accentColor: const Color(0xFFDC2626),
+                    accentColor: context.ledgerColors.negative,
                     icon: Icons.arrow_upward_rounded,
                     onTap: () async {
                       final a = await _pickAccount(exclude: _toAccount);
@@ -462,7 +464,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                   _AccountTile(
                     label: AppLocalizations.of(context).labelTo,
                     account: _toAccount,
-                    accentColor: const Color(0xFF16A34A),
+                    accentColor: context.ledgerColors.positive,
                     icon: Icons.arrow_downward_rounded,
                     onTap: () async {
                       final a = await _pickAccount(exclude: _fromAccount);
@@ -717,6 +719,7 @@ class _AccountTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final lc = context.ledgerColors;
     final has = account != null;
     final isPersonal = has && account!.group == AccountGroup.personal;
     final isEntities = has && account!.group == AccountGroup.entities;
@@ -797,9 +800,7 @@ class _AccountTile extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: headroom >= 0
-                            ? const Color(0xFF16A34A)
-                            : const Color(0xFFDC2626),
+                        color: headroom >= 0 ? lc.positive : lc.negative,
                       ),
                     ),
                   ],
@@ -965,6 +966,7 @@ class _AccountPickerSheet extends StatelessWidget {
   Widget _sheetTile(BuildContext ctx,
       {required Account account, required bool isPersonal}) {
     final cs = Theme.of(ctx).colorScheme;
+    final lc = ctx.ledgerColors;
     final headroom = account.personalHeadroomNative(account.balance);
     final pos = headroom >= 0;
 
@@ -1017,8 +1019,8 @@ class _AccountPickerSheet extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
                 color: pos
-                    ? const Color(0xFF16A34A).withValues(alpha: 0.1)
-                    : const Color(0xFFDC2626).withValues(alpha: 0.1),
+                    ? lc.positive.withValues(alpha: 0.1)
+                    : lc.negative.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
@@ -1026,9 +1028,7 @@ class _AccountPickerSheet extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: pos
-                      ? const Color(0xFF16A34A)
-                      : const Color(0xFFDC2626),
+                  color: pos ? lc.positive : lc.negative,
                 ),
               ),
             ),
