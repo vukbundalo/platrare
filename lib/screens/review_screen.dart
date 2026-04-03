@@ -1,14 +1,14 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
+import '../l10n/app_localizations.dart';
+import '../utils/app_format.dart';
 import '../utils/balance_correction.dart';
 import '../utils/fx.dart' as fx;
-import '../utils/tx_display.dart';
 import 'account_transactions_screen.dart';
 import 'settings_screen.dart';
 import '../widgets/app_hero_layout.dart';
@@ -258,33 +258,36 @@ class _ReviewScreenState extends State<ReviewScreen> {
     }
   }
 
-  String _compareRangeLabel(DateTime anchorMonth) {
+  String _compareRangeLabel(BuildContext context, DateTime anchorMonth) {
+    final l10n = AppLocalizations.of(context);
     final b = _compareBounds(anchorMonth);
     final s = b.start;
     final e = b.end;
-    if (s == null || e == null) return 'All time';
-    if (_spendingMonths == 1) return DateFormat('MMMM yyyy').format(s);
+    if (s == null || e == null) return l10n.statsAllTime;
+    if (_spendingMonths == 1) return formatAppDate(context, 'MMMM yyyy', s);
     if (_spendingMonths == 12) return '${s.year}';
     final lastMonth = DateTime(e.year, e.month - 1, 1);
     if (s.year == lastMonth.year) {
-      return '${DateFormat('MMM').format(s)} – ${DateFormat('MMM yyyy').format(lastMonth)}';
+      return '${formatAppDate(context, 'MMM', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
     }
-    return '${DateFormat('MMM yyyy').format(s)} – ${DateFormat('MMM yyyy').format(lastMonth)}';
+    return '${formatAppDate(context, 'MMM yyyy', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
   }
 
   /// Same windows as [_compareRangeLabel] but months always abbreviated (MMM).
-  String _compareMiniNavRangeLabel(DateTime anchorMonth) {
+  String _compareMiniNavRangeLabel(
+      BuildContext context, DateTime anchorMonth) {
+    final l10n = AppLocalizations.of(context);
     final b = _compareBounds(anchorMonth);
     final s = b.start;
     final e = b.end;
-    if (s == null || e == null) return 'All time';
-    if (_spendingMonths == 1) return DateFormat('MMM yyyy').format(s);
+    if (s == null || e == null) return l10n.statsAllTime;
+    if (_spendingMonths == 1) return formatAppDate(context, 'MMM yyyy', s);
     if (_spendingMonths == 12) return '${s.year}';
     final lastMonth = DateTime(e.year, e.month - 1, 1);
     if (s.year == lastMonth.year) {
-      return '${DateFormat('MMM').format(s)} – ${DateFormat('MMM yyyy').format(lastMonth)}';
+      return '${formatAppDate(context, 'MMM', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
     }
-    return '${DateFormat('MMM yyyy').format(s)} – ${DateFormat('MMM yyyy').format(lastMonth)}';
+    return '${formatAppDate(context, 'MMM yyyy', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
   }
 
   String get _periodLabel => switch (_spendingMonths) {
@@ -348,22 +351,23 @@ class _ReviewScreenState extends State<ReviewScreen> {
       ? null
       : data.transactions.map((t) => t.date).reduce((a, b) => a.isBefore(b) ? a : b);
 
-  String get _dateRangeLabel {
+  String _dateRangeLabel(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final now = DateTime.now();
     if (_spendingMonths == 0) {
       final earliest = _earliestTxDate;
-      if (earliest == null) return 'All time';
-      return '${DateFormat('MMM yyyy').format(earliest)} – ${DateFormat('MMM yyyy').format(now)}';
+      if (earliest == null) return l10n.statsAllTime;
+      return '${formatAppDate(context, 'MMM yyyy', earliest)} – ${formatAppDate(context, 'MMM yyyy', now)}';
     }
     if (_spendingMonths == 12) return '${now.year - _dateOffset}';
     final range = _dateRange;
     final s = range.start!;
     final lastMonth = DateTime(range.end!.year, range.end!.month - 1, 1);
-    if (_spendingMonths == 1) return DateFormat('MMMM yyyy').format(s);
+    if (_spendingMonths == 1) return formatAppDate(context, 'MMMM yyyy', s);
     if (s.year == lastMonth.year) {
-      return '${DateFormat('MMM').format(s)} – ${DateFormat('MMM yyyy').format(lastMonth)}';
+      return '${formatAppDate(context, 'MMM', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
     }
-    return '${DateFormat('MMM yyyy').format(s)} – ${DateFormat('MMM yyyy').format(lastMonth)}';
+    return '${formatAppDate(context, 'MMM yyyy', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
   }
 
   // ── Account mutations ──────────────────────────────────────────────────────
@@ -490,6 +494,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     final visibleAccounts = activeAccounts(data.accounts);
     final personal = visibleAccounts
         .where((a) => a.group == AccountGroup.personal)
@@ -572,7 +577,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
           : FloatingActionButton(
               heroTag: 'review_fab',
               onPressed: _addAccount,
-              tooltip: 'Add account',
+              tooltip: l10n.tooltipAddAccount,
               child: const Icon(Icons.add_rounded),
             ),
       body: CustomScrollView(
@@ -583,11 +588,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
             expandedHeight: 210,
             backgroundColor: cs.surface,
             scrolledUnderElevation: 0,
-            title: const Text('Review'),
+            title: Text(l10n.navReview),
             actions: [
               IconButton(
                 icon: const Icon(Icons.settings_outlined),
-                tooltip: 'Settings',
+                tooltip: l10n.tooltipSettings,
                 onPressed: () async {
                   final prevSecondary = settings.secondaryCurrency;
                   await Navigator.push(
@@ -659,7 +664,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 delegate: SliverChildListDelegate([
                   // ── Accounts (per-group toggles) ─────────────────────────
                   if (_activeSection == 'personal' && personal.isNotEmpty) ...[
-                    _SectionLabel('Personal'),
+                    _SectionLabel(
+                        l10nAccountSectionTitle(context, AccountGroup.personal)),
                     ...personal.map(
                       (a) => _AccountCard(
                           account: a,
@@ -670,7 +676,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     const SizedBox(height: 4),
                   ],
                   if (_activeSection == 'individuals' && individuals.isNotEmpty) ...[
-                    _SectionLabel('Individuals'),
+                    _SectionLabel(l10nAccountSectionTitle(
+                        context, AccountGroup.individuals)),
                     ...individuals.map(
                       (a) => _AccountCard(
                           account: a,
@@ -681,7 +688,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     const SizedBox(height: 4),
                   ],
                   if (_activeSection == 'entities' && entities.isNotEmpty) ...[
-                    _SectionLabel('Entities'),
+                    _SectionLabel(
+                        l10nAccountSectionTitle(context, AccountGroup.entities)),
                     ...entities.map(
                       (a) => _AccountCard(
                           account: a,
@@ -701,7 +709,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         _activeStats = s;
                       }),
                       periodLabel: _periodLabel,
-                      dateRangeLabel: _dateRangeLabel,
+                      dateRangeLabel: _dateRangeLabel(context),
                       onCyclePeriod: _cyclePeriod,
                       canNavigateForward: _dateOffset > 0,
                       onNavigateBack: _navigateBack,
@@ -747,12 +755,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         child: _CompareCategoryAmountsPanel(
                           colorScheme: cs,
                           categoryName: effectiveCompareExpenseCategory,
-                          semanticLabelA: _compareRangeLabel(_compareMonthA),
-                          semanticLabelB: _compareRangeLabel(_compareMonthB),
+                          semanticLabelA:
+                              _compareRangeLabel(context, _compareMonthA),
+                          semanticLabelB:
+                              _compareRangeLabel(context, _compareMonthB),
                           dateRangeLabelA:
-                              _compareMiniNavRangeLabel(_compareMonthA),
+                              _compareMiniNavRangeLabel(
+                                  context, _compareMonthA),
                           dateRangeLabelB:
-                              _compareMiniNavRangeLabel(_compareMonthB),
+                              _compareMiniNavRangeLabel(
+                                  context, _compareMonthB),
                           canBackA: _compareCanNavigateBackFor(_compareMonthA),
                           canForwardA:
                               _compareCanNavigateForwardFor(_compareMonthA),
@@ -790,12 +802,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         child: _CompareCategoryAmountsPanel(
                           colorScheme: cs,
                           categoryName: effectiveCompareIncomeCategory,
-                          semanticLabelA: _compareRangeLabel(_compareMonthA),
-                          semanticLabelB: _compareRangeLabel(_compareMonthB),
+                          semanticLabelA:
+                              _compareRangeLabel(context, _compareMonthA),
+                          semanticLabelB:
+                              _compareRangeLabel(context, _compareMonthB),
                           dateRangeLabelA:
-                              _compareMiniNavRangeLabel(_compareMonthA),
+                              _compareMiniNavRangeLabel(
+                                  context, _compareMonthA),
                           dateRangeLabelB:
-                              _compareMiniNavRangeLabel(_compareMonthB),
+                              _compareMiniNavRangeLabel(
+                                  context, _compareMonthB),
                           canBackA: _compareCanNavigateBackFor(_compareMonthA),
                           canForwardA:
                               _compareCanNavigateForwardFor(_compareMonthA),
@@ -853,6 +869,7 @@ class _NetWorthHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     final displayPersonal =
         fx.convert(personal, settings.baseCurrency, displayCurrency);
     final displayNet =
@@ -901,7 +918,7 @@ class _NetWorthHero extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Balance',
+                  l10n.heroBalance,
                   style: TextStyle(
                     fontSize: AppHeroConstants.labelFontSize,
                     color: cs.onSurfaceVariant,
@@ -925,7 +942,7 @@ class _NetWorthHero extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Net',
+                  l10n.heroNet,
                   style: TextStyle(
                     fontSize: AppHeroConstants.secondaryLabelFontSize,
                     color: cs.onSurfaceVariant,
@@ -1027,6 +1044,7 @@ class _StatsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     final isAllTime = periodLabel == 'ALL';
     final vizIcon = vizMode == 1 ? Icons.donut_large_rounded : Icons.bar_chart_rounded;
 
@@ -1113,8 +1131,8 @@ class _StatsHeader extends StatelessWidget {
                 child: Semantics(
                   enabled: !compareMode,
                   label: compareMode
-                      ? 'Chart style (unavailable in comparison mode)'
-                      : 'Chart style',
+                      ? l10n.semanticsChartStyleUnavailable
+                      : l10n.semanticsChartStyle,
                   child: IgnorePointer(
                     ignoring: compareMode,
                     child: chip(
@@ -1165,7 +1183,9 @@ class _StatsHeader extends StatelessWidget {
                               horizontal: 10, vertical: 0),
                           labelPadding: EdgeInsets.zero,
                           label: Text(
-                            k,
+                            k == 'Uncategorized'
+                                ? l10n.statsUncategorized
+                                : l10nCategoryName(context, k),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -1202,7 +1222,7 @@ class _StatsHeader extends StatelessWidget {
             ] else if (compareCategoryKeys.isEmpty) ...[
               const SizedBox(height: 10),
               Text(
-                'No categories in the selected periods for comparison.',
+                l10n.statsNoCategories,
                 style: TextStyle(
                   fontSize: 12,
                   color: cs.onSurfaceVariant,
@@ -1294,7 +1314,7 @@ class _CompareMiniDateNav extends StatelessWidget {
 
     return Semantics(
       container: true,
-      label: 'Period: $semanticsLabel',
+      label: AppLocalizations.of(context).semanticsPeriod(semanticsLabel),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
         decoration: BoxDecoration(
@@ -1388,6 +1408,7 @@ class _CompareCategoryAmountsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = colorScheme;
+    final l10n = AppLocalizations.of(context);
     final sym = fx.currencySymbol(displayCurrency);
     final a = fx.convert(amountABase, settings.baseCurrency, displayCurrency);
     final b = fx.convert(amountBBase, settings.baseCurrency, displayCurrency);
@@ -1410,7 +1431,7 @@ class _CompareCategoryAmountsPanel extends StatelessWidget {
     }) {
       return Semantics(
         container: true,
-        label: '$semantic. ${fmt(amount)}. $count ${count == 1 ? 'transaction' : 'transactions'}.',
+        label: '$semantic. ${fmt(amount)}. $count.',
         child: Container(
           padding: const EdgeInsets.fromLTRB(14, 14, 14, 16),
           decoration: BoxDecoration(
@@ -1468,8 +1489,8 @@ class _CompareCategoryAmountsPanel extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 count == 0
-                    ? 'No transactions'
-                    : '$count ${count == 1 ? 'transaction' : 'transactions'}',
+                    ? l10n.statsNoTransactions
+                    : '$count',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
@@ -1526,7 +1547,9 @@ class _CompareCategoryAmountsPanel extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        categoryName,
+                        categoryName == 'Uncategorized'
+                            ? l10n.statsUncategorized
+                            : l10nCategoryName(context, categoryName),
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w800,
@@ -1537,8 +1560,8 @@ class _CompareCategoryAmountsPanel extends StatelessWidget {
                       const SizedBox(height: 2),
                       Text(
                         isExpense
-                            ? 'Spending in this category'
-                            : 'Income in this category',
+                            ? l10n.statsSpendingInCategory
+                            : l10n.statsIncomeInCategory,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
@@ -1625,7 +1648,7 @@ class _CompareCategoryAmountsPanel extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      'Difference (B vs A): ',
+                      l10n.statsDifference,
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -1669,6 +1692,7 @@ class _SpendingBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     const expenseColor = Color(0xFFDC2626);
     const hPad = 16.0;
     final sorted = spending.entries.toList()
@@ -1679,9 +1703,9 @@ class _SpendingBody extends StatelessWidget {
     final sym = fx.currencySymbol(displayCurrency);
 
     final emptyMsg = switch (periodLabel) {
-      '1M' => 'No expenses this month',
-      'ALL' => 'No expenses recorded',
-      _ => 'No expenses in the last $periodLabel',
+      '1M' => l10n.statsNoExpensesMonth,
+      'ALL' => l10n.statsNoExpensesAll,
+      _ => l10n.statsNoExpensesPeriod(periodLabel),
     };
 
     if (sorted.isEmpty) {
@@ -1716,7 +1740,7 @@ class _SpendingBody extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Total spent',
+                      l10n.statsTotalSpent,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant),
@@ -1751,7 +1775,7 @@ class _SpendingBody extends StatelessWidget {
                         vertical: 28, horizontal: 16),
                     child: Center(
                       child: Text(
-                        'No expenses in this period',
+                        l10n.statsNoExpensesThisPeriod,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: cs.onSurfaceVariant, fontSize: 13),
@@ -1802,6 +1826,7 @@ class _IncomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     const incomeColor = Color(0xFF16A34A);
     const hPad = 16.0;
     final sorted = income.entries.toList()
@@ -1812,9 +1837,9 @@ class _IncomeBody extends StatelessWidget {
     final sym = fx.currencySymbol(displayCurrency);
 
     final emptyMsg = switch (periodLabel) {
-      '1M' => 'No income this month',
-      'ALL' => 'No income recorded',
-      _ => 'No income in the last $periodLabel',
+      '1M' => l10n.statsNoIncomeMonth,
+      'ALL' => l10n.statsNoIncomeAll,
+      _ => l10n.statsNoIncomePeriod(periodLabel),
     };
 
     if (sorted.isEmpty) {
@@ -1849,7 +1874,7 @@ class _IncomeBody extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Total received',
+                      l10n.statsTotalReceived,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant),
@@ -1884,7 +1909,7 @@ class _IncomeBody extends StatelessWidget {
                         vertical: 28, horizontal: 16),
                     child: Center(
                       child: Text(
-                        'No income in this period',
+                        l10n.statsNoIncomeThisPeriod,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: cs.onSurfaceVariant, fontSize: 13),
@@ -1961,6 +1986,9 @@ class _BarsView extends StatelessWidget {
             children: sorted.asMap().entries.map((entry) {
               final isLast = entry.key == sorted.length - 1;
               final cat = entry.value.key;
+              final displayCat = cat == 'Uncategorized'
+                  ? AppLocalizations.of(context).statsUncategorized
+                  : l10nCategoryName(context, cat);
               final info = entry.value.value;
               final frac = maxAmount > 0 ? info.total / maxAmount : 0.0;
               final amount = fx.convert(info.total, settings.baseCurrency, displayCurrency);
@@ -1975,7 +2003,7 @@ class _BarsView extends StatelessWidget {
                           children: [
                             Expanded(
                               flex: narrowLayout ? 11 : 10,
-                              child: Text(cat,
+                              child: Text(displayCat,
                                   style: TextStyle(
                                       fontSize: nameSize,
                                       fontWeight: FontWeight.w600),
@@ -2097,6 +2125,9 @@ class _DonutView extends StatelessWidget {
               ...sorted.asMap().entries.map((entry) {
                 final idx = entry.key;
                 final cat = entry.value.key;
+                final displayCat = cat == 'Uncategorized'
+                    ? AppLocalizations.of(context).statsUncategorized
+                    : l10nCategoryName(context, cat);
                 final info = entry.value.value;
                 final color = _colorForCategory(idx);
                 final amount = fx.convert(
@@ -2120,7 +2151,7 @@ class _DonutView extends StatelessWidget {
                       ),
                       SizedBox(width: narrowLegend ? 6 : 8),
                       Expanded(
-                        child: Text(cat,
+                        child: Text(displayCat,
                             style: TextStyle(
                                 fontSize: legSize, fontWeight: FontWeight.w500),
                             maxLines: 1,
@@ -2288,11 +2319,7 @@ class _AccountCard extends StatelessWidget {
         : isEntities
             ? cs.onSecondaryContainer
             : cs.onTertiaryContainer;
-    final groupLabel = isPersonal
-        ? 'Personal'
-        : isEntities
-            ? 'Entity'
-            : 'Individual';
+    final groupLabel = l10nAccountCardGroupLabel(context, account.group);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
@@ -2360,7 +2387,7 @@ class _AccountCard extends StatelessWidget {
                             color: cs.onSurfaceVariant,
                           ),
                           children: [
-                            const TextSpan(text: 'Real balance '),
+                            TextSpan(text: '${AppLocalizations.of(context).labelRealBalance} '),
                             TextSpan(
                               text:
                                   '${shownBook > 0 ? '+' : ''}${shownBook.toStringAsFixed(2)} $shownSymbol',
@@ -2389,6 +2416,7 @@ class _EmptyAccountsHint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Column(
@@ -2405,14 +2433,14 @@ class _EmptyAccountsHint extends StatelessWidget {
                 size: 44, color: cs.primary),
           ),
           const SizedBox(height: 24),
-          Text('No accounts yet',
+          Text(l10n.emptyNoAccountsYet,
               style: Theme.of(context)
                   .textTheme
                   .titleLarge
                   ?.copyWith(fontWeight: FontWeight.w700)),
           const SizedBox(height: 8),
           Text(
-            'Add your first account to start tracking your finances.',
+            l10n.emptyAddFirstAccountReview,
             textAlign: TextAlign.center,
             style: TextStyle(color: cs.onSurfaceVariant, height: 1.5),
           ),
@@ -2420,7 +2448,7 @@ class _EmptyAccountsHint extends StatelessWidget {
           FilledButton.icon(
             onPressed: onAdd,
             icon: const Icon(Icons.add),
-            label: const Text('Add account'),
+            label: Text(l10n.emptyAddAccount),
             style: FilledButton.styleFrom(
               minimumSize: const Size(200, 52),
               shape: RoundedRectangleBorder(
@@ -2443,23 +2471,23 @@ Future<void> _showBalanceCorrectionDialog(
   required BalanceCorrectionResult correction,
 }) async {
   final sym = fx.currencySymbol(account.currencyCode);
-  final label = txLabel(correction.type!).toLowerCase();
+  final l10n = AppLocalizations.of(context);
   await showDialog<void>(
     context: context,
     builder: (ctx) => AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      title: const Text('Balance adjusted in Track'),
+      title: Text(l10n.balanceAdjustedTitle),
       content: Text(
-        'Real balance was updated from ${previousBook.toStringAsFixed(2)} to '
-        '${newBook.toStringAsFixed(2)} $sym.\n\n'
-        'A matching $label of ${fx.formatNative(correction.amount!, account.currencyCode)} '
-        'was added to History (category: Balance adjustment) so your running balance '
-        'stays consistent with your transactions.',
+        l10n.balanceAdjustedBody(
+          previousBook.toStringAsFixed(2),
+          newBook.toStringAsFixed(2),
+          sym,
+        ),
       ),
       actions: [
         FilledButton(
           onPressed: () => Navigator.pop(ctx),
-          child: const Text('OK'),
+          child: Text(l10n.ok),
         ),
       ],
     ),
@@ -2524,22 +2552,22 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
   }
 
   void _showDiscardDialog() {
+    final l10n = AppLocalizations.of(context);
     showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('Discard changes?'),
-        content: const Text(
-            'You have unsaved changes. They will be lost if you leave now.'),
+        title: Text(l10n.discardTitle),
+        content: Text(l10n.discardBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Keep editing'),
+            child: Text(l10n.keepEditing),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Discard'),
+            child: Text(l10n.discard),
           ),
         ],
       ),
@@ -2579,10 +2607,9 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
     )) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text(
-            'An account with this name already exists (active or archived). '
-            'Choose a different name.',
+            AppLocalizations.of(context).accountNameTaken,
           ),
         ),
       );
@@ -2632,14 +2659,15 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
     }
   }
 
-  String get _groupDescription => switch (_group) {
-        AccountGroup.personal => 'Your own wallets & bank accounts',
-        AccountGroup.individuals => 'Family, friends, individuals',
-        AccountGroup.entities => 'Entities, utilities, organisations',
+  String _groupDescriptionL10n(BuildContext context) => switch (_group) {
+        AccountGroup.personal => AppLocalizations.of(context).groupDescPersonal,
+        AccountGroup.individuals => AppLocalizations.of(context).groupDescIndividuals,
+        AccountGroup.entities => AppLocalizations.of(context).groupDescEntities,
       };
 
   void _confirmArchiveSheet() {
     final acc = widget.account!;
+    final l10n = AppLocalizations.of(context);
     HapticFeedback.mediumImpact();
     if (acc.archived) return;
     if (!canArchiveAccount(acc)) {
@@ -2648,14 +2676,12 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
         builder: (ctx) => AlertDialog(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20)),
-          title: const Text('Cannot archive yet'),
-          content: const Text(
-            'Archive is only available when the book balance and overdraft limit are both effectively zero.',
-          ),
+          title: Text(l10n.cannotArchiveTitle),
+          content: Text(l10n.cannotArchiveBody),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('OK'),
+              child: Text(l10n.ok),
             ),
           ],
         ),
@@ -2673,15 +2699,12 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
         builder: (ctx) => AlertDialog(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20)),
-          title: const Text('Archive account?'),
-          content: Text(
-            '$nPlanned planned transaction${nPlanned == 1 ? '' : 's'} reference this account. '
-            'Remove them to keep your plan consistent with an archived account.',
-          ),
+          title: Text(l10n.archiveAccountTitle),
+          content: Text(l10n.archiveWithPlannedBody(nPlanned)),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             FilledButton(
               onPressed: () {
@@ -2689,7 +2712,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                 removePlannedReferencingAccount(acc, data.plannedTransactions);
                 finish();
               },
-              child: const Text('Remove planned & archive'),
+              child: Text(l10n.removeAndArchive),
             ),
           ],
         ),
@@ -2701,21 +2724,19 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20)),
-        title: const Text('Archive account?'),
-        content: const Text(
-          'The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.',
-        ),
+        title: Text(l10n.archiveAccountTitle),
+        content: Text(l10n.archiveBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () {
               Navigator.pop(ctx);
               finish();
             },
-            child: const Text('Archive'),
+            child: Text(l10n.archiveAction),
           ),
         ],
       ),
@@ -2724,6 +2745,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
 
   void _delete() {
     final acc = widget.account!;
+    final l10n = AppLocalizations.of(context);
     HapticFeedback.mediumImpact();
     if (accountReferencedInTrack(acc, data.transactions)) {
       showDialog<void>(
@@ -2731,14 +2753,12 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
         builder: (ctx) => AlertDialog(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20)),
-          title: const Text('Cannot delete account'),
-          content: const Text(
-            'This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.',
-          ),
+          title: Text(l10n.cannotDeleteTitle),
+          content: Text(l10n.cannotDeleteBodyHistory),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('OK'),
+              child: Text(l10n.ok),
             ),
           ],
         ),
@@ -2752,14 +2772,12 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
         builder: (ctx) => AlertDialog(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20)),
-          title: const Text('Delete account?'),
-          content: Text(
-            '$nPlanned planned transaction${nPlanned == 1 ? '' : 's'} will be removed along with this account.',
-          ),
+          title: Text(l10n.deleteAccountTitle),
+          content: Text(l10n.deleteWithPlannedBody(nPlanned)),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             FilledButton(
               onPressed: () {
@@ -2771,7 +2789,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                 }
               },
               style: FilledButton.styleFrom(backgroundColor: Colors.red),
-              child: const Text('Delete all'),
+              child: Text(l10n.deleteAllAndDelete),
             ),
           ],
         ),
@@ -2783,12 +2801,12 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20)),
-        title: const Text('Delete account?'),
-        content: const Text('This account will be removed permanently.'),
+        title: Text(l10n.deleteAccountTitle),
+        content: Text(l10n.deleteAccountBodyPermanent),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () {
@@ -2799,7 +2817,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
               }
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Delete'),
+            child: Text(l10n.delete),
           ),
         ],
       ),
@@ -2809,6 +2827,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     final isEdit = widget.account != null;
 
     return PopScope(
@@ -2840,7 +2859,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
               Row(
                 children: [
                   Expanded(
-                    child: Text(isEdit ? 'Edit Account' : 'New Account',
+                    child: Text(isEdit ? l10n.editAccountTitle : l10n.newAccountTitle,
                         style: Theme.of(context)
                             .textTheme
                             .titleLarge
@@ -2862,22 +2881,22 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
               ),
               const SizedBox(height: 20),
               SegmentedButton<AccountGroup>(
-                segments: const [
+                segments: [
                   ButtonSegment(
                     value: AccountGroup.personal,
-                    icon: Icon(Icons.account_balance_wallet_outlined,
+                    icon: const Icon(Icons.account_balance_wallet_outlined,
                         size: 16),
-                    label: Text('Personal'),
+                    label: Text(l10n.accountGroupPersonal),
                   ),
                   ButtonSegment(
                     value: AccountGroup.individuals,
-                    icon: Icon(Icons.person_outline_rounded, size: 16),
-                    label: Text('Individual'),
+                    icon: const Icon(Icons.person_outline_rounded, size: 16),
+                    label: Text(l10n.accountGroupIndividual),
                   ),
                   ButtonSegment(
                     value: AccountGroup.entities,
-                    icon: Icon(Icons.business_outlined, size: 16),
-                    label: Text('Entity'),
+                    icon: const Icon(Icons.business_outlined, size: 16),
+                    label: Text(l10n.accountGroupEntity),
                   ),
                 ],
                 selected: {_group},
@@ -2886,7 +2905,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
               ),
               const SizedBox(height: 6),
               Text(
-                _groupDescription,
+                _groupDescriptionL10n(context),
                 style: TextStyle(
                     fontSize: 12,
                     color: Theme.of(context).colorScheme.onSurfaceVariant),
@@ -2896,8 +2915,8 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                 controller: _nameController,
                 autofocus: !isEdit,
                 textCapitalization: TextCapitalization.words,
-                decoration: const InputDecoration(
-                  labelText: 'Account name',
+                decoration: InputDecoration(
+                  labelText: l10n.labelAccountName,
                 ),
               ),
               const SizedBox(height: 12),
@@ -2917,7 +2936,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                 keyboardType: const TextInputType.numberWithOptions(
                     decimal: true, signed: true),
                 decoration: InputDecoration(
-                  labelText: 'Real balance',
+                  labelText: l10n.labelRealBalance,
                   suffixText: ' ${fx.currencySymbol(_currencyCode)}',
                 ),
               ),
@@ -2927,7 +2946,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                 keyboardType: const TextInputType.numberWithOptions(
                     decimal: true, signed: false),
                 decoration: InputDecoration(
-                  labelText: 'Overdraft / advance limit',
+                  labelText: l10n.labelOverdraftLimit,
                   suffixText: ' ${fx.currencySymbol(_currencyCode)}',
                 ),
               ),
@@ -2939,7 +2958,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                       borderRadius: BorderRadius.circular(14)),
                   minimumSize: const Size(double.infinity, 52),
                 ),
-                child: Text(isEdit ? 'Save Changes' : 'Add Account',
+                child: Text(isEdit ? l10n.saveChanges : l10n.addAccountAction,
                     style: const TextStyle(
                         fontWeight: FontWeight.w700, fontSize: 16)),
               ),
@@ -2953,14 +2972,14 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                         borderRadius: BorderRadius.circular(14)),
                     minimumSize: const Size(double.infinity, 44),
                   ),
-                  child: const Text('Archive'),
+                  child: Text(l10n.archiveAction),
                 ),
                 const SizedBox(height: 6),
                 TextButton.icon(
                   onPressed: _delete,
                   icon: const Icon(Icons.delete_outline_rounded,
                       size: 18),
-                  label: const Text('Delete account'),
+                  label: Text(l10n.deletePermanently),
                   style: TextButton.styleFrom(
                     foregroundColor: cs.error,
                     shape: RoundedRectangleBorder(
@@ -3050,23 +3069,23 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
   bool get _canSave => _nameController.text.trim().isNotEmpty;
 
   void _showDiscardDialog() {
+    final l10n = AppLocalizations.of(context);
     showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('Discard changes?'),
-        content: const Text(
-            'You have unsaved changes. They will be lost if you leave now.'),
+        title: Text(l10n.discardTitle),
+        content: Text(l10n.discardBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Keep editing'),
+            child: Text(l10n.keepEditing),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Discard'),
+            child: Text(l10n.discard),
           ),
         ],
       ),
@@ -3088,10 +3107,9 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
     )) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text(
-            'An account with this name already exists (active or archived). '
-            'Choose a different name.',
+            AppLocalizations.of(context).accountNameTaken,
           ),
         ),
       );
@@ -3147,6 +3165,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
 
   void _confirmArchive() {
     final acc = widget.existing!;
+    final l10n = AppLocalizations.of(context);
     HapticFeedback.mediumImpact();
     if (acc.archived) return;
     if (!canArchiveAccount(acc)) {
@@ -3155,14 +3174,12 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
         builder: (ctx) => AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: const Text('Cannot archive yet'),
-          content: const Text(
-            'Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.',
-          ),
+          title: Text(l10n.cannotArchiveTitle),
+          content: Text(l10n.cannotArchiveBodyAdjust),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('OK'),
+              child: Text(l10n.ok),
             ),
           ],
         ),
@@ -3181,15 +3198,12 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
         builder: (ctx) => AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: const Text('Archive account?'),
-          content: Text(
-            '$nPlanned planned transaction${nPlanned == 1 ? '' : 's'} reference this account. '
-            'Remove them to keep your plan consistent with an archived account.',
-          ),
+          title: Text(l10n.archiveAccountTitle),
+          content: Text(l10n.archiveWithPlannedBody(nPlanned)),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             FilledButton(
               onPressed: () {
@@ -3197,7 +3211,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                 removePlannedReferencingAccount(acc, data.plannedTransactions);
                 finish();
               },
-              child: const Text('Remove planned & archive'),
+              child: Text(l10n.removeAndArchive),
             ),
           ],
         ),
@@ -3209,21 +3223,19 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
       builder: (ctx) => AlertDialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('Archive account?'),
-        content: const Text(
-          'The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.',
-        ),
+        title: Text(l10n.archiveAccountTitle),
+        content: Text(l10n.archiveBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () {
               Navigator.pop(ctx);
               finish();
             },
-            child: const Text('Archive'),
+            child: Text(l10n.archiveAction),
           ),
         ],
       ),
@@ -3232,6 +3244,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
 
   void _confirmDelete() {
     final acc = widget.existing!;
+    final l10n = AppLocalizations.of(context);
     HapticFeedback.mediumImpact();
     if (accountReferencedInTrack(acc, data.transactions)) {
       showDialog<void>(
@@ -3239,16 +3252,16 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
         builder: (ctx) => AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: const Text('Cannot delete account'),
+          title: Text(l10n.cannotDeleteTitle),
           content: Text(
             acc.archived
-                ? 'This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.'
-                : 'This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.',
+                ? l10n.cannotDeleteBodyShort
+                : l10n.cannotDeleteBodySuggestArchive,
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Close'),
+              child: Text(l10n.close),
             ),
             if (!acc.archived)
               FilledButton(
@@ -3256,7 +3269,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                   Navigator.pop(ctx);
                   _confirmArchive();
                 },
-                child: const Text('Archive instead'),
+                child: Text(l10n.archiveInstead),
               ),
           ],
         ),
@@ -3270,14 +3283,12 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
         builder: (ctx) => AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: const Text('Delete account?'),
-          content: Text(
-            '$nPlanned planned transaction${nPlanned == 1 ? '' : 's'} will be removed along with this account.',
-          ),
+          title: Text(l10n.deleteAccountTitle),
+          content: Text(l10n.deleteWithPlannedBody(nPlanned)),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             FilledButton(
               onPressed: () {
@@ -3287,7 +3298,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                 if (mounted) Navigator.pop(context, true);
               },
               style: FilledButton.styleFrom(backgroundColor: Colors.red),
-              child: const Text('Delete all'),
+              child: Text(l10n.deleteAllAndDelete),
             ),
           ],
         ),
@@ -3299,12 +3310,12 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
       builder: (ctx) => AlertDialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('Delete account?'),
-        content: const Text('This account will be removed permanently.'),
+        title: Text(l10n.deleteAccountTitle),
+        content: Text(l10n.deleteAccountBodyPermanent),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () {
@@ -3313,7 +3324,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
               if (mounted) Navigator.pop(context, true);
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Delete'),
+            child: Text(l10n.delete),
           ),
         ],
       ),
@@ -3330,16 +3341,17 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
     if (result != null && mounted) setState(() => _currencyCode = result);
   }
 
-  String get _groupDescription => switch (_group) {
-        AccountGroup.personal => 'Your own wallets & bank accounts',
-        AccountGroup.individuals => 'Family, friends, individuals',
-        AccountGroup.entities => 'Entities, utilities, organisations',
+  String _groupDescriptionL10n(BuildContext context) => switch (_group) {
+        AccountGroup.personal => AppLocalizations.of(context).groupDescPersonal,
+        AccountGroup.individuals => AppLocalizations.of(context).groupDescIndividuals,
+        AccountGroup.entities => AppLocalizations.of(context).groupDescEntities,
       };
 
   void _showRemoveAccountSheet() {
     HapticFeedback.lightImpact();
     final acc = widget.existing!;
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
@@ -3354,7 +3366,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
                 child: Text(
-                  'Remove account',
+                  l10n.removeAccountSheetTitle,
                   style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
@@ -3363,15 +3375,13 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
               ListTile(
                 leading: Icon(Icons.delete_outline_rounded, color: cs.error),
                 title: Text(
-                  'Delete permanently',
+                  l10n.deletePermanently,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: cs.error,
                   ),
                 ),
-                subtitle: const Text(
-                  'Only possible when this account is not used in Track. Planned items can be removed as part of delete.',
-                ),
+                subtitle: Text(l10n.deletePermanentlySubtitle),
                 onTap: () {
                   Navigator.pop(ctx);
                   _confirmDelete();
@@ -3380,13 +3390,11 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
               if (!acc.archived)
                 ListTile(
                   leading: Icon(Icons.inventory_2_outlined, color: cs.primary),
-                  title: const Text(
-                    'Archive',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                  title: Text(
+                    l10n.archiveAction,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
-                  subtitle: const Text(
-                    'Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.',
-                  ),
+                  subtitle: Text(l10n.archiveOptionSubtitle),
                   onTap: () {
                     Navigator.pop(ctx);
                     _confirmArchive();
@@ -3403,6 +3411,8 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
 
+    final l10n = AppLocalizations.of(context);
+
     return PopScope(
       canPop: !_isDirty || _forceClose,
       onPopInvokedWithResult: (didPop, _) {
@@ -3411,7 +3421,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
       child: Scaffold(
         backgroundColor: cs.surface,
         appBar: AppBar(
-          title: Text(_isEdit ? 'Edit Account' : 'New Account'),
+          title: Text(_isEdit ? l10n.editAccountTitle : l10n.newAccountTitle),
           centerTitle: false,
           backgroundColor: cs.surface,
           surfaceTintColor: Colors.transparent,
@@ -3419,7 +3429,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
               ? [
                   IconButton(
                     icon: Icon(Icons.delete_outline_rounded, color: cs.error),
-                    tooltip: 'Remove account',
+                    tooltip: l10n.tooltipRemoveAccount,
                     onPressed: _showRemoveAccountSheet,
                   ),
                 ]
@@ -3451,7 +3461,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Text(
-                                    'This account is archived. It stays in your data but is hidden from lists and pickers.',
+                                    l10n.archivedBannerText,
                                     style: TextStyle(
                                       fontSize: 13,
                                       height: 1.35,
@@ -3461,7 +3471,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                                 ),
                                 TextButton(
                                   onPressed: _restoreArchived,
-                                  child: const Text('Restore'),
+                                  child: Text(l10n.restore),
                                 ),
                               ],
                             ),
@@ -3469,23 +3479,23 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                         ),
                       ),
                     SegmentedButton<AccountGroup>(
-                      segments: const [
+                      segments: [
                         ButtonSegment(
                           value: AccountGroup.personal,
-                          icon: Icon(
+                          icon: const Icon(
                               Icons.account_balance_wallet_outlined,
                               size: 16),
-                          label: Text('Personal'),
+                          label: Text(l10n.accountGroupPersonal),
                         ),
                         ButtonSegment(
                           value: AccountGroup.individuals,
-                          icon: Icon(Icons.person_outline_rounded, size: 16),
-                          label: Text('Individual'),
+                          icon: const Icon(Icons.person_outline_rounded, size: 16),
+                          label: Text(l10n.accountGroupIndividual),
                         ),
                         ButtonSegment(
                           value: AccountGroup.entities,
-                          icon: Icon(Icons.business_outlined, size: 16),
-                          label: Text('Entity'),
+                          icon: const Icon(Icons.business_outlined, size: 16),
+                          label: Text(l10n.accountGroupEntity),
                         ),
                       ],
                       selected: {_group},
@@ -3494,7 +3504,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      _groupDescription,
+                      _groupDescriptionL10n(context),
                       style: TextStyle(
                           fontSize: 12, color: cs.onSurfaceVariant),
                     ),
@@ -3504,7 +3514,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                       autofocus: !_isEdit,
                       textCapitalization: TextCapitalization.words,
                       decoration:
-                          const InputDecoration(labelText: 'Account name'),
+                          InputDecoration(labelText: l10n.labelAccountName),
                       onChanged: (_) => setState(() {}),
                     ),
                     const SizedBox(height: 12),
@@ -3520,7 +3530,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                       keyboardType: const TextInputType.numberWithOptions(
                           decimal: true, signed: true),
                       decoration: InputDecoration(
-                        labelText: 'Real balance',
+                        labelText: l10n.labelRealBalance,
                         suffixText:
                             '  ${fx.currencySymbol(_currencyCode)}',
                       ),
@@ -3532,7 +3542,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                       keyboardType: const TextInputType.numberWithOptions(
                           decimal: true, signed: false),
                       decoration: InputDecoration(
-                        labelText: 'Overdraft / advance limit',
+                        labelText: l10n.labelOverdraftLimit,
                         suffixText:
                             '  ${fx.currencySymbol(_currencyCode)}',
                       ),
@@ -3559,7 +3569,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                       borderRadius: BorderRadius.circular(14)),
                   minimumSize: const Size(double.infinity, 52),
                 ),
-                child: Text(_isEdit ? 'Save Changes' : 'Add Account',
+                child: Text(_isEdit ? l10n.saveChanges : l10n.addAccountAction,
                     style: const TextStyle(
                         fontWeight: FontWeight.w700, fontSize: 16)),
               ),
@@ -3582,6 +3592,7 @@ class _CurrencyTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     final name = settings.currencyNames[currencyCode] ?? currencyCode;
     final symbol = fx.currencySymbol(currencyCode);
     final enabled = onTap != null;
@@ -3591,7 +3602,7 @@ class _CurrencyTile extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: InputDecorator(
         decoration: InputDecoration(
-          labelText: 'Currency',
+          labelText: l10n.labelCurrency,
           suffixIcon: enabled
               ? const Icon(Icons.arrow_drop_down_rounded)
               : Icon(Icons.lock_outline_rounded,
