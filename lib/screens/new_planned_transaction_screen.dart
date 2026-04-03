@@ -677,7 +677,7 @@ class _AccountPickerTile extends StatelessWidget {
                           size: 18, color: cs.error),
                       onPressed: onClear,
                       padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
+                      constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
                     )
                   : Icon(Icons.chevron_right_rounded,
                       size: 18, color: cs.onSurfaceVariant),

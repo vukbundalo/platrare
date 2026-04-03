@@ -778,7 +778,6 @@ class _SubSection extends StatelessWidget {
                 onDeleted: () => onDelete(cat),
                 deleteIcon: const Icon(Icons.close_rounded, size: 13),
                 visualDensity: VisualDensity.compact,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
             ),
             ActionChip(
@@ -795,7 +794,6 @@ class _SubSection extends StatelessWidget {
               side: BorderSide(color: color.withValues(alpha: 0.35)),
               backgroundColor: color.withValues(alpha: 0.08),
               visualDensity: VisualDensity.compact,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
           ],
         ),

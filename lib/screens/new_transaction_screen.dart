@@ -1243,20 +1243,24 @@ class _AttachmentsSection extends StatelessWidget {
                         ),
                 ),
                 Positioned(
-                  top: -6,
-                  right: -6,
+                  top: -16,
+                  right: -16,
                   child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
                     onTap: () => onRemove(path),
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        color: cs.surface,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: cs.outlineVariant),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          color: cs.surface,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: cs.outlineVariant),
+                        ),
+                        child: Icon(Icons.close_rounded,
+                            size: 12, color: cs.onSurfaceVariant),
                       ),
-                      child: Icon(Icons.close_rounded,
-                          size: 12, color: cs.onSurfaceVariant),
                     ),
                   ),
                 ),
