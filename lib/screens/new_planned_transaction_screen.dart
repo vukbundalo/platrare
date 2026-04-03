@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
+import '../l10n/app_localizations.dart';
+import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/tx_display.dart';
 import '../utils/projections.dart' as proj;
@@ -74,18 +75,17 @@ class _NewPlannedTransactionScreenState
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('Discard changes?'),
-        content: const Text(
-            'You have unsaved changes. They will be lost if you leave now.'),
+        title: Text(AppLocalizations.of(ctx).discardTitle),
+        content: Text(AppLocalizations.of(ctx).discardBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Keep editing'),
+            child: Text(AppLocalizations.of(ctx).keepEditing),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Discard'),
+            child: Text(AppLocalizations.of(ctx).discard),
           ),
         ],
       ),
@@ -209,7 +209,7 @@ class _NewPlannedTransactionScreenState
       initialDate: _date,
       firstDate: _isEdit ? DateTime(2020) : DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 730)),
-      helpText: 'Select planned date',
+      helpText: AppLocalizations.of(context).selectPlannedDate,
     );
     if (picked != null) setState(() => _date = picked);
   }
@@ -234,21 +234,24 @@ class _NewPlannedTransactionScreenState
     return _date;
   }
 
-  String get _dateLabel {
+  String _dateLabel(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final today = DateUtils.dateOnly(DateTime.now());
     final tomorrow = today.add(const Duration(days: 1));
     final selected = DateUtils.dateOnly(_projectionDateForAccounts);
-    if (selected == today) return 'Today';
-    if (selected == tomorrow) return 'Tomorrow';
-    return DateFormat('d MMM yyyy').format(selected);
+    if (selected == today) return l10n.dateToday;
+    if (selected == tomorrow) return l10n.dateTomorrow;
+    return formatAppDate(context, 'd MMM yyyy', selected);
   }
 
   TxType get _txType =>
       classifyTransaction(from: _fromAccount, to: _toAccount);
 
-  String get _txLabel {
-    if (_fromAccount == null && _toAccount == null) return 'TRANSACTION';
-    return txLabel(_txType);
+  String _txLabelText(BuildContext context) {
+    if (_fromAccount == null && _toAccount == null) {
+      return AppLocalizations.of(context).txLabelTransaction;
+    }
+    return l10nTxLabel(context, _txType);
   }
 
   Color get _amountColor {
@@ -276,13 +279,15 @@ class _NewPlannedTransactionScreenState
       child: Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
-        title: Text(_isEdit ? 'Edit Plan' : 'Plan Transaction'),
+        title: Text(_isEdit
+            ? AppLocalizations.of(context).editPlanTitle
+            : AppLocalizations.of(context).planTransactionTitle),
         actions: [
           TextButton.icon(
             onPressed: _pickDate,
             icon: Icon(Icons.calendar_today_rounded,
                 size: 15, color: cs.primary),
-            label: Text(_dateLabel,
+            label: Text(_dateLabel(context),
                 style: TextStyle(
                     color: cs.primary, fontWeight: FontWeight.w600)),
           ),
@@ -309,7 +314,7 @@ class _NewPlannedTransactionScreenState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _txLabel,
+                          _txLabelText(context),
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w700,
@@ -369,7 +374,7 @@ class _NewPlannedTransactionScreenState
 
                   // From account
                   _AccountPickerTile(
-                    label: 'From',
+                    label: AppLocalizations.of(context).labelFrom,
                     account: _fromAccount,
                     leadingIcon: Icons.arrow_upward_rounded,
                     leadingIconAccent: const Color(0xFFDC2626),
@@ -386,7 +391,7 @@ class _NewPlannedTransactionScreenState
 
                   // To account
                   _AccountPickerTile(
-                    label: 'To',
+                    label: AppLocalizations.of(context).labelTo,
                     account: _toAccount,
                     leadingIcon: Icons.arrow_downward_rounded,
                     leadingIconAccent: const Color(0xFF16A34A),
@@ -419,7 +424,7 @@ class _NewPlannedTransactionScreenState
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text('Category',
+                        Text(AppLocalizations.of(ctx).sectionCategory,
                             style: Theme.of(ctx)
                                 .textTheme
                                 .labelLarge
@@ -431,7 +436,7 @@ class _NewPlannedTransactionScreenState
                           children: cats.map((cat) {
                             final selected = _category == cat;
                             return FilterChip(
-                              label: Text(cat),
+                              label: Text(l10nCategoryName(ctx, cat)),
                               selected: selected,
                               onSelected: (_) => setState(
                                   () => _category = selected ? null : cat),
@@ -451,13 +456,13 @@ class _NewPlannedTransactionScreenState
                       keyboardType: const TextInputType.numberWithOptions(
                           decimal: true),
                       decoration: InputDecoration(
-                        labelText:
-                            '${_toAccount!.name} receives (${_toAccount!.currencyCode})',
+                        labelText: AppLocalizations.of(context)
+                            .destReceivesLabel(
+                                _toAccount!.name, _toAccount!.currencyCode),
                         suffixText:
                             '  ${fx.currencySymbol(_toAccount!.currencyCode)}',
                         hintText: '0.00',
-                        helperText:
-                            'Estimated destination amount. Exact rate is locked at confirmation.',
+                        helperText: AppLocalizations.of(context).destHelper,
                       ),
                       onChanged: (_) => setState(() {}),
                     ),
@@ -467,8 +472,9 @@ class _NewPlannedTransactionScreenState
                   // Description
                   TextField(
                     controller: _descriptionController,
-                    decoration: const InputDecoration(
-                      labelText: 'Description (optional)',
+                    decoration: InputDecoration(
+                      labelText:
+                          AppLocalizations.of(context).descriptionOptional,
                       prefixIcon: Icon(Icons.notes_rounded, size: 18),
                     ),
                     textCapitalization: TextCapitalization.sentences,
@@ -510,7 +516,7 @@ class _NewPlannedTransactionScreenState
               _fromAccount?.currencyCode ??
               _toAccount?.currencyCode ?? settings.baseCurrency,
             ),
-            dateLabel: _dateLabel,
+            dateLabel: _dateLabel(context),
             isEdit: _isEdit,
             onSave: _save,
           ),
@@ -592,7 +598,9 @@ class _AccountPickerTile extends StatelessWidget {
                             color: cs.onSurfaceVariant,
                             fontWeight: FontWeight.w500)),
                     Text(
-                      hasAccount ? account!.name : 'Tap to select',
+                      hasAccount
+                          ? account!.name
+                          : AppLocalizations.of(context).tapToSelect,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
@@ -698,7 +706,10 @@ class _SaveBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(14)),
                 minimumSize: const Size(double.infinity, 50),
               ),
-              child: Text(isEdit ? 'Update Plan' : 'Add to Plan',
+              child: Text(
+                  isEdit
+                      ? AppLocalizations.of(context).updatePlan
+                      : AppLocalizations.of(context).addToPlan,
                   style: const TextStyle(
                       fontWeight: FontWeight.w700, fontSize: 15)),
             ),
@@ -727,7 +738,7 @@ class _RepeatPicker extends StatelessWidget {
           children: [
             Icon(Icons.repeat_rounded, size: 16, color: cs.onSurfaceVariant),
             const SizedBox(width: 8),
-            Text('Repeat',
+            Text(AppLocalizations.of(context).labelRepeat,
                 style: Theme.of(context)
                     .textTheme
                     .labelLarge
@@ -741,7 +752,7 @@ class _RepeatPicker extends StatelessWidget {
           children: RepeatInterval.values.map((r) {
             final selected = value == r;
             return FilterChip(
-              label: Text(repeatLabel(r)),
+              label: Text(l10nRepeatLabel(context, r)),
               selected: selected,
               onSelected: (_) => onChanged(r),
               avatar: r == RepeatInterval.none
@@ -773,7 +784,7 @@ class _WeekendAdjustmentPicker extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'If the $day falls on a weekend?',
+          AppLocalizations.of(context).weekendQuestion(day.toString()),
           style: Theme.of(context)
               .textTheme
               .labelLarge
@@ -786,7 +797,7 @@ class _WeekendAdjustmentPicker extends StatelessWidget {
           children: WeekendAdjustment.values.map((w) {
             final selected = value == w;
             return FilterChip(
-              label: Text(weekendAdjustmentLabel(w)),
+              label: Text(l10nWeekendLabel(context, w)),
               selected: selected,
               onSelected: (_) => onChanged(w),
             );
@@ -831,11 +842,13 @@ class _AccountPickerSheet extends StatelessWidget {
     final selectedDate = DateUtils.dateOnly(date);
     final String dateNote;
     if (selectedDate == today) {
-      dateNote = 'Balances as of today';
+      dateNote = AppLocalizations.of(context).balancesAsOfToday;
     } else if (selectedDate == today.add(const Duration(days: 1))) {
-      dateNote = 'Projected balances for tomorrow';
+      dateNote =
+          AppLocalizations.of(context).projectedBalancesForTomorrow;
     } else {
-      dateNote = 'Projected balances for ${DateFormat('d MMM yyyy').format(date)}';
+      dateNote = AppLocalizations.of(context).projectedBalancesForDate(
+          formatAppDate(context, 'd MMM yyyy', date));
     }
 
     return DraggableScrollableSheet(
@@ -854,7 +867,7 @@ class _AccountPickerSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Text('Select Account',
+          Text(AppLocalizations.of(context).selectAccountTitle,
               style: Theme.of(context)
                   .textTheme
                   .titleMedium
@@ -869,7 +882,8 @@ class _AccountPickerSheet extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               children: [
                 if (personal.isNotEmpty) ...[
-                  _SheetHeader('Personal'),
+                  _SheetHeader(
+                      l10nAccountSectionTitle(context, AccountGroup.personal)),
                   ...personal.map(
                     (a) => _AccountListTile(
                       account: a,
@@ -880,7 +894,8 @@ class _AccountPickerSheet extends StatelessWidget {
                   ),
                 ],
                 if (individuals.isNotEmpty) ...[
-                  _SheetHeader('Individuals'),
+                  _SheetHeader(
+                      l10nAccountSectionTitle(context, AccountGroup.individuals)),
                   ...individuals.map(
                     (a) => _AccountListTile(
                       account: a,
@@ -891,7 +906,8 @@ class _AccountPickerSheet extends StatelessWidget {
                   ),
                 ],
                 if (entities.isNotEmpty) ...[
-                  _SheetHeader('Entities'),
+                  _SheetHeader(
+                      l10nAccountSectionTitle(context, AccountGroup.entities)),
                   ...entities.map(
                     (a) => _AccountListTile(
                       account: a,
@@ -905,7 +921,8 @@ class _AccountPickerSheet extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(32),
                     child: Center(
-                      child: Text('No accounts available',
+                      child: Text(
+                          AppLocalizations.of(context).noAccountsAvailable,
                           style:
                               TextStyle(color: cs.onSurfaceVariant)),
                     ),
