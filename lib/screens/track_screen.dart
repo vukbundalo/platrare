@@ -996,7 +996,7 @@ class _TransactionTile extends StatelessWidget {
   String _title(BuildContext context) {
     final t = transaction;
     if (t.description != null) return t.description!;
-    if (t.category != null) return t.category!;
+    if (t.category != null) return l10nCategoryName(context, t.category!);
     if (t.fromAccount != null && t.toAccount != null) {
       return '${t.fromAccount!.name} → ${t.toAccount!.name}';
     }
@@ -1005,7 +1005,7 @@ class _TransactionTile extends StatelessWidget {
     return AppLocalizations.of(context).trackTransaction;
   }
 
-  String? _subtitle() {
+  String? _subtitle(BuildContext context) {
     final t = transaction;
     final parts = <String>[];
     if (t.description != null || t.category != null) {
@@ -1017,7 +1017,9 @@ class _TransactionTile extends StatelessWidget {
         parts.add(t.toAccount!.name);
       }
     }
-    if (t.description != null && t.category != null) parts.add(t.category!);
+    if (t.description != null && t.category != null) {
+      parts.add(l10nCategoryName(context, t.category!));
+    }
     return parts.isEmpty ? null : parts.join(' · ');
   }
 
@@ -1109,7 +1111,7 @@ class _TransactionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final subtitle = _subtitle();
+    final subtitle = _subtitle(context);
 
     return Dismissible(
       key: ValueKey(transaction.id),

@@ -1799,7 +1799,7 @@ class _PlannedTile extends StatelessWidget {
 
   String _buildTitle(BuildContext context) {
     if (pt.description != null) return pt.description!;
-    if (pt.category != null) return pt.category!;
+    if (pt.category != null) return l10nCategoryName(context, pt.category!);
     if (pt.fromAccount != null && pt.toAccount != null) {
       return '${pt.fromAccount!.name} → ${pt.toAccount!.name}';
     }
@@ -1808,9 +1808,11 @@ class _PlannedTile extends StatelessWidget {
     return AppLocalizations.of(context).planPlannedTransaction;
   }
 
-  String? _buildSubtitle() {
+  String? _buildSubtitle(BuildContext context) {
     final parts = <String>[];
-    if (pt.description != null && pt.category != null) parts.add(pt.category!);
+    if (pt.description != null && pt.category != null) {
+      parts.add(l10nCategoryName(context, pt.category!));
+    }
     if (pt.fromAccount != null || pt.toAccount != null) {
       if (pt.description != null || pt.category != null) {
         if (pt.fromAccount != null && pt.toAccount != null) {
@@ -1828,7 +1830,7 @@ class _PlannedTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final subtitle = _buildSubtitle();
+    final subtitle = _buildSubtitle(context);
 
     return InkWell(
       onTap: onTap,
