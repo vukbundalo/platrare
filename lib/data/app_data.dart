@@ -7,24 +7,8 @@ final List<Account> accounts = [];
 final List<Transaction> transactions = [];
 final List<PlannedTransaction> plannedTransactions = [];
 
-// ─── Default categories (universal essentials) ───────────────────────────────
+// ─── Categories (loaded from SQLite on startup; see PlatrareDatabase) ───────
 
-final List<String> incomeCategories = [
-  'Salary',
-  'Freelance',
-  'Gift',
-  'Refund',
-  'Investment',
-  'Other',
-];
+final List<String> incomeCategories = [];
 
-final List<String> expenseCategories = [
-  'Groceries',
-  'Transport',
-  'Housing',
-  'Utilities',
-  'Healthcare',
-  'Dining',
-  'Shopping',
-  'Other',
-];
+final List<String> expenseCategories = [];

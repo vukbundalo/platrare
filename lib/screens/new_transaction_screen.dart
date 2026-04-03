@@ -159,7 +159,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
     return l10nTxLabel(context, _txType);
   }
 
-  void _save() {
+  Future<void> _save() async {
     final nativeAmt = _parsedAmount!;
 
     // When editing, reverse the old transaction's balance changes first so that
@@ -210,10 +210,11 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       createdAt: widget.existing?.createdAt,
     );
 
-    DataRepository.replaceOrInsertTransaction(
+    await DataRepository.replaceOrInsertTransaction(
       newTx,
       isUpdate: _isEdit,
     );
+    if (!mounted) return;
 
     HapticFeedback.lightImpact();
 
@@ -589,7 +590,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
             ),
             enabled: _canSave,
             isEdit: _isEdit,
-            onSave: _save,
+            onSave: () => _save(),
           ),
         ],
       ),
@@ -606,7 +607,7 @@ class _SaveBar extends StatelessWidget {
   final String currencySymbol;
   final bool enabled;
   final bool isEdit;
-  final VoidCallback onSave;
+  final Future<void> Function() onSave;
 
   const _SaveBar({
     required this.color,
@@ -632,7 +633,7 @@ class _SaveBar extends StatelessWidget {
                 width: 0.5)),
       ),
       child: FilledButton(
-        onPressed: enabled ? onSave : null,
+        onPressed: enabled ? () async => onSave() : null,
         style: FilledButton.styleFrom(
           backgroundColor: enabled ? color : null,
           foregroundColor: Colors.white,

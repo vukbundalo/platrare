@@ -32,10 +32,17 @@ bool isAccountNameTaken(
   return false;
 }
 
+bool _plannedReferencesAccount(PlannedTransaction p, Account a) {
+  if (p.fromAccount == a || p.toAccount == a) return true;
+  final fid = p.fromAccountId ?? p.fromAccount?.id;
+  final tid = p.toAccountId ?? p.toAccount?.id;
+  return fid == a.id || tid == a.id;
+}
+
 int plannedReferenceCount(Account a, List<PlannedTransaction> planned) {
   var n = 0;
   for (final p in planned) {
-    if (p.fromAccount == a || p.toAccount == a) n++;
+    if (_plannedReferencesAccount(p, a)) n++;
   }
   return n;
 }
@@ -51,21 +58,9 @@ bool accountReferencedInTrack(Account a, List<Transaction> txs) {
 
 bool accountReferencedInPlanned(Account a, List<PlannedTransaction> planned) {
   for (final p in planned) {
-    if (p.fromAccount == a || p.toAccount == a) return true;
+    if (_plannedReferencesAccount(p, a)) return true;
   }
   return false;
-}
-
-/// Removes every planned row that references [account]. Returns count removed.
-int removePlannedReferencingAccount(
-  Account account,
-  List<PlannedTransaction> planned,
-) {
-  final before = planned.length;
-  planned.removeWhere(
-    (p) => p.fromAccount == account || p.toAccount == account,
-  );
-  return before - planned.length;
 }
 
 bool canArchiveAccount(Account a) =>

@@ -2677,7 +2677,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
       acc.group = _group;
       acc.overdraftLimit = overdraft;
 
-      final correction = applyLedgerBalanceCorrection(
+      final correction = await applyLedgerBalanceCorrection(
         account: acc,
         previousBookBalance: previousBook,
         newBookBalance: balance,
@@ -2685,6 +2685,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
       if (!correction.inserted) {
         acc.balance = balance;
       }
+      await DataRepository.persistAccountFields(acc);
       HapticFeedback.lightImpact();
       if (mounted && correction.inserted) {
         await _showBalanceCorrectionDialog(
@@ -2740,8 +2741,9 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
       return;
     }
     final nPlanned = plannedReferenceCount(acc, data.plannedTransactions);
-    void finish() {
+    Future<void> finish() async {
       acc.archived = true;
+      await DataRepository.persistAccountFields(acc);
       if (mounted) Navigator.pop(context, acc);
     }
     if (nPlanned > 0) {
@@ -2758,10 +2760,10 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
               child: Text(l10n.cancel),
             ),
             FilledButton(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pop(ctx);
-                removePlannedReferencingAccount(acc, data.plannedTransactions);
-                finish();
+                await DataRepository.removePlannedReferencingAccount(acc);
+                await finish();
               },
               child: Text(l10n.removeAndArchive),
             ),
@@ -2783,9 +2785,9 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
             child: Text(l10n.cancel),
           ),
           FilledButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(ctx);
-              finish();
+              await finish();
             },
             child: Text(l10n.archiveAction),
           ),
@@ -2831,10 +2833,10 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
               child: Text(l10n.cancel),
             ),
             FilledButton(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pop(ctx);
-                removePlannedReferencingAccount(acc, data.plannedTransactions);
-                DataRepository.removeAccount(acc);
+                await DataRepository.removePlannedReferencingAccount(acc);
+                await DataRepository.removeAccount(acc);
                 if (mounted) {
                   Navigator.pop(context, kAccountFormSheetDeleted);
                 }
@@ -2860,9 +2862,9 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
             child: Text(l10n.cancel),
           ),
           FilledButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(ctx);
-              DataRepository.removeAccount(acc);
+              await DataRepository.removeAccount(acc);
               if (mounted) {
                 Navigator.pop(context, kAccountFormSheetDeleted);
               }
@@ -3179,7 +3181,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
       acc.group = _group;
       acc.overdraftLimit = overdraft;
 
-      final correction = applyLedgerBalanceCorrection(
+      final correction = await applyLedgerBalanceCorrection(
         account: acc,
         previousBookBalance: previousBook,
         newBookBalance: balance,
@@ -3187,6 +3189,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
       if (!correction.inserted) {
         acc.balance = balance;
       }
+      await DataRepository.persistAccountFields(acc);
       HapticFeedback.lightImpact();
       if (mounted && correction.inserted) {
         await _showBalanceCorrectionDialog(
@@ -3199,7 +3202,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
       }
       if (mounted) Navigator.pop(context, true);
     } else {
-      DataRepository.addAccount(Account(
+      await DataRepository.addAccount(Account(
         name: name,
         group: _group,
         balance: balance,
@@ -3211,8 +3214,9 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
     }
   }
 
-  void _restoreArchived() {
+  Future<void> _restoreArchived() async {
     widget.existing!.archived = false;
+    await DataRepository.persistAccountFields(widget.existing!);
     setState(() {});
   }
 
@@ -3240,8 +3244,9 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
       return;
     }
     final nPlanned = plannedReferenceCount(acc, data.plannedTransactions);
-    void finish() {
+    Future<void> finishArchive() async {
       acc.archived = true;
+      await DataRepository.persistAccountFields(acc);
       if (mounted) Navigator.pop(context, true);
     }
 
@@ -3259,10 +3264,10 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
               child: Text(l10n.cancel),
             ),
             FilledButton(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pop(ctx);
-                removePlannedReferencingAccount(acc, data.plannedTransactions);
-                finish();
+                await DataRepository.removePlannedReferencingAccount(acc);
+                await finishArchive();
               },
               child: Text(l10n.removeAndArchive),
             ),
@@ -3284,9 +3289,9 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
             child: Text(l10n.cancel),
           ),
           FilledButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(ctx);
-              finish();
+              await finishArchive();
             },
             child: Text(l10n.archiveAction),
           ),
@@ -3344,10 +3349,10 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
               child: Text(l10n.cancel),
             ),
             FilledButton(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pop(ctx);
-                removePlannedReferencingAccount(acc, data.plannedTransactions);
-                DataRepository.removeAccount(acc);
+                await DataRepository.removePlannedReferencingAccount(acc);
+                await DataRepository.removeAccount(acc);
                 if (mounted) Navigator.pop(context, true);
               },
               style: FilledButton.styleFrom(backgroundColor: Colors.red),
@@ -3371,9 +3376,9 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
             child: Text(l10n.cancel),
           ),
           FilledButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(ctx);
-              DataRepository.removeAccount(acc);
+              await DataRepository.removeAccount(acc);
               if (mounted) Navigator.pop(context, true);
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
@@ -3523,7 +3528,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                                   ),
                                 ),
                                 TextButton(
-                                  onPressed: _restoreArchived,
+                                  onPressed: () => _restoreArchived(),
                                   child: Text(l10n.restore),
                                 ),
                               ],

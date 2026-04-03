@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/app_data.dart' as data;
+import '../data/data_repository.dart';
 import '../data/currency_localized_names.dart';
 import '../data/currency_prefs.dart';
 import '../data/fx_service.dart';
@@ -519,7 +520,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         },
       );
       if (result != null && !targetList.contains(result)) {
-        setState(() => targetList.add(result));
+        await DataRepository.addCategory(
+          result,
+          income: identical(targetList, data.incomeCategories),
+        );
+        if (mounted) setState(() {});
       }
     } finally {
       controller.dispose();
@@ -543,9 +548,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               child: Text(l.cancel),
             ),
             FilledButton(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pop(ctx);
-                setState(() => targetList.remove(category));
+                await DataRepository.removeCategory(
+                  category,
+                  income: identical(targetList, data.incomeCategories),
+                );
+                if (mounted) setState(() {});
               },
               style: FilledButton.styleFrom(backgroundColor: Colors.red),
               child: Text(l.delete),

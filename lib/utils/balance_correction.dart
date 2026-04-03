@@ -24,15 +24,16 @@ class BalanceCorrectionResult {
 /// [previousBookBalance] to [newBookBalance], using the same balance rules as
 /// [NewTransactionScreen]. Call while [account.balance] still equals
 /// [previousBookBalance].
-BalanceCorrectionResult applyLedgerBalanceCorrection({
+Future<BalanceCorrectionResult> applyLedgerBalanceCorrection({
   required Account account,
   required double previousBookBalance,
   required double newBookBalance,
-}) {
+}) async {
   final delta = newBookBalance - previousBookBalance;
   if (delta.abs() < 1e-10) {
     return const BalanceCorrectionResult.none();
   }
+
   final amount = delta.abs();
   final Account? from = delta < 0 ? account : null;
   final Account? to = delta > 0 ? account : null;
@@ -44,7 +45,7 @@ BalanceCorrectionResult applyLedgerBalanceCorrection({
   if (from != null) from.balance -= amount;
   if (to != null) to.balance += amount;
 
-  DataRepository.addTransaction(
+  await DataRepository.addTransaction(
     Transaction(
       nativeAmount: amount,
       currencyCode: ccy,

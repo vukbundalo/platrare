@@ -340,9 +340,9 @@ class _PlanScreenState extends State<PlanScreen> {
             child: Text(AppLocalizations.of(ctx).cancel),
           ),
           FilledButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(ctx);
-              _realize(pt, realizationDate: today);
+              await _realize(pt, realizationDate: today);
             },
             child: Text(AppLocalizations.of(ctx).confirm),
           ),
@@ -351,7 +351,7 @@ class _PlanScreenState extends State<PlanScreen> {
     );
   }
 
-  void _realize(PlannedTransaction pt, {DateTime? realizationDate}) {
+  Future<void> _realize(PlannedTransaction pt, {DateTime? realizationDate}) async {
     if (pt.nativeAmount != null) {
       // Deduct from source in its native currency.
       if (pt.fromAccount != null) {
@@ -373,7 +373,7 @@ class _PlanScreenState extends State<PlanScreen> {
     final rate = fx.rateToBase(ccy);
     final baseAmt = pt.nativeAmount != null ? pt.nativeAmount! * rate : null;
 
-    DataRepository.addTransaction(
+    await DataRepository.addTransaction(
       Transaction(
         nativeAmount: pt.nativeAmount,
         currencyCode: ccy,
@@ -390,19 +390,21 @@ class _PlanScreenState extends State<PlanScreen> {
       ),
     );
 
-    DataRepository.removePlanned(pt);
+    await DataRepository.removePlanned(pt);
 
     if (pt.repeatInterval != RepeatInterval.none) {
       final nextDate = nextPlannedEffectiveDate(pt, pt.date);
       final nextCount = pt.repeatConfirmedCount + 1;
       if (shouldSpawnNextOccurrence(pt, nextDate)) {
-        DataRepository.addPlanned(
+        await DataRepository.addPlanned(
           PlannedTransaction(
             nativeAmount: pt.nativeAmount,
             currencyCode: pt.currencyCode,
             destinationAmount: pt.destinationAmount,
             fromAccount: pt.fromAccount,
             toAccount: pt.toAccount,
+            fromAccountId: pt.fromAccountId,
+            toAccountId: pt.toAccountId,
             category: pt.category,
             description: pt.description,
             date: nextDate,
@@ -421,7 +423,7 @@ class _PlanScreenState extends State<PlanScreen> {
       }
     }
 
-    setState(() {});
+    if (mounted) setState(() {});
     widget.onChanged?.call();
 
     if (!mounted) return;
@@ -436,9 +438,11 @@ class _PlanScreenState extends State<PlanScreen> {
     );
   }
 
-  void _delete(PlannedTransaction pt) {
+  Future<void> _delete(PlannedTransaction pt) async {
     HapticFeedback.lightImpact();
-    setState(() => DataRepository.removePlanned(pt));
+    await DataRepository.removePlanned(pt);
+    if (!mounted) return;
+    setState(() {});
     widget.onChanged?.call();
     final messenger = ScaffoldMessenger.of(context);
     messenger.clearSnackBars();
@@ -452,9 +456,10 @@ class _PlanScreenState extends State<PlanScreen> {
         persist: false,
         action: SnackBarAction(
           label: AppLocalizations.of(context).undo,
-          onPressed: () {
+          onPressed: () async {
             messenger.clearSnackBars();
-            setState(() => DataRepository.addPlanned(pt));
+            await DataRepository.addPlanned(pt);
+            if (mounted) setState(() {});
             widget.onChanged?.call();
           },
         ),
@@ -514,14 +519,14 @@ class _PlanScreenState extends State<PlanScreen> {
           ],
         );
       },
-    ).then((choice) {
+    ).then((choice) async {
       if (choice == null || !mounted) return;
       if (choice == 'all') {
-        _delete(pt);
+        await _delete(pt);
       } else {
         final nextDate = nextPlannedEffectiveDate(pt, pt.date);
         if (!shouldSpawnNextOccurrence(pt, nextDate)) {
-          _delete(pt);
+          await _delete(pt);
           return;
         }
         final spawned = PlannedTransaction(
@@ -530,6 +535,8 @@ class _PlanScreenState extends State<PlanScreen> {
           destinationAmount: pt.destinationAmount,
           fromAccount: pt.fromAccount,
           toAccount: pt.toAccount,
+          fromAccountId: pt.fromAccountId,
+          toAccountId: pt.toAccountId,
           category: pt.category,
           description: pt.description,
           date: nextDate,
@@ -544,10 +551,10 @@ class _PlanScreenState extends State<PlanScreen> {
           createdAt: pt.createdAt,
           attachments: List<String>.from(pt.attachments),
         );
-        setState(() {
-          DataRepository.removePlanned(pt);
-          DataRepository.addPlanned(spawned);
-        });
+        await DataRepository.removePlanned(pt);
+        await DataRepository.addPlanned(spawned);
+        if (!mounted) return;
+        setState(() {});
         widget.onChanged?.call();
         final messenger = ScaffoldMessenger.of(context);
         messenger.clearSnackBars();
@@ -562,12 +569,11 @@ class _PlanScreenState extends State<PlanScreen> {
             persist: false,
             action: SnackBarAction(
               label: AppLocalizations.of(context).undo,
-              onPressed: () {
+              onPressed: () async {
                 messenger.clearSnackBars();
-                setState(() {
-                  DataRepository.removePlanned(spawned);
-                  DataRepository.addPlanned(pt);
-                });
+                await DataRepository.removePlanned(spawned);
+                await DataRepository.addPlanned(pt);
+                if (mounted) setState(() {});
                 widget.onChanged?.call();
               },
             ),
@@ -583,7 +589,8 @@ class _PlanScreenState extends State<PlanScreen> {
       MaterialPageRoute(builder: (_) => const NewPlannedTransactionScreen()),
     );
     if (result != null) {
-      setState(() => DataRepository.addPlanned(result));
+      await DataRepository.addPlanned(result);
+      if (mounted) setState(() {});
     }
   }
 
@@ -597,7 +604,8 @@ class _PlanScreenState extends State<PlanScreen> {
       builder: (ctx) => const AccountFormSheet(),
     );
     if (result is Account) {
-      setState(() => DataRepository.addAccount(result));
+      await DataRepository.addAccount(result);
+      if (mounted) setState(() {});
       widget.onChanged?.call();
     }
   }
@@ -609,7 +617,8 @@ class _PlanScreenState extends State<PlanScreen> {
           builder: (_) => NewPlannedTransactionScreen(existing: pt)),
     );
     if (result != null) {
-      setState(() => DataRepository.replacePlanned(pt, result));
+      await DataRepository.replacePlanned(pt, result);
+      if (mounted) setState(() {});
     }
   }
 

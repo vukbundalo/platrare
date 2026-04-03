@@ -123,6 +123,11 @@ class PlannedTransaction {
   // ── Core fields ───────────────────────────────────────────────────────────
   final Account? fromAccount;
   final Account? toAccount;
+
+  /// Stable account ids for persistence when [fromAccount]/[toAccount] are null.
+  final String? fromAccountId;
+  final String? toAccountId;
+
   final String? category;
   final String? description;
   final DateTime date;
@@ -165,6 +170,8 @@ class PlannedTransaction {
     this.destinationAmount,
     this.fromAccount,
     this.toAccount,
+    this.fromAccountId,
+    this.toAccountId,
     this.category,
     this.description,
     required this.date,

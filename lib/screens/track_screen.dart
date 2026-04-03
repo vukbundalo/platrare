@@ -365,9 +365,8 @@ class _TrackScreenState extends State<TrackScreen> {
       builder: (ctx) => const AccountFormSheet(),
     );
     if (result is Account) {
-      setState(() {
-        DataRepository.addAccount(result);
-      });
+      await DataRepository.addAccount(result);
+      if (mounted) setState(() {});
       widget.onChanged?.call();
     }
   }
@@ -407,7 +406,7 @@ class _TrackScreenState extends State<TrackScreen> {
     );
   }
 
-  void _deleteTransaction(Transaction t) {
+  Future<void> _deleteTransaction(Transaction t) async {
     final index = data.transactions.indexOf(t);
     if (t.nativeAmount != null) {
       if (t.fromAccount != null) t.fromAccount!.balance += t.nativeAmount!;
@@ -416,7 +415,8 @@ class _TrackScreenState extends State<TrackScreen> {
             (t.destinationAmount ?? t.nativeAmount!);
       }
     }
-    DataRepository.removeTransaction(t);
+    await DataRepository.removeTransaction(t);
+    if (!mounted) return;
     setState(() {});
     widget.onChanged?.call();
     HapticFeedback.mediumImpact();
@@ -433,7 +433,7 @@ class _TrackScreenState extends State<TrackScreen> {
         persist: false,
         action: SnackBarAction(
           label: AppLocalizations.of(context).undo,
-          onPressed: () {
+          onPressed: () async {
             messenger.clearSnackBars();
             if (t.nativeAmount != null) {
               if (t.fromAccount != null) {
@@ -445,8 +445,8 @@ class _TrackScreenState extends State<TrackScreen> {
               }
             }
             final insertAt = index < 0 ? 0 : index.clamp(0, data.transactions.length);
-            DataRepository.insertTransactionAt(insertAt, t);
-            setState(() {});
+            await DataRepository.insertTransactionAt(insertAt, t);
+            if (mounted) setState(() {});
             widget.onChanged?.call();
           },
         ),
@@ -1161,7 +1161,7 @@ class _TransactionTile extends StatelessWidget {
 
   Color _amountColor(BuildContext ctx) => txColor(_type);
 
-  void _delete(BuildContext context) {
+  Future<void> _delete(BuildContext context) async {
     final t = transaction;
     final index = data.transactions.indexOf(t);
     if (t.nativeAmount != null) {
@@ -1174,7 +1174,8 @@ class _TransactionTile extends StatelessWidget {
             (t.destinationAmount ?? t.nativeAmount!);
       }
     }
-    DataRepository.removeTransaction(t);
+    await DataRepository.removeTransaction(t);
+    if (!context.mounted) return;
     onRefresh();
     HapticFeedback.mediumImpact();
     final messenger = ScaffoldMessenger.of(context);
@@ -1190,7 +1191,7 @@ class _TransactionTile extends StatelessWidget {
         persist: false,
         action: SnackBarAction(
           label: AppLocalizations.of(context).undo,
-          onPressed: () {
+          onPressed: () async {
             messenger.clearSnackBars();
             if (t.nativeAmount != null) {
               if (t.fromAccount != null) {
@@ -1202,7 +1203,7 @@ class _TransactionTile extends StatelessWidget {
               }
             }
             final insertAt = index < 0 ? 0 : index.clamp(0, data.transactions.length);
-            DataRepository.insertTransactionAt(insertAt, t);
+            await DataRepository.insertTransactionAt(insertAt, t);
             onRefresh();
           },
         ),
@@ -1226,9 +1227,9 @@ class _TransactionTile extends StatelessWidget {
             child: Text(AppLocalizations.of(ctx).cancel),
           ),
           FilledButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(ctx);
-              _delete(context);
+              await _delete(context);
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
             child: Text(AppLocalizations.of(ctx).delete),
