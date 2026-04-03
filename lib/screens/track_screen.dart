@@ -2,12 +2,13 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/transaction.dart';
+import '../l10n/app_localizations.dart';
+import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/projections.dart' as proj;
@@ -187,20 +188,20 @@ class _TrackScreenState extends State<TrackScreen> {
   }
 
   /// Human-readable label for the current date anchor + period.
-  String get _dateLabel {
+  String _dateLabel(BuildContext context) {
     final a = _dateAnchor;
     return switch (_dateFilter) {
-      'day' => DateFormat('EEE, d MMM yyyy').format(a),
+      'day' => formatAppDate(context, 'EEE, d MMM yyyy', a),
       'week' => () {
           final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
           final sun = DateTime(mon.year, mon.month, mon.day + 6);
           final sameMon = mon.month == sun.month;
           return sameMon
-              ? '${DateFormat('d').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}'
-              : '${DateFormat('d MMM').format(mon)} – ${DateFormat('d MMM yyyy').format(sun)}';
+              ? '${formatAppDate(context, 'd', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}'
+              : '${formatAppDate(context, 'd MMM', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}';
         }(),
-      'month' => DateFormat('MMMM yyyy').format(a),
-      'year' => DateFormat('yyyy').format(a),
+      'month' => formatAppDate(context, 'MMMM yyyy', a),
+      'year' => formatAppDate(context, 'yyyy', a),
       _ => '',
     };
   }
@@ -396,7 +397,7 @@ class _TrackScreenState extends State<TrackScreen> {
                   heroTag: 'track_fab',
                   onPressed: _clearFilters,
                   icon: const Icon(Icons.filter_alt_off_rounded),
-                  label: const Text('Clear filters'),
+                  label: Text(AppLocalizations.of(context).filterClearFilters),
                 )
               : FloatingActionButton(
                   heroTag: 'track_fab',
@@ -408,6 +409,7 @@ class _TrackScreenState extends State<TrackScreen> {
 
   Widget _emptyBody(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     final hasAccounts = activeAccounts(data.accounts).isNotEmpty;
 
     return CustomScrollView(
@@ -417,11 +419,11 @@ class _TrackScreenState extends State<TrackScreen> {
           expandedHeight: 210,
           backgroundColor: cs.surface,
           scrolledUnderElevation: 0,
-          title: const Text('Track'),
+          title: Text(AppLocalizations.of(context).navTrack),
           actions: [
             IconButton(
               icon: const Icon(Icons.settings_outlined),
-              tooltip: 'Settings',
+              tooltip: AppLocalizations.of(context).tooltipSettings,
               onPressed: () async {
                 await Navigator.push(
                   context,
@@ -464,7 +466,7 @@ class _TrackScreenState extends State<TrackScreen> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
               child: TrackPlanDateNavBar(
-                label: _dateLabel,
+                label: _dateLabel(context),
                 onNavigateBack: () => _navigateDate(-1),
                 onNavigateForward: _canNavigateDateForward
                     ? () => _navigateDate(1)
@@ -518,7 +520,9 @@ class _TrackScreenState extends State<TrackScreen> {
                 ),
                 SizedBox(height: hasAccounts ? 20 : 24),
                 Text(
-                  hasAccounts ? 'No transactions yet' : 'No accounts yet',
+                  hasAccounts
+                      ? l10n.emptyNoTransactionsYet
+                      : l10n.emptyNoAccountsYet,
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge
@@ -527,8 +531,8 @@ class _TrackScreenState extends State<TrackScreen> {
                 SizedBox(height: hasAccounts ? 6 : 8),
                 Text(
                   hasAccounts
-                      ? 'Tap the button below to record your first transaction.'
-                      : 'Add your first account before recording transactions.',
+                      ? l10n.emptyRecordFirstTransaction
+                      : l10n.emptyAddFirstAccountTx,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
@@ -542,7 +546,9 @@ class _TrackScreenState extends State<TrackScreen> {
                       hasAccounts ? _openNewTransaction : _addAccount,
                   icon: const Icon(Icons.add),
                   label: Text(
-                      hasAccounts ? 'Add transaction' : 'Add account'),
+                      hasAccounts
+                          ? l10n.emptyAddTransaction
+                          : l10n.emptyAddAccount),
                   style: FilledButton.styleFrom(
                     minimumSize: const Size(200, 52),
                     shape: RoundedRectangleBorder(
@@ -559,6 +565,7 @@ class _TrackScreenState extends State<TrackScreen> {
 
   Widget _listBody(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     final isFiltered = _hasActiveFilter;
     final displayTx = _filteredTx;
     final totals = _periodTotals;
@@ -581,11 +588,11 @@ class _TrackScreenState extends State<TrackScreen> {
           expandedHeight: 210,
           backgroundColor: cs.surface,
           scrolledUnderElevation: 0,
-          title: const Text('Track'),
+          title: Text(AppLocalizations.of(context).navTrack),
           actions: [
             IconButton(
               icon: const Icon(Icons.settings_outlined),
-              tooltip: 'Settings',
+              tooltip: AppLocalizations.of(context).tooltipSettings,
               onPressed: () async {
                 await Navigator.push(
                   context,
@@ -628,7 +635,7 @@ class _TrackScreenState extends State<TrackScreen> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
               child: TrackPlanDateNavBar(
-                label: _dateLabel,
+                label: _dateLabel(context),
                 onNavigateBack: () => _navigateDate(-1),
                 onNavigateForward: _canNavigateDateForward
                     ? () => _navigateDate(1)
@@ -673,10 +680,12 @@ class _TrackScreenState extends State<TrackScreen> {
                   const SizedBox(height: 12),
                   Text(
                     isFiltered
-                        ? 'No transactions for applied filters'
+                        ? l10n.emptyNoTransactionsForFilters
                         : _dateFilter == 'all'
-                            ? 'No transactions in history'
-                            : 'No transactions for ${DateFormat('MMMM').format(DateTime.now())}',
+                            ? l10n.emptyNoTransactionsInHistory
+                            : l10n.emptyNoTransactionsForMonth(
+                                formatAppDate(
+                                    context, 'MMMM', DateTime.now())),
                     style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
@@ -776,7 +785,7 @@ class _TrackHero extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'In',
+                  AppLocalizations.of(context).heroIn,
                   style: TextStyle(
                     fontSize: AppHeroConstants.labelFontSize,
                     color: cs.onSurfaceVariant,
@@ -800,7 +809,7 @@ class _TrackHero extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Out',
+                  AppLocalizations.of(context).heroOut,
                   style: TextStyle(
                     fontSize: AppHeroConstants.secondaryLabelFontSize,
                     color: cs.onSurfaceVariant,
@@ -864,12 +873,15 @@ class _DaySection extends StatefulWidget {
 class _DaySectionState extends State<_DaySection> {
   bool _showHistory = false;
 
-  String _dayLabel() {
+  String _dayLabel(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final today = DateUtils.dateOnly(DateTime.now());
     final target = DateUtils.dateOnly(widget.date);
-    if (target == today) return 'Today';
-    if (target == today.subtract(const Duration(days: 1))) return 'Yesterday';
-    return DateFormat('EEEE, MMM d').format(widget.date);
+    if (target == today) return l10n.dateToday;
+    if (target == today.subtract(const Duration(days: 1))) {
+      return l10n.dateYesterday;
+    }
+    return formatAppDate(context, 'EEEE, MMM d', widget.date);
   }
 
   @override
@@ -890,7 +902,7 @@ class _DaySectionState extends State<_DaySection> {
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 6),
-          child: Text(_dayLabel(),
+          child: Text(_dayLabel(context),
               style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
@@ -981,7 +993,7 @@ class _TransactionTile extends StatelessWidget {
   Color _iconColor(BuildContext ctx) => txColor(_type);
   IconData get _icon => txIcon(_type);
 
-  String _title() {
+  String _title(BuildContext context) {
     final t = transaction;
     if (t.description != null) return t.description!;
     if (t.category != null) return t.category!;
@@ -990,7 +1002,7 @@ class _TransactionTile extends StatelessWidget {
     }
     if (t.fromAccount != null) return t.fromAccount!.name;
     if (t.toAccount != null) return t.toAccount!.name;
-    return 'Transaction';
+    return AppLocalizations.of(context).trackTransaction;
   }
 
   String? _subtitle() {
@@ -1037,7 +1049,7 @@ class _TransactionTile extends StatelessWidget {
     messenger.clearSnackBars();
     messenger.showSnackBar(
       SnackBar(
-        content: const Text('Transaction deleted'),
+        content: Text(AppLocalizations.of(context).trackTransactionDeleted),
         behavior: SnackBarBehavior.floating,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -1045,7 +1057,7 @@ class _TransactionTile extends StatelessWidget {
         duration: const Duration(seconds: 5),
         persist: false,
         action: SnackBarAction(
-          label: 'Undo',
+          label: AppLocalizations.of(context).undo,
           onPressed: () {
             messenger.clearSnackBars();
             if (t.nativeAmount != null) {
@@ -1072,15 +1084,14 @@ class _TransactionTile extends StatelessWidget {
       builder: (ctx) => AlertDialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('Delete transaction?'),
-        content:
-            const Text('This will reverse the account balance changes.'),
+        title: Text(AppLocalizations.of(context).trackDeleteTitle),
+        content: Text(AppLocalizations.of(context).trackDeleteBody),
         icon: Icon(Icons.delete_outline_rounded,
             color: Theme.of(context).colorScheme.error),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(ctx).cancel),
           ),
           FilledButton(
             onPressed: () {
@@ -1088,7 +1099,7 @@ class _TransactionTile extends StatelessWidget {
               _delete(context);
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Delete'),
+            child: Text(AppLocalizations.of(ctx).delete),
           ),
         ],
       ),
@@ -1138,7 +1149,7 @@ class _TransactionTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(_title(),
+                  Text(_title(context),
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -1234,7 +1245,9 @@ class _HistoryPanel extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (personal.isNotEmpty) ...[
-            Text('PERSONAL',
+            Text(
+                l10nAccountSectionTitle(context, AccountGroup.personal)
+                    .toUpperCase(),
                 style: TextStyle(
                     fontSize: 10,
                     letterSpacing: 0.8,
@@ -1254,7 +1267,9 @@ class _HistoryPanel extends StatelessWidget {
           ],
           if (individuals.isNotEmpty) ...[
             const SizedBox(height: 10),
-            Text('INDIVIDUALS',
+            Text(
+                l10nAccountSectionTitle(context, AccountGroup.individuals)
+                    .toUpperCase(),
                 style: TextStyle(
                     fontSize: 10,
                     letterSpacing: 0.8,
@@ -1275,7 +1290,9 @@ class _HistoryPanel extends StatelessWidget {
           ],
           if (entities.isNotEmpty) ...[
             const SizedBox(height: 10),
-            Text('ENTITIES',
+            Text(
+                l10nAccountSectionTitle(context, AccountGroup.entities)
+                    .toUpperCase(),
                 style: TextStyle(
                     fontSize: 10,
                     letterSpacing: 0.8,
