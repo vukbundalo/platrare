@@ -41,7 +41,18 @@ TxType classifyTransaction({required Account? from, required Account? to}) {
 class Account {
   final String id;
   String name;
+
+  /// Optional bank, issuer, or place where the account lives. Shown as
+  /// "Name (Institution)" in lists when non-empty.
+  String? institution;
+
   AccountGroup group;
+
+  /// Material icon code point; `0` means show the first letter of [name].
+  int iconCodePoint;
+
+  /// Custom avatar background as [Color.value]; null uses theme by [group].
+  int? colorArgb;
 
   /// Native balance in this account's own currency (Rule 2).
   /// For net-worth calculations always multiply by a live FX rate (Rule 5).
@@ -71,7 +82,10 @@ class Account {
   Account({
     String? id,
     required this.name,
+    this.institution,
     AccountGroup? group,
+    this.iconCodePoint = 0,
+    this.colorArgb,
     this.balance = 0.0,
     this.currencyCode = 'BAM',
     this.overdraftLimit = 0.0,
@@ -98,7 +112,10 @@ class Account {
 
   Account copyWith({
     String? name,
+    String? institution,
     AccountGroup? group,
+    int? iconCodePoint,
+    int? colorArgb,
     double? balance,
     String? currencyCode,
     double? overdraftLimit,
@@ -109,7 +126,10 @@ class Account {
   }) => Account(
     id: id,
     name: name ?? this.name,
+    institution: institution ?? this.institution,
     group: group ?? this.group,
+    iconCodePoint: iconCodePoint ?? this.iconCodePoint,
+    colorArgb: colorArgb ?? this.colorArgb,
     balance: balance ?? this.balance,
     currencyCode: currencyCode ?? this.currencyCode,
     overdraftLimit: overdraftLimit ?? this.overdraftLimit,

@@ -5,8 +5,10 @@ import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
 import '../l10n/app_localizations.dart';
+import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
+import '../widgets/account_avatar.dart';
 import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
 import '../utils/projections.dart' as proj;
@@ -398,7 +400,6 @@ class _NewPlannedTransactionScreenState
                     label: AppLocalizations.of(context).labelFrom,
                     account: _fromAccount,
                     leadingIcon: Icons.arrow_upward_rounded,
-                    leadingIconAccent: context.ledgerColors.negative,
                     projectedBalance: fromHeadroom,
                     onTap: () async {
                       final a = await _showAccountPicker(exclude: _toAccount);
@@ -415,7 +416,6 @@ class _NewPlannedTransactionScreenState
                     label: AppLocalizations.of(context).labelTo,
                     account: _toAccount,
                     leadingIcon: Icons.arrow_downward_rounded,
-                    leadingIconAccent: context.ledgerColors.positive,
                     projectedBalance: toHeadroom,
                     onTap: () async {
                       final a = await _showAccountPicker(exclude: _fromAccount);
@@ -479,7 +479,8 @@ class _NewPlannedTransactionScreenState
                       decoration: InputDecoration(
                         labelText: AppLocalizations.of(context)
                             .destReceivesLabel(
-                                _toAccount!.name, _toAccount!.currencyCode),
+                                accountDisplayName(_toAccount!),
+                                _toAccount!.currencyCode),
                         suffixText:
                             '  ${fx.currencySymbol(_toAccount!.currencyCode)}',
                         hintText: '0.00',
@@ -584,7 +585,6 @@ class _AccountPickerTile extends StatelessWidget {
   final String label;
   final Account? account;
   final IconData leadingIcon;
-  final Color leadingIconAccent;
   final double? projectedBalance;
   final VoidCallback onTap;
   final VoidCallback? onClear;
@@ -593,7 +593,6 @@ class _AccountPickerTile extends StatelessWidget {
     required this.label,
     required this.account,
     required this.leadingIcon,
-    required this.leadingIconAccent,
     required this.onTap,
     this.projectedBalance,
     this.onClear,
@@ -604,14 +603,6 @@ class _AccountPickerTile extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
     final lc = context.ledgerColors;
     final hasAccount = account != null;
-    final isPersonal =
-        hasAccount ? account!.group == AccountGroup.personal : true;
-    final isEntities = hasAccount && account!.group == AccountGroup.entities;
-    final avatarBg = isPersonal
-        ? cs.primaryContainer
-        : isEntities
-            ? cs.secondaryContainer
-            : cs.tertiaryContainer;
 
     return Material(
       color: cs.surfaceContainerLow,
@@ -623,24 +614,28 @@ class _AccountPickerTile extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           child: Row(
             children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color:
-                      hasAccount ? avatarBg : cs.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Icon(
-                    leadingIcon,
-                    size: 22,
-                    color: hasAccount
-                        ? leadingIconAccent
-                        : cs.onSurfaceVariant,
+              if (hasAccount)
+                AccountAvatar(
+                  account: account!,
+                  size: 40,
+                  borderRadius: 10,
+                )
+              else
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: cs.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      leadingIcon,
+                      size: 22,
+                      color: cs.onSurfaceVariant,
+                    ),
                   ),
                 ),
-              ),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
@@ -653,7 +648,7 @@ class _AccountPickerTile extends StatelessWidget {
                             fontWeight: FontWeight.w500)),
                     Text(
                       hasAccount
-                          ? account!.name
+                          ? accountDisplayName(account!)
                           : AppLocalizations.of(context).tapToSelect,
                       style: TextStyle(
                         fontSize: 15,
@@ -1286,18 +1281,6 @@ class _AccountListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final lc = context.ledgerColors;
-    final isPersonal = account.group == AccountGroup.personal;
-    final isEntities = account.group == AccountGroup.entities;
-    final avatarBg = isPersonal
-        ? cs.primaryContainer
-        : isEntities
-            ? cs.secondaryContainer
-            : cs.tertiaryContainer;
-    final avatarFg = isPersonal
-        ? cs.onPrimaryContainer
-        : isEntities
-            ? cs.onSecondaryContainer
-            : cs.onTertiaryContainer;
     final balPos = projectedBalance >= 0;
 
     return Padding(
@@ -1312,27 +1295,14 @@ class _AccountListTile extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             child: Row(
               children: [
-                Container(
-                  width: 38,
-                  height: 38,
-                  decoration: BoxDecoration(
-                    color: avatarBg,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text(
-                      account.name[0].toUpperCase(),
-                      style: TextStyle(
-                        color: avatarFg,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
+                AccountAvatar(
+                  account: account,
+                  size: 38,
+                  borderRadius: 10,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: Text(account.name,
+                  child: Text(accountDisplayName(account),
                       style: const TextStyle(
                           fontWeight: FontWeight.w600, fontSize: 15)),
                 ),

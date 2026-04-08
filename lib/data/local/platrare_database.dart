@@ -19,7 +19,10 @@ part 'platrare_database.g.dart';
 class DbAccounts extends Table {
   TextColumn get id => text()();
   TextColumn get name => text()();
+  TextColumn get institution => text().nullable()();
   IntColumn get groupIndex => integer()();
+  IntColumn get iconCodePoint => integer().withDefault(const Constant(0))();
+  IntColumn get colorArgb => integer().nullable()();
   RealColumn get balance => real().withDefault(const Constant(0))();
   TextColumn get currencyCode => text().withDefault(const Constant('BAM'))();
   RealColumn get overdraftLimit => real().withDefault(const Constant(0))();
@@ -136,7 +139,7 @@ class PlatrareDatabase extends _$PlatrareDatabase {
   }
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -149,6 +152,11 @@ class PlatrareDatabase extends _$PlatrareDatabase {
             await customStatement(
               'UPDATE db_accounts SET updated_at = created_at WHERE updated_at IS NULL',
             );
+          }
+          if (from < 3) {
+            await m.addColumn(dbAccounts, dbAccounts.institution);
+            await m.addColumn(dbAccounts, dbAccounts.iconCodePoint);
+            await m.addColumn(dbAccounts, dbAccounts.colorArgb);
           }
         },
       );
@@ -254,7 +262,10 @@ class PlatrareDatabase extends _$PlatrareDatabase {
   Account _accountFromRow(AccountRow r) => Account(
         id: r.id,
         name: r.name,
+        institution: r.institution,
         group: AccountGroup.values[r.groupIndex.clamp(0, 2)],
+        iconCodePoint: r.iconCodePoint,
+        colorArgb: r.colorArgb,
         balance: r.balance,
         currencyCode: r.currencyCode,
         overdraftLimit: r.overdraftLimit,
@@ -347,7 +358,10 @@ class PlatrareDatabase extends _$PlatrareDatabase {
     return DbAccountsCompanion(
       id: Value(a.id),
       name: Value(a.name),
+      institution: Value(a.institution),
       groupIndex: Value(a.group.index),
+      iconCodePoint: Value(a.iconCodePoint),
+      colorArgb: Value(a.colorArgb),
       balance: Value(a.balance),
       currencyCode: Value(a.currencyCode),
       overdraftLimit: Value(a.overdraftLimit),

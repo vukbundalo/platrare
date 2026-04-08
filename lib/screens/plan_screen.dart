@@ -10,9 +10,11 @@ import '../models/account.dart';
 import '../models/planned_transaction.dart';
 import '../models/transaction.dart';
 import '../l10n/app_localizations.dart';
+import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
+import '../widgets/account_avatar.dart';
 import '../utils/persistence_guard.dart';
 import '../utils/projections.dart' as proj;
 import '../theme/ledger_colors.dart';
@@ -1218,8 +1220,6 @@ class _ProjectionAccountCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final lc = context.ledgerColors;
-    final isPersonal = account.group == AccountGroup.personal;
-    final isEntities = account.group == AccountGroup.entities;
 
     final shownBook = projectedBookNative;
     final shownMain = account.hasOverdraftFacility
@@ -1231,20 +1231,8 @@ class _ProjectionAccountCard extends StatelessWidget {
     final bookPositive = shownBook >= 0;
     final bookColor = bookPositive ? lc.positive : lc.negative;
 
-    final avatarBg = isPersonal
-        ? cs.primaryContainer
-        : isEntities
-            ? cs.secondaryContainer
-            : cs.tertiaryContainer;
-    final avatarFg = isPersonal
-        ? cs.onPrimaryContainer
-        : isEntities
-            ? cs.onSecondaryContainer
-            : cs.onTertiaryContainer;
     final groupLabel =
         l10nAccountCardGroupLabel(context, account.group);
-
-    final initial = account.name.isNotEmpty ? account.name[0].toUpperCase() : '?';
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
@@ -1255,31 +1243,14 @@ class _ProjectionAccountCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           child: Row(
             children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: avatarBg,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Center(
-                  child: Text(
-                    initial,
-                    style: TextStyle(
-                      color: avatarFg,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 17,
-                    ),
-                  ),
-                ),
-              ),
+              AccountAvatar(account: account),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      account.name,
+                      accountDisplayName(account),
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 15,
@@ -1759,7 +1730,7 @@ class _ProjectionPanel extends StatelessWidget {
             ...personal.map((a) {
               final book = projectedBalances[a.id] ?? a.balance;
               return _BalanceChip(
-                name: a.name,
+                name: accountDisplayName(a),
                 balance: a.personalHeadroomNative(book),
                 currencyCode: a.currencyCode,
                 isGain: gainIds.contains(a.id),
@@ -1781,7 +1752,7 @@ class _ProjectionPanel extends StatelessWidget {
             ...individuals.map((a) {
               final book = projectedBalances[a.id] ?? a.balance;
               return _BalanceChip(
-                name: a.name,
+                name: accountDisplayName(a),
                 balance: a.personalHeadroomNative(book),
                 currencyCode: a.currencyCode,
                 isPartner: true,
@@ -1804,7 +1775,7 @@ class _ProjectionPanel extends StatelessWidget {
             ...entities.map((a) {
               final book = projectedBalances[a.id] ?? a.balance;
               return _BalanceChip(
-                name: a.name,
+                name: accountDisplayName(a),
                 balance: a.personalHeadroomNative(book),
                 currencyCode: a.currencyCode,
                 isPartner: true,
@@ -1921,10 +1892,10 @@ class _PlannedTile extends StatelessWidget {
     }
     if (pt.category != null) return l10nCategoryName(context, pt.category!);
     if (pt.fromAccount != null && pt.toAccount != null) {
-      return '${pt.fromAccount!.name} → ${pt.toAccount!.name}';
+      return '${accountDisplayName(pt.fromAccount!)} → ${accountDisplayName(pt.toAccount!)}';
     }
-    if (pt.fromAccount != null) return pt.fromAccount!.name;
-    if (pt.toAccount != null) return pt.toAccount!.name;
+    if (pt.fromAccount != null) return accountDisplayName(pt.fromAccount!);
+    if (pt.toAccount != null) return accountDisplayName(pt.toAccount!);
     return AppLocalizations.of(context).planPlannedTransaction;
   }
 
@@ -1936,11 +1907,12 @@ class _PlannedTile extends StatelessWidget {
     if (pt.fromAccount != null || pt.toAccount != null) {
       if (pt.description != null || pt.category != null) {
         if (pt.fromAccount != null && pt.toAccount != null) {
-          parts.add('${pt.fromAccount!.name} → ${pt.toAccount!.name}');
+          parts.add(
+              '${accountDisplayName(pt.fromAccount!)} → ${accountDisplayName(pt.toAccount!)}');
         } else if (pt.fromAccount != null) {
-          parts.add(pt.fromAccount!.name);
+          parts.add(accountDisplayName(pt.fromAccount!));
         } else if (pt.toAccount != null) {
-          parts.add(pt.toAccount!.name);
+          parts.add(accountDisplayName(pt.toAccount!));
         }
       }
     }

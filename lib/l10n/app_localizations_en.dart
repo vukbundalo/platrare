@@ -864,6 +864,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get labelAccountName => 'Account name';
 
   @override
+  String get labelAccountInstitution => 'Institution (optional)';
+
+  @override
+  String get accountAppearanceSection => 'Icon & color';
+
+  @override
+  String get accountPickIcon => 'Choose icon';
+
+  @override
+  String get accountPickColor => 'Choose color';
+
+  @override
+  String get accountIconSheetTitle => 'Account icon';
+
+  @override
+  String get accountColorSheetTitle => 'Account color';
+
+  @override
+  String get accountUseInitialLetter => 'Initial letter';
+
+  @override
+  String get accountUseDefaultColor => 'Match group';
+
+  @override
   String get labelRealBalance => 'Real balance';
 
   @override

@@ -27,6 +27,17 @@ class $DbAccountsTable extends DbAccounts
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _institutionMeta = const VerificationMeta(
+    'institution',
+  );
+  @override
+  late final GeneratedColumn<String> institution = GeneratedColumn<String>(
+    'institution',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _groupIndexMeta = const VerificationMeta(
     'groupIndex',
   );
@@ -37,6 +48,29 @@ class $DbAccountsTable extends DbAccounts
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: true,
+  );
+  static const VerificationMeta _iconCodePointMeta = const VerificationMeta(
+    'iconCodePoint',
+  );
+  @override
+  late final GeneratedColumn<int> iconCodePoint = GeneratedColumn<int>(
+    'icon_code_point',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _colorArgbMeta = const VerificationMeta(
+    'colorArgb',
+  );
+  @override
+  late final GeneratedColumn<int> colorArgb = GeneratedColumn<int>(
+    'color_argb',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
   );
   static const VerificationMeta _balanceMeta = const VerificationMeta(
     'balance',
@@ -127,7 +161,10 @@ class $DbAccountsTable extends DbAccounts
   List<GeneratedColumn> get $columns => [
     id,
     name,
+    institution,
     groupIndex,
+    iconCodePoint,
+    colorArgb,
     balance,
     currencyCode,
     overdraftLimit,
@@ -161,6 +198,15 @@ class $DbAccountsTable extends DbAccounts
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
+    if (data.containsKey('institution')) {
+      context.handle(
+        _institutionMeta,
+        institution.isAcceptableOrUnknown(
+          data['institution']!,
+          _institutionMeta,
+        ),
+      );
+    }
     if (data.containsKey('group_index')) {
       context.handle(
         _groupIndexMeta,
@@ -168,6 +214,21 @@ class $DbAccountsTable extends DbAccounts
       );
     } else if (isInserting) {
       context.missing(_groupIndexMeta);
+    }
+    if (data.containsKey('icon_code_point')) {
+      context.handle(
+        _iconCodePointMeta,
+        iconCodePoint.isAcceptableOrUnknown(
+          data['icon_code_point']!,
+          _iconCodePointMeta,
+        ),
+      );
+    }
+    if (data.containsKey('color_argb')) {
+      context.handle(
+        _colorArgbMeta,
+        colorArgb.isAcceptableOrUnknown(data['color_argb']!, _colorArgbMeta),
+      );
     }
     if (data.containsKey('balance')) {
       context.handle(
@@ -236,10 +297,22 @@ class $DbAccountsTable extends DbAccounts
         DriftSqlType.string,
         data['${effectivePrefix}name'],
       )!,
+      institution: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}institution'],
+      ),
       groupIndex: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}group_index'],
       )!,
+      iconCodePoint: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}icon_code_point'],
+      )!,
+      colorArgb: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}color_argb'],
+      ),
       balance: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}balance'],
@@ -280,7 +353,10 @@ class $DbAccountsTable extends DbAccounts
 class AccountRow extends DataClass implements Insertable<AccountRow> {
   final String id;
   final String name;
+  final String? institution;
   final int groupIndex;
+  final int iconCodePoint;
+  final int? colorArgb;
   final double balance;
   final String currencyCode;
   final double overdraftLimit;
@@ -291,7 +367,10 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
   const AccountRow({
     required this.id,
     required this.name,
+    this.institution,
     required this.groupIndex,
+    required this.iconCodePoint,
+    this.colorArgb,
     required this.balance,
     required this.currencyCode,
     required this.overdraftLimit,
@@ -305,7 +384,14 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
+    if (!nullToAbsent || institution != null) {
+      map['institution'] = Variable<String>(institution);
+    }
     map['group_index'] = Variable<int>(groupIndex);
+    map['icon_code_point'] = Variable<int>(iconCodePoint);
+    if (!nullToAbsent || colorArgb != null) {
+      map['color_argb'] = Variable<int>(colorArgb);
+    }
     map['balance'] = Variable<double>(balance);
     map['currency_code'] = Variable<String>(currencyCode);
     map['overdraft_limit'] = Variable<double>(overdraftLimit);
@@ -322,7 +408,14 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
     return DbAccountsCompanion(
       id: Value(id),
       name: Value(name),
+      institution: institution == null && nullToAbsent
+          ? const Value.absent()
+          : Value(institution),
       groupIndex: Value(groupIndex),
+      iconCodePoint: Value(iconCodePoint),
+      colorArgb: colorArgb == null && nullToAbsent
+          ? const Value.absent()
+          : Value(colorArgb),
       balance: Value(balance),
       currencyCode: Value(currencyCode),
       overdraftLimit: Value(overdraftLimit),
@@ -343,7 +436,10 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
     return AccountRow(
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
+      institution: serializer.fromJson<String?>(json['institution']),
       groupIndex: serializer.fromJson<int>(json['groupIndex']),
+      iconCodePoint: serializer.fromJson<int>(json['iconCodePoint']),
+      colorArgb: serializer.fromJson<int?>(json['colorArgb']),
       balance: serializer.fromJson<double>(json['balance']),
       currencyCode: serializer.fromJson<String>(json['currencyCode']),
       overdraftLimit: serializer.fromJson<double>(json['overdraftLimit']),
@@ -359,7 +455,10 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
+      'institution': serializer.toJson<String?>(institution),
       'groupIndex': serializer.toJson<int>(groupIndex),
+      'iconCodePoint': serializer.toJson<int>(iconCodePoint),
+      'colorArgb': serializer.toJson<int?>(colorArgb),
       'balance': serializer.toJson<double>(balance),
       'currencyCode': serializer.toJson<String>(currencyCode),
       'overdraftLimit': serializer.toJson<double>(overdraftLimit),
@@ -373,7 +472,10 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
   AccountRow copyWith({
     String? id,
     String? name,
+    Value<String?> institution = const Value.absent(),
     int? groupIndex,
+    int? iconCodePoint,
+    Value<int?> colorArgb = const Value.absent(),
     double? balance,
     String? currencyCode,
     double? overdraftLimit,
@@ -384,7 +486,10 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
   }) => AccountRow(
     id: id ?? this.id,
     name: name ?? this.name,
+    institution: institution.present ? institution.value : this.institution,
     groupIndex: groupIndex ?? this.groupIndex,
+    iconCodePoint: iconCodePoint ?? this.iconCodePoint,
+    colorArgb: colorArgb.present ? colorArgb.value : this.colorArgb,
     balance: balance ?? this.balance,
     currencyCode: currencyCode ?? this.currencyCode,
     overdraftLimit: overdraftLimit ?? this.overdraftLimit,
@@ -397,9 +502,16 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
     return AccountRow(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
+      institution: data.institution.present
+          ? data.institution.value
+          : this.institution,
       groupIndex: data.groupIndex.present
           ? data.groupIndex.value
           : this.groupIndex,
+      iconCodePoint: data.iconCodePoint.present
+          ? data.iconCodePoint.value
+          : this.iconCodePoint,
+      colorArgb: data.colorArgb.present ? data.colorArgb.value : this.colorArgb,
       balance: data.balance.present ? data.balance.value : this.balance,
       currencyCode: data.currencyCode.present
           ? data.currencyCode.value
@@ -419,7 +531,10 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
     return (StringBuffer('AccountRow(')
           ..write('id: $id, ')
           ..write('name: $name, ')
+          ..write('institution: $institution, ')
           ..write('groupIndex: $groupIndex, ')
+          ..write('iconCodePoint: $iconCodePoint, ')
+          ..write('colorArgb: $colorArgb, ')
           ..write('balance: $balance, ')
           ..write('currencyCode: $currencyCode, ')
           ..write('overdraftLimit: $overdraftLimit, ')
@@ -435,7 +550,10 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
   int get hashCode => Object.hash(
     id,
     name,
+    institution,
     groupIndex,
+    iconCodePoint,
+    colorArgb,
     balance,
     currencyCode,
     overdraftLimit,
@@ -450,7 +568,10 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
       (other is AccountRow &&
           other.id == this.id &&
           other.name == this.name &&
+          other.institution == this.institution &&
           other.groupIndex == this.groupIndex &&
+          other.iconCodePoint == this.iconCodePoint &&
+          other.colorArgb == this.colorArgb &&
           other.balance == this.balance &&
           other.currencyCode == this.currencyCode &&
           other.overdraftLimit == this.overdraftLimit &&
@@ -463,7 +584,10 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
 class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
   final Value<String> id;
   final Value<String> name;
+  final Value<String?> institution;
   final Value<int> groupIndex;
+  final Value<int> iconCodePoint;
+  final Value<int?> colorArgb;
   final Value<double> balance;
   final Value<String> currencyCode;
   final Value<double> overdraftLimit;
@@ -475,7 +599,10 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
   const DbAccountsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
+    this.institution = const Value.absent(),
     this.groupIndex = const Value.absent(),
+    this.iconCodePoint = const Value.absent(),
+    this.colorArgb = const Value.absent(),
     this.balance = const Value.absent(),
     this.currencyCode = const Value.absent(),
     this.overdraftLimit = const Value.absent(),
@@ -488,7 +615,10 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
   DbAccountsCompanion.insert({
     required String id,
     required String name,
+    this.institution = const Value.absent(),
     required int groupIndex,
+    this.iconCodePoint = const Value.absent(),
+    this.colorArgb = const Value.absent(),
     this.balance = const Value.absent(),
     this.currencyCode = const Value.absent(),
     this.overdraftLimit = const Value.absent(),
@@ -504,7 +634,10 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
   static Insertable<AccountRow> custom({
     Expression<String>? id,
     Expression<String>? name,
+    Expression<String>? institution,
     Expression<int>? groupIndex,
+    Expression<int>? iconCodePoint,
+    Expression<int>? colorArgb,
     Expression<double>? balance,
     Expression<String>? currencyCode,
     Expression<double>? overdraftLimit,
@@ -517,7 +650,10 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
+      if (institution != null) 'institution': institution,
       if (groupIndex != null) 'group_index': groupIndex,
+      if (iconCodePoint != null) 'icon_code_point': iconCodePoint,
+      if (colorArgb != null) 'color_argb': colorArgb,
       if (balance != null) 'balance': balance,
       if (currencyCode != null) 'currency_code': currencyCode,
       if (overdraftLimit != null) 'overdraft_limit': overdraftLimit,
@@ -532,7 +668,10 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
   DbAccountsCompanion copyWith({
     Value<String>? id,
     Value<String>? name,
+    Value<String?>? institution,
     Value<int>? groupIndex,
+    Value<int>? iconCodePoint,
+    Value<int?>? colorArgb,
     Value<double>? balance,
     Value<String>? currencyCode,
     Value<double>? overdraftLimit,
@@ -545,7 +684,10 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
     return DbAccountsCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
+      institution: institution ?? this.institution,
       groupIndex: groupIndex ?? this.groupIndex,
+      iconCodePoint: iconCodePoint ?? this.iconCodePoint,
+      colorArgb: colorArgb ?? this.colorArgb,
       balance: balance ?? this.balance,
       currencyCode: currencyCode ?? this.currencyCode,
       overdraftLimit: overdraftLimit ?? this.overdraftLimit,
@@ -566,8 +708,17 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
+    if (institution.present) {
+      map['institution'] = Variable<String>(institution.value);
+    }
     if (groupIndex.present) {
       map['group_index'] = Variable<int>(groupIndex.value);
+    }
+    if (iconCodePoint.present) {
+      map['icon_code_point'] = Variable<int>(iconCodePoint.value);
+    }
+    if (colorArgb.present) {
+      map['color_argb'] = Variable<int>(colorArgb.value);
     }
     if (balance.present) {
       map['balance'] = Variable<double>(balance.value);
@@ -601,7 +752,10 @@ class DbAccountsCompanion extends UpdateCompanion<AccountRow> {
     return (StringBuffer('DbAccountsCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
+          ..write('institution: $institution, ')
           ..write('groupIndex: $groupIndex, ')
+          ..write('iconCodePoint: $iconCodePoint, ')
+          ..write('colorArgb: $colorArgb, ')
           ..write('balance: $balance, ')
           ..write('currencyCode: $currencyCode, ')
           ..write('overdraftLimit: $overdraftLimit, ')
@@ -3271,7 +3425,10 @@ typedef $$DbAccountsTableCreateCompanionBuilder =
     DbAccountsCompanion Function({
       required String id,
       required String name,
+      Value<String?> institution,
       required int groupIndex,
+      Value<int> iconCodePoint,
+      Value<int?> colorArgb,
       Value<double> balance,
       Value<String> currencyCode,
       Value<double> overdraftLimit,
@@ -3285,7 +3442,10 @@ typedef $$DbAccountsTableUpdateCompanionBuilder =
     DbAccountsCompanion Function({
       Value<String> id,
       Value<String> name,
+      Value<String?> institution,
       Value<int> groupIndex,
+      Value<int> iconCodePoint,
+      Value<int?> colorArgb,
       Value<double> balance,
       Value<String> currencyCode,
       Value<double> overdraftLimit,
@@ -3315,8 +3475,23 @@ class $$DbAccountsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get institution => $composableBuilder(
+    column: $table.institution,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<int> get groupIndex => $composableBuilder(
     column: $table.groupIndex,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get iconCodePoint => $composableBuilder(
+    column: $table.iconCodePoint,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get colorArgb => $composableBuilder(
+    column: $table.colorArgb,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -3375,8 +3550,23 @@ class $$DbAccountsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get institution => $composableBuilder(
+    column: $table.institution,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get groupIndex => $composableBuilder(
     column: $table.groupIndex,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get iconCodePoint => $composableBuilder(
+    column: $table.iconCodePoint,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get colorArgb => $composableBuilder(
+    column: $table.colorArgb,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -3431,10 +3621,23 @@ class $$DbAccountsTableAnnotationComposer
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
 
+  GeneratedColumn<String> get institution => $composableBuilder(
+    column: $table.institution,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<int> get groupIndex => $composableBuilder(
     column: $table.groupIndex,
     builder: (column) => column,
   );
+
+  GeneratedColumn<int> get iconCodePoint => $composableBuilder(
+    column: $table.iconCodePoint,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get colorArgb =>
+      $composableBuilder(column: $table.colorArgb, builder: (column) => column);
 
   GeneratedColumn<double> get balance =>
       $composableBuilder(column: $table.balance, builder: (column) => column);
@@ -3495,7 +3698,10 @@ class $$DbAccountsTableTableManager
               ({
                 Value<String> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
+                Value<String?> institution = const Value.absent(),
                 Value<int> groupIndex = const Value.absent(),
+                Value<int> iconCodePoint = const Value.absent(),
+                Value<int?> colorArgb = const Value.absent(),
                 Value<double> balance = const Value.absent(),
                 Value<String> currencyCode = const Value.absent(),
                 Value<double> overdraftLimit = const Value.absent(),
@@ -3507,7 +3713,10 @@ class $$DbAccountsTableTableManager
               }) => DbAccountsCompanion(
                 id: id,
                 name: name,
+                institution: institution,
                 groupIndex: groupIndex,
+                iconCodePoint: iconCodePoint,
+                colorArgb: colorArgb,
                 balance: balance,
                 currencyCode: currencyCode,
                 overdraftLimit: overdraftLimit,
@@ -3521,7 +3730,10 @@ class $$DbAccountsTableTableManager
               ({
                 required String id,
                 required String name,
+                Value<String?> institution = const Value.absent(),
                 required int groupIndex,
+                Value<int> iconCodePoint = const Value.absent(),
+                Value<int?> colorArgb = const Value.absent(),
                 Value<double> balance = const Value.absent(),
                 Value<String> currencyCode = const Value.absent(),
                 Value<double> overdraftLimit = const Value.absent(),
@@ -3533,7 +3745,10 @@ class $$DbAccountsTableTableManager
               }) => DbAccountsCompanion.insert(
                 id: id,
                 name: name,
+                institution: institution,
                 groupIndex: groupIndex,
+                iconCodePoint: iconCodePoint,
+                colorArgb: colorArgb,
                 balance: balance,
                 currencyCode: currencyCode,
                 overdraftLimit: overdraftLimit,

@@ -10,8 +10,10 @@ import '../data/user_settings.dart' as settings;
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../models/transaction.dart';
+import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
+import '../widgets/account_avatar.dart';
 import '../utils/persistence_guard.dart';
 import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
@@ -545,7 +547,8 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                     const SizedBox(height: 20),
                     _SectionLabel(AppLocalizations.of(context)
                         .amountReceivedBy(
-                            _toAccount!.name, _toAccount!.currencyCode)),
+                            accountDisplayName(_toAccount!),
+                            _toAccount!.currencyCode)),
                     const SizedBox(height: 8),
                     TextField(
                       controller: _destinationAmountController,
@@ -731,13 +734,6 @@ class _AccountTile extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
     final lc = context.ledgerColors;
     final has = account != null;
-    final isPersonal = has && account!.group == AccountGroup.personal;
-    final isEntities = has && account!.group == AccountGroup.entities;
-    final avatarColor = isPersonal
-        ? cs.primaryContainer
-        : isEntities
-            ? cs.secondaryContainer
-            : cs.tertiaryContainer;
     final headroom =
         has ? account!.personalHeadroomNative(account!.balance) : 0.0;
 
@@ -760,21 +756,28 @@ class _AccountTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: has ? avatarColor : cs.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Icon(
-                  icon,
-                  size: 22,
-                  color: has ? accentColor : cs.onSurfaceVariant,
+            if (has)
+              AccountAvatar(
+                account: account!,
+                size: 40,
+                borderRadius: 10,
+              )
+            else
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: cs.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Icon(
+                    icon,
+                    size: 22,
+                    color: cs.onSurfaceVariant,
+                  ),
                 ),
               ),
-            ),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
@@ -792,7 +795,7 @@ class _AccountTile extends StatelessWidget {
                   const SizedBox(height: 1),
                   Text(
                     has
-                        ? account!.name
+                        ? accountDisplayName(account!)
                         : AppLocalizations.of(context).selectAccount,
                     style: TextStyle(
                       fontSize: 15,
@@ -916,7 +919,7 @@ class _AccountPickerSheet extends StatelessWidget {
                         cs.primary),
                     const SizedBox(height: 6),
                     ...personal.map((a) =>
-                        _sheetTile(context, account: a, isPersonal: true)),
+                        _sheetTile(context, account: a)),
                   ],
                   if (individuals.isNotEmpty) ...[
                     const SizedBox(height: 12),
@@ -927,7 +930,7 @@ class _AccountPickerSheet extends StatelessWidget {
                         cs.tertiary),
                     const SizedBox(height: 6),
                     ...individuals.map((a) =>
-                        _sheetTile(context, account: a, isPersonal: false)),
+                        _sheetTile(context, account: a)),
                   ],
                   if (entities.isNotEmpty) ...[
                     const SizedBox(height: 12),
@@ -937,7 +940,7 @@ class _AccountPickerSheet extends StatelessWidget {
                         cs.secondary),
                     const SizedBox(height: 6),
                     ...entities.map((a) =>
-                        _sheetTile(context, account: a, isPersonal: false)),
+                        _sheetTile(context, account: a)),
                   ],
                   if (personal.isEmpty && individuals.isEmpty && entities.isEmpty)
                     Padding(
@@ -973,8 +976,7 @@ class _AccountPickerSheet extends StatelessWidget {
     );
   }
 
-  Widget _sheetTile(BuildContext ctx,
-      {required Account account, required bool isPersonal}) {
+  Widget _sheetTile(BuildContext ctx, {required Account account}) {
     final cs = Theme.of(ctx).colorScheme;
     final lc = ctx.ledgerColors;
     final headroom = account.personalHeadroomNative(account.balance);
@@ -993,30 +995,15 @@ class _AccountPickerSheet extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
-              width: 38,
-              height: 38,
-              decoration: BoxDecoration(
-                color: isPersonal
-                    ? cs.primaryContainer
-                    : cs.tertiaryContainer,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Text(
-                  account.name[0].toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: isPersonal ? cs.primary : cs.tertiary,
-                  ),
-                ),
-              ),
+            AccountAvatar(
+              account: account,
+              size: 38,
+              borderRadius: 10,
             ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                account.name,
+                accountDisplayName(account),
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,

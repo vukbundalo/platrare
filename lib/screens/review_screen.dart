@@ -5,9 +5,11 @@ import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../l10n/app_localizations.dart';
+import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../theme/ledger_colors.dart';
 import '../utils/fx.dart' as fx;
+import '../widgets/account_avatar.dart';
 import 'account_transactions_screen.dart';
 import 'review/account_form_widgets.dart';
 import 'settings_screen.dart';
@@ -2338,8 +2340,6 @@ class _AccountCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final lc = context.ledgerColors;
-    final isPersonal = account.group == AccountGroup.personal;
-    final isEntities = account.group == AccountGroup.entities;
     // Show native when base chip is selected; convert when secondary is active.
     final isSecondary = displayCurrency != settings.baseCurrency;
     final shownBook = isSecondary
@@ -2359,16 +2359,6 @@ class _AccountCard extends StatelessWidget {
     final bookPositive = shownBook >= 0;
     final bookColor = bookPositive ? lc.positive : lc.negative;
 
-    final avatarBg = isPersonal
-        ? cs.primaryContainer
-        : isEntities
-            ? cs.secondaryContainer
-            : cs.tertiaryContainer;
-    final avatarFg = isPersonal
-        ? cs.onPrimaryContainer
-        : isEntities
-            ? cs.onSecondaryContainer
-            : cs.onTertiaryContainer;
     final groupLabel = l10nAccountCardGroupLabel(context, account.group);
 
     return Padding(
@@ -2385,30 +2375,13 @@ class _AccountCard extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             child: Row(
               children: [
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: avatarBg,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Center(
-                    child: Text(
-                      account.name[0].toUpperCase(),
-                      style: TextStyle(
-                        color: avatarFg,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 17,
-                      ),
-                    ),
-                  ),
-                ),
+                AccountAvatar(account: account),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(account.name,
+                      Text(accountDisplayName(account),
                           style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 15)),
                       Text(groupLabel,

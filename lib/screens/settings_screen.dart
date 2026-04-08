@@ -9,6 +9,7 @@ import '../data/fx_service.dart';
 import '../data/locale_prefs.dart';
 import '../data/theme_prefs.dart';
 import '../data/user_settings.dart' as settings;
+import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
@@ -146,7 +147,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         var name = m.accountId;
                         for (final a in data.accounts) {
                           if (a.id == m.accountId) {
-                            name = a.name;
+                            name = accountDisplayName(a);
                             break;
                           }
                         }
@@ -528,7 +529,7 @@ class _ArchivedAccountsScreenState extends State<ArchivedAccountsScreen> {
                 return Card(
                   margin: EdgeInsets.zero,
                   child: ListTile(
-                    title: Text(a.name),
+                    title: Text(accountDisplayName(a)),
                     subtitle: Text(_groupLabel(a.group, l10n)),
                     trailing: TextButton(
                       onPressed: () {

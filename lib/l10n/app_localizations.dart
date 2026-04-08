@@ -1562,6 +1562,54 @@ abstract class AppLocalizations {
   /// **'Account name'**
   String get labelAccountName;
 
+  /// No description provided for @labelAccountInstitution.
+  ///
+  /// In en, this message translates to:
+  /// **'Institution (optional)'**
+  String get labelAccountInstitution;
+
+  /// No description provided for @accountAppearanceSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Icon & color'**
+  String get accountAppearanceSection;
+
+  /// No description provided for @accountPickIcon.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose icon'**
+  String get accountPickIcon;
+
+  /// No description provided for @accountPickColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose color'**
+  String get accountPickColor;
+
+  /// No description provided for @accountIconSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account icon'**
+  String get accountIconSheetTitle;
+
+  /// No description provided for @accountColorSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account color'**
+  String get accountColorSheetTitle;
+
+  /// No description provided for @accountUseInitialLetter.
+  ///
+  /// In en, this message translates to:
+  /// **'Initial letter'**
+  String get accountUseInitialLetter;
+
+  /// No description provided for @accountUseDefaultColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Match group'**
+  String get accountUseDefaultColor;
+
   /// No description provided for @labelRealBalance.
   ///
   /// In en, this message translates to:

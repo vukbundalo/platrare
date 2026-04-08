@@ -9,6 +9,7 @@ import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/transaction.dart';
 import '../l10n/app_localizations.dart';
+import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
@@ -347,8 +348,12 @@ class _TrackScreenState extends State<TrackScreen> {
           return true;
         }
       }
-      final fn = t.fromAccount?.name ?? t.fromSnapshotName;
-      final tn = t.toAccount?.name ?? t.toSnapshotName;
+      final fn = t.fromAccount != null
+          ? accountDisplayName(t.fromAccount!)
+          : t.fromSnapshotName;
+      final tn = t.toAccount != null
+          ? accountDisplayName(t.toAccount!)
+          : t.toSnapshotName;
       if (fn != null && fn.toLowerCase().contains(q)) return true;
       if (tn != null && tn.toLowerCase().contains(q)) return true;
       final amt = t.nativeAmount;
@@ -1151,10 +1156,10 @@ class _TransactionTile extends StatelessWidget {
     }
     if (t.category != null) return l10nCategoryName(context, t.category!);
     if (t.fromAccount != null && t.toAccount != null) {
-      return '${t.fromAccount!.name} → ${t.toAccount!.name}';
+      return '${accountDisplayName(t.fromAccount!)} → ${accountDisplayName(t.toAccount!)}';
     }
-    if (t.fromAccount != null) return t.fromAccount!.name;
-    if (t.toAccount != null) return t.toAccount!.name;
+    if (t.fromAccount != null) return accountDisplayName(t.fromAccount!);
+    if (t.toAccount != null) return accountDisplayName(t.toAccount!);
     return AppLocalizations.of(context).trackTransaction;
   }
 
@@ -1163,11 +1168,12 @@ class _TransactionTile extends StatelessWidget {
     final parts = <String>[];
     if (t.description != null || t.category != null) {
       if (t.fromAccount != null && t.toAccount != null) {
-        parts.add('${t.fromAccount!.name} → ${t.toAccount!.name}');
+        parts.add(
+            '${accountDisplayName(t.fromAccount!)} → ${accountDisplayName(t.toAccount!)}');
       } else if (t.fromAccount != null) {
-        parts.add(t.fromAccount!.name);
+        parts.add(accountDisplayName(t.fromAccount!));
       } else if (t.toAccount != null) {
-        parts.add(t.toAccount!.name);
+        parts.add(accountDisplayName(t.toAccount!));
       }
     }
     if (t.description != null && t.category != null) {
@@ -1433,7 +1439,7 @@ class _HistoryPanel extends StatelessWidget {
             ...personal.map((a) {
               final book = balances[a.id] ?? a.balance;
               return _HistoryChip(
-                name: a.name,
+                name: accountDisplayName(a),
                 balance: a.personalHeadroomNative(book),
                 currencyCode: a.currencyCode,
                 isGain: gainIds.contains(a.id),
@@ -1455,7 +1461,7 @@ class _HistoryPanel extends StatelessWidget {
             ...individuals.map((a) {
               final book = balances[a.id] ?? a.balance;
               return _HistoryChip(
-                name: a.name,
+                name: accountDisplayName(a),
                 balance: a.personalHeadroomNative(book),
                 currencyCode: a.currencyCode,
                 isPartner: true,
@@ -1478,7 +1484,7 @@ class _HistoryPanel extends StatelessWidget {
             ...entities.map((a) {
               final book = balances[a.id] ?? a.balance;
               return _HistoryChip(
-                name: a.name,
+                name: accountDisplayName(a),
                 balance: a.personalHeadroomNative(book),
                 currencyCode: a.currencyCode,
                 isPartner: true,

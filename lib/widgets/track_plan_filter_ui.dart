@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
+import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import 'app_hero_layout.dart';
 
@@ -447,7 +448,7 @@ class TrackPlanFilterStrip extends StatelessWidget {
         ...accountsSorted.map(
           (a) => trackPlanNamePill(
             context,
-            label: a.name,
+            label: accountDisplayName(a),
             selected: accountFilter?.id == a.id,
             stripMaxWidth: kTrackPlanFilterStripChipMaxWidth,
             onTap: () {
@@ -457,7 +458,7 @@ class TrackPlanFilterStrip extends StatelessWidget {
                 onAccountFilter(a);
               }
             },
-            semanticsLabel: a.name,
+            semanticsLabel: accountDisplayName(a),
           ),
         ),
       ];

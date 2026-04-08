@@ -7,6 +7,7 @@ import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/transaction.dart';
 import '../l10n/app_localizations.dart';
+import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
@@ -377,7 +378,7 @@ class _AccountTransactionsScreenState
             expandedHeight: 210,
             backgroundColor: cs.surface,
             scrolledUnderElevation: 0,
-            title: Text(account.name),
+            title: Text(accountDisplayName(account)),
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.pin,
               background: Padding(
@@ -733,13 +734,13 @@ class _TxTile extends StatelessWidget {
     }
     if (t.category != null) return l10nCategoryName(context, t.category!);
     if (t.fromAccount != null && t.toAccount != null) {
-      return '${t.fromAccount!.name} → ${t.toAccount!.name}';
+      return '${accountDisplayName(t.fromAccount!)} → ${accountDisplayName(t.toAccount!)}';
     }
     if (t.fromSnapshotName != null && t.toSnapshotName != null) {
       return '${t.fromSnapshotName} → ${t.toSnapshotName}';
     }
-    if (t.fromAccount != null) return t.fromAccount!.name;
-    if (t.toAccount != null) return t.toAccount!.name;
+    if (t.fromAccount != null) return accountDisplayName(t.fromAccount!);
+    if (t.toAccount != null) return accountDisplayName(t.toAccount!);
     if (t.fromSnapshotName != null) return t.fromSnapshotName!;
     if (t.toSnapshotName != null) return t.toSnapshotName!;
     return l10n.trackTransaction;
@@ -749,10 +750,14 @@ class _TxTile extends StatelessWidget {
     final t = transaction;
     final fid = focusAccount.id;
     if (t.fromAccount?.id == fid || t.fromAccountId == fid) {
-      return t.toAccount?.name ?? t.toSnapshotName;
+      final a = t.toAccount;
+      if (a != null) return accountDisplayName(a);
+      return t.toSnapshotName;
     }
     if (t.toAccount?.id == fid || t.toAccountId == fid) {
-      return t.fromAccount?.name ?? t.fromSnapshotName;
+      final a = t.fromAccount;
+      if (a != null) return accountDisplayName(a);
+      return t.fromSnapshotName;
     }
     return null;
   }

@@ -5,6 +5,7 @@ import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../models/transaction.dart';
 import '../models/planned_transaction.dart';
+import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/tx_display.dart';
@@ -107,7 +108,7 @@ class TransactionDetailScreen extends StatelessWidget {
               _DetailRow(
                 icon: Icons.outbox_outlined,
                 label: l10n.detailFrom,
-                value: t.fromAccount!.name,
+                value: accountDisplayName(t.fromAccount!),
                 subtitle: t.fromAccount!.currencyCode,
                 color: color,
               ),
@@ -115,7 +116,7 @@ class TransactionDetailScreen extends StatelessWidget {
               _DetailRow(
                 icon: Icons.inbox_outlined,
                 label: l10n.detailTo,
-                value: t.toAccount!.name,
+                value: accountDisplayName(t.toAccount!),
                 subtitle: t.toAccount!.currencyCode,
                 color: color,
               ),
@@ -275,7 +276,7 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
               _DetailRow(
                 icon: Icons.outbox_outlined,
                 label: l10n.detailFrom,
-                value: pt.fromAccount!.name,
+                value: accountDisplayName(pt.fromAccount!),
                 subtitle: pt.fromAccount!.currencyCode,
                 color: color,
               ),
@@ -283,7 +284,7 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
               _DetailRow(
                 icon: Icons.inbox_outlined,
                 label: l10n.detailTo,
-                value: pt.toAccount!.name,
+                value: accountDisplayName(pt.toAccount!),
                 subtitle: pt.toAccount!.currencyCode,
                 color: color,
               ),

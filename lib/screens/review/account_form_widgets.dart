@@ -11,6 +11,224 @@ import '../../models/account.dart';
 import '../../utils/balance_correction.dart';
 import '../../utils/fx.dart' as fx;
 import '../../utils/persistence_guard.dart';
+import '../../widgets/account_avatar.dart';
+
+// ─── Account icon / color presets ─────────────────────────────────────────────
+
+const List<IconData> _kAccountPickIcons = <IconData>[
+  Icons.account_balance_wallet_rounded,
+  Icons.credit_card_rounded,
+  Icons.savings_outlined,
+  Icons.account_balance_rounded,
+  Icons.payments_rounded,
+  Icons.smartphone_rounded,
+  Icons.local_atm_rounded,
+  Icons.currency_exchange_rounded,
+  Icons.storefront_outlined,
+  Icons.work_outline_rounded,
+  Icons.home_outlined,
+  Icons.school_outlined,
+  Icons.flight_takeoff_rounded,
+  Icons.directions_car_filled_rounded,
+  Icons.shopping_bag_outlined,
+  Icons.restaurant_rounded,
+];
+
+const List<int> _kAccountPickColorArgb = <int>[
+  0xFF1565C0,
+  0xFF2E7D32,
+  0xFF6A1B9A,
+  0xFFC62828,
+  0xFFEF6C00,
+  0xFF00838F,
+  0xFF5D4037,
+  0xFF455A64,
+  0xFFAD1457,
+  0xFF283593,
+  0xFFF9A825,
+  0xFF00695C,
+];
+
+Future<int?> _pickAccountIconCodePoint(
+  BuildContext context, {
+  required int current,
+}) async {
+  final l10n = AppLocalizations.of(context);
+  return showModalBottomSheet<int>(
+    context: context,
+    isScrollControlled: true,
+    useSafeArea: true,
+    builder: (ctx) {
+      final cs = Theme.of(ctx).colorScheme;
+      return Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(ctx).viewPadding.bottom + 16,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 12, 12, 8),
+              child: Text(
+                l10n.accountIconSheetTitle,
+                style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.text_fields_rounded, color: cs.primary),
+              title: Text(l10n.accountUseInitialLetter),
+              onTap: () => Navigator.pop(ctx, 0),
+            ),
+            const Divider(height: 1),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 5,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
+                ),
+                itemCount: _kAccountPickIcons.length,
+                itemBuilder: (_, i) {
+                  final icon = _kAccountPickIcons[i];
+                  final cp = icon.codePoint;
+                  final sel = current != 0 && current == cp;
+                  return Material(
+                    color: sel
+                        ? cs.primaryContainer
+                        : cs.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(12),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(12),
+                      onTap: () => Navigator.pop(ctx, cp),
+                      child: Icon(icon, color: cs.onSurface),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+Future<int?> _pickAccountColorArgb(
+  BuildContext context, {
+  required int? current,
+}) async {
+  final l10n = AppLocalizations.of(context);
+  return showModalBottomSheet<int>(
+    context: context,
+    isScrollControlled: true,
+    useSafeArea: true,
+    builder: (ctx) {
+      final cs = Theme.of(ctx).colorScheme;
+      return Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(ctx).viewPadding.bottom + 16,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 12, 12, 8),
+              child: Text(
+                l10n.accountColorSheetTitle,
+                style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.palette_outlined, color: cs.primary),
+              title: Text(l10n.accountUseDefaultColor),
+              onTap: () => Navigator.pop(ctx, -1),
+            ),
+            const Divider(height: 1),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
+              child: Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  for (final argb in _kAccountPickColorArgb)
+                    GestureDetector(
+                      onTap: () => Navigator.pop(ctx, argb),
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Color(argb),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: current == argb
+                                ? cs.primary
+                                : cs.outlineVariant,
+                            width: current == argb ? 2.5 : 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+Widget _accountAppearanceEditorBlock(
+  BuildContext context, {
+  required Account previewAccount,
+  required VoidCallback onPickIcon,
+  required VoidCallback onPickColor,
+}) {
+  final l10n = AppLocalizations.of(context);
+  final tt = Theme.of(context).textTheme;
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      Text(
+        l10n.accountAppearanceSection,
+        style: tt.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+      ),
+      const SizedBox(height: 10),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          AccountAvatar(account: previewAccount, size: 52, borderRadius: 14),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                OutlinedButton(
+                  onPressed: onPickIcon,
+                  child: Text(l10n.accountPickIcon),
+                ),
+                const SizedBox(height: 6),
+                OutlinedButton(
+                  onPressed: onPickColor,
+                  child: Text(l10n.accountPickColor),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ],
+  );
+}
 
 // ─── Account Form Sheet ───────────────────────────────────────────────────────
 
@@ -55,10 +273,13 @@ class AccountFormSheet extends StatefulWidget {
 
 class _AccountFormSheetState extends State<AccountFormSheet> {
   late final TextEditingController _nameController;
+  late final TextEditingController _institutionController;
   late final TextEditingController _balanceController;
   late final TextEditingController _overdraftController;
   late AccountGroup _group;
   late String _currencyCode;
+  late int _iconCodePoint;
+  int? _colorArgb;
   bool _forceClose = false;
 
   double _parseOverdraftLimit() {
@@ -72,6 +293,9 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
     super.initState();
     _nameController =
         TextEditingController(text: widget.account?.name ?? '');
+    _institutionController = TextEditingController(
+      text: widget.account?.institution ?? '',
+    );
     _balanceController = TextEditingController(
       text: widget.account != null
           ? widget.account!.balance.toStringAsFixed(2)
@@ -84,22 +308,65 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
     );
     _group = widget.account?.group ?? AccountGroup.personal;
     _currencyCode = widget.account?.currencyCode ?? settings.baseCurrency;
+    _iconCodePoint = widget.account?.iconCodePoint ?? 0;
+    _colorArgb = widget.account?.colorArgb;
+  }
+
+  String _trimmedInstitution() {
+    final t = _institutionController.text.trim();
+    return t.isEmpty ? '' : t;
+  }
+
+  Account _previewAccountForSheet() {
+    final name = _nameController.text.trim();
+    final inst = _trimmedInstitution();
+    return Account(
+      id: widget.account?.id ?? 'preview',
+      name: name.isEmpty ? '?' : name,
+      institution: inst.isEmpty ? null : inst,
+      group: _group,
+      iconCodePoint: _iconCodePoint,
+      colorArgb: _colorArgb,
+      currencyCode: _currencyCode,
+    );
+  }
+
+  Future<void> _pickIconForSheet() async {
+    final v =
+        await _pickAccountIconCodePoint(context, current: _iconCodePoint);
+    if (!mounted || v == null) return;
+    setState(() => _iconCodePoint = v);
+  }
+
+  Future<void> _pickColorForSheet() async {
+    final v = await _pickAccountColorArgb(context, current: _colorArgb);
+    if (!mounted || v == null) return;
+    setState(() => _colorArgb = v < 0 ? null : v);
   }
 
   bool get _isDirty {
+    final inst = _trimmedInstitution();
+    final instExisting = widget.account?.institution?.trim() ?? '';
+    final instNorm = inst.isEmpty ? '' : inst;
     if (widget.account != null) {
       return _nameController.text.trim() != widget.account!.name ||
+          instNorm != instExisting ||
           _balanceController.text.trim() !=
               widget.account!.balance.toStringAsFixed(2) ||
           _group != widget.account!.group ||
           _parseOverdraftLimit() != widget.account!.overdraftLimit ||
-          _currencyCode != widget.account!.currencyCode;
+          _currencyCode != widget.account!.currencyCode ||
+          _iconCodePoint != widget.account!.iconCodePoint ||
+          _colorArgb != widget.account!.colorArgb;
     }
     return _nameController.text.trim().isNotEmpty ||
         _balanceController.text.trim().isNotEmpty ||
         _parseOverdraftLimit() > 0 ||
         _currencyCode != settings.baseCurrency ||
-        _group != AccountGroup.personal;
+        _group != AccountGroup.personal ||
+        instNorm.isNotEmpty ||
+        _iconCodePoint != 0 ||
+        _colorArgb != null;
   }
 
   void _showDiscardDialog() {
@@ -133,6 +400,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
   @override
   void dispose() {
     _nameController.dispose();
+    _institutionController.dispose();
     _balanceController.dispose();
     _overdraftController.dispose();
     super.dispose();
@@ -170,12 +438,17 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
             _balanceController.text.trim().replaceAll(',', '.')) ??
         0.0;
     final overdraft = _parseOverdraftLimit();
+    final instRaw = _trimmedInstitution();
+    final institution = instRaw.isEmpty ? null : instRaw;
     if (widget.account != null) {
       final acc = widget.account!;
       final previousBook = acc.balance;
       acc.name = name;
+      acc.institution = institution;
       acc.group = _group;
       acc.overdraftLimit = overdraft;
+      acc.iconCodePoint = _iconCodePoint;
+      acc.colorArgb = _colorArgb;
 
       late BalanceCorrectionResult correction;
       final ok = await guardPersist(context, () async {
@@ -210,7 +483,10 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
         context,
         Account(
           name: name,
+          institution: institution,
           group: _group,
+          iconCodePoint: _iconCodePoint,
+          colorArgb: _colorArgb,
           balance: balance,
           overdraftLimit: overdraft,
           currencyCode: _currencyCode,
@@ -504,8 +780,25 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                 decoration: InputDecoration(
                   labelText: l10n.labelAccountName,
                 ),
+                onChanged: (_) => setState(() {}),
               ),
               const SizedBox(height: 12),
+              TextField(
+                controller: _institutionController,
+                textCapitalization: TextCapitalization.words,
+                decoration: InputDecoration(
+                  labelText: l10n.labelAccountInstitution,
+                ),
+                onChanged: (_) => setState(() {}),
+              ),
+              const SizedBox(height: 16),
+              _accountAppearanceEditorBlock(
+                context,
+                previewAccount: _previewAccountForSheet(),
+                onPickIcon: _pickIconForSheet,
+                onPickColor: _pickColorForSheet,
+              ),
+              const SizedBox(height: 16),
 
               // Currency — editable only when creating
               if (!isEdit)
@@ -596,10 +889,13 @@ class AccountFormScreen extends StatefulWidget {
 
 class _AccountFormScreenState extends State<AccountFormScreen> {
   late final TextEditingController _nameController;
+  late final TextEditingController _institutionController;
   late final TextEditingController _balanceController;
   late final TextEditingController _overdraftController;
   late AccountGroup _group;
   late String _currencyCode;
+  late int _iconCodePoint;
+  int? _colorArgb;
   bool _forceClose = false;
 
   bool get _isEdit => widget.existing != null;
@@ -615,6 +911,9 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
     super.initState();
     _nameController =
         TextEditingController(text: widget.existing?.name ?? '');
+    _institutionController = TextEditingController(
+      text: widget.existing?.institution ?? '',
+    );
     _balanceController = TextEditingController(
       text: widget.existing != null
           ? widget.existing!.balance.toStringAsFixed(2)
@@ -628,30 +927,74 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
     _group = widget.existing?.group ?? widget.initialGroup ?? AccountGroup.personal;
     _currencyCode =
         widget.existing?.currencyCode ?? settings.baseCurrency;
+    _iconCodePoint = widget.existing?.iconCodePoint ?? 0;
+    _colorArgb = widget.existing?.colorArgb;
+  }
+
+  String _trimmedInstitutionScreen() {
+    final t = _institutionController.text.trim();
+    return t.isEmpty ? '' : t;
+  }
+
+  Account _previewAccountForScreen() {
+    final name = _nameController.text.trim();
+    final inst = _trimmedInstitutionScreen();
+    return Account(
+      id: widget.existing?.id ?? 'preview',
+      name: name.isEmpty ? '?' : name,
+      institution: inst.isEmpty ? null : inst,
+      group: _group,
+      iconCodePoint: _iconCodePoint,
+      colorArgb: _colorArgb,
+      currencyCode: _currencyCode,
+    );
+  }
+
+  Future<void> _pickIconForScreen() async {
+    final v =
+        await _pickAccountIconCodePoint(context, current: _iconCodePoint);
+    if (!mounted || v == null) return;
+    setState(() => _iconCodePoint = v);
+  }
+
+  Future<void> _pickColorForScreen() async {
+    final v = await _pickAccountColorArgb(context, current: _colorArgb);
+    if (!mounted || v == null) return;
+    setState(() => _colorArgb = v < 0 ? null : v);
   }
 
   @override
   void dispose() {
     _nameController.dispose();
+    _institutionController.dispose();
     _balanceController.dispose();
     _overdraftController.dispose();
     super.dispose();
   }
 
   bool get _isDirty {
+    final inst = _trimmedInstitutionScreen();
+    final instExisting = widget.existing?.institution?.trim() ?? '';
+    final instNorm = inst.isEmpty ? '' : inst;
     if (_isEdit) {
       return _nameController.text.trim() != widget.existing!.name ||
+          instNorm != instExisting ||
           _balanceController.text.trim() !=
               widget.existing!.balance.toStringAsFixed(2) ||
           _group != widget.existing!.group ||
-          _parseOverdraftLimit() != widget.existing!.overdraftLimit;
+          _parseOverdraftLimit() != widget.existing!.overdraftLimit ||
+          _iconCodePoint != widget.existing!.iconCodePoint ||
+          _colorArgb != widget.existing!.colorArgb;
     }
     final defaultGroup = widget.initialGroup ?? AccountGroup.personal;
     return _nameController.text.trim().isNotEmpty ||
         _balanceController.text.trim().isNotEmpty ||
         _parseOverdraftLimit() > 0 ||
         _currencyCode != settings.baseCurrency ||
-        _group != defaultGroup;
+        _group != defaultGroup ||
+        instNorm.isNotEmpty ||
+        _iconCodePoint != 0 ||
+        _colorArgb != null;
   }
 
   bool get _canSave => _nameController.text.trim().isNotEmpty;
@@ -707,12 +1050,17 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
         double.tryParse(_balanceController.text.trim().replaceAll(',', '.')) ??
             0.0;
     final overdraft = _parseOverdraftLimit();
+    final instRaw = _trimmedInstitutionScreen();
+    final institution = instRaw.isEmpty ? null : instRaw;
     if (_isEdit) {
       final acc = widget.existing!;
       final previousBook = acc.balance;
       acc.name = name;
+      acc.institution = institution;
       acc.group = _group;
       acc.overdraftLimit = overdraft;
+      acc.iconCodePoint = _iconCodePoint;
+      acc.colorArgb = _colorArgb;
 
       late BalanceCorrectionResult correction;
       final ok = await guardPersist(context, () async {
@@ -746,7 +1094,10 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
       final ok = await guardPersist(context, () => DataRepository.addAccount(
             Account(
               name: name,
+              institution: institution,
               group: _group,
+              iconCodePoint: _iconCodePoint,
+              colorArgb: _colorArgb,
               balance: balance,
               overdraftLimit: overdraft,
               currencyCode: _currencyCode,
@@ -1155,6 +1506,22 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                       onChanged: (_) => setState(() {}),
                     ),
                     const SizedBox(height: 12),
+                    TextField(
+                      controller: _institutionController,
+                      textCapitalization: TextCapitalization.words,
+                      decoration: InputDecoration(
+                        labelText: l10n.labelAccountInstitution,
+                      ),
+                      onChanged: (_) => setState(() {}),
+                    ),
+                    const SizedBox(height: 16),
+                    _accountAppearanceEditorBlock(
+                      context,
+                      previewAccount: _previewAccountForScreen(),
+                      onPickIcon: _pickIconForScreen,
+                      onPickColor: _pickColorForScreen,
+                    ),
+                    const SizedBox(height: 16),
                     if (!_isEdit)
                       _CurrencyTile(
                           currencyCode: _currencyCode, onTap: _pickCurrency)

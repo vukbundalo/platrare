@@ -1,4 +1,5 @@
 import '../models/transaction.dart';
+import '../utils/account_display.dart';
 
 /// Fills id/snapshot fields from live accounts so rows are DB-exportable and
 /// remain interpretable if accounts are removed later.
@@ -25,13 +26,15 @@ class TransactionNormalizer {
       updatedAt: isUpdate ? now : t.updatedAt,
       fromAccountId: t.fromAccount?.id ?? t.fromAccountId,
       toAccountId: t.toAccount?.id ?? t.toAccountId,
-      fromSnapshotName:
-          t.fromAccount != null ? t.fromAccount!.name : t.fromSnapshotName,
+      fromSnapshotName: t.fromAccount != null
+          ? accountDisplayName(t.fromAccount!)
+          : t.fromSnapshotName,
       fromSnapshotCurrency: t.fromAccount != null
           ? t.fromAccount!.currencyCode
           : t.fromSnapshotCurrency,
-      toSnapshotName:
-          t.toAccount != null ? t.toAccount!.name : t.toSnapshotName,
+      toSnapshotName: t.toAccount != null
+          ? accountDisplayName(t.toAccount!)
+          : t.toSnapshotName,
       toSnapshotCurrency: t.toAccount != null
           ? t.toAccount!.currencyCode
           : t.toSnapshotCurrency,
