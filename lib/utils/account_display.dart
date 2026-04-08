@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/account.dart';
 
-/// User-visible account title, including optional [Account.institution].
+/// User-visible account title, including optional identifier ([Account.institution]).
 String accountDisplayName(Account a) {
   final inst = a.institution?.trim();
   if (inst == null || inst.isEmpty) return a.name;

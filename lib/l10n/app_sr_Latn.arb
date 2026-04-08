@@ -277,7 +277,7 @@
   "editAccountTitle": "Izmeni račun",
   "newAccountTitle": "Novi račun",
   "labelAccountName": "Naziv računa",
-  "labelAccountInstitution": "Institucija (opciono)",
+  "labelAccountIdentifier": "Identifikator (opciono)",
   "accountAppearanceSection": "Ikonica i boja",
   "accountPickIcon": "Izaberi ikonicu",
   "accountPickColor": "Izaberi boju",

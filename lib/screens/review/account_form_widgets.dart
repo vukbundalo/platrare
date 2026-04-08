@@ -787,7 +787,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                 controller: _institutionController,
                 textCapitalization: TextCapitalization.words,
                 decoration: InputDecoration(
-                  labelText: l10n.labelAccountInstitution,
+                  labelText: l10n.labelAccountIdentifier,
                 ),
                 onChanged: (_) => setState(() {}),
               ),
@@ -1510,7 +1510,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                       controller: _institutionController,
                       textCapitalization: TextCapitalization.words,
                       decoration: InputDecoration(
-                        labelText: l10n.labelAccountInstitution,
+                        labelText: l10n.labelAccountIdentifier,
                       ),
                       onChanged: (_) => setState(() {}),
                     ),

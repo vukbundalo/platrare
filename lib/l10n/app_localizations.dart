@@ -1562,11 +1562,11 @@ abstract class AppLocalizations {
   /// **'Account name'**
   String get labelAccountName;
 
-  /// No description provided for @labelAccountInstitution.
+  /// No description provided for @labelAccountIdentifier.
   ///
   /// In en, this message translates to:
-  /// **'Institution (optional)'**
-  String get labelAccountInstitution;
+  /// **'Identifier (optional)'**
+  String get labelAccountIdentifier;
 
   /// No description provided for @accountAppearanceSection.
   ///

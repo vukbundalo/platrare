@@ -869,7 +869,7 @@ class AppLocalizationsSr extends AppLocalizations {
   String get labelAccountName => 'Naziv računa';
 
   @override
-  String get labelAccountInstitution => 'Institucija (opciono)';
+  String get labelAccountIdentifier => 'Identifikator (opciono)';
 
   @override
   String get accountAppearanceSection => 'Ikonica i boja';
@@ -2069,6 +2069,30 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get labelAccountName => 'Naziv računa';
+
+  @override
+  String get labelAccountIdentifier => 'Identifikator (opciono)';
+
+  @override
+  String get accountAppearanceSection => 'Ikonica i boja';
+
+  @override
+  String get accountPickIcon => 'Izaberi ikonicu';
+
+  @override
+  String get accountPickColor => 'Izaberi boju';
+
+  @override
+  String get accountIconSheetTitle => 'Ikonica računa';
+
+  @override
+  String get accountColorSheetTitle => 'Boja računa';
+
+  @override
+  String get accountUseInitialLetter => 'Inicijal';
+
+  @override
+  String get accountUseDefaultColor => 'Kao grupa';
 
   @override
   String get labelRealBalance => 'Stvarno stanje';

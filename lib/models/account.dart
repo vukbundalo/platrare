@@ -42,8 +42,8 @@ class Account {
   final String id;
   String name;
 
-  /// Optional bank, issuer, or place where the account lives. Shown as
-  /// "Name (Institution)" in lists when non-empty.
+  /// Optional disambiguator (e.g. bank name). Shown as "Name (Identifier)"
+  /// in lists when non-empty.
   String? institution;
 
   AccountGroup group;

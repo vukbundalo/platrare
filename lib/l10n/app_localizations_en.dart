@@ -864,7 +864,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get labelAccountName => 'Account name';
 
   @override
-  String get labelAccountInstitution => 'Institution (optional)';
+  String get labelAccountIdentifier => 'Identifier (optional)';
 
   @override
   String get accountAppearanceSection => 'Icon & color';

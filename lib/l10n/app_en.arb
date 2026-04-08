@@ -375,7 +375,7 @@
   "editAccountTitle": "Edit Account",
   "newAccountTitle": "New Account",
   "labelAccountName": "Account name",
-  "labelAccountInstitution": "Institution (optional)",
+  "labelAccountIdentifier": "Identifier (optional)",
   "accountAppearanceSection": "Icon & color",
   "accountPickIcon": "Choose icon",
   "accountPickColor": "Choose color",
