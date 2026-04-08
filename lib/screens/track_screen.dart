@@ -47,6 +47,7 @@ bool _inGroup(TxType t, String group) => switch (group) {
 class _TrackScreenState extends State<TrackScreen> {
   // ── Pagination ──────────────────────────────────────────────────────────────
   final _scrollController = ScrollController();
+  final _searchController = TextEditingController();
 
   /// Reset when filters / data window change; caps how many day sections build.
   int _visibleTrackDaySlots = kLazyDayInitialCount;
@@ -80,6 +81,7 @@ class _TrackScreenState extends State<TrackScreen> {
         _newestFirst = true;
         _trackPanel = TrackPlanFilterPanel.none;
         _searchQuery = '';
+        _searchController.clear();
       });
 
   void _toggleTrackPanel(TrackPlanFilterPanel panel) => setState(() {
@@ -259,6 +261,7 @@ class _TrackScreenState extends State<TrackScreen> {
   void dispose() {
     _scrollController.removeListener(_onTrackScrollLoadMoreDays);
     _scrollController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -778,6 +781,7 @@ class _TrackScreenState extends State<TrackScreen> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
             child: TextField(
+              controller: _searchController,
               onChanged: (v) => setState(() => _searchQuery = v),
               decoration: InputDecoration(
                 hintText: l10n.trackSearchHint,
@@ -786,7 +790,10 @@ class _TrackScreenState extends State<TrackScreen> {
                     ? IconButton(
                         tooltip: l10n.trackSearchClear,
                         icon: const Icon(Icons.clear_rounded),
-                        onPressed: () => setState(() => _searchQuery = ''),
+                        onPressed: () {
+                          _searchController.clear();
+                          setState(() => _searchQuery = '');
+                        },
                       )
                     : null,
               ),

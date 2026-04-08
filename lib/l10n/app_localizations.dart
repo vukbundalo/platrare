@@ -573,6 +573,42 @@ abstract class AppLocalizations {
   /// **'Add account'**
   String get emptyAddAccount;
 
+  /// No description provided for @reviewEmptyGroupPersonalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No personal accounts yet'**
+  String get reviewEmptyGroupPersonalTitle;
+
+  /// No description provided for @reviewEmptyGroupPersonalBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.'**
+  String get reviewEmptyGroupPersonalBody;
+
+  /// No description provided for @reviewEmptyGroupIndividualsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No individual accounts yet'**
+  String get reviewEmptyGroupIndividualsTitle;
+
+  /// No description provided for @reviewEmptyGroupIndividualsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.'**
+  String get reviewEmptyGroupIndividualsBody;
+
+  /// No description provided for @reviewEmptyGroupEntitiesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No entity accounts yet'**
+  String get reviewEmptyGroupEntitiesTitle;
+
+  /// No description provided for @reviewEmptyGroupEntitiesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.'**
+  String get reviewEmptyGroupEntitiesBody;
+
   /// No description provided for @emptyNoTransactionsForFilters.
   ///
   /// In en, this message translates to:

@@ -712,6 +712,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 4)),
             ],
+            if (_activeSection == 'personal' && personal.isEmpty)
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: _EmptyAccountGroupHint(
+                  group: AccountGroup.personal,
+                  onAdd: _addAccount,
+                ),
+              ),
             if (_activeSection == 'individuals' && individuals.isNotEmpty) ...[
               SliverToBoxAdapter(
                 child: _SectionLabel(l10nAccountSectionTitle(
@@ -737,6 +745,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 4)),
             ],
+            if (_activeSection == 'individuals' && individuals.isEmpty)
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: _EmptyAccountGroupHint(
+                  group: AccountGroup.individuals,
+                  onAdd: _addAccount,
+                ),
+              ),
             if (_activeSection == 'entities' && entities.isNotEmpty) ...[
               SliverToBoxAdapter(
                 child: _SectionLabel(
@@ -762,6 +778,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 4)),
             ],
+            if (_activeSection == 'entities' && entities.isEmpty)
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: _EmptyAccountGroupHint(
+                  group: AccountGroup.entities,
+                  onAdd: _addAccount,
+                ),
+              ),
             SliverPadding(
               padding: const EdgeInsets.only(bottom: 40),
               sliver: SliverList(
@@ -2489,6 +2513,85 @@ class _AccountCard extends StatelessWidget {
       );
     }
     return inner;
+  }
+}
+
+class _EmptyAccountGroupHint extends StatelessWidget {
+  final AccountGroup group;
+  final VoidCallback onAdd;
+
+  const _EmptyAccountGroupHint({
+    required this.group,
+    required this.onAdd,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
+    final (title, body, icon, accent) = switch (group) {
+      AccountGroup.personal => (
+          l10n.reviewEmptyGroupPersonalTitle,
+          l10n.reviewEmptyGroupPersonalBody,
+          Icons.person_outline_rounded,
+          cs.primary,
+        ),
+      AccountGroup.individuals => (
+          l10n.reviewEmptyGroupIndividualsTitle,
+          l10n.reviewEmptyGroupIndividualsBody,
+          Icons.people_outline_rounded,
+          cs.tertiary,
+        ),
+      AccountGroup.entities => (
+          l10n.reviewEmptyGroupEntitiesTitle,
+          l10n.reviewEmptyGroupEntitiesBody,
+          Icons.business_outlined,
+          cs.secondary,
+        ),
+    };
+    return Padding(
+      padding: const EdgeInsets.all(40),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 88,
+            height: 88,
+            decoration: BoxDecoration(
+              color: accent.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, size: 44, color: accent),
+          ),
+          const SizedBox(height: 24),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            body,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: cs.onSurfaceVariant, height: 1.5),
+          ),
+          const SizedBox(height: 32),
+          FilledButton.icon(
+            onPressed: onAdd,
+            icon: const Icon(Icons.add),
+            label: Text(l10n.emptyAddAccount),
+            style: FilledButton.styleFrom(
+              minimumSize: const Size(200, 52),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14)),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 

@@ -302,6 +302,27 @@ class AppLocalizationsSr extends AppLocalizations {
   String get emptyAddAccount => 'Dodaj račun';
 
   @override
+  String get reviewEmptyGroupPersonalTitle => 'Još nema ličnih računa';
+
+  @override
+  String get reviewEmptyGroupPersonalBody =>
+      'Lični računi su vaši novčanici i bankovni računi. Dodajte jedan da pratite svakodnevni prihod i rashod.';
+
+  @override
+  String get reviewEmptyGroupIndividualsTitle => 'Još nema računa pojedinaca';
+
+  @override
+  String get reviewEmptyGroupIndividualsBody =>
+      'Računi pojedinaca prate novac sa određenim osobama—zajednički troškovi, pozajmice ili dugovanja. Dodajte račun za svaku osobu sa kojom se obračunavate.';
+
+  @override
+  String get reviewEmptyGroupEntitiesTitle => 'Još nema računa entiteta';
+
+  @override
+  String get reviewEmptyGroupEntitiesBody =>
+      'Računi entiteta su za firme, projekte ili organizacije. Koristite ih da poslovni novčani tok odvojite od ličnih finansija.';
+
+  @override
   String get emptyNoTransactionsForFilters =>
       'Nema transakcija za primenjene filtere';
 
@@ -1506,6 +1527,27 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get emptyAddAccount => 'Dodaj račun';
+
+  @override
+  String get reviewEmptyGroupPersonalTitle => 'Još nema ličnih računa';
+
+  @override
+  String get reviewEmptyGroupPersonalBody =>
+      'Lični računi su vaši novčanici i bankovni računi. Dodajte jedan da pratite svakodnevni prihod i rashod.';
+
+  @override
+  String get reviewEmptyGroupIndividualsTitle => 'Još nema računa pojedinaca';
+
+  @override
+  String get reviewEmptyGroupIndividualsBody =>
+      'Računi pojedinaca prate novac sa određenim osobama—zajednički troškovi, pozajmice ili dugovanja. Dodajte račun za svaku osobu sa kojom se obračunavate.';
+
+  @override
+  String get reviewEmptyGroupEntitiesTitle => 'Još nema računa entiteta';
+
+  @override
+  String get reviewEmptyGroupEntitiesBody =>
+      'Računi entiteta su za firme, projekte ili organizacije. Koristite ih da poslovni novčani tok odvojite od ličnih finansija.';
 
   @override
   String get emptyNoTransactionsForFilters =>

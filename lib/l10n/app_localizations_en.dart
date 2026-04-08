@@ -298,6 +298,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emptyAddAccount => 'Add account';
 
   @override
+  String get reviewEmptyGroupPersonalTitle => 'No personal accounts yet';
+
+  @override
+  String get reviewEmptyGroupPersonalBody =>
+      'Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.';
+
+  @override
+  String get reviewEmptyGroupIndividualsTitle => 'No individual accounts yet';
+
+  @override
+  String get reviewEmptyGroupIndividualsBody =>
+      'Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.';
+
+  @override
+  String get reviewEmptyGroupEntitiesTitle => 'No entity accounts yet';
+
+  @override
+  String get reviewEmptyGroupEntitiesBody =>
+      'Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.';
+
+  @override
   String get emptyNoTransactionsForFilters =>
       'No transactions for applied filters';
 
