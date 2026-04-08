@@ -1421,7 +1421,7 @@ abstract class AppLocalizations {
   /// No description provided for @accountNameTaken.
   ///
   /// In en, this message translates to:
-  /// **'An account with this name already exists (active or archived). Choose a different name.'**
+  /// **'You already have an account with this name and identifier (active or archived). Change the name or identifier.'**
   String get accountNameTaken;
 
   /// No description provided for @groupDescPersonal.

@@ -15,19 +15,42 @@ const AccountFormSheetDeleted kAccountFormSheetDeleted = AccountFormSheetDeleted
 List<Account> activeAccounts(Iterable<Account> all) =>
     all.where((a) => !a.archived).toList();
 
-/// Whether [trimmedName] is already used by another account (case-insensitive).
-/// Pass [exceptAccountId] when editing so the current account is ignored.
+/// Case-insensitive trimmed name key for sorting and duplicate checks.
+String normalizedAccountNameKey(String name) => name.trim().toLowerCase();
+
+/// Case-insensitive identifier key; empty when [institution] is null/blank.
+String normalizedAccountIdentifierKey(String? institution) {
+  final t = institution?.trim() ?? '';
+  return t.isEmpty ? '' : t.toLowerCase();
+}
+
+/// Compare two accounts for list ordering: name, then identifier.
+int compareAccountsByIdentity(Account a, Account b) {
+  final c = normalizedAccountNameKey(a.name)
+      .compareTo(normalizedAccountNameKey(b.name));
+  if (c != 0) return c;
+  return normalizedAccountIdentifierKey(a.institution)
+      .compareTo(normalizedAccountIdentifierKey(b.institution));
+}
+
+/// Whether another account already has the same [trimmedName] and [institution]
+/// (case-insensitive; blank identifier matches only accounts with no identifier).
+/// Pass [exceptAccountId] when editing so the current row is ignored.
 /// Includes archived accounts in [accounts].
-bool isAccountNameTaken(
+bool isAccountDuplicate(
   String trimmedName,
+  String? institution,
   List<Account> accounts, {
   String? exceptAccountId,
 }) {
-  if (trimmedName.isEmpty) return false;
-  final key = trimmedName.toLowerCase();
+  if (trimmedName.trim().isEmpty) return false;
+  final nameKey = normalizedAccountNameKey(trimmedName);
+  final idKey = normalizedAccountIdentifierKey(institution);
   for (final a in accounts) {
     if (exceptAccountId != null && a.id == exceptAccountId) continue;
-    if (a.name.trim().toLowerCase() == key) return true;
+    if (normalizedAccountNameKey(a.name) != nameKey) continue;
+    if (normalizedAccountIdentifierKey(a.institution) != idKey) continue;
+    return true;
   }
   return false;
 }

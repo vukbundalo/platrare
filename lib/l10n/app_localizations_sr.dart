@@ -770,7 +770,7 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get accountNameTaken =>
-      'Račun sa ovim imenom već postoji (aktivan ili arhiviran). Izaberite drugi naziv.';
+      'Račun sa ovim imenom i identifikatorom već postoji (aktivan ili arhiviran). Promenite naziv ili identifikator.';
 
   @override
   String get groupDescPersonal => 'Vaši novčanici i bankovni računi';
@@ -1972,7 +1972,7 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get accountNameTaken =>
-      'Račun sa ovim imenom već postoji (aktivan ili arhiviran). Izaberite drugi naziv.';
+      'Račun sa ovim imenom i identifikatorom već postoji (aktivan ili arhiviran). Promenite naziv ili identifikator.';
 
   @override
   String get groupDescPersonal => 'Vaši novčanici i bankovni računi';

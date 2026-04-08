@@ -249,7 +249,7 @@
   "tooltipAddAccount": "Dodaj račun",
   "tooltipRemoveAccount": "Ukloni račun",
 
-  "accountNameTaken": "Račun sa ovim imenom već postoji (aktivan ili arhiviran). Izaberite drugi naziv.",
+  "accountNameTaken": "Račun sa ovim imenom i identifikatorom već postoji (aktivan ili arhiviran). Promenite naziv ili identifikator.",
   "groupDescPersonal": "Vaši novčanici i bankovni računi",
   "groupDescIndividuals": "Porodica, prijatelji, pojedinci",
   "groupDescEntities": "Entiteti, komunalije, organizacije",

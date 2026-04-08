@@ -337,7 +337,7 @@
   "tooltipAddAccount": "Add account",
   "tooltipRemoveAccount": "Remove account",
 
-  "accountNameTaken": "An account with this name already exists (active or archived). Choose a different name.",
+  "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
   "groupDescPersonal": "Your own wallets & bank accounts",
   "groupDescIndividuals": "Family, friends, individuals",
   "groupDescEntities": "Entities, utilities, organisations",

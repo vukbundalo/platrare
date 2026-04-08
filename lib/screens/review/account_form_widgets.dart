@@ -419,8 +419,11 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
   Future<void> _save() async {
     final name = _nameController.text.trim();
     if (name.isEmpty) return;
-    if (isAccountNameTaken(
+    final instRaw = _trimmedInstitution();
+    final institution = instRaw.isEmpty ? null : instRaw;
+    if (isAccountDuplicate(
       name,
+      institution,
       data.accounts,
       exceptAccountId: widget.account?.id,
     )) {
@@ -438,8 +441,6 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
             _balanceController.text.trim().replaceAll(',', '.')) ??
         0.0;
     final overdraft = _parseOverdraftLimit();
-    final instRaw = _trimmedInstitution();
-    final institution = instRaw.isEmpty ? null : instRaw;
     if (widget.account != null) {
       final acc = widget.account!;
       final previousBook = acc.balance;
@@ -1031,8 +1032,11 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
   Future<void> _save() async {
     final name = _nameController.text.trim();
     if (name.isEmpty) return;
-    if (isAccountNameTaken(
+    final instRaw = _trimmedInstitutionScreen();
+    final institution = instRaw.isEmpty ? null : instRaw;
+    if (isAccountDuplicate(
       name,
+      institution,
       data.accounts,
       exceptAccountId: _isEdit ? widget.existing!.id : null,
     )) {
@@ -1050,8 +1054,6 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
         double.tryParse(_balanceController.text.trim().replaceAll(',', '.')) ??
             0.0;
     final overdraft = _parseOverdraftLimit();
-    final instRaw = _trimmedInstitutionScreen();
-    final institution = instRaw.isEmpty ? null : instRaw;
     if (_isEdit) {
       final acc = widget.existing!;
       final previousBook = acc.balance;

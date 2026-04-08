@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
+import '../data/account_lifecycle.dart';
 import '../models/account.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
@@ -433,7 +434,7 @@ class TrackPlanFilterStrip extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final accountsSorted = List<Account>.from(accounts)
-      ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+      ..sort(compareAccountsByIdentity);
 
     Widget accountSection() {
       final items = <Widget>[

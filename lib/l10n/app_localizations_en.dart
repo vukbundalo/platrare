@@ -767,7 +767,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountNameTaken =>
-      'An account with this name already exists (active or archived). Choose a different name.';
+      'You already have an account with this name and identifier (active or archived). Change the name or identifier.';
 
   @override
   String get groupDescPersonal => 'Your own wallets & bank accounts';
