@@ -77,3 +77,48 @@ class HeroTwoColumnMetricsRow extends StatelessWidget {
     );
   }
 }
+
+/// Single-line currency/amount in hero metrics: scales down to fit column width
+/// instead of wrapping to a second row.
+class HeroFittedAmount extends StatelessWidget {
+  const HeroFittedAmount({
+    super.key,
+    required this.text,
+    required this.style,
+    this.alignment = Alignment.centerLeft,
+  });
+
+  final String text;
+  final TextStyle style;
+  final Alignment alignment;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final w = constraints.maxWidth;
+        if (!w.isFinite || w <= 0) {
+          return Text(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: style,
+          );
+        }
+        return SizedBox(
+          width: w,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: alignment,
+            child: Text(
+              text,
+              maxLines: 1,
+              softWrap: false,
+              style: style,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

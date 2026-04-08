@@ -1024,8 +1024,9 @@ class _NetWorthHero extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
-                Text(
-                  '${displayPersonal > 0 ? '+' : ''}${displayPersonal.toStringAsFixed(2)} $sym',
+                HeroFittedAmount(
+                  text:
+                      '${displayPersonal > 0 ? '+' : ''}${displayPersonal.toStringAsFixed(2)} $sym',
                   style: TextStyle(
                     fontSize: AppHeroConstants.primaryAmountFontSize,
                     fontWeight: FontWeight.w800,
@@ -1048,8 +1049,9 @@ class _NetWorthHero extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
-                Text(
-                  '${displayNet > 0 ? '+' : ''}${displayNet.toStringAsFixed(2)} $sym',
+                HeroFittedAmount(
+                  text:
+                      '${displayNet > 0 ? '+' : ''}${displayNet.toStringAsFixed(2)} $sym',
                   style: TextStyle(
                     fontSize: AppHeroConstants.secondaryAmountFontSize,
                     fontWeight: FontWeight.w700,

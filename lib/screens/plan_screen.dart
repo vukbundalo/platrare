@@ -1068,6 +1068,21 @@ class _ProjectionHero extends StatelessWidget {
     final borderColor = personalPos ? lc.positive : lc.negative;
     final personalColor = personalPos ? lc.positive : lc.negative;
     final netColor = netPos ? lc.positive : lc.negative;
+    final personalStr =
+        '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym';
+    final netStr = '${net > 0 ? '+' : ''}${net.toStringAsFixed(2)} $sym';
+    final personalAmountStyle = TextStyle(
+      fontSize: AppHeroConstants.primaryAmountFontSize,
+      fontWeight: FontWeight.w800,
+      color: personalColor,
+      letterSpacing: -1,
+    );
+    final netAmountStyle = TextStyle(
+      fontSize: AppHeroConstants.secondaryAmountFontSize,
+      fontWeight: FontWeight.w700,
+      color: netColor,
+      letterSpacing: -0.5,
+    );
 
     final dateStr =
         formatAppDate(context, 'EEE, d MMM yyyy', snapshotDate);
@@ -1120,18 +1135,12 @@ class _ProjectionHero extends StatelessWidget {
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
                 if (isFutureSnapshot)
                   Semantics(
-                    label: l10n.semanticsProjectedBalance(
-                        '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym'),
+                    label: l10n.semanticsProjectedBalance(personalStr),
                     child: Opacity(
                       opacity: projectionHeroInteractive ? 1 : 0.5,
-                      child: Text(
-                        '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
-                        style: TextStyle(
-                          fontSize: AppHeroConstants.primaryAmountFontSize,
-                          fontWeight: FontWeight.w800,
-                          color: personalColor,
-                          letterSpacing: -1,
-                        ),
+                      child: HeroFittedAmount(
+                        text: personalStr,
+                        style: personalAmountStyle,
                       ),
                     ),
                   )
@@ -1144,14 +1153,9 @@ class _ProjectionHero extends StatelessWidget {
                     child: InkWell(
                       onTap: onTapBalance,
                       borderRadius: BorderRadius.circular(8),
-                      child: Text(
-                        '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
-                        style: TextStyle(
-                          fontSize: AppHeroConstants.primaryAmountFontSize,
-                          fontWeight: FontWeight.w800,
-                          color: personalColor,
-                          letterSpacing: -1,
-                        ),
+                      child: HeroFittedAmount(
+                        text: personalStr,
+                        style: personalAmountStyle,
                       ),
                     ),
                   )
@@ -1162,14 +1166,9 @@ class _ProjectionHero extends StatelessWidget {
                     child: Opacity(
                       opacity: 0.5,
                       child: ExcludeSemantics(
-                        child: Text(
-                          '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym',
-                          style: TextStyle(
-                            fontSize: AppHeroConstants.primaryAmountFontSize,
-                            fontWeight: FontWeight.w800,
-                            color: personalColor,
-                            letterSpacing: -1,
-                          ),
+                        child: HeroFittedAmount(
+                          text: personalStr,
+                          style: personalAmountStyle,
                         ),
                       ),
                     ),
@@ -1189,14 +1188,9 @@ class _ProjectionHero extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
-                Text(
-                  '${net > 0 ? '+' : ''}${net.toStringAsFixed(2)} $sym',
-                  style: TextStyle(
-                    fontSize: AppHeroConstants.secondaryAmountFontSize,
-                    fontWeight: FontWeight.w700,
-                    color: netColor,
-                    letterSpacing: -0.5,
-                  ),
+                HeroFittedAmount(
+                  text: netStr,
+                  style: netAmountStyle,
                 ),
               ],
             ),
