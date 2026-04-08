@@ -1170,10 +1170,7 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get semanticsReorderAccountHint =>
-      'Dugi pritisak ili prevucite ručku da promenite redosled u ovoj grupi';
-
-  @override
-  String get semanticsAccountDragHandle => 'Promeni redosled';
+      'Dugi pritisak, zatim prevucite da promenite redosled u ovoj grupi';
 
   @override
   String get semanticsChartStyle => 'Stil grafikona';
@@ -2379,10 +2376,7 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get semanticsReorderAccountHint =>
-      'Dugi pritisak ili prevucite ručku da promenite redosled u ovoj grupi';
-
-  @override
-  String get semanticsAccountDragHandle => 'Promeni redosled';
+      'Dugi pritisak, zatim prevucite da promenite redosled u ovoj grupi';
 
   @override
   String get semanticsChartStyle => 'Stil grafikona';

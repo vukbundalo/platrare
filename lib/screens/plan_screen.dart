@@ -1262,8 +1262,6 @@ class _ProjectionAccountCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final lc = context.ledgerColors;
-    final l10n = AppLocalizations.of(context);
-
     final shownBook = projectedBookNative;
     final shownMain = account.hasOverdraftFacility
         ? account.personalHeadroomNative(projectedBookNative)
@@ -1278,7 +1276,7 @@ class _ProjectionAccountCard extends StatelessWidget {
         l10nAccountCardGroupLabel(context, account.group);
     final nameLabel = accountDisplayName(account);
 
-    final card = Padding(
+    final inner = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
       child: Material(
         color: cs.surfaceContainerLow,
@@ -1287,26 +1285,6 @@ class _ProjectionAccountCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           child: Row(
             children: [
-              if (reorderListIndex != null) ...[
-                Tooltip(
-                  message: l10n.semanticsReorderAccountHint,
-                  child: ReorderableDragStartListener(
-                    index: reorderListIndex!,
-                    child: Semantics(
-                      button: true,
-                      label: l10n.semanticsAccountDragHandle,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 6),
-                        child: Icon(
-                          Icons.drag_handle_rounded,
-                          size: 22,
-                          color: cs.onSurfaceVariant,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
               AccountAvatar(account: account),
               const SizedBox(width: 14),
               Expanded(
@@ -1373,14 +1351,18 @@ class _ProjectionAccountCard extends StatelessWidget {
     );
 
     if (reorderListIndex != null) {
+      final l10n = AppLocalizations.of(context);
       return Semantics(
         container: true,
         label: '$nameLabel. $groupLabel',
         hint: l10n.semanticsReorderAccountHint,
-        child: card,
+        child: ReorderableDelayedDragStartListener(
+          index: reorderListIndex!,
+          child: inner,
+        ),
       );
     }
-    return card;
+    return inner;
   }
 }
 

@@ -2367,7 +2367,7 @@ class _AccountCard extends StatelessWidget {
   final Account account;
   final String displayCurrency;
   final VoidCallback onTap;
-  /// When set, shows a drag handle and wires [ReorderableDragStartListener].
+  /// When set, the row can be reordered via long press and drag.
   final int? reorderListIndex;
   const _AccountCard({
     super.key,
@@ -2381,7 +2381,6 @@ class _AccountCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final lc = context.ledgerColors;
-    final l10n = AppLocalizations.of(context);
     // Show native when base chip is selected; convert when secondary is active.
     final isSecondary = displayCurrency != settings.baseCurrency;
     final shownBook = isSecondary
@@ -2404,7 +2403,7 @@ class _AccountCard extends StatelessWidget {
     final groupLabel = l10nAccountCardGroupLabel(context, account.group);
     final nameLabel = accountDisplayName(account);
 
-    final card = Padding(
+    final inner = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
       child: Material(
         color: cs.surfaceContainerLow,
@@ -2417,26 +2416,6 @@ class _AccountCard extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             child: Row(
               children: [
-                if (reorderListIndex != null) ...[
-                  Tooltip(
-                    message: l10n.semanticsReorderAccountHint,
-                    child: ReorderableDragStartListener(
-                      index: reorderListIndex!,
-                      child: Semantics(
-                        button: true,
-                        label: l10n.semanticsAccountDragHandle,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 6),
-                          child: Icon(
-                            Icons.drag_handle_rounded,
-                            size: 22,
-                            color: cs.onSurfaceVariant,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
                 AccountAvatar(account: account),
                 const SizedBox(width: 14),
                 Expanded(
@@ -2493,14 +2472,18 @@ class _AccountCard extends StatelessWidget {
     );
 
     if (reorderListIndex != null) {
+      final l10n = AppLocalizations.of(context);
       return Semantics(
         container: true,
         label: '$nameLabel. $groupLabel',
         hint: l10n.semanticsReorderAccountHint,
-        child: card,
+        child: ReorderableDelayedDragStartListener(
+          index: reorderListIndex!,
+          child: inner,
+        ),
       );
     }
-    return card;
+    return inner;
   }
 }
 

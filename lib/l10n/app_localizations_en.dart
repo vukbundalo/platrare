@@ -1162,10 +1162,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get semanticsReorderAccountHint =>
-      'Long press or drag the handle to reorder within this group';
-
-  @override
-  String get semanticsAccountDragHandle => 'Reorder';
+      'Long press, then drag to reorder within this group';
 
   @override
   String get semanticsChartStyle => 'Chart style';
