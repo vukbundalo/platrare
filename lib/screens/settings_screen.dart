@@ -13,6 +13,7 @@ import '../utils/app_format.dart';
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../utils/fx.dart' as fx;
+import '../utils/persistence_guard.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -589,10 +590,17 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         },
       );
       if (result != null && !targetList.contains(result)) {
-        await DataRepository.addCategory(
-          result,
-          income: identical(targetList, data.incomeCategories),
-        );
+        if (!mounted) return;
+        if (!await guardPersist(
+          context,
+          () => DataRepository.addCategory(
+            result,
+            income: identical(targetList, data.incomeCategories),
+          ),
+        )) {
+          if (mounted) setState(() {});
+          return;
+        }
         if (mounted) setState(() {});
       }
     } finally {
@@ -619,10 +627,16 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             FilledButton(
               onPressed: () async {
                 Navigator.pop(ctx);
-                await DataRepository.removeCategory(
-                  category,
-                  income: identical(targetList, data.incomeCategories),
-                );
+                if (!await guardPersist(
+                  context,
+                  () => DataRepository.removeCategory(
+                    category,
+                    income: identical(targetList, data.incomeCategories),
+                  ),
+                )) {
+                  if (mounted) setState(() {});
+                  return;
+                }
                 if (mounted) setState(() {});
               },
               style: FilledButton.styleFrom(backgroundColor: Colors.red),

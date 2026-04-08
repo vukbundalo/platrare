@@ -516,5 +516,7 @@
     }
   },
   "settingsExchangeRatesNeverUpdated": "Using offline or bundled rates — tap to refresh",
-  "settingsExchangeRatesSource": "ECB"
+  "settingsExchangeRatesSource": "ECB",
+
+  "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
 }

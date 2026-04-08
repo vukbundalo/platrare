@@ -2113,6 +2113,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'ECB'**
   String get settingsExchangeRatesSource;
+
+  /// No description provided for @persistenceErrorReloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t save changes. Data was reloaded from storage.'**
+  String get persistenceErrorReloaded;
 }
 
 class _AppLocalizationsDelegate

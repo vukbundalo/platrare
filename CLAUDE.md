@@ -18,31 +18,33 @@ flutter build macos      # Build for macOS
 
 **Platrare** is a personal finance Flutter app (Material 3, indigo theme) for tracking transactions and planning future spending.
 
-### State Management
-There is no state management library. All state lives in `HomePage` (a `StatefulWidget`), which holds a single `AppData` instance and passes it down to child screens. Screens call `setState((){})` on `HomePage` by receiving a callback, or modify `data` directly and call `setState` themselves.
+### Persistence
 
-`lib/data/app_data.dart` is the single source of truth — a plain Dart class with three lists (`accounts`, `transactions`, `plannedTransactions`) and a `categories` list. Data is in-memory only; there is no persistence layer despite `shared_preferences` being available.
+SQLite via **Drift** (`lib/data/local/platrare_database.dart`). On startup, `main()` opens the database and calls `PlatrareDatabase.instance.loadIntoMemory()` so in-app state mirrors the DB. Writes go through `DataRepository` (`lib/data/data_repository.dart`).
+
+### State Management
+
+There is no state management library. `HomePage` holds the shared `AppData` (loaded from the DB) and passes `onChanged` callbacks so child screens trigger `setState` on the home shell. `lib/data/app_data.dart` holds `accounts`, `transactions`, `plannedTransactions`, and `categories`.
 
 ### Navigation
-- **Bottom nav**: `NavigationBar` in `HomePage` with 4 tabs (New Transaction, History, Plan, Accounts). Tabs are rendered all at once with `IndexedStack` to preserve state.
-- **Push navigation**: `NewPlannedTransactionScreen` is pushed via `MaterialPageRoute` from the Plan tab.
-- **Modals**: Account picker and account form use `showModalBottomSheet`.
+
+- **Bottom nav**: `NavigationBar` in `HomePage` with **3** tabs — **Plan**, **Track**, **Review** — rendered with `IndexedStack` to preserve state (`lib/main.dart`).
+- **Push routes**: e.g. `NewPlannedTransactionScreen` from Plan, `NewTransactionScreen`, `TransactionDetailScreen`, `AccountTransactionsScreen`, `SettingsScreen` via `MaterialPageRoute`.
+- **Modals**: sheets and dialogs as needed (account flows, pickers).
+
+### Screens
+
+Active UI lives under **`lib/screens/`**: main tab screens and flows listed above, plus **`lib/screens/review/account_form_widgets.dart`** (`AccountFormSheet` / `AccountFormScreen`, re-exported from `review_screen.dart`). There are no `lib/screens/track/` or other parallel subpackages in this tree.
 
 ### Models
-- `Account` — has `id`, `name`, `balance`, `AccountGroup` (personal | partner)
-- `Transaction` — links `fromAccount`/`toAccount`, `amount`, `date`, optional `category`/`description`
-- `PlannedTransaction` — same shape as `Transaction`, stored separately until confirmed
-- `TransactionItem` — a richer model with `TransactionType` enum and `displayTitle`/`displayIcon` helpers; currently not wired into the main app screens (coexists with the simpler models)
+
+- `Account` — `id`, `name`, `balance`, `AccountGroup` (personal | partner), etc.
+- `Transaction` — `fromAccount` / `toAccount`, `amount`, `date`, optional `category` / `description`
+- `PlannedTransaction` — same general shape, kept separate until realized
+- Ledger integrity: `lib/data/ledger_verify.dart`; opening balances for new accounts via `DataRepository.addAccount`
 
 ### Key Utilities
-- `lib/utils/projections.dart` — `projectBalances(date)` simulates planned transactions up to a date to compute projected account balances; used by `PlanScreen` and `NewPlannedTransactionScreen`.
 
-### Ongoing Refactor
-Several parallel screen implementations exist that are not yet connected to the main app:
-- `lib/screens/track/` — alternate transaction entry screens
-- `lib/screens/plan/` — alternate plan screens
-- `lib/screens/accounts/` — alternate account management screens
-- `lib/screens/review/` — review screens
-- `lib/data/dummy_*.dart` — test data files
-
-The files in `lib/screens/` (root level, not subdirectory) are the ones currently used by `main.dart`.
+- `lib/utils/projections.dart` — `projectBalances(date)` for planned cashflow; used by plan flows.
+- `lib/data/fx_service.dart` — FX rates (Frankfurter v2 + fallback), cached.
+- `lib/theme/ledger_colors.dart` / `lib/utils/tx_display.dart` — consistent money colors in the UI.

@@ -1,8 +1,8 @@
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
 import '../models/transaction.dart';
-import '../utils/balance_correction.dart';
 import 'app_data.dart' as data;
+import 'balance_posting.dart';
 import 'local/platrare_database.dart';
 import 'planned_normalize.dart';
 import 'transaction_normalize.dart';
@@ -79,6 +79,7 @@ class DataRepository {
       previousBookBalance: 0,
       newBookBalance: opening,
       description: '__opening_balance__',
+      persistTransaction: addTransaction,
     );
   }
 

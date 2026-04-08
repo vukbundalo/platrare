@@ -1168,4 +1168,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsExchangeRatesSource => 'ECB';
+
+  @override
+  String get persistenceErrorReloaded =>
+      'Couldn’t save changes. Data was reloaded from storage.';
 }

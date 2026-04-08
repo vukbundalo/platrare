@@ -381,5 +381,7 @@
     }
   },
   "settingsExchangeRatesNeverUpdated": "Koriste se ugrađeni ili keširani kursevi — dodirnite za osvježavanje",
-  "settingsExchangeRatesSource": "ECB"
+  "settingsExchangeRatesSource": "ECB",
+
+  "persistenceErrorReloaded": "Čuvanje nije uspelo. Podaci su ponovo učitani."
 }

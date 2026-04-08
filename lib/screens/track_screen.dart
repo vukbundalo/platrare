@@ -12,6 +12,7 @@ import '../l10n/app_localizations.dart';
 import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
+import '../utils/persistence_guard.dart';
 import '../utils/projections.dart' as proj;
 import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
@@ -366,7 +367,14 @@ class _TrackScreenState extends State<TrackScreen> {
       builder: (ctx) => const AccountFormSheet(),
     );
     if (result is Account) {
-      await DataRepository.addAccount(result);
+      if (!mounted) return;
+      if (!await guardPersist(context, () => DataRepository.addAccount(result))) {
+        if (mounted) {
+          setState(() {});
+          widget.onChanged?.call();
+        }
+        return;
+      }
       if (mounted) setState(() {});
       widget.onChanged?.call();
     }
@@ -416,7 +424,13 @@ class _TrackScreenState extends State<TrackScreen> {
             (t.destinationAmount ?? t.nativeAmount!);
       }
     }
-    await DataRepository.removeTransaction(t);
+    if (!await guardPersist(context, () => DataRepository.removeTransaction(t))) {
+      if (mounted) {
+        setState(() {});
+        widget.onChanged?.call();
+      }
+      return;
+    }
     if (!mounted) return;
     setState(() {});
     widget.onChanged?.call();
@@ -446,7 +460,15 @@ class _TrackScreenState extends State<TrackScreen> {
               }
             }
             final insertAt = index < 0 ? 0 : index.clamp(0, data.transactions.length);
-            await DataRepository.insertTransactionAt(insertAt, t);
+            if (!await guardPersist(
+                context,
+                () => DataRepository.insertTransactionAt(insertAt, t))) {
+              if (mounted) {
+                setState(() {});
+                widget.onChanged?.call();
+              }
+              return;
+            }
             if (mounted) setState(() {});
             widget.onChanged?.call();
           },
@@ -1175,7 +1197,10 @@ class _TransactionTile extends StatelessWidget {
             (t.destinationAmount ?? t.nativeAmount!);
       }
     }
-    await DataRepository.removeTransaction(t);
+    if (!await guardPersist(context, () => DataRepository.removeTransaction(t))) {
+      if (context.mounted) onRefresh();
+      return;
+    }
     if (!context.mounted) return;
     onRefresh();
     HapticFeedback.mediumImpact();
@@ -1204,7 +1229,12 @@ class _TransactionTile extends StatelessWidget {
               }
             }
             final insertAt = index < 0 ? 0 : index.clamp(0, data.transactions.length);
-            await DataRepository.insertTransactionAt(insertAt, t);
+            if (!await guardPersist(
+                context,
+                () => DataRepository.insertTransactionAt(insertAt, t))) {
+              if (context.mounted) onRefresh();
+              return;
+            }
             onRefresh();
           },
         ),

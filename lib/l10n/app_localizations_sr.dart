@@ -1176,6 +1176,10 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get settingsExchangeRatesSource => 'ECB';
+
+  @override
+  String get persistenceErrorReloaded =>
+      'Чување није успело. Подаци су поново учитани.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).
@@ -2350,4 +2354,8 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get settingsExchangeRatesSource => 'ECB';
+
+  @override
+  String get persistenceErrorReloaded =>
+      'Čuvanje nije uspelo. Podaci su ponovo učitani.';
 }

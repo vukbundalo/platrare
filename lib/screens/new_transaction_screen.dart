@@ -12,6 +12,7 @@ import '../models/account.dart';
 import '../models/transaction.dart';
 import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
+import '../utils/persistence_guard.dart';
 import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
 
@@ -212,11 +213,20 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       createdAt: widget.existing?.createdAt,
     );
 
-    await DataRepository.replaceOrInsertTransaction(
-      newTx,
-      isUpdate: _isEdit,
-    );
+    final persisted = await guardPersist(context, () async {
+      await DataRepository.replaceOrInsertTransaction(
+        newTx,
+        isUpdate: _isEdit,
+      );
+    });
     if (!mounted) return;
+    if (!persisted) {
+      setState(() {
+        _fromAccount = refreshedAccount(_fromAccount);
+        _toAccount = refreshedAccount(_toAccount);
+      });
+      return;
+    }
 
     HapticFeedback.lightImpact();
 

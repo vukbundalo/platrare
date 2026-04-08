@@ -13,6 +13,7 @@ import '../l10n/app_localizations.dart';
 import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
+import '../utils/persistence_guard.dart';
 import '../utils/projections.dart' as proj;
 import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
@@ -371,60 +372,62 @@ class _PlanScreenState extends State<PlanScreen> {
     final rate = fx.rateToBase(ccy);
     final baseAmt = pt.nativeAmount != null ? pt.nativeAmount! * rate : null;
 
-    await DataRepository.addTransaction(
-      Transaction(
-        nativeAmount: pt.nativeAmount,
-        currencyCode: ccy,
-        baseAmount: baseAmt,
-        exchangeRate: rate,
-        destinationAmount: pt.destinationAmount,
-        fromAccount: pt.fromAccount,
-        toAccount: pt.toAccount,
-        category: pt.category,
-        description: pt.description,
-        date: realizationDate ?? pt.date,
-        txType: pt.txType,
-        attachments: List<String>.from(pt.attachments),
-      ),
-    );
+    final persisted = await guardPersist(context, () async {
+      await DataRepository.addTransaction(
+        Transaction(
+          nativeAmount: pt.nativeAmount,
+          currencyCode: ccy,
+          baseAmount: baseAmt,
+          exchangeRate: rate,
+          destinationAmount: pt.destinationAmount,
+          fromAccount: pt.fromAccount,
+          toAccount: pt.toAccount,
+          category: pt.category,
+          description: pt.description,
+          date: realizationDate ?? pt.date,
+          txType: pt.txType,
+          attachments: List<String>.from(pt.attachments),
+        ),
+      );
 
-    await DataRepository.removePlanned(pt);
+      await DataRepository.removePlanned(pt);
 
-    if (pt.repeatInterval != RepeatInterval.none) {
-      final nextDate = nextPlannedEffectiveDate(pt, pt.date);
-      final nextCount = pt.repeatConfirmedCount + 1;
-      if (shouldSpawnNextOccurrence(pt, nextDate)) {
-        await DataRepository.addPlanned(
-          PlannedTransaction(
-            nativeAmount: pt.nativeAmount,
-            currencyCode: pt.currencyCode,
-            destinationAmount: pt.destinationAmount,
-            fromAccount: pt.fromAccount,
-            toAccount: pt.toAccount,
-            fromAccountId: pt.fromAccountId,
-            toAccountId: pt.toAccountId,
-            category: pt.category,
-            description: pt.description,
-            date: nextDate,
-            txType: pt.txType,
-            repeatInterval: pt.repeatInterval,
-            repeatEvery: pt.repeatEvery,
-            repeatDayOfMonth: pt.repeatDayOfMonth,
-            weekendAdjustment: pt.weekendAdjustment,
-            repeatEndDate: pt.repeatEndDate,
-            repeatEndAfter: pt.repeatEndAfter,
-            repeatConfirmedCount: nextCount,
-            createdAt: pt.createdAt,
-            attachments: List<String>.from(pt.attachments),
-          ),
-        );
+      if (pt.repeatInterval != RepeatInterval.none) {
+        final nextDate = nextPlannedEffectiveDate(pt, pt.date);
+        final nextCount = pt.repeatConfirmedCount + 1;
+        if (shouldSpawnNextOccurrence(pt, nextDate)) {
+          await DataRepository.addPlanned(
+            PlannedTransaction(
+              nativeAmount: pt.nativeAmount,
+              currencyCode: pt.currencyCode,
+              destinationAmount: pt.destinationAmount,
+              fromAccount: pt.fromAccount,
+              toAccount: pt.toAccount,
+              fromAccountId: pt.fromAccountId,
+              toAccountId: pt.toAccountId,
+              category: pt.category,
+              description: pt.description,
+              date: nextDate,
+              txType: pt.txType,
+              repeatInterval: pt.repeatInterval,
+              repeatEvery: pt.repeatEvery,
+              repeatDayOfMonth: pt.repeatDayOfMonth,
+              weekendAdjustment: pt.weekendAdjustment,
+              repeatEndDate: pt.repeatEndDate,
+              repeatEndAfter: pt.repeatEndAfter,
+              repeatConfirmedCount: nextCount,
+              createdAt: pt.createdAt,
+              attachments: List<String>.from(pt.attachments),
+            ),
+          );
+        }
       }
-    }
+    });
 
     if (mounted) setState(() {});
     widget.onChanged?.call();
 
-    if (!mounted) return;
+    if (!persisted || !mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(AppLocalizations.of(context).planTransactionConfirmed),
@@ -438,7 +441,13 @@ class _PlanScreenState extends State<PlanScreen> {
 
   Future<void> _delete(PlannedTransaction pt) async {
     HapticFeedback.lightImpact();
-    await DataRepository.removePlanned(pt);
+    if (!await guardPersist(context, () => DataRepository.removePlanned(pt))) {
+      if (mounted) {
+        setState(() {});
+        widget.onChanged?.call();
+      }
+      return;
+    }
     if (!mounted) return;
     setState(() {});
     widget.onChanged?.call();
@@ -456,7 +465,13 @@ class _PlanScreenState extends State<PlanScreen> {
           label: AppLocalizations.of(context).undo,
           onPressed: () async {
             messenger.clearSnackBars();
-            await DataRepository.addPlanned(pt);
+            if (!await guardPersist(context, () => DataRepository.addPlanned(pt))) {
+              if (mounted) {
+                setState(() {});
+                widget.onChanged?.call();
+              }
+              return;
+            }
             if (mounted) setState(() {});
             widget.onChanged?.call();
           },
@@ -549,9 +564,16 @@ class _PlanScreenState extends State<PlanScreen> {
           createdAt: pt.createdAt,
           attachments: List<String>.from(pt.attachments),
         );
-        await DataRepository.removePlanned(pt);
-        await DataRepository.addPlanned(spawned);
+        final skippedOk = await guardPersist(context, () async {
+          await DataRepository.removePlanned(pt);
+          await DataRepository.addPlanned(spawned);
+        });
         if (!mounted) return;
+        if (!skippedOk) {
+          setState(() {});
+          widget.onChanged?.call();
+          return;
+        }
         setState(() {});
         widget.onChanged?.call();
         final messenger = ScaffoldMessenger.of(context);
@@ -569,10 +591,15 @@ class _PlanScreenState extends State<PlanScreen> {
               label: AppLocalizations.of(context).undo,
               onPressed: () async {
                 messenger.clearSnackBars();
-                await DataRepository.removePlanned(spawned);
-                await DataRepository.addPlanned(pt);
-                if (mounted) setState(() {});
-                widget.onChanged?.call();
+                final undoOk = await guardPersist(context, () async {
+                  await DataRepository.removePlanned(spawned);
+                  await DataRepository.addPlanned(pt);
+                });
+                if (mounted) {
+                  setState(() {});
+                  widget.onChanged?.call();
+                }
+                if (!undoOk) return;
               },
             ),
           ),
@@ -587,7 +614,14 @@ class _PlanScreenState extends State<PlanScreen> {
       MaterialPageRoute(builder: (_) => const NewPlannedTransactionScreen()),
     );
     if (result != null) {
-      await DataRepository.addPlanned(result);
+      if (!mounted) return;
+      if (!await guardPersist(context, () => DataRepository.addPlanned(result))) {
+        if (mounted) {
+          setState(() {});
+          widget.onChanged?.call();
+        }
+        return;
+      }
       if (mounted) setState(() {});
     }
   }
@@ -602,7 +636,14 @@ class _PlanScreenState extends State<PlanScreen> {
       builder: (ctx) => const AccountFormSheet(),
     );
     if (result is Account) {
-      await DataRepository.addAccount(result);
+      if (!mounted) return;
+      if (!await guardPersist(context, () => DataRepository.addAccount(result))) {
+        if (mounted) {
+          setState(() {});
+          widget.onChanged?.call();
+        }
+        return;
+      }
       if (mounted) setState(() {});
       widget.onChanged?.call();
     }
@@ -615,7 +656,15 @@ class _PlanScreenState extends State<PlanScreen> {
           builder: (_) => NewPlannedTransactionScreen(existing: pt)),
     );
     if (result != null) {
-      await DataRepository.replacePlanned(pt, result);
+      if (!mounted) return;
+      if (!await guardPersist(
+          context, () => DataRepository.replacePlanned(pt, result))) {
+        if (mounted) {
+          setState(() {});
+          widget.onChanged?.call();
+        }
+        return;
+      }
       if (mounted) setState(() {});
     }
   }

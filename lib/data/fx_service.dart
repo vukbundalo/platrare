@@ -56,7 +56,7 @@ class FxService {
       if (response.statusCode == 200) {
         final decoded = jsonDecode(response.body);
         if (decoded is List<dynamic>) {
-          apiRates = _parseFrankfurterV2(decoded, outDataAsOf: (d) => updatedAt = d);
+          apiRates = parseFrankfurterV2(decoded, outDataAsOf: (d) => updatedAt = d);
         }
       }
 
@@ -95,7 +95,7 @@ class FxService {
   }
 
   /// Frankfurter v2 returns a JSON array of `{date, base, quote, rate}`.
-  static Map<String, double> _parseFrankfurterV2(
+  static Map<String, double> parseFrankfurterV2(
     List<dynamic> rows, {
     void Function(DateTime?)? outDataAsOf,
   }) {
