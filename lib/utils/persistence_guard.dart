@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/account_lifecycle.dart' show compareAccountsStorageOrder;
 import '../data/app_data.dart' as data;
 import '../data/data_repository.dart';
 import '../data/local/platrare_database.dart';
@@ -50,14 +51,18 @@ Future<bool> guardPersist(BuildContext context, Future<void> Function() op) asyn
   }
 }
 
-/// Reorders [groupList] in memory, assigns contiguous [Account.sortOrder] for
-/// that group, and persists. Returns whether persistence succeeded.
-Future<bool> reorderAccountsInGroup(
-  BuildContext context,
+/// Updates [Account.sortOrder] for accounts in [groupList] and sorts
+/// [data.accounts] so the next frame matches the new order (same comparator as
+/// SQLite load). Returns the reordered group list for persistence.
+///
+/// Call [setState] (or equivalent) immediately after this, **before** awaiting
+/// persistence, so [SliverReorderableList] does not briefly rebuild from stale
+/// list order.
+List<Account> applyAccountGroupReorder(
   List<Account> groupList,
   int oldIndex,
   int newIndex,
-) async {
+) {
   if (newIndex > oldIndex) newIndex -= 1;
   final ordered = List<Account>.from(groupList);
   final item = ordered.removeAt(oldIndex);
@@ -65,6 +70,16 @@ Future<bool> reorderAccountsInGroup(
   for (var i = 0; i < ordered.length; i++) {
     ordered[i].sortOrder = i;
   }
+  data.accounts.sort(compareAccountsStorageOrder);
+  return ordered;
+}
+
+/// Persists [sortOrder] for [ordered] (typically the return value of
+/// [applyAccountGroupReorder]).
+Future<bool> persistAccountOrdersAfterReorder(
+  BuildContext context,
+  List<Account> ordered,
+) {
   return guardPersist(
     context,
     () => DataRepository.persistAccountOrders(ordered),

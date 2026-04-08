@@ -411,10 +411,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
     int oldIndex,
     int newIndex,
   ) async {
-    final ok =
-        await reorderAccountsInGroup(context, groupList, oldIndex, newIndex);
-    if (!ok || !mounted) return;
-    setState(() {});
+    final ordered =
+        applyAccountGroupReorder(groupList, oldIndex, newIndex);
+    if (mounted) setState(() {});
+    final ok = await persistAccountOrdersAfterReorder(context, ordered);
+    if (!mounted) return;
+    if (!ok) {
+      setState(() {});
+      return;
+    }
     widget.onChanged?.call();
   }
 
