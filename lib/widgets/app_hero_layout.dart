@@ -3,6 +3,16 @@ import 'package:flutter/material.dart';
 /// Shared metrics for Track / Plan / Review hero cards so top cards align in size
 /// and the vertical divider sits on the same horizontal split.
 abstract final class AppHeroConstants {
+  /// [SliverAppBar.expandedHeight] for Plan / Track / Review and account history.
+  /// Extra headroom keeps the hero below the title row on tall iOS toolbars and
+  /// large phones without clipping the chip row.
+  static const double mainSliverAppBarExpandedHeight = 236;
+
+  /// [FlexibleSpaceBar.background] padding around the hero card. Non-zero top
+  /// separates the card from the app bar title (avoids “stuck together” look).
+  static const EdgeInsets mainFlexibleSpaceHeroOuterPadding =
+      EdgeInsets.fromLTRB(16, 14, 16, 12);
+
   static const EdgeInsets cardPadding =
       EdgeInsets.fromLTRB(16, 10, 16, 10);
   static const double dividerHeight = 44;

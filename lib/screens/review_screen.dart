@@ -613,7 +613,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
           // ── App bar with net worth ────────────────────────────────────────
           SliverAppBar(
             pinned: true,
-            expandedHeight: 210,
+            expandedHeight: AppHeroConstants.mainSliverAppBarExpandedHeight,
             backgroundColor: cs.surface,
             scrolledUnderElevation: 0,
             title: Text(l10n.navReview),
@@ -648,7 +648,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.pin,
               background: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                padding: AppHeroConstants.mainFlexibleSpaceHeroOuterPadding,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

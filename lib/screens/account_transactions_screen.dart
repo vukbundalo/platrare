@@ -377,7 +377,7 @@ class _AccountTransactionsScreenState
         slivers: [
           SliverAppBar(
             pinned: true,
-            expandedHeight: 210,
+            expandedHeight: AppHeroConstants.mainSliverAppBarExpandedHeight,
             backgroundColor: cs.surface,
             scrolledUnderElevation: 0,
             title: Text(accountDisplayName(account)),
@@ -400,7 +400,7 @@ class _AccountTransactionsScreenState
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.pin,
               background: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                padding: AppHeroConstants.mainFlexibleSpaceHeroOuterPadding,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

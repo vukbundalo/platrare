@@ -541,7 +541,7 @@ class _TrackScreenState extends State<TrackScreen> {
       slivers: [
         SliverAppBar(
           pinned: true,
-          expandedHeight: 210,
+          expandedHeight: AppHeroConstants.mainSliverAppBarExpandedHeight,
           backgroundColor: cs.surface,
           scrolledUnderElevation: 0,
           title: Text(AppLocalizations.of(context).navTrack),
@@ -562,7 +562,7 @@ class _TrackScreenState extends State<TrackScreen> {
           flexibleSpace: FlexibleSpaceBar(
             collapseMode: CollapseMode.pin,
             background: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+              padding: AppHeroConstants.mainFlexibleSpaceHeroOuterPadding,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -717,7 +717,7 @@ class _TrackScreenState extends State<TrackScreen> {
       slivers: [
         SliverAppBar(
           pinned: true,
-          expandedHeight: 210,
+          expandedHeight: AppHeroConstants.mainSliverAppBarExpandedHeight,
           backgroundColor: cs.surface,
           scrolledUnderElevation: 0,
           title: Text(AppLocalizations.of(context).navTrack),
@@ -738,7 +738,7 @@ class _TrackScreenState extends State<TrackScreen> {
           flexibleSpace: FlexibleSpaceBar(
             collapseMode: CollapseMode.pin,
             background: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+              padding: AppHeroConstants.mainFlexibleSpaceHeroOuterPadding,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
