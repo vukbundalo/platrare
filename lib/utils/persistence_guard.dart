@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data/app_data.dart' as data;
+import '../data/data_repository.dart';
 import '../data/local/platrare_database.dart';
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
@@ -47,4 +48,25 @@ Future<bool> guardPersist(BuildContext context, Future<void> Function() op) asyn
     }
     return false;
   }
+}
+
+/// Reorders [groupList] in memory, assigns contiguous [Account.sortOrder] for
+/// that group, and persists. Returns whether persistence succeeded.
+Future<bool> reorderAccountsInGroup(
+  BuildContext context,
+  List<Account> groupList,
+  int oldIndex,
+  int newIndex,
+) async {
+  if (newIndex > oldIndex) newIndex -= 1;
+  final ordered = List<Account>.from(groupList);
+  final item = ordered.removeAt(oldIndex);
+  ordered.insert(newIndex, item);
+  for (var i = 0; i < ordered.length; i++) {
+    ordered[i].sortOrder = i;
+  }
+  return guardPersist(
+    context,
+    () => DataRepository.persistAccountOrders(ordered),
+  );
 }

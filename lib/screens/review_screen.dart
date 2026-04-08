@@ -2,7 +2,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
-import '../data/data_repository.dart';
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../l10n/app_localizations.dart';
@@ -412,17 +411,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
     int oldIndex,
     int newIndex,
   ) async {
-    if (newIndex > oldIndex) newIndex -= 1;
-    final ordered = List<Account>.from(groupList);
-    final item = ordered.removeAt(oldIndex);
-    ordered.insert(newIndex, item);
-    for (var i = 0; i < ordered.length; i++) {
-      ordered[i].sortOrder = i;
-    }
-    final ok = await guardPersist(
-      context,
-      () => DataRepository.persistAccountOrders(ordered),
-    );
+    final ok =
+        await reorderAccountsInGroup(context, groupList, oldIndex, newIndex);
     if (!ok || !mounted) return;
     setState(() {});
     widget.onChanged?.call();
@@ -711,6 +701,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     account: a,
                     displayCurrency: _displayCurrency,
                     onTap: () => _openAccountTransactions(a),
+                    reorderListIndex: index,
                   );
                 },
               ),
@@ -735,6 +726,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     account: a,
                     displayCurrency: _displayCurrency,
                     onTap: () => _openAccountTransactions(a),
+                    reorderListIndex: index,
                   );
                 },
               ),
@@ -759,6 +751,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     account: a,
                     displayCurrency: _displayCurrency,
                     onTap: () => _openAccountTransactions(a),
+                    reorderListIndex: index,
                   );
                 },
               ),
@@ -2374,17 +2367,21 @@ class _AccountCard extends StatelessWidget {
   final Account account;
   final String displayCurrency;
   final VoidCallback onTap;
+  /// When set, shows a drag handle and wires [ReorderableDragStartListener].
+  final int? reorderListIndex;
   const _AccountCard({
     super.key,
     required this.account,
     required this.displayCurrency,
     required this.onTap,
+    this.reorderListIndex,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final lc = context.ledgerColors;
+    final l10n = AppLocalizations.of(context);
     // Show native when base chip is selected; convert when secondary is active.
     final isSecondary = displayCurrency != settings.baseCurrency;
     final shownBook = isSecondary
@@ -2405,8 +2402,9 @@ class _AccountCard extends StatelessWidget {
     final bookColor = bookPositive ? lc.positive : lc.negative;
 
     final groupLabel = l10nAccountCardGroupLabel(context, account.group);
+    final nameLabel = accountDisplayName(account);
 
-    return Padding(
+    final card = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
       child: Material(
         color: cs.surfaceContainerLow,
@@ -2419,13 +2417,33 @@ class _AccountCard extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             child: Row(
               children: [
+                if (reorderListIndex != null) ...[
+                  Tooltip(
+                    message: l10n.semanticsReorderAccountHint,
+                    child: ReorderableDragStartListener(
+                      index: reorderListIndex!,
+                      child: Semantics(
+                        button: true,
+                        label: l10n.semanticsAccountDragHandle,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 6),
+                          child: Icon(
+                            Icons.drag_handle_rounded,
+                            size: 22,
+                            color: cs.onSurfaceVariant,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
                 AccountAvatar(account: account),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(accountDisplayName(account),
+                      Text(nameLabel,
                           style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 15)),
                       Text(groupLabel,
@@ -2473,6 +2491,16 @@ class _AccountCard extends StatelessWidget {
         ),
       ),
     );
+
+    if (reorderListIndex != null) {
+      return Semantics(
+        container: true,
+        label: '$nameLabel. $groupLabel',
+        hint: l10n.semanticsReorderAccountHint,
+        child: card,
+      );
+    }
+    return card;
   }
 }
 

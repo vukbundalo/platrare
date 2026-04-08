@@ -504,6 +504,8 @@
   "semanticsFiltersDisabledNeedRecordedTransaction": "List filters disabled. Record a transaction first.",
   "semanticsReviewSectionChipsDisabledNeedAccount": "Section and currency controls disabled. Add an account first.",
   "semanticsPlanProjectionControlsDisabled": "Projection date and balance breakdown disabled. Add an account and a planned transaction first.",
+  "semanticsReorderAccountHint": "Long press or drag the handle to reorder within this group",
+  "semanticsAccountDragHandle": "Reorder",
   "semanticsChartStyle": "Chart style",
   "semanticsChartStyleUnavailable": "Chart style (unavailable in comparison mode)",
   "semanticsPeriod": "Period: {label}",

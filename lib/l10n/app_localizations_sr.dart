@@ -1169,6 +1169,13 @@ class AppLocalizationsSr extends AppLocalizations {
       'Datum projekcije i detalji stanja su onemogućeni. Prvo dodajte nalog i planiranu transakciju.';
 
   @override
+  String get semanticsReorderAccountHint =>
+      'Dugi pritisak ili prevucite ručku da promenite redosled u ovoj grupi';
+
+  @override
+  String get semanticsAccountDragHandle => 'Promeni redosled';
+
+  @override
   String get semanticsChartStyle => 'Stil grafikona';
 
   @override
@@ -2369,6 +2376,13 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   @override
   String get semanticsPlanProjectionControlsDisabled =>
       'Datum projekcije i detalji stanja su onemogućeni. Prvo dodajte nalog i planiranu transakciju.';
+
+  @override
+  String get semanticsReorderAccountHint =>
+      'Dugi pritisak ili prevucite ručku da promenite redosled u ovoj grupi';
+
+  @override
+  String get semanticsAccountDragHandle => 'Promeni redosled';
 
   @override
   String get semanticsChartStyle => 'Stil grafikona';

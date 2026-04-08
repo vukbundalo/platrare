@@ -87,6 +87,22 @@ class _PlanScreenState extends State<PlanScreen> {
         _planPanel = TrackPlanFilterPanel.none;
       });
 
+  Future<void> _onReorderProjectionAccounts(
+    List<Account> groupList,
+    int oldIndex,
+    int newIndex,
+  ) async {
+    final ok = await reorderAccountsInGroup(
+      context,
+      groupList,
+      oldIndex,
+      newIndex,
+    );
+    if (!ok || !mounted) return;
+    setState(() {});
+    widget.onChanged?.call();
+  }
+
   void _togglePlanPanel(TrackPlanFilterPanel panel) => setState(() {
         _planPanel = _planPanel == panel ? TrackPlanFilterPanel.none : panel;
       });
@@ -743,6 +759,16 @@ class _PlanScreenState extends State<PlanScreen> {
     final balances = proj.projectBalances(_snapshotDate);
     final snapshotPersonal = proj.personalTotal(balances);
     final snapshotNet = proj.netWorthInBase(balances);
+    final projectionActive = activeAccounts(data.accounts);
+    final projPersonal = projectionActive
+        .where((a) => a.group == AccountGroup.personal)
+        .toList();
+    final projIndividuals = projectionActive
+        .where((a) => a.group == AccountGroup.individuals)
+        .toList();
+    final projEntities = projectionActive
+        .where((a) => a.group == AccountGroup.entities)
+        .toList();
 
     Widget? fab;
     if (activeAccounts(data.accounts).isNotEmpty) {
@@ -865,10 +891,84 @@ class _PlanScreenState extends State<PlanScreen> {
             ),
 
           if (planHeroInteractive &&
-              (_isFutureProjection || _detailExpanded))
-            SliverToBoxAdapter(
-              child: _ProjectionDetailCard(balances: balances),
-            ),
+              (_isFutureProjection || _detailExpanded)) ...[
+            if (projPersonal.isNotEmpty) ...[
+              SliverToBoxAdapter(
+                child: _PlanProjectionSectionLabel(
+                    l10nAccountSectionTitle(context, AccountGroup.personal)),
+              ),
+              SliverReorderableList(
+                itemCount: projPersonal.length,
+                onReorder: (oldIndex, newIndex) =>
+                    _onReorderProjectionAccounts(
+                  projPersonal,
+                  oldIndex,
+                  newIndex,
+                ),
+                itemBuilder: (context, index) {
+                  final a = projPersonal[index];
+                  return _ProjectionAccountCard(
+                    key: ValueKey(a.id),
+                    account: a,
+                    projectedBookNative: balances[a.id] ?? a.balance,
+                    reorderListIndex: index,
+                  );
+                },
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 4)),
+            ],
+            if (projIndividuals.isNotEmpty) ...[
+              SliverToBoxAdapter(
+                child: _PlanProjectionSectionLabel(l10nAccountSectionTitle(
+                    context, AccountGroup.individuals)),
+              ),
+              SliverReorderableList(
+                itemCount: projIndividuals.length,
+                onReorder: (oldIndex, newIndex) =>
+                    _onReorderProjectionAccounts(
+                  projIndividuals,
+                  oldIndex,
+                  newIndex,
+                ),
+                itemBuilder: (context, index) {
+                  final a = projIndividuals[index];
+                  return _ProjectionAccountCard(
+                    key: ValueKey(a.id),
+                    account: a,
+                    projectedBookNative: balances[a.id] ?? a.balance,
+                    reorderListIndex: index,
+                  );
+                },
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 4)),
+            ],
+            if (projEntities.isNotEmpty) ...[
+              SliverToBoxAdapter(
+                child: _PlanProjectionSectionLabel(
+                    l10nAccountSectionTitle(context, AccountGroup.entities)),
+              ),
+              SliverReorderableList(
+                itemCount: projEntities.length,
+                onReorder: (oldIndex, newIndex) =>
+                    _onReorderProjectionAccounts(
+                  projEntities,
+                  oldIndex,
+                  newIndex,
+                ),
+                itemBuilder: (context, index) {
+                  final a = projEntities[index];
+                  return _ProjectionAccountCard(
+                    key: ValueKey(a.id),
+                    account: a,
+                    projectedBookNative: balances[a.id] ?? a.balance,
+                    reorderListIndex: index,
+                  );
+                },
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 4)),
+            ],
+            const SliverToBoxAdapter(child: SizedBox(height: 8)),
+          ],
           if (!_isFutureProjection && !_detailExpanded)
             if (planned.isEmpty)
               SliverFillRemaining(
@@ -1123,67 +1223,6 @@ class _ProjectionHero extends StatelessWidget {
   }
 }
 
-class _ProjectionDetailCard extends StatelessWidget {
-  final Map<String, double> balances;
-  const _ProjectionDetailCard({required this.balances});
-
-  @override
-  Widget build(BuildContext context) {
-    final active = activeAccounts(data.accounts);
-    final personal = active
-        .where((a) => a.group == AccountGroup.personal)
-        .toList();
-    final individuals = active
-        .where((a) => a.group == AccountGroup.individuals)
-        .toList();
-    final entities = active
-        .where((a) => a.group == AccountGroup.entities)
-        .toList();
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (personal.isNotEmpty) ...[
-            _PlanProjectionSectionLabel(
-                l10nAccountSectionTitle(context, AccountGroup.personal)),
-            ...personal.map(
-              (a) => _ProjectionAccountCard(
-                account: a,
-                projectedBookNative: balances[a.id] ?? a.balance,
-              ),
-            ),
-            const SizedBox(height: 4),
-          ],
-          if (individuals.isNotEmpty) ...[
-            _PlanProjectionSectionLabel(
-                l10nAccountSectionTitle(context, AccountGroup.individuals)),
-            ...individuals.map(
-              (a) => _ProjectionAccountCard(
-                account: a,
-                projectedBookNative: balances[a.id] ?? a.balance,
-              ),
-            ),
-            const SizedBox(height: 4),
-          ],
-          if (entities.isNotEmpty) ...[
-            _PlanProjectionSectionLabel(
-                l10nAccountSectionTitle(context, AccountGroup.entities)),
-            ...entities.map(
-              (a) => _ProjectionAccountCard(
-                account: a,
-                projectedBookNative: balances[a.id] ?? a.balance,
-              ),
-            ),
-            const SizedBox(height: 4),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
 /// Same typography and padding as Review’s `_SectionLabel`.
 class _PlanProjectionSectionLabel extends StatelessWidget {
   final String title;
@@ -1210,16 +1249,20 @@ class _PlanProjectionSectionLabel extends StatelessWidget {
 class _ProjectionAccountCard extends StatelessWidget {
   final Account account;
   final double projectedBookNative;
+  final int? reorderListIndex;
 
   const _ProjectionAccountCard({
+    super.key,
     required this.account,
     required this.projectedBookNative,
+    this.reorderListIndex,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final lc = context.ledgerColors;
+    final l10n = AppLocalizations.of(context);
 
     final shownBook = projectedBookNative;
     final shownMain = account.hasOverdraftFacility
@@ -1233,8 +1276,9 @@ class _ProjectionAccountCard extends StatelessWidget {
 
     final groupLabel =
         l10nAccountCardGroupLabel(context, account.group);
+    final nameLabel = accountDisplayName(account);
 
-    return Padding(
+    final card = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
       child: Material(
         color: cs.surfaceContainerLow,
@@ -1243,6 +1287,26 @@ class _ProjectionAccountCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           child: Row(
             children: [
+              if (reorderListIndex != null) ...[
+                Tooltip(
+                  message: l10n.semanticsReorderAccountHint,
+                  child: ReorderableDragStartListener(
+                    index: reorderListIndex!,
+                    child: Semantics(
+                      button: true,
+                      label: l10n.semanticsAccountDragHandle,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 6),
+                        child: Icon(
+                          Icons.drag_handle_rounded,
+                          size: 22,
+                          color: cs.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
               AccountAvatar(account: account),
               const SizedBox(width: 14),
               Expanded(
@@ -1250,7 +1314,7 @@ class _ProjectionAccountCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      accountDisplayName(account),
+                      nameLabel,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 15,
@@ -1307,6 +1371,16 @@ class _ProjectionAccountCard extends StatelessWidget {
         ),
       ),
     );
+
+    if (reorderListIndex != null) {
+      return Semantics(
+        container: true,
+        label: '$nameLabel. $groupLabel',
+        hint: l10n.semanticsReorderAccountHint,
+        child: card,
+      );
+    }
+    return card;
   }
 }
 

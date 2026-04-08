@@ -2108,6 +2108,18 @@ abstract class AppLocalizations {
   /// **'Projection date and balance breakdown disabled. Add an account and a planned transaction first.'**
   String get semanticsPlanProjectionControlsDisabled;
 
+  /// No description provided for @semanticsReorderAccountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Long press or drag the handle to reorder within this group'**
+  String get semanticsReorderAccountHint;
+
+  /// No description provided for @semanticsAccountDragHandle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder'**
+  String get semanticsAccountDragHandle;
+
   /// No description provided for @semanticsChartStyle.
   ///
   /// In en, this message translates to:

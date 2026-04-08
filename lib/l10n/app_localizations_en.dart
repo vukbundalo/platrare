@@ -1161,6 +1161,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Projection date and balance breakdown disabled. Add an account and a planned transaction first.';
 
   @override
+  String get semanticsReorderAccountHint =>
+      'Long press or drag the handle to reorder within this group';
+
+  @override
+  String get semanticsAccountDragHandle => 'Reorder';
+
+  @override
   String get semanticsChartStyle => 'Chart style';
 
   @override
