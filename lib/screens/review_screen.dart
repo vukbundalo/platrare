@@ -2,11 +2,13 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
+import '../data/data_repository.dart';
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
+import '../utils/persistence_guard.dart';
 import '../theme/ledger_colors.dart';
 import '../utils/fx.dart' as fx;
 import '../widgets/account_avatar.dart';
@@ -405,16 +407,25 @@ class _ReviewScreenState extends State<ReviewScreen> {
     }
   }
 
-  Future<void> _editAccount(Account account) async {
-    final result = await Navigator.push<bool>(
-      context,
-      MaterialPageRoute(
-          builder: (_) => AccountFormScreen(existing: account)),
-    );
-    if (result == true) {
-      setState(() {});
-      widget.onChanged?.call();
+  Future<void> _onReorderAccounts(
+    List<Account> groupList,
+    int oldIndex,
+    int newIndex,
+  ) async {
+    if (newIndex > oldIndex) newIndex -= 1;
+    final ordered = List<Account>.from(groupList);
+    final item = ordered.removeAt(oldIndex);
+    ordered.insert(newIndex, item);
+    for (var i = 0; i < ordered.length; i++) {
+      ordered[i].sortOrder = i;
     }
+    final ok = await guardPersist(
+      context,
+      () => DataRepository.persistAccountOrders(ordered),
+    );
+    if (!ok || !mounted) return;
+    setState(() {});
+    widget.onChanged?.call();
   }
 
   void _openAccountTransactions(Account account) {
@@ -680,49 +691,83 @@ class _ReviewScreenState extends State<ReviewScreen> {
               hasScrollBody: false,
               child: _EmptyAccountsHint(onAdd: _addAccount),
             )
-          else
+          else ...[
+            if (_activeSection == 'personal' && personal.isNotEmpty) ...[
+              SliverToBoxAdapter(
+                child: _SectionLabel(
+                    l10nAccountSectionTitle(context, AccountGroup.personal)),
+              ),
+              SliverReorderableList(
+                itemCount: personal.length,
+                onReorder: (oldIndex, newIndex) => _onReorderAccounts(
+                  personal,
+                  oldIndex,
+                  newIndex,
+                ),
+                itemBuilder: (context, index) {
+                  final a = personal[index];
+                  return _AccountCard(
+                    key: ValueKey(a.id),
+                    account: a,
+                    displayCurrency: _displayCurrency,
+                    onTap: () => _openAccountTransactions(a),
+                  );
+                },
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 4)),
+            ],
+            if (_activeSection == 'individuals' && individuals.isNotEmpty) ...[
+              SliverToBoxAdapter(
+                child: _SectionLabel(l10nAccountSectionTitle(
+                    context, AccountGroup.individuals)),
+              ),
+              SliverReorderableList(
+                itemCount: individuals.length,
+                onReorder: (oldIndex, newIndex) => _onReorderAccounts(
+                  individuals,
+                  oldIndex,
+                  newIndex,
+                ),
+                itemBuilder: (context, index) {
+                  final a = individuals[index];
+                  return _AccountCard(
+                    key: ValueKey(a.id),
+                    account: a,
+                    displayCurrency: _displayCurrency,
+                    onTap: () => _openAccountTransactions(a),
+                  );
+                },
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 4)),
+            ],
+            if (_activeSection == 'entities' && entities.isNotEmpty) ...[
+              SliverToBoxAdapter(
+                child: _SectionLabel(
+                    l10nAccountSectionTitle(context, AccountGroup.entities)),
+              ),
+              SliverReorderableList(
+                itemCount: entities.length,
+                onReorder: (oldIndex, newIndex) => _onReorderAccounts(
+                  entities,
+                  oldIndex,
+                  newIndex,
+                ),
+                itemBuilder: (context, index) {
+                  final a = entities[index];
+                  return _AccountCard(
+                    key: ValueKey(a.id),
+                    account: a,
+                    displayCurrency: _displayCurrency,
+                    onTap: () => _openAccountTransactions(a),
+                  );
+                },
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 4)),
+            ],
             SliverPadding(
               padding: const EdgeInsets.only(bottom: 40),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
-                  // ── Accounts (per-group toggles) ─────────────────────────
-                  if (_activeSection == 'personal' && personal.isNotEmpty) ...[
-                    _SectionLabel(
-                        l10nAccountSectionTitle(context, AccountGroup.personal)),
-                    ...personal.map(
-                      (a) => _AccountCard(
-                          account: a,
-                          displayCurrency: _displayCurrency,
-                          onTap: () => _openAccountTransactions(a),
-                          onLongPress: () => _editAccount(a)),
-                    ),
-                    const SizedBox(height: 4),
-                  ],
-                  if (_activeSection == 'individuals' && individuals.isNotEmpty) ...[
-                    _SectionLabel(l10nAccountSectionTitle(
-                        context, AccountGroup.individuals)),
-                    ...individuals.map(
-                      (a) => _AccountCard(
-                          account: a,
-                          displayCurrency: _displayCurrency,
-                          onTap: () => _openAccountTransactions(a),
-                          onLongPress: () => _editAccount(a)),
-                    ),
-                    const SizedBox(height: 4),
-                  ],
-                  if (_activeSection == 'entities' && entities.isNotEmpty) ...[
-                    _SectionLabel(
-                        l10nAccountSectionTitle(context, AccountGroup.entities)),
-                    ...entities.map(
-                      (a) => _AccountCard(
-                          account: a,
-                          displayCurrency: _displayCurrency,
-                          onTap: () => _openAccountTransactions(a),
-                          onLongPress: () => _editAccount(a)),
-                    ),
-                    const SizedBox(height: 4),
-                  ],
-
                   // ── Statistics ────────────────────────────────────────────
                   if (_activeSection == 'statistics' && data.transactions.isEmpty) ...[
                     const ReviewStatsEmptyState(),
@@ -870,6 +915,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 ]),
               ),
             ),
+          ],
         ],
       ),
     );
@@ -2328,12 +2374,11 @@ class _AccountCard extends StatelessWidget {
   final Account account;
   final String displayCurrency;
   final VoidCallback onTap;
-  final VoidCallback onLongPress;
   const _AccountCard({
+    super.key,
     required this.account,
     required this.displayCurrency,
     required this.onTap,
-    required this.onLongPress,
   });
 
   @override
@@ -2368,7 +2413,6 @@ class _AccountCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         child: InkWell(
           onTap: onTap,
-          onLongPress: onLongPress,
           borderRadius: BorderRadius.circular(14),
           child: Padding(
             padding:

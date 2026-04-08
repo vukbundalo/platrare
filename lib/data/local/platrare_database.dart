@@ -216,7 +216,11 @@ class PlatrareDatabase extends _$PlatrareDatabase {
 
   Future<void> loadIntoMemory() async {
     final accountRows = await (select(dbAccounts)
-          ..orderBy([(t) => OrderingTerm(expression: t.sortOrder)]))
+          ..orderBy([
+            (t) => OrderingTerm(expression: t.groupIndex),
+            (t) => OrderingTerm(expression: t.sortOrder),
+            (t) => OrderingTerm(expression: t.createdAt),
+          ]))
         .get();
     final accountById = <String, Account>{};
     data.accounts
@@ -422,6 +426,18 @@ class PlatrareDatabase extends _$PlatrareDatabase {
   Future<void> upsertAccount(Account a) => into(dbAccounts).insertOnConflictUpdate(
         _accountCompanionForPersist(a),
       );
+
+  /// Writes several account rows in one transaction (e.g. reorder within a group).
+  Future<void> batchUpsertAccounts(List<Account> accounts) async {
+    if (accounts.isEmpty) return;
+    await transaction(() async {
+      for (final a in accounts) {
+        await into(dbAccounts).insertOnConflictUpdate(
+          _accountCompanionForPersist(a),
+        );
+      }
+    });
+  }
 
   Future<void> deleteAccountRow(String id) =>
       (delete(dbAccounts)..where((t) => t.id.equals(id))).go();

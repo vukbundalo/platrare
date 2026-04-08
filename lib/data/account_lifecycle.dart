@@ -33,6 +33,15 @@ int compareAccountsByIdentity(Account a, Account b) {
       .compareTo(normalizedAccountIdentifierKey(b.institution));
 }
 
+/// Storage / Review order: group, then [Account.sortOrder], then [Account.createdAt].
+int compareAccountsStorageOrder(Account a, Account b) {
+  final g = a.group.index.compareTo(b.group.index);
+  if (g != 0) return g;
+  final s = a.sortOrder.compareTo(b.sortOrder);
+  if (s != 0) return s;
+  return a.createdAt.compareTo(b.createdAt);
+}
+
 /// Whether another account already has the same [trimmedName] and [institution]
 /// (case-insensitive; blank identifier matches only accounts with no identifier).
 /// Pass [exceptAccountId] when editing so the current row is ignored.

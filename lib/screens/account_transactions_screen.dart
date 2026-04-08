@@ -15,8 +15,10 @@ import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
 import '../widgets/app_hero_layout.dart';
 import '../widgets/track_plan_filter_ui.dart';
-import 'transaction_detail_screen.dart';
 import 'new_transaction_screen.dart';
+import 'review/account_form_widgets.dart' show AccountFormScreen;
+import 'transaction_detail_screen.dart';
+import '../utils/persistence_guard.dart';
 
 const _kTypeIncome   = 'income';
 const _kTypeExpense  = 'expense';
@@ -379,6 +381,22 @@ class _AccountTransactionsScreenState
             backgroundColor: cs.surface,
             scrolledUnderElevation: 0,
             title: Text(accountDisplayName(account)),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.edit_outlined),
+                tooltip: l10n.editAccountTitle,
+                onPressed: () async {
+                  final acct =
+                      refreshedAccount(widget.account) ?? widget.account;
+                  final r = await Navigator.push<bool>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => AccountFormScreen(existing: acct)),
+                  );
+                  if (r == true && mounted) setState(() {});
+                },
+              ),
+            ],
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.pin,
               background: Padding(

@@ -1,6 +1,7 @@
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
 import '../models/transaction.dart';
+import 'account_lifecycle.dart' show compareAccountsStorageOrder;
 import 'app_data.dart' as data;
 import 'balance_posting.dart';
 import 'local/platrare_database.dart';
@@ -56,15 +57,33 @@ class DataRepository {
 
   // --- Accounts --------------------------------------------------------------
 
+  /// Next [Account.sortOrder] for a new or moved row in [g] (max existing + 1).
+  static int nextSortOrderInGroup(AccountGroup g, {String? excludeAccountId}) {
+    var max = -1;
+    for (final x in data.accounts) {
+      if (excludeAccountId != null && x.id == excludeAccountId) continue;
+      if (x.group == g && x.sortOrder > max) max = x.sortOrder;
+    }
+    return max + 1;
+  }
+
+  static void _sortAccountsInMemory() {
+    data.accounts.sort(compareAccountsStorageOrder);
+  }
+
   /// Persists the account and, when [a.balance] is non-zero, inserts an
   /// opening-balance ledger row (from/to null) so verify-ledger replay matches.
   static Future<void> addAccount(Account a) async {
+    if (!data.accounts.contains(a)) {
+      a.sortOrder = nextSortOrderInGroup(a.group);
+    }
     final opening = a.balance;
     if (opening.abs() < 1e-10) {
       await _db.upsertAccount(a);
       if (!data.accounts.contains(a)) {
         data.accounts.add(a);
       }
+      _sortAccountsInMemory();
       return;
     }
 
@@ -81,11 +100,19 @@ class DataRepository {
       description: '__opening_balance__',
       persistTransaction: addTransaction,
     );
+    _sortAccountsInMemory();
   }
 
   /// Persists current field values on an existing in-memory [Account] (same id).
   static Future<void> persistAccountFields(Account a) async {
     await _db.upsertAccount(a);
+    _sortAccountsInMemory();
+  }
+
+  /// Persists [sortOrder] for each account (callers must set [Account.sortOrder]).
+  static Future<void> persistAccountOrders(List<Account> accounts) async {
+    await _db.batchUpsertAccounts(accounts);
+    _sortAccountsInMemory();
   }
 
   static Future<void> removeAccount(Account a) async {

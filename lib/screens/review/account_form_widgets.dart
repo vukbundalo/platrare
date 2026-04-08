@@ -444,9 +444,16 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
     if (widget.account != null) {
       final acc = widget.account!;
       final previousBook = acc.balance;
+      final previousGroup = acc.group;
       acc.name = name;
       acc.institution = institution;
       acc.group = _group;
+      if (previousGroup != _group) {
+        acc.sortOrder = DataRepository.nextSortOrderInGroup(
+          acc.group,
+          excludeAccountId: acc.id,
+        );
+      }
       acc.overdraftLimit = overdraft;
       acc.iconCodePoint = _iconCodePoint;
       acc.colorArgb = _colorArgb;
@@ -1057,9 +1064,16 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
     if (_isEdit) {
       final acc = widget.existing!;
       final previousBook = acc.balance;
+      final previousGroup = acc.group;
       acc.name = name;
       acc.institution = institution;
       acc.group = _group;
+      if (previousGroup != _group) {
+        acc.sortOrder = DataRepository.nextSortOrderInGroup(
+          acc.group,
+          excludeAccountId: acc.id,
+        );
+      }
       acc.overdraftLimit = overdraft;
       acc.iconCodePoint = _iconCodePoint;
       acc.colorArgb = _colorArgb;
