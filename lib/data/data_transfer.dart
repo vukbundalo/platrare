@@ -99,12 +99,21 @@ class DataTransfer {
 
     final name = defaultExportFileName(encrypt: encrypt);
 
+    // `.platrare` is not a registered extension on macOS: NSSavePanel uses
+    // UTType(filenameExtension:) and ends up with an empty allowed list, which
+    // breaks saving. Unknown Android MIME mappings for custom extensions can
+    // also misbehave. Use an unrestricted type for encrypted saves; the default
+    // [name] still carries the correct suffix.
+    final FileType saveType = encrypt ? FileType.any : FileType.custom;
+    final List<String>? saveExtensions =
+        encrypt ? null : const <String>['zip'];
+
     if (Platform.isAndroid || Platform.isIOS) {
       return FilePicker.platform.saveFile(
         dialogTitle: 'Export backup',
         fileName: name,
-        type: FileType.custom,
-        allowedExtensions: [encrypt ? 'platrare' : 'zip'],
+        type: saveType,
+        allowedExtensions: saveExtensions,
         bytes: outBytes,
       );
     }
@@ -112,8 +121,8 @@ class DataTransfer {
     final path = await FilePicker.platform.saveFile(
       dialogTitle: 'Export backup',
       fileName: name,
-      type: FileType.custom,
-      allowedExtensions: [encrypt ? 'platrare' : 'zip'],
+      type: saveType,
+      allowedExtensions: saveExtensions,
     );
     if (path == null) return null;
 
@@ -129,8 +138,14 @@ class DataTransfer {
   static Future<Uint8List> _buildInnerZipBytes() async {
     final pathToArchive = await _buildAttachmentPathMap();
     final json = _encodeDataJson(attachmentPathMap: pathToArchive);
-    final pkg = await PackageInfo.fromPlatform();
     final exportedAt = DateTime.now().toUtc().toIso8601String();
+    String appVersion;
+    try {
+      final pkg = await PackageInfo.fromPlatform();
+      appVersion = '${pkg.version}+${pkg.buildNumber}';
+    } catch (_) {
+      appVersion = 'unknown';
+    }
 
     final attBytes = <String, Uint8List>{};
     for (final e in pathToArchive.entries) {
@@ -143,7 +158,7 @@ class DataTransfer {
       dataJson: json,
       relativeAttachmentBytes: attBytes,
       exportedAtIso: exportedAt,
-      appVersion: '${pkg.version}+${pkg.buildNumber}',
+      appVersion: appVersion,
       accountsCount: data.accounts.length,
       transactionsCount: data.transactions.length,
       plannedTransactionsCount: data.plannedTransactions.length,
