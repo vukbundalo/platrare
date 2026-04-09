@@ -63,6 +63,8 @@ class _TrackScreenState extends State<TrackScreen> {
   bool _newestFirst = true;
   TrackPlanFilterPanel _trackPanel = TrackPlanFilterPanel.none;
   String _searchQuery = '';
+  /// Calendar day whose last transaction row has balance history expanded.
+  DateTime? _expandedTrackHistoryDay;
 
   bool get _hasActiveFilter =>
       _typeFilter != null ||
@@ -82,7 +84,37 @@ class _TrackScreenState extends State<TrackScreen> {
         _trackPanel = TrackPlanFilterPanel.none;
         _searchQuery = '';
         _searchController.clear();
+        _expandedTrackHistoryDay = null;
       });
+
+  void _toggleTrackHistoryDay(DateTime date) {
+    setState(() {
+      final d = DateUtils.dateOnly(date);
+      if (_expandedTrackHistoryDay != null &&
+          DateUtils.isSameDay(_expandedTrackHistoryDay!, d)) {
+        _expandedTrackHistoryDay = null;
+      } else {
+        _expandedTrackHistoryDay = d;
+      }
+    });
+  }
+
+  void _trackFabReset() {
+    setState(() {
+      _expandedTrackHistoryDay = null;
+      if (_hasActiveFilter) {
+        _typeFilter = null;
+        _accountFilter = null;
+        _categoryFilter = null;
+        _dateFilter = null;
+        _dateAnchor = DateTime.now();
+        _newestFirst = true;
+        _trackPanel = TrackPlanFilterPanel.none;
+        _searchQuery = '';
+        _searchController.clear();
+      }
+    });
+  }
 
   void _toggleTrackPanel(TrackPlanFilterPanel panel) => setState(() {
         _trackPanel = _trackPanel == panel ? TrackPlanFilterPanel.none : panel;
@@ -505,6 +537,9 @@ class _TrackScreenState extends State<TrackScreen> {
       });
     }
     final allTx = data.transactions;
+    final l10n = AppLocalizations.of(context);
+    final showTrackResetFab =
+        _expandedTrackHistoryDay != null || _hasActiveFilter;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -513,12 +548,13 @@ class _TrackScreenState extends State<TrackScreen> {
           : _listBody(context, trackChipsEnabled),
       floatingActionButton: allTx.isEmpty
           ? null
-          : _hasActiveFilter
+          : showTrackResetFab
               ? FloatingActionButton.extended(
                   heroTag: 'track_fab',
-                  onPressed: _clearFilters,
-                  icon: const Icon(Icons.filter_alt_off_rounded),
-                  label: Text(AppLocalizations.of(context).filterClearFilters),
+                  onPressed: _trackFabReset,
+                  tooltip: l10n.heroResetButton,
+                  icon: const Icon(Icons.restart_alt_rounded),
+                  label: Text(l10n.heroResetButton),
                 )
               : FloatingActionButton(
                   heroTag: 'track_fab',
@@ -864,6 +900,8 @@ class _TrackScreenState extends State<TrackScreen> {
                 return _DaySection(
                   date: date,
                   transactions: txs,
+                  expandedHistoryDay: _expandedTrackHistoryDay,
+                  onToggleHistoryDay: _toggleTrackHistoryDay,
                   onRefresh: () {
                     setState(() {});
                     widget.onChanged?.call();
@@ -1009,9 +1047,11 @@ class _TrackHero extends StatelessWidget {
 
 // ─── Day section ──────────────────────────────────────────────────────────────
 
-class _DaySection extends StatefulWidget {
+class _DaySection extends StatelessWidget {
   final DateTime date;
   final List<Transaction> transactions;
+  final DateTime? expandedHistoryDay;
+  final void Function(DateTime) onToggleHistoryDay;
   final VoidCallback onRefresh;
   final void Function(Transaction) onEdit;
   final void Function(Transaction) onTap;
@@ -1019,41 +1059,39 @@ class _DaySection extends StatefulWidget {
   const _DaySection({
     required this.date,
     required this.transactions,
+    required this.expandedHistoryDay,
+    required this.onToggleHistoryDay,
     required this.onRefresh,
     required this.onEdit,
     required this.onTap,
   });
 
-  @override
-  State<_DaySection> createState() => _DaySectionState();
-}
-
-class _DaySectionState extends State<_DaySection> {
-  bool _showHistory = false;
-
   String _dayLabel(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final today = DateUtils.dateOnly(DateTime.now());
-    final target = DateUtils.dateOnly(widget.date);
+    final target = DateUtils.dateOnly(date);
     if (target == today) return l10n.dateToday;
     if (target == today.subtract(const Duration(days: 1))) {
       return l10n.dateYesterday;
     }
-    return formatAppDate(context, 'EEEE, MMM d', widget.date);
+    return formatAppDate(context, 'EEEE, MMM d', date);
   }
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final historicalBals = proj.historicalBalances(widget.date);
+    final historicalBals = proj.historicalBalances(date);
     final gainIds = <String>{
-      for (final t in widget.transactions)
+      for (final t in transactions)
         if (t.toAccount != null) t.toAccount!.id,
     };
     final loseIds = <String>{
-      for (final t in widget.transactions)
+      for (final t in transactions)
         if (t.fromAccount != null) t.fromAccount!.id,
     };
+    final dOnly = DateUtils.dateOnly(date);
+    final historyOpen = expandedHistoryDay != null &&
+        DateUtils.isSameDay(expandedHistoryDay!, dOnly);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1078,9 +1116,9 @@ class _DaySectionState extends State<_DaySection> {
             borderRadius: BorderRadius.circular(16),
             child: Column(
               children: [
-                ...widget.transactions.asMap().entries.map((entry) {
+                ...transactions.asMap().entries.map((entry) {
                   final idx = entry.key;
-                  final isLast = idx == widget.transactions.length - 1;
+                  final isLast = idx == transactions.length - 1;
                   return Column(
                     children: [
                       if (idx > 0)
@@ -1091,18 +1129,18 @@ class _DaySectionState extends State<_DaySection> {
                         ),
                       _TransactionTile(
                         transaction: entry.value,
-                        onRefresh: widget.onRefresh,
-                        onEdit: widget.onEdit,
-                        onTap: widget.onTap,
-                        showHistory: isLast ? _showHistory : false,
+                        onRefresh: onRefresh,
+                        onEdit: onEdit,
+                        onTap: onTap,
+                        showHistory: isLast && historyOpen,
                         onToggleHistory: isLast
-                            ? () => setState(() => _showHistory = !_showHistory)
+                            ? () => onToggleHistoryDay(dOnly)
                             : null,
                       ),
                     ],
                   );
                 }),
-                if (_showHistory) ...[
+                if (historyOpen) ...[
                   Divider(
                       height: 0.5,
                       color: cs.outlineVariant.withValues(alpha: 0.4)),

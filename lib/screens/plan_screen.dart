@@ -65,6 +65,8 @@ class _PlanScreenState extends State<PlanScreen> {
   bool _newestFirst = false;
   TrackPlanFilterPanel _planPanel = TrackPlanFilterPanel.none;
   bool _detailExpanded = false;
+  /// Calendar day whose last planned row has per-day projection panel expanded.
+  DateTime? _expandedPlanProjectionDay;
 
   final _planScrollController = ScrollController();
   int _planVisibleDaySlots = kLazyDayInitialCount;
@@ -85,6 +87,7 @@ class _PlanScreenState extends State<PlanScreen> {
         _dateAnchor = DateTime.now();
         _newestFirst = false;
         _planPanel = TrackPlanFilterPanel.none;
+        _expandedPlanProjectionDay = null;
       });
 
   Future<void> _onReorderProjectionAccounts(
@@ -249,7 +252,40 @@ class _PlanScreenState extends State<PlanScreen> {
 
   void _clearProjectionToToday() => setState(() {
         _snapshotDate = DateUtils.dateOnly(DateTime.now());
+        _expandedPlanProjectionDay = null;
       });
+
+  void _togglePlanProjectionDay(DateTime date) {
+    setState(() {
+      final d = DateUtils.dateOnly(date);
+      if (_expandedPlanProjectionDay != null &&
+          DateUtils.isSameDay(_expandedPlanProjectionDay!, d)) {
+        _expandedPlanProjectionDay = null;
+      } else {
+        _expandedPlanProjectionDay = d;
+      }
+    });
+  }
+
+  void _planFabReset() {
+    if (_isFutureProjection) {
+      _clearProjectionToToday();
+      return;
+    }
+    setState(() {
+      _expandedPlanProjectionDay = null;
+      _detailExpanded = false;
+      if (_hasActiveFilter) {
+        _typeFilter = null;
+        _accountFilter = null;
+        _categoryFilter = null;
+        _dateFilter = null;
+        _dateAnchor = DateTime.now();
+        _newestFirst = false;
+        _planPanel = TrackPlanFilterPanel.none;
+      }
+    });
+  }
 
   List<PlannedTransaction> get _filteredPlanned {
     Iterable<PlannedTransaction> source = data.plannedTransactions;
@@ -734,7 +770,12 @@ class _PlanScreenState extends State<PlanScreen> {
     final planHeroInteractive = hasAccounts && hasPlanned;
     if (!planHeroInteractive && _detailExpanded) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) setState(() => _detailExpanded = false);
+        if (mounted) {
+          setState(() {
+            _detailExpanded = false;
+            _expandedPlanProjectionDay = null;
+          });
+        }
       });
     }
     if (!planHeroInteractive && _isFutureProjection) {
@@ -772,19 +813,17 @@ class _PlanScreenState extends State<PlanScreen> {
 
     Widget? fab;
     if (activeAccounts(data.accounts).isNotEmpty) {
-      if (_isFutureProjection) {
+      final showPlanResetFab = _isFutureProjection ||
+          _hasActiveFilter ||
+          _detailExpanded ||
+          _expandedPlanProjectionDay != null;
+      if (showPlanResetFab) {
         fab = FloatingActionButton.extended(
           heroTag: 'plan_fab',
-          onPressed: _clearProjectionToToday,
-          icon: const Icon(Icons.today_rounded),
-          label: Text(AppLocalizations.of(context).filterClearProjections),
-        );
-      } else if (_hasActiveFilter) {
-        fab = FloatingActionButton.extended(
-          heroTag: 'plan_fab',
-          onPressed: _clearFilters,
-          icon: const Icon(Icons.filter_alt_off_rounded),
-          label: Text(AppLocalizations.of(context).filterClearFilters),
+          onPressed: _planFabReset,
+          tooltip: l10n.heroResetButton,
+          icon: const Icon(Icons.restart_alt_rounded),
+          label: Text(l10n.heroResetButton),
         );
       } else if (planned.isNotEmpty) {
         fab = FloatingActionButton(
@@ -993,6 +1032,8 @@ class _PlanScreenState extends State<PlanScreen> {
               _PlanTimeline(
                 bundle: planDayBundle,
                 visibleDayGroupCount: planVisibleDayGroups,
+                expandedProjectionDay: _expandedPlanProjectionDay,
+                onToggleProjectionDay: _togglePlanProjectionDay,
                 onConfirm: _confirm,
                 onDelete: _deleteWithRepeatChoice,
                 onEdit: _edit,
@@ -1449,6 +1490,8 @@ class _EmptyState extends StatelessWidget {
 class _PlanTimeline extends StatelessWidget {
   final DayGroupedPlanned bundle;
   final int visibleDayGroupCount;
+  final DateTime? expandedProjectionDay;
+  final void Function(DateTime) onToggleProjectionDay;
   final void Function(PlannedTransaction) onConfirm;
   final void Function(PlannedTransaction) onDelete;
   final void Function(PlannedTransaction) onEdit;
@@ -1457,6 +1500,8 @@ class _PlanTimeline extends StatelessWidget {
   const _PlanTimeline({
     required this.bundle,
     required this.visibleDayGroupCount,
+    required this.expandedProjectionDay,
+    required this.onToggleProjectionDay,
     required this.onConfirm,
     required this.onDelete,
     required this.onEdit,
@@ -1478,10 +1523,14 @@ class _PlanTimeline extends StatelessWidget {
           final date = DateTime.parse(day);
           final dayPlanned = grouped[day]!;
           final projectedBalances = proj.projectBalances(date);
+          final projectionOpen = expandedProjectionDay != null &&
+              DateUtils.isSameDay(expandedProjectionDay!, date);
           return _DayGroup(
             date: date,
             planned: dayPlanned,
             projectedBalances: projectedBalances,
+            projectionExpanded: projectionOpen,
+            onToggleLastProjection: () => onToggleProjectionDay(date),
             onConfirm: onConfirm,
             onDelete: onDelete,
             onEdit: onEdit,
@@ -1493,10 +1542,12 @@ class _PlanTimeline extends StatelessWidget {
   }
 }
 
-class _DayGroup extends StatefulWidget {
+class _DayGroup extends StatelessWidget {
   final DateTime date;
   final List<PlannedTransaction> planned;
   final Map<String, double> projectedBalances;
+  final bool projectionExpanded;
+  final VoidCallback onToggleLastProjection;
   final void Function(PlannedTransaction) onConfirm;
   final void Function(PlannedTransaction) onDelete;
   final void Function(PlannedTransaction) onEdit;
@@ -1506,18 +1557,13 @@ class _DayGroup extends StatefulWidget {
     required this.date,
     required this.planned,
     required this.projectedBalances,
+    required this.projectionExpanded,
+    required this.onToggleLastProjection,
     required this.onConfirm,
     required this.onDelete,
     required this.onEdit,
     required this.onTap,
   });
-
-  @override
-  State<_DayGroup> createState() => _DayGroupState();
-}
-
-class _DayGroupState extends State<_DayGroup> {
-  bool _showProjection = false;
 
   String _formatDate(BuildContext context, DateTime d) {
     final l10n = AppLocalizations.of(context);
@@ -1533,9 +1579,8 @@ class _DayGroupState extends State<_DayGroup> {
     return formatAppDate(context, 'EEE, d MMM yyyy', d);
   }
 
-  bool get _isPast =>
-      DateUtils.dateOnly(widget.date)
-          .isBefore(DateUtils.dateOnly(DateTime.now()));
+  bool _isPastFor(DateTime d) =>
+      DateUtils.dateOnly(d).isBefore(DateUtils.dateOnly(DateTime.now()));
 
   @override
   Widget build(BuildContext context) {
@@ -1561,7 +1606,7 @@ class _DayGroupState extends State<_DayGroup> {
           child: Row(
             children: [
               Text(
-                _formatDate(context, widget.date),
+                _formatDate(context, date),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
@@ -1570,7 +1615,7 @@ class _DayGroupState extends State<_DayGroup> {
                 ),
               ),
               const Spacer(),
-              if (_isPast)
+              if (_isPastFor(date))
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
@@ -1604,7 +1649,7 @@ class _DayGroupState extends State<_DayGroup> {
             child: Column(
               children: [
                 // Planned transaction tiles
-                ...widget.planned.asMap().entries.map((entry) {
+                ...planned.asMap().entries.map((entry) {
                   final idx = entry.key;
                   final pt = entry.value;
                   return Dismissible(
@@ -1612,9 +1657,9 @@ class _DayGroupState extends State<_DayGroup> {
                     direction: DismissDirection.horizontal,
                     confirmDismiss: (direction) async {
                       if (direction == DismissDirection.endToStart) {
-                        widget.onDelete(pt);
+                        onDelete(pt);
                       } else {
-                        widget.onConfirm(pt);
+                        onConfirm(pt);
                       }
                       return false;
                     },
@@ -1641,14 +1686,13 @@ class _DayGroupState extends State<_DayGroup> {
                               color: cs.outlineVariant.withValues(alpha: 0.4)),
                         _PlannedTile(
                           pt: pt,
-                          onTap: () => widget.onTap(pt),
-                          onLongPress: () => widget.onEdit(pt),
-                          showProjection: idx == widget.planned.length - 1
-                              ? _showProjection
+                          onTap: () => onTap(pt),
+                          onLongPress: () => onEdit(pt),
+                          showProjection: idx == planned.length - 1
+                              ? projectionExpanded
                               : false,
-                          onToggleProjection: idx == widget.planned.length - 1
-                              ? () => setState(
-                                  () => _showProjection = !_showProjection)
+                          onToggleProjection: idx == planned.length - 1
+                              ? onToggleLastProjection
                               : null,
                         ),
                       ],
@@ -1657,21 +1701,21 @@ class _DayGroupState extends State<_DayGroup> {
                 }),
 
                 // Projection panel
-                if (_showProjection) ...[
+                if (projectionExpanded) ...[
                   Divider(
                       height: 0.5,
                       color: cs.outlineVariant.withValues(alpha: 0.4)),
                   _ProjectionPanel(
-                    projectedBalances: widget.projectedBalances,
+                    projectedBalances: projectedBalances,
                     personal: personal,
                     individuals: individuals,
                     entities: entities,
                     gainIds: {
-                      for (final pt in widget.planned)
+                      for (final pt in planned)
                         if (pt.toAccount != null) pt.toAccount!.id,
                     },
                     loseIds: {
-                      for (final pt in widget.planned)
+                      for (final pt in planned)
                         if (pt.fromAccount != null) pt.fromAccount!.id,
                     },
                   ),

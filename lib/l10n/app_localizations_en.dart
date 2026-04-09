@@ -57,10 +57,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get realBalance => 'Real balance';
 
   @override
-  String get filterClearFilters => 'Clear filters';
-
-  @override
-  String get filterClearProjections => 'Clear projections';
+  String get heroResetButton => 'Reset';
 
   @override
   String get filterAll => 'All';
@@ -607,10 +604,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsSectionAccounts => 'Accounts';
 
   @override
-  String get settingsBaseCurrency => 'Base currency';
+  String get settingsSectionPreferences => 'Preferences';
 
   @override
-  String get settingsSecondaryCurrency => 'Secondary display currency';
+  String get settingsSectionManage => 'Manage';
+
+  @override
+  String get settingsBaseCurrency => 'Home currency';
+
+  @override
+  String get settingsSecondaryCurrency => 'Secondary currency';
 
   @override
   String get settingsCategories => 'Categories';
@@ -636,7 +639,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsSectionData => 'Data';
 
   @override
-  String get settingsSectionPrivacy => 'Privacy & about';
+  String get settingsSectionPrivacy => 'About';
 
   @override
   String get settingsPrivacyPolicyTitle => 'Privacy policy';
@@ -692,25 +695,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsSupportInfoCopied => 'Copied to clipboard';
 
   @override
-  String get settingsVerifyLedger => 'Verify ledger';
+  String get settingsVerifyLedger => 'Verify data';
 
   @override
   String get settingsVerifyLedgerSubtitle =>
-      'Replay transactions and compare to stored balances';
+      'Check that account balances match your transaction history';
 
   @override
-  String get settingsDataExportTitle => 'Export data backup';
+  String get settingsDataExportTitle => 'Export backup';
 
   @override
   String get settingsDataExportSubtitle =>
-      'Save as .zip (plain) or .platrare (password-protected) with ledger data and attachments';
+      'Save as .zip or encrypted .platrare with all data and attachments';
 
   @override
-  String get settingsDataImportTitle => 'Import data backup';
+  String get settingsDataImportTitle => 'Restore from backup';
 
   @override
   String get settingsDataImportSubtitle =>
-      'Restore from a Platrare .zip or encrypted .platrare backup';
+      'Replace current data from a Platrare .zip or .platrare backup';
 
   @override
   String get backupExportDialogTitle => 'Protect this backup';
@@ -807,18 +810,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Backup needs a newer app version';
 
   @override
-  String get settingsDataImportConfirmTitle =>
-      'Import and overwrite current data?';
+  String get settingsDataImportConfirmTitle => 'Replace current data?';
 
   @override
   String get settingsDataImportConfirmBody =>
       'This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.';
 
   @override
-  String get settingsDataImportConfirmAction => 'Import and overwrite';
+  String get settingsDataImportConfirmAction => 'Replace data';
 
   @override
-  String get settingsDataImportDone => 'Backup imported successfully';
+  String get settingsDataImportDone => 'Data restored successfully';
 
   @override
   String get settingsDataImportInvalidFile =>
@@ -1045,11 +1047,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tooltipAddAccount => 'Add account';
-
-  @override
-  String reviewReturnToBaseCurrency(String currency) {
-    return 'Return to $currency';
-  }
 
   @override
   String get tooltipRemoveAccount => 'Remove account';
@@ -1485,6 +1482,95 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsExchangeRatesSource => 'ECB';
+
+  @override
+  String get settingsExchangeRatesUpdatedSnack => 'Exchange rates updated';
+
+  @override
+  String get settingsExchangeRatesUpdateFailed =>
+      'Could not update exchange rates. Check your connection.';
+
+  @override
+  String get settingsClearData => 'Clear data';
+
+  @override
+  String get settingsClearDataSubtitle => 'Permanently remove selected data';
+
+  @override
+  String get clearDataTitle => 'Clear data';
+
+  @override
+  String get clearDataTransactions => 'Transaction history';
+
+  @override
+  String clearDataTransactionsSubtitle(int count) {
+    return '$count transactions · account balances reset to zero';
+  }
+
+  @override
+  String get clearDataPlanned => 'Planned transactions';
+
+  @override
+  String clearDataPlannedSubtitle(int count) {
+    return '$count planned items';
+  }
+
+  @override
+  String get clearDataAccounts => 'Accounts';
+
+  @override
+  String clearDataAccountsSubtitle(int count) {
+    return '$count accounts · also clears history and plan';
+  }
+
+  @override
+  String get clearDataCategories => 'Categories';
+
+  @override
+  String clearDataCategoriesSubtitle(int count) {
+    return '$count categories · replaced with defaults';
+  }
+
+  @override
+  String get clearDataPreferences => 'Preferences';
+
+  @override
+  String get clearDataPreferencesSubtitle =>
+      'Reset currency, theme and language to defaults';
+
+  @override
+  String get clearDataSecurity => 'App lock & PIN';
+
+  @override
+  String get clearDataSecuritySubtitle => 'Disable app lock and remove PIN';
+
+  @override
+  String get clearDataConfirmButton => 'Clear selected';
+
+  @override
+  String get clearDataConfirmTitle => 'This cannot be undone';
+
+  @override
+  String get clearDataConfirmBody =>
+      'The selected data will be permanently deleted. Export a backup first if you may need it later.';
+
+  @override
+  String get clearDataTypeConfirm => 'Type DELETE to confirm';
+
+  @override
+  String get clearDataTypeConfirmError => 'Type DELETE exactly to continue';
+
+  @override
+  String get clearDataPinTitle => 'Confirm with PIN';
+
+  @override
+  String get clearDataPinBody => 'Enter your app PIN to authorize this action.';
+
+  @override
+  String get clearDataPinIncorrect => 'Incorrect PIN';
+
+  @override
+  String get clearDataDone => 'Selected data cleared';
 
   @override
   String get persistenceErrorReloaded =>

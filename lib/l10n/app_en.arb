@@ -23,8 +23,7 @@
   "heroBalance": "Balance",
   "realBalance": "Real balance",
 
-  "filterClearFilters": "Clear filters",
-  "filterClearProjections": "Clear projections",
+  "heroResetButton": "Reset",
   "filterAll": "All",
   "filterAllAccounts": "All accounts",
   "filterAllCategories": "All categories",
@@ -251,8 +250,10 @@
   "settingsSectionLanguage": "Language",
   "settingsSectionCategories": "Categories",
   "settingsSectionAccounts": "Accounts",
-  "settingsBaseCurrency": "Base currency",
-  "settingsSecondaryCurrency": "Secondary display currency",
+  "settingsSectionPreferences": "Preferences",
+  "settingsSectionManage": "Manage",
+  "settingsBaseCurrency": "Home currency",
+  "settingsSecondaryCurrency": "Secondary currency",
   "settingsCategories": "Categories",
   "settingsCategoriesSubtitle": "{incomeCount} income \u00b7 {expenseCount} expense",
   "@settingsCategoriesSubtitle": {
@@ -270,7 +271,7 @@
     }
   },
   "settingsSectionData": "Data",
-  "settingsSectionPrivacy": "Privacy & about",
+  "settingsSectionPrivacy": "About",
   "settingsPrivacyPolicyTitle": "Privacy policy",
   "settingsPrivacyPolicySubtitle": "How Platrare handles your data.",
   "settingsPrivacyFxDisclosure": "Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.",
@@ -287,12 +288,12 @@
   "aboutOpenPrivacySubtitle": "Opens the full in-app policy document.",
   "aboutSupportBundleLocaleLabel": "Locale",
   "settingsSupportInfoCopied": "Copied to clipboard",
-  "settingsVerifyLedger": "Verify ledger",
-  "settingsVerifyLedgerSubtitle": "Replay transactions and compare to stored balances",
-  "settingsDataExportTitle": "Export data backup",
-  "settingsDataExportSubtitle": "Save as .zip (plain) or .platrare (password-protected) with ledger data and attachments",
-  "settingsDataImportTitle": "Import data backup",
-  "settingsDataImportSubtitle": "Restore from a Platrare .zip or encrypted .platrare backup",
+  "settingsVerifyLedger": "Verify data",
+  "settingsVerifyLedgerSubtitle": "Check that account balances match your transaction history",
+  "settingsDataExportTitle": "Export backup",
+  "settingsDataExportSubtitle": "Save as .zip or encrypted .platrare with all data and attachments",
+  "settingsDataImportTitle": "Restore from backup",
+  "settingsDataImportSubtitle": "Replace current data from a Platrare .zip or .platrare backup",
   "backupExportDialogTitle": "Protect this backup",
   "backupExportDialogBody": "A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.",
   "backupExportPasswordLabel": "Password",
@@ -334,10 +335,10 @@
   "settingsBackupChecksumMismatch": "Backup failed integrity check",
   "settingsBackupCorruptFile": "Invalid or damaged backup file",
   "settingsBackupUnsupportedVersion": "Backup needs a newer app version",
-  "settingsDataImportConfirmTitle": "Import and overwrite current data?",
+  "settingsDataImportConfirmTitle": "Replace current data?",
   "settingsDataImportConfirmBody": "This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.",
-  "settingsDataImportConfirmAction": "Import and overwrite",
-  "settingsDataImportDone": "Backup imported successfully",
+  "settingsDataImportConfirmAction": "Replace data",
+  "settingsDataImportDone": "Data restored successfully",
   "settingsDataImportInvalidFile": "This file is not a valid Platrare backup",
   "settingsDataImportFailed": "Import failed",
   "settingsDataExportDoneTitle": "Backup exported",
@@ -438,12 +439,6 @@
 
   "tooltipSettings": "Settings",
   "tooltipAddAccount": "Add account",
-  "reviewReturnToBaseCurrency": "Return to {currency}",
-  "@reviewReturnToBaseCurrency": {
-    "placeholders": {
-      "currency": {"type": "String"}
-    }
-  },
   "tooltipRemoveAccount": "Remove account",
 
   "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
@@ -635,6 +630,45 @@
   },
   "settingsExchangeRatesNeverUpdated": "Using offline or bundled rates — tap to refresh",
   "settingsExchangeRatesSource": "ECB",
+  "settingsExchangeRatesUpdatedSnack": "Exchange rates updated",
+  "settingsExchangeRatesUpdateFailed": "Could not update exchange rates. Check your connection.",
+
+  "settingsClearData": "Clear data",
+  "settingsClearDataSubtitle": "Permanently remove selected data",
+  "clearDataTitle": "Clear data",
+  "clearDataTransactions": "Transaction history",
+  "clearDataTransactionsSubtitle": "{count} transactions · account balances reset to zero",
+  "@clearDataTransactionsSubtitle": {
+    "placeholders": { "count": {"type": "int"} }
+  },
+  "clearDataPlanned": "Planned transactions",
+  "clearDataPlannedSubtitle": "{count} planned items",
+  "@clearDataPlannedSubtitle": {
+    "placeholders": { "count": {"type": "int"} }
+  },
+  "clearDataAccounts": "Accounts",
+  "clearDataAccountsSubtitle": "{count} accounts · also clears history and plan",
+  "@clearDataAccountsSubtitle": {
+    "placeholders": { "count": {"type": "int"} }
+  },
+  "clearDataCategories": "Categories",
+  "clearDataCategoriesSubtitle": "{count} categories · replaced with defaults",
+  "@clearDataCategoriesSubtitle": {
+    "placeholders": { "count": {"type": "int"} }
+  },
+  "clearDataPreferences": "Preferences",
+  "clearDataPreferencesSubtitle": "Reset currency, theme and language to defaults",
+  "clearDataSecurity": "App lock & PIN",
+  "clearDataSecuritySubtitle": "Disable app lock and remove PIN",
+  "clearDataConfirmButton": "Clear selected",
+  "clearDataConfirmTitle": "This cannot be undone",
+  "clearDataConfirmBody": "The selected data will be permanently deleted. Export a backup first if you may need it later.",
+  "clearDataTypeConfirm": "Type DELETE to confirm",
+  "clearDataTypeConfirmError": "Type DELETE exactly to continue",
+  "clearDataPinTitle": "Confirm with PIN",
+  "clearDataPinBody": "Enter your app PIN to authorize this action.",
+  "clearDataPinIncorrect": "Incorrect PIN",
+  "clearDataDone": "Selected data cleared",
 
   "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
 }

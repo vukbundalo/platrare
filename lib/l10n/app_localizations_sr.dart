@@ -57,10 +57,7 @@ class AppLocalizationsSr extends AppLocalizations {
   String get realBalance => 'Stvarno stanje';
 
   @override
-  String get filterClearFilters => 'Ukloni filtere';
-
-  @override
-  String get filterClearProjections => 'Ukloni projekcije';
+  String get heroResetButton => 'Reset';
 
   @override
   String get filterAll => 'Sve';
@@ -610,10 +607,16 @@ class AppLocalizationsSr extends AppLocalizations {
   String get settingsSectionAccounts => 'Računi';
 
   @override
+  String get settingsSectionPreferences => 'Podešavanja';
+
+  @override
+  String get settingsSectionManage => 'Upravljanje';
+
+  @override
   String get settingsBaseCurrency => 'Osnovna valuta';
 
   @override
-  String get settingsSecondaryCurrency => 'Sekundarna valuta za prikaz';
+  String get settingsSecondaryCurrency => 'Sekundarna valuta';
 
   @override
   String get settingsCategories => 'Kategorije';
@@ -639,7 +642,7 @@ class AppLocalizationsSr extends AppLocalizations {
   String get settingsSectionData => 'Podaci';
 
   @override
-  String get settingsSectionPrivacy => 'Privatnost i informacije';
+  String get settingsSectionPrivacy => 'O aplikaciji';
 
   @override
   String get settingsPrivacyPolicyTitle => 'Politika privatnosti';
@@ -697,25 +700,25 @@ class AppLocalizationsSr extends AppLocalizations {
   String get settingsSupportInfoCopied => 'Kopirano u ostavu';
 
   @override
-  String get settingsVerifyLedger => 'Proveri knjigu';
+  String get settingsVerifyLedger => 'Provjeri podatke';
 
   @override
   String get settingsVerifyLedgerSubtitle =>
-      'Ponovi transakcije i uporedi sa sačuvanim stanjima';
+      'Provjeri da li se stanja računa poklapaju s istorijom transakcija';
 
   @override
-  String get settingsDataExportTitle => 'Izvezi rezervnu kopiju podataka';
+  String get settingsDataExportTitle => 'Izvezi rezervnu kopiju';
 
   @override
   String get settingsDataExportSubtitle =>
-      'Sačuvaj kao .zip (običan) ili .platrare (zaštićen lozinkom) sa podacima i prilozima';
+      'Sačuvaj kao .zip ili šifrovani .platrare sa svim podacima i prilozima';
 
   @override
-  String get settingsDataImportTitle => 'Uvezi rezervnu kopiju podataka';
+  String get settingsDataImportTitle => 'Vrati iz rezervne kopije';
 
   @override
   String get settingsDataImportSubtitle =>
-      'Vrati iz Platrare .zip ili šifrovanog .platrare fajla';
+      'Zamijeni trenutne podatke iz Platrare .zip ili .platrare fajla';
 
   @override
   String get backupExportDialogTitle => 'Zaštitite ovu rezervnu kopiju';
@@ -813,18 +816,17 @@ class AppLocalizationsSr extends AppLocalizations {
       'Rezerva zahteva noviju verziju aplikacije';
 
   @override
-  String get settingsDataImportConfirmTitle =>
-      'Uvesti i prebrisati trenutne podatke?';
+  String get settingsDataImportConfirmTitle => 'Zamijeniti trenutne podatke?';
 
   @override
   String get settingsDataImportConfirmBody =>
       'Ovo će zameniti vaše trenutne račune, transakcije, planirane transakcije, kategorije i uvezene priloge sadržajem iz izabrane rezerve. Ovu radnju nije moguće poništiti.';
 
   @override
-  String get settingsDataImportConfirmAction => 'Uvezi i prebriši';
+  String get settingsDataImportConfirmAction => 'Zamijeni podatke';
 
   @override
-  String get settingsDataImportDone => 'Rezervna kopija je uspešno uvezena';
+  String get settingsDataImportDone => 'Podaci su uspješno vraćeni';
 
   @override
   String get settingsDataImportInvalidFile =>
@@ -1052,11 +1054,6 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get tooltipAddAccount => 'Dodaj račun';
-
-  @override
-  String reviewReturnToBaseCurrency(String currency) {
-    return 'Nazad na $currency';
-  }
 
   @override
   String get tooltipRemoveAccount => 'Ukloni račun';
@@ -1497,6 +1494,97 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get settingsExchangeRatesSource => 'ECB';
+
+  @override
+  String get settingsExchangeRatesUpdatedSnack => 'Kursna lista ažurirana';
+
+  @override
+  String get settingsExchangeRatesUpdateFailed =>
+      'Nije moguće ažurirati kursnu listu. Provjerite vezu.';
+
+  @override
+  String get settingsClearData => 'Brisanje podataka';
+
+  @override
+  String get settingsClearDataSubtitle => 'Trajno ukloni odabrane podatke';
+
+  @override
+  String get clearDataTitle => 'Brisanje podataka';
+
+  @override
+  String get clearDataTransactions => 'Historija transakcija';
+
+  @override
+  String clearDataTransactionsSubtitle(int count) {
+    return '$count transakcija · stanja računa se postavljaju na nulu';
+  }
+
+  @override
+  String get clearDataPlanned => 'Planirane transakcije';
+
+  @override
+  String clearDataPlannedSubtitle(int count) {
+    return '$count planiranih stavki';
+  }
+
+  @override
+  String get clearDataAccounts => 'Računi';
+
+  @override
+  String clearDataAccountsSubtitle(int count) {
+    return '$count računa · briše i historiju i plan';
+  }
+
+  @override
+  String get clearDataCategories => 'Kategorije';
+
+  @override
+  String clearDataCategoriesSubtitle(int count) {
+    return '$count kategorija · zamjenjuje se podrazumijevanim';
+  }
+
+  @override
+  String get clearDataPreferences => 'Podešavanja';
+
+  @override
+  String get clearDataPreferencesSubtitle =>
+      'Vraća valutu, temu i jezik na podrazumijevane vrijednosti';
+
+  @override
+  String get clearDataSecurity => 'Zaključavanje i PIN';
+
+  @override
+  String get clearDataSecuritySubtitle =>
+      'Isključuje zaključavanje i briše PIN';
+
+  @override
+  String get clearDataConfirmButton => 'Obriši odabrano';
+
+  @override
+  String get clearDataConfirmTitle => 'Ova radnja se ne može poništiti';
+
+  @override
+  String get clearDataConfirmBody =>
+      'Odabrani podaci bit će trajno obrisani. Napravite backup ako će vam trebati.';
+
+  @override
+  String get clearDataTypeConfirm => 'Upišite DELETE za potvrdu';
+
+  @override
+  String get clearDataTypeConfirmError =>
+      'Upišite DELETE tačno kako bi nastavili';
+
+  @override
+  String get clearDataPinTitle => 'Potvrdite PIN-om';
+
+  @override
+  String get clearDataPinBody => 'Unesite PIN aplikacije za autorizaciju.';
+
+  @override
+  String get clearDataPinIncorrect => 'Pogrešan PIN';
+
+  @override
+  String get clearDataDone => 'Odabrani podaci su obrisani';
 
   @override
   String get persistenceErrorReloaded =>
@@ -1556,10 +1644,7 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   String get realBalance => 'Stvarno stanje';
 
   @override
-  String get filterClearFilters => 'Ukloni filtere';
-
-  @override
-  String get filterClearProjections => 'Ukloni projekcije';
+  String get heroResetButton => 'Reset';
 
   @override
   String get filterAll => 'Sve';
@@ -2109,10 +2194,16 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   String get settingsSectionAccounts => 'Računi';
 
   @override
+  String get settingsSectionPreferences => 'Podešavanja';
+
+  @override
+  String get settingsSectionManage => 'Upravljanje';
+
+  @override
   String get settingsBaseCurrency => 'Osnovna valuta';
 
   @override
-  String get settingsSecondaryCurrency => 'Sekundarna valuta za prikaz';
+  String get settingsSecondaryCurrency => 'Sekundarna valuta';
 
   @override
   String get settingsCategories => 'Kategorije';
@@ -2138,7 +2229,7 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   String get settingsSectionData => 'Podaci';
 
   @override
-  String get settingsSectionPrivacy => 'Privatnost i informacije';
+  String get settingsSectionPrivacy => 'O aplikaciji';
 
   @override
   String get settingsPrivacyPolicyTitle => 'Politika privatnosti';
@@ -2196,25 +2287,25 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   String get settingsSupportInfoCopied => 'Kopirano u ostavu';
 
   @override
-  String get settingsVerifyLedger => 'Proveri knjigu';
+  String get settingsVerifyLedger => 'Provjeri podatke';
 
   @override
   String get settingsVerifyLedgerSubtitle =>
-      'Ponovi transakcije i uporedi sa sačuvanim stanjima';
+      'Provjeri da li se stanja računa poklapaju s istorijom transakcija';
 
   @override
-  String get settingsDataExportTitle => 'Izvezi rezervnu kopiju podataka';
+  String get settingsDataExportTitle => 'Izvezi rezervnu kopiju';
 
   @override
   String get settingsDataExportSubtitle =>
-      'Sačuvaj kao .zip (običan) ili .platrare (zaštićen lozinkom) sa podacima i prilozima';
+      'Sačuvaj kao .zip ili šifrovani .platrare sa svim podacima i prilozima';
 
   @override
-  String get settingsDataImportTitle => 'Uvezi rezervnu kopiju podataka';
+  String get settingsDataImportTitle => 'Vrati iz rezervne kopije';
 
   @override
   String get settingsDataImportSubtitle =>
-      'Vrati iz Platrare .zip ili šifrovanog .platrare fajla';
+      'Zamijeni trenutne podatke iz Platrare .zip ili .platrare fajla';
 
   @override
   String get backupExportDialogTitle => 'Zaštitite ovu rezervnu kopiju';
@@ -2312,18 +2403,17 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
       'Rezerva zahteva noviju verziju aplikacije';
 
   @override
-  String get settingsDataImportConfirmTitle =>
-      'Uvesti i prebrisati trenutne podatke?';
+  String get settingsDataImportConfirmTitle => 'Zamijeniti trenutne podatke?';
 
   @override
   String get settingsDataImportConfirmBody =>
       'Ovo će zameniti vaše trenutne račune, transakcije, planirane transakcije, kategorije i uvezene priloge sadržajem iz izabrane rezerve. Ovu radnju nije moguće poništiti.';
 
   @override
-  String get settingsDataImportConfirmAction => 'Uvezi i prebriši';
+  String get settingsDataImportConfirmAction => 'Zamijeni podatke';
 
   @override
-  String get settingsDataImportDone => 'Rezervna kopija je uspešno uvezena';
+  String get settingsDataImportDone => 'Podaci su uspješno vraćeni';
 
   @override
   String get settingsDataImportInvalidFile =>
@@ -2551,11 +2641,6 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get tooltipAddAccount => 'Dodaj račun';
-
-  @override
-  String reviewReturnToBaseCurrency(String currency) {
-    return 'Nazad na $currency';
-  }
 
   @override
   String get tooltipRemoveAccount => 'Ukloni račun';
@@ -2996,6 +3081,97 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get settingsExchangeRatesSource => 'ECB';
+
+  @override
+  String get settingsExchangeRatesUpdatedSnack => 'Kursna lista ažurirana';
+
+  @override
+  String get settingsExchangeRatesUpdateFailed =>
+      'Nije moguće ažurirati kursnu listu. Proverite vezu.';
+
+  @override
+  String get settingsClearData => 'Brisanje podataka';
+
+  @override
+  String get settingsClearDataSubtitle => 'Trajno ukloni odabrane podatke';
+
+  @override
+  String get clearDataTitle => 'Brisanje podataka';
+
+  @override
+  String get clearDataTransactions => 'Istorija transakcija';
+
+  @override
+  String clearDataTransactionsSubtitle(int count) {
+    return '$count transakcija · stanja računa se postavljaju na nulu';
+  }
+
+  @override
+  String get clearDataPlanned => 'Planirane transakcije';
+
+  @override
+  String clearDataPlannedSubtitle(int count) {
+    return '$count planiranih stavki';
+  }
+
+  @override
+  String get clearDataAccounts => 'Računi';
+
+  @override
+  String clearDataAccountsSubtitle(int count) {
+    return '$count računa · briše i istoriju i plan';
+  }
+
+  @override
+  String get clearDataCategories => 'Kategorije';
+
+  @override
+  String clearDataCategoriesSubtitle(int count) {
+    return '$count kategorija · zamenjuje se podrazumevanim';
+  }
+
+  @override
+  String get clearDataPreferences => 'Podešavanja';
+
+  @override
+  String get clearDataPreferencesSubtitle =>
+      'Vraća valutu, temu i jezik na podrazumevane vrednosti';
+
+  @override
+  String get clearDataSecurity => 'Zaključavanje i PIN';
+
+  @override
+  String get clearDataSecuritySubtitle =>
+      'Isključuje zaključavanje i briše PIN';
+
+  @override
+  String get clearDataConfirmButton => 'Obriši odabrano';
+
+  @override
+  String get clearDataConfirmTitle => 'Ova radnja se ne može poništiti';
+
+  @override
+  String get clearDataConfirmBody =>
+      'Odabrani podaci biće trajno obrisani. Napravite backup ako će vam trebati.';
+
+  @override
+  String get clearDataTypeConfirm => 'Upišite DELETE za potvrdu';
+
+  @override
+  String get clearDataTypeConfirmError =>
+      'Upišite DELETE tačno kako biste nastavili';
+
+  @override
+  String get clearDataPinTitle => 'Potvrdite PIN-om';
+
+  @override
+  String get clearDataPinBody => 'Unesite PIN aplikacije za autorizaciju.';
+
+  @override
+  String get clearDataPinIncorrect => 'Pogrešan PIN';
+
+  @override
+  String get clearDataDone => 'Odabrani podaci su obrisani';
 
   @override
   String get persistenceErrorReloaded =>

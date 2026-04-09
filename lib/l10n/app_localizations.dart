@@ -195,17 +195,11 @@ abstract class AppLocalizations {
   /// **'Real balance'**
   String get realBalance;
 
-  /// No description provided for @filterClearFilters.
+  /// No description provided for @heroResetButton.
   ///
   /// In en, this message translates to:
-  /// **'Clear filters'**
-  String get filterClearFilters;
-
-  /// No description provided for @filterClearProjections.
-  ///
-  /// In en, this message translates to:
-  /// **'Clear projections'**
-  String get filterClearProjections;
+  /// **'Reset'**
+  String get heroResetButton;
 
   /// No description provided for @filterAll.
   ///
@@ -1125,16 +1119,28 @@ abstract class AppLocalizations {
   /// **'Accounts'**
   String get settingsSectionAccounts;
 
+  /// No description provided for @settingsSectionPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get settingsSectionPreferences;
+
+  /// No description provided for @settingsSectionManage.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage'**
+  String get settingsSectionManage;
+
   /// No description provided for @settingsBaseCurrency.
   ///
   /// In en, this message translates to:
-  /// **'Base currency'**
+  /// **'Home currency'**
   String get settingsBaseCurrency;
 
   /// No description provided for @settingsSecondaryCurrency.
   ///
   /// In en, this message translates to:
-  /// **'Secondary display currency'**
+  /// **'Secondary currency'**
   String get settingsSecondaryCurrency;
 
   /// No description provided for @settingsCategories.
@@ -1176,7 +1182,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsSectionPrivacy.
   ///
   /// In en, this message translates to:
-  /// **'Privacy & about'**
+  /// **'About'**
   String get settingsSectionPrivacy;
 
   /// No description provided for @settingsPrivacyPolicyTitle.
@@ -1278,37 +1284,37 @@ abstract class AppLocalizations {
   /// No description provided for @settingsVerifyLedger.
   ///
   /// In en, this message translates to:
-  /// **'Verify ledger'**
+  /// **'Verify data'**
   String get settingsVerifyLedger;
 
   /// No description provided for @settingsVerifyLedgerSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Replay transactions and compare to stored balances'**
+  /// **'Check that account balances match your transaction history'**
   String get settingsVerifyLedgerSubtitle;
 
   /// No description provided for @settingsDataExportTitle.
   ///
   /// In en, this message translates to:
-  /// **'Export data backup'**
+  /// **'Export backup'**
   String get settingsDataExportTitle;
 
   /// No description provided for @settingsDataExportSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Save as .zip (plain) or .platrare (password-protected) with ledger data and attachments'**
+  /// **'Save as .zip or encrypted .platrare with all data and attachments'**
   String get settingsDataExportSubtitle;
 
   /// No description provided for @settingsDataImportTitle.
   ///
   /// In en, this message translates to:
-  /// **'Import data backup'**
+  /// **'Restore from backup'**
   String get settingsDataImportTitle;
 
   /// No description provided for @settingsDataImportSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Restore from a Platrare .zip or encrypted .platrare backup'**
+  /// **'Replace current data from a Platrare .zip or .platrare backup'**
   String get settingsDataImportSubtitle;
 
   /// No description provided for @backupExportDialogTitle.
@@ -1471,7 +1477,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsDataImportConfirmTitle.
   ///
   /// In en, this message translates to:
-  /// **'Import and overwrite current data?'**
+  /// **'Replace current data?'**
   String get settingsDataImportConfirmTitle;
 
   /// No description provided for @settingsDataImportConfirmBody.
@@ -1483,13 +1489,13 @@ abstract class AppLocalizations {
   /// No description provided for @settingsDataImportConfirmAction.
   ///
   /// In en, this message translates to:
-  /// **'Import and overwrite'**
+  /// **'Replace data'**
   String get settingsDataImportConfirmAction;
 
   /// No description provided for @settingsDataImportDone.
   ///
   /// In en, this message translates to:
-  /// **'Backup imported successfully'**
+  /// **'Data restored successfully'**
   String get settingsDataImportDone;
 
   /// No description provided for @settingsDataImportInvalidFile.
@@ -1910,12 +1916,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add account'**
   String get tooltipAddAccount;
-
-  /// No description provided for @reviewReturnToBaseCurrency.
-  ///
-  /// In en, this message translates to:
-  /// **'Return to {currency}'**
-  String reviewReturnToBaseCurrency(String currency);
 
   /// No description provided for @tooltipRemoveAccount.
   ///
@@ -2672,6 +2672,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'ECB'**
   String get settingsExchangeRatesSource;
+
+  /// No description provided for @settingsExchangeRatesUpdatedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange rates updated'**
+  String get settingsExchangeRatesUpdatedSnack;
+
+  /// No description provided for @settingsExchangeRatesUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update exchange rates. Check your connection.'**
+  String get settingsExchangeRatesUpdateFailed;
+
+  /// No description provided for @settingsClearData.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear data'**
+  String get settingsClearData;
+
+  /// No description provided for @settingsClearDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently remove selected data'**
+  String get settingsClearDataSubtitle;
+
+  /// No description provided for @clearDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear data'**
+  String get clearDataTitle;
+
+  /// No description provided for @clearDataTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction history'**
+  String get clearDataTransactions;
+
+  /// No description provided for @clearDataTransactionsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} transactions · account balances reset to zero'**
+  String clearDataTransactionsSubtitle(int count);
+
+  /// No description provided for @clearDataPlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned transactions'**
+  String get clearDataPlanned;
+
+  /// No description provided for @clearDataPlannedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} planned items'**
+  String clearDataPlannedSubtitle(int count);
+
+  /// No description provided for @clearDataAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get clearDataAccounts;
+
+  /// No description provided for @clearDataAccountsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} accounts · also clears history and plan'**
+  String clearDataAccountsSubtitle(int count);
+
+  /// No description provided for @clearDataCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get clearDataCategories;
+
+  /// No description provided for @clearDataCategoriesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} categories · replaced with defaults'**
+  String clearDataCategoriesSubtitle(int count);
+
+  /// No description provided for @clearDataPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get clearDataPreferences;
+
+  /// No description provided for @clearDataPreferencesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset currency, theme and language to defaults'**
+  String get clearDataPreferencesSubtitle;
+
+  /// No description provided for @clearDataSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'App lock & PIN'**
+  String get clearDataSecurity;
+
+  /// No description provided for @clearDataSecuritySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable app lock and remove PIN'**
+  String get clearDataSecuritySubtitle;
+
+  /// No description provided for @clearDataConfirmButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear selected'**
+  String get clearDataConfirmButton;
+
+  /// No description provided for @clearDataConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This cannot be undone'**
+  String get clearDataConfirmTitle;
+
+  /// No description provided for @clearDataConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The selected data will be permanently deleted. Export a backup first if you may need it later.'**
+  String get clearDataConfirmBody;
+
+  /// No description provided for @clearDataTypeConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Type DELETE to confirm'**
+  String get clearDataTypeConfirm;
+
+  /// No description provided for @clearDataTypeConfirmError.
+  ///
+  /// In en, this message translates to:
+  /// **'Type DELETE exactly to continue'**
+  String get clearDataTypeConfirmError;
+
+  /// No description provided for @clearDataPinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm with PIN'**
+  String get clearDataPinTitle;
+
+  /// No description provided for @clearDataPinBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your app PIN to authorize this action.'**
+  String get clearDataPinBody;
+
+  /// No description provided for @clearDataPinIncorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect PIN'**
+  String get clearDataPinIncorrect;
+
+  /// No description provided for @clearDataDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected data cleared'**
+  String get clearDataDone;
 
   /// No description provided for @persistenceErrorReloaded.
   ///

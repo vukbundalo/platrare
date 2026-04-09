@@ -20,8 +20,7 @@
   "heroBalance": "Stanje",
   "realBalance": "Stvarno stanje",
 
-  "filterClearFilters": "Ukloni filtere",
-  "filterClearProjections": "Ukloni projekcije",
+  "heroResetButton": "Reset",
   "filterAll": "Sve",
   "filterAllAccounts": "Svi računi",
   "filterAllCategories": "Sve kategorije",
@@ -193,15 +192,17 @@
   "settingsSectionLanguage": "Jezik",
   "settingsSectionCategories": "Kategorije",
   "settingsSectionAccounts": "Računi",
+  "settingsSectionPreferences": "Podešavanja",
+  "settingsSectionManage": "Upravljanje",
   "settingsBaseCurrency": "Osnovna valuta",
-  "settingsSecondaryCurrency": "Sekundarna valuta za prikaz",
+  "settingsSecondaryCurrency": "Sekundarna valuta",
   "settingsCategories": "Kategorije",
   "settingsCategoriesSubtitle": "{incomeCount} prihoda \u00b7 {expenseCount} rashoda",
   "settingsArchivedAccounts": "Arhivirani računi",
   "settingsArchivedAccountsSubtitleZero": "Trenutno nema \u2014 arhiviraj iz izmene računa kada je saldo nula",
   "settingsArchivedAccountsSubtitleCount": "{count} sakriveno iz pregleda i biranja",
   "settingsSectionData": "Podaci",
-  "settingsSectionPrivacy": "Privatnost i informacije",
+  "settingsSectionPrivacy": "O aplikaciji",
   "settingsPrivacyPolicyTitle": "Politika privatnosti",
   "settingsPrivacyPolicySubtitle": "Kako Platrare tretira vaše podatke.",
   "settingsPrivacyFxDisclosure": "Kursna lista: aplikacija preuzima javne kurseve preko interneta. Vaši računi i transakcije se ne šalju.",
@@ -218,12 +219,12 @@
   "aboutOpenPrivacySubtitle": "Otvara pun tekst politike u aplikaciji.",
   "aboutSupportBundleLocaleLabel": "Lokalizacija",
   "settingsSupportInfoCopied": "Kopirano u ostavu",
-  "settingsVerifyLedger": "Proveri knjigu",
-  "settingsVerifyLedgerSubtitle": "Ponovi transakcije i uporedi sa sačuvanim stanjima",
-  "settingsDataExportTitle": "Izvezi rezervnu kopiju podataka",
-  "settingsDataExportSubtitle": "Sačuvaj kao .zip (običan) ili .platrare (zaštićen lozinkom) sa podacima i prilozima",
-  "settingsDataImportTitle": "Uvezi rezervnu kopiju podataka",
-  "settingsDataImportSubtitle": "Vrati iz Platrare .zip ili šifrovanog .platrare fajla",
+  "settingsVerifyLedger": "Provjeri podatke",
+  "settingsVerifyLedgerSubtitle": "Provjeri da li se stanja računa poklapaju s istorijom transakcija",
+  "settingsDataExportTitle": "Izvezi rezervnu kopiju",
+  "settingsDataExportSubtitle": "Sačuvaj kao .zip ili šifrovani .platrare sa svim podacima i prilozima",
+  "settingsDataImportTitle": "Vrati iz rezervne kopije",
+  "settingsDataImportSubtitle": "Zamijeni trenutne podatke iz Platrare .zip ili .platrare fajla",
   "backupExportDialogTitle": "Zaštitite ovu rezervnu kopiju",
   "backupExportDialogBody": "Preporučena je jaka lozinka, posebno ako čuvate fajl u oblaku. Ista lozinka je potrebna za uvoz.",
   "backupExportPasswordLabel": "Lozinka",
@@ -249,10 +250,10 @@
   "settingsBackupChecksumMismatch": "Provera integriteta rezerve nije uspela",
   "settingsBackupCorruptFile": "Nevažeći ili oštećen fajl rezerve",
   "settingsBackupUnsupportedVersion": "Rezerva zahteva noviju verziju aplikacije",
-  "settingsDataImportConfirmTitle": "Uvesti i prebrisati trenutne podatke?",
+  "settingsDataImportConfirmTitle": "Zamijeniti trenutne podatke?",
   "settingsDataImportConfirmBody": "Ovo će zameniti vaše trenutne račune, transakcije, planirane transakcije, kategorije i uvezene priloge sadržajem iz izabrane rezerve. Ovu radnju nije moguće poništiti.",
-  "settingsDataImportConfirmAction": "Uvezi i prebriši",
-  "settingsDataImportDone": "Rezervna kopija je uspešno uvezena",
+  "settingsDataImportConfirmAction": "Zamijeni podatke",
+  "settingsDataImportDone": "Podaci su uspješno vraćeni",
   "settingsDataImportInvalidFile": "Izabrani fajl nije validna Platrare rezervna kopija",
   "settingsDataImportFailed": "Uvoz nije uspeo",
   "settingsDataExportDoneTitle": "Rezervna kopija je izvezena",
@@ -329,12 +330,6 @@
 
   "tooltipSettings": "Podešavanja",
   "tooltipAddAccount": "Dodaj račun",
-  "reviewReturnToBaseCurrency": "Nazad na {currency}",
-  "@reviewReturnToBaseCurrency": {
-    "placeholders": {
-      "currency": {"type": "String"}
-    }
-  },
   "tooltipRemoveAccount": "Ukloni račun",
 
   "accountNameTaken": "Račun sa ovim imenom i identifikatorom već postoji (aktivan ili arhiviran). Promenite naziv ili identifikator.",
@@ -479,6 +474,45 @@
   },
   "settingsExchangeRatesNeverUpdated": "Koriste se ugrađeni ili keširani kursevi — dodirnite za osvježavanje",
   "settingsExchangeRatesSource": "ECB",
+  "settingsExchangeRatesUpdatedSnack": "Kursna lista ažurirana",
+  "settingsExchangeRatesUpdateFailed": "Nije moguće ažurirati kursnu listu. Proverite vezu.",
+
+  "settingsClearData": "Brisanje podataka",
+  "settingsClearDataSubtitle": "Trajno ukloni odabrane podatke",
+  "clearDataTitle": "Brisanje podataka",
+  "clearDataTransactions": "Istorija transakcija",
+  "clearDataTransactionsSubtitle": "{count} transakcija · stanja računa se postavljaju na nulu",
+  "@clearDataTransactionsSubtitle": {
+    "placeholders": { "count": {"type": "int"} }
+  },
+  "clearDataPlanned": "Planirane transakcije",
+  "clearDataPlannedSubtitle": "{count} planiranih stavki",
+  "@clearDataPlannedSubtitle": {
+    "placeholders": { "count": {"type": "int"} }
+  },
+  "clearDataAccounts": "Računi",
+  "clearDataAccountsSubtitle": "{count} računa · briše i istoriju i plan",
+  "@clearDataAccountsSubtitle": {
+    "placeholders": { "count": {"type": "int"} }
+  },
+  "clearDataCategories": "Kategorije",
+  "clearDataCategoriesSubtitle": "{count} kategorija · zamenjuje se podrazumevanim",
+  "@clearDataCategoriesSubtitle": {
+    "placeholders": { "count": {"type": "int"} }
+  },
+  "clearDataPreferences": "Podešavanja",
+  "clearDataPreferencesSubtitle": "Vraća valutu, temu i jezik na podrazumevane vrednosti",
+  "clearDataSecurity": "Zaključavanje i PIN",
+  "clearDataSecuritySubtitle": "Isključuje zaključavanje i briše PIN",
+  "clearDataConfirmButton": "Obriši odabrano",
+  "clearDataConfirmTitle": "Ova radnja se ne može poništiti",
+  "clearDataConfirmBody": "Odabrani podaci biće trajno obrisani. Napravite backup ako će vam trebati.",
+  "clearDataTypeConfirm": "Upišite DELETE za potvrdu",
+  "clearDataTypeConfirmError": "Upišite DELETE tačno kako biste nastavili",
+  "clearDataPinTitle": "Potvrdite PIN-om",
+  "clearDataPinBody": "Unesite PIN aplikacije za autorizaciju.",
+  "clearDataPinIncorrect": "Pogrešan PIN",
+  "clearDataDone": "Odabrani podaci su obrisani",
 
   "persistenceErrorReloaded": "Čuvanje nije uspelo. Podaci su ponovo učitani."
 }

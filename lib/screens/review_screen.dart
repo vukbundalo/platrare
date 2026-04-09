@@ -613,9 +613,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   heroTag: 'review_fab',
                   onPressed: () => setState(
                       () => _displayCurrency = settings.baseCurrency),
-                  icon: const Icon(Icons.currency_exchange_rounded),
-                  label: Text(
-                      l10n.reviewReturnToBaseCurrency(settings.baseCurrency)),
+                  tooltip: l10n.heroResetButton,
+                  icon: const Icon(Icons.restart_alt_rounded),
+                  label: Text(l10n.heroResetButton),
                 )
               : FloatingActionButton(
                   heroTag: 'review_fab',

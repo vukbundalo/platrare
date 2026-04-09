@@ -368,8 +368,9 @@ class _AccountTransactionsScreenState
           ? FloatingActionButton.extended(
               heroTag: 'account_tx_clear_filters',
               onPressed: _clearFilters,
-              icon: const Icon(Icons.filter_alt_off_rounded),
-              label: Text(l10n.filterClearFilters),
+              tooltip: l10n.heroResetButton,
+              icon: const Icon(Icons.restart_alt_rounded),
+              label: Text(l10n.heroResetButton),
             )
           : null,
       body: CustomScrollView(
