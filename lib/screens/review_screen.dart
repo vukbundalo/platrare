@@ -600,6 +600,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     final compareIncomeB = compareIncomeRowsB;
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       floatingActionButton: visibleAccounts.isEmpty
           ? null
           : FloatingActionButton(
@@ -614,7 +615,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
           SliverAppBar(
             pinned: true,
             expandedHeight: AppHeroConstants.mainSliverAppBarExpandedHeight,
-            backgroundColor: cs.surface,
+            backgroundColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
             scrolledUnderElevation: 0,
             title: Text(l10n.navReview),
             actions: [

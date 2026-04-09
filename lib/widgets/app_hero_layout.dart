@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/platrare_surfaces.dart';
+
 /// Shared metrics for Track / Plan / Review hero cards so top cards align in size
 /// and the vertical divider sits on the same horizontal split.
 abstract final class AppHeroConstants {
@@ -30,31 +32,20 @@ abstract final class AppHeroConstants {
   static const double labelToAmountGap = 2;
 }
 
-/// Neutral elevated surface for summary heroes (Track / Plan / Review / account
-/// history). Amounts keep [LedgerColors] positive/negative; the card chrome does
-/// not tint green/red from net or balance (institutional clarity).
+/// Summary heroes delegate to [PlatrareSurfaces.heroSummaryCard] (blue glass
+/// gradient). Amounts keep [LedgerColors] semantics on the figures only.
 abstract final class AppHeroChrome {
-  static const double _radius = 18;
-
-  static BoxDecoration cardDecoration(ColorScheme cs, Brightness brightness) {
-    final base = cs.surfaceContainerHigh;
-    final tint = brightness == Brightness.dark
-        ? cs.primary.withValues(alpha: 0.10)
-        : cs.primary.withValues(alpha: 0.042);
-    return BoxDecoration(
-      color: Color.alphaBlend(tint, base),
-      borderRadius: BorderRadius.circular(_radius),
-      border: Border.all(
-        color: cs.outlineVariant.withValues(
-          alpha: brightness == Brightness.dark ? 0.55 : 0.72,
-        ),
-      ),
-    );
-  }
+  static BoxDecoration cardDecoration(ColorScheme cs, Brightness brightness) =>
+      PlatrareSurfaces.heroSummaryCard(cs, brightness);
 
   static Color metricsDividerColor(ColorScheme cs, Brightness brightness) =>
-      cs.outlineVariant.withValues(
-        alpha: brightness == Brightness.dark ? 0.50 : 0.62,
+      Color.alphaBlend(
+        cs.primary.withValues(
+          alpha: brightness == Brightness.dark ? 0.14 : 0.09,
+        ),
+        cs.outlineVariant.withValues(
+          alpha: brightness == Brightness.dark ? 0.52 : 0.64,
+        ),
       );
 }
 

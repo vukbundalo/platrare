@@ -746,7 +746,6 @@ class _PlanScreenState extends State<PlanScreen> {
         }
       });
     }
-    final cs = Theme.of(context).colorScheme;
     final planned = _filteredPlanned;
     _syncPlanLazyWindowSignature();
     final planDayBundle = DayGroupedPlanned.build(planned, _newestFirst);
@@ -797,13 +796,15 @@ class _PlanScreenState extends State<PlanScreen> {
     }
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: CustomScrollView(
         controller: _planScrollController,
         slivers: [
           SliverAppBar(
             pinned: true,
             expandedHeight: AppHeroConstants.mainSliverAppBarExpandedHeight,
-            backgroundColor: cs.surface,
+            backgroundColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
             scrolledUnderElevation: 0,
             title: Text(AppLocalizations.of(context).navPlan),
             actions: [

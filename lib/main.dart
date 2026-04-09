@@ -11,7 +11,8 @@ import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'screens/track_screen.dart';
 import 'screens/plan_screen.dart';
 import 'screens/review_screen.dart';
-import 'theme/ledger_colors.dart';
+import 'theme/platrare_surfaces.dart';
+import 'theme/platrare_theme.dart';
 import 'utils/fx.dart' as fx;
 import 'widgets/app_lock_gate.dart';
 
@@ -78,8 +79,8 @@ class PlatrareApp extends StatelessWidget {
             return MaterialApp(
               title: 'Platrare',
               debugShowCheckedModeBanner: false,
-              theme: _buildTheme(Brightness.light),
-              darkTheme: _buildTheme(Brightness.dark),
+              theme: buildPlatrareTheme(Brightness.light),
+              darkTheme: buildPlatrareTheme(Brightness.dark),
               themeMode: themeModeFor(themePref),
               locale: localeForMaterialApp(localePref),
               supportedLocales: AppLocalizations.supportedLocales,
@@ -101,99 +102,6 @@ class PlatrareApp extends StatelessWidget {
     );
   }
 
-  ThemeData _buildTheme(Brightness brightness) {
-    // Deep institutional blue-navy seed; surfaces stay calm for finance UX.
-    const seed = Color(0xFF123B63);
-    final cs = ColorScheme.fromSeed(seedColor: seed, brightness: brightness)
-        .copyWith(surfaceTint: Colors.transparent);
-
-    return ThemeData(
-      useMaterial3: true,
-      colorScheme: cs,
-      extensions: [LedgerColors.harmonized(cs)],
-      appBarTheme: AppBarTheme(
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        backgroundColor: cs.surface,
-        foregroundColor: cs.onSurface,
-        titleTextStyle: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w700,
-          color: cs.onSurface,
-          letterSpacing: -0.3,
-        ),
-      ),
-      cardTheme: CardThemeData(
-        elevation: 0,
-        color: cs.surfaceContainerLow,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        margin: EdgeInsets.zero,
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: cs.surfaceContainerLow,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: cs.outlineVariant),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: cs.outlineVariant),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: cs.primary, width: 2),
-        ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        labelStyle: TextStyle(color: cs.onSurfaceVariant),
-      ),
-      chipTheme: ChipThemeData(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        side: BorderSide(color: cs.outlineVariant),
-      ),
-      navigationBarTheme: NavigationBarThemeData(
-        elevation: 0,
-        height: 68,
-        backgroundColor: cs.surface,
-        indicatorColor:
-            Color.alphaBlend(cs.primary.withValues(alpha: 0.14), cs.surface),
-        surfaceTintColor: Colors.transparent,
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        labelTextStyle: WidgetStateProperty.resolveWith((states) {
-          final selected = states.contains(WidgetState.selected);
-          return TextStyle(
-            fontSize: 11,
-            fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-            color: selected ? cs.primary : cs.onSurfaceVariant,
-          );
-        }),
-        iconTheme: WidgetStateProperty.resolveWith((states) {
-          final selected = states.contains(WidgetState.selected);
-          return IconThemeData(
-            size: 22,
-            color: selected ? cs.primary : cs.onSurfaceVariant,
-          );
-        }),
-      ),
-      dividerTheme: DividerThemeData(
-        color: cs.outlineVariant.withValues(alpha: 0.5),
-        space: 0,
-        thickness: 0.5,
-      ),
-      listTileTheme: const ListTileThemeData(
-        minVerticalPadding: 12,
-      ),
-      filledButtonTheme: FilledButtonThemeData(
-        style: FilledButton.styleFrom(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          minimumSize: const Size(double.infinity, 52),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-        ),
-      ),
-    );
-  }
 }
 
 class HomePage extends StatefulWidget {
@@ -210,21 +118,28 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final brightness = Theme.of(context).brightness;
 
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: [
-          PlanScreen(onChanged: () => setState(() {})),
-          TrackScreen(onChanged: () => setState(() {})),
-          ReviewScreen(onChanged: () => setState(() {})),
-        ],
+      backgroundColor: Colors.transparent,
+      body: DecoratedBox(
+        decoration: PlatrareSurfaces.scaffoldShell(cs, brightness),
+        child: IndexedStack(
+          index: _currentIndex,
+          children: [
+            PlanScreen(onChanged: () => setState(() {})),
+            TrackScreen(onChanged: () => setState(() {})),
+            ReviewScreen(onChanged: () => setState(() {})),
+          ],
+        ),
       ),
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-                color: cs.outlineVariant.withValues(alpha: 0.4), width: 0.5),
+        decoration: PlatrareSurfaces.bottomBarDecoration(
+          cs,
+          brightness,
+          topBorder: BorderSide(
+            color: cs.outlineVariant.withValues(alpha: 0.4),
+            width: 0.5,
           ),
         ),
         child: NavigationBar(

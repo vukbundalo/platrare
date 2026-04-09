@@ -504,11 +504,10 @@ class _TrackScreenState extends State<TrackScreen> {
         if (mounted) _clearFilters();
       });
     }
-    final cs = Theme.of(context).colorScheme;
     final allTx = data.transactions;
 
     return Scaffold(
-      backgroundColor: cs.surface,
+      backgroundColor: Colors.transparent,
       body: allTx.isEmpty
           ? _emptyBody(context, trackChipsEnabled)
           : _listBody(context, trackChipsEnabled),
@@ -542,7 +541,8 @@ class _TrackScreenState extends State<TrackScreen> {
         SliverAppBar(
           pinned: true,
           expandedHeight: AppHeroConstants.mainSliverAppBarExpandedHeight,
-          backgroundColor: cs.surface,
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
           scrolledUnderElevation: 0,
           title: Text(AppLocalizations.of(context).navTrack),
           actions: [
@@ -718,7 +718,8 @@ class _TrackScreenState extends State<TrackScreen> {
         SliverAppBar(
           pinned: true,
           expandedHeight: AppHeroConstants.mainSliverAppBarExpandedHeight,
-          backgroundColor: cs.surface,
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
           scrolledUnderElevation: 0,
           title: Text(AppLocalizations.of(context).navTrack),
           actions: [

@@ -4,6 +4,7 @@ import 'package:local_auth/local_auth.dart';
 
 import '../data/security_prefs.dart';
 import '../l10n/app_localizations.dart';
+import '../theme/platrare_surfaces.dart';
 
 class AppLockGate extends StatefulWidget {
   const AppLockGate({super.key, required this.child});
@@ -134,78 +135,80 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
 
     final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
+    final brightness = Theme.of(context).brightness;
     return Semantics(
       container: true,
       label: '${l10n.securityUnlockTitle}. ${l10n.securityUnlockSubtitle}',
       child: Scaffold(
-        backgroundColor: cs.surface,
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 380),
-                child: Card(
-                  color: cs.surfaceContainerHigh,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    side: BorderSide(
-                      color: cs.outlineVariant.withValues(alpha: 0.55),
+        backgroundColor: Colors.transparent,
+        body: DecoratedBox(
+          decoration: PlatrareSurfaces.lockBackdrop(cs, brightness),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 380),
+                  child: Card(
+                    color: cs.surfaceContainerHigh,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(
+                        color: cs.primary.withValues(alpha: 0.22),
+                      ),
                     ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.lock_rounded, size: 46, color: cs.primary),
-                        const SizedBox(height: 12),
-                        Text(
-                          l10n.securityUnlockTitle,
-                          style:
-                              Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          l10n.securityUnlockSubtitle,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: cs.onSurfaceVariant),
-                        ),
-                        if (_pinAvailable) ...[
-                          const SizedBox(height: 18),
-                          TextField(
-                            controller: _pinController,
-                            keyboardType: TextInputType.number,
-                            obscureText: true,
-                            maxLength: 8,
-                            decoration: InputDecoration(
-                              labelText: l10n.securityPinLabel,
-                              errorText: _pinError,
-                              counterText: '',
-                            ),
-                            onSubmitted: (_) => _unlockWithPin(),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.lock_rounded, size: 46, color: cs.primary),
+                          const SizedBox(height: 12),
+                          Text(
+                            l10n.securityUnlockTitle,
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(fontWeight: FontWeight.w700),
                           ),
-                          const SizedBox(height: 10),
-                          FilledButton(
-                            onPressed: _unlockWithPin,
-                            child: Text(l10n.securityUnlockWithPin),
+                          const SizedBox(height: 8),
+                          Text(
+                            l10n.securityUnlockSubtitle,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: cs.onSurfaceVariant),
+                          ),
+                          if (_pinAvailable) ...[
+                            const SizedBox(height: 18),
+                            TextField(
+                              controller: _pinController,
+                              keyboardType: TextInputType.number,
+                              obscureText: true,
+                              maxLength: 8,
+                              decoration: InputDecoration(
+                                labelText: l10n.securityPinLabel,
+                                errorText: _pinError,
+                                counterText: '',
+                              ),
+                              onSubmitted: (_) => _unlockWithPin(),
+                            ),
+                            const SizedBox(height: 10),
+                            FilledButton(
+                              onPressed: _unlockWithPin,
+                              child: Text(l10n.securityUnlockWithPin),
+                            ),
+                          ],
+                          const SizedBox(height: 8),
+                          OutlinedButton.icon(
+                            onPressed: _supportsBiometric
+                                ? () {
+                                    _allowAutoBiometric = true;
+                                    _tryBiometricAuth();
+                                  }
+                                : null,
+                            icon: const Icon(Icons.fingerprint_rounded),
+                            label: Text(l10n.securityTryBiometric),
                           ),
                         ],
-                        const SizedBox(height: 8),
-                        OutlinedButton.icon(
-                          onPressed: _supportsBiometric
-                              ? () {
-                                  _allowAutoBiometric = true;
-                                  _tryBiometricAuth();
-                                }
-                              : null,
-                          icon: const Icon(Icons.fingerprint_rounded),
-                          label: Text(l10n.securityTryBiometric),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
