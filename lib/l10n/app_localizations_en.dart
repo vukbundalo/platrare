@@ -643,6 +643,55 @@ class AppLocalizationsEn extends AppLocalizations {
       'Replay transactions and compare to stored balances';
 
   @override
+  String get settingsDataExportTitle => 'Export data backup';
+
+  @override
+  String get settingsDataExportSubtitle =>
+      'ZIP file with ledger data and receipt attachments (photos, PDFs, etc.)';
+
+  @override
+  String get settingsDataImportTitle => 'Import data backup';
+
+  @override
+  String get settingsDataImportSubtitle =>
+      'Restore from a Platrare ZIP backup or a legacy JSON file';
+
+  @override
+  String get settingsDataImportConfirmTitle =>
+      'Import and overwrite current data?';
+
+  @override
+  String get settingsDataImportConfirmBody =>
+      'This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.';
+
+  @override
+  String get settingsDataImportConfirmAction => 'Import and overwrite';
+
+  @override
+  String get settingsDataImportDone => 'Backup imported successfully';
+
+  @override
+  String get settingsDataImportInvalidFile =>
+      'This file is not a valid Platrare backup';
+
+  @override
+  String get settingsDataImportFailed => 'Import failed';
+
+  @override
+  String get settingsDataExportDoneTitle => 'Backup exported';
+
+  @override
+  String settingsDataExportDoneBody(String path) {
+    return 'Backup saved to:\n$path';
+  }
+
+  @override
+  String get settingsDataOpenExportFile => 'Open file';
+
+  @override
+  String get settingsDataExportFailed => 'Export failed';
+
+  @override
   String get ledgerVerifyDialogTitle => 'Ledger verification';
 
   @override
@@ -687,6 +736,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsSectionAppearance => 'Appearance';
+
+  @override
+  String get settingsSectionSecurity => 'Security';
+
+  @override
+  String get settingsSecurityEnableLock => 'Lock app on open';
+
+  @override
+  String get settingsSecurityEnableLockSubtitle =>
+      'Require biometric unlock or PIN when app opens';
+
+  @override
+  String get settingsSecuritySetPin => 'Set PIN';
+
+  @override
+  String get settingsSecurityChangePin => 'Change PIN';
+
+  @override
+  String get settingsSecurityPinSubtitle =>
+      'Use a PIN as fallback if biometric is unavailable';
+
+  @override
+  String get settingsSecurityRemovePin => 'Remove PIN';
+
+  @override
+  String get securitySetPinTitle => 'Set app PIN';
+
+  @override
+  String get securityPinLabel => 'PIN code';
+
+  @override
+  String get securityConfirmPinLabel => 'Confirm PIN code';
+
+  @override
+  String get securityPinMustBe4Digits => 'PIN must have at least 4 digits';
+
+  @override
+  String get securityPinMismatch => 'PIN codes do not match';
+
+  @override
+  String get securityRemovePinTitle => 'Remove PIN?';
+
+  @override
+  String get securityRemovePinBody =>
+      'Biometric unlock can still be used if available.';
+
+  @override
+  String get securityUnlockTitle => 'App locked';
+
+  @override
+  String get securityUnlockSubtitle =>
+      'Unlock with Face ID, fingerprint, or PIN.';
+
+  @override
+  String get securityUnlockWithPin => 'Unlock with PIN';
+
+  @override
+  String get securityTryBiometric => 'Try biometric unlock';
+
+  @override
+  String get securityPinIncorrect => 'Incorrect PIN, try again';
+
+  @override
+  String get securityBiometricReason => 'Authenticate to open your app';
 
   @override
   String get settingsTheme => 'Theme';

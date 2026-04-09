@@ -646,6 +646,55 @@ class AppLocalizationsSr extends AppLocalizations {
       'Ponovi transakcije i uporedi sa sačuvanim stanjima';
 
   @override
+  String get settingsDataExportTitle => 'Izvezi rezervnu kopiju podataka';
+
+  @override
+  String get settingsDataExportSubtitle =>
+      'ZIP sa podacima knjige i prilozima (fotografije, PDF, itd.)';
+
+  @override
+  String get settingsDataImportTitle => 'Uvezi rezervnu kopiju podataka';
+
+  @override
+  String get settingsDataImportSubtitle =>
+      'Vrati iz Platrare ZIP rezerve ili starijeg JSON fajla';
+
+  @override
+  String get settingsDataImportConfirmTitle =>
+      'Uvesti i prebrisati trenutne podatke?';
+
+  @override
+  String get settingsDataImportConfirmBody =>
+      'Ovo će zameniti vaše trenutne račune, transakcije, planirane transakcije, kategorije i uvezene priloge sadržajem iz izabrane rezerve. Ovu radnju nije moguće poništiti.';
+
+  @override
+  String get settingsDataImportConfirmAction => 'Uvezi i prebriši';
+
+  @override
+  String get settingsDataImportDone => 'Rezervna kopija je uspešno uvezena';
+
+  @override
+  String get settingsDataImportInvalidFile =>
+      'Izabrani fajl nije validna Platrare rezervna kopija';
+
+  @override
+  String get settingsDataImportFailed => 'Uvoz nije uspeo';
+
+  @override
+  String get settingsDataExportDoneTitle => 'Rezervna kopija je izvezena';
+
+  @override
+  String settingsDataExportDoneBody(String path) {
+    return 'Rezervna kopija je sačuvana na:\n$path';
+  }
+
+  @override
+  String get settingsDataOpenExportFile => 'Otvori fajl';
+
+  @override
+  String get settingsDataExportFailed => 'Izvoz nije uspeo';
+
+  @override
   String get ledgerVerifyDialogTitle => 'Provera knjige';
 
   @override
@@ -690,6 +739,71 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get settingsSectionAppearance => 'Izgled';
+
+  @override
+  String get settingsSectionSecurity => 'Sigurnost';
+
+  @override
+  String get settingsSecurityEnableLock => 'Zaključaj aplikaciju pri otvaranju';
+
+  @override
+  String get settingsSecurityEnableLockSubtitle =>
+      'Traži biometriju ili PIN kada se aplikacija otvori';
+
+  @override
+  String get settingsSecuritySetPin => 'Postavi PIN';
+
+  @override
+  String get settingsSecurityChangePin => 'Promeni PIN';
+
+  @override
+  String get settingsSecurityPinSubtitle =>
+      'Koristi PIN kao rezervu ako biometrija nije dostupna';
+
+  @override
+  String get settingsSecurityRemovePin => 'Ukloni PIN';
+
+  @override
+  String get securitySetPinTitle => 'Postavi PIN aplikacije';
+
+  @override
+  String get securityPinLabel => 'PIN kod';
+
+  @override
+  String get securityConfirmPinLabel => 'Potvrdi PIN kod';
+
+  @override
+  String get securityPinMustBe4Digits => 'PIN mora imati najmanje 4 cifre';
+
+  @override
+  String get securityPinMismatch => 'PIN kodovi se ne poklapaju';
+
+  @override
+  String get securityRemovePinTitle => 'Ukloniti PIN?';
+
+  @override
+  String get securityRemovePinBody =>
+      'Biometrijsko otključavanje i dalje može da se koristi ako je dostupno.';
+
+  @override
+  String get securityUnlockTitle => 'Aplikacija je zaključana';
+
+  @override
+  String get securityUnlockSubtitle =>
+      'Otključaj pomoću Face ID-a, otiska prsta ili PIN-a.';
+
+  @override
+  String get securityUnlockWithPin => 'Otključaj PIN-om';
+
+  @override
+  String get securityTryBiometric => 'Pokušaj biometrijsko otključavanje';
+
+  @override
+  String get securityPinIncorrect => 'Pogrešan PIN, pokušaj ponovo';
+
+  @override
+  String get securityBiometricReason =>
+      'Potvrdi identitet za otvaranje aplikacije';
 
   @override
   String get settingsTheme => 'Tema';
@@ -1873,6 +1987,55 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
       'Ponovi transakcije i uporedi sa sačuvanim stanjima';
 
   @override
+  String get settingsDataExportTitle => 'Izvezi rezervnu kopiju podataka';
+
+  @override
+  String get settingsDataExportSubtitle =>
+      'ZIP sa podacima knjige i prilozima (fotografije, PDF, itd.)';
+
+  @override
+  String get settingsDataImportTitle => 'Uvezi rezervnu kopiju podataka';
+
+  @override
+  String get settingsDataImportSubtitle =>
+      'Vrati iz Platrare ZIP rezerve ili starijeg JSON fajla';
+
+  @override
+  String get settingsDataImportConfirmTitle =>
+      'Uvesti i prebrisati trenutne podatke?';
+
+  @override
+  String get settingsDataImportConfirmBody =>
+      'Ovo će zameniti vaše trenutne račune, transakcije, planirane transakcije, kategorije i uvezene priloge sadržajem iz izabrane rezerve. Ovu radnju nije moguće poništiti.';
+
+  @override
+  String get settingsDataImportConfirmAction => 'Uvezi i prebriši';
+
+  @override
+  String get settingsDataImportDone => 'Rezervna kopija je uspešno uvezena';
+
+  @override
+  String get settingsDataImportInvalidFile =>
+      'Izabrani fajl nije validna Platrare rezervna kopija';
+
+  @override
+  String get settingsDataImportFailed => 'Uvoz nije uspeo';
+
+  @override
+  String get settingsDataExportDoneTitle => 'Rezervna kopija je izvezena';
+
+  @override
+  String settingsDataExportDoneBody(String path) {
+    return 'Rezervna kopija je sačuvana na:\n$path';
+  }
+
+  @override
+  String get settingsDataOpenExportFile => 'Otvori fajl';
+
+  @override
+  String get settingsDataExportFailed => 'Izvoz nije uspeo';
+
+  @override
   String get ledgerVerifyDialogTitle => 'Provera knjige';
 
   @override
@@ -1917,6 +2080,71 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get settingsSectionAppearance => 'Izgled';
+
+  @override
+  String get settingsSectionSecurity => 'Sigurnost';
+
+  @override
+  String get settingsSecurityEnableLock => 'Zaključaj aplikaciju pri otvaranju';
+
+  @override
+  String get settingsSecurityEnableLockSubtitle =>
+      'Traži biometriju ili PIN kada se aplikacija otvori';
+
+  @override
+  String get settingsSecuritySetPin => 'Postavi PIN';
+
+  @override
+  String get settingsSecurityChangePin => 'Promeni PIN';
+
+  @override
+  String get settingsSecurityPinSubtitle =>
+      'Koristi PIN kao rezervu ako biometrija nije dostupna';
+
+  @override
+  String get settingsSecurityRemovePin => 'Ukloni PIN';
+
+  @override
+  String get securitySetPinTitle => 'Postavi PIN aplikacije';
+
+  @override
+  String get securityPinLabel => 'PIN kod';
+
+  @override
+  String get securityConfirmPinLabel => 'Potvrdi PIN kod';
+
+  @override
+  String get securityPinMustBe4Digits => 'PIN mora imati najmanje 4 cifre';
+
+  @override
+  String get securityPinMismatch => 'PIN kodovi se ne poklapaju';
+
+  @override
+  String get securityRemovePinTitle => 'Ukloniti PIN?';
+
+  @override
+  String get securityRemovePinBody =>
+      'Biometrijsko otključavanje i dalje može da se koristi ako je dostupno.';
+
+  @override
+  String get securityUnlockTitle => 'Aplikacija je zaključana';
+
+  @override
+  String get securityUnlockSubtitle =>
+      'Otključaj pomoću Face ID-a, otiska prsta ili PIN-a.';
+
+  @override
+  String get securityUnlockWithPin => 'Otključaj PIN-om';
+
+  @override
+  String get securityTryBiometric => 'Pokušaj biometrijsko otključavanje';
+
+  @override
+  String get securityPinIncorrect => 'Pogrešan PIN, pokušaj ponovo';
+
+  @override
+  String get securityBiometricReason =>
+      'Potvrdi identitet za otvaranje aplikacije';
 
   @override
   String get settingsTheme => 'Tema';

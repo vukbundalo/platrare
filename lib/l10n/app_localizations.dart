@@ -1185,6 +1185,90 @@ abstract class AppLocalizations {
   /// **'Replay transactions and compare to stored balances'**
   String get settingsVerifyLedgerSubtitle;
 
+  /// No description provided for @settingsDataExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export data backup'**
+  String get settingsDataExportTitle;
+
+  /// No description provided for @settingsDataExportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ZIP file with ledger data and receipt attachments (photos, PDFs, etc.)'**
+  String get settingsDataExportSubtitle;
+
+  /// No description provided for @settingsDataImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import data backup'**
+  String get settingsDataImportTitle;
+
+  /// No description provided for @settingsDataImportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from a Platrare ZIP backup or a legacy JSON file'**
+  String get settingsDataImportSubtitle;
+
+  /// No description provided for @settingsDataImportConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import and overwrite current data?'**
+  String get settingsDataImportConfirmTitle;
+
+  /// No description provided for @settingsDataImportConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.'**
+  String get settingsDataImportConfirmBody;
+
+  /// No description provided for @settingsDataImportConfirmAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Import and overwrite'**
+  String get settingsDataImportConfirmAction;
+
+  /// No description provided for @settingsDataImportDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup imported successfully'**
+  String get settingsDataImportDone;
+
+  /// No description provided for @settingsDataImportInvalidFile.
+  ///
+  /// In en, this message translates to:
+  /// **'This file is not a valid Platrare backup'**
+  String get settingsDataImportInvalidFile;
+
+  /// No description provided for @settingsDataImportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Import failed'**
+  String get settingsDataImportFailed;
+
+  /// No description provided for @settingsDataExportDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup exported'**
+  String get settingsDataExportDoneTitle;
+
+  /// No description provided for @settingsDataExportDoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup saved to:\n{path}'**
+  String settingsDataExportDoneBody(String path);
+
+  /// No description provided for @settingsDataOpenExportFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Open file'**
+  String get settingsDataOpenExportFile;
+
+  /// No description provided for @settingsDataExportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed'**
+  String get settingsDataExportFailed;
+
   /// No description provided for @ledgerVerifyDialogTitle.
   ///
   /// In en, this message translates to:
@@ -1267,6 +1351,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Appearance'**
   String get settingsSectionAppearance;
+
+  /// No description provided for @settingsSectionSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get settingsSectionSecurity;
+
+  /// No description provided for @settingsSecurityEnableLock.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock app on open'**
+  String get settingsSecurityEnableLock;
+
+  /// No description provided for @settingsSecurityEnableLockSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Require biometric unlock or PIN when app opens'**
+  String get settingsSecurityEnableLockSubtitle;
+
+  /// No description provided for @settingsSecuritySetPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Set PIN'**
+  String get settingsSecuritySetPin;
+
+  /// No description provided for @settingsSecurityChangePin.
+  ///
+  /// In en, this message translates to:
+  /// **'Change PIN'**
+  String get settingsSecurityChangePin;
+
+  /// No description provided for @settingsSecurityPinSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a PIN as fallback if biometric is unavailable'**
+  String get settingsSecurityPinSubtitle;
+
+  /// No description provided for @settingsSecurityRemovePin.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove PIN'**
+  String get settingsSecurityRemovePin;
+
+  /// No description provided for @securitySetPinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set app PIN'**
+  String get securitySetPinTitle;
+
+  /// No description provided for @securityPinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN code'**
+  String get securityPinLabel;
+
+  /// No description provided for @securityConfirmPinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm PIN code'**
+  String get securityConfirmPinLabel;
+
+  /// No description provided for @securityPinMustBe4Digits.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN must have at least 4 digits'**
+  String get securityPinMustBe4Digits;
+
+  /// No description provided for @securityPinMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN codes do not match'**
+  String get securityPinMismatch;
+
+  /// No description provided for @securityRemovePinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove PIN?'**
+  String get securityRemovePinTitle;
+
+  /// No description provided for @securityRemovePinBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric unlock can still be used if available.'**
+  String get securityRemovePinBody;
+
+  /// No description provided for @securityUnlockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'App locked'**
+  String get securityUnlockTitle;
+
+  /// No description provided for @securityUnlockSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock with Face ID, fingerprint, or PIN.'**
+  String get securityUnlockSubtitle;
+
+  /// No description provided for @securityUnlockWithPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock with PIN'**
+  String get securityUnlockWithPin;
+
+  /// No description provided for @securityTryBiometric.
+  ///
+  /// In en, this message translates to:
+  /// **'Try biometric unlock'**
+  String get securityTryBiometric;
+
+  /// No description provided for @securityPinIncorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect PIN, try again'**
+  String get securityPinIncorrect;
+
+  /// No description provided for @securityBiometricReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Authenticate to open your app'**
+  String get securityBiometricReason;
 
   /// No description provided for @settingsTheme.
   ///
