@@ -1,65 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../l10n/supported_languages.dart';
+
 const _kLocalePrefKey = 'app_locale_override';
 
-/// How the app picks [Locale] for MaterialApp.
-enum AppLocalePreference {
-  /// Follow the device; [resolvedLocaleForMaterialApp] returns null.
-  system,
-
-  /// Force English.
-  english,
-
-  /// Serbian, Latin script.
-  serbianLatin,
-}
-
-/// Loads persisted override (defaults to [AppLocalePreference.system]).
-Future<AppLocalePreference> loadLocalePreference() async {
+/// Loads persisted override: [kLocaleTagSystem] or a tag from [kSelectableLocaleTags].
+Future<String> loadLocalePreference() async {
   final p = await SharedPreferences.getInstance();
   final v = p.getString(_kLocalePrefKey);
-  return switch (v) {
-    'en' => AppLocalePreference.english,
-    'sr_Latn' => AppLocalePreference.serbianLatin,
-    _ => AppLocalePreference.system,
-  };
+  if (v == null || v.isEmpty) return kLocaleTagSystem;
+  if (v == kLocaleTagSystem) return kLocaleTagSystem;
+  // Migrate legacy storage from the old enum-based prefs.
+  if (v == 'en') return 'en';
+  if (v == 'sr_Latn') return 'sr_Latn';
+  if (kSelectableLocaleTags.contains(v)) return v;
+  return kLocaleTagSystem;
 }
 
-Future<void> saveLocalePreference(AppLocalePreference pref) async {
+Future<void> saveLocalePreference(String tag) async {
   final p = await SharedPreferences.getInstance();
-  switch (pref) {
-    case AppLocalePreference.system:
-      await p.remove(_kLocalePrefKey);
-      break;
-    case AppLocalePreference.english:
-      await p.setString(_kLocalePrefKey, 'en');
-      break;
-    case AppLocalePreference.serbianLatin:
-      await p.setString(_kLocalePrefKey, 'sr_Latn');
-      break;
+  if (tag == kLocaleTagSystem) {
+    await p.remove(_kLocalePrefKey);
+  } else {
+    await p.setString(_kLocalePrefKey, tag);
   }
 }
 
 /// `null` means MaterialApp should use device resolution.
-Locale? localeForMaterialApp(AppLocalePreference pref) => switch (pref) {
-      AppLocalePreference.system => null,
-      AppLocalePreference.english => const Locale('en'),
-      AppLocalePreference.serbianLatin => const Locale.fromSubtags(
-          languageCode: 'sr',
-          scriptCode: 'Latn',
-        ),
-    };
+Locale? localeForMaterialApp(String tag) =>
+    tag == kLocaleTagSystem ? null : localeFromStoredTag(tag);
 
 /// Notifies [MaterialApp] when the user changes language in Settings.
-final ValueNotifier<AppLocalePreference> appLocalePreference =
-    ValueNotifier(AppLocalePreference.system);
+final ValueNotifier<String> appLocaleTag = ValueNotifier(kLocaleTagSystem);
 
 Future<void> initAppLocale() async {
-  appLocalePreference.value = await loadLocalePreference();
+  appLocaleTag.value = await loadLocalePreference();
 }
 
-void setAppLocalePreference(AppLocalePreference pref) {
-  appLocalePreference.value = pref;
-  saveLocalePreference(pref);
+void setAppLocaleTag(String tag) {
+  appLocaleTag.value = tag;
+  saveLocalePreference(tag);
 }

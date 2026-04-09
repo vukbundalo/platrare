@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'data/auto_backup_service.dart';
 import 'data/currency_prefs.dart';
 import 'data/local/platrare_database.dart';
 import 'data/fx_service.dart';
@@ -8,6 +9,7 @@ import 'data/locale_prefs.dart';
 import 'data/security_prefs.dart';
 import 'data/theme_prefs.dart';
 import 'l10n/app_localizations.dart' show AppLocalizations;
+import 'l10n/supported_languages.dart';
 import 'screens/track_screen.dart';
 import 'screens/plan_screen.dart';
 import 'screens/review_screen.dart';
@@ -22,10 +24,9 @@ Future<void> main() async {
   await PlatrareDatabase.instance.loadIntoMemory();
   await Future.wait([initAppLocale(), initAppTheme(), initSecurityPrefs()]);
   await loadCurrencyPreferences();
-  await initializeDateFormatting('en');
-  await initializeDateFormatting('sr');
-  await initializeDateFormatting('sr_Latn');
+  await _initDateFormattingForLocales();
   await FxService.instance.init();
+  await AutoBackupService.instance.init();
   assert(() {
     debugPrint('[FX Test] ${fx.runFxLogicTest()}');
     return true;
@@ -36,23 +37,69 @@ Future<void> main() async {
   runApp(const PlatrareApp());
 }
 
+Future<void> _initDateFormattingForLocales() async {
+  final tags = <String>{
+    'en',
+    'sr',
+    'sr_Latn',
+    'pt',
+    'pt_BR',
+    'zh',
+    'zh_Hans',
+    for (final t in kSelectableLocaleTags) dateFormattingInitTag(t),
+  };
+  for (final tag in tags) {
+    try {
+      await initializeDateFormatting(tag);
+    } catch (_) {
+      // intl may not ship data for every tag; ignore.
+    }
+  }
+}
+
 class PlatrareApp extends StatelessWidget {
   const PlatrareApp({super.key});
 
   /// Match [deviceLocale] to a supported locale, or null if no match.
   static Locale? _tryMatchLocale(
       Locale deviceLocale, Iterable<Locale> supported) {
-    if (deviceLocale.languageCode == 'sr') {
+    final lang = deviceLocale.languageCode;
+
+    if (lang == 'sr') {
+      if (deviceLocale.scriptCode == 'Cyrl') {
+        return const Locale.fromSubtags(languageCode: 'sr', scriptCode: 'Cyrl');
+      }
       return const Locale.fromSubtags(languageCode: 'sr', scriptCode: 'Latn');
     }
-    for (final supportedLocale in supported) {
-      final deviceScript = deviceLocale.scriptCode;
-      final supportedScript = supportedLocale.scriptCode;
-      if (supportedLocale.languageCode == deviceLocale.languageCode &&
-          ((deviceScript == null || deviceScript.isEmpty) ||
-              supportedScript == deviceScript)) {
-        return supportedLocale;
+
+    if (lang == 'zh') {
+      if (deviceLocale.scriptCode == 'Hant') {
+        return null;
       }
+      return const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans');
+    }
+
+    if (lang == 'pt') {
+      return const Locale.fromSubtags(languageCode: 'pt', countryCode: 'BR');
+    }
+
+    for (final s in supported) {
+      if (s.languageCode != lang) continue;
+      final ds = deviceLocale.scriptCode;
+      final ss = s.scriptCode;
+      if (ss != null && ss.isNotEmpty) {
+        if (ds != ss) continue;
+      }
+      final dc = deviceLocale.countryCode;
+      final sc = s.countryCode;
+      if (sc != null &&
+          sc.isNotEmpty &&
+          dc != null &&
+          dc.isNotEmpty &&
+          sc != dc) {
+        continue;
+      }
+      return s;
     }
     return null;
   }
@@ -70,9 +117,9 @@ class PlatrareApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<AppLocalePreference>(
-      valueListenable: appLocalePreference,
-      builder: (context, localePref, _) {
+    return ValueListenableBuilder<String>(
+      valueListenable: appLocaleTag,
+      builder: (context, localeTag, _) {
         return ValueListenableBuilder<AppThemePreference>(
           valueListenable: appThemePreference,
           builder: (context, themePref, _) {
@@ -82,7 +129,7 @@ class PlatrareApp extends StatelessWidget {
               theme: buildPlatrareTheme(Brightness.light),
               darkTheme: buildPlatrareTheme(Brightness.dark),
               themeMode: themeModeFor(themePref),
-              locale: localeForMaterialApp(localePref),
+              locale: localeForMaterialApp(localeTag),
               supportedLocales: AppLocalizations.supportedLocales,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               localeListResolutionCallback: (locales, supported) {
@@ -111,9 +158,47 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   /// 0 = Plan, 1 = Track, 2 = Review — default Plan on cold start.
   int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    // Run backup check on cold start (data is already loaded).
+    _runAutoBackup();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _runAutoBackup();
+    }
+  }
+
+  Future<void> _runAutoBackup() async {
+    final result = await AutoBackupService.instance.runIfDue();
+    if (result == AutoBackupResult.ranWithCloudReminder && mounted) {
+      final l10n = AppLocalizations.of(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.autoBackupCloudReminder),
+          action: SnackBarAction(
+            label: l10n.autoBackupCloudReminderAction,
+            onPressed: () => AutoBackupService.instance.shareLatestBackup(),
+          ),
+          duration: const Duration(seconds: 6),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

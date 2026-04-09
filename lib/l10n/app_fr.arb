@@ -1,14 +1,12 @@
 {
-  "@@locale": "en",
+  "@@locale": "fr",
   "appTitle": "Platrare",
   "@appTitle": {
     "description": "Application title"
   },
-
   "navPlan": "Plan",
   "navTrack": "Track",
   "navReview": "Review",
-
   "cancel": "Cancel",
   "delete": "Delete",
   "close": "Close",
@@ -16,18 +14,15 @@
   "undo": "Undo",
   "confirm": "Confirm",
   "restore": "Restore",
-
   "heroIn": "In",
   "heroOut": "Out",
   "heroNet": "Net",
   "heroBalance": "Balance",
   "realBalance": "Real balance",
-
   "heroResetButton": "Reset",
   "filterAll": "All",
   "filterAllAccounts": "All accounts",
   "filterAllCategories": "All categories",
-
   "txLabelIncome": "INCOME",
   "txLabelExpense": "EXPENSE",
   "txLabelInvoice": "INVOICE",
@@ -39,70 +34,135 @@
   "txLabelOffset": "OFFSET",
   "txLabelTransfer": "TRANSFER",
   "txLabelTransaction": "TRANSACTION",
-
   "repeatNone": "No repeat",
   "repeatDaily": "Daily",
   "repeatWeekly": "Weekly",
   "repeatMonthly": "Monthly",
   "repeatYearly": "Yearly",
-
   "repeatEveryLabel": "Every",
   "repeatEveryDays": "{count, plural, =1{day} other{{count} days}}",
-  "@repeatEveryDays": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatEveryDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatEveryWeeks": "{count, plural, =1{week} other{{count} weeks}}",
-  "@repeatEveryWeeks": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatEveryWeeks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatEveryMonths": "{count, plural, =1{month} other{{count} months}}",
-  "@repeatEveryMonths": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatEveryMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatEveryYears": "{count, plural, =1{year} other{{count} years}}",
-  "@repeatEveryYears": { "placeholders": { "count": {"type": "int"} } },
-
+  "@repeatEveryYears": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatEndLabel": "Ends",
   "repeatEndNever": "Never",
   "repeatEndOnDate": "On date",
   "repeatEndAfterCount": "After {count} times",
-  "@repeatEndAfterCount": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatEndAfterCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatEndPickDate": "Pick end date",
   "repeatEndTimes": "times",
-
   "repeatSummaryEvery": "Every {count} {unit}",
-  "@repeatSummaryEvery": { "placeholders": { "count": {"type": "int"}, "unit": {"type": "String"} } },
+  "@repeatSummaryEvery": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "repeatSummaryUntil": "until {date}",
-  "@repeatSummaryUntil": { "placeholders": { "date": {"type": "String"} } },
+  "@repeatSummaryUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "repeatSummaryTimes": "{count} times",
-  "@repeatSummaryTimes": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatSummaryTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatSummaryTimesRemaining": "{remaining} of {total} remaining",
-  "@repeatSummaryTimesRemaining": { "placeholders": { "remaining": {"type": "int"}, "total": {"type": "int"} } },
-
+  "@repeatSummaryTimesRemaining": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "detailRepeatEvery": "Repeat every",
   "detailEnds": "Ends",
   "detailEndsNever": "Never",
   "detailEndsOnDate": "On {date}",
-  "@detailEndsOnDate": { "placeholders": { "date": {"type": "String"} } },
+  "@detailEndsOnDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "detailEndsAfterCount": "After {count} times",
-  "@detailEndsAfterCount": { "placeholders": { "count": {"type": "int"} } },
+  "@detailEndsAfterCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "detailProgress": "Progress",
-
   "weekendNoChange": "No change",
   "weekendFriday": "Move to Friday",
   "weekendMonday": "Move to Monday",
   "weekendQuestion": "If the {day} falls on a weekend?",
   "@weekendQuestion": {
     "placeholders": {
-      "day": {"type": "String"}
+      "day": {
+        "type": "String"
+      }
     }
   },
-
   "dateToday": "Today",
   "dateTomorrow": "Tomorrow",
   "dateYesterday": "Yesterday",
   "statsAllTime": "All time",
-
   "accountGroupPersonal": "Personal",
   "accountGroupIndividual": "Individual",
   "accountGroupEntity": "Entity",
   "accountSectionIndividuals": "Individuals",
   "accountSectionEntities": "Entities",
-
   "emptyNoTransactionsYet": "No transactions yet",
   "emptyNoAccountsYet": "No accounts yet",
   "emptyRecordFirstTransaction": "Tap the button below to record your first transaction.",
@@ -122,33 +182,39 @@
   "emptyNoTransactionsForMonth": "No transactions for {month}",
   "@emptyNoTransactionsForMonth": {
     "placeholders": {
-      "month": {"type": "String"}
+      "month": {
+        "type": "String"
+      }
     }
   },
   "emptyNoTransactionsForAccount": "No transactions for this account",
-
   "trackTransactionDeleted": "Transaction deleted",
   "trackDeleteTitle": "Delete transaction?",
   "trackDeleteBody": "This will reverse the account balance changes.",
   "trackTransaction": "Transaction",
-
   "planConfirmTitle": "Confirm transaction?",
-  "planConfirmBodyEarly": "This occurrence is scheduled for {date}. It will be recorded in History with today\u2019s date ({todayDate}). The next occurrence remains on {nextDate}.",
+  "planConfirmBodyEarly": "This occurrence is scheduled for {date}. It will be recorded in History with today’s date ({todayDate}). The next occurrence remains on {nextDate}.",
   "@planConfirmBodyEarly": {
     "placeholders": {
-      "date": {"type": "String"},
-      "todayDate": {"type": "String"},
-      "nextDate": {"type": "String"}
+      "date": {
+        "type": "String"
+      },
+      "todayDate": {
+        "type": "String"
+      },
+      "nextDate": {
+        "type": "String"
+      }
     }
   },
   "planConfirmBodyNormal": "This will apply the transaction to your real account balances and move it to History.",
   "planTransactionConfirmed": "Transaction confirmed and applied",
   "planTransactionRemoved": "Planned transaction removed",
   "planRepeatingTitle": "Repeating transaction",
-  "planRepeatingBody": "Skip only this date\u2014the series continues with the next occurrence\u2014or delete every remaining occurrence from your plan.",
+  "planRepeatingBody": "Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.",
   "planDeleteAll": "Delete all",
   "planSkipThisOnly": "Skip this only",
-  "planOccurrenceSkipped": "This occurrence skipped \u2014 next one scheduled",
+  "planOccurrenceSkipped": "This occurrence skipped — next one scheduled",
   "planNothingPlanned": "Nothing planned for now",
   "planPlanBody": "Plan upcoming transactions.",
   "planAddPlan": "Add plan",
@@ -156,17 +222,17 @@
   "planNoPlannedInMonth": "No planned transactions in {month}",
   "@planNoPlannedInMonth": {
     "placeholders": {
-      "month": {"type": "String"}
+      "month": {
+        "type": "String"
+      }
     }
   },
   "planOverdue": "overdue",
   "planPlannedTransaction": "Planned transaction",
-
   "discardTitle": "Discard changes?",
   "discardBody": "You have unsaved changes. They will be lost if you leave now.",
   "keepEditing": "Keep editing",
   "discard": "Discard",
-
   "newTransactionTitle": "New Transaction",
   "editTransactionTitle": "Edit Transaction",
   "transactionUpdated": "Transaction updated",
@@ -185,12 +251,15 @@
   "amountReceivedBy": "Amount received by {name} ({currency})",
   "@amountReceivedBy": {
     "placeholders": {
-      "name": {"type": "String"},
-      "currency": {"type": "String"}
+      "name": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
     }
   },
   "amountReceivedHelper": "Enter the exact amount the destination account receives. This locks the real exchange rate used.",
-
   "attachTakePhoto": "Take photo",
   "attachTakePhotoSub": "Use camera to capture a receipt",
   "attachChooseGallery": "Choose from gallery",
@@ -198,7 +267,6 @@
   "attachBrowseFiles": "Browse files",
   "attachBrowseFilesSub": "Attach PDFs, documents or other files",
   "attachButton": "Attach",
-
   "editPlanTitle": "Edit Plan",
   "planTransactionTitle": "Plan Transaction",
   "tapToSelect": "Tap to select",
@@ -211,19 +279,24 @@
   "projectedBalancesForDate": "Projected balances for {date}",
   "@projectedBalancesForDate": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
   "destReceivesLabel": "{name} receives ({currency})",
   "@destReceivesLabel": {
     "placeholders": {
-      "name": {"type": "String"},
-      "currency": {"type": "String"}
+      "name": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
     }
   },
   "destHelper": "Estimated destination amount. Exact rate is locked at confirmation.",
   "descriptionOptional": "Description (optional)",
-
   "detailTransactionTitle": "Transaction",
   "detailPlannedTitle": "Planned",
   "detailConfirmTransaction": "Confirm transaction",
@@ -241,10 +314,11 @@
   "detailFileCount": "{count, plural, =1{1 file} other{{count} files}}",
   "@detailFileCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
-
   "settingsTitle": "Settings",
   "settingsSectionDisplay": "Display",
   "settingsSectionLanguage": "Language",
@@ -255,19 +329,25 @@
   "settingsBaseCurrency": "Home currency",
   "settingsSecondaryCurrency": "Secondary currency",
   "settingsCategories": "Categories",
-  "settingsCategoriesSubtitle": "{incomeCount} income \u00b7 {expenseCount} expense",
+  "settingsCategoriesSubtitle": "{incomeCount} income · {expenseCount} expense",
   "@settingsCategoriesSubtitle": {
     "placeholders": {
-      "incomeCount": {"type": "int"},
-      "expenseCount": {"type": "int"}
+      "incomeCount": {
+        "type": "int"
+      },
+      "expenseCount": {
+        "type": "int"
+      }
     }
   },
   "settingsArchivedAccounts": "Archived accounts",
-  "settingsArchivedAccountsSubtitleZero": "None right now \u2014 archive from account edit when balance is clear",
+  "settingsArchivedAccountsSubtitleZero": "None right now — archive from account edit when balance is clear",
   "settingsArchivedAccountsSubtitleCount": "{count} hidden from Review and pickers",
   "@settingsArchivedAccountsSubtitleCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsSectionData": "Data",
@@ -313,21 +393,41 @@
   "backupImportPreviewTitle": "Backup summary",
   "backupImportPreviewVersion": "App version: {version}",
   "@backupImportPreviewVersion": {
-    "placeholders": { "version": {"type": "String"} }
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
   },
   "backupImportPreviewExported": "Exported: {date}",
   "@backupImportPreviewExported": {
-    "placeholders": { "date": {"type": "String"} }
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "backupImportPreviewCounts": "{accounts} accounts · {transactions} transactions · {planned} planned · {attachments} attachment files · {income} income categories · {expense} expense categories",
   "@backupImportPreviewCounts": {
     "placeholders": {
-      "accounts": {"type": "int"},
-      "transactions": {"type": "int"},
-      "planned": {"type": "int"},
-      "attachments": {"type": "int"},
-      "income": {"type": "int"},
-      "expense": {"type": "int"}
+      "accounts": {
+        "type": "int"
+      },
+      "transactions": {
+        "type": "int"
+      },
+      "planned": {
+        "type": "int"
+      },
+      "attachments": {
+        "type": "int"
+      },
+      "income": {
+        "type": "int"
+      },
+      "expense": {
+        "type": "int"
+      }
     }
   },
   "backupImportPreviewContinue": "Continue",
@@ -345,7 +445,9 @@
   "settingsDataExportDoneBody": "Backup saved to:\n{path}",
   "@settingsDataExportDoneBody": {
     "placeholders": {
-      "path": {"type": "String"}
+      "path": {
+        "type": "String"
+      }
     }
   },
   "settingsDataOpenExportFile": "Open file",
@@ -356,10 +458,18 @@
   "ledgerVerifyMismatchDetails": "{accountName}\nStored: {stored}\nReplay: {replayed}\nDifference: {diff}",
   "@ledgerVerifyMismatchDetails": {
     "placeholders": {
-      "accountName": {"type": "String"},
-      "stored": {"type": "String"},
-      "replayed": {"type": "String"},
-      "diff": {"type": "String"}
+      "accountName": {
+        "type": "String"
+      },
+      "stored": {
+        "type": "String"
+      },
+      "replayed": {
+        "type": "String"
+      },
+      "diff": {
+        "type": "String"
+      }
     }
   },
   "settingsLanguage": "App language",
@@ -370,7 +480,6 @@
   "settingsLanguageOptionSystem": "System default",
   "settingsLanguageOptionEnglish": "English",
   "settingsLanguageOptionSerbianLatin": "Serbian (Latin)",
-
   "settingsSectionAppearance": "Appearance",
   "settingsSectionSecurity": "Security",
   "settingsSecurityEnableLock": "Lock app on open",
@@ -400,11 +509,9 @@
   "settingsThemeOptionSystem": "System default",
   "settingsThemeOptionLight": "Light",
   "settingsThemeOptionDark": "Dark",
-
   "archivedAccountsTitle": "Archived accounts",
   "archivedAccountsEmptyTitle": "No archived accounts",
   "archivedAccountsEmptyBody": "Book balance and overdraft must be zero. Archive from account options in Review.",
-
   "categoriesTitle": "Categories",
   "newCategoryTitle": "New Category",
   "categoryNameLabel": "Category name",
@@ -412,40 +519,40 @@
   "deleteCategoryBody": "\"{category}\" will be removed from the list.",
   "@deleteCategoryBody": {
     "placeholders": {
-      "category": {"type": "String"}
+      "category": {
+        "type": "String"
+      }
     }
   },
   "categoryIncome": "Income",
   "categoryExpense": "Expense",
   "categoryAdd": "Add",
-  "searchCurrencies": "Search currencies\u2026",
-
+  "searchCurrencies": "Search currencies…",
   "period1M": "1M",
   "period3M": "3M",
   "period6M": "6M",
   "period1Y": "1Y",
   "periodAll": "ALL",
-
   "categoryLabel": "category",
   "categoriesLabel": "categories",
-
-  "transactionSavedMessage": "{type} saved  \u2022  {amount}",
+  "transactionSavedMessage": "{type} saved  •  {amount}",
   "@transactionSavedMessage": {
     "placeholders": {
-      "type": {"type": "String"},
-      "amount": {"type": "String"}
+      "type": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
     }
   },
-
   "tooltipSettings": "Settings",
   "tooltipAddAccount": "Add account",
   "tooltipRemoveAccount": "Remove account",
-
   "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
   "groupDescPersonal": "Your own wallets & bank accounts",
   "groupDescIndividuals": "Family, friends, individuals",
   "groupDescEntities": "Entities, utilities, organisations",
-
   "cannotArchiveTitle": "Cannot archive yet",
   "cannotArchiveBody": "Archive is only available when the book balance and overdraft limit are both effectively zero.",
   "cannotArchiveBodyAdjust": "Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.",
@@ -453,29 +560,30 @@
   "archiveWithPlannedBody": "{count, plural, =1{1 planned transaction references this account.} other{{count} planned transactions reference this account.}} Remove them to keep your plan consistent with an archived account.",
   "@archiveWithPlannedBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "removeAndArchive": "Remove planned & archive",
   "archiveBody": "The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.",
   "archiveAction": "Archive",
   "archiveInstead": "Archive instead",
-
   "cannotDeleteTitle": "Cannot delete account",
   "cannotDeleteBodyShort": "This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.",
-  "cannotDeleteBodyHistory": "This account appears in your Track history. Deleting would break that history\u2014remove or reassign those transactions first.",
-  "cannotDeleteBodySuggestArchive": "This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared\u2014it will be hidden from lists but history stays intact.",
-
+  "cannotDeleteBodyHistory": "This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.",
+  "cannotDeleteBodySuggestArchive": "This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.",
   "deleteAccountTitle": "Delete account?",
   "deleteAccountBodyPermanent": "This account will be removed permanently.",
   "deleteWithPlannedBody": "{count, plural, =1{1 planned transaction references this account and will also be deleted.} other{{count} planned transactions reference this account and will also be deleted.}}",
   "@deleteWithPlannedBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "deleteAllAndDelete": "Delete all",
-
   "editAccountTitle": "Edit Account",
   "newAccountTitle": "New Account",
   "labelAccountName": "Account name",
@@ -492,28 +600,30 @@
   "labelCurrency": "Currency",
   "saveChanges": "Save Changes",
   "addAccountAction": "Add Account",
-
   "removeAccountSheetTitle": "Remove account",
   "deletePermanently": "Delete permanently",
   "deletePermanentlySubtitle": "Only possible when this account is not used in Track. Planned items can be removed as part of delete.",
   "archiveOptionSubtitle": "Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.",
   "archivedBannerText": "This account is archived. It stays in your data but is hidden from lists and pickers.",
-
   "balanceAdjustedTitle": "Balance adjusted in Track",
-  "balanceAdjustedBody": "Real balance was updated from {previous} to {current} {symbol}.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n\u2022 Real balance reflects the actual amount in this account.\n\u2022 Check History for the adjustment entry.",
+  "balanceAdjustedBody": "Real balance was updated from {previous} to {current} {symbol}.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.",
   "@balanceAdjustedBody": {
     "placeholders": {
-      "previous": {"type": "String"},
-      "current": {"type": "String"},
-      "symbol": {"type": "String"}
+      "previous": {
+        "type": "String"
+      },
+      "current": {
+        "type": "String"
+      },
+      "symbol": {
+        "type": "String"
+      }
     }
   },
   "ok": "OK",
-
   "categoryBalanceAdjustment": "Balance adjustment",
   "descriptionBalanceCorrection": "Balance correction",
   "descriptionOpeningBalance": "Opening balance",
-
   "reviewStatsModeStatistics": "Statistics",
   "reviewStatsModeComparison": "Comparison",
   "statsUncategorized": "Uncategorized",
@@ -527,7 +637,9 @@
   "statsNoExpensesPeriod": "No expenses in the last {period}",
   "@statsNoExpensesPeriod": {
     "placeholders": {
-      "period": {"type": "String"}
+      "period": {
+        "type": "String"
+      }
     }
   },
   "statsTotalSpent": "Total spent",
@@ -537,12 +649,13 @@
   "statsNoIncomePeriod": "No income in the last {period}",
   "@statsNoIncomePeriod": {
     "placeholders": {
-      "period": {"type": "String"}
+      "period": {
+        "type": "String"
+      }
     }
   },
   "statsTotalReceived": "Total received",
   "statsNoIncomeThisPeriod": "No income in this period",
-
   "catSalary": "Salary",
   "catFreelance": "Freelance",
   "catConsulting": "Consulting",
@@ -574,31 +687,36 @@
   "catCharity": "Charity",
   "catCoffee": "Coffee",
   "catGifts": "Gifts",
-
   "semanticsProjectionDate": "Projection date {date}. Double tap to choose date",
   "@semanticsProjectionDate": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
   "semanticsProjectedBalance": "Projected personal balance {amount}",
   "@semanticsProjectedBalance": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "statsEmptyTitle": "No transactions yet",
   "statsEmptySubtitle": "No spending data for the selected range.",
   "semanticsShowProjections": "Show projected balances by account",
   "semanticsHideProjections": "Hide projected balances by account",
-  "semanticsDateAllTime": "Date: all time \u2014 tap to change mode",
-  "semanticsDateMode": "Date: {mode} \u2014 tap to change mode",
+  "semanticsDateAllTime": "Date: all time — tap to change mode",
+  "semanticsDateMode": "Date: {mode} — tap to change mode",
   "@semanticsDateMode": {
     "placeholders": {
-      "mode": {"type": "String"}
+      "mode": {
+        "type": "String"
+      }
     }
   },
-  "semanticsDateThisMonth": "Date: this month \u2014 tap for month, week, year, or all time",
+  "semanticsDateThisMonth": "Date: this month — tap for month, week, year, or all time",
   "semanticsTxTypeCycle": "Transaction type: cycle all, income, expense, transfer",
   "semanticsAccountFilter": "Account filter",
   "semanticsAlreadyFiltered": "Already filtered to this account",
@@ -616,47 +734,64 @@
   "semanticsPeriod": "Period: {label}",
   "@semanticsPeriod": {
     "placeholders": {
-      "label": {"type": "String"}
+      "label": {
+        "type": "String"
+      }
     }
   },
-
   "trackSearchHint": "Search description, category, account…",
   "trackSearchClear": "Clear search",
-
   "settingsExchangeRatesTitle": "Exchange rates",
   "settingsExchangeRatesUpdated": "Last updated: {time}",
   "@settingsExchangeRatesUpdated": {
     "placeholders": {
-      "time": {"type": "String"}
+      "time": {
+        "type": "String"
+      }
     }
   },
   "settingsExchangeRatesNeverUpdated": "Using offline or bundled rates — tap to refresh",
   "settingsExchangeRatesSource": "ECB",
   "settingsExchangeRatesUpdatedSnack": "Exchange rates updated",
   "settingsExchangeRatesUpdateFailed": "Could not update exchange rates. Check your connection.",
-
   "settingsClearData": "Clear data",
   "settingsClearDataSubtitle": "Permanently remove selected data",
   "clearDataTitle": "Clear data",
   "clearDataTransactions": "Transaction history",
   "clearDataTransactionsSubtitle": "{count} transactions · account balances reset to zero",
   "@clearDataTransactionsSubtitle": {
-    "placeholders": { "count": {"type": "int"} }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "clearDataPlanned": "Planned transactions",
   "clearDataPlannedSubtitle": "{count} planned items",
   "@clearDataPlannedSubtitle": {
-    "placeholders": { "count": {"type": "int"} }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "clearDataAccounts": "Accounts",
   "clearDataAccountsSubtitle": "{count} accounts · also clears history and plan",
   "@clearDataAccountsSubtitle": {
-    "placeholders": { "count": {"type": "int"} }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "clearDataCategories": "Categories",
   "clearDataCategoriesSubtitle": "{count} categories · replaced with defaults",
   "@clearDataCategoriesSubtitle": {
-    "placeholders": { "count": {"type": "int"} }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "clearDataPreferences": "Preferences",
   "clearDataPreferencesSubtitle": "Reset currency, theme and language to defaults",
@@ -671,17 +806,19 @@
   "clearDataPinBody": "Enter your app PIN to authorize this action.",
   "clearDataPinIncorrect": "Incorrect PIN",
   "clearDataDone": "Selected data cleared",
-
   "autoBackupTitle": "Automatic daily backup",
   "autoBackupLastAt": "Last backed up {date}",
   "@autoBackupLastAt": {
-    "placeholders": { "date": {"type": "String"} }
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "autoBackupNeverRun": "No backup yet",
   "autoBackupShareTitle": "Save to cloud",
   "autoBackupShareSubtitle": "Upload latest backup to iCloud Drive, Google Drive or any app",
   "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
   "autoBackupCloudReminderAction": "Share",
-
   "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
 }

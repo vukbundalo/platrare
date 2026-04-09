@@ -516,5 +516,16 @@
   "clearDataPinIncorrect": "Pogrešan PIN",
   "clearDataDone": "Odabrani podaci su obrisani",
 
+  "autoBackupTitle": "Automatska dnevna rezervna kopija",
+  "autoBackupLastAt": "Poslednja kopija {date}",
+  "@autoBackupLastAt": {
+    "placeholders": { "date": {"type": "String"} }
+  },
+  "autoBackupNeverRun": "Još nema kopije",
+  "autoBackupShareTitle": "Sačuvaj u oblak",
+  "autoBackupShareSubtitle": "Pošalji poslednju kopiju na iCloud Drive, Google Drive ili drugu aplikaciju",
+  "autoBackupCloudReminder": "Automatska kopija je spremna — sačuvajte je u oblaku za zaštitu van uređaja",
+  "autoBackupCloudReminderAction": "Podeli",
+
   "persistenceErrorReloaded": "Чување није успело. Подаци су поново учитани."
 }

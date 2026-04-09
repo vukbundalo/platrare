@@ -3,6 +3,7 @@ import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../data/app_data.dart' as data;
 import '../theme/ledger_colors.dart';
+import '../data/auto_backup_service.dart';
 import '../data/data_repository.dart';
 import '../data/data_transfer.dart';
 import '../data/ledger_verify.dart';
@@ -16,6 +17,7 @@ import '../data/user_settings.dart' as settings;
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../l10n/app_localizations.dart';
+import '../l10n/supported_languages.dart';
 import '../models/account.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/persistence_guard.dart';
@@ -416,20 +418,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  String _languageSubtitle(AppLocalePreference p, AppLocalizations l10n) {
-    return switch (p) {
-      AppLocalePreference.system => l10n.settingsLanguageSubtitleSystem,
-      AppLocalePreference.english => l10n.settingsLanguageSubtitleEnglish,
-      AppLocalePreference.serbianLatin =>
-        l10n.settingsLanguageSubtitleSerbianLatin,
-    };
+  String _languageSubtitle(String tag, AppLocalizations l10n) {
+    if (tag == kLocaleTagSystem) {
+      return l10n.settingsLanguageSubtitleSystem;
+    }
+    return localeEndonym(tag);
   }
 
-  String _languageBadge(AppLocalePreference p) => switch (p) {
-        AppLocalePreference.system => '···',
-        AppLocalePreference.english => 'EN',
-        AppLocalePreference.serbianLatin => 'SR',
-      };
+  String _languageBadge(String tag) =>
+      tag == kLocaleTagSystem ? '···' : localeBadge(tag);
 
   String _themeSubtitle(AppThemePreference p, AppLocalizations l10n) =>
       switch (p) {
@@ -570,35 +567,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _openLanguagePicker(BuildContext context, AppLocalizations l10n) {
-    final current = appLocalePreference.value;
+    final current = appLocaleTag.value;
+    final h = MediaQuery.sizeOf(context).height;
     showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
       useSafeArea: true,
+      isScrollControlled: true,
       builder: (ctx) {
         final sheetCs = Theme.of(ctx).colorScheme;
         Widget option({
           required String title,
-          required AppLocalePreference value,
+          required String tag,
         }) {
-          final selected = current == value;
+          final selected = current == tag;
           return ListTile(
             title: Text(title),
             trailing: selected
                 ? Icon(Icons.check_rounded, color: sheetCs.primary)
                 : null,
             onTap: () {
-              setAppLocalePreference(value);
+              setAppLocaleTag(tag);
               Navigator.pop(ctx);
               setState(() {});
             },
           );
         }
 
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 16),
+        return SizedBox(
+          height: h * 0.88,
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
@@ -610,17 +608,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                 ),
               ),
-              option(
-                title: l10n.settingsLanguageOptionSystem,
-                value: AppLocalePreference.system,
-              ),
-              option(
-                title: l10n.settingsLanguageOptionEnglish,
-                value: AppLocalePreference.english,
-              ),
-              option(
-                title: l10n.settingsLanguageOptionSerbianLatin,
-                value: AppLocalePreference.serbianLatin,
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  children: [
+                    option(
+                      title: l10n.settingsLanguageOptionSystem,
+                      tag: kLocaleTagSystem,
+                    ),
+                    for (final tag in kSelectableLocaleTags)
+                      option(
+                        title: localeEndonym(tag),
+                        tag: tag,
+                      ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -850,14 +852,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(height: 8),
           ListenableBuilder(
-            listenable: appLocalePreference,
+            listenable: appLocaleTag,
             builder: (context, _) {
-              final pref = appLocalePreference.value;
+              final tag = appLocaleTag.value;
               return currencyCard(
                 icon: Icons.language_rounded,
                 title: l10n.settingsLanguage,
-                subtitle: _languageSubtitle(pref, l10n),
-                badge: _languageBadge(pref),
+                subtitle: _languageSubtitle(tag, l10n),
+                badge: _languageBadge(tag),
                 onTap: () => _openLanguagePicker(context, l10n),
               );
             },
@@ -865,6 +867,66 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 24),
           // ── 3. Data ──────────────────────────────────────
           _SectionLabel(l10n.settingsSectionData),
+          const SizedBox(height: 8),
+          // Auto-backup toggle
+          StatefulBuilder(
+            builder: (context, setLocal) {
+              final svc = AutoBackupService.instance;
+              final lastAt = svc.lastBackupAt;
+              final subtitle = lastAt != null
+                  ? l10n.autoBackupLastAt(
+                      formatAppDate(context, 'y-MM-dd HH:mm', lastAt.toLocal()),
+                    )
+                  : l10n.autoBackupNeverRun;
+              return Card(
+                margin: EdgeInsets.zero,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  child: Column(
+                    children: [
+                      SwitchListTile.adaptive(
+                        contentPadding: EdgeInsets.zero,
+                        secondary: Icon(Icons.backup_outlined,
+                            size: 20, color: cs.primary),
+                        title: Text(l10n.autoBackupTitle,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 14)),
+                        subtitle: Text(subtitle,
+                            style: TextStyle(
+                                fontSize: 12, color: cs.onSurfaceVariant)),
+                        value: svc.enabled,
+                        onChanged: (v) async {
+                          await svc.setEnabled(v);
+                          setLocal(() {});
+                        },
+                      ),
+                      if (svc.latestPath != null) ...[
+                        const Divider(height: 1),
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: Icon(Icons.cloud_upload_outlined,
+                              size: 20, color: cs.primary),
+                          title: Text(l10n.autoBackupShareTitle,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 14)),
+                          subtitle: Text(l10n.autoBackupShareSubtitle,
+                              style: TextStyle(
+                                  fontSize: 12, color: cs.onSurfaceVariant)),
+                          trailing: Icon(Icons.chevron_right_rounded,
+                              size: 18, color: cs.onSurfaceVariant),
+                          onTap: () async {
+                            await svc.shareLatestBackup();
+                            setLocal(() {});
+                          },
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
           const SizedBox(height: 8),
           currencyCard(
             icon: Icons.ios_share_rounded,
@@ -1412,7 +1474,7 @@ class _ClearDataSheetState extends State<_ClearDataSheet> {
         settings.secondaryCurrency = 'EUR';
         await saveCurrencyPreferences();
         setAppThemePreference(AppThemePreference.system);
-        setAppLocalePreference(AppLocalePreference.system);
+        setAppLocaleTag(kLocaleTagSystem);
         await FxService.instance.clearCache();
       }
 

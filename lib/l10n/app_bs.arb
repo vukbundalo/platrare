@@ -1,11 +1,9 @@
 {
-  "@@locale": "sr_Latn",
+  "@@locale": "bs",
   "appTitle": "Platrare",
-
   "navPlan": "Plan",
   "navTrack": "Evidencija",
   "navReview": "Pregled",
-
   "cancel": "Otkaži",
   "delete": "Obriši",
   "close": "Zatvori",
@@ -13,18 +11,15 @@
   "undo": "Poništi",
   "confirm": "Potvrdi",
   "restore": "Vrati",
-
   "heroIn": "Ulaz",
   "heroOut": "Izlaz",
   "heroNet": "Neto",
   "heroBalance": "Stanje",
   "realBalance": "Stvarno stanje",
-
   "heroResetButton": "Reset",
   "filterAll": "Sve",
   "filterAllAccounts": "Svi računi",
   "filterAllCategories": "Sve kategorije",
-
   "txLabelIncome": "PRIHOD",
   "txLabelExpense": "RASHOD",
   "txLabelInvoice": "FAKTURA",
@@ -36,54 +31,45 @@
   "txLabelOffset": "PREBIJANJE",
   "txLabelTransfer": "PRENOS",
   "txLabelTransaction": "TRANSAKCIJA",
-
   "repeatNone": "Bez ponavljanja",
   "repeatDaily": "Dnevno",
   "repeatWeekly": "Nedeljno",
   "repeatMonthly": "Mesečno",
   "repeatYearly": "Godišnje",
-
   "repeatEveryLabel": "Svaki",
   "repeatEveryDays": "{count, plural, =1{dan} few{{count} dana} other{{count} dana}}",
   "repeatEveryWeeks": "{count, plural, =1{nedelju} few{{count} nedelje} other{{count} nedelja}}",
   "repeatEveryMonths": "{count, plural, =1{mesec} few{{count} meseca} other{{count} meseci}}",
   "repeatEveryYears": "{count, plural, =1{godinu} few{{count} godine} other{{count} godina}}",
-
   "repeatEndLabel": "Završava se",
   "repeatEndNever": "Nikad",
   "repeatEndOnDate": "Na datum",
   "repeatEndAfterCount": "Posle {count} puta",
   "repeatEndPickDate": "Izaberite krajnji datum",
   "repeatEndTimes": "puta",
-
   "repeatSummaryEvery": "Svaki {count} {unit}",
   "repeatSummaryUntil": "do {date}",
   "repeatSummaryTimes": "{count} puta",
   "repeatSummaryTimesRemaining": "{remaining} od {total} preostalo",
-
   "detailRepeatEvery": "Ponavlja se svaki",
   "detailEnds": "Završava se",
   "detailEndsNever": "Nikad",
   "detailEndsOnDate": "Na {date}",
   "detailEndsAfterCount": "Posle {count} puta",
   "detailProgress": "Napredak",
-
   "weekendNoChange": "Bez promene",
   "weekendFriday": "Pomeri na petak",
   "weekendMonday": "Pomeri na ponedeljak",
   "weekendQuestion": "Ako {day}. padne na vikend?",
-
   "dateToday": "Danas",
   "dateTomorrow": "Sutra",
   "dateYesterday": "Juče",
   "statsAllTime": "Celo vreme",
-
   "accountGroupPersonal": "Lično",
   "accountGroupIndividual": "Pojedinac",
   "accountGroupEntity": "Entitet",
   "accountSectionIndividuals": "Pojedinci",
   "accountSectionEntities": "Entiteti",
-
   "emptyNoTransactionsYet": "Nema transakcija",
   "emptyNoAccountsYet": "Nema računa",
   "emptyRecordFirstTransaction": "Dodirnite dugme ispod da zabeležite prvu transakciju.",
@@ -102,22 +88,20 @@
   "emptyNoTransactionsInHistory": "Nema transakcija u istoriji",
   "emptyNoTransactionsForMonth": "Nema transakcija za {month}",
   "emptyNoTransactionsForAccount": "Nema transakcija za ovaj račun",
-
   "trackTransactionDeleted": "Transakcija obrisana",
   "trackDeleteTitle": "Obrisati transakciju?",
   "trackDeleteBody": "Ovo će poništiti promene stanja na računima.",
   "trackTransaction": "Transakcija",
-
   "planConfirmTitle": "Potvrditi transakciju?",
   "planConfirmBodyEarly": "Ova stavka je zakazana za {date}. Biće evidentirana u Istoriji sa današnjim datumom ({todayDate}). Sledeća stavka ostaje na {nextDate}.",
   "planConfirmBodyNormal": "Ovo će primeniti transakciju na stvarna stanja računa i premestiti je u Istoriju.",
   "planTransactionConfirmed": "Transakcija potvrđena i primenjena",
   "planTransactionRemoved": "Planirana transakcija uklonjena",
   "planRepeatingTitle": "Transakcija koja se ponavlja",
-  "planRepeatingBody": "Preskoči samo ovaj datum \u2014 serija se nastavlja sa sledećom stavkom \u2014 ili obriši sve preostale stavke iz plana.",
+  "planRepeatingBody": "Preskoči samo ovaj datum — serija se nastavlja sa sledećom stavkom — ili obriši sve preostale stavke iz plana.",
   "planDeleteAll": "Obriši sve",
   "planSkipThisOnly": "Preskoči samo ovu",
-  "planOccurrenceSkipped": "Stavka preskočena \u2014 sledeća zakazana",
+  "planOccurrenceSkipped": "Stavka preskočena — sledeća zakazana",
   "planNothingPlanned": "Ništa nije planirano",
   "planPlanBody": "Planirajte buduće transakcije.",
   "planAddPlan": "Dodaj plan",
@@ -125,12 +109,10 @@
   "planNoPlannedInMonth": "Nema planiranih transakcija u {month}",
   "planOverdue": "isteklo",
   "planPlannedTransaction": "Planirana transakcija",
-
   "discardTitle": "Odbaciti izmene?",
   "discardBody": "Imate nesačuvane izmene. Biće izgubljene ako napustite ovu stranicu.",
   "keepEditing": "Nastavi uređivanje",
   "discard": "Odbaci",
-
   "newTransactionTitle": "Nova transakcija",
   "editTransactionTitle": "Izmeni transakciju",
   "transactionUpdated": "Transakcija ažurirana",
@@ -148,7 +130,6 @@
   "noAccountsAvailable": "Nema dostupnih računa",
   "amountReceivedBy": "Iznos primljen od {name} ({currency})",
   "amountReceivedHelper": "Unesite tačan iznos koji prima odredišni račun. Ovo zaključava korišćeni kurs.",
-
   "attachTakePhoto": "Slikaj",
   "attachTakePhotoSub": "Koristite kameru za snimanje računa",
   "attachChooseGallery": "Izaberi iz galerije",
@@ -156,7 +137,6 @@
   "attachBrowseFiles": "Pregledaj fajlove",
   "attachBrowseFilesSub": "Priložite PDF-ove, dokumente ili druge fajlove",
   "attachButton": "Priloži",
-
   "editPlanTitle": "Izmeni plan",
   "planTransactionTitle": "Planiraj transakciju",
   "tapToSelect": "Dodirnite za izbor",
@@ -170,7 +150,6 @@
   "destReceivesLabel": "{name} prima ({currency})",
   "destHelper": "Procenjeni odredišni iznos. Tačan kurs se zaključava pri potvrdi.",
   "descriptionOptional": "Opis (opciono)",
-
   "detailTransactionTitle": "Transakcija",
   "detailPlannedTitle": "Planirano",
   "detailConfirmTransaction": "Potvrdi transakciju",
@@ -186,7 +165,6 @@
   "detailWeekends": "Vikendi",
   "detailAttachments": "Prilozi",
   "detailFileCount": "{count, plural, =1{1 fajl} few{{count} fajla} other{{count} fajlova}}",
-
   "settingsTitle": "Podešavanja",
   "settingsSectionDisplay": "Prikaz",
   "settingsSectionLanguage": "Jezik",
@@ -197,9 +175,9 @@
   "settingsBaseCurrency": "Osnovna valuta",
   "settingsSecondaryCurrency": "Sekundarna valuta",
   "settingsCategories": "Kategorije",
-  "settingsCategoriesSubtitle": "{incomeCount} prihoda \u00b7 {expenseCount} rashoda",
+  "settingsCategoriesSubtitle": "{incomeCount} prihoda · {expenseCount} rashoda",
   "settingsArchivedAccounts": "Arhivirani računi",
-  "settingsArchivedAccountsSubtitleZero": "Trenutno nema \u2014 arhiviraj iz izmene računa kada je saldo nula",
+  "settingsArchivedAccountsSubtitleZero": "Trenutno nema — arhiviraj iz izmene računa kada je saldo nula",
   "settingsArchivedAccountsSubtitleCount": "{count} sakriveno iz pregleda i biranja",
   "settingsSectionData": "Podaci",
   "settingsSectionPrivacy": "O aplikaciji",
@@ -272,7 +250,6 @@
   "settingsLanguageOptionSystem": "Podrazumevano (sistem)",
   "settingsLanguageOptionEnglish": "Engleski",
   "settingsLanguageOptionSerbianLatin": "Srpski (latinica)",
-
   "settingsSectionAppearance": "Izgled",
   "settingsSectionSecurity": "Sigurnost",
   "settingsSecurityEnableLock": "Zaključaj aplikaciju pri otvaranju",
@@ -302,11 +279,9 @@
   "settingsThemeOptionSystem": "Podrazumevano (sistem)",
   "settingsThemeOptionLight": "Svetla",
   "settingsThemeOptionDark": "Tamna",
-
   "archivedAccountsTitle": "Arhivirani računi",
   "archivedAccountsEmptyTitle": "Nema arhiviranih računa",
   "archivedAccountsEmptyBody": "Knjigovodstveni saldo i prekoračenje moraju biti nula; arhiviranje je u opcijama računa u Pregledu.",
-
   "categoriesTitle": "Kategorije",
   "newCategoryTitle": "Nova kategorija",
   "categoryNameLabel": "Naziv kategorije",
@@ -315,28 +290,22 @@
   "categoryIncome": "Prihod",
   "categoryExpense": "Rashod",
   "categoryAdd": "Dodaj",
-  "searchCurrencies": "Pretraži valute\u2026",
-
+  "searchCurrencies": "Pretraži valute…",
   "period1M": "1M",
   "period3M": "3M",
   "period6M": "6M",
   "period1Y": "1G",
   "periodAll": "SVE",
-
   "categoryLabel": "kategorija",
   "categoriesLabel": "kategorije",
-
-  "transactionSavedMessage": "{type} \u2014 sačuvano  \u2022  {amount}",
-
+  "transactionSavedMessage": "{type} — sačuvano  •  {amount}",
   "tooltipSettings": "Podešavanja",
   "tooltipAddAccount": "Dodaj račun",
   "tooltipRemoveAccount": "Ukloni račun",
-
   "accountNameTaken": "Račun sa ovim imenom i identifikatorom već postoji (aktivan ili arhiviran). Promenite naziv ili identifikator.",
   "groupDescPersonal": "Vaši novčanici i bankovni računi",
   "groupDescIndividuals": "Porodica, prijatelji, pojedinci",
   "groupDescEntities": "Entiteti, komunalije, organizacije",
-
   "cannotArchiveTitle": "Arhiviranje nije moguće",
   "cannotArchiveBody": "Arhiviranje je dostupno samo kada su stanje i limit prekoračenja na nuli.",
   "cannotArchiveBodyAdjust": "Arhiviranje je dostupno samo kada su stanje i limit prekoračenja na nuli. Prvo podesite knjiženje ili limit.",
@@ -346,17 +315,14 @@
   "archiveBody": "Račun će biti sakriven iz Pregleda, Evidencije i biranja. Možete ga vratiti iz Podešavanja.",
   "archiveAction": "Arhiviraj",
   "archiveInstead": "Arhiviraj umesto toga",
-
   "cannotDeleteTitle": "Brisanje nije moguće",
   "cannotDeleteBodyShort": "Ovaj račun se pojavljuje u Evidenciji. Uklonite ili preraspodelite te transakcije, ili arhivirajte račun ako je stanje raščišćeno.",
-  "cannotDeleteBodyHistory": "Ovaj račun se pojavljuje u Evidenciji. Brisanje bi narušilo istoriju \u2014 uklonite ili preraspodelite te transakcije.",
-  "cannotDeleteBodySuggestArchive": "Ovaj račun se pojavljuje u Evidenciji i ne može se obrisati. Možete ga arhivirati ako su stanje i limit prekoračenja na nuli \u2014 biće sakriven sa lista ali istorija ostaje netaknuta.",
-
+  "cannotDeleteBodyHistory": "Ovaj račun se pojavljuje u Evidenciji. Brisanje bi narušilo istoriju — uklonite ili preraspodelite te transakcije.",
+  "cannotDeleteBodySuggestArchive": "Ovaj račun se pojavljuje u Evidenciji i ne može se obrisati. Možete ga arhivirati ako su stanje i limit prekoračenja na nuli — biće sakriven sa lista ali istorija ostaje netaknuta.",
   "deleteAccountTitle": "Obrisati račun?",
   "deleteAccountBodyPermanent": "Ovaj račun će biti trajno uklonjen.",
   "deleteWithPlannedBody": "{count, plural, =1{1 planirana transakcija koristi ovaj račun i biće takođe obrisana.} few{{count} planirane transakcije koriste ovaj račun i biće takođe obrisane.} other{{count} planiranih transakcija koristi ovaj račun i biće takođe obrisane.}}",
   "deleteAllAndDelete": "Obriši sve",
-
   "editAccountTitle": "Izmeni račun",
   "newAccountTitle": "Novi račun",
   "labelAccountName": "Naziv računa",
@@ -373,21 +339,17 @@
   "labelCurrency": "Valuta",
   "saveChanges": "Sačuvaj izmene",
   "addAccountAction": "Dodaj račun",
-
   "removeAccountSheetTitle": "Ukloni račun",
   "deletePermanently": "Trajno obriši",
   "deletePermanentlySubtitle": "Moguće samo kada se račun ne koristi u Evidenciji. Planirane stavke se mogu ukloniti pri brisanju.",
   "archiveOptionSubtitle": "Sakrij iz Pregleda i biranja. Vrati bilo kada iz Podešavanja. Zahteva nulto stanje i limit.",
   "archivedBannerText": "Ovaj račun je arhiviran. Ostaje u vašim podacima ali je sakriven sa lista i iz biranja.",
-
   "balanceAdjustedTitle": "Stanje podešeno u Evidenciji",
-  "balanceAdjustedBody": "Stvarno stanje je ažurirano sa {previous} na {current} {symbol}.\n\nTransakcija za podešavanje stanja je kreirana u Evidenciji (Istorija) radi konzistentnosti knjiženja.\n\n\u2022 Stvarno stanje odražava stvarni iznos na ovom računu.\n\u2022 Proverite Istoriju za stavku podešavanja.",
+  "balanceAdjustedBody": "Stvarno stanje je ažurirano sa {previous} na {current} {symbol}.\n\nTransakcija za podešavanje stanja je kreirana u Evidenciji (Istorija) radi konzistentnosti knjiženja.\n\n• Stvarno stanje odražava stvarni iznos na ovom računu.\n• Proverite Istoriju za stavku podešavanja.",
   "ok": "U redu",
-
   "categoryBalanceAdjustment": "Korekcija stanja",
   "descriptionBalanceCorrection": "Korekcija bilansa",
   "descriptionOpeningBalance": "Početno stanje",
-
   "reviewStatsModeStatistics": "Statistika",
   "reviewStatsModeComparison": "Poređenje",
   "statsUncategorized": "Nekategorisano",
@@ -406,7 +368,6 @@
   "statsNoIncomePeriod": "Nema prihoda u poslednjih {period}",
   "statsTotalReceived": "Ukupno primljeno",
   "statsNoIncomeThisPeriod": "Nema prihoda u ovom periodu",
-
   "catSalary": "Plata",
   "catFreelance": "Slobodni posao",
   "catConsulting": "Konsalting",
@@ -438,16 +399,15 @@
   "catCharity": "Dobročinstvo",
   "catCoffee": "Kafa",
   "catGifts": "Pokloni",
-
   "semanticsProjectionDate": "Datum projekcije {date}. Dvaput dodirnite za izbor datuma",
   "semanticsProjectedBalance": "Projektovano lično stanje {amount}",
   "statsEmptyTitle": "Još nema transakcija",
   "statsEmptySubtitle": "Nema podataka o potrošnji za izabrani period.",
   "semanticsShowProjections": "Prikaži projektovana stanja po računu",
   "semanticsHideProjections": "Sakrij projektovana stanja po računu",
-  "semanticsDateAllTime": "Datum: celo vreme \u2014 dodirnite za promenu režima",
-  "semanticsDateMode": "Datum: {mode} \u2014 dodirnite za promenu režima",
-  "semanticsDateThisMonth": "Datum: ovaj mesec \u2014 dodirnite za mesec, nedelju, godinu ili celo vreme",
+  "semanticsDateAllTime": "Datum: celo vreme — dodirnite za promenu režima",
+  "semanticsDateMode": "Datum: {mode} — dodirnite za promenu režima",
+  "semanticsDateThisMonth": "Datum: ovaj mesec — dodirnite za mesec, nedelju, godinu ili celo vreme",
   "semanticsTxTypeCycle": "Tip transakcije: sve, prihod, rashod, prenos",
   "semanticsAccountFilter": "Filter računa",
   "semanticsAlreadyFiltered": "Već filtrirano na ovaj račun",
@@ -463,44 +423,59 @@
   "semanticsChartStyle": "Stil grafikona",
   "semanticsChartStyleUnavailable": "Stil grafikona (nedostupno u režimu poređenja)",
   "semanticsPeriod": "Period: {label}",
-
   "trackSearchHint": "Pretraga opisa, kategorije, računa…",
   "trackSearchClear": "Obriši pretragu",
-
   "settingsExchangeRatesTitle": "Kursna lista",
   "settingsExchangeRatesUpdated": "Posljednje ažuriranje: {time}",
   "@settingsExchangeRatesUpdated": {
     "placeholders": {
-      "time": {"type": "String"}
+      "time": {
+        "type": "String"
+      }
     }
   },
   "settingsExchangeRatesNeverUpdated": "Koriste se ugrađeni ili keširani kursevi — dodirnite za osvježavanje",
   "settingsExchangeRatesSource": "ECB",
   "settingsExchangeRatesUpdatedSnack": "Kursna lista ažurirana",
   "settingsExchangeRatesUpdateFailed": "Nije moguće ažurirati kursnu listu. Proverite vezu.",
-
   "settingsClearData": "Brisanje podataka",
   "settingsClearDataSubtitle": "Trajno ukloni odabrane podatke",
   "clearDataTitle": "Brisanje podataka",
   "clearDataTransactions": "Istorija transakcija",
   "clearDataTransactionsSubtitle": "{count} transakcija · stanja računa se postavljaju na nulu",
   "@clearDataTransactionsSubtitle": {
-    "placeholders": { "count": {"type": "int"} }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "clearDataPlanned": "Planirane transakcije",
   "clearDataPlannedSubtitle": "{count} planiranih stavki",
   "@clearDataPlannedSubtitle": {
-    "placeholders": { "count": {"type": "int"} }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "clearDataAccounts": "Računi",
   "clearDataAccountsSubtitle": "{count} računa · briše i istoriju i plan",
   "@clearDataAccountsSubtitle": {
-    "placeholders": { "count": {"type": "int"} }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "clearDataCategories": "Kategorije",
   "clearDataCategoriesSubtitle": "{count} kategorija · zamenjuje se podrazumevanim",
   "@clearDataCategoriesSubtitle": {
-    "placeholders": { "count": {"type": "int"} }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "clearDataPreferences": "Podešavanja",
   "clearDataPreferencesSubtitle": "Vraća valutu, temu i jezik na podrazumevane vrednosti",
@@ -515,17 +490,19 @@
   "clearDataPinBody": "Unesite PIN aplikacije za autorizaciju.",
   "clearDataPinIncorrect": "Pogrešan PIN",
   "clearDataDone": "Odabrani podaci su obrisani",
-
   "autoBackupTitle": "Automatska dnevna rezervna kopija",
   "autoBackupLastAt": "Poslednja kopija {date}",
   "@autoBackupLastAt": {
-    "placeholders": { "date": {"type": "String"} }
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "autoBackupNeverRun": "Još nema kopije",
   "autoBackupShareTitle": "Sačuvaj u oblak",
   "autoBackupShareSubtitle": "Pošalji poslednju kopiju na iCloud Drive, Google Drive ili drugu aplikaciju",
   "autoBackupCloudReminder": "Automatska kopija je spremna — sačuvajte je u oblaku za zaštitu van uređaja",
   "autoBackupCloudReminderAction": "Podeli",
-
   "persistenceErrorReloaded": "Čuvanje nije uspelo. Podaci su ponovo učitani."
 }

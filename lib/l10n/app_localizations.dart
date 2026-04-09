@@ -5,8 +5,26 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_ar.dart';
+import 'app_localizations_bs.dart';
+import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
+import 'app_localizations_es.dart';
+import 'app_localizations_fr.dart';
+import 'app_localizations_hi.dart';
+import 'app_localizations_hr.dart';
+import 'app_localizations_it.dart';
+import 'app_localizations_ja.dart';
+import 'app_localizations_ko.dart';
+import 'app_localizations_nl.dart';
+import 'app_localizations_pl.dart';
+import 'app_localizations_pt.dart';
+import 'app_localizations_ru.dart';
 import 'app_localizations_sr.dart';
+import 'app_localizations_sv.dart';
+import 'app_localizations_tr.dart';
+import 'app_localizations_uk.dart';
+import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
 
@@ -94,9 +112,30 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
+    Locale('bs'),
+    Locale('de'),
     Locale('en'),
+    Locale('es'),
+    Locale('fr'),
+    Locale('hi'),
+    Locale('hr'),
+    Locale('it'),
+    Locale('ja'),
+    Locale('ko'),
+    Locale('nl'),
+    Locale('pl'),
+    Locale('pt'),
+    Locale('pt', 'BR'),
+    Locale('ru'),
     Locale('sr'),
+    Locale.fromSubtags(languageCode: 'sr', scriptCode: 'Cyrl'),
     Locale.fromSubtags(languageCode: 'sr', scriptCode: 'Latn'),
+    Locale('sv'),
+    Locale('tr'),
+    Locale('uk'),
+    Locale('zh'),
+    Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans'),
   ];
 
   /// Application title
@@ -2841,6 +2880,48 @@ abstract class AppLocalizations {
   /// **'Selected data cleared'**
   String get clearDataDone;
 
+  /// No description provided for @autoBackupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic daily backup'**
+  String get autoBackupTitle;
+
+  /// No description provided for @autoBackupLastAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Last backed up {date}'**
+  String autoBackupLastAt(String date);
+
+  /// No description provided for @autoBackupNeverRun.
+  ///
+  /// In en, this message translates to:
+  /// **'No backup yet'**
+  String get autoBackupNeverRun;
+
+  /// No description provided for @autoBackupShareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to cloud'**
+  String get autoBackupShareTitle;
+
+  /// No description provided for @autoBackupShareSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload latest backup to iCloud Drive, Google Drive or any app'**
+  String get autoBackupShareSubtitle;
+
+  /// No description provided for @autoBackupCloudReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-backup ready — save it to cloud for off-device protection'**
+  String get autoBackupCloudReminder;
+
+  /// No description provided for @autoBackupCloudReminderAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get autoBackupCloudReminderAction;
+
   /// No description provided for @persistenceErrorReloaded.
   ///
   /// In en, this message translates to:
@@ -2858,8 +2939,28 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'sr'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>[
+    'ar',
+    'bs',
+    'de',
+    'en',
+    'es',
+    'fr',
+    'hi',
+    'hr',
+    'it',
+    'ja',
+    'ko',
+    'nl',
+    'pl',
+    'pt',
+    'ru',
+    'sr',
+    'sv',
+    'tr',
+    'uk',
+    'zh',
+  ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -2871,8 +2972,30 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
     case 'sr':
       {
         switch (locale.scriptCode) {
+          case 'Cyrl':
+            return AppLocalizationsSrCyrl();
           case 'Latn':
             return AppLocalizationsSrLatn();
+        }
+        break;
+      }
+    case 'zh':
+      {
+        switch (locale.scriptCode) {
+          case 'Hans':
+            return AppLocalizationsZhHans();
+        }
+        break;
+      }
+  }
+
+  // Lookup logic when language+country codes are specified.
+  switch (locale.languageCode) {
+    case 'pt':
+      {
+        switch (locale.countryCode) {
+          case 'BR':
+            return AppLocalizationsPtBr();
         }
         break;
       }
@@ -2880,10 +3003,46 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'ar':
+      return AppLocalizationsAr();
+    case 'bs':
+      return AppLocalizationsBs();
+    case 'de':
+      return AppLocalizationsDe();
     case 'en':
       return AppLocalizationsEn();
+    case 'es':
+      return AppLocalizationsEs();
+    case 'fr':
+      return AppLocalizationsFr();
+    case 'hi':
+      return AppLocalizationsHi();
+    case 'hr':
+      return AppLocalizationsHr();
+    case 'it':
+      return AppLocalizationsIt();
+    case 'ja':
+      return AppLocalizationsJa();
+    case 'ko':
+      return AppLocalizationsKo();
+    case 'nl':
+      return AppLocalizationsNl();
+    case 'pl':
+      return AppLocalizationsPl();
+    case 'pt':
+      return AppLocalizationsPt();
+    case 'ru':
+      return AppLocalizationsRu();
     case 'sr':
       return AppLocalizationsSr();
+    case 'sv':
+      return AppLocalizationsSv();
+    case 'tr':
+      return AppLocalizationsTr();
+    case 'uk':
+      return AppLocalizationsUk();
+    case 'zh':
+      return AppLocalizationsZh();
   }
 
   throw FlutterError(

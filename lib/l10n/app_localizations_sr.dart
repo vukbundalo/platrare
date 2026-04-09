@@ -1593,6 +1593,1646 @@ class AppLocalizationsSr extends AppLocalizations {
   String get clearDataDone => 'Odabrani podaci su obrisani';
 
   @override
+  String get autoBackupTitle => 'Automatska dnevna rezervna kopija';
+
+  @override
+  String autoBackupLastAt(String date) {
+    return 'Poslednja kopija $date';
+  }
+
+  @override
+  String get autoBackupNeverRun => 'Još nema kopije';
+
+  @override
+  String get autoBackupShareTitle => 'Sačuvaj u oblak';
+
+  @override
+  String get autoBackupShareSubtitle =>
+      'Pošalji poslednju kopiju na iCloud Drive, Google Drive ili drugu aplikaciju';
+
+  @override
+  String get autoBackupCloudReminder =>
+      'Automatska kopija je spremna — sačuvajte je u oblaku za zaštitu van uređaja';
+
+  @override
+  String get autoBackupCloudReminderAction => 'Podeli';
+
+  @override
+  String get persistenceErrorReloaded =>
+      'Чување није успело. Подаци су поново учитани.';
+}
+
+/// The translations for Serbian, using the Cyrillic script (`sr_Cyrl`).
+class AppLocalizationsSrCyrl extends AppLocalizationsSr {
+  AppLocalizationsSrCyrl() : super('sr_Cyrl');
+
+  @override
+  String get appTitle => 'Платраре';
+
+  @override
+  String get navPlan => 'План';
+
+  @override
+  String get navTrack => 'Евиденција';
+
+  @override
+  String get navReview => 'Преглед';
+
+  @override
+  String get cancel => 'Откажи';
+
+  @override
+  String get delete => 'Обриши';
+
+  @override
+  String get close => 'Затвори';
+
+  @override
+  String get add => 'Додај';
+
+  @override
+  String get undo => 'Поништи';
+
+  @override
+  String get confirm => 'Потврди';
+
+  @override
+  String get restore => 'Врати';
+
+  @override
+  String get heroIn => 'Улаз';
+
+  @override
+  String get heroOut => 'Излаз';
+
+  @override
+  String get heroNet => 'Нето';
+
+  @override
+  String get heroBalance => 'Стање';
+
+  @override
+  String get realBalance => 'Стварно стање';
+
+  @override
+  String get heroResetButton => 'Ресет';
+
+  @override
+  String get filterAll => 'Све';
+
+  @override
+  String get filterAllAccounts => 'Сви рачуни';
+
+  @override
+  String get filterAllCategories => 'Све категорије';
+
+  @override
+  String get txLabelIncome => 'ПРИХОД';
+
+  @override
+  String get txLabelExpense => 'РАСХОД';
+
+  @override
+  String get txLabelInvoice => 'ФАКТУРА';
+
+  @override
+  String get txLabelBill => 'РАЧУН';
+
+  @override
+  String get txLabelAdvance => 'АВАНС';
+
+  @override
+  String get txLabelSettlement => 'ПОРАВНАЊЕ';
+
+  @override
+  String get txLabelLoan => 'ЗАЈАМ';
+
+  @override
+  String get txLabelCollection => 'НАПЛАТА';
+
+  @override
+  String get txLabelOffset => 'ПРЕБИЈАЊЕ';
+
+  @override
+  String get txLabelTransfer => 'ПРЕНОС';
+
+  @override
+  String get txLabelTransaction => 'ТРАНСАКЦИЈА';
+
+  @override
+  String get repeatNone => 'Без понављања';
+
+  @override
+  String get repeatDaily => 'Дневно';
+
+  @override
+  String get repeatWeekly => 'Недељно';
+
+  @override
+  String get repeatMonthly => 'Месечно';
+
+  @override
+  String get repeatYearly => 'Годишње';
+
+  @override
+  String get repeatEveryLabel => 'Сваки';
+
+  @override
+  String repeatEveryDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dana',
+      few: '$count dana',
+      one: 'dan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String repeatEveryWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count nedelja',
+      few: '$count nedelje',
+      one: 'nedelju',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String repeatEveryMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count meseci',
+      few: '$count meseca',
+      one: 'mesec',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String repeatEveryYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count godina',
+      few: '$count godine',
+      one: 'godinu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get repeatEndLabel => 'Завршава се';
+
+  @override
+  String get repeatEndNever => 'Никад';
+
+  @override
+  String get repeatEndOnDate => 'На датум';
+
+  @override
+  String repeatEndAfterCount(int count) {
+    return 'Posle $count puta';
+  }
+
+  @override
+  String get repeatEndPickDate => 'Изаберите крајњи датум';
+
+  @override
+  String get repeatEndTimes => 'пута';
+
+  @override
+  String repeatSummaryEvery(int count, String unit) {
+    return 'Svaki $count $unit';
+  }
+
+  @override
+  String repeatSummaryUntil(String date) {
+    return 'do $date';
+  }
+
+  @override
+  String repeatSummaryTimes(int count) {
+    return '$count puta';
+  }
+
+  @override
+  String repeatSummaryTimesRemaining(int remaining, int total) {
+    return '$remaining od $total preostalo';
+  }
+
+  @override
+  String get detailRepeatEvery => 'Понавља се сваки';
+
+  @override
+  String get detailEnds => 'Завршава се';
+
+  @override
+  String get detailEndsNever => 'Никад';
+
+  @override
+  String detailEndsOnDate(String date) {
+    return 'Na $date';
+  }
+
+  @override
+  String detailEndsAfterCount(int count) {
+    return 'Posle $count puta';
+  }
+
+  @override
+  String get detailProgress => 'Напредак';
+
+  @override
+  String get weekendNoChange => 'Без промене';
+
+  @override
+  String get weekendFriday => 'Помери на петак';
+
+  @override
+  String get weekendMonday => 'Помери на понедељак';
+
+  @override
+  String weekendQuestion(String day) {
+    return 'Ako $day. padne na vikend?';
+  }
+
+  @override
+  String get dateToday => 'Данас';
+
+  @override
+  String get dateTomorrow => 'Сутра';
+
+  @override
+  String get dateYesterday => 'Јуче';
+
+  @override
+  String get statsAllTime => 'Цело време';
+
+  @override
+  String get accountGroupPersonal => 'Лично';
+
+  @override
+  String get accountGroupIndividual => 'Појединац';
+
+  @override
+  String get accountGroupEntity => 'Ентитет';
+
+  @override
+  String get accountSectionIndividuals => 'Појединци';
+
+  @override
+  String get accountSectionEntities => 'Ентитети';
+
+  @override
+  String get emptyNoTransactionsYet => 'Нема трансакција';
+
+  @override
+  String get emptyNoAccountsYet => 'Нема рачуна';
+
+  @override
+  String get emptyRecordFirstTransaction =>
+      'Додирните дугме испод да забележите прву трансакцију.';
+
+  @override
+  String get emptyAddFirstAccountTx =>
+      'Додајте први рачун пре евидентирања трансакција.';
+
+  @override
+  String get emptyAddFirstAccountPlan =>
+      'Додајте први рачун пре планирања трансакција.';
+
+  @override
+  String get emptyAddFirstAccountReview =>
+      'Додајте први рачун за праћење финансија.';
+
+  @override
+  String get emptyAddTransaction => 'Додај трансакцију';
+
+  @override
+  String get emptyAddAccount => 'Додај рачун';
+
+  @override
+  String get reviewEmptyGroupPersonalTitle => 'Још нема личних рачуна';
+
+  @override
+  String get reviewEmptyGroupPersonalBody =>
+      'Лични рачуни су ваши новчаници и банковни рачуни. Додајте један да пратите свакодневни приход и расход.';
+
+  @override
+  String get reviewEmptyGroupIndividualsTitle => 'Још нема рачуна појединаца';
+
+  @override
+  String get reviewEmptyGroupIndividualsBody =>
+      'Рачуни појединаца прате новац са одређеним особама—заједнички трошкови, позајмице или дуговања. Додајте рачун за сваку особу са којом се обрачунавате.';
+
+  @override
+  String get reviewEmptyGroupEntitiesTitle => 'Још нема рачуна ентитета';
+
+  @override
+  String get reviewEmptyGroupEntitiesBody =>
+      'Рачуни ентитета су за фирме, пројекте или организације. Користите их да пословни новчани ток одвојите од личних финансија.';
+
+  @override
+  String get emptyNoTransactionsForFilters =>
+      'Нема трансакција за примењене филтере';
+
+  @override
+  String get emptyNoTransactionsInHistory => 'Нема трансакција у историји';
+
+  @override
+  String emptyNoTransactionsForMonth(String month) {
+    return 'Nema transakcija za $month';
+  }
+
+  @override
+  String get emptyNoTransactionsForAccount => 'Нема трансакција за овај рачун';
+
+  @override
+  String get trackTransactionDeleted => 'Трансакција обрисана';
+
+  @override
+  String get trackDeleteTitle => 'Обрисати трансакцију?';
+
+  @override
+  String get trackDeleteBody => 'Ово ће поништити промене стања на рачунима.';
+
+  @override
+  String get trackTransaction => 'Трансакција';
+
+  @override
+  String get planConfirmTitle => 'Потврдити трансакцију?';
+
+  @override
+  String planConfirmBodyEarly(String date, String todayDate, String nextDate) {
+    return 'Ova stavka je zakazana za $date. Biće evidentirana u Istoriji sa današnjim datumom ($todayDate). Sledeća stavka ostaje na $nextDate.';
+  }
+
+  @override
+  String get planConfirmBodyNormal =>
+      'Ово ће применити трансакцију на стварна стања рачуна и преместити је у Историју.';
+
+  @override
+  String get planTransactionConfirmed => 'Трансакција потврђена и примењена';
+
+  @override
+  String get planTransactionRemoved => 'Планирана трансакција уклоњена';
+
+  @override
+  String get planRepeatingTitle => 'Трансакција која се понавља';
+
+  @override
+  String get planRepeatingBody =>
+      'Прескочи само овај датум — серија се наставља са следећом ставком — или обриши све преостале ставке из плана.';
+
+  @override
+  String get planDeleteAll => 'Обриши све';
+
+  @override
+  String get planSkipThisOnly => 'Прескочи само ову';
+
+  @override
+  String get planOccurrenceSkipped => 'Ставка прескочена — следећа заказана';
+
+  @override
+  String get planNothingPlanned => 'Ништа није планирано';
+
+  @override
+  String get planPlanBody => 'Планирајте будуће трансакције.';
+
+  @override
+  String get planAddPlan => 'Додај план';
+
+  @override
+  String get planNoPlannedForFilters =>
+      'Нема планираних трансакција за примењене филтере';
+
+  @override
+  String planNoPlannedInMonth(String month) {
+    return 'Nema planiranih transakcija u $month';
+  }
+
+  @override
+  String get planOverdue => 'истекло';
+
+  @override
+  String get planPlannedTransaction => 'Планирана трансакција';
+
+  @override
+  String get discardTitle => 'Одбацити измене?';
+
+  @override
+  String get discardBody =>
+      'Имате несачуване измене. Биће изгубљене ако напустите ову страницу.';
+
+  @override
+  String get keepEditing => 'Настави уређивање';
+
+  @override
+  String get discard => 'Одбаци';
+
+  @override
+  String get newTransactionTitle => 'Нова трансакција';
+
+  @override
+  String get editTransactionTitle => 'Измени трансакцију';
+
+  @override
+  String get transactionUpdated => 'Трансакција ажурирана';
+
+  @override
+  String get sectionAccounts => 'Рачуни';
+
+  @override
+  String get labelFrom => 'Од';
+
+  @override
+  String get labelTo => 'Ка';
+
+  @override
+  String get sectionCategory => 'Категорија';
+
+  @override
+  String get sectionAttachments => 'Прилози';
+
+  @override
+  String get labelNote => 'Белешка';
+
+  @override
+  String get hintOptionalDescription => 'Опциони опис';
+
+  @override
+  String get updateTransaction => 'Ажурирај трансакцију';
+
+  @override
+  String get saveTransaction => 'Сачувај трансакцију';
+
+  @override
+  String get selectAccount => 'Изаберите рачун';
+
+  @override
+  String get selectAccountTitle => 'Изаберите рачун';
+
+  @override
+  String get noAccountsAvailable => 'Нема доступних рачуна';
+
+  @override
+  String amountReceivedBy(String name, String currency) {
+    return 'Iznos primljen od $name ($currency)';
+  }
+
+  @override
+  String get amountReceivedHelper =>
+      'Унесите тачан износ који прима одредишни рачун. Ово закључава коришћени курс.';
+
+  @override
+  String get attachTakePhoto => 'Сликај';
+
+  @override
+  String get attachTakePhotoSub => 'Користите камеру за снимање рачуна';
+
+  @override
+  String get attachChooseGallery => 'Изабери из галерије';
+
+  @override
+  String get attachChooseGallerySub => 'Изаберите фотографије из библиотеке';
+
+  @override
+  String get attachBrowseFiles => 'Прегледај фајлове';
+
+  @override
+  String get attachBrowseFilesSub =>
+      'Приложите ПДФ-ове, документе или друге фајлове';
+
+  @override
+  String get attachButton => 'Приложи';
+
+  @override
+  String get editPlanTitle => 'Измени план';
+
+  @override
+  String get planTransactionTitle => 'Планирај трансакцију';
+
+  @override
+  String get tapToSelect => 'Додирните за избор';
+
+  @override
+  String get updatePlan => 'Ажурирај план';
+
+  @override
+  String get addToPlan => 'Додај у план';
+
+  @override
+  String get labelRepeat => 'Понављање';
+
+  @override
+  String get selectPlannedDate => 'Изаберите планирани датум';
+
+  @override
+  String get balancesAsOfToday => 'Стања на данашњи дан';
+
+  @override
+  String get projectedBalancesForTomorrow => 'Пројектована стања за сутра';
+
+  @override
+  String projectedBalancesForDate(String date) {
+    return 'Projektovana stanja za $date';
+  }
+
+  @override
+  String destReceivesLabel(String name, String currency) {
+    return '$name prima ($currency)';
+  }
+
+  @override
+  String get destHelper =>
+      'Процењени одредишни износ. Тачан курс се закључава при потврди.';
+
+  @override
+  String get descriptionOptional => 'Опис (опционо)';
+
+  @override
+  String get detailTransactionTitle => 'Трансакција';
+
+  @override
+  String get detailPlannedTitle => 'Планирано';
+
+  @override
+  String get detailConfirmTransaction => 'Потврди трансакцију';
+
+  @override
+  String get detailDate => 'Датум';
+
+  @override
+  String get detailFrom => 'Од';
+
+  @override
+  String get detailTo => 'Ка';
+
+  @override
+  String get detailCategory => 'Категорија';
+
+  @override
+  String get detailNote => 'Белешка';
+
+  @override
+  String get detailDestinationAmount => 'Одредишни износ';
+
+  @override
+  String get detailExchangeRate => 'Курс';
+
+  @override
+  String get detailRepeats => 'Понавља се';
+
+  @override
+  String get detailDayOfMonth => 'Дан у месецу';
+
+  @override
+  String get detailWeekends => 'Викенди';
+
+  @override
+  String get detailAttachments => 'Прилози';
+
+  @override
+  String detailFileCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count fajlova',
+      few: '$count fajla',
+      one: '1 fajl',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsTitle => 'Подешавања';
+
+  @override
+  String get settingsSectionDisplay => 'Приказ';
+
+  @override
+  String get settingsSectionLanguage => 'Језик';
+
+  @override
+  String get settingsSectionCategories => 'Категорије';
+
+  @override
+  String get settingsSectionAccounts => 'Рачуни';
+
+  @override
+  String get settingsSectionPreferences => 'Подешавања';
+
+  @override
+  String get settingsSectionManage => 'Управљање';
+
+  @override
+  String get settingsBaseCurrency => 'Основна валута';
+
+  @override
+  String get settingsSecondaryCurrency => 'Секундарна валута';
+
+  @override
+  String get settingsCategories => 'Категорије';
+
+  @override
+  String settingsCategoriesSubtitle(int incomeCount, int expenseCount) {
+    return '$incomeCount prihoda · $expenseCount rashoda';
+  }
+
+  @override
+  String get settingsArchivedAccounts => 'Архивирани рачуни';
+
+  @override
+  String get settingsArchivedAccountsSubtitleZero =>
+      'Тренутно нема — архивирај из измене рачуна када је салдо нула';
+
+  @override
+  String settingsArchivedAccountsSubtitleCount(int count) {
+    return '$count sakriveno iz pregleda i biranja';
+  }
+
+  @override
+  String get settingsSectionData => 'Подаци';
+
+  @override
+  String get settingsSectionPrivacy => 'О апликацији';
+
+  @override
+  String get settingsPrivacyPolicyTitle => 'Политика приватности';
+
+  @override
+  String get settingsPrivacyPolicySubtitle =>
+      'Како Платраре третира ваше податке.';
+
+  @override
+  String get settingsPrivacyFxDisclosure =>
+      'Курсна листа: апликација преузима јавне курсеве преко интернета. Ваши рачуни и трансакције се не шаљу.';
+
+  @override
+  String get settingsPrivacyOpenFailed =>
+      'Није могуће учитати политику приватности.';
+
+  @override
+  String get settingsPrivacyRetry => 'Покушај поново';
+
+  @override
+  String get settingsSoftwareVersionTitle => 'Верзија софтвера';
+
+  @override
+  String get settingsSoftwareVersionSubtitle =>
+      'Издање, дијагностика и правни документи';
+
+  @override
+  String get aboutScreenTitle => 'О апликацији';
+
+  @override
+  String get aboutAppTagline =>
+      'Књига, новчани ток и планирање на једном месту.';
+
+  @override
+  String get aboutDescriptionBody =>
+      'Платраре чува рачуне, трансакције и планове на вашем уређају. Шифроване резервне копије извезите када вам треба копија и другде. Курсна листа користи само јавне податке; ваша књига се не отпрема.';
+
+  @override
+  String get aboutVersionLabel => 'Верзија';
+
+  @override
+  String get aboutBuildLabel => 'Буилд';
+
+  @override
+  String get aboutCopySupportDetails => 'Копирај податке за подршку';
+
+  @override
+  String get aboutOpenPrivacySubtitle =>
+      'Отвара пун текст политике у апликацији.';
+
+  @override
+  String get aboutSupportBundleLocaleLabel => 'Локализација';
+
+  @override
+  String get settingsSupportInfoCopied => 'Копирано у оставу';
+
+  @override
+  String get settingsVerifyLedger => 'Провјери податке';
+
+  @override
+  String get settingsVerifyLedgerSubtitle =>
+      'Провјери да ли се стања рачуна поклапају с историјом трансакција';
+
+  @override
+  String get settingsDataExportTitle => 'Извези резервну копију';
+
+  @override
+  String get settingsDataExportSubtitle =>
+      'Сачувај као .зип или шифровани .платраре са свим подацима и прилозима';
+
+  @override
+  String get settingsDataImportTitle => 'Врати из резервне копије';
+
+  @override
+  String get settingsDataImportSubtitle =>
+      'Замијени тренутне податке из Платраре .зип или .платраре фајла';
+
+  @override
+  String get backupExportDialogTitle => 'Заштитите ову резервну копију';
+
+  @override
+  String get backupExportDialogBody =>
+      'Препоручена је јака лозинка, посебно ако чувате фајл у облаку. Иста лозинка је потребна за увоз.';
+
+  @override
+  String get backupExportPasswordLabel => 'Лозинка';
+
+  @override
+  String get backupExportPasswordConfirmLabel => 'Потврди лозинку';
+
+  @override
+  String get backupExportPasswordMismatch => 'Лозинке се не поклапају';
+
+  @override
+  String get backupExportPasswordEmpty =>
+      'Унесите подударајуће лозинке или извезите без шифровања испод.';
+
+  @override
+  String get backupExportPasswordTooShort =>
+      'Лозинка мора имати најмање 8 знакова.';
+
+  @override
+  String get backupExportSaveToDevice => 'Сачувај на уређају';
+
+  @override
+  String get backupExportShareToCloud => 'Подијели (иЦлоуд, Дриве…)';
+
+  @override
+  String get backupExportWithoutEncryption => 'Извези без шифровања';
+
+  @override
+  String get backupExportSkipWarningTitle => 'Извести без шифровања?';
+
+  @override
+  String get backupExportSkipWarningBody =>
+      'Свако ко има приступ фајлу може прочитати податке. Користите само за локалне копије које контролишете.';
+
+  @override
+  String get backupExportSkipWarningConfirm => 'Извези нешифровано';
+
+  @override
+  String get backupImportPasswordTitle => 'Шифрована резерва';
+
+  @override
+  String get backupImportPasswordBody =>
+      'Унесите лозинку коју сте користили при извозу.';
+
+  @override
+  String get backupImportPasswordLabel => 'Лозинка';
+
+  @override
+  String get backupImportPreviewTitle => 'Преглед резерве';
+
+  @override
+  String backupImportPreviewVersion(String version) {
+    return 'Verzija aplikacije: $version';
+  }
+
+  @override
+  String backupImportPreviewExported(String date) {
+    return 'Izvezeno: $date';
+  }
+
+  @override
+  String backupImportPreviewCounts(
+    int accounts,
+    int transactions,
+    int planned,
+    int attachments,
+    int income,
+    int expense,
+  ) {
+    return '$accounts računa · $transactions transakcija · $planned planiranih · $attachments priloga · $income kategorija prihoda · $expense kategorija rashoda';
+  }
+
+  @override
+  String get backupImportPreviewContinue => 'Даље';
+
+  @override
+  String get settingsBackupWrongPassword => 'Погрешна лозинка';
+
+  @override
+  String get settingsBackupChecksumMismatch =>
+      'Провера интегритета резерве није успела';
+
+  @override
+  String get settingsBackupCorruptFile => 'Неважећи или оштећен фајл резерве';
+
+  @override
+  String get settingsBackupUnsupportedVersion =>
+      'Резерва захтева новију верзију апликације';
+
+  @override
+  String get settingsDataImportConfirmTitle => 'Замијенити тренутне податке?';
+
+  @override
+  String get settingsDataImportConfirmBody =>
+      'Ово ће заменити ваше тренутне рачуне, трансакције, планиране трансакције, категорије и увезене прилоге садржајем из изабране резерве. Ову радњу није могуће поништити.';
+
+  @override
+  String get settingsDataImportConfirmAction => 'Замијени податке';
+
+  @override
+  String get settingsDataImportDone => 'Подаци су успјешно враћени';
+
+  @override
+  String get settingsDataImportInvalidFile =>
+      'Изабрани фајл није валидна Платраре резервна копија';
+
+  @override
+  String get settingsDataImportFailed => 'Увоз није успео';
+
+  @override
+  String get settingsDataExportDoneTitle => 'Резервна копија је извезена';
+
+  @override
+  String settingsDataExportDoneBody(String path) {
+    return 'Rezervna kopija je sačuvana na:\n$path';
+  }
+
+  @override
+  String get settingsDataOpenExportFile => 'Отвори фајл';
+
+  @override
+  String get settingsDataExportFailed => 'Извоз није успео';
+
+  @override
+  String get ledgerVerifyDialogTitle => 'Провера књиге';
+
+  @override
+  String get ledgerVerifyAllMatch => 'Сва стања се поклапају.';
+
+  @override
+  String get ledgerVerifyMismatchesTitle => 'Разлике';
+
+  @override
+  String ledgerVerifyMismatchDetails(
+    String accountName,
+    String stored,
+    String replayed,
+    String diff,
+  ) {
+    return '$accountName\nSačuvano: $stored\nPonovo: $replayed\nRazlika: $diff';
+  }
+
+  @override
+  String get settingsLanguage => 'Језик апликације';
+
+  @override
+  String get settingsLanguageSubtitleSystem => 'Прати подешавања система';
+
+  @override
+  String get settingsLanguageSubtitleEnglish => 'Енглески';
+
+  @override
+  String get settingsLanguageSubtitleSerbianLatin => 'Српски (латиница)';
+
+  @override
+  String get settingsLanguagePickerTitle => 'Језик апликације';
+
+  @override
+  String get settingsLanguageOptionSystem => 'Подразумевано (систем)';
+
+  @override
+  String get settingsLanguageOptionEnglish => 'Енглески';
+
+  @override
+  String get settingsLanguageOptionSerbianLatin => 'Српски (латиница)';
+
+  @override
+  String get settingsSectionAppearance => 'Изглед';
+
+  @override
+  String get settingsSectionSecurity => 'Сигурност';
+
+  @override
+  String get settingsSecurityEnableLock => 'Закључај апликацију при отварању';
+
+  @override
+  String get settingsSecurityEnableLockSubtitle =>
+      'Тражи биометрију или ПИН када се апликација отвори';
+
+  @override
+  String get settingsSecuritySetPin => 'Постави ПИН';
+
+  @override
+  String get settingsSecurityChangePin => 'Промени ПИН';
+
+  @override
+  String get settingsSecurityPinSubtitle =>
+      'Користи ПИН као резерву ако биометрија није доступна';
+
+  @override
+  String get settingsSecurityRemovePin => 'Уклони ПИН';
+
+  @override
+  String get securitySetPinTitle => 'Постави ПИН апликације';
+
+  @override
+  String get securityPinLabel => 'ПИН код';
+
+  @override
+  String get securityConfirmPinLabel => 'Потврди ПИН код';
+
+  @override
+  String get securityPinMustBe4Digits => 'ПИН мора имати најмање 4 цифре';
+
+  @override
+  String get securityPinMismatch => 'ПИН кодови се не поклапају';
+
+  @override
+  String get securityRemovePinTitle => 'Уклонити ПИН?';
+
+  @override
+  String get securityRemovePinBody =>
+      'Биометријско откључавање и даље може да се користи ако је доступно.';
+
+  @override
+  String get securityUnlockTitle => 'Апликација је закључана';
+
+  @override
+  String get securityUnlockSubtitle =>
+      'Откључај помоћу Фаце ИД-а, отиска прста или ПИН-а.';
+
+  @override
+  String get securityUnlockWithPin => 'Откључај ПИН-ом';
+
+  @override
+  String get securityTryBiometric => 'Покушај биометријско откључавање';
+
+  @override
+  String get securityPinIncorrect => 'Погрешан ПИН, покушај поново';
+
+  @override
+  String get securityBiometricReason =>
+      'Потврди идентитет за отварање апликације';
+
+  @override
+  String get settingsTheme => 'Тема';
+
+  @override
+  String get settingsThemeSubtitleSystem => 'Прати подешавања система';
+
+  @override
+  String get settingsThemeSubtitleLight => 'Светла';
+
+  @override
+  String get settingsThemeSubtitleDark => 'Тамна';
+
+  @override
+  String get settingsThemePickerTitle => 'Тема';
+
+  @override
+  String get settingsThemeOptionSystem => 'Подразумевано (систем)';
+
+  @override
+  String get settingsThemeOptionLight => 'Светла';
+
+  @override
+  String get settingsThemeOptionDark => 'Тамна';
+
+  @override
+  String get archivedAccountsTitle => 'Архивирани рачуни';
+
+  @override
+  String get archivedAccountsEmptyTitle => 'Нема архивираних рачуна';
+
+  @override
+  String get archivedAccountsEmptyBody =>
+      'Књиговодствени салдо и прекорачење морају бити нула; архивирање је у опцијама рачуна у Прегледу.';
+
+  @override
+  String get categoriesTitle => 'Категорије';
+
+  @override
+  String get newCategoryTitle => 'Нова категорија';
+
+  @override
+  String get categoryNameLabel => 'Назив категорије';
+
+  @override
+  String get deleteCategoryTitle => 'Обрисати категорију?';
+
+  @override
+  String deleteCategoryBody(String category) {
+    return '\"$category\" će biti uklonjena sa liste.';
+  }
+
+  @override
+  String get categoryIncome => 'Приход';
+
+  @override
+  String get categoryExpense => 'Расход';
+
+  @override
+  String get categoryAdd => 'Додај';
+
+  @override
+  String get searchCurrencies => 'Претражи валуте…';
+
+  @override
+  String get period1M => '1М';
+
+  @override
+  String get period3M => '3М';
+
+  @override
+  String get period6M => '6М';
+
+  @override
+  String get period1Y => '1Г';
+
+  @override
+  String get periodAll => 'СВЕ';
+
+  @override
+  String get categoryLabel => 'категорија';
+
+  @override
+  String get categoriesLabel => 'категорије';
+
+  @override
+  String transactionSavedMessage(String type, String amount) {
+    return '$type — sačuvano  •  $amount';
+  }
+
+  @override
+  String get tooltipSettings => 'Подешавања';
+
+  @override
+  String get tooltipAddAccount => 'Додај рачун';
+
+  @override
+  String get tooltipRemoveAccount => 'Уклони рачун';
+
+  @override
+  String get accountNameTaken =>
+      'Рачун са овим именом и идентификатором већ постоји (активан или архивиран). Промените назив или идентификатор.';
+
+  @override
+  String get groupDescPersonal => 'Ваши новчаници и банковни рачуни';
+
+  @override
+  String get groupDescIndividuals => 'Породица, пријатељи, појединци';
+
+  @override
+  String get groupDescEntities => 'Ентитети, комуналије, организације';
+
+  @override
+  String get cannotArchiveTitle => 'Архивирање није могуће';
+
+  @override
+  String get cannotArchiveBody =>
+      'Архивирање је доступно само када су стање и лимит прекорачења на нули.';
+
+  @override
+  String get cannotArchiveBodyAdjust =>
+      'Архивирање је доступно само када су стање и лимит прекорачења на нули. Прво подесите књижење или лимит.';
+
+  @override
+  String get archiveAccountTitle => 'Архивирати рачун?';
+
+  @override
+  String archiveWithPlannedBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count planiranih transakcija koristi ovaj račun.',
+      few: '$count planirane transakcije koriste ovaj račun.',
+      one: '1 planirana transakcija koristi ovaj račun.',
+    );
+    return '$_temp0 Uklonite ih da plan bude usklađen sa arhiviranim računom.';
+  }
+
+  @override
+  String get removeAndArchive => 'Уклони планиране и архивирај';
+
+  @override
+  String get archiveBody =>
+      'Рачун ће бити сакривен из Прегледа, Евиденције и бирања. Можете га вратити из Подешавања.';
+
+  @override
+  String get archiveAction => 'Архивирај';
+
+  @override
+  String get archiveInstead => 'Архивирај уместо тога';
+
+  @override
+  String get cannotDeleteTitle => 'Брисање није могуће';
+
+  @override
+  String get cannotDeleteBodyShort =>
+      'Овај рачун се појављује у Евиденцији. Уклоните или прерасподелите те трансакције, или архивирајте рачун ако је стање рашчишћено.';
+
+  @override
+  String get cannotDeleteBodyHistory =>
+      'Овај рачун се појављује у Евиденцији. Брисање би нарушило историју — уклоните или прерасподелите те трансакције.';
+
+  @override
+  String get cannotDeleteBodySuggestArchive =>
+      'Овај рачун се појављује у Евиденцији и не може се обрисати. Можете га архивирати ако су стање и лимит прекорачења на нули — биће сакривен са листа али историја остаје нетакнута.';
+
+  @override
+  String get deleteAccountTitle => 'Обрисати рачун?';
+
+  @override
+  String get deleteAccountBodyPermanent => 'Овај рачун ће бити трајно уклоњен.';
+
+  @override
+  String deleteWithPlannedBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count planiranih transakcija koristi ovaj račun i biće takođe obrisane.',
+      few:
+          '$count planirane transakcije koriste ovaj račun i biće takođe obrisane.',
+      one: '1 planirana transakcija koristi ovaj račun i biće takođe obrisana.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteAllAndDelete => 'Обриши све';
+
+  @override
+  String get editAccountTitle => 'Измени рачун';
+
+  @override
+  String get newAccountTitle => 'Нови рачун';
+
+  @override
+  String get labelAccountName => 'Назив рачуна';
+
+  @override
+  String get labelAccountIdentifier => 'Идентификатор (опционо)';
+
+  @override
+  String get accountAppearanceSection => 'Иконица и боја';
+
+  @override
+  String get accountPickIcon => 'Изабери иконицу';
+
+  @override
+  String get accountPickColor => 'Изабери боју';
+
+  @override
+  String get accountIconSheetTitle => 'Иконица рачуна';
+
+  @override
+  String get accountColorSheetTitle => 'Боја рачуна';
+
+  @override
+  String get accountUseInitialLetter => 'Иницијал';
+
+  @override
+  String get accountUseDefaultColor => 'Као група';
+
+  @override
+  String get labelRealBalance => 'Стварно стање';
+
+  @override
+  String get labelOverdraftLimit => 'Лимит прекорачења / аванса';
+
+  @override
+  String get labelCurrency => 'Валута';
+
+  @override
+  String get saveChanges => 'Сачувај измене';
+
+  @override
+  String get addAccountAction => 'Додај рачун';
+
+  @override
+  String get removeAccountSheetTitle => 'Уклони рачун';
+
+  @override
+  String get deletePermanently => 'Трајно обриши';
+
+  @override
+  String get deletePermanentlySubtitle =>
+      'Могуће само када се рачун не користи у Евиденцији. Планиране ставке се могу уклонити при брисању.';
+
+  @override
+  String get archiveOptionSubtitle =>
+      'Сакриј из Прегледа и бирања. Врати било када из Подешавања. Захтева нулто стање и лимит.';
+
+  @override
+  String get archivedBannerText =>
+      'Овај рачун је архивиран. Остаје у вашим подацима али је сакривен са листа и из бирања.';
+
+  @override
+  String get balanceAdjustedTitle => 'Стање подешено у Евиденцији';
+
+  @override
+  String balanceAdjustedBody(String previous, String current, String symbol) {
+    return 'Stvarno stanje je ažurirano sa $previous na $current $symbol.\n\nTransakcija za podešavanje stanja je kreirana u Evidenciji (Istorija) radi konzistentnosti knjiženja.\n\n• Stvarno stanje odražava stvarni iznos na ovom računu.\n• Proverite Istoriju za stavku podešavanja.';
+  }
+
+  @override
+  String get ok => 'У реду';
+
+  @override
+  String get categoryBalanceAdjustment => 'Корекција стања';
+
+  @override
+  String get descriptionBalanceCorrection => 'Корекција биланса';
+
+  @override
+  String get descriptionOpeningBalance => 'Почетно стање';
+
+  @override
+  String get reviewStatsModeStatistics => 'Статистика';
+
+  @override
+  String get reviewStatsModeComparison => 'Поређење';
+
+  @override
+  String get statsUncategorized => 'Некатегорисано';
+
+  @override
+  String get statsNoCategories =>
+      'Нема категорија у изабраним периодима за поређење.';
+
+  @override
+  String get statsNoTransactions => 'Нема трансакција';
+
+  @override
+  String get statsSpendingInCategory => 'Потрошња у овој категорији';
+
+  @override
+  String get statsIncomeInCategory => 'Приход у овој категорији';
+
+  @override
+  String get statsDifference => 'Разлика (Б вс А): ';
+
+  @override
+  String get statsNoExpensesMonth => 'Нема расхода овог месеца';
+
+  @override
+  String get statsNoExpensesAll => 'Нема евидентираних расхода';
+
+  @override
+  String statsNoExpensesPeriod(String period) {
+    return 'Nema rashoda u poslednjih $period';
+  }
+
+  @override
+  String get statsTotalSpent => 'Укупно потрошено';
+
+  @override
+  String get statsNoExpensesThisPeriod => 'Нема расхода у овом периоду';
+
+  @override
+  String get statsNoIncomeMonth => 'Нема прихода овог месеца';
+
+  @override
+  String get statsNoIncomeAll => 'Нема евидентираних прихода';
+
+  @override
+  String statsNoIncomePeriod(String period) {
+    return 'Nema prihoda u poslednjih $period';
+  }
+
+  @override
+  String get statsTotalReceived => 'Укупно примљено';
+
+  @override
+  String get statsNoIncomeThisPeriod => 'Нема прихода у овом периоду';
+
+  @override
+  String get catSalary => 'Плата';
+
+  @override
+  String get catFreelance => 'Слободни посао';
+
+  @override
+  String get catConsulting => 'Консалтинг';
+
+  @override
+  String get catGift => 'Поклон';
+
+  @override
+  String get catRental => 'Изнајмљивање';
+
+  @override
+  String get catDividends => 'Дивиденде';
+
+  @override
+  String get catRefund => 'Поврат';
+
+  @override
+  String get catBonus => 'Бонус';
+
+  @override
+  String get catInterest => 'Камата';
+
+  @override
+  String get catSideHustle => 'Допунски посао';
+
+  @override
+  String get catSaleOfGoods => 'Продаја робе';
+
+  @override
+  String get catOther => 'Остало';
+
+  @override
+  String get catGroceries => 'Намирнице';
+
+  @override
+  String get catDining => 'Исхрана';
+
+  @override
+  String get catTransport => 'Превоз';
+
+  @override
+  String get catUtilities => 'Комуналије';
+
+  @override
+  String get catHousing => 'Становање';
+
+  @override
+  String get catHealthcare => 'Здравство';
+
+  @override
+  String get catEntertainment => 'Забава';
+
+  @override
+  String get catShopping => 'Куповина';
+
+  @override
+  String get catTravel => 'Путовања';
+
+  @override
+  String get catEducation => 'Образовање';
+
+  @override
+  String get catSubscriptions => 'Претплате';
+
+  @override
+  String get catInsurance => 'Осигурање';
+
+  @override
+  String get catFuel => 'Гориво';
+
+  @override
+  String get catGym => 'Теретана';
+
+  @override
+  String get catPets => 'Кућни љубимци';
+
+  @override
+  String get catKids => 'Деца';
+
+  @override
+  String get catCharity => 'Доброчинство';
+
+  @override
+  String get catCoffee => 'Кафа';
+
+  @override
+  String get catGifts => 'Поклони';
+
+  @override
+  String semanticsProjectionDate(String date) {
+    return 'Datum projekcije $date. Dvaput dodirnite za izbor datuma';
+  }
+
+  @override
+  String semanticsProjectedBalance(String amount) {
+    return 'Projektovano lično stanje $amount';
+  }
+
+  @override
+  String get statsEmptyTitle => 'Још нема трансакција';
+
+  @override
+  String get statsEmptySubtitle =>
+      'Нема података о потрошњи за изабрани период.';
+
+  @override
+  String get semanticsShowProjections => 'Прикажи пројектована стања по рачуну';
+
+  @override
+  String get semanticsHideProjections => 'Сакриј пројектована стања по рачуну';
+
+  @override
+  String get semanticsDateAllTime =>
+      'Датум: цело време — додирните за промену режима';
+
+  @override
+  String semanticsDateMode(String mode) {
+    return 'Datum: $mode — dodirnite za promenu režima';
+  }
+
+  @override
+  String get semanticsDateThisMonth =>
+      'Датум: овај месец — додирните за месец, недељу, годину или цело време';
+
+  @override
+  String get semanticsTxTypeCycle =>
+      'Тип трансакције: све, приход, расход, пренос';
+
+  @override
+  String get semanticsAccountFilter => 'Филтер рачуна';
+
+  @override
+  String get semanticsAlreadyFiltered => 'Већ филтрирано на овај рачун';
+
+  @override
+  String get semanticsCategoryFilter => 'Филтер категорије';
+
+  @override
+  String get semanticsSortToggle => 'Сортирање: најновије или најстарије прво';
+
+  @override
+  String get semanticsFiltersDisabled =>
+      'Филтери листе су онемогућени док гледате будући датум пројекције. Уклоните пројекције да користите филтере.';
+
+  @override
+  String get semanticsFiltersDisabledNeedAccount =>
+      'Филтери листе су онемогућени. Прво додајте налог.';
+
+  @override
+  String get semanticsFiltersDisabledNeedPlannedTransaction =>
+      'Филтери листе су онемогућени. Прво додајте планирану трансакцију.';
+
+  @override
+  String get semanticsFiltersDisabledNeedRecordedTransaction =>
+      'Филтери листе су онемогућени. Прво евидентирајте трансакцију.';
+
+  @override
+  String get semanticsReviewSectionChipsDisabledNeedAccount =>
+      'Контроле за одељак и валуту су онемогућене. Прво додајте налог.';
+
+  @override
+  String get semanticsPlanProjectionControlsDisabled =>
+      'Датум пројекције и детаљи стања су онемогућени. Прво додајте налог и планирану трансакцију.';
+
+  @override
+  String get semanticsReorderAccountHint =>
+      'Дуги притисак, затим превуците да промените редослед у овој групи';
+
+  @override
+  String get semanticsChartStyle => 'Стил графикона';
+
+  @override
+  String get semanticsChartStyleUnavailable =>
+      'Стил графикона (недоступно у режиму поређења)';
+
+  @override
+  String semanticsPeriod(String label) {
+    return 'Period: $label';
+  }
+
+  @override
+  String get trackSearchHint => 'Претрага описа, категорије, рачуна…';
+
+  @override
+  String get trackSearchClear => 'Обриши претрагу';
+
+  @override
+  String get settingsExchangeRatesTitle => 'Курсна листа';
+
+  @override
+  String settingsExchangeRatesUpdated(String time) {
+    return 'Posljednje ažuriranje: $time';
+  }
+
+  @override
+  String get settingsExchangeRatesNeverUpdated =>
+      'Користе се уграђени или кеширани курсеви — додирните за освјежавање';
+
+  @override
+  String get settingsExchangeRatesSource => 'ЕЦБ';
+
+  @override
+  String get settingsExchangeRatesUpdatedSnack => 'Курсна листа ажурирана';
+
+  @override
+  String get settingsExchangeRatesUpdateFailed =>
+      'Није могуће ажурирати курсну листу. Проверите везу.';
+
+  @override
+  String get settingsClearData => 'Брисање података';
+
+  @override
+  String get settingsClearDataSubtitle => 'Трајно уклони одабране податке';
+
+  @override
+  String get clearDataTitle => 'Брисање података';
+
+  @override
+  String get clearDataTransactions => 'Историја трансакција';
+
+  @override
+  String clearDataTransactionsSubtitle(int count) {
+    return '$count transakcija · stanja računa se postavljaju na nulu';
+  }
+
+  @override
+  String get clearDataPlanned => 'Планиране трансакције';
+
+  @override
+  String clearDataPlannedSubtitle(int count) {
+    return '$count planiranih stavki';
+  }
+
+  @override
+  String get clearDataAccounts => 'Рачуни';
+
+  @override
+  String clearDataAccountsSubtitle(int count) {
+    return '$count računa · briše i istoriju i plan';
+  }
+
+  @override
+  String get clearDataCategories => 'Категорије';
+
+  @override
+  String clearDataCategoriesSubtitle(int count) {
+    return '$count kategorija · zamenjuje se podrazumevanim';
+  }
+
+  @override
+  String get clearDataPreferences => 'Подешавања';
+
+  @override
+  String get clearDataPreferencesSubtitle =>
+      'Враћа валуту, тему и језик на подразумеване вредности';
+
+  @override
+  String get clearDataSecurity => 'Закључавање и ПИН';
+
+  @override
+  String get clearDataSecuritySubtitle => 'Искључује закључавање и брише ПИН';
+
+  @override
+  String get clearDataConfirmButton => 'Обриши одабрано';
+
+  @override
+  String get clearDataConfirmTitle => 'Ова радња се не може поништити';
+
+  @override
+  String get clearDataConfirmBody =>
+      'Одабрани подаци биће трајно обрисани. Направите бацкуп ако ће вам требати.';
+
+  @override
+  String get clearDataTypeConfirm => 'Упишите ДЕЛЕТЕ за потврду';
+
+  @override
+  String get clearDataTypeConfirmError =>
+      'Упишите ДЕЛЕТЕ тачно како бисте наставили';
+
+  @override
+  String get clearDataPinTitle => 'Потврдите ПИН-ом';
+
+  @override
+  String get clearDataPinBody => 'Унесите ПИН апликације за ауторизацију.';
+
+  @override
+  String get clearDataPinIncorrect => 'Погрешан ПИН';
+
+  @override
+  String get clearDataDone => 'Одабрани подаци су обрисани';
+
+  @override
+  String get autoBackupTitle => 'Аутоматска дневна резервна копија';
+
+  @override
+  String autoBackupLastAt(String date) {
+    return 'Poslednja kopija $date';
+  }
+
+  @override
+  String get autoBackupNeverRun => 'Још нема копије';
+
+  @override
+  String get autoBackupShareTitle => 'Сачувај у облак';
+
+  @override
+  String get autoBackupShareSubtitle =>
+      'Пошаљи последњу копију на иЦлоуд Дриве, Гоогле Дриве или другу апликацију';
+
+  @override
+  String get autoBackupCloudReminder =>
+      'Аутоматска копија је спремна — сачувајте је у облаку за заштиту ван уређаја';
+
+  @override
+  String get autoBackupCloudReminderAction => 'Подели';
+
+  @override
   String get persistenceErrorReloaded =>
       'Чување није успело. Подаци су поново учитани.';
 }
@@ -3184,6 +4824,31 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get clearDataDone => 'Odabrani podaci su obrisani';
+
+  @override
+  String get autoBackupTitle => 'Automatska dnevna rezervna kopija';
+
+  @override
+  String autoBackupLastAt(String date) {
+    return 'Poslednja kopija $date';
+  }
+
+  @override
+  String get autoBackupNeverRun => 'Još nema kopije';
+
+  @override
+  String get autoBackupShareTitle => 'Sačuvaj u oblak';
+
+  @override
+  String get autoBackupShareSubtitle =>
+      'Pošalji poslednju kopiju na iCloud Drive, Google Drive ili drugu aplikaciju';
+
+  @override
+  String get autoBackupCloudReminder =>
+      'Automatska kopija je spremna — sačuvajte je u oblaku za zaštitu van uređaja';
+
+  @override
+  String get autoBackupCloudReminderAction => 'Podeli';
 
   @override
   String get persistenceErrorReloaded =>

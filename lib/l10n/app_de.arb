@@ -1,0 +1,824 @@
+{
+  "@@locale": "de",
+  "appTitle": "Platrare",
+  "@appTitle": {
+    "description": "Application title"
+  },
+  "navPlan": "Planen",
+  "navTrack": "Schiene",
+  "navReview": "Rezension",
+  "cancel": "Stornieren",
+  "delete": "Löschen",
+  "close": "Schließen",
+  "add": "Hinzufügen",
+  "undo": "Rückgängig machen",
+  "confirm": "Bestätigen",
+  "restore": "Wiederherstellen",
+  "heroIn": "In",
+  "heroOut": "Aus",
+  "heroNet": "Netto",
+  "heroBalance": "Gleichgewicht",
+  "realBalance": "Echtes Gleichgewicht",
+  "heroResetButton": "Zurücksetzen",
+  "filterAll": "Alle",
+  "filterAllAccounts": "Alle Konten",
+  "filterAllCategories": "Alle Kategorien",
+  "txLabelIncome": "EINKOMMEN",
+  "txLabelExpense": "KOSTEN",
+  "txLabelInvoice": "RECHNUNG",
+  "txLabelBill": "RECHNUNG",
+  "txLabelAdvance": "VORAUSZAHLUNG",
+  "txLabelSettlement": "SIEDLUNG",
+  "txLabelLoan": "DARLEHEN",
+  "txLabelCollection": "SAMMLUNG",
+  "txLabelOffset": "OFFSET",
+  "txLabelTransfer": "ÜBERWEISEN",
+  "txLabelTransaction": "TRANSAKTION",
+  "repeatNone": "Keine Wiederholung",
+  "repeatDaily": "Täglich",
+  "repeatWeekly": "Wöchentlich",
+  "repeatMonthly": "Monatlich",
+  "repeatYearly": "Jährlich",
+  "repeatEveryLabel": "Jeder",
+  "repeatEveryDays": "{count, plural, =1{Tag} other{{count} Tage}}",
+  "@repeatEveryDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatEveryWeeks": "{count, plural, =1{Woche} other{{count} Wochen}}",
+  "@repeatEveryWeeks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatEveryMonths": "{count, plural, =1{Monat} other{{count} Monate}}",
+  "@repeatEveryMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatEveryYears": "{count, plural, =1{Jahr} other{{count} Jahre}}",
+  "@repeatEveryYears": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatEndLabel": "Endet",
+  "repeatEndNever": "Niemals",
+  "repeatEndOnDate": "Am Datum",
+  "repeatEndAfterCount": "Nach {count} Zeiten",
+  "@repeatEndAfterCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatEndPickDate": "Wählen Sie das Enddatum",
+  "repeatEndTimes": "mal",
+  "repeatSummaryEvery": "Jeden {count} {unit}",
+  "@repeatSummaryEvery": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "repeatSummaryUntil": "bis {date}",
+  "@repeatSummaryUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "repeatSummaryTimes": "{count} Mal",
+  "@repeatSummaryTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatSummaryTimesRemaining": "{remaining} von {total} übrig",
+  "@repeatSummaryTimesRemaining": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "detailRepeatEvery": "Wiederholen Sie alle",
+  "detailEnds": "Endet",
+  "detailEndsNever": "Niemals",
+  "detailEndsOnDate": "Auf {date}",
+  "@detailEndsOnDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "detailEndsAfterCount": "Nach {count} Zeiten",
+  "@detailEndsAfterCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "detailProgress": "Fortschritt",
+  "weekendNoChange": "Keine Änderung",
+  "weekendFriday": "Auf Freitag verschieben",
+  "weekendMonday": "Auf Montag verschieben",
+  "weekendQuestion": "Wenn der {day} auf ein Wochenende fällt?",
+  "@weekendQuestion": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "dateToday": "Heute",
+  "dateTomorrow": "Morgen",
+  "dateYesterday": "Gestern",
+  "statsAllTime": "Alle Zeiten",
+  "accountGroupPersonal": "Persönlich",
+  "accountGroupIndividual": "Person",
+  "accountGroupEntity": "Juristische Person",
+  "accountSectionIndividuals": "Einzelpersonen",
+  "accountSectionEntities": "Entitäten",
+  "emptyNoTransactionsYet": "Noch keine Transaktionen",
+  "emptyNoAccountsYet": "Noch keine Konten",
+  "emptyRecordFirstTransaction": "Tippen Sie auf die Schaltfläche unten, um Ihre erste Transaktion aufzuzeichnen.",
+  "emptyAddFirstAccountTx": "Fügen Sie Ihr erstes Konto hinzu, bevor Sie Transaktionen aufzeichnen.",
+  "emptyAddFirstAccountPlan": "Fügen Sie Ihr erstes Konto hinzu, bevor Sie Transaktionen planen.",
+  "emptyAddFirstAccountReview": "Fügen Sie Ihr erstes Konto hinzu, um mit der Verfolgung Ihrer Finanzen zu beginnen.",
+  "emptyAddTransaction": "Transaktion hinzufügen",
+  "emptyAddAccount": "Konto hinzufügen",
+  "reviewEmptyGroupPersonalTitle": "Noch keine persönlichen Konten",
+  "reviewEmptyGroupPersonalBody": "Persönliche Konten sind Ihre eigenen Geldbörsen und Bankkonten. Fügen Sie eine hinzu, um die täglichen Einnahmen und Ausgaben zu verfolgen.",
+  "reviewEmptyGroupIndividualsTitle": "Noch keine Einzelkonten",
+  "reviewEmptyGroupIndividualsBody": "Auf Einzelkonten wird das Geld bestimmter Personen erfasst – geteilte Kosten, Kredite oder Schuldscheine. Fügen Sie für jede Person, mit der Sie abrechnen, ein Konto hinzu.",
+  "reviewEmptyGroupEntitiesTitle": "Noch keine Unternehmenskonten",
+  "reviewEmptyGroupEntitiesBody": "Entitätskonten gelten für Unternehmen, Projekte oder Organisationen. Nutzen Sie sie, um den geschäftlichen Cashflow von Ihren persönlichen Finanzen zu trennen.",
+  "emptyNoTransactionsForFilters": "Keine Transaktionen für angewendete Filter",
+  "emptyNoTransactionsInHistory": "Keine Transaktionen in der Geschichte",
+  "emptyNoTransactionsForMonth": "Keine Transaktionen für {month}",
+  "@emptyNoTransactionsForMonth": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "emptyNoTransactionsForAccount": "Keine Transaktionen für dieses Konto",
+  "trackTransactionDeleted": "Transaktion gelöscht",
+  "trackDeleteTitle": "Transaktion löschen?",
+  "trackDeleteBody": "Dadurch werden die Änderungen des Kontostands rückgängig gemacht.",
+  "trackTransaction": "Transaktion",
+  "planConfirmTitle": "Transaktion bestätigen?",
+  "planConfirmBodyEarly": "Dieses Ereignis ist für {date} geplant. Es wird im Verlauf mit dem heutigen Datum ({todayDate}) aufgezeichnet. Das nächste Vorkommen bleibt auf {nextDate}.",
+  "@planConfirmBodyEarly": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "todayDate": {
+        "type": "String"
+      },
+      "nextDate": {
+        "type": "String"
+      }
+    }
+  },
+  "planConfirmBodyNormal": "Dadurch wird die Transaktion auf Ihren tatsächlichen Kontostand angewendet und in den Verlauf verschoben.",
+  "planTransactionConfirmed": "Transaktion bestätigt und angewendet",
+  "planTransactionRemoved": "Geplante Transaktion entfernt",
+  "planRepeatingTitle": "Wiederholte Transaktion",
+  "planRepeatingBody": "Überspringen Sie nur dieses Datum – die Serie wird mit dem nächsten Termin fortgesetzt – oder löschen Sie alle verbleibenden Termine aus Ihrem Plan.",
+  "planDeleteAll": "Alles löschen",
+  "planSkipThisOnly": "Überspringen Sie nur dies",
+  "planOccurrenceSkipped": "Dieser Vorfall wurde übersprungen – der nächste ist geplant",
+  "planNothingPlanned": "Im Moment ist nichts geplant",
+  "planPlanBody": "Planen Sie bevorstehende Transaktionen.",
+  "planAddPlan": "Plan hinzufügen",
+  "planNoPlannedForFilters": "Keine geplanten Transaktionen für angewendete Filter",
+  "planNoPlannedInMonth": "Keine geplanten Transaktionen in {month}",
+  "@planNoPlannedInMonth": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "planOverdue": "überfällig",
+  "planPlannedTransaction": "Geplante Transaktion",
+  "discardTitle": "Änderungen verwerfen?",
+  "discardBody": "Sie haben nicht gespeicherte Änderungen. Sie gehen verloren, wenn Sie jetzt gehen.",
+  "keepEditing": "Bearbeiten Sie weiter",
+  "discard": "Verwerfen",
+  "newTransactionTitle": "Neue Transaktion",
+  "editTransactionTitle": "Transaktion bearbeiten",
+  "transactionUpdated": "Transaktion aktualisiert",
+  "sectionAccounts": "Konten",
+  "labelFrom": "Aus",
+  "labelTo": "Zu",
+  "sectionCategory": "Kategorie",
+  "sectionAttachments": "Anhänge",
+  "labelNote": "Notiz",
+  "hintOptionalDescription": "Optionale Beschreibung",
+  "updateTransaction": "Transaktion aktualisieren",
+  "saveTransaction": "Transaktion speichern",
+  "selectAccount": "Konto auswählen",
+  "selectAccountTitle": "Wählen Sie Konto aus",
+  "noAccountsAvailable": "Keine Konten verfügbar",
+  "amountReceivedBy": "Von {name} ({currency}) erhaltener Betrag",
+  "@amountReceivedBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "amountReceivedHelper": "Geben Sie den genauen Betrag ein, den das Zielkonto erhält. Dadurch wird der tatsächlich verwendete Wechselkurs gesperrt.",
+  "attachTakePhoto": "Machen Sie ein Foto",
+  "attachTakePhotoSub": "Verwenden Sie die Kamera, um eine Quittung aufzunehmen",
+  "attachChooseGallery": "Wählen Sie aus der Galerie",
+  "attachChooseGallerySub": "Wählen Sie Fotos aus Ihrer Bibliothek aus",
+  "attachBrowseFiles": "Durchsuchen Sie Dateien",
+  "attachBrowseFilesSub": "Hängen Sie PDFs, Dokumente oder andere Dateien an",
+  "attachButton": "Befestigen",
+  "editPlanTitle": "Plan bearbeiten",
+  "planTransactionTitle": "Transaktion planen",
+  "tapToSelect": "Zum Auswählen tippen",
+  "updatePlan": "Update-Plan",
+  "addToPlan": "Zum Plan hinzufügen",
+  "labelRepeat": "Wiederholen",
+  "selectPlannedDate": "Geplantes Datum auswählen",
+  "balancesAsOfToday": "Stand heute",
+  "projectedBalancesForTomorrow": "Voraussichtliche Salden für morgen",
+  "projectedBalancesForDate": "Voraussichtliche Salden für {date}",
+  "@projectedBalancesForDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "destReceivesLabel": "{name} empfängt ({currency})",
+  "@destReceivesLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "destHelper": "Geschätzter Zielbetrag. Der genaue Preis wird bei der Bestätigung gesperrt.",
+  "descriptionOptional": "Beschreibung (optional)",
+  "detailTransactionTitle": "Transaktion",
+  "detailPlannedTitle": "Geplant",
+  "detailConfirmTransaction": "Bestätigen Sie die Transaktion",
+  "detailDate": "Datum",
+  "detailFrom": "Aus",
+  "detailTo": "Zu",
+  "detailCategory": "Kategorie",
+  "detailNote": "Notiz",
+  "detailDestinationAmount": "Zielbetrag",
+  "detailExchangeRate": "Wechselkurs",
+  "detailRepeats": "Wiederholt",
+  "detailDayOfMonth": "Tag des Monats",
+  "detailWeekends": "Wochenenden",
+  "detailAttachments": "Anhänge",
+  "detailFileCount": "{count, plural, =1{1 Datei} other{{count} Dateien}}",
+  "@detailFileCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsTitle": "Einstellungen",
+  "settingsSectionDisplay": "Anzeige",
+  "settingsSectionLanguage": "Sprache",
+  "settingsSectionCategories": "Kategorien",
+  "settingsSectionAccounts": "Konten",
+  "settingsSectionPreferences": "Präferenzen",
+  "settingsSectionManage": "Verwalten",
+  "settingsBaseCurrency": "Heimatwährung",
+  "settingsSecondaryCurrency": "Sekundärwährung",
+  "settingsCategories": "Kategorien",
+  "settingsCategoriesSubtitle": "{incomeCount} Einnahmen · {expenseCount} Ausgaben",
+  "@settingsCategoriesSubtitle": {
+    "placeholders": {
+      "incomeCount": {
+        "type": "int"
+      },
+      "expenseCount": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsArchivedAccounts": "Archivierte Konten",
+  "settingsArchivedAccountsSubtitleZero": "Im Moment keine – aus der Kontobearbeitung archivieren, wenn der Kontostand klar ist",
+  "settingsArchivedAccountsSubtitleCount": "{count} vor Überprüfung und Auswahl verborgen",
+  "@settingsArchivedAccountsSubtitleCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsSectionData": "Daten",
+  "settingsSectionPrivacy": "Um",
+  "settingsPrivacyPolicyTitle": "Datenschutzrichtlinie",
+  "settingsPrivacyPolicySubtitle": "Wie Platrare mit Ihren Daten umgeht.",
+  "settingsPrivacyFxDisclosure": "Wechselkurse: Die App ruft öffentliche Wechselkurse über das Internet ab. Ihre Konten und Transaktionen werden niemals gesendet.",
+  "settingsPrivacyOpenFailed": "Die Datenschutzrichtlinie konnte nicht geladen werden.",
+  "settingsPrivacyRetry": "Versuchen Sie es erneut",
+  "settingsSoftwareVersionTitle": "Softwareversion",
+  "settingsSoftwareVersionSubtitle": "Freigabe, Diagnose und Recht",
+  "aboutScreenTitle": "Um",
+  "aboutAppTagline": "Hauptbuch, Cashflow und Planung in einem Arbeitsbereich.",
+  "aboutDescriptionBody": "Platrare speichert Konten, Transaktionen und Pläne auf Ihrem Gerät. Exportieren Sie verschlüsselte Backups, wenn Sie an anderer Stelle eine Kopie benötigen. Für Wechselkurse werden ausschließlich öffentliche Marktdaten verwendet. Ihr Hauptbuch wurde nicht hochgeladen.",
+  "aboutVersionLabel": "Version",
+  "aboutBuildLabel": "Bauen",
+  "aboutCopySupportDetails": "Supportdetails kopieren",
+  "aboutOpenPrivacySubtitle": "Öffnet das vollständige In-App-Richtliniendokument.",
+  "aboutSupportBundleLocaleLabel": "Gebietsschema",
+  "settingsSupportInfoCopied": "In die Zwischenablage kopiert",
+  "settingsVerifyLedger": "Daten überprüfen",
+  "settingsVerifyLedgerSubtitle": "Überprüfen Sie, ob der Kontostand mit Ihrem Transaktionsverlauf übereinstimmt",
+  "settingsDataExportTitle": "Backup exportieren",
+  "settingsDataExportSubtitle": "Speichern Sie es als .zip oder verschlüsseltes .platrare mit allen Daten und Anhängen",
+  "settingsDataImportTitle": "Aus Backup wiederherstellen",
+  "settingsDataImportSubtitle": "Ersetzen Sie aktuelle Daten aus einem Platrare .zip- oder .platrare-Backup",
+  "backupExportDialogTitle": "Schützen Sie dieses Backup",
+  "backupExportDialogBody": "Ein sicheres Passwort wird empfohlen, insbesondere wenn Sie die Datei in der Cloud speichern. Für den Import benötigen Sie dasselbe Passwort.",
+  "backupExportPasswordLabel": "Passwort",
+  "backupExportPasswordConfirmLabel": "Passwort bestätigen",
+  "backupExportPasswordMismatch": "Passwörter stimmen nicht überein",
+  "backupExportPasswordEmpty": "Geben Sie ein passendes Passwort ein oder exportieren Sie unten ohne Verschlüsselung.",
+  "backupExportPasswordTooShort": "Das Passwort muss mindestens 8 Zeichen lang sein.",
+  "backupExportSaveToDevice": "Auf Gerät speichern",
+  "backupExportShareToCloud": "Teilen (iCloud, Drive…)",
+  "backupExportWithoutEncryption": "Export ohne Verschlüsselung",
+  "backupExportSkipWarningTitle": "Ohne Verschlüsselung exportieren?",
+  "backupExportSkipWarningBody": "Jeder, der Zugriff auf die Datei hat, kann Ihre Daten lesen. Verwenden Sie dies nur für lokale Kopien, die Sie kontrollieren.",
+  "backupExportSkipWarningConfirm": "Unverschlüsselt exportieren",
+  "backupImportPasswordTitle": "Verschlüsseltes Backup",
+  "backupImportPasswordBody": "Geben Sie das Passwort ein, das Sie beim Exportieren verwendet haben.",
+  "backupImportPasswordLabel": "Passwort",
+  "backupImportPreviewTitle": "Backup-Zusammenfassung",
+  "backupImportPreviewVersion": "App-Version: {version}",
+  "@backupImportPreviewVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "backupImportPreviewExported": "Exportiert: {date}",
+  "@backupImportPreviewExported": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "backupImportPreviewCounts": "{accounts} Konten · {transactions} Transaktionen · {planned} geplant · {attachments} Anhangsdateien · {income} Einkommenskategorien · {expense} Ausgabenkategorien",
+  "@backupImportPreviewCounts": {
+    "placeholders": {
+      "accounts": {
+        "type": "int"
+      },
+      "transactions": {
+        "type": "int"
+      },
+      "planned": {
+        "type": "int"
+      },
+      "attachments": {
+        "type": "int"
+      },
+      "income": {
+        "type": "int"
+      },
+      "expense": {
+        "type": "int"
+      }
+    }
+  },
+  "backupImportPreviewContinue": "Weitermachen",
+  "settingsBackupWrongPassword": "Falsches Passwort",
+  "settingsBackupChecksumMismatch": "Die Integritätsprüfung der Sicherung ist fehlgeschlagen",
+  "settingsBackupCorruptFile": "Ungültige oder beschädigte Sicherungsdatei",
+  "settingsBackupUnsupportedVersion": "Für die Sicherung ist eine neuere App-Version erforderlich",
+  "settingsDataImportConfirmTitle": "Aktuelle Daten ersetzen?",
+  "settingsDataImportConfirmBody": "Dadurch werden Ihre aktuellen Konten, Transaktionen, geplanten Transaktionen, Kategorien und importierten Anhänge durch den Inhalt des ausgewählten Backups ersetzt. Diese Aktion kann nicht rückgängig gemacht werden.",
+  "settingsDataImportConfirmAction": "Daten ersetzen",
+  "settingsDataImportDone": "Daten erfolgreich wiederhergestellt",
+  "settingsDataImportInvalidFile": "Diese Datei ist kein gültiges Platrare-Backup",
+  "settingsDataImportFailed": "Der Import ist fehlgeschlagen",
+  "settingsDataExportDoneTitle": "Backup exportiert",
+  "settingsDataExportDoneBody": "Backup gespeichert unter:\n{path}",
+  "@settingsDataExportDoneBody": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsDataOpenExportFile": "Datei öffnen",
+  "settingsDataExportFailed": "Der Export ist fehlgeschlagen",
+  "ledgerVerifyDialogTitle": "Überprüfung des Hauptbuchs",
+  "ledgerVerifyAllMatch": "Alle Konten stimmen überein.",
+  "ledgerVerifyMismatchesTitle": "Nichtübereinstimmungen",
+  "ledgerVerifyMismatchDetails": "{accountName}\nGespeichert: {stored}\nWiederholung: {replayed}\nUnterschied: {diff}",
+  "@ledgerVerifyMismatchDetails": {
+    "placeholders": {
+      "accountName": {
+        "type": "String"
+      },
+      "stored": {
+        "type": "String"
+      },
+      "replayed": {
+        "type": "String"
+      },
+      "diff": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsLanguage": "App-Sprache",
+  "settingsLanguageSubtitleSystem": "Folgende Systemeinstellungen",
+  "settingsLanguageSubtitleEnglish": "Englisch",
+  "settingsLanguageSubtitleSerbianLatin": "Serbisch (Latein)",
+  "settingsLanguagePickerTitle": "App-Sprache",
+  "settingsLanguageOptionSystem": "Systemstandard",
+  "settingsLanguageOptionEnglish": "Englisch",
+  "settingsLanguageOptionSerbianLatin": "Serbisch (Latein)",
+  "settingsSectionAppearance": "Aussehen",
+  "settingsSectionSecurity": "Sicherheit",
+  "settingsSecurityEnableLock": "App beim Öffnen sperren",
+  "settingsSecurityEnableLockSubtitle": "Beim Öffnen der App ist eine biometrische Entsperrung oder eine PIN erforderlich",
+  "settingsSecuritySetPin": "PIN festlegen",
+  "settingsSecurityChangePin": "PIN ändern",
+  "settingsSecurityPinSubtitle": "Verwenden Sie eine PIN als Ersatz, wenn biometrische Daten nicht verfügbar sind",
+  "settingsSecurityRemovePin": "PIN entfernen",
+  "securitySetPinTitle": "App-PIN festlegen",
+  "securityPinLabel": "PIN-Code",
+  "securityConfirmPinLabel": "PIN-Code bestätigen",
+  "securityPinMustBe4Digits": "Die PIN muss mindestens 4 Ziffern haben",
+  "securityPinMismatch": "PIN-Codes stimmen nicht überein",
+  "securityRemovePinTitle": "PIN entfernen?",
+  "securityRemovePinBody": "Die biometrische Entsperrung kann weiterhin verwendet werden, sofern verfügbar.",
+  "securityUnlockTitle": "App gesperrt",
+  "securityUnlockSubtitle": "Entsperren mit Face ID, Fingerabdruck oder PIN.",
+  "securityUnlockWithPin": "Mit PIN entsperren",
+  "securityTryBiometric": "Versuchen Sie es mit biometrischer Entsperrung",
+  "securityPinIncorrect": "Falsche PIN, versuchen Sie es erneut",
+  "securityBiometricReason": "Authentifizieren Sie sich, um Ihre App zu öffnen",
+  "settingsTheme": "Thema",
+  "settingsThemeSubtitleSystem": "Folgende Systemeinstellungen",
+  "settingsThemeSubtitleLight": "Licht",
+  "settingsThemeSubtitleDark": "Dunkel",
+  "settingsThemePickerTitle": "Thema",
+  "settingsThemeOptionSystem": "Systemstandard",
+  "settingsThemeOptionLight": "Licht",
+  "settingsThemeOptionDark": "Dunkel",
+  "archivedAccountsTitle": "Archivierte Konten",
+  "archivedAccountsEmptyTitle": "Keine archivierten Konten",
+  "archivedAccountsEmptyBody": "Der Buchsaldo und der Überziehungskredit müssen Null sein. Archivieren von Kontooptionen in Review.",
+  "categoriesTitle": "Kategorien",
+  "newCategoryTitle": "Neue Kategorie",
+  "categoryNameLabel": "Kategoriename",
+  "deleteCategoryTitle": "Kategorie löschen?",
+  "deleteCategoryBody": "„{category}“ wird aus der Liste entfernt.",
+  "@deleteCategoryBody": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryIncome": "Einkommen",
+  "categoryExpense": "Kosten",
+  "categoryAdd": "Hinzufügen",
+  "searchCurrencies": "Währungen suchen…",
+  "period1M": "1M",
+  "period3M": "3M",
+  "period6M": "6M",
+  "period1Y": "1J",
+  "periodAll": "ALLE",
+  "categoryLabel": "Kategorie",
+  "categoriesLabel": "Kategorien",
+  "transactionSavedMessage": "{type} gespeichert • {amount}",
+  "@transactionSavedMessage": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "tooltipSettings": "Einstellungen",
+  "tooltipAddAccount": "Konto hinzufügen",
+  "tooltipRemoveAccount": "Konto entfernen",
+  "accountNameTaken": "Sie haben bereits ein Konto mit diesem Namen und dieser Kennung (aktiv oder archiviert). Ändern Sie den Namen oder die Kennung.",
+  "groupDescPersonal": "Ihre eigenen Geldbörsen und Bankkonten",
+  "groupDescIndividuals": "Familie, Freunde, Einzelpersonen",
+  "groupDescEntities": "Körperschaften, Versorgungsunternehmen, Organisationen",
+  "cannotArchiveTitle": "Kann noch nicht archiviert werden",
+  "cannotArchiveBody": "Das Archiv ist nur verfügbar, wenn sowohl der Buchsaldo als auch das Überziehungslimit effektiv Null sind.",
+  "cannotArchiveBodyAdjust": "Das Archiv ist nur verfügbar, wenn sowohl der Buchsaldo als auch das Überziehungslimit effektiv Null sind. Passen Sie zuerst das Hauptbuch oder die Einrichtung an.",
+  "archiveAccountTitle": "Archivkonto?",
+  "archiveWithPlannedBody": "{count, plural, =1{1 geplante Transaktion verweist auf dieses Konto.} other{{count} geplante Transaktionen verweisen auf dieses Konto.}} Entfernen Sie sie, damit Ihr Plan mit einem archivierten Konto konsistent bleibt.",
+  "@archiveWithPlannedBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "removeAndArchive": "Geplant entfernen und archivieren",
+  "archiveBody": "Das Konto wird für die Überprüfungs-, Nachverfolgungs- und Planauswahl ausgeblendet. Sie können es über die Einstellungen wiederherstellen.",
+  "archiveAction": "Archiv",
+  "archiveInstead": "Stattdessen archivieren",
+  "cannotDeleteTitle": "Konto kann nicht gelöscht werden",
+  "cannotDeleteBodyShort": "Dieses Konto wird in Ihrem Trackverlauf angezeigt. Entfernen Sie diese Transaktionen zuerst oder weisen Sie sie neu zu oder archivieren Sie das Konto, wenn der Saldo ausgeglichen ist.",
+  "cannotDeleteBodyHistory": "Dieses Konto wird in Ihrem Trackverlauf angezeigt. Durch das Löschen würde dieser Verlauf zerstört. Entfernen Sie zuerst diese Transaktionen oder weisen Sie sie neu zu.",
+  "cannotDeleteBodySuggestArchive": "Dieses Konto wird in Ihrem Trackverlauf angezeigt und kann daher nicht gelöscht werden. Sie können es stattdessen archivieren, wenn der Buchsaldo und der Überziehungskredit gelöscht werden – es wird aus den Listen ausgeblendet, der Verlauf bleibt jedoch erhalten.",
+  "deleteAccountTitle": "Konto löschen?",
+  "deleteAccountBodyPermanent": "Dieses Konto wird dauerhaft entfernt.",
+  "deleteWithPlannedBody": "{count, plural, =1{1 geplante Transaktion verweist auf dieses Konto und wird ebenfalls gelöscht.} other{{count} geplante Transaktionen verweisen auf dieses Konto und werden ebenfalls gelöscht.}}",
+  "@deleteWithPlannedBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteAllAndDelete": "Alles löschen",
+  "editAccountTitle": "Konto bearbeiten",
+  "newAccountTitle": "Neues Konto",
+  "labelAccountName": "Kontoname",
+  "labelAccountIdentifier": "Bezeichner (optional)",
+  "accountAppearanceSection": "Symbol und Farbe",
+  "accountPickIcon": "Symbol auswählen",
+  "accountPickColor": "Wählen Sie Farbe",
+  "accountIconSheetTitle": "Kontosymbol",
+  "accountColorSheetTitle": "Kontofarbe",
+  "accountUseInitialLetter": "Anfangsbuchstabe",
+  "accountUseDefaultColor": "Match-Gruppe",
+  "labelRealBalance": "Echtes Gleichgewicht",
+  "labelOverdraftLimit": "Überziehungs-/Vorschusslimit",
+  "labelCurrency": "Währung",
+  "saveChanges": "Änderungen speichern",
+  "addAccountAction": "Konto hinzufügen",
+  "removeAccountSheetTitle": "Konto entfernen",
+  "deletePermanently": "Dauerhaft löschen",
+  "deletePermanentlySubtitle": "Nur möglich, wenn dieses Konto nicht in Track verwendet wird. Geplante Elemente können im Rahmen des Löschvorgangs entfernt werden.",
+  "archiveOptionSubtitle": "Vor Rezension und Auswahl verbergen. Über die Einstellungen jederzeit wiederherstellbar. Erfordert einen Nullsaldo und einen Überziehungskredit.",
+  "archivedBannerText": "Dieses Konto ist archiviert. Es verbleibt in Ihren Daten, ist jedoch vor Listen und Auswahlfunktionen verborgen.",
+  "balanceAdjustedTitle": "Balance im Track angepasst",
+  "balanceAdjustedBody": "Der tatsächliche Kontostand wurde von {previous} auf {current} {symbol} aktualisiert.\n\nUm das Hauptbuch konsistent zu halten, wurde in „Track“ (Verlauf) eine Saldoanpassungstransaktion erstellt.\n\n• Der tatsächliche Kontostand spiegelt den tatsächlichen Betrag auf diesem Konto wider.\n• Überprüfen Sie den Verlauf auf den Anpassungseintrag.",
+  "@balanceAdjustedBody": {
+    "placeholders": {
+      "previous": {
+        "type": "String"
+      },
+      "current": {
+        "type": "String"
+      },
+      "symbol": {
+        "type": "String"
+      }
+    }
+  },
+  "ok": "OK",
+  "categoryBalanceAdjustment": "Balance-Anpassung",
+  "descriptionBalanceCorrection": "Balance-Korrektur",
+  "descriptionOpeningBalance": "Eröffnungsbilanz",
+  "reviewStatsModeStatistics": "Statistiken",
+  "reviewStatsModeComparison": "Vergleich",
+  "statsUncategorized": "Nicht kategorisiert",
+  "statsNoCategories": "Keine Kategorien in den ausgewählten Zeiträumen zum Vergleich.",
+  "statsNoTransactions": "Keine Transaktionen",
+  "statsSpendingInCategory": "Ausgaben in dieser Kategorie",
+  "statsIncomeInCategory": "Einkommen in dieser Kategorie",
+  "statsDifference": "Unterschied (B vs. A):",
+  "statsNoExpensesMonth": "Keine Ausgaben in diesem Monat",
+  "statsNoExpensesAll": "Keine Ausgaben erfasst",
+  "statsNoExpensesPeriod": "Keine Ausgaben im letzten {period}",
+  "@statsNoExpensesPeriod": {
+    "placeholders": {
+      "period": {
+        "type": "String"
+      }
+    }
+  },
+  "statsTotalSpent": "Gesamtausgaben",
+  "statsNoExpensesThisPeriod": "Keine Ausgaben in diesem Zeitraum",
+  "statsNoIncomeMonth": "Kein Einkommen in diesem Monat",
+  "statsNoIncomeAll": "Kein Einkommen erfasst",
+  "statsNoIncomePeriod": "Kein Einkommen im letzten {period}",
+  "@statsNoIncomePeriod": {
+    "placeholders": {
+      "period": {
+        "type": "String"
+      }
+    }
+  },
+  "statsTotalReceived": "Insgesamt erhalten",
+  "statsNoIncomeThisPeriod": "Kein Einkommen in diesem Zeitraum",
+  "catSalary": "Gehalt",
+  "catFreelance": "Freiberuflich",
+  "catConsulting": "Beratung",
+  "catGift": "Geschenk",
+  "catRental": "Vermietung",
+  "catDividends": "Dividenden",
+  "catRefund": "Erstattung",
+  "catBonus": "Bonus",
+  "catInterest": "Interesse",
+  "catSideHustle": "Nebenbeschäftigung",
+  "catSaleOfGoods": "Verkauf von Waren",
+  "catOther": "Andere",
+  "catGroceries": "Lebensmittel",
+  "catDining": "Essen",
+  "catTransport": "Transport",
+  "catUtilities": "Dienstprogramme",
+  "catHousing": "Gehäuse",
+  "catHealthcare": "Gesundheitspflege",
+  "catEntertainment": "Unterhaltung",
+  "catShopping": "Einkaufen",
+  "catTravel": "Reisen",
+  "catEducation": "Ausbildung",
+  "catSubscriptions": "Abonnements",
+  "catInsurance": "Versicherung",
+  "catFuel": "Kraftstoff",
+  "catGym": "Fitnessstudio",
+  "catPets": "Haustiere",
+  "catKids": "Kinder",
+  "catCharity": "Wohltätigkeit",
+  "catCoffee": "Kaffee",
+  "catGifts": "Geschenke",
+  "semanticsProjectionDate": "Projektionsdatum {date}. Doppeltippen, um das Datum auszuwählen",
+  "@semanticsProjectionDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "semanticsProjectedBalance": "Voraussichtlicher persönlicher Kontostand {amount}",
+  "@semanticsProjectedBalance": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "statsEmptyTitle": "Noch keine Transaktionen",
+  "statsEmptySubtitle": "Keine Ausgabendaten für den ausgewählten Bereich.",
+  "semanticsShowProjections": "Zeigen Sie die prognostizierten Salden nach Konto an",
+  "semanticsHideProjections": "Verstecken Sie die prognostizierten Salden nach Konto",
+  "semanticsDateAllTime": "Datum: Gesamtzeit – tippen Sie, um den Modus zu ändern",
+  "semanticsDateMode": "Datum: {mode} – tippen Sie, um den Modus zu ändern",
+  "@semanticsDateMode": {
+    "placeholders": {
+      "mode": {
+        "type": "String"
+      }
+    }
+  },
+  "semanticsDateThisMonth": "Datum: diesen Monat – tippen Sie für Monat, Woche, Jahr oder alle Zeiten",
+  "semanticsTxTypeCycle": "Transaktionstyp: Alles durchlaufen, Einnahmen, Ausgaben, Überweisung",
+  "semanticsAccountFilter": "Kontofilter",
+  "semanticsAlreadyFiltered": "Bereits auf dieses Konto gefiltert",
+  "semanticsCategoryFilter": "Kategoriefilter",
+  "semanticsSortToggle": "Sortieren: Neuestes oder Ältestes zuerst umschalten",
+  "semanticsFiltersDisabled": "Listenfilter deaktiviert, während ein zukünftiges Projektionsdatum angezeigt wird. Löschen Sie Projektionen, um Filter zu verwenden.",
+  "semanticsFiltersDisabledNeedAccount": "Listenfilter deaktiviert. Fügen Sie zuerst ein Konto hinzu.",
+  "semanticsFiltersDisabledNeedPlannedTransaction": "Listenfilter deaktiviert. Fügen Sie zunächst eine geplante Transaktion hinzu.",
+  "semanticsFiltersDisabledNeedRecordedTransaction": "Listenfilter deaktiviert. Erfassen Sie zunächst eine Transaktion.",
+  "semanticsReviewSectionChipsDisabledNeedAccount": "Abschnitts- und Währungskontrollen deaktiviert. Fügen Sie zuerst ein Konto hinzu.",
+  "semanticsPlanProjectionControlsDisabled": "Projektionsdatum und Saldoaufschlüsselung deaktiviert. Fügen Sie zunächst ein Konto und eine geplante Transaktion hinzu.",
+  "semanticsReorderAccountHint": "Drücken Sie lange und ziehen Sie dann, um die Reihenfolge innerhalb dieser Gruppe neu zu bestimmen",
+  "semanticsChartStyle": "Diagrammstil",
+  "semanticsChartStyleUnavailable": "Diagrammstil (im Vergleichsmodus nicht verfügbar)",
+  "semanticsPeriod": "Zeitraum: {label}",
+  "@semanticsPeriod": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "trackSearchHint": "Suchbeschreibung, Kategorie, Konto…",
+  "trackSearchClear": "Suche löschen",
+  "settingsExchangeRatesTitle": "Wechselkurse",
+  "settingsExchangeRatesUpdated": "Letzte Aktualisierung: {time}",
+  "@settingsExchangeRatesUpdated": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsExchangeRatesNeverUpdated": "Offline- oder Pakettarife verwenden – zum Aktualisieren tippen",
+  "settingsExchangeRatesSource": "EZB",
+  "settingsExchangeRatesUpdatedSnack": "Wechselkurse aktualisiert",
+  "settingsExchangeRatesUpdateFailed": "Wechselkurse konnten nicht aktualisiert werden. Überprüfen Sie Ihre Verbindung.",
+  "settingsClearData": "Daten löschen",
+  "settingsClearDataSubtitle": "Ausgewählte Daten dauerhaft entfernen",
+  "clearDataTitle": "Daten löschen",
+  "clearDataTransactions": "Transaktionsverlauf",
+  "clearDataTransactionsSubtitle": "{count} Transaktionen · Kontostände auf Null zurückgesetzt",
+  "@clearDataTransactionsSubtitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clearDataPlanned": "Geplante Transaktionen",
+  "clearDataPlannedSubtitle": "{count} geplante Artikel",
+  "@clearDataPlannedSubtitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clearDataAccounts": "Konten",
+  "clearDataAccountsSubtitle": "{count}-Konten · Löscht auch den Verlauf und den Plan",
+  "@clearDataAccountsSubtitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clearDataCategories": "Kategorien",
+  "clearDataCategoriesSubtitle": "{count} Kategorien · durch Standardwerte ersetzt",
+  "@clearDataCategoriesSubtitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clearDataPreferences": "Präferenzen",
+  "clearDataPreferencesSubtitle": "Setzen Sie Währung, Thema und Sprache auf die Standardeinstellungen zurück",
+  "clearDataSecurity": "App-Sperre und PIN",
+  "clearDataSecuritySubtitle": "Deaktivieren Sie die App-Sperre und entfernen Sie die PIN",
+  "clearDataConfirmButton": "Ausgewählte löschen",
+  "clearDataConfirmTitle": "Dies kann nicht rückgängig gemacht werden",
+  "clearDataConfirmBody": "Die ausgewählten Daten werden dauerhaft gelöscht. Exportieren Sie zunächst ein Backup, falls Sie es später benötigen.",
+  "clearDataTypeConfirm": "Geben Sie zur Bestätigung DELETE ein",
+  "clearDataTypeConfirmError": "Geben Sie genau DELETE ein, um fortzufahren",
+  "clearDataPinTitle": "Mit PIN bestätigen",
+  "clearDataPinBody": "Geben Sie Ihre App-PIN ein, um diese Aktion zu autorisieren.",
+  "clearDataPinIncorrect": "Falsche PIN",
+  "clearDataDone": "Ausgewählte Daten gelöscht",
+  "autoBackupTitle": "Automatische tägliche Sicherung",
+  "autoBackupLastAt": "Zuletzt gesichert {date}",
+  "@autoBackupLastAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "autoBackupNeverRun": "Noch kein Backup",
+  "autoBackupShareTitle": "In der Cloud speichern",
+  "autoBackupShareSubtitle": "Laden Sie das neueste Backup auf iCloud Drive, Google Drive oder eine beliebige App hoch",
+  "autoBackupCloudReminder": "Bereit für automatisches Backup – speichern Sie es in der Cloud, um es auch außerhalb des Geräts zu schützen",
+  "autoBackupCloudReminderAction": "Aktie",
+  "persistenceErrorReloaded": "Änderungen konnten nicht gespeichert werden. Daten wurden aus dem Speicher neu geladen."
+}
