@@ -14,24 +14,86 @@ import '../../utils/persistence_guard.dart';
 import '../../widgets/account_avatar.dart';
 
 // ─── Account icon / color presets ─────────────────────────────────────────────
+// Curated for personal finance, household, business, investing, and major spend.
 
 const List<IconData> _kAccountPickIcons = <IconData>[
+  // People & relationships
+  Icons.person_rounded,
+  Icons.people_alt_rounded,
+  Icons.groups_rounded,
+  Icons.diversity_3_rounded,
+  Icons.child_care_rounded,
+  Icons.elderly_rounded,
+  Icons.badge_rounded,
+  Icons.support_agent_rounded,
+  // Cash, cards & everyday banking
   Icons.account_balance_wallet_rounded,
-  Icons.credit_card_rounded,
-  Icons.savings_outlined,
   Icons.account_balance_rounded,
+  Icons.savings_outlined,
+  Icons.savings_rounded,
+  Icons.credit_card_rounded,
+  Icons.credit_score_rounded,
   Icons.payments_rounded,
-  Icons.smartphone_rounded,
+  Icons.point_of_sale_rounded,
   Icons.local_atm_rounded,
+  Icons.smartphone_rounded,
+  Icons.attach_money_rounded,
+  Icons.paid_rounded,
   Icons.currency_exchange_rounded,
-  Icons.storefront_outlined,
+  Icons.currency_bitcoin_rounded,
+  // Trust & access
+  Icons.shield_rounded,
+  Icons.gpp_good_rounded,
+  Icons.lock_rounded,
+  Icons.vpn_key_rounded,
+  // Work & business
+  Icons.business_rounded,
+  Icons.business_center_rounded,
   Icons.work_outline_rounded,
+  Icons.cases_rounded,
+  Icons.handshake_rounded,
+  Icons.laptop_rounded,
+  Icons.storefront_outlined,
+  // Markets & analytics
+  Icons.show_chart_rounded,
+  Icons.candlestick_chart_rounded,
+  Icons.bar_chart_rounded,
+  Icons.pie_chart_rounded,
+  Icons.stacked_bar_chart_rounded,
+  Icons.trending_up_rounded,
+  Icons.trending_down_rounded,
+  // Invoices, tax & paperwork
+  Icons.receipt_long_rounded,
+  Icons.description_rounded,
+  Icons.request_quote_rounded,
+  Icons.calculate_rounded,
+  Icons.percent_rounded,
+  // Property & mobility
+  Icons.apartment_rounded,
+  Icons.holiday_village_rounded,
   Icons.home_outlined,
-  Icons.school_outlined,
+  Icons.real_estate_agent_rounded,
   Icons.flight_takeoff_rounded,
+  Icons.train_rounded,
   Icons.directions_car_filled_rounded,
+  Icons.electric_car_rounded,
+  Icons.directions_boat_rounded,
+  Icons.two_wheeler_rounded,
+  // Living, health & discretionary
   Icons.shopping_bag_outlined,
   Icons.restaurant_rounded,
+  Icons.local_hospital_rounded,
+  Icons.school_outlined,
+  Icons.fitness_center_rounded,
+  Icons.movie_rounded,
+  Icons.pets_rounded,
+  Icons.volunteer_activism_rounded,
+  // Utilities & transfers
+  Icons.electric_bolt_rounded,
+  Icons.water_drop_rounded,
+  Icons.wifi_rounded,
+  Icons.local_gas_station_rounded,
+  Icons.swap_horiz_rounded,
 ];
 
 const List<int> _kAccountPickColorArgb = <int>[
@@ -83,15 +145,16 @@ Future<int?> _pickAccountIconCodePoint(
               onTap: () => Navigator.pop(ctx, 0),
             ),
             const Divider(height: 1),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            SizedBox(
+              height: (MediaQuery.of(ctx).size.height * 0.42).clamp(260, 420),
               child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                physics: const AlwaysScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 5,
                   mainAxisSpacing: 8,
                   crossAxisSpacing: 8,
+                  childAspectRatio: 1,
                 ),
                 itemCount: _kAccountPickIcons.length,
                 itemBuilder: (_, i) {
