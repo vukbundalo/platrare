@@ -112,8 +112,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  /// 0 = Plan, 1 = Track, 2 = Review — default Track on cold start.
-  int _currentIndex = 1;
+  /// 0 = Plan, 1 = Track, 2 = Review — default Plan on cold start.
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
