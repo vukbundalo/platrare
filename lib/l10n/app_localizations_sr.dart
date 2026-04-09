@@ -1017,7 +1017,9 @@ class AppLocalizationsSr extends AppLocalizations {
   String get tooltipAddAccount => 'Dodaj račun';
 
   @override
-  String get reviewUseBaseCurrency => 'Koristi osnovnu valutu';
+  String reviewReturnToBaseCurrency(String currency) {
+    return 'Nazad na $currency';
+  }
 
   @override
   String get tooltipRemoveAccount => 'Ukloni račun';
@@ -2477,7 +2479,9 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   String get tooltipAddAccount => 'Dodaj račun';
 
   @override
-  String get reviewUseBaseCurrency => 'Koristi osnovnu valutu';
+  String reviewReturnToBaseCurrency(String currency) {
+    return 'Nazad na $currency';
+  }
 
   @override
   String get tooltipRemoveAccount => 'Ukloni račun';

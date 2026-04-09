@@ -1011,7 +1011,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tooltipAddAccount => 'Add account';
 
   @override
-  String get reviewUseBaseCurrency => 'Use base currency';
+  String reviewReturnToBaseCurrency(String currency) {
+    return 'Return to $currency';
+  }
 
   @override
   String get tooltipRemoveAccount => 'Remove account';

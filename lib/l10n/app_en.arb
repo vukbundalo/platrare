@@ -427,7 +427,12 @@
 
   "tooltipSettings": "Settings",
   "tooltipAddAccount": "Add account",
-  "reviewUseBaseCurrency": "Use base currency",
+  "reviewReturnToBaseCurrency": "Return to {currency}",
+  "@reviewReturnToBaseCurrency": {
+    "placeholders": {
+      "currency": {"type": "String"}
+    }
+  },
   "tooltipRemoveAccount": "Remove account",
 
   "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
