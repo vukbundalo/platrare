@@ -47,3 +47,19 @@ Future<bool> verifySecurityPin(String pin) async {
   if (storedHash == null || storedHash.isEmpty) return false;
   return _hashPin(pin) == storedHash;
 }
+
+/// Returns the raw security backup payload for inclusion in a backup file.
+Future<({bool enabled, String? pinHash})> getSecurityBackup() async {
+  final p = await SharedPreferences.getInstance();
+  return (
+    enabled: p.getBool(_kSecurityEnabledKey) ?? false,
+    pinHash: p.getString(_kSecurityPinHashKey),
+  );
+}
+
+/// Restores a previously backed-up PIN hash directly, bypassing re-hashing.
+/// Used only during backup import — never for user PIN entry.
+Future<void> restoreSecurityPinHash(String hash) async {
+  final p = await SharedPreferences.getInstance();
+  await p.setString(_kSecurityPinHashKey, hash);
+}

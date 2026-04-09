@@ -707,6 +707,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Enter a matching password, or export without encryption below.';
 
   @override
+  String get backupExportPasswordTooShort =>
+      'Password must be at least 8 characters.';
+
+  @override
+  String get backupExportSaveToDevice => 'Save to device';
+
+  @override
+  String get backupExportShareToCloud => 'Share (iCloud, Drive…)';
+
+  @override
   String get backupExportWithoutEncryption => 'Export without encryption';
 
   @override

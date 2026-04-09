@@ -15,6 +15,8 @@ class LedgerColors extends ThemeExtension<LedgerColors> {
     required this.loan,
     required this.invoice,
     required this.bill,
+    required this.pending,
+    required this.warning,
   });
 
   final Color positive;
@@ -25,9 +27,19 @@ class LedgerColors extends ThemeExtension<LedgerColors> {
   final Color invoice;
   final Color bill;
 
+  /// Security/state semantic colors.
+  final Color pending;
+  final Color warning;
+
   /// Gain/loss hues: deep emerald / brick red (institutional, not neon).
   static const Color kPositive = Color(0xFF047857);
   static const Color kNegative = Color(0xFFB91C1C);
+
+  /// Pending: amber — awaiting confirmation or settlement.
+  static const Color kPending = Color(0xFFB45309);
+
+  /// Warning: softer amber — advisory, not error severity.
+  static const Color kWarning = Color(0xFFD97706);
 
   /// Harmonized categorical colors for donuts / charts (scheme-anchored).
   static List<Color> chartPalette(ColorScheme scheme) {
@@ -67,6 +79,8 @@ class LedgerColors extends ThemeExtension<LedgerColors> {
       loan: scheme.secondary,
       invoice: invoiceTint,
       bill: billTint,
+      pending: kPending,
+      warning: kWarning,
     );
   }
 
@@ -79,6 +93,8 @@ class LedgerColors extends ThemeExtension<LedgerColors> {
     Color? loan,
     Color? invoice,
     Color? bill,
+    Color? pending,
+    Color? warning,
   }) {
     return LedgerColors(
       positive: positive ?? this.positive,
@@ -88,6 +104,8 @@ class LedgerColors extends ThemeExtension<LedgerColors> {
       loan: loan ?? this.loan,
       invoice: invoice ?? this.invoice,
       bill: bill ?? this.bill,
+      pending: pending ?? this.pending,
+      warning: warning ?? this.warning,
     );
   }
 
@@ -102,6 +120,8 @@ class LedgerColors extends ThemeExtension<LedgerColors> {
       loan: Color.lerp(loan, other.loan, t)!,
       invoice: Color.lerp(invoice, other.invoice, t)!,
       bill: Color.lerp(bill, other.bill, t)!,
+      pending: Color.lerp(pending, other.pending, t)!,
+      warning: Color.lerp(warning, other.warning, t)!,
     );
   }
 }

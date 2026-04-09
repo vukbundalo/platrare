@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:archive/archive.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -23,6 +24,7 @@ import 'backup/backup_preview.dart';
 import 'backup/backup_zip.dart';
 import 'currency_prefs.dart';
 import 'local/platrare_database.dart';
+import 'security_prefs.dart';
 import 'user_settings.dart' as settings;
 
 export 'backup/backup_exceptions.dart';
@@ -41,6 +43,8 @@ class BackupData {
   final List<String> expenseCategories;
   final String baseCurrency;
   final String secondaryCurrency;
+  final bool securityEnabled;
+  final String? pinHash;
 
   const BackupData({
     required this.accounts,
@@ -50,6 +54,8 @@ class BackupData {
     required this.expenseCategories,
     required this.baseCurrency,
     required this.secondaryCurrency,
+    this.securityEnabled = false,
+    this.pinHash,
   });
 }
 
@@ -83,6 +89,9 @@ class DataTransfer {
       final p = password?.trim();
       if (p == null || p.isEmpty) {
         throw ArgumentError('Password is required for encrypted export.');
+      }
+      if (p.length < 8) {
+        throw ArgumentError('Password must be at least 8 characters.');
       }
     }
 
@@ -135,9 +144,54 @@ class DataTransfer {
     return outPath;
   }
 
+  /// Builds the backup, writes it to the system temp directory, then triggers
+  /// the native share sheet so the user can send it to iCloud Drive, Google
+  /// Drive, Dropbox, email, AirDrop, or any installed app.
+  static Future<void> shareBackup({
+    required bool encrypt,
+    String? password,
+  }) async {
+    if (encrypt) {
+      final pwd = password?.trim();
+      if (pwd == null || pwd.isEmpty) {
+        throw ArgumentError('Password is required for encrypted export.');
+      }
+      if (pwd.length < 8) {
+        throw ArgumentError('Password must be at least 8 characters.');
+      }
+    }
+
+    final inner = await _buildInnerZipBytes();
+    final Uint8List outBytes;
+    if (encrypt) {
+      outBytes = await encryptInnerZip(
+        innerZip: inner,
+        password: password!.trim(),
+      );
+    } else {
+      outBytes = inner;
+    }
+
+    final name = defaultExportFileName(encrypt: encrypt);
+    final tmpDir = await getTemporaryDirectory();
+    final tmpFile = File(p.join(tmpDir.path, name));
+    await tmpFile.writeAsBytes(outBytes, flush: true);
+
+    final mimeType = encrypt ? 'application/octet-stream' : 'application/zip';
+    await Share.shareXFiles(
+      [XFile(tmpFile.path, mimeType: mimeType, name: name)],
+      subject: name,
+    );
+  }
+
   static Future<Uint8List> _buildInnerZipBytes() async {
     final pathToArchive = await _buildAttachmentPathMap();
-    final json = _encodeDataJson(attachmentPathMap: pathToArchive);
+    final secBackup = await getSecurityBackup();
+    final json = _encodeDataJson(
+      attachmentPathMap: pathToArchive,
+      securityEnabled: secBackup.enabled,
+      pinHash: secBackup.pinHash,
+    );
     final exportedAt = DateTime.now().toUtc().toIso8601String();
     String appVersion;
     try {
@@ -212,6 +266,16 @@ class DataTransfer {
       manifest.assertMatchesInnerSchema();
 
       verifyArchiveHashes(archive, manifest);
+
+      final actualAttachmentCount = archive.files
+          .where((f) => f.isFile && _isSafeBundledAttachmentPath(f.name))
+          .length;
+      if (actualAttachmentCount != manifest.attachmentFilesCount) {
+        throw BackupCorruptFileException(
+          'Attachment count mismatch: expected '
+          '${manifest.attachmentFilesCount}, found $actualAttachmentCount.',
+        );
+      }
 
       final dataFile = archive.findFile(kDataJsonFileName);
       if (dataFile == null) {
@@ -314,6 +378,8 @@ class DataTransfer {
       expenseCategories: backup.expenseCategories,
       baseCurrency: backup.baseCurrency,
       secondaryCurrency: backup.secondaryCurrency,
+      securityEnabled: backup.securityEnabled,
+      pinHash: backup.pinHash,
     );
   }
 
@@ -395,6 +461,13 @@ class DataTransfer {
     settings.secondaryCurrency = backup.secondaryCurrency;
     await saveCurrencyPreferences();
 
+    await setSecurityEnabled(backup.securityEnabled);
+    if (backup.pinHash != null && backup.pinHash!.isNotEmpty) {
+      await restoreSecurityPinHash(backup.pinHash!);
+    } else {
+      await clearSecurityPin();
+    }
+
     data.accounts.sort(compareAccountsStorageOrder);
   }
 
@@ -436,6 +509,8 @@ class DataTransfer {
 
   static String _encodeDataJson({
     Map<String, String>? attachmentPathMap,
+    bool securityEnabled = false,
+    String? pinHash,
   }) {
     final payload = {
       'version': _dataJsonVersion,
@@ -444,6 +519,8 @@ class DataTransfer {
       'preferences': {
         'baseCurrency': settings.baseCurrency,
         'secondaryCurrency': settings.secondaryCurrency,
+        'securityEnabled': securityEnabled,
+        if (pinHash != null && pinHash.isNotEmpty) 'pinHash': pinHash,
       },
       'accounts': data.accounts.map(_accountToJson).toList(growable: false),
       'transactions': data.transactions
@@ -516,6 +593,8 @@ class DataTransfer {
       prefsMap['secondaryCurrency'],
       fallback: settings.secondaryCurrency,
     );
+    final securityEnabled = prefsMap['securityEnabled'] as bool? ?? false;
+    final pinHash = prefsMap['pinHash'] as String?;
 
     return BackupData(
       accounts: accountList,
@@ -525,6 +604,8 @@ class DataTransfer {
       expenseCategories: expense,
       baseCurrency: baseCurrency,
       secondaryCurrency: secondaryCurrency,
+      securityEnabled: securityEnabled,
+      pinHash: pinHash,
     );
   }
 
@@ -572,7 +653,7 @@ class DataTransfer {
       currencyCode: raw['currencyCode'] as String? ?? 'BAM',
       overdraftLimit: (raw['overdraftLimit'] as num?)?.toDouble() ?? 0,
       archived: raw['archived'] as bool? ?? false,
-      createdAt: _parseDate(raw['createdAt']) ?? DateTime.now(),
+      createdAt: _parseDateRequired(raw['createdAt'], 'account.createdAt'),
       updatedAt: _parseDate(raw['updatedAt']),
       sortOrder: (raw['sortOrder'] as num?)?.toInt() ?? 0,
     );
@@ -636,10 +717,10 @@ class DataTransfer {
       toAccountId: toId,
       category: raw['category'] as String?,
       description: raw['description'] as String?,
-      date: _parseDate(raw['date']) ?? DateTime.now(),
+      date: _parseDateRequired(raw['date'], 'transaction.date'),
       txType: _enumByName(TxType.values, raw['txType']),
       attachments: _stringList(raw['attachments']),
-      createdAt: _parseDate(raw['createdAt']) ?? DateTime.now(),
+      createdAt: _parseDateRequired(raw['createdAt'], 'transaction.createdAt'),
       updatedAt: _parseDate(raw['updatedAt']),
       fromSnapshotName: raw['fromSnapshotName'] as String?,
       fromSnapshotCurrency: raw['fromSnapshotCurrency'] as String?,
@@ -705,7 +786,7 @@ class DataTransfer {
       toAccountId: toId,
       category: raw['category'] as String?,
       description: raw['description'] as String?,
-      date: _parseDate(raw['date']) ?? DateTime.now(),
+      date: _parseDateRequired(raw['date'], 'plannedTransaction.date'),
       txType: _enumByName(TxType.values, raw['txType']),
       repeatInterval: _enumByName(RepeatInterval.values, raw['repeatInterval']) ??
           RepeatInterval.none,
@@ -717,7 +798,7 @@ class DataTransfer {
       repeatEndDate: _parseDate(raw['repeatEndDate']),
       repeatEndAfter: (raw['repeatEndAfter'] as num?)?.toInt(),
       repeatConfirmedCount: (raw['repeatConfirmedCount'] as num?)?.toInt() ?? 0,
-      createdAt: _parseDate(raw['createdAt']) ?? DateTime.now(),
+      createdAt: _parseDateRequired(raw['createdAt'], 'plannedTransaction.createdAt'),
       updatedAt: _parseDate(raw['updatedAt']),
       attachments: _stringList(raw['attachments']),
     );
@@ -734,5 +815,18 @@ class DataTransfer {
   static DateTime? _parseDate(Object? value) {
     if (value is! String) return null;
     return DateTime.tryParse(value);
+  }
+
+  /// Parses a required date field. Throws [FormatException] if missing or
+  /// invalid — prevents silently replacing corrupt timestamps with DateTime.now().
+  static DateTime _parseDateRequired(Object? value, String fieldName) {
+    if (value is! String) {
+      throw FormatException('Missing required date field: $fieldName');
+    }
+    final dt = DateTime.tryParse(value);
+    if (dt == null) {
+      throw FormatException('Invalid date for $fieldName: $value');
+    }
+    return dt;
   }
 }

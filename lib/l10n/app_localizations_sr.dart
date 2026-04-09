@@ -711,6 +711,16 @@ class AppLocalizationsSr extends AppLocalizations {
       'Unesite podudarajuće lozinke ili izvezite bez šifrovanja ispod.';
 
   @override
+  String get backupExportPasswordTooShort =>
+      'Lozinka mora imati najmanje 8 znakova.';
+
+  @override
+  String get backupExportSaveToDevice => 'Sačuvaj na uređaju';
+
+  @override
+  String get backupExportShareToCloud => 'Podijeli (iCloud, Drive…)';
+
+  @override
   String get backupExportWithoutEncryption => 'Izvezi bez šifrovanja';
 
   @override
@@ -2171,6 +2181,16 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   @override
   String get backupExportPasswordEmpty =>
       'Unesite podudarajuće lozinke ili izvezite bez šifrovanja ispod.';
+
+  @override
+  String get backupExportPasswordTooShort =>
+      'Lozinka mora imati najmanje 8 znakova.';
+
+  @override
+  String get backupExportSaveToDevice => 'Sačuvaj na uređaju';
+
+  @override
+  String get backupExportShareToCloud => 'Podijeli (iCloud, Drive…)';
 
   @override
   String get backupExportWithoutEncryption => 'Izvezi bez šifrovanja';

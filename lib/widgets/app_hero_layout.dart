@@ -67,14 +67,14 @@ abstract final class HeroFilterChipStyle {
       return BoxDecoration(
         color: Color.alphaBlend(
           cs.primary.withValues(
-            alpha: brightness == Brightness.dark ? 0.28 : 0.22,
+            alpha: brightness == Brightness.dark ? 0.34 : 0.26,
           ),
           cs.surface,
         ),
         borderRadius: radius,
         border: Border.all(
           color: cs.primary.withValues(
-            alpha: brightness == Brightness.dark ? 0.52 : 0.40,
+            alpha: brightness == Brightness.dark ? 0.72 : 0.60,
           ),
         ),
       );

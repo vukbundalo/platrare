@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'ledger_colors.dart';
 
-/// Material 3 theme: institutional navy seed, Inter typography, cool surfaces.
+/// Material 3 theme: institutional blue seed, Inter typography, cool surfaces.
 ThemeData buildPlatrareTheme(Brightness brightness) {
-  const seed = Color(0xFF123B63);
+  const seed = Color(0xFF1A56DB);
   final baseScheme = ColorScheme.fromSeed(
     seedColor: seed,
     brightness: brightness,
@@ -35,7 +35,7 @@ ThemeData buildPlatrareTheme(Brightness brightness) {
         fontSize: 20,
         fontWeight: FontWeight.w700,
         color: cs.onSurface,
-        letterSpacing: -0.35,
+        letterSpacing: -0.4,
       ),
     ),
     cardTheme: CardThemeData(
@@ -45,7 +45,7 @@ ThemeData buildPlatrareTheme(Brightness brightness) {
         borderRadius: BorderRadius.circular(16),
         side: BorderSide(
           color: cs.primary.withValues(
-            alpha: brightness == Brightness.light ? 0.08 : 0.14,
+            alpha: brightness == Brightness.light ? 0.14 : 0.22,
           ),
         ),
       ),
@@ -64,7 +64,7 @@ ThemeData buildPlatrareTheme(Brightness brightness) {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: cs.primary, width: 2),
+        borderSide: BorderSide(color: cs.primary, width: 2.5),
       ),
       contentPadding:
           const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -79,7 +79,7 @@ ThemeData buildPlatrareTheme(Brightness brightness) {
       height: 68,
       backgroundColor: Colors.transparent,
       indicatorColor:
-          Color.alphaBlend(cs.primary.withValues(alpha: 0.16), cs.surface),
+          Color.alphaBlend(cs.primary.withValues(alpha: 0.22), cs.surface),
       surfaceTintColor: Colors.transparent,
       labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
       labelTextStyle: WidgetStateProperty.resolveWith((states) {
@@ -94,7 +94,7 @@ ThemeData buildPlatrareTheme(Brightness brightness) {
       iconTheme: WidgetStateProperty.resolveWith((states) {
         final selected = states.contains(WidgetState.selected);
         return IconThemeData(
-          size: 22,
+          size: 24,
           color: selected ? cs.primary : cs.onSurfaceVariant,
         );
       }),
@@ -105,7 +105,7 @@ ThemeData buildPlatrareTheme(Brightness brightness) {
         cs.outlineVariant.withValues(alpha: 0.5),
       ),
       space: 0,
-      thickness: 0.5,
+      thickness: 1.0,
     ),
     listTileTheme: const ListTileThemeData(
       minVerticalPadding: 12,
@@ -130,6 +130,13 @@ ThemeData buildPlatrareTheme(Brightness brightness) {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       backgroundColor: cs.surfaceContainerHigh,
     ),
+    bottomSheetTheme: BottomSheetThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      backgroundColor: cs.surfaceContainerHigh,
+      elevation: 1,
+    ),
   );
 
   final inter = GoogleFonts.interTextTheme(base.textTheme);
@@ -143,14 +150,14 @@ ThemeData buildPlatrareTheme(Brightness brightness) {
       letterSpacing: -0.15,
     ),
     headlineSmall: inter.headlineSmall?.copyWith(
-      fontWeight: FontWeight.w800,
+      fontWeight: FontWeight.w700,
       letterSpacing: -0.5,
     ),
     bodyLarge: inter.bodyLarge?.copyWith(
       height: 1.45,
     ),
     bodyMedium: inter.bodyMedium?.copyWith(
-      height: 1.4,
+      height: 1.45,
     ),
     labelLarge: inter.labelLarge?.copyWith(
       fontWeight: FontWeight.w600,

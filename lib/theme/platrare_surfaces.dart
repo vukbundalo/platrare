@@ -14,8 +14,8 @@ abstract final class PlatrareSurfaces {
           end: Alignment.bottomCenter,
           stops: const [0.0, 0.28, 1.0],
           colors: [
-            Color.alphaBlend(cs.primary.withValues(alpha: 0.052), cs.surface),
-            Color.alphaBlend(cs.primary.withValues(alpha: 0.022), cs.surface),
+            Color.alphaBlend(cs.primary.withValues(alpha: 0.07), cs.surface),
+            Color.alphaBlend(cs.primary.withValues(alpha: 0.03), cs.surface),
             cs.surface,
           ],
         ),
@@ -27,8 +27,8 @@ abstract final class PlatrareSurfaces {
         end: Alignment.bottomRight,
         stops: const [0.0, 0.5, 1.0],
         colors: [
-          Color.alphaBlend(cs.primary.withValues(alpha: 0.13), cs.surface),
-          Color.alphaBlend(cs.primary.withValues(alpha: 0.055), cs.surface),
+          Color.alphaBlend(cs.primary.withValues(alpha: 0.16), cs.surface),
+          Color.alphaBlend(cs.primary.withValues(alpha: 0.07), cs.surface),
           cs.surface,
         ],
       ),
@@ -70,11 +70,11 @@ abstract final class PlatrareSurfaces {
           end: Alignment.bottomRight,
           colors: [
             Color.alphaBlend(
-              cs.primary.withValues(alpha: 0.095),
+              cs.primary.withValues(alpha: 0.13),
               cs.surfaceContainerHigh,
             ),
             Color.alphaBlend(
-              cs.primary.withValues(alpha: 0.038),
+              cs.primary.withValues(alpha: 0.05),
               cs.surfaceContainerLow,
             ),
           ],
@@ -89,11 +89,11 @@ abstract final class PlatrareSurfaces {
         end: Alignment.bottomRight,
         colors: [
           Color.alphaBlend(
-            cs.primary.withValues(alpha: 0.18),
+            cs.primary.withValues(alpha: 0.22),
             cs.surfaceContainerHigh,
           ),
           Color.alphaBlend(
-            cs.primary.withValues(alpha: 0.075),
+            cs.primary.withValues(alpha: 0.09),
             cs.surfaceContainerLow,
           ),
         ],
@@ -112,8 +112,8 @@ abstract final class PlatrareSurfaces {
           end: Alignment.bottomRight,
           stops: const [0.0, 0.5, 1.0],
           colors: [
-            Color.alphaBlend(cs.primary.withValues(alpha: 0.085), cs.surface),
-            Color.alphaBlend(cs.primary.withValues(alpha: 0.04), cs.surface),
+            Color.alphaBlend(cs.primary.withValues(alpha: 0.18), cs.surface),
+            Color.alphaBlend(cs.primary.withValues(alpha: 0.08), cs.surface),
             cs.surface,
           ],
         ),
@@ -124,8 +124,8 @@ abstract final class PlatrareSurfaces {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color.alphaBlend(cs.primary.withValues(alpha: 0.16), cs.surface),
-          Color.alphaBlend(cs.primary.withValues(alpha: 0.06), cs.surface),
+          Color.alphaBlend(cs.primary.withValues(alpha: 0.28), cs.surface),
+          Color.alphaBlend(cs.primary.withValues(alpha: 0.12), cs.surface),
         ],
       ),
     );
@@ -140,7 +140,7 @@ abstract final class PlatrareSurfaces {
           end: Alignment.bottomCenter,
           stops: const [0.0, 0.18, 1.0],
           colors: [
-            Color.alphaBlend(cs.primary.withValues(alpha: 0.035), cs.surface),
+            Color.alphaBlend(cs.primary.withValues(alpha: 0.05), cs.surface),
             cs.surface,
             cs.surface,
           ],
@@ -152,7 +152,7 @@ abstract final class PlatrareSurfaces {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color.alphaBlend(cs.primary.withValues(alpha: 0.09), cs.surface),
+          Color.alphaBlend(cs.primary.withValues(alpha: 0.12), cs.surface),
           cs.surface,
         ],
       ),

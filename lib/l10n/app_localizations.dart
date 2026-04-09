@@ -1299,6 +1299,24 @@ abstract class AppLocalizations {
   /// **'Enter a matching password, or export without encryption below.'**
   String get backupExportPasswordEmpty;
 
+  /// No description provided for @backupExportPasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters.'**
+  String get backupExportPasswordTooShort;
+
+  /// No description provided for @backupExportSaveToDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to device'**
+  String get backupExportSaveToDevice;
+
+  /// No description provided for @backupExportShareToCloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Share (iCloud, Drive…)'**
+  String get backupExportShareToCloud;
+
   /// No description provided for @backupExportWithoutEncryption.
   ///
   /// In en, this message translates to:

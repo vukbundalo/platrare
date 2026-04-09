@@ -65,6 +65,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       if (!mounted) return;
       if (choice == null) return;
 
+      final bool encrypt;
+      final String? password;
       if (choice.isEmpty) {
         final ok = await showDialog<bool>(
               context: context,
@@ -85,16 +87,49 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ) ??
             false;
         if (!mounted || !ok) return;
-        final path = await DataTransfer.exportToPickedPath(encrypt: false);
-        await _showExportDoneSnack(l10n, path);
-        return;
+        encrypt = false;
+        password = null;
+      } else {
+        encrypt = true;
+        password = choice;
       }
 
-      final path = await DataTransfer.exportToPickedPath(
-        encrypt: true,
-        password: choice,
-      );
-      await _showExportDoneSnack(l10n, path);
+      if (!mounted) return;
+      final share = await showDialog<bool>(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  FilledButton.icon(
+                    icon: const Icon(Icons.folder_outlined),
+                    label: Text(l10n.backupExportSaveToDevice),
+                    onPressed: () => Navigator.pop(ctx, false),
+                  ),
+                  const SizedBox(height: 8),
+                  FilledButton.icon(
+                    icon: const Icon(Icons.cloud_upload_outlined),
+                    label: Text(l10n.backupExportShareToCloud),
+                    onPressed: () => Navigator.pop(ctx, true),
+                  ),
+                ],
+              ),
+            ),
+          ) ??
+          false;
+
+      if (!mounted) return;
+
+      if (share) {
+        await DataTransfer.shareBackup(encrypt: encrypt, password: password);
+      } else {
+        final path = await DataTransfer.exportToPickedPath(
+          encrypt: encrypt,
+          password: password,
+        );
+        await _showExportDoneSnack(l10n, path);
+      }
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -1078,6 +1113,10 @@ class _BackupExportPasswordDialogState extends State<_BackupExportPasswordDialog
             final b = _pwd2.text.trim();
             if (a.isEmpty || b.isEmpty) {
               setState(() => _fieldError = l10n.backupExportPasswordEmpty);
+              return;
+            }
+            if (a.length < 8) {
+              setState(() => _fieldError = l10n.backupExportPasswordTooShort);
               return;
             }
             if (a != b) {
