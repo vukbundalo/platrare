@@ -978,6 +978,7 @@ class _NetWorthHero extends StatelessWidget {
     final netColor = netPos ? lc.positive : lc.negative;
     final balanceColor =
         displayPersonal >= 0 ? lc.positive : lc.negative;
+    final brightness = Theme.of(context).brightness;
     final sym = fx.currencySymbol(displayCurrency);
     final isSecondary = displayCurrency == settings.secondaryCurrency;
 
@@ -1001,16 +1002,12 @@ class _NetWorthHero extends StatelessWidget {
 
     return Container(
       padding: AppHeroConstants.cardPadding,
-      decoration: BoxDecoration(
-        color: balanceColor.withValues(alpha: 0.07),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: balanceColor.withValues(alpha: 0.2)),
-      ),
+      decoration: AppHeroChrome.cardDecoration(cs, brightness),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           HeroTwoColumnMetricsRow(
-            dividerColor: netColor.withValues(alpha: 0.2),
+            dividerColor: AppHeroChrome.metricsDividerColor(cs, brightness),
             leftColumn: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -1525,14 +1522,16 @@ class _CompareCategoryAmountsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = colorScheme;
+    final lc = context.ledgerColors;
     final l10n = AppLocalizations.of(context);
     final sym = fx.currencySymbol(displayCurrency);
     final a = fx.convert(amountABase, settings.baseCurrency, displayCurrency);
     final b = fx.convert(amountBBase, settings.baseCurrency, displayCurrency);
-    final accent = isExpense ? const Color(0xFFE11D48) : const Color(0xFF059669);
-    final accentSoft = isExpense
-        ? const Color(0xFFFFF1F2)
-        : const Color(0xFFECFDF5);
+    final accent = isExpense ? lc.negative : lc.positive;
+    final brightness = Theme.of(context).brightness;
+    final accentSoft = accent.withValues(
+      alpha: brightness == Brightness.dark ? 0.20 : 0.11,
+    );
     final sign = isExpense ? '−' : '+';
     String fmt(double v) => '$sign${v.abs().toStringAsFixed(2)} $sym';
     final diff = b - a;
@@ -1629,12 +1628,16 @@ class _CompareCategoryAmountsPanel extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              accent.withValues(alpha: 0.07),
-              cs.surfaceContainerHighest.withValues(alpha: 0.35),
+              cs.surfaceContainerLow,
+              cs.surfaceContainerHighest.withValues(
+                alpha: brightness == Brightness.dark ? 0.55 : 0.40,
+              ),
             ],
           ),
           border: Border.all(
-            color: accent.withValues(alpha: 0.18),
+            color: cs.outlineVariant.withValues(
+              alpha: brightness == Brightness.dark ? 0.50 : 0.65,
+            ),
           ),
         ),
         padding: const EdgeInsets.all(14),
@@ -2063,15 +2066,6 @@ class _IncomeBody extends StatelessWidget {
   }
 }
 
-// ─── Chart palette ────────────────────────────────────────────────────────────
-
-const _kChartColors = [
-  Color(0xFF6366F1), Color(0xFF22C55E), Color(0xFFF59E0B),
-  Color(0xFFEC4899), Color(0xFF14B8A6), Color(0xFFF97316),
-  Color(0xFF8B5CF6), Color(0xFF06B6D4), Color(0xFFEF4444),
-  Color(0xFF84CC16),
-];
-
 // ─── Bars view ────────────────────────────────────────────────────────────────
 
 class _BarsView extends StatelessWidget {
@@ -2192,8 +2186,10 @@ class _DonutView extends StatelessWidget {
     this.narrowLegend = false,
   });
 
-  Color _colorForCategory(int positionInList) {
-    return _kChartColors[positionInList % _kChartColors.length];
+  Color _colorForCategory(BuildContext context, int positionInList) {
+    final palette =
+        LedgerColors.chartPalette(Theme.of(context).colorScheme);
+    return palette[positionInList % palette.length];
   }
 
   @override
@@ -2205,7 +2201,7 @@ class _DonutView extends StatelessWidget {
     final segmentColors = sorted
         .asMap()
         .entries
-        .map((e) => _colorForCategory(e.key))
+        .map((e) => _colorForCategory(context, e.key))
         .toList();
     final innerPad = horizontalPadding < 12 ? 8.0 : 16.0;
     final countSize = donutHeight < 150 ? 22.0 : 28.0;
@@ -2252,7 +2248,7 @@ class _DonutView extends StatelessWidget {
                     ? AppLocalizations.of(context).statsUncategorized
                     : l10nCategoryName(context, cat);
                 final info = entry.value.value;
-                final color = _colorForCategory(idx);
+                final color = _colorForCategory(context, idx);
                 final amount = fx.convert(
                     info.total, settings.baseCurrency, displayCurrency);
                 final pct = total > 0 ? info.total / total * 100 : 0.0;

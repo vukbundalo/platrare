@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Aligns with Flutter light theme surface (institutional cool neutral). -->
+    <color name="platrare_splash">#F2F5F9</color>
+</resources>

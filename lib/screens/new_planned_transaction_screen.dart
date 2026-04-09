@@ -9,6 +9,7 @@ import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
 import '../widgets/account_avatar.dart';
+import '../widgets/app_hero_layout.dart';
 import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
 import '../utils/projections.dart' as proj;
@@ -93,7 +94,10 @@ class _NewPlannedTransactionScreenState
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(ctx).colorScheme.error,
+              foregroundColor: Theme.of(ctx).colorScheme.onError,
+            ),
             child: Text(AppLocalizations.of(ctx).discard),
           ),
         ],
@@ -327,10 +331,9 @@ class _NewPlannedTransactionScreenState
                 children: [
                   // Amount field (hero)
                   Container(
-                    decoration: BoxDecoration(
-                      color: color.withValues(alpha: 0.07),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: color.withValues(alpha: 0.25)),
+                    decoration: AppHeroChrome.cardDecoration(
+                      cs,
+                      Theme.of(context).brightness,
                     ),
                     padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
                     child: Column(

@@ -51,7 +51,10 @@ class TransactionDetailScreen extends StatelessWidget {
               Navigator.pop(context);
               onDelete!();
             },
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+              foregroundColor: Theme.of(context).colorScheme.onError,
+            ),
             child: Text(l10n.delete),
           ),
         ],
@@ -205,7 +208,10 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
               Navigator.pop(context);
               onDelete!();
             },
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+              foregroundColor: Theme.of(context).colorScheme.onError,
+            ),
             child: Text(l10n.delete),
           ),
         ],

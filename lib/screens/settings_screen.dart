@@ -206,7 +206,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: Text(l10n.cancel),
                 ),
                 FilledButton(
-                  style: FilledButton.styleFrom(backgroundColor: Colors.red),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Theme.of(ctx).colorScheme.error,
+                    foregroundColor: Theme.of(ctx).colorScheme.onError,
+                  ),
                   onPressed: () => Navigator.pop(ctx, true),
                   child: Text(l10n.settingsDataImportConfirmAction),
                 ),
@@ -1272,7 +1275,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 }
                 if (mounted) setState(() {});
               },
-              style: FilledButton.styleFrom(backgroundColor: Colors.red),
+              style: FilledButton.styleFrom(
+                backgroundColor: Theme.of(ctx).colorScheme.error,
+                foregroundColor: Theme.of(ctx).colorScheme.onError,
+              ),
               child: Text(l.delete),
             ),
           ],

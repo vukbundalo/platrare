@@ -102,9 +102,10 @@ class PlatrareApp extends StatelessWidget {
   }
 
   ThemeData _buildTheme(Brightness brightness) {
-    // Trust-forward cool blue anchor (replaces violet seed for calmer fintech feel).
-    const seed = Color(0xFF1D4ED8);
-    final cs = ColorScheme.fromSeed(seedColor: seed, brightness: brightness);
+    // Deep institutional blue-navy seed; surfaces stay calm for finance UX.
+    const seed = Color(0xFF123B63);
+    final cs = ColorScheme.fromSeed(seedColor: seed, brightness: brightness)
+        .copyWith(surfaceTint: Colors.transparent);
 
     return ThemeData(
       useMaterial3: true,
@@ -155,7 +156,8 @@ class PlatrareApp extends StatelessWidget {
         elevation: 0,
         height: 68,
         backgroundColor: cs.surface,
-        indicatorColor: cs.primaryContainer,
+        indicatorColor:
+            Color.alphaBlend(cs.primary.withValues(alpha: 0.14), cs.surface),
         surfaceTintColor: Colors.transparent,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         labelTextStyle: WidgetStateProperty.resolveWith((states) {

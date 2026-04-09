@@ -553,23 +553,18 @@ class _AccountTxHero extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final lc = context.ledgerColors;
-    final net = totalIn - totalOut;
-    final borderColor = net >= 0 ? lc.positive : lc.negative;
     final baseSym = fx.currencySymbol(settings.baseCurrency);
+    final brightness = Theme.of(context).brightness;
 
     return Container(
       padding: AppHeroConstants.cardPadding,
-      decoration: BoxDecoration(
-        color: borderColor.withValues(alpha: 0.07),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: borderColor.withValues(alpha: 0.2)),
-      ),
+      decoration: AppHeroChrome.cardDecoration(cs, brightness),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           HeroTwoColumnMetricsRow(
-            dividerColor: borderColor.withValues(alpha: 0.2),
+            dividerColor: AppHeroChrome.metricsDividerColor(cs, brightness),
             leftColumn: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,

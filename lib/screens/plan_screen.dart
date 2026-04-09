@@ -1065,7 +1065,7 @@ class _ProjectionHero extends StatelessWidget {
     final sym = fx.currencySymbol(settings.baseCurrency);
     final personalPos = personal >= 0;
     final netPos = net >= 0;
-    final borderColor = personalPos ? lc.positive : lc.negative;
+    final brightness = Theme.of(context).brightness;
     final personalColor = personalPos ? lc.positive : lc.negative;
     final netColor = netPos ? lc.positive : lc.negative;
     final personalStr =
@@ -1117,16 +1117,12 @@ class _ProjectionHero extends StatelessWidget {
 
     return Container(
       padding: AppHeroConstants.cardPadding,
-      decoration: BoxDecoration(
-        color: borderColor.withValues(alpha: 0.07),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: borderColor.withValues(alpha: 0.2)),
-      ),
+      decoration: AppHeroChrome.cardDecoration(cs, brightness),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           HeroTwoColumnMetricsRow(
-            dividerColor: borderColor.withValues(alpha: 0.2),
+            dividerColor: AppHeroChrome.metricsDividerColor(cs, brightness),
             leftColumn: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,

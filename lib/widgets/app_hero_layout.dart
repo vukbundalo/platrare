@@ -30,6 +30,34 @@ abstract final class AppHeroConstants {
   static const double labelToAmountGap = 2;
 }
 
+/// Neutral elevated surface for summary heroes (Track / Plan / Review / account
+/// history). Amounts keep [LedgerColors] positive/negative; the card chrome does
+/// not tint green/red from net or balance (institutional clarity).
+abstract final class AppHeroChrome {
+  static const double _radius = 18;
+
+  static BoxDecoration cardDecoration(ColorScheme cs, Brightness brightness) {
+    final base = cs.surfaceContainerHigh;
+    final tint = brightness == Brightness.dark
+        ? cs.primary.withValues(alpha: 0.10)
+        : cs.primary.withValues(alpha: 0.042);
+    return BoxDecoration(
+      color: Color.alphaBlend(tint, base),
+      borderRadius: BorderRadius.circular(_radius),
+      border: Border.all(
+        color: cs.outlineVariant.withValues(
+          alpha: brightness == Brightness.dark ? 0.55 : 0.72,
+        ),
+      ),
+    );
+  }
+
+  static Color metricsDividerColor(ColorScheme cs, Brightness brightness) =>
+      cs.outlineVariant.withValues(
+        alpha: brightness == Brightness.dark ? 0.50 : 0.62,
+      );
+}
+
 /// Two-column metrics row: [flex 3 | divider | flex 2], same on all main tabs.
 class HeroTwoColumnMetricsRow extends StatelessWidget {
   final Widget leftColumn;

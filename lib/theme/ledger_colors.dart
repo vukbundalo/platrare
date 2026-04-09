@@ -25,11 +25,28 @@ class LedgerColors extends ThemeExtension<LedgerColors> {
   final Color invoice;
   final Color bill;
 
-  /// Default gain/loss hues (aligned with common fintech semantics).
-  /// On `surface` / `surfaceContainerLow` these read clearly for bold amounts;
-  /// if a future surface goes darker, re-check WCAG contrast for body-sized text.
-  static const Color kPositive = Color(0xFF16A34A);
-  static const Color kNegative = Color(0xFFDC2626);
+  /// Gain/loss hues: deep emerald / brick red (institutional, not neon).
+  static const Color kPositive = Color(0xFF047857);
+  static const Color kNegative = Color(0xFFB91C1C);
+
+  /// Harmonized categorical colors for donuts / charts (scheme-anchored).
+  static List<Color> chartPalette(ColorScheme scheme) {
+    final p = scheme.primary;
+    final s = scheme.secondary;
+    final t = scheme.tertiary;
+    return [
+      p,
+      Color.lerp(p, s, 0.45)!,
+      s,
+      Color.lerp(s, t, 0.45)!,
+      t,
+      Color.lerp(p, const Color(0xFF0F766E), 0.35)!,
+      Color.lerp(s, const Color(0xFFB45309), 0.30)!,
+      Color.lerp(t, const Color(0xFF6D28D9), 0.28)!,
+      Color.lerp(p, const Color(0xFF0369A1), 0.25)!,
+      Color.lerp(s, const Color(0xFFBE185D), 0.22)!,
+    ];
+  }
 
   factory LedgerColors.harmonized(ColorScheme scheme) {
     final billTint = Color.lerp(

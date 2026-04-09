@@ -384,7 +384,10 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(ctx).colorScheme.error,
+              foregroundColor: Theme.of(ctx).colorScheme.onError,
+            ),
             child: Text(l10n.discard),
           ),
         ],
@@ -654,7 +657,10 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                   Navigator.pop(context, kAccountFormSheetDeleted);
                 }
               },
-              style: FilledButton.styleFrom(backgroundColor: Colors.red),
+              style: FilledButton.styleFrom(
+                backgroundColor: Theme.of(ctx).colorScheme.error,
+                foregroundColor: Theme.of(ctx).colorScheme.onError,
+              ),
               child: Text(l10n.deleteAllAndDelete),
             ),
           ],
@@ -686,7 +692,10 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                 Navigator.pop(context, kAccountFormSheetDeleted);
               }
             },
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(ctx).colorScheme.error,
+              foregroundColor: Theme.of(ctx).colorScheme.onError,
+            ),
             child: Text(l10n.delete),
           ),
         ],
@@ -1023,7 +1032,10 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(ctx).colorScheme.error,
+              foregroundColor: Theme.of(ctx).colorScheme.onError,
+            ),
             child: Text(l10n.discard),
           ),
         ],
@@ -1297,7 +1309,10 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                 }
                 if (mounted) Navigator.pop(context, true);
               },
-              style: FilledButton.styleFrom(backgroundColor: Colors.red),
+              style: FilledButton.styleFrom(
+                backgroundColor: Theme.of(ctx).colorScheme.error,
+                foregroundColor: Theme.of(ctx).colorScheme.onError,
+              ),
               child: Text(l10n.deleteAllAndDelete),
             ),
           ],
@@ -1327,7 +1342,10 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
               }
               if (mounted) Navigator.pop(context, true);
             },
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(ctx).colorScheme.error,
+              foregroundColor: Theme.of(ctx).colorScheme.onError,
+            ),
             child: Text(l10n.delete),
           ),
         ],
