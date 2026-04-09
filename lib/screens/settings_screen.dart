@@ -31,6 +31,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   late final Future<PackageInfo> _packageInfoFuture = PackageInfo.fromPlatform();
+  bool _refreshingRates = false;
 
   Future<void> _showExportDoneSnack(AppLocalizations l10n, String? path) async {
     if (!mounted || path == null) return;
@@ -639,8 +640,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       required String title,
       required String subtitle,
       String? badge,
+      bool loadingBadge = false,
       String? semanticsLabel,
-      required VoidCallback onTap,
+      VoidCallback? onTap,
     }) {
       final card = Card(
         margin: EdgeInsets.zero,
@@ -666,7 +668,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ],
                   ),
                 ),
-                if (badge != null)
+                if (loadingBadge) ...[
+                  SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: cs.primary,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                ] else if (badge != null) ...[
                   Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -682,7 +694,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: cs.primary),
                     ),
                   ),
-                if (badge != null) const SizedBox(width: 4),
+                  const SizedBox(width: 4),
+                ],
                 Icon(Icons.chevron_right_rounded,
                     size: 18, color: cs.onSurfaceVariant),
               ],
@@ -706,7 +719,75 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         children: [
-          _SectionLabel(l10n.settingsSectionDisplay),
+          // ── 1. Security ──────────────────────────────────
+          _SectionLabel(l10n.settingsSectionSecurity),
+          const SizedBox(height: 8),
+          Card(
+            margin: EdgeInsets.zero,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: ValueListenableBuilder<bool>(
+                valueListenable: appSecurityEnabled,
+                builder: (context, enabled, _) {
+                  return Column(
+                    children: [
+                      SwitchListTile.adaptive(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(l10n.settingsSecurityEnableLock),
+                        subtitle: Text(l10n.settingsSecurityEnableLockSubtitle),
+                        value: enabled,
+                        onChanged: (v) => _toggleAppSecurity(v, l10n),
+                      ),
+                      const SizedBox(height: 4),
+                      FutureBuilder<bool>(
+                        future: hasSecurityPin(),
+                        builder: (context, snap) {
+                          final hasPin = snap.data ?? false;
+                          return Column(
+                            children: [
+                              ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                leading:
+                                    const Icon(Icons.pin_rounded, size: 20),
+                                title: Text(
+                                  hasPin
+                                      ? l10n.settingsSecurityChangePin
+                                      : l10n.settingsSecuritySetPin,
+                                ),
+                                subtitle:
+                                    Text(l10n.settingsSecurityPinSubtitle),
+                                enabled: enabled,
+                                onTap: enabled
+                                    ? () async {
+                                        await _showSetPinDialog(l10n);
+                                        if (mounted) setState(() {});
+                                      }
+                                    : null,
+                              ),
+                              if (hasPin)
+                                ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: const Icon(
+                                      Icons.delete_outline_rounded),
+                                  title:
+                                      Text(l10n.settingsSecurityRemovePin),
+                                  enabled: enabled,
+                                  onTap:
+                                      enabled ? () => _removePin(l10n) : null,
+                                ),
+                            ],
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          // ── 2. Preferences ───────────────────────────────
+          _SectionLabel(l10n.settingsSectionPreferences),
           const SizedBox(height: 8),
           currencyCard(
             icon: Icons.home_rounded,
@@ -750,25 +831,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
           const SizedBox(height: 8),
-          currencyCard(
-            icon: Icons.update_rounded,
-            title: l10n.settingsExchangeRatesTitle,
-            subtitle: FxService.instance.lastUpdated != null
-                ? l10n.settingsExchangeRatesUpdated(formatAppDate(
-                    context,
-                    'y-MM-dd HH:mm',
-                    FxService.instance.lastUpdated!.toLocal(),
-                  ))
-                : l10n.settingsExchangeRatesNeverUpdated,
-            badge: l10n.settingsExchangeRatesSource,
-            onTap: () async {
-              await FxService.instance.refreshRates();
-              if (context.mounted) setState(() {});
-            },
-          ),
-          const SizedBox(height: 24),
-          _SectionLabel(l10n.settingsSectionAppearance),
-          const SizedBox(height: 8),
           ListenableBuilder(
             listenable: appThemePreference,
             builder: (context, _) {
@@ -786,8 +848,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               );
             },
           ),
-          const SizedBox(height: 24),
-          _SectionLabel(l10n.settingsSectionLanguage),
           const SizedBox(height: 8),
           ListenableBuilder(
             listenable: appLocalePreference,
@@ -803,71 +863,73 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
           const SizedBox(height: 24),
-          _SectionLabel(l10n.settingsSectionSecurity),
+          // ── 3. Data ──────────────────────────────────────
+          _SectionLabel(l10n.settingsSectionData),
           const SizedBox(height: 8),
-          Card(
-            margin: EdgeInsets.zero,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: ValueListenableBuilder<bool>(
-                valueListenable: appSecurityEnabled,
-                builder: (context, enabled, _) {
-                  return Column(
-                    children: [
-                      SwitchListTile.adaptive(
-                        contentPadding: EdgeInsets.zero,
-                        title: Text(l10n.settingsSecurityEnableLock),
-                        subtitle: Text(l10n.settingsSecurityEnableLockSubtitle),
-                        value: enabled,
-                        onChanged: (v) => _toggleAppSecurity(v, l10n),
-                      ),
-                      const SizedBox(height: 4),
-                      FutureBuilder<bool>(
-                        future: hasSecurityPin(),
-                        builder: (context, snap) {
-                          final hasPin = snap.data ?? false;
-                          return Column(
-                            children: [
-                              ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                leading: const Icon(Icons.pin_rounded, size: 20),
-                                title: Text(
-                                  hasPin
-                                      ? l10n.settingsSecurityChangePin
-                                      : l10n.settingsSecuritySetPin,
-                                ),
-                                subtitle: Text(l10n.settingsSecurityPinSubtitle),
-                                enabled: enabled,
-                                onTap: enabled
-                                    ? () async {
-                                        await _showSetPinDialog(l10n);
-                                        if (mounted) setState(() {});
-                                      }
-                                    : null,
-                              ),
-                              if (hasPin)
-                                ListTile(
-                                  contentPadding: EdgeInsets.zero,
-                                  leading:
-                                      const Icon(Icons.delete_outline_rounded),
-                                  title: Text(l10n.settingsSecurityRemovePin),
-                                  enabled: enabled,
-                                  onTap: enabled
-                                      ? () => _removePin(l10n)
-                                      : null,
-                                ),
-                            ],
-                          );
-                        },
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
+          currencyCard(
+            icon: Icons.ios_share_rounded,
+            title: l10n.settingsDataExportTitle,
+            subtitle: l10n.settingsDataExportSubtitle,
+            semanticsLabel:
+                '${l10n.settingsDataExportTitle}. ${l10n.settingsDataExportSubtitle}',
+            onTap: () => _exportBackup(l10n),
+          ),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.restore_rounded,
+            title: l10n.settingsDataImportTitle,
+            subtitle: l10n.settingsDataImportSubtitle,
+            semanticsLabel:
+                '${l10n.settingsDataImportTitle}. ${l10n.settingsDataImportSubtitle}',
+            onTap: () => _importBackup(l10n),
+          ),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.update_rounded,
+            title: l10n.settingsExchangeRatesTitle,
+            subtitle: FxService.instance.lastUpdated != null
+                ? l10n.settingsExchangeRatesUpdated(formatAppDate(
+                    context,
+                    'y-MM-dd HH:mm',
+                    FxService.instance.lastUpdated!.toLocal(),
+                  ))
+                : l10n.settingsExchangeRatesNeverUpdated,
+            badge: _refreshingRates ? null : l10n.settingsExchangeRatesSource,
+            loadingBadge: _refreshingRates,
+            onTap: _refreshingRates
+                ? null
+                : () async {
+                    setState(() => _refreshingRates = true);
+                    try {
+                      await FxService.instance.refreshRates();
+                      if (!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(l10n.settingsExchangeRatesUpdatedSnack),
+                        ),
+                      );
+                    } catch (_) {
+                      if (!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(l10n.settingsExchangeRatesUpdateFailed),
+                        ),
+                      );
+                    } finally {
+                      if (mounted) setState(() => _refreshingRates = false);
+                    }
+                  },
+          ),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.fact_check_outlined,
+            title: l10n.settingsVerifyLedger,
+            subtitle: l10n.settingsVerifyLedgerSubtitle,
+            onTap: () => _showLedgerVerify(context, l10n),
           ),
           const SizedBox(height: 24),
-          _SectionLabel(l10n.settingsSectionCategories),
+          // ── 4. Manage ────────────────────────────────────
+          _SectionLabel(l10n.settingsSectionManage),
           const SizedBox(height: 8),
           currencyCard(
             icon: Icons.label_outline_rounded,
@@ -887,8 +949,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               setState(() {});
             },
           ),
-          const SizedBox(height: 24),
-          _SectionLabel(l10n.settingsSectionAccounts),
           const SizedBox(height: 8),
           currencyCard(
             icon: Icons.inventory_2_outlined,
@@ -907,34 +967,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
               if (mounted) setState(() {});
             },
           ),
-          const SizedBox(height: 24),
-          _SectionLabel(l10n.settingsSectionData),
           const SizedBox(height: 8),
           currencyCard(
-            icon: Icons.fact_check_outlined,
-            title: l10n.settingsVerifyLedger,
-            subtitle: l10n.settingsVerifyLedgerSubtitle,
-            onTap: () => _showLedgerVerify(context, l10n),
-          ),
-          const SizedBox(height: 8),
-          currencyCard(
-            icon: Icons.ios_share_rounded,
-            title: l10n.settingsDataExportTitle,
-            subtitle: l10n.settingsDataExportSubtitle,
-            semanticsLabel:
-                '${l10n.settingsDataExportTitle}. ${l10n.settingsDataExportSubtitle}',
-            onTap: () => _exportBackup(l10n),
-          ),
-          const SizedBox(height: 8),
-          currencyCard(
-            icon: Icons.upload_file_rounded,
-            title: l10n.settingsDataImportTitle,
-            subtitle: l10n.settingsDataImportSubtitle,
-            semanticsLabel:
-                '${l10n.settingsDataImportTitle}. ${l10n.settingsDataImportSubtitle}',
-            onTap: () => _importBackup(l10n),
+            icon: Icons.delete_sweep_outlined,
+            title: l10n.settingsClearData,
+            subtitle: l10n.settingsClearDataSubtitle,
+            onTap: () async {
+              final cleared = await showModalBottomSheet<bool>(
+                context: context,
+                isScrollControlled: true,
+                useSafeArea: true,
+                builder: (_) => _ClearDataSheet(l10n: l10n),
+              );
+              if (cleared == true && mounted) {
+                setState(() {});
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(l10n.clearDataDone)),
+                );
+              }
+            },
           ),
           const SizedBox(height: 24),
+          // ── 5. About ─────────────────────────────────────
           _SectionLabel(l10n.settingsSectionPrivacy),
           const SizedBox(height: 8),
           currencyCard(
@@ -1137,6 +1191,385 @@ class _BackupExportPasswordDialogState extends State<_BackupExportPasswordDialog
           child: Text(l10n.confirm),
         ),
       ],
+    );
+  }
+}
+
+/// PIN confirmation for clear-data. Controller is disposed in [State.dispose]
+/// after the route is torn down (unlike disposing in `showDialog`'s `finally`,
+/// which can race the overlay and trigger framework assertions).
+class _ClearDataPinDialog extends StatefulWidget {
+  const _ClearDataPinDialog({required this.l10n});
+  final AppLocalizations l10n;
+
+  @override
+  State<_ClearDataPinDialog> createState() => _ClearDataPinDialogState();
+}
+
+class _ClearDataPinDialogState extends State<_ClearDataPinDialog> {
+  late final TextEditingController _ctrl;
+  String? _error;
+
+  AppLocalizations get l10n => widget.l10n;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _onConfirm() async {
+    final ok = await verifySecurityPin(_ctrl.text.trim());
+    if (!mounted) return;
+    if (ok) {
+      Navigator.pop(context, true);
+    } else {
+      setState(() => _error = l10n.clearDataPinIncorrect);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return AlertDialog(
+      title: Text(l10n.clearDataPinTitle),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.clearDataPinBody),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _ctrl,
+              keyboardType: TextInputType.number,
+              obscureText: true,
+              autofocus: true,
+              decoration: InputDecoration(
+                labelText: l10n.securityPinLabel,
+                errorText: _error,
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: Text(l10n.cancel),
+        ),
+        FilledButton(
+          style: FilledButton.styleFrom(
+            backgroundColor: cs.error,
+            foregroundColor: cs.onError,
+          ),
+          onPressed: _onConfirm,
+          child: Text(l10n.confirm),
+        ),
+      ],
+    );
+  }
+}
+
+/// Type-DELETE confirmation for clear-data.
+class _ClearDataTypeDeleteDialog extends StatefulWidget {
+  const _ClearDataTypeDeleteDialog({required this.l10n});
+  final AppLocalizations l10n;
+
+  @override
+  State<_ClearDataTypeDeleteDialog> createState() =>
+      _ClearDataTypeDeleteDialogState();
+}
+
+class _ClearDataTypeDeleteDialogState extends State<_ClearDataTypeDeleteDialog> {
+  late final TextEditingController _ctrl;
+  String? _error;
+
+  AppLocalizations get l10n => widget.l10n;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return AlertDialog(
+      title: Text(l10n.clearDataConfirmTitle),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.clearDataConfirmBody),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _ctrl,
+              autofocus: true,
+              autocorrect: false,
+              decoration: InputDecoration(
+                labelText: l10n.clearDataTypeConfirm,
+                hintText: 'DELETE',
+                errorText: _error,
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: Text(l10n.cancel),
+        ),
+        FilledButton(
+          style: FilledButton.styleFrom(
+            backgroundColor: cs.error,
+            foregroundColor: cs.onError,
+          ),
+          onPressed: () {
+            if (_ctrl.text.trim() == 'DELETE') {
+              Navigator.pop(context, true);
+            } else {
+              setState(() => _error = l10n.clearDataTypeConfirmError);
+            }
+          },
+          child: Text(l10n.clearDataConfirmButton),
+        ),
+      ],
+    );
+  }
+}
+
+// ─── Clear data sheet ─────────────────────────────────────────────────────────
+
+class _ClearDataSheet extends StatefulWidget {
+  const _ClearDataSheet({required this.l10n});
+  final AppLocalizations l10n;
+
+  @override
+  State<_ClearDataSheet> createState() => _ClearDataSheetState();
+}
+
+class _ClearDataSheetState extends State<_ClearDataSheet> {
+  bool _transactions = false;
+  bool _planned = false;
+  bool _accounts = false;
+  bool _categories = false;
+  bool _preferences = false;
+  bool _security = false;
+  bool _processing = false;
+
+  AppLocalizations get l10n => widget.l10n;
+
+  bool get _hasSelection =>
+      _transactions || _planned || _accounts || _categories ||
+      _preferences || _security;
+
+  void _setAccounts(bool v) {
+    setState(() {
+      _accounts = v;
+      if (v) {
+        _transactions = true;
+        _planned = true;
+      }
+    });
+  }
+
+  Future<void> _confirmAndClear() async {
+    final hasPin = appSecurityEnabled.value && await hasSecurityPin();
+    if (!mounted) return;
+
+    final confirmed = hasPin
+        ? await _showPinDialog()
+        : await _showTypeDeleteDialog();
+    if (confirmed != true || !mounted) return;
+
+    setState(() => _processing = true);
+    try {
+      await DataRepository.clearSelectiveData(
+        transactions: _transactions || _accounts,
+        planned: _planned || _accounts,
+        accounts: _accounts,
+        categories: _categories,
+      );
+
+      if (_preferences && mounted) {
+        settings.baseCurrency = 'BAM';
+        settings.secondaryCurrency = 'EUR';
+        await saveCurrencyPreferences();
+        setAppThemePreference(AppThemePreference.system);
+        setAppLocalePreference(AppLocalePreference.system);
+        await FxService.instance.clearCache();
+      }
+
+      if (_security && mounted) {
+        await setSecurityEnabled(false);
+        await clearSecurityPin();
+      }
+
+      if (mounted) Navigator.pop(context, true);
+    } catch (_) {
+      if (mounted) setState(() => _processing = false);
+    }
+  }
+
+  Future<bool?> _showPinDialog() {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => _ClearDataPinDialog(l10n: l10n),
+    );
+  }
+
+  Future<bool?> _showTypeDeleteDialog() {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => _ClearDataTypeDeleteDialog(l10n: l10n),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final txCount = data.transactions.length;
+    final plannedCount = data.plannedTransactions.length;
+    final accountCount = data.accounts.length;
+    final catCount = data.incomeCategories.length + data.expenseCategories.length;
+
+    Widget item({
+      required bool value,
+      required ValueChanged<bool?>? onChanged,
+      required String title,
+      required String subtitle,
+      bool danger = false,
+    }) {
+      return CheckboxListTile(
+        value: value,
+        onChanged: _processing ? null : onChanged,
+        title: Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+            color: danger ? cs.error : null,
+          ),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: TextStyle(fontSize: 12, color: cs.onSurfaceVariant),
+        ),
+        activeColor: danger ? cs.error : cs.primary,
+        controlAffinity: ListTileControlAffinity.leading,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+      );
+    }
+
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: 8),
+          Center(
+            child: Container(
+              width: 32,
+              height: 4,
+              decoration: BoxDecoration(
+                color: cs.onSurfaceVariant.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 4),
+            child: Text(
+              l10n.clearDataTitle,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
+          ),
+          item(
+            value: _transactions,
+            onChanged: _accounts ? null : (v) => setState(() => _transactions = v ?? false),
+            title: l10n.clearDataTransactions,
+            subtitle: l10n.clearDataTransactionsSubtitle(txCount),
+          ),
+          item(
+            value: _planned,
+            onChanged: _accounts ? null : (v) => setState(() => _planned = v ?? false),
+            title: l10n.clearDataPlanned,
+            subtitle: l10n.clearDataPlannedSubtitle(plannedCount),
+          ),
+          item(
+            value: _accounts,
+            onChanged: (v) => _setAccounts(v ?? false),
+            title: l10n.clearDataAccounts,
+            subtitle: l10n.clearDataAccountsSubtitle(accountCount),
+            danger: true,
+          ),
+          item(
+            value: _categories,
+            onChanged: (v) => setState(() => _categories = v ?? false),
+            title: l10n.clearDataCategories,
+            subtitle: l10n.clearDataCategoriesSubtitle(catCount),
+          ),
+          Divider(
+            indent: 20,
+            endIndent: 20,
+            color: cs.outlineVariant.withValues(alpha: 0.5),
+          ),
+          item(
+            value: _preferences,
+            onChanged: (v) => setState(() => _preferences = v ?? false),
+            title: l10n.clearDataPreferences,
+            subtitle: l10n.clearDataPreferencesSubtitle,
+          ),
+          item(
+            value: _security,
+            onChanged: (v) => setState(() => _security = v ?? false),
+            title: l10n.clearDataSecurity,
+            subtitle: l10n.clearDataSecuritySubtitle,
+            danger: true,
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+            child: FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: _hasSelection ? cs.error : null,
+                foregroundColor: _hasSelection ? cs.onError : null,
+              ),
+              onPressed: _hasSelection && !_processing ? _confirmAndClear : null,
+              child: _processing
+                  ? SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: cs.onError,
+                      ),
+                    )
+                  : Text(l10n.clearDataConfirmButton),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
