@@ -167,12 +167,16 @@ class DataTransfer {
     );
   }
 
-  /// Picks `.zip` or `.platrare`, reads bytes. Returns null if cancelled.
+  /// Picks a backup file, reads bytes. Returns null if cancelled.
+  ///
+  /// Uses [FileType.any] because iOS resolves custom extensions to UTIs;
+  /// unknown extensions like `.platrare` are omitted and those files stay
+  /// disabled in the document picker. [prepareImport] still accepts only
+  /// valid ZIP or `PLTR` encrypted payloads.
   static Future<Uint8List?> pickBackupFileBytes() async {
     final result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
-      type: FileType.custom,
-      allowedExtensions: const ['zip', 'platrare'],
+      type: FileType.any,
       withData: true,
     );
     if (result == null || result.files.isEmpty) return null;
