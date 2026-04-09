@@ -388,6 +388,8 @@
   "descriptionBalanceCorrection": "Korekcija bilansa",
   "descriptionOpeningBalance": "Početno stanje",
 
+  "reviewStatsModeStatistics": "Statistika",
+  "reviewStatsModeComparison": "Poređenje",
   "statsUncategorized": "Nekategorisano",
   "statsNoCategories": "Nema kategorija u izabranim periodima za poređenje.",
   "statsNoTransactions": "Nema transakcija",

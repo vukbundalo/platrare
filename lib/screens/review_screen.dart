@@ -823,9 +823,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       vizMode: _vizMode,
                       onCycleViz: _cycleViz,
                       compareMode: _compareMode,
-                      onToggleCompare: () => setState(() {
-                        _compareMode = !_compareMode;
-                        if (_compareMode && _spendingMonths == 0) {
+                      onSelectStatisticsMode: () => setState(() {
+                        _compareMode = false;
+                      }),
+                      onSelectComparisonMode: () => setState(() {
+                        _compareMode = true;
+                        if (_spendingMonths == 0) {
                           _spendingMonths = 1;
                         }
                       }),
@@ -1145,7 +1148,8 @@ class _StatsHeader extends StatelessWidget {
   final int vizMode;
   final VoidCallback onCycleViz;
   final bool compareMode;
-  final VoidCallback onToggleCompare;
+  final VoidCallback onSelectStatisticsMode;
+  final VoidCallback onSelectComparisonMode;
   /// Compare mode: categories available for the two periods (Spent vs Received).
   final List<String> compareCategoryKeys;
   final String? compareSelectedCategory;
@@ -1164,7 +1168,8 @@ class _StatsHeader extends StatelessWidget {
     required this.vizMode,
     required this.onCycleViz,
     required this.compareMode,
-    required this.onToggleCompare,
+    required this.onSelectStatisticsMode,
+    required this.onSelectComparisonMode,
     this.compareCategoryKeys = const [],
     this.compareSelectedCategory,
     this.onCompareCategoryChanged,
@@ -1268,6 +1273,34 @@ class _StatsHeader extends StatelessWidget {
               const SizedBox(width: 6),
               Expanded(
                 child: Semantics(
+                  label: l10n.reviewStatsModeStatistics,
+                  button: true,
+                  selected: !compareMode,
+                  child: chip(
+                    icon: Icons.bar_chart_rounded,
+                    active: !compareMode,
+                    onTap: onSelectStatisticsMode,
+                    label: l10n.reviewStatsModeStatistics,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Semantics(
+                  label: l10n.reviewStatsModeComparison,
+                  button: true,
+                  selected: compareMode,
+                  child: chip(
+                    icon: Icons.compare_arrows_rounded,
+                    active: compareMode,
+                    onTap: onSelectComparisonMode,
+                    label: l10n.reviewStatsModeComparison,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Semantics(
                   enabled: !compareMode,
                   label: compareMode
                       ? l10n.semanticsChartStyleUnavailable
@@ -1280,14 +1313,6 @@ class _StatsHeader extends StatelessWidget {
                       onTap: onCycleViz,
                     ),
                   ),
-                ),
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: chip(
-                  icon: Icons.compare_arrows_rounded,
-                  active: compareMode,
-                  onTap: onToggleCompare,
                 ),
               ),
             ],

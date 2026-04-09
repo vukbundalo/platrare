@@ -1227,6 +1227,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get descriptionOpeningBalance => 'Opening balance';
 
   @override
+  String get reviewStatsModeStatistics => 'Statistics';
+
+  @override
+  String get reviewStatsModeComparison => 'Comparison';
+
+  @override
   String get statsUncategorized => 'Uncategorized';
 
   @override

@@ -1236,6 +1236,12 @@ class AppLocalizationsSr extends AppLocalizations {
   String get descriptionOpeningBalance => 'Početno stanje';
 
   @override
+  String get reviewStatsModeStatistics => 'Statistika';
+
+  @override
+  String get reviewStatsModeComparison => 'Poređenje';
+
+  @override
   String get statsUncategorized => 'Nekategorisano';
 
   @override
@@ -2821,6 +2827,12 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get descriptionOpeningBalance => 'Početno stanje';
+
+  @override
+  String get reviewStatsModeStatistics => 'Statistika';
+
+  @override
+  String get reviewStatsModeComparison => 'Poređenje';
 
   @override
   String get statsUncategorized => 'Nekategorisano';

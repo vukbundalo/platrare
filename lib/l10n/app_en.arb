@@ -514,6 +514,8 @@
   "descriptionBalanceCorrection": "Balance correction",
   "descriptionOpeningBalance": "Opening balance",
 
+  "reviewStatsModeStatistics": "Statistics",
+  "reviewStatsModeComparison": "Comparison",
   "statsUncategorized": "Uncategorized",
   "statsNoCategories": "No categories in the selected periods for comparison.",
   "statsNoTransactions": "No transactions",

@@ -2211,6 +2211,18 @@ abstract class AppLocalizations {
   /// **'Opening balance'**
   String get descriptionOpeningBalance;
 
+  /// No description provided for @reviewStatsModeStatistics.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get reviewStatsModeStatistics;
+
+  /// No description provided for @reviewStatsModeComparison.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparison'**
+  String get reviewStatsModeComparison;
+
   /// No description provided for @statsUncategorized.
   ///
   /// In en, this message translates to:
