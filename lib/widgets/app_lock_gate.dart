@@ -146,6 +146,14 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 380),
                 child: Card(
+                  color: cs.surfaceContainerHigh,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    side: BorderSide(
+                      color: cs.outlineVariant.withValues(alpha: 0.55),
+                    ),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Column(
