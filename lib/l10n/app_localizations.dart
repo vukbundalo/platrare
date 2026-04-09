@@ -1188,7 +1188,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsPrivacyPolicySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'How Platrare handles your data. Opens in your browser.'**
+  /// **'How Platrare handles your data. Shown here in the app.'**
   String get settingsPrivacyPolicySubtitle;
 
   /// No description provided for @settingsPrivacyFxDisclosure.
@@ -1200,8 +1200,14 @@ abstract class AppLocalizations {
   /// No description provided for @settingsPrivacyOpenFailed.
   ///
   /// In en, this message translates to:
-  /// **'Could not open the link'**
+  /// **'Could not load the privacy policy.'**
   String get settingsPrivacyOpenFailed;
+
+  /// No description provided for @settingsPrivacyRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get settingsPrivacyRetry;
 
   /// No description provided for @settingsCopySupportInfoTitle.
   ///

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../data/app_data.dart' as data;
 import '../theme/ledger_colors.dart';
 import '../data/data_repository.dart';
@@ -21,7 +20,7 @@ import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/persistence_guard.dart';
-import '../config/app_urls.dart';
+import 'privacy_policy_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -368,17 +367,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     setState(() {});
   }
 
-  Future<void> _openPrivacyPolicy(AppLocalizations l10n) async {
-    final ok = await launchUrl(
-      AppUrls.privacyPolicy,
-      mode: LaunchMode.externalApplication,
+  void _openPrivacyPolicy() {
+    Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(
+        builder: (_) => const PrivacyPolicyScreen(),
+      ),
     );
-    if (!mounted) return;
-    if (!ok) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.settingsPrivacyOpenFailed)),
-      );
-    }
   }
 
   Future<void> _copySupportInfo(AppLocalizations l10n) async {
@@ -920,7 +914,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 '${l10n.settingsPrivacyPolicySubtitle}\n\n${l10n.settingsPrivacyFxDisclosure}',
             semanticsLabel:
                 '${l10n.settingsPrivacyPolicyTitle}. ${l10n.settingsPrivacyPolicySubtitle}. ${l10n.settingsPrivacyFxDisclosure}',
-            onTap: () => _openPrivacyPolicy(l10n),
+            onTap: _openPrivacyPolicy,
           ),
           const SizedBox(height: 8),
           currencyCard(

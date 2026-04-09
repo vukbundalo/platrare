@@ -646,14 +646,18 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get settingsPrivacyPolicySubtitle =>
-      'Kako Platrare tretira vaše podatke. Otvara se u pregledaču.';
+      'Kako Platrare tretira vaše podatke. Prikazuje se u aplikaciji.';
 
   @override
   String get settingsPrivacyFxDisclosure =>
       'Kursna lista: aplikacija preuzima javne kurseve preko interneta. Vaši računi i transakcije se ne šalju.';
 
   @override
-  String get settingsPrivacyOpenFailed => 'Nije moguće otvoriti vezu';
+  String get settingsPrivacyOpenFailed =>
+      'Nije moguće učitati politiku privatnosti.';
+
+  @override
+  String get settingsPrivacyRetry => 'Pokušaj ponovo';
 
   @override
   String get settingsCopySupportInfoTitle => 'Kopiraj podršku';
@@ -2099,14 +2103,18 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get settingsPrivacyPolicySubtitle =>
-      'Kako Platrare tretira vaše podatke. Otvara se u pregledaču.';
+      'Kako Platrare tretira vaše podatke. Prikazuje se u aplikaciji.';
 
   @override
   String get settingsPrivacyFxDisclosure =>
       'Kursna lista: aplikacija preuzima javne kurseve preko interneta. Vaši računi i transakcije se ne šalju.';
 
   @override
-  String get settingsPrivacyOpenFailed => 'Nije moguće otvoriti vezu';
+  String get settingsPrivacyOpenFailed =>
+      'Nije moguće učitati politiku privatnosti.';
+
+  @override
+  String get settingsPrivacyRetry => 'Pokušaj ponovo';
 
   @override
   String get settingsCopySupportInfoTitle => 'Kopiraj podršku';
