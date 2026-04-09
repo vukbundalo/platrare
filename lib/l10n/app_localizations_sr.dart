@@ -639,6 +639,33 @@ class AppLocalizationsSr extends AppLocalizations {
   String get settingsSectionData => 'Podaci';
 
   @override
+  String get settingsSectionPrivacy => 'Privatnost';
+
+  @override
+  String get settingsPrivacyPolicyTitle => 'Politika privatnosti';
+
+  @override
+  String get settingsPrivacyPolicySubtitle =>
+      'Kako Platrare tretira vaše podatke. Otvara se u pregledaču.';
+
+  @override
+  String get settingsPrivacyFxDisclosure =>
+      'Kursna lista: aplikacija preuzima javne kurseve preko interneta. Vaši računi i transakcije se ne šalju.';
+
+  @override
+  String get settingsPrivacyOpenFailed => 'Nije moguće otvoriti vezu';
+
+  @override
+  String get settingsCopySupportInfoTitle => 'Kopiraj podršku';
+
+  @override
+  String get settingsCopySupportInfoSubtitle =>
+      'Verzija aplikacije i build za prijavu grešaka';
+
+  @override
+  String get settingsSupportInfoCopied => 'Kopirano u ostavu';
+
+  @override
   String get settingsVerifyLedger => 'Proveri knjigu';
 
   @override
@@ -2063,6 +2090,33 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get settingsSectionData => 'Podaci';
+
+  @override
+  String get settingsSectionPrivacy => 'Privatnost';
+
+  @override
+  String get settingsPrivacyPolicyTitle => 'Politika privatnosti';
+
+  @override
+  String get settingsPrivacyPolicySubtitle =>
+      'Kako Platrare tretira vaše podatke. Otvara se u pregledaču.';
+
+  @override
+  String get settingsPrivacyFxDisclosure =>
+      'Kursna lista: aplikacija preuzima javne kurseve preko interneta. Vaši računi i transakcije se ne šalju.';
+
+  @override
+  String get settingsPrivacyOpenFailed => 'Nije moguće otvoriti vezu';
+
+  @override
+  String get settingsCopySupportInfoTitle => 'Kopiraj podršku';
+
+  @override
+  String get settingsCopySupportInfoSubtitle =>
+      'Verzija aplikacije i build za prijavu grešaka';
+
+  @override
+  String get settingsSupportInfoCopied => 'Kopirano u ostavu';
 
   @override
   String get settingsVerifyLedger => 'Proveri knjigu';

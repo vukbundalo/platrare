@@ -5,6 +5,7 @@ import 'data/currency_prefs.dart';
 import 'data/local/platrare_database.dart';
 import 'data/fx_service.dart';
 import 'data/locale_prefs.dart';
+import 'data/security_prefs.dart';
 import 'data/theme_prefs.dart';
 import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'screens/track_screen.dart';
@@ -12,12 +13,13 @@ import 'screens/plan_screen.dart';
 import 'screens/review_screen.dart';
 import 'theme/ledger_colors.dart';
 import 'utils/fx.dart' as fx;
+import 'widgets/app_lock_gate.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PlatrareDatabase.openPlatrareDatabase();
   await PlatrareDatabase.instance.loadIntoMemory();
-  await Future.wait([initAppLocale(), initAppTheme()]);
+  await Future.wait([initAppLocale(), initAppTheme(), initSecurityPrefs()]);
   await loadCurrencyPreferences();
   await initializeDateFormatting('en');
   await initializeDateFormatting('sr');
@@ -91,7 +93,7 @@ class PlatrareApp extends StatelessWidget {
                 }
                 return _resolveLocale(null, supported);
               },
-              home: const HomePage(),
+              home: const AppLockGate(child: HomePage()),
             );
           },
         );

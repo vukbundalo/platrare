@@ -32,6 +32,8 @@
 	<string>Used to attach photos to transactions.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Used to take photos of receipts and attach them to transactions.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Used to secure and unlock the app with Face ID.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

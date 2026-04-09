@@ -376,6 +376,22 @@ class PlatrareDatabase extends _$PlatrareDatabase {
     );
   }
 
+  DbAccountsCompanion _accountCompanionForImport(Account a) => DbAccountsCompanion(
+        id: Value(a.id),
+        name: Value(a.name),
+        institution: Value(a.institution),
+        groupIndex: Value(a.group.index),
+        iconCodePoint: Value(a.iconCodePoint),
+        colorArgb: Value(a.colorArgb),
+        balance: Value(a.balance),
+        currencyCode: Value(a.currencyCode),
+        overdraftLimit: Value(a.overdraftLimit),
+        archived: Value(a.archived),
+        createdAt: Value(a.createdAt),
+        updatedAt: Value(a.updatedAt),
+        sortOrder: Value(a.sortOrder),
+      );
+
   DbTransactionsCompanion _transactionCompanion(Transaction t) =>
       DbTransactionsCompanion(
         id: Value(t.id),
@@ -528,5 +544,58 @@ class PlatrareDatabase extends _$PlatrareDatabase {
     await (delete(dbCategories)
           ..where((t) => t.name.equals(name) & t.kind.equals(kind)))
         .go();
+  }
+
+  /// Replaces all persisted app data in a single transaction.
+  Future<void> replaceAllData({
+    required List<Account> accounts,
+    required List<Transaction> transactions,
+    required List<PlannedTransaction> plannedTransactions,
+    required List<String> incomeCategories,
+    required List<String> expenseCategories,
+  }) async {
+    await transaction(() async {
+      await delete(dbTransactions).go();
+      await delete(dbPlannedTransactions).go();
+      await delete(dbAccounts).go();
+      await delete(dbCategories).go();
+
+      await batch((b) {
+        for (final a in accounts) {
+          b.insert(dbAccounts, _accountCompanionForImport(a));
+        }
+        for (final t in transactions) {
+          b.insert(dbTransactions, _transactionCompanion(t));
+        }
+        for (final p in plannedTransactions) {
+          b.insert(dbPlannedTransactions, _plannedCompanion(p));
+        }
+
+        var incomeOrder = 0;
+        for (final name in incomeCategories) {
+          b.insert(
+            dbCategories,
+            DbCategoriesCompanion.insert(
+              id: 'income_${incomeOrder}_${name.hashCode}',
+              name: name,
+              kind: 'income',
+              sortOrder: Value(incomeOrder++),
+            ),
+          );
+        }
+        var expenseOrder = 0;
+        for (final name in expenseCategories) {
+          b.insert(
+            dbCategories,
+            DbCategoriesCompanion.insert(
+              id: 'expense_${expenseOrder}_${name.hashCode}',
+              name: name,
+              kind: 'expense',
+              sortOrder: Value(expenseOrder++),
+            ),
+          );
+        }
+      });
+    });
   }
 }

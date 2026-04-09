@@ -1173,6 +1173,54 @@ abstract class AppLocalizations {
   /// **'Data'**
   String get settingsSectionData;
 
+  /// No description provided for @settingsSectionPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get settingsSectionPrivacy;
+
+  /// No description provided for @settingsPrivacyPolicyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get settingsPrivacyPolicyTitle;
+
+  /// No description provided for @settingsPrivacyPolicySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How Platrare handles your data. Opens in your browser.'**
+  String get settingsPrivacyPolicySubtitle;
+
+  /// No description provided for @settingsPrivacyFxDisclosure.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.'**
+  String get settingsPrivacyFxDisclosure;
+
+  /// No description provided for @settingsPrivacyOpenFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the link'**
+  String get settingsPrivacyOpenFailed;
+
+  /// No description provided for @settingsCopySupportInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy support info'**
+  String get settingsCopySupportInfoTitle;
+
+  /// No description provided for @settingsCopySupportInfoSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'App version and build for bug reports'**
+  String get settingsCopySupportInfoSubtitle;
+
+  /// No description provided for @settingsSupportInfoCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied to clipboard'**
+  String get settingsSupportInfoCopied;
+
   /// No description provided for @settingsVerifyLedger.
   ///
   /// In en, this message translates to:

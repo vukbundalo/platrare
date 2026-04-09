@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:open_filex/open_filex.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../data/app_data.dart' as data;
 import '../theme/ledger_colors.dart';
 import '../data/data_repository.dart';
@@ -18,6 +21,7 @@ import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/persistence_guard.dart';
+import '../config/app_urls.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -364,6 +368,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
     setState(() {});
   }
 
+  Future<void> _openPrivacyPolicy(AppLocalizations l10n) async {
+    final ok = await launchUrl(
+      AppUrls.privacyPolicy,
+      mode: LaunchMode.externalApplication,
+    );
+    if (!mounted) return;
+    if (!ok) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.settingsPrivacyOpenFailed)),
+      );
+    }
+  }
+
+  Future<void> _copySupportInfo(AppLocalizations l10n) async {
+    final info = await PackageInfo.fromPlatform();
+    final line = 'Platrare ${info.version} (${info.buildNumber})';
+    await Clipboard.setData(ClipboardData(text: line));
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(l10n.settingsSupportInfoCopied)),
+    );
+  }
+
   String _languageSubtitle(AppLocalePreference p, AppLocalizations l10n) {
     return switch (p) {
       AppLocalePreference.system => l10n.settingsLanguageSubtitleSystem,
@@ -588,9 +615,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
       required String title,
       required String subtitle,
       String? badge,
+      String? semanticsLabel,
       required VoidCallback onTap,
     }) {
-      return Card(
+      final card = Card(
         margin: EdgeInsets.zero,
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
@@ -637,6 +665,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
         ),
+      );
+      if (semanticsLabel == null) return card;
+      return Semantics(
+        button: true,
+        label: semanticsLabel,
+        child: card,
       );
     }
 
@@ -863,6 +897,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             icon: Icons.ios_share_rounded,
             title: l10n.settingsDataExportTitle,
             subtitle: l10n.settingsDataExportSubtitle,
+            semanticsLabel:
+                '${l10n.settingsDataExportTitle}. ${l10n.settingsDataExportSubtitle}',
             onTap: () => _exportBackup(l10n),
           ),
           const SizedBox(height: 8),
@@ -870,7 +906,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
             icon: Icons.upload_file_rounded,
             title: l10n.settingsDataImportTitle,
             subtitle: l10n.settingsDataImportSubtitle,
+            semanticsLabel:
+                '${l10n.settingsDataImportTitle}. ${l10n.settingsDataImportSubtitle}',
             onTap: () => _importBackup(l10n),
+          ),
+          const SizedBox(height: 24),
+          _SectionLabel(l10n.settingsSectionPrivacy),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.policy_outlined,
+            title: l10n.settingsPrivacyPolicyTitle,
+            subtitle:
+                '${l10n.settingsPrivacyPolicySubtitle}\n\n${l10n.settingsPrivacyFxDisclosure}',
+            semanticsLabel:
+                '${l10n.settingsPrivacyPolicyTitle}. ${l10n.settingsPrivacyPolicySubtitle}. ${l10n.settingsPrivacyFxDisclosure}',
+            onTap: () => _openPrivacyPolicy(l10n),
+          ),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.info_outline_rounded,
+            title: l10n.settingsCopySupportInfoTitle,
+            subtitle: l10n.settingsCopySupportInfoSubtitle,
+            semanticsLabel:
+                '${l10n.settingsCopySupportInfoTitle}. ${l10n.settingsCopySupportInfoSubtitle}',
+            onTap: () => _copySupportInfo(l10n),
           ),
         ],
       ),

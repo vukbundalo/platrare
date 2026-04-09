@@ -636,6 +636,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsSectionData => 'Data';
 
   @override
+  String get settingsSectionPrivacy => 'Privacy';
+
+  @override
+  String get settingsPrivacyPolicyTitle => 'Privacy policy';
+
+  @override
+  String get settingsPrivacyPolicySubtitle =>
+      'How Platrare handles your data. Opens in your browser.';
+
+  @override
+  String get settingsPrivacyFxDisclosure =>
+      'Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.';
+
+  @override
+  String get settingsPrivacyOpenFailed => 'Could not open the link';
+
+  @override
+  String get settingsCopySupportInfoTitle => 'Copy support info';
+
+  @override
+  String get settingsCopySupportInfoSubtitle =>
+      'App version and build for bug reports';
+
+  @override
+  String get settingsSupportInfoCopied => 'Copied to clipboard';
+
+  @override
   String get settingsVerifyLedger => 'Verify ledger';
 
   @override
