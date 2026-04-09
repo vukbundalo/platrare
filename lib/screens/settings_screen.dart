@@ -179,29 +179,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<String?> _promptImportPassword(AppLocalizations l10n) async {
     final c = TextEditingController();
     try {
-      return showDialog<String>(
+      // Must await: if we `return showDialog` without await, `finally` runs
+      // immediately and disposes [c] while the dialog is still on screen.
+      final result = await showDialog<String>(
         context: context,
         builder: (ctx) => AlertDialog(
           title: Text(l10n.backupImportPasswordTitle),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(l10n.backupImportPasswordBody),
-              const SizedBox(height: 12),
-              TextField(
-                controller: c,
-                obscureText: true,
-                autofocus: true,
-                decoration: InputDecoration(
-                  labelText: l10n.backupImportPasswordLabel,
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(l10n.backupImportPasswordBody),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: c,
+                  obscureText: true,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    labelText: l10n.backupImportPasswordLabel,
+                  ),
+                  onSubmitted: (_) {
+                    final v = c.text.trim();
+                    if (v.isNotEmpty) Navigator.pop(ctx, v);
+                  },
                 ),
-                onSubmitted: (_) {
-                  final v = c.text.trim();
-                  if (v.isNotEmpty) Navigator.pop(ctx, v);
-                },
-              ),
-            ],
+              ],
+            ),
           ),
           actions: [
             TextButton(
@@ -219,6 +223,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
         ),
       );
+      return result;
     } finally {
       c.dispose();
     }
