@@ -11,6 +11,11 @@ String formatAppDate(BuildContext context, String pattern, DateTime date) {
   return DateFormat(pattern, tag).format(date);
 }
 
+/// Balance or position: no leading '+' (avoids inflow confusion); negatives
+/// keep '-' from [num.toStringAsFixed].
+String formatBalanceAmount(double value, {int fractionDigits = 2}) =>
+    value.toStringAsFixed(fractionDigits);
+
 /// Section headers on Review / Plan / pickers (Personal / Individuals / Entities).
 String l10nAccountSectionTitle(BuildContext context, AccountGroup group) {
   final l = AppLocalizations.of(context);

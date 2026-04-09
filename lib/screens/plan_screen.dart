@@ -1069,9 +1069,8 @@ class _ProjectionHero extends StatelessWidget {
     final brightness = Theme.of(context).brightness;
     final personalColor = personalPos ? lc.positive : lc.negative;
     final netColor = netPos ? lc.positive : lc.negative;
-    final personalStr =
-        '${personal > 0 ? '+' : ''}${personal.toStringAsFixed(2)} $sym';
-    final netStr = '${net > 0 ? '+' : ''}${net.toStringAsFixed(2)} $sym';
+    final personalStr = '${formatBalanceAmount(personal)} $sym';
+    final netStr = '${formatBalanceAmount(net)} $sym';
     final personalAmountStyle = TextStyle(
       fontSize: AppHeroConstants.primaryAmountFontSize,
       fontWeight: FontWeight.w800,
@@ -1304,7 +1303,7 @@ class _ProjectionAccountCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '${shownMain > 0 ? '+' : ''}${shownMain.toStringAsFixed(2)} $shownSymbol',
+                    '${formatBalanceAmount(shownMain)} $shownSymbol',
                     style: TextStyle(
                       color: mainColor,
                       fontWeight: FontWeight.w800,
@@ -1326,7 +1325,7 @@ class _ProjectionAccountCard extends StatelessWidget {
                                   '${AppLocalizations.of(context).realBalance} '),
                           TextSpan(
                             text:
-                                '${shownBook > 0 ? '+' : ''}${shownBook.toStringAsFixed(2)} $shownSymbol',
+                                '${formatBalanceAmount(shownBook)} $shownSymbol',
                             style: TextStyle(color: bookColor),
                           ),
                         ],
@@ -1754,7 +1753,7 @@ class _ProjectionPanel extends StatelessWidget {
                         fontWeight: FontWeight.w600)),
                 const Spacer(),
                 Text(
-                  '${total > 0 ? '+' : ''}${total.toStringAsFixed(2)} ${fx.currencySymbol(settings.baseCurrency)}',
+                  '${formatBalanceAmount(total)} ${fx.currencySymbol(settings.baseCurrency)}',
                   style: TextStyle(
                       color: pos ? lc.positive : lc.negative,
                       fontWeight: FontWeight.w800,
@@ -1899,7 +1898,7 @@ class _BalanceChip extends StatelessWidget {
           ),
           const Spacer(),
           Text(
-            '${balance > 0 ? '+' : ''}${balance.toStringAsFixed(2)} ${fx.currencySymbol(currencyCode)}',
+            '${formatBalanceAmount(balance)} ${fx.currencySymbol(currencyCode)}',
             style: TextStyle(
               color: isAffected ? color : cs.onSurfaceVariant,
               fontWeight: FontWeight.w800,

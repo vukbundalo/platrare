@@ -1028,7 +1028,7 @@ class _NetWorthHero extends StatelessWidget {
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
                 HeroFittedAmount(
                   text:
-                      '${displayPersonal > 0 ? '+' : ''}${displayPersonal.toStringAsFixed(2)} $sym',
+                      '${formatBalanceAmount(displayPersonal)} $sym',
                   style: TextStyle(
                     fontSize: AppHeroConstants.primaryAmountFontSize,
                     fontWeight: FontWeight.w800,
@@ -1053,7 +1053,7 @@ class _NetWorthHero extends StatelessWidget {
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
                 HeroFittedAmount(
                   text:
-                      '${displayNet > 0 ? '+' : ''}${displayNet.toStringAsFixed(2)} $sym',
+                      '${formatBalanceAmount(displayNet)} $sym',
                   style: TextStyle(
                     fontSize: AppHeroConstants.secondaryAmountFontSize,
                     fontWeight: FontWeight.w700,
@@ -2477,7 +2477,7 @@ class _AccountCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${shownMain > 0 ? '+' : ''}${shownMain.toStringAsFixed(2)} $shownSymbol',
+                      '${formatBalanceAmount(shownMain)} $shownSymbol',
                       style: TextStyle(
                           color: mainColor,
                           fontWeight: FontWeight.w800,
@@ -2496,7 +2496,7 @@ class _AccountCard extends StatelessWidget {
                             TextSpan(text: '${AppLocalizations.of(context).labelRealBalance} '),
                             TextSpan(
                               text:
-                                  '${shownBook > 0 ? '+' : ''}${shownBook.toStringAsFixed(2)} $shownSymbol',
+                                  '${formatBalanceAmount(shownBook)} $shownSymbol',
                               style: TextStyle(color: bookColor),
                             ),
                           ],

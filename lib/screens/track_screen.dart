@@ -1569,7 +1569,7 @@ class _HistoryChip extends StatelessWidget {
           ),
           const Spacer(),
           Text(
-            '${balance > 0 ? '+' : ''}${balance.toStringAsFixed(2)} ${fx.currencySymbol(currencyCode)}',
+            '${formatBalanceAmount(balance)} ${fx.currencySymbol(currencyCode)}',
             style: TextStyle(
               color: isAffected ? color : cs.onSurfaceVariant,
               fontWeight: FontWeight.w800,

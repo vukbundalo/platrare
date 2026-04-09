@@ -662,7 +662,7 @@ class _AccountPickerTile extends StatelessWidget {
                     ),
                     if (hasAccount)
                       Text(
-                        '${(projectedBalance ?? account!.balance) > 0 ? '+' : ''}${(projectedBalance ?? account!.balance).toStringAsFixed(2)} ${fx.currencySymbol(account!.currencyCode)}',
+                        '${formatBalanceAmount(projectedBalance ?? account!.balance)} ${fx.currencySymbol(account!.currencyCode)}',
                         style: TextStyle(
                           fontSize: 12,
                           color: (projectedBalance ?? account!.balance) >= 0
@@ -1310,7 +1310,7 @@ class _AccountListTile extends StatelessWidget {
                           fontWeight: FontWeight.w600, fontSize: 15)),
                 ),
                 Text(
-                  '${projectedBalance > 0 ? '+' : ''}${projectedBalance.toStringAsFixed(2)} ${fx.currencySymbol(account.currencyCode)}',
+                  '${formatBalanceAmount(projectedBalance)} ${fx.currencySymbol(account.currencyCode)}',
                   style: TextStyle(
                     color: balPos ? lc.positive : lc.negative,
                     fontWeight: FontWeight.w700,

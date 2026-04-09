@@ -812,7 +812,7 @@ class _AccountTile extends StatelessWidget {
                   if (has) ...[
                     const SizedBox(height: 1),
                     Text(
-                      '${headroom > 0 ? '+' : ''}${headroom.toStringAsFixed(2)} ${fx.currencySymbol(account!.currencyCode)}',
+                      '${formatBalanceAmount(headroom)} ${fx.currencySymbol(account!.currencyCode)}',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -852,7 +852,7 @@ class _AccountPickerSheet extends StatelessWidget {
 
   String _fmt(Account a) {
     final h = a.personalHeadroomNative(a.balance);
-    return '${h > 0 ? '+' : ''}${h.toStringAsFixed(2)} ${fx.currencySymbol(a.currencyCode)}';
+    return '${formatBalanceAmount(h)} ${fx.currencySymbol(a.currencyCode)}';
   }
 
   @override
