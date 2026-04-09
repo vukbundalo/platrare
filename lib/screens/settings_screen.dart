@@ -54,77 +54,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> _exportBackup(AppLocalizations l10n) async {
-    final pwd1 = TextEditingController();
-    final pwd2 = TextEditingController();
     try {
       final choice = await showDialog<String?>(
         context: context,
-        builder: (ctx) {
-          return StatefulBuilder(
-            builder: (ctx, setLocal) {
-              String? fieldError;
-              return AlertDialog(
-                title: Text(l10n.backupExportDialogTitle),
-                content: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(l10n.backupExportDialogBody),
-                      const SizedBox(height: 16),
-                      TextField(
-                        controller: pwd1,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: l10n.backupExportPasswordLabel,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
-                        controller: pwd2,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: l10n.backupExportPasswordConfirmLabel,
-                          errorText: fieldError,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(ctx, null),
-                    child: Text(l10n.cancel),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.pop(ctx, ''),
-                    child: Text(l10n.backupExportWithoutEncryption),
-                  ),
-                  FilledButton(
-                    onPressed: () {
-                      final a = pwd1.text.trim();
-                      final b = pwd2.text.trim();
-                      if (a.isEmpty || b.isEmpty) {
-                        setLocal(
-                          () => fieldError = l10n.backupExportPasswordEmpty,
-                        );
-                        return;
-                      }
-                      if (a != b) {
-                        setLocal(
-                          () => fieldError = l10n.backupExportPasswordMismatch,
-                        );
-                        return;
-                      }
-                      Navigator.pop(ctx, a);
-                    },
-                    child: Text(l10n.confirm),
-                  ),
-                ],
-              );
-            },
-          );
-        },
+        builder: (ctx) => _BackupExportPasswordDialog(l10n: l10n),
       );
       if (!mounted) return;
       if (choice == null) return;
@@ -164,9 +97,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.settingsDataExportFailed)),
       );
-    } finally {
-      pwd1.dispose();
-      pwd2.dispose();
     }
   }
 
@@ -176,57 +106,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return formatAppDate(context, 'y-MM-dd HH:mm', d.toLocal());
   }
 
-  Future<String?> _promptImportPassword(AppLocalizations l10n) async {
-    final c = TextEditingController();
-    try {
-      // Must await: if we `return showDialog` without await, `finally` runs
-      // immediately and disposes [c] while the dialog is still on screen.
-      final result = await showDialog<String>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text(l10n.backupImportPasswordTitle),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(l10n.backupImportPasswordBody),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: c,
-                  obscureText: true,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    labelText: l10n.backupImportPasswordLabel,
-                  ),
-                  onSubmitted: (_) {
-                    final v = c.text.trim();
-                    if (v.isNotEmpty) Navigator.pop(ctx, v);
-                  },
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: Text(l10n.cancel),
-            ),
-            FilledButton(
-              onPressed: () {
-                final v = c.text.trim();
-                if (v.isEmpty) return;
-                Navigator.pop(ctx, v);
-              },
-              child: Text(l10n.confirm),
-            ),
-          ],
-        ),
-      );
-      return result;
-    } finally {
-      c.dispose();
-    }
+  Future<String?> _promptImportPassword(AppLocalizations l10n) {
+    return showDialog<String>(
+      context: context,
+      builder: (ctx) => _BackupImportPasswordDialog(l10n: l10n),
+    );
   }
 
   Future<void> _importBackup(AppLocalizations l10n) async {
@@ -333,9 +217,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
       await DataTransfer.applyImport(importReady.data);
       if (!mounted) return;
       setState(() {});
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.settingsDataImportDone)),
-      );
+      // Avoid competing with dialog route teardown (SnackBar + overlay).
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.settingsDataImportDone)),
+        );
+      });
     } on BackupChecksumMismatchException {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -986,6 +874,167 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ],
       ),
+    );
+  }
+}
+
+// ─── Backup dialogs (controllers owned by dialog State; avoids dispose races) ─
+
+class _BackupImportPasswordDialog extends StatefulWidget {
+  const _BackupImportPasswordDialog({required this.l10n});
+  final AppLocalizations l10n;
+
+  @override
+  State<_BackupImportPasswordDialog> createState() =>
+      _BackupImportPasswordDialogState();
+}
+
+class _BackupImportPasswordDialogState extends State<_BackupImportPasswordDialog> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = widget.l10n;
+    return AlertDialog(
+      title: Text(l10n.backupImportPasswordTitle),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(l10n.backupImportPasswordBody),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _controller,
+              obscureText: true,
+              autofocus: true,
+              decoration: InputDecoration(
+                labelText: l10n.backupImportPasswordLabel,
+              ),
+              onSubmitted: (_) {
+                final v = _controller.text.trim();
+                if (v.isNotEmpty) Navigator.pop(context, v);
+              },
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(l10n.cancel),
+        ),
+        FilledButton(
+          onPressed: () {
+            final v = _controller.text.trim();
+            if (v.isEmpty) return;
+            Navigator.pop(context, v);
+          },
+          child: Text(l10n.confirm),
+        ),
+      ],
+    );
+  }
+}
+
+class _BackupExportPasswordDialog extends StatefulWidget {
+  const _BackupExportPasswordDialog({required this.l10n});
+  final AppLocalizations l10n;
+
+  @override
+  State<_BackupExportPasswordDialog> createState() =>
+      _BackupExportPasswordDialogState();
+}
+
+class _BackupExportPasswordDialogState extends State<_BackupExportPasswordDialog> {
+  late final TextEditingController _pwd1;
+  late final TextEditingController _pwd2;
+  String? _fieldError;
+
+  @override
+  void initState() {
+    super.initState();
+    _pwd1 = TextEditingController();
+    _pwd2 = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _pwd1.dispose();
+    _pwd2.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = widget.l10n;
+    return AlertDialog(
+      title: Text(l10n.backupExportDialogTitle),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(l10n.backupExportDialogBody),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _pwd1,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: l10n.backupExportPasswordLabel,
+              ),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: _pwd2,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: l10n.backupExportPasswordConfirmLabel,
+                errorText: _fieldError,
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, null),
+          child: Text(l10n.cancel),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, ''),
+          child: Text(l10n.backupExportWithoutEncryption),
+        ),
+        FilledButton(
+          onPressed: () {
+            final a = _pwd1.text.trim();
+            final b = _pwd2.text.trim();
+            if (a.isEmpty || b.isEmpty) {
+              setState(() => _fieldError = l10n.backupExportPasswordEmpty);
+              return;
+            }
+            if (a != b) {
+              setState(() => _fieldError = l10n.backupExportPasswordMismatch);
+              return;
+            }
+            setState(() => _fieldError = null);
+            Navigator.pop(context, a);
+          },
+          child: Text(l10n.confirm),
+        ),
+      ],
     );
   }
 }
