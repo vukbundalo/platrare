@@ -1307,7 +1307,9 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                   if (mounted) setState(() {});
                   return;
                 }
-                if (mounted) Navigator.pop(context, true);
+                if (mounted) {
+                  Navigator.pop(context, kAccountFormSheetDeleted);
+                }
               },
               style: FilledButton.styleFrom(
                 backgroundColor: Theme.of(ctx).colorScheme.error,
@@ -1340,7 +1342,9 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                 if (mounted) setState(() {});
                 return;
               }
-              if (mounted) Navigator.pop(context, true);
+              if (mounted) {
+                Navigator.pop(context, kAccountFormSheetDeleted);
+              }
             },
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(ctx).colorScheme.error,

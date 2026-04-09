@@ -388,12 +388,17 @@ class _AccountTransactionsScreenState
                 onPressed: () async {
                   final acct =
                       refreshedAccount(widget.account) ?? widget.account;
-                  final r = await Navigator.push<bool>(
+                  final r = await Navigator.push<Object?>(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => AccountFormScreen(existing: acct)),
+                        builder: (_) => AccountFormScreen(existing: acct)),
                   );
-                  if (r == true && mounted) setState(() {});
+                  if (!context.mounted) return;
+                  if (r == kAccountFormSheetDeleted) {
+                    Navigator.pop(context, kAccountFormSheetDeleted);
+                    return;
+                  }
+                  if (r == true) setState(() {});
                 },
               ),
             ],

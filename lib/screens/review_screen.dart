@@ -423,12 +423,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
     widget.onChanged?.call();
   }
 
-  void _openAccountTransactions(Account account) {
-    Navigator.push(
+  Future<void> _openAccountTransactions(Account account) async {
+    final r = await Navigator.push<Object?>(
       context,
       MaterialPageRoute(
           builder: (_) => AccountTransactionsScreen(account: account)),
     );
+    if (!mounted) return;
+    if (r == kAccountFormSheetDeleted) {
+      setState(() {});
+      widget.onChanged?.call();
+    }
   }
 
   // ── Computed values ────────────────────────────────────────────────────────
