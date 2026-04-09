@@ -124,7 +124,6 @@ class _PlanScreenState extends State<PlanScreen> {
       });
 
   void _cycleDateFilter() => setState(() {
-        _planPanel = TrackPlanFilterPanel.none;
         if (_dateFilter == null) {
           _dateFilter = 'month';
           _dateAnchor = DateTime.now();

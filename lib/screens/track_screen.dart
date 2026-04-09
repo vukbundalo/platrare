@@ -133,9 +133,7 @@ class _TrackScreenState extends State<TrackScreen> {
       });
 
   /// Cycles: this month (null) → month → week → year → all time → null.
-  /// Closes account/category strip when switching date mode only.
   void _cycleDateFilter() => setState(() {
-        _trackPanel = TrackPlanFilterPanel.none;
         if (_dateFilter == null) {
           _dateFilter = 'month';
           _dateAnchor = DateTime.now();

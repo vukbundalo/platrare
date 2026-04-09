@@ -150,7 +150,6 @@ class _AccountTransactionsScreenState
       });
 
   void _cycleDateFilter() => setState(() {
-        _filterPanel = TrackPlanFilterPanel.none;
         if (_dateFilter == null) {
           _dateFilter = 'month';
           _dateAnchor = DateTime.now();
