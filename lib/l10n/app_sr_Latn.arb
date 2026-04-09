@@ -203,7 +203,7 @@
   "settingsSectionData": "Podaci",
   "settingsSectionPrivacy": "Privatnost",
   "settingsPrivacyPolicyTitle": "Politika privatnosti",
-  "settingsPrivacyPolicySubtitle": "Kako Platrare tretira vaše podatke. Prikazuje se u aplikaciji.",
+  "settingsPrivacyPolicySubtitle": "Kako Platrare tretira vaše podatke.",
   "settingsPrivacyFxDisclosure": "Kursna lista: aplikacija preuzima javne kurseve preko interneta. Vaši računi i transakcije se ne šalju.",
   "settingsPrivacyOpenFailed": "Nije moguće učitati politiku privatnosti.",
   "settingsPrivacyRetry": "Pokušaj ponovo",
@@ -296,7 +296,7 @@
 
   "archivedAccountsTitle": "Arhivirani računi",
   "archivedAccountsEmptyTitle": "Nema arhiviranih računa",
-  "archivedAccountsEmptyBody": "Kada arhivirate račun u Pregledu, pojaviće se ovde. Uvek ga možete vratiti.",
+  "archivedAccountsEmptyBody": "Knjigovodstveni saldo i prekoračenje moraju biti nula; arhiviranje je u opcijama računa u Pregledu.",
 
   "categoriesTitle": "Kategorije",
   "newCategoryTitle": "Nova kategorija",
@@ -437,7 +437,7 @@
   "semanticsProjectionDate": "Datum projekcije {date}. Dvaput dodirnite za izbor datuma",
   "semanticsProjectedBalance": "Projektovano lično stanje {amount}",
   "statsEmptyTitle": "Još nema transakcija",
-  "statsEmptySubtitle": "Vaša statistika potrošnje će se pojaviti ovdje",
+  "statsEmptySubtitle": "Nema podataka o potrošnji za izabrani period.",
   "semanticsShowProjections": "Prikaži projektovana stanja po računu",
   "semanticsHideProjections": "Sakrij projektovana stanja po računu",
   "semanticsDateAllTime": "Datum: celo vreme \u2014 dodirnite za promenu režima",

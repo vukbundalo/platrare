@@ -642,8 +642,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsPrivacyPolicyTitle => 'Privacy policy';
 
   @override
-  String get settingsPrivacyPolicySubtitle =>
-      'How Platrare handles your data. Shown here in the app.';
+  String get settingsPrivacyPolicySubtitle => 'How Platrare handles your data.';
 
   @override
   String get settingsPrivacyFxDisclosure =>
@@ -957,7 +956,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get archivedAccountsEmptyBody =>
-      'When you archive an account from Review, it will appear here. You can restore it anytime.';
+      'Book balance and overdraft must be zero. Archive from account options in Review.';
 
   @override
   String get categoriesTitle => 'Categories';
@@ -1363,7 +1362,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsEmptyTitle => 'No transactions yet';
 
   @override
-  String get statsEmptySubtitle => 'Your spending statistics will appear here';
+  String get statsEmptySubtitle => 'No spending data for the selected range.';
 
   @override
   String get semanticsShowProjections => 'Show projected balances by account';

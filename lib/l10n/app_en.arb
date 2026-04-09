@@ -272,7 +272,7 @@
   "settingsSectionData": "Data",
   "settingsSectionPrivacy": "Privacy",
   "settingsPrivacyPolicyTitle": "Privacy policy",
-  "settingsPrivacyPolicySubtitle": "How Platrare handles your data. Shown here in the app.",
+  "settingsPrivacyPolicySubtitle": "How Platrare handles your data.",
   "settingsPrivacyFxDisclosure": "Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.",
   "settingsPrivacyOpenFailed": "Could not load the privacy policy.",
   "settingsPrivacyRetry": "Try again",
@@ -394,7 +394,7 @@
 
   "archivedAccountsTitle": "Archived accounts",
   "archivedAccountsEmptyTitle": "No archived accounts",
-  "archivedAccountsEmptyBody": "When you archive an account from Review, it will appear here. You can restore it anytime.",
+  "archivedAccountsEmptyBody": "Book balance and overdraft must be zero. Archive from account options in Review.",
 
   "categoriesTitle": "Categories",
   "newCategoryTitle": "New Category",
@@ -583,7 +583,7 @@
     }
   },
   "statsEmptyTitle": "No transactions yet",
-  "statsEmptySubtitle": "Your spending statistics will appear here",
+  "statsEmptySubtitle": "No spending data for the selected range.",
   "semanticsShowProjections": "Show projected balances by account",
   "semanticsHideProjections": "Hide projected balances by account",
   "semanticsDateAllTime": "Date: all time \u2014 tap to change mode",

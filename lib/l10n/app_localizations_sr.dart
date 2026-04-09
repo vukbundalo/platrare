@@ -646,7 +646,7 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get settingsPrivacyPolicySubtitle =>
-      'Kako Platrare tretira vaše podatke. Prikazuje se u aplikaciji.';
+      'Kako Platrare tretira vaše podatke.';
 
   @override
   String get settingsPrivacyFxDisclosure =>
@@ -963,7 +963,7 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get archivedAccountsEmptyBody =>
-      'Kada arhivirate račun u Pregledu, pojaviće se ovde. Uvek ga možete vratiti.';
+      'Knjigovodstveni saldo i prekoračenje moraju biti nula; arhiviranje je u opcijama računa u Pregledu.';
 
   @override
   String get categoriesTitle => 'Kategorije';
@@ -1372,7 +1372,7 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get statsEmptySubtitle =>
-      'Vaša statistika potrošnje će se pojaviti ovdje';
+      'Nema podataka o potrošnji za izabrani period.';
 
   @override
   String get semanticsShowProjections =>
@@ -2118,7 +2118,7 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get settingsPrivacyPolicySubtitle =>
-      'Kako Platrare tretira vaše podatke. Prikazuje se u aplikaciji.';
+      'Kako Platrare tretira vaše podatke.';
 
   @override
   String get settingsPrivacyFxDisclosure =>
@@ -2435,7 +2435,7 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get archivedAccountsEmptyBody =>
-      'Kada arhivirate račun u Pregledu, pojaviće se ovde. Uvek ga možete vratiti.';
+      'Knjigovodstveni saldo i prekoračenje moraju biti nula; arhiviranje je u opcijama računa u Pregledu.';
 
   @override
   String get categoriesTitle => 'Kategorije';
@@ -2844,7 +2844,7 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get statsEmptySubtitle =>
-      'Vaša statistika potrošnje će se pojaviti ovdje';
+      'Nema podataka o potrošnji za izabrani period.';
 
   @override
   String get semanticsShowProjections =>

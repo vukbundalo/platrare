@@ -1188,7 +1188,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsPrivacyPolicySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'How Platrare handles your data. Shown here in the app.'**
+  /// **'How Platrare handles your data.'**
   String get settingsPrivacyPolicySubtitle;
 
   /// No description provided for @settingsPrivacyFxDisclosure.
@@ -1746,7 +1746,7 @@ abstract class AppLocalizations {
   /// No description provided for @archivedAccountsEmptyBody.
   ///
   /// In en, this message translates to:
-  /// **'When you archive an account from Review, it will appear here. You can restore it anytime.'**
+  /// **'Book balance and overdraft must be zero. Archive from account options in Review.'**
   String get archivedAccountsEmptyBody;
 
   /// No description provided for @categoriesTitle.
@@ -2466,7 +2466,7 @@ abstract class AppLocalizations {
   /// No description provided for @statsEmptySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Your spending statistics will appear here'**
+  /// **'No spending data for the selected range.'**
   String get statsEmptySubtitle;
 
   /// No description provided for @semanticsShowProjections.
