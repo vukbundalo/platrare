@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:open_filex/open_filex.dart';
 import '../data/app_data.dart' as data;
 import '../theme/ledger_colors.dart';
 import '../data/data_repository.dart';
+import '../data/data_transfer.dart';
 import '../data/ledger_verify.dart';
 import '../data/currency_localized_names.dart';
 import '../data/currency_prefs.dart';
 import '../data/fx_service.dart';
 import '../data/locale_prefs.dart';
+import '../data/security_prefs.dart';
 import '../data/theme_prefs.dart';
 import '../data/user_settings.dart' as settings;
 import '../utils/account_display.dart';
@@ -24,6 +27,450 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  Future<void> _showExportDoneSnack(AppLocalizations l10n, String? path) async {
+    if (!mounted || path == null) return;
+    final openNow = await showDialog<bool>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text(l10n.settingsDataExportDoneTitle),
+            content: Text(l10n.settingsDataExportDoneBody(path)),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx, false),
+                child: Text(l10n.close),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.pop(ctx, true),
+                child: Text(l10n.settingsDataOpenExportFile),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+    if (!mounted) return;
+    if (openNow) {
+      await OpenFilex.open(path);
+    }
+  }
+
+  Future<void> _exportBackup(AppLocalizations l10n) async {
+    final pwd1 = TextEditingController();
+    final pwd2 = TextEditingController();
+    try {
+      final choice = await showDialog<String?>(
+        context: context,
+        builder: (ctx) {
+          return StatefulBuilder(
+            builder: (ctx, setLocal) {
+              String? fieldError;
+              return AlertDialog(
+                title: Text(l10n.backupExportDialogTitle),
+                content: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(l10n.backupExportDialogBody),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: pwd1,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: l10n.backupExportPasswordLabel,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: pwd2,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: l10n.backupExportPasswordConfirmLabel,
+                          errorText: fieldError,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx, null),
+                    child: Text(l10n.cancel),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx, ''),
+                    child: Text(l10n.backupExportWithoutEncryption),
+                  ),
+                  FilledButton(
+                    onPressed: () {
+                      final a = pwd1.text.trim();
+                      final b = pwd2.text.trim();
+                      if (a.isEmpty || b.isEmpty) {
+                        setLocal(
+                          () => fieldError = l10n.backupExportPasswordEmpty,
+                        );
+                        return;
+                      }
+                      if (a != b) {
+                        setLocal(
+                          () => fieldError = l10n.backupExportPasswordMismatch,
+                        );
+                        return;
+                      }
+                      Navigator.pop(ctx, a);
+                    },
+                    child: Text(l10n.confirm),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
+      if (!mounted) return;
+      if (choice == null) return;
+
+      if (choice.isEmpty) {
+        final ok = await showDialog<bool>(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: Text(l10n.backupExportSkipWarningTitle),
+                content: Text(l10n.backupExportSkipWarningBody),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx, false),
+                    child: Text(l10n.cancel),
+                  ),
+                  FilledButton(
+                    onPressed: () => Navigator.pop(ctx, true),
+                    child: Text(l10n.backupExportSkipWarningConfirm),
+                  ),
+                ],
+              ),
+            ) ??
+            false;
+        if (!mounted || !ok) return;
+        final path = await DataTransfer.exportToPickedPath(encrypt: false);
+        await _showExportDoneSnack(l10n, path);
+        return;
+      }
+
+      final path = await DataTransfer.exportToPickedPath(
+        encrypt: true,
+        password: choice,
+      );
+      await _showExportDoneSnack(l10n, path);
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.settingsDataExportFailed)),
+      );
+    } finally {
+      pwd1.dispose();
+      pwd2.dispose();
+    }
+  }
+
+  String _formatBackupExportedAt(BuildContext context, String iso) {
+    final d = DateTime.tryParse(iso);
+    if (d == null) return iso;
+    return formatAppDate(context, 'y-MM-dd HH:mm', d.toLocal());
+  }
+
+  Future<String?> _promptImportPassword(AppLocalizations l10n) async {
+    final c = TextEditingController();
+    try {
+      return showDialog<String>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(l10n.backupImportPasswordTitle),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(l10n.backupImportPasswordBody),
+              const SizedBox(height: 12),
+              TextField(
+                controller: c,
+                obscureText: true,
+                autofocus: true,
+                decoration: InputDecoration(
+                  labelText: l10n.backupImportPasswordLabel,
+                ),
+                onSubmitted: (_) {
+                  final v = c.text.trim();
+                  if (v.isNotEmpty) Navigator.pop(ctx, v);
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              onPressed: () {
+                final v = c.text.trim();
+                if (v.isEmpty) return;
+                Navigator.pop(ctx, v);
+              },
+              child: Text(l10n.confirm),
+            ),
+          ],
+        ),
+      );
+    } finally {
+      c.dispose();
+    }
+  }
+
+  Future<void> _importBackup(AppLocalizations l10n) async {
+    try {
+      final bytes = await DataTransfer.pickBackupFileBytes();
+      if (!mounted || bytes == null) return;
+
+      String? password;
+      if (looksLikeEncryptedPlatrare(bytes)) {
+        password = await _promptImportPassword(l10n);
+        if (!mounted || password == null || password.isEmpty) return;
+      }
+
+      BackupImportPrepared? prepared;
+      while (mounted) {
+        try {
+          prepared = await DataTransfer.prepareImport(bytes, password: password);
+          break;
+        } on BackupWrongPasswordException {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(l10n.settingsBackupWrongPassword)),
+          );
+          password = await _promptImportPassword(l10n);
+          if (!mounted || password == null || password.isEmpty) return;
+        }
+      }
+      if (prepared == null || !mounted) return;
+      final importReady = prepared;
+
+      final continueImport = await showDialog<bool>(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: Text(l10n.backupImportPreviewTitle),
+              content: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      l10n.backupImportPreviewVersion(importReady.preview.appVersion),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      l10n.backupImportPreviewExported(
+                        _formatBackupExportedAt(
+                          context,
+                          importReady.preview.exportedAtIso,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      l10n.backupImportPreviewCounts(
+                        importReady.preview.accountsCount,
+                        importReady.preview.transactionsCount,
+                        importReady.preview.plannedTransactionsCount,
+                        importReady.preview.attachmentFilesCount,
+                        importReady.preview.incomeCategoriesCount,
+                        importReady.preview.expenseCategoriesCount,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx, false),
+                  child: Text(l10n.cancel),
+                ),
+                FilledButton(
+                  onPressed: () => Navigator.pop(ctx, true),
+                  child: Text(l10n.backupImportPreviewContinue),
+                ),
+              ],
+            ),
+          ) ??
+          false;
+
+      if (!continueImport || !mounted) return;
+
+      final confirmed = await showDialog<bool>(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: Text(l10n.settingsDataImportConfirmTitle),
+              content: Text(l10n.settingsDataImportConfirmBody),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx, false),
+                  child: Text(l10n.cancel),
+                ),
+                FilledButton(
+                  style: FilledButton.styleFrom(backgroundColor: Colors.red),
+                  onPressed: () => Navigator.pop(ctx, true),
+                  child: Text(l10n.settingsDataImportConfirmAction),
+                ),
+              ],
+            ),
+          ) ??
+          false;
+
+      if (!confirmed) return;
+
+      await DataTransfer.applyImport(importReady.data);
+      if (!mounted) return;
+      setState(() {});
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.settingsDataImportDone)),
+      );
+    } on BackupChecksumMismatchException {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.settingsBackupChecksumMismatch)),
+      );
+    } on BackupCorruptFileException {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.settingsBackupCorruptFile)),
+      );
+    } on BackupUnsupportedSchemaException {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.settingsBackupUnsupportedVersion)),
+      );
+    } on FormatException {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.settingsDataImportInvalidFile)),
+      );
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.settingsDataImportFailed)),
+      );
+    }
+  }
+
+  Future<void> _toggleAppSecurity(bool enabled, AppLocalizations l10n) async {
+    if (enabled) {
+      await _showSetPinDialog(l10n);
+      if (!mounted) return;
+      setState(() {});
+      return;
+    }
+    await setSecurityEnabled(false);
+    if (!mounted) return;
+    setState(() {});
+  }
+
+  Future<void> _showSetPinDialog(AppLocalizations l10n) async {
+    final pinCtrl = TextEditingController();
+    final confirmCtrl = TextEditingController();
+    String? error;
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (ctx, setLocalState) {
+            return AlertDialog(
+              title: Text(l10n.securitySetPinTitle),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: pinCtrl,
+                    keyboardType: TextInputType.number,
+                    obscureText: true,
+                    maxLength: 8,
+                    decoration: InputDecoration(
+                      labelText: l10n.securityPinLabel,
+                      counterText: '',
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: confirmCtrl,
+                    keyboardType: TextInputType.number,
+                    obscureText: true,
+                    maxLength: 8,
+                    decoration: InputDecoration(
+                      labelText: l10n.securityConfirmPinLabel,
+                      errorText: error,
+                      counterText: '',
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx, false),
+                  child: Text(l10n.cancel),
+                ),
+                FilledButton(
+                  onPressed: () {
+                    final pin = pinCtrl.text.trim();
+                    final confirm = confirmCtrl.text.trim();
+                    if (pin.length < 4) {
+                      setLocalState(
+                        () => error = l10n.securityPinMustBe4Digits,
+                      );
+                      return;
+                    }
+                    if (pin != confirm) {
+                      setLocalState(() => error = l10n.securityPinMismatch);
+                      return;
+                    }
+                    Navigator.pop(ctx, true);
+                  },
+                  child: Text(l10n.confirm),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+    if (result == true) {
+      await saveSecurityPin(pinCtrl.text.trim());
+      await setSecurityEnabled(true);
+    }
+    pinCtrl.dispose();
+    confirmCtrl.dispose();
+  }
+
+  Future<void> _removePin(AppLocalizations l10n) async {
+    final confirmed = await showDialog<bool>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text(l10n.securityRemovePinTitle),
+            content: Text(l10n.securityRemovePinBody),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx, false),
+                child: Text(l10n.cancel),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.pop(ctx, true),
+                child: Text(l10n.delete),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+    if (!confirmed) return;
+    await clearSecurityPin();
+    if (!mounted) return;
+    setState(() {});
+  }
+
   String _languageSubtitle(AppLocalePreference p, AppLocalizations l10n) {
     return switch (p) {
       AppLocalePreference.system => l10n.settingsLanguageSubtitleSystem,
@@ -405,6 +852,70 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
           const SizedBox(height: 24),
+          _SectionLabel(l10n.settingsSectionSecurity),
+          const SizedBox(height: 8),
+          Card(
+            margin: EdgeInsets.zero,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: ValueListenableBuilder<bool>(
+                valueListenable: appSecurityEnabled,
+                builder: (context, enabled, _) {
+                  return Column(
+                    children: [
+                      SwitchListTile.adaptive(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(l10n.settingsSecurityEnableLock),
+                        subtitle: Text(l10n.settingsSecurityEnableLockSubtitle),
+                        value: enabled,
+                        onChanged: (v) => _toggleAppSecurity(v, l10n),
+                      ),
+                      const SizedBox(height: 4),
+                      FutureBuilder<bool>(
+                        future: hasSecurityPin(),
+                        builder: (context, snap) {
+                          final hasPin = snap.data ?? false;
+                          return Column(
+                            children: [
+                              ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                leading: const Icon(Icons.pin_rounded, size: 20),
+                                title: Text(
+                                  hasPin
+                                      ? l10n.settingsSecurityChangePin
+                                      : l10n.settingsSecuritySetPin,
+                                ),
+                                subtitle: Text(l10n.settingsSecurityPinSubtitle),
+                                enabled: enabled,
+                                onTap: enabled
+                                    ? () async {
+                                        await _showSetPinDialog(l10n);
+                                        if (mounted) setState(() {});
+                                      }
+                                    : null,
+                              ),
+                              if (hasPin)
+                                ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  leading:
+                                      const Icon(Icons.delete_outline_rounded),
+                                  title: Text(l10n.settingsSecurityRemovePin),
+                                  enabled: enabled,
+                                  onTap: enabled
+                                      ? () => _removePin(l10n)
+                                      : null,
+                                ),
+                            ],
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
           _SectionLabel(l10n.settingsSectionCategories),
           const SizedBox(height: 8),
           currencyCard(
@@ -453,6 +964,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
             title: l10n.settingsVerifyLedger,
             subtitle: l10n.settingsVerifyLedgerSubtitle,
             onTap: () => _showLedgerVerify(context, l10n),
+          ),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.ios_share_rounded,
+            title: l10n.settingsDataExportTitle,
+            subtitle: l10n.settingsDataExportSubtitle,
+            onTap: () => _exportBackup(l10n),
+          ),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.upload_file_rounded,
+            title: l10n.settingsDataImportTitle,
+            subtitle: l10n.settingsDataImportSubtitle,
+            onTap: () => _importBackup(l10n),
           ),
         ],
       ),

@@ -1194,7 +1194,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsDataExportSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'ZIP file with ledger data and receipt attachments (photos, PDFs, etc.)'**
+  /// **'Save as .zip (plain) or .platrare (password-protected) with ledger data and attachments'**
   String get settingsDataExportSubtitle;
 
   /// No description provided for @settingsDataImportTitle.
@@ -1206,8 +1206,147 @@ abstract class AppLocalizations {
   /// No description provided for @settingsDataImportSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Restore from a Platrare ZIP backup or a legacy JSON file'**
+  /// **'Restore from a Platrare .zip or encrypted .platrare backup'**
   String get settingsDataImportSubtitle;
+
+  /// No description provided for @backupExportDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Protect this backup'**
+  String get backupExportDialogTitle;
+
+  /// No description provided for @backupExportDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.'**
+  String get backupExportDialogBody;
+
+  /// No description provided for @backupExportPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get backupExportPasswordLabel;
+
+  /// No description provided for @backupExportPasswordConfirmLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get backupExportPasswordConfirmLabel;
+
+  /// No description provided for @backupExportPasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get backupExportPasswordMismatch;
+
+  /// No description provided for @backupExportPasswordEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a matching password, or export without encryption below.'**
+  String get backupExportPasswordEmpty;
+
+  /// No description provided for @backupExportWithoutEncryption.
+  ///
+  /// In en, this message translates to:
+  /// **'Export without encryption'**
+  String get backupExportWithoutEncryption;
+
+  /// No description provided for @backupExportSkipWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export without encryption?'**
+  String get backupExportSkipWarningTitle;
+
+  /// No description provided for @backupExportSkipWarningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone with access to the file can read your data. Use this only for local copies you control.'**
+  String get backupExportSkipWarningBody;
+
+  /// No description provided for @backupExportSkipWarningConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Export unencrypted'**
+  String get backupExportSkipWarningConfirm;
+
+  /// No description provided for @backupImportPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted backup'**
+  String get backupImportPasswordTitle;
+
+  /// No description provided for @backupImportPasswordBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the password you used when exporting.'**
+  String get backupImportPasswordBody;
+
+  /// No description provided for @backupImportPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get backupImportPasswordLabel;
+
+  /// No description provided for @backupImportPreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup summary'**
+  String get backupImportPreviewTitle;
+
+  /// No description provided for @backupImportPreviewVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App version: {version}'**
+  String backupImportPreviewVersion(String version);
+
+  /// No description provided for @backupImportPreviewExported.
+  ///
+  /// In en, this message translates to:
+  /// **'Exported: {date}'**
+  String backupImportPreviewExported(String date);
+
+  /// No description provided for @backupImportPreviewCounts.
+  ///
+  /// In en, this message translates to:
+  /// **'{accounts} accounts · {transactions} transactions · {planned} planned · {attachments} attachment files · {income} income categories · {expense} expense categories'**
+  String backupImportPreviewCounts(
+    int accounts,
+    int transactions,
+    int planned,
+    int attachments,
+    int income,
+    int expense,
+  );
+
+  /// No description provided for @backupImportPreviewContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get backupImportPreviewContinue;
+
+  /// No description provided for @settingsBackupWrongPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong password'**
+  String get settingsBackupWrongPassword;
+
+  /// No description provided for @settingsBackupChecksumMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup failed integrity check'**
+  String get settingsBackupChecksumMismatch;
+
+  /// No description provided for @settingsBackupCorruptFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid or damaged backup file'**
+  String get settingsBackupCorruptFile;
+
+  /// No description provided for @settingsBackupUnsupportedVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup needs a newer app version'**
+  String get settingsBackupUnsupportedVersion;
 
   /// No description provided for @settingsDataImportConfirmTitle.
   ///

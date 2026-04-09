@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:archive/archive.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
@@ -14,16 +15,23 @@ import '../models/planned_transaction.dart';
 import '../models/transaction.dart';
 import 'account_lifecycle.dart' show compareAccountsStorageOrder;
 import 'app_data.dart' as data;
+import 'backup/backup_crypto.dart';
+import 'backup/backup_exceptions.dart';
+import 'backup/backup_format.dart';
+import 'backup/backup_manifest.dart';
+import 'backup/backup_preview.dart';
+import 'backup/backup_zip.dart';
 import 'currency_prefs.dart';
 import 'local/platrare_database.dart';
 import 'user_settings.dart' as settings;
 
-/// v1: JSON only, attachment paths are device-local (fragile).
-/// v2: ZIP with [kBackupJsonFileName] + `attachments/` relative paths.
-const _backupVersionLatest = 2;
-const kBackupJsonFileName = 'backup.json';
-const _attachmentLayoutBundled = 'bundled';
-const _attachmentsFolder = 'attachments';
+export 'backup/backup_exceptions.dart';
+export 'backup/backup_format.dart'
+    show kAttachmentsFolder, looksLikeEncryptedPlatrare;
+export 'backup/backup_preview.dart' show BackupPreview;
+
+/// Logical JSON inside [kDataJsonFileName] (inner ZIP).
+const int _dataJsonVersion = 1;
 
 class BackupData {
   final List<Account> accounts;
@@ -45,100 +53,111 @@ class BackupData {
   });
 }
 
+/// Result of a successful import parse (preview + data for apply).
+class BackupImportPrepared {
+  const BackupImportPrepared({
+    required this.preview,
+    required this.data,
+  });
+
+  final BackupPreview preview;
+  final BackupData data;
+}
+
 class DataTransfer {
   DataTransfer._();
 
-  static String defaultBackupFileName() {
+  static String defaultExportFileName({required bool encrypt}) {
     final stamp = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
-    return 'platrare_backup_$stamp.zip';
+    return encrypt
+        ? 'platrare_backup_$stamp.platrare'
+        : 'platrare_backup_$stamp.zip';
   }
 
-  /// Writes a ZIP with [kBackupJsonFileName] plus copied attachment files.
-  static Future<String?> exportToPickedPath() async {
-    final zipBytes = await _buildBackupZipBytes();
+  /// Builds inner ZIP, optionally encrypts, then writes via file picker.
+  static Future<String?> exportToPickedPath({
+    required bool encrypt,
+    String? password,
+  }) async {
+    if (encrypt) {
+      final p = password?.trim();
+      if (p == null || p.isEmpty) {
+        throw ArgumentError('Password is required for encrypted export.');
+      }
+    }
+
+    final inner = await _buildInnerZipBytes();
+    final Uint8List outBytes;
+    if (encrypt) {
+      outBytes = await encryptInnerZip(
+        innerZip: inner,
+        password: password!.trim(),
+      );
+    } else {
+      outBytes = inner;
+    }
+
+    final name = defaultExportFileName(encrypt: encrypt);
 
     if (Platform.isAndroid || Platform.isIOS) {
       return FilePicker.platform.saveFile(
         dialogTitle: 'Export backup',
-        fileName: defaultBackupFileName(),
-        type: FileType.any,
-        bytes: zipBytes,
+        fileName: name,
+        type: FileType.custom,
+        allowedExtensions: [encrypt ? 'platrare' : 'zip'],
+        bytes: outBytes,
       );
     }
 
     final path = await FilePicker.platform.saveFile(
       dialogTitle: 'Export backup',
-      fileName: defaultBackupFileName(),
-      type: FileType.any,
+      fileName: name,
+      type: FileType.custom,
+      allowedExtensions: [encrypt ? 'platrare' : 'zip'],
     );
     if (path == null) return null;
 
     var outPath = path;
-    if (!outPath.toLowerCase().endsWith('.zip')) {
-      outPath = '$outPath.zip';
+    final suffix = encrypt ? '.platrare' : '.zip';
+    if (!outPath.toLowerCase().endsWith(suffix)) {
+      outPath = '$outPath$suffix';
     }
-    await File(outPath).writeAsBytes(zipBytes);
+    await File(outPath).writeAsBytes(outBytes);
     return outPath;
   }
 
-  static Future<Uint8List> _buildBackupZipBytes() async {
+  static Future<Uint8List> _buildInnerZipBytes() async {
     final pathToArchive = await _buildAttachmentPathMap();
-    final json = _encodeBackupJson(attachmentPathMap: pathToArchive);
+    final json = _encodeDataJson(attachmentPathMap: pathToArchive);
+    final pkg = await PackageInfo.fromPlatform();
+    final exportedAt = DateTime.now().toUtc().toIso8601String();
 
-    final archive = Archive();
-    archive.addFile(ArchiveFile.string(kBackupJsonFileName, json));
-
+    final attBytes = <String, Uint8List>{};
     for (final e in pathToArchive.entries) {
       final file = File(e.key);
       if (!await file.exists()) continue;
-      final bytes = await file.readAsBytes();
-      archive.addFile(ArchiveFile.bytes(e.value, bytes));
+      attBytes[e.value] = Uint8List.fromList(await file.readAsBytes());
     }
 
-    return ZipEncoder().encodeBytes(archive);
+    return buildInnerZipBytes(
+      dataJson: json,
+      relativeAttachmentBytes: attBytes,
+      exportedAtIso: exportedAt,
+      appVersion: '${pkg.version}+${pkg.buildNumber}',
+      accountsCount: data.accounts.length,
+      transactionsCount: data.transactions.length,
+      plannedTransactionsCount: data.plannedTransactions.length,
+      incomeCategoriesCount: data.incomeCategories.length,
+      expenseCategoriesCount: data.expenseCategories.length,
+    );
   }
 
-  /// Maps absolute on-disk paths → `attachments/NNN_name` (deduplicated).
-  static Future<Map<String, String>> _buildAttachmentPathMap() async {
-    final seen = <String>{};
-    final paths = <String>[];
-    for (final t in data.transactions) {
-      for (final a in t.attachments) {
-        if (seen.add(a)) paths.add(a);
-      }
-    }
-    for (final pt in data.plannedTransactions) {
-      for (final a in pt.attachments) {
-        if (seen.add(a)) paths.add(a);
-      }
-    }
-    paths.sort();
-
-    final map = <String, String>{};
-    var i = 0;
-    for (final abs in paths) {
-      final f = File(abs);
-      if (!await f.exists()) continue;
-      final safe = _sanitizeFileName(p.basename(abs));
-      final rel = '$_attachmentsFolder/${i.toString().padLeft(3, '0')}_$safe';
-      map[abs] = rel;
-      i++;
-    }
-    return map;
-  }
-
-  static String _sanitizeFileName(String name) {
-    var s = name.replaceAll(RegExp(r'[\\/]+'), '_').trim();
-    if (s.isEmpty) s = 'file';
-    if (s.length > 120) s = s.substring(s.length - 120);
-    return s;
-  }
-
-  static Future<BackupData?> importFromPickedFile() async {
+  /// Picks `.zip` or `.platrare`, reads bytes. Returns null if cancelled.
+  static Future<Uint8List?> pickBackupFileBytes() async {
     final result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.custom,
-      allowedExtensions: ['zip', 'json'],
+      allowedExtensions: const ['zip', 'platrare'],
       withData: true,
     );
     if (result == null || result.files.isEmpty) return null;
@@ -149,35 +168,41 @@ class DataTransfer {
     if (bytes == null && path != null) {
       bytes = await File(path).readAsBytes();
     }
-    if (bytes == null) {
-      throw const FormatException('Could not read the selected file.');
-    }
-
-    final name = platformFile.name.toLowerCase();
-    if (name.endsWith('.json')) {
-      return _decodeBackupJson(utf8.decode(bytes));
-    }
-    if (name.endsWith('.zip') || _looksLikeZip(bytes)) {
-      return _importFromZipBytes(bytes);
-    }
-    return _decodeBackupJson(utf8.decode(bytes));
+    return bytes;
   }
 
-  static bool _looksLikeZip(Uint8List bytes) =>
-      bytes.length >= 4 && bytes[0] == 0x50 && bytes[1] == 0x4b;
-
-  static Future<BackupData> _importFromZipBytes(Uint8List bytes) async {
-    final archive = ZipDecoder().decodeBytes(bytes);
+  /// Unwraps encrypted/plain outer layer → inner ZIP, parses manifest, verifies
+  /// hashes, decodes [BackupData]. Single pass.
+  static Future<BackupImportPrepared> prepareImport(
+    Uint8List raw, {
+    String? password,
+  }) async {
+    final innerZip = await _unwrapToInnerZip(raw, password: password);
+    final archive = ZipDecoder().decodeBytes(innerZip);
     try {
-      final jsonFile = archive.find(kBackupJsonFileName);
-      if (jsonFile == null) {
-        throw FormatException('ZIP does not contain $kBackupJsonFileName.');
+      final manifestFile = archive.findFile(kManifestFileName);
+      if (manifestFile == null) {
+        throw const BackupCorruptFileException('Missing manifest.json.');
       }
-      final jsonBytes = jsonFile.readBytes();
-      if (jsonBytes == null) {
-        throw const FormatException('Could not read backup JSON from ZIP.');
+      final manifestBytes = manifestFile.readBytes();
+      if (manifestBytes == null) {
+        throw const BackupCorruptFileException('Could not read manifest.');
       }
-      final backup = _decodeBackupJson(utf8.decode(jsonBytes));
+      final manifest =
+          BackupManifest.parseJsonString(utf8.decode(manifestBytes));
+      manifest.assertMatchesInnerSchema();
+
+      verifyArchiveHashes(archive, manifest);
+
+      final dataFile = archive.findFile(kDataJsonFileName);
+      if (dataFile == null) {
+        throw const BackupCorruptFileException('Missing data.json.');
+      }
+      final dataBytes = dataFile.readBytes();
+      if (dataBytes == null) {
+        throw const BackupCorruptFileException('Could not read data.json.');
+      }
+      final backup = _decodeDataJson(utf8.decode(dataBytes));
 
       final attachmentBytes = <String, Uint8List>{};
       for (final f in archive.files) {
@@ -187,10 +212,30 @@ class DataTransfer {
         if (b != null) attachmentBytes[f.name] = b;
       }
 
-      return _materializeBundledAttachments(backup, attachmentBytes);
+      final materialized =
+          await _materializeBundledAttachments(backup, attachmentBytes);
+      final preview = BackupPreview.fromManifest(manifest);
+      return BackupImportPrepared(preview: preview, data: materialized);
     } finally {
       await archive.clear();
     }
+  }
+
+  static Future<Uint8List> _unwrapToInnerZip(
+    Uint8List raw, {
+    String? password,
+  }) async {
+    if (looksLikeEncryptedPlatrare(raw)) {
+      final p = password?.trim();
+      if (p == null || p.isEmpty) {
+        throw const BackupPasswordRequiredException();
+      }
+      return decryptToInnerZip(fileBytes: raw, password: p);
+    }
+    if (looksLikeZip(raw)) {
+      return raw;
+    }
+    throw const BackupCorruptFileException('Not a Platrare backup file.');
   }
 
   /// Prevents zip-slip / absolute paths in archive entry names.
@@ -198,7 +243,7 @@ class DataTransfer {
     if (name.isEmpty) return false;
     final n = p.normalize(name.replaceAll('\\', '/'));
     if (p.isAbsolute(n) || n.startsWith('..')) return false;
-    return n.startsWith('$_attachmentsFolder/');
+    return n.startsWith('$kAttachmentsFolder/');
   }
 
   static Future<BackupData> _materializeBundledAttachments(
@@ -208,7 +253,7 @@ class DataTransfer {
     final destDir = await _attachmentsLibraryDir();
 
     Future<String?> materializePath(String ref) async {
-      if (ref.startsWith('$_attachmentsFolder/')) {
+      if (ref.startsWith('$kAttachmentsFolder/')) {
         final data = bytesByPath[ref];
         if (data == null) return null;
         final fileName =
@@ -334,13 +379,49 @@ class DataTransfer {
     data.accounts.sort(compareAccountsStorageOrder);
   }
 
-  static String _encodeBackupJson({
+  /// Maps absolute on-disk paths → `attachments/NNN_name` (deduplicated).
+  static Future<Map<String, String>> _buildAttachmentPathMap() async {
+    final seen = <String>{};
+    final paths = <String>[];
+    for (final t in data.transactions) {
+      for (final a in t.attachments) {
+        if (seen.add(a)) paths.add(a);
+      }
+    }
+    for (final pt in data.plannedTransactions) {
+      for (final a in pt.attachments) {
+        if (seen.add(a)) paths.add(a);
+      }
+    }
+    paths.sort();
+
+    final map = <String, String>{};
+    var i = 0;
+    for (final abs in paths) {
+      final f = File(abs);
+      if (!await f.exists()) continue;
+      final safe = _sanitizeFileName(p.basename(abs));
+      final rel = '$kAttachmentsFolder/${i.toString().padLeft(3, '0')}_$safe';
+      map[abs] = rel;
+      i++;
+    }
+    return map;
+  }
+
+  static String _sanitizeFileName(String name) {
+    var s = name.replaceAll(RegExp(r'[\\/]+'), '_').trim();
+    if (s.isEmpty) s = 'file';
+    if (s.length > 120) s = s.substring(s.length - 120);
+    return s;
+  }
+
+  static String _encodeDataJson({
     Map<String, String>? attachmentPathMap,
   }) {
     final payload = {
-      'version': _backupVersionLatest,
+      'version': _dataJsonVersion,
       'exportedAt': DateTime.now().toUtc().toIso8601String(),
-      'attachmentLayout': _attachmentLayoutBundled,
+      'attachmentLayout': kAttachmentLayoutBundled,
       'preferences': {
         'baseCurrency': settings.baseCurrency,
         'secondaryCurrency': settings.secondaryCurrency,
@@ -360,14 +441,14 @@ class DataTransfer {
     return const JsonEncoder.withIndent('  ').convert(payload);
   }
 
-  static BackupData _decodeBackupJson(String jsonString) {
+  static BackupData _decodeDataJson(String jsonString) {
     final decoded = jsonDecode(jsonString);
     if (decoded is! Map<String, dynamic>) {
       throw const FormatException('Invalid backup format.');
     }
 
     final version = decoded['version'];
-    if (version is! int || version > _backupVersionLatest) {
+    if (version is! int || version > _dataJsonVersion) {
       throw const FormatException('Unsupported backup version.');
     }
 

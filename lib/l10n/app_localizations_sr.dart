@@ -650,14 +650,99 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get settingsDataExportSubtitle =>
-      'ZIP sa podacima knjige i prilozima (fotografije, PDF, itd.)';
+      'Sačuvaj kao .zip (običan) ili .platrare (zaštićen lozinkom) sa podacima i prilozima';
 
   @override
   String get settingsDataImportTitle => 'Uvezi rezervnu kopiju podataka';
 
   @override
   String get settingsDataImportSubtitle =>
-      'Vrati iz Platrare ZIP rezerve ili starijeg JSON fajla';
+      'Vrati iz Platrare .zip ili šifrovanog .platrare fajla';
+
+  @override
+  String get backupExportDialogTitle => 'Zaštitite ovu rezervnu kopiju';
+
+  @override
+  String get backupExportDialogBody =>
+      'Preporučena je jaka lozinka, posebno ako čuvate fajl u oblaku. Ista lozinka je potrebna za uvoz.';
+
+  @override
+  String get backupExportPasswordLabel => 'Lozinka';
+
+  @override
+  String get backupExportPasswordConfirmLabel => 'Potvrdi lozinku';
+
+  @override
+  String get backupExportPasswordMismatch => 'Lozinke se ne poklapaju';
+
+  @override
+  String get backupExportPasswordEmpty =>
+      'Unesite podudarajuće lozinke ili izvezite bez šifrovanja ispod.';
+
+  @override
+  String get backupExportWithoutEncryption => 'Izvezi bez šifrovanja';
+
+  @override
+  String get backupExportSkipWarningTitle => 'Izvesti bez šifrovanja?';
+
+  @override
+  String get backupExportSkipWarningBody =>
+      'Svako ko ima pristup fajlu može pročitati podatke. Koristite samo za lokalne kopije koje kontrolišete.';
+
+  @override
+  String get backupExportSkipWarningConfirm => 'Izvezi nešifrovano';
+
+  @override
+  String get backupImportPasswordTitle => 'Šifrovana rezerva';
+
+  @override
+  String get backupImportPasswordBody =>
+      'Unesite lozinku koju ste koristili pri izvozu.';
+
+  @override
+  String get backupImportPasswordLabel => 'Lozinka';
+
+  @override
+  String get backupImportPreviewTitle => 'Pregled rezerve';
+
+  @override
+  String backupImportPreviewVersion(String version) {
+    return 'Verzija aplikacije: $version';
+  }
+
+  @override
+  String backupImportPreviewExported(String date) {
+    return 'Izvezeno: $date';
+  }
+
+  @override
+  String backupImportPreviewCounts(
+    int accounts,
+    int transactions,
+    int planned,
+    int attachments,
+    int income,
+    int expense,
+  ) {
+    return '$accounts računa · $transactions transakcija · $planned planiranih · $attachments priloga · $income kategorija prihoda · $expense kategorija rashoda';
+  }
+
+  @override
+  String get backupImportPreviewContinue => 'Dalje';
+
+  @override
+  String get settingsBackupWrongPassword => 'Pogrešna lozinka';
+
+  @override
+  String get settingsBackupChecksumMismatch =>
+      'Provera integriteta rezerve nije uspela';
+
+  @override
+  String get settingsBackupCorruptFile => 'Nevažeći ili oštećen fajl rezerve';
+
+  @override
+  String get settingsBackupUnsupportedVersion =>
+      'Rezerva zahteva noviju verziju aplikacije';
 
   @override
   String get settingsDataImportConfirmTitle =>
@@ -1991,14 +2076,99 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get settingsDataExportSubtitle =>
-      'ZIP sa podacima knjige i prilozima (fotografije, PDF, itd.)';
+      'Sačuvaj kao .zip (običan) ili .platrare (zaštićen lozinkom) sa podacima i prilozima';
 
   @override
   String get settingsDataImportTitle => 'Uvezi rezervnu kopiju podataka';
 
   @override
   String get settingsDataImportSubtitle =>
-      'Vrati iz Platrare ZIP rezerve ili starijeg JSON fajla';
+      'Vrati iz Platrare .zip ili šifrovanog .platrare fajla';
+
+  @override
+  String get backupExportDialogTitle => 'Zaštitite ovu rezervnu kopiju';
+
+  @override
+  String get backupExportDialogBody =>
+      'Preporučena je jaka lozinka, posebno ako čuvate fajl u oblaku. Ista lozinka je potrebna za uvoz.';
+
+  @override
+  String get backupExportPasswordLabel => 'Lozinka';
+
+  @override
+  String get backupExportPasswordConfirmLabel => 'Potvrdi lozinku';
+
+  @override
+  String get backupExportPasswordMismatch => 'Lozinke se ne poklapaju';
+
+  @override
+  String get backupExportPasswordEmpty =>
+      'Unesite podudarajuće lozinke ili izvezite bez šifrovanja ispod.';
+
+  @override
+  String get backupExportWithoutEncryption => 'Izvezi bez šifrovanja';
+
+  @override
+  String get backupExportSkipWarningTitle => 'Izvesti bez šifrovanja?';
+
+  @override
+  String get backupExportSkipWarningBody =>
+      'Svako ko ima pristup fajlu može pročitati podatke. Koristite samo za lokalne kopije koje kontrolišete.';
+
+  @override
+  String get backupExportSkipWarningConfirm => 'Izvezi nešifrovano';
+
+  @override
+  String get backupImportPasswordTitle => 'Šifrovana rezerva';
+
+  @override
+  String get backupImportPasswordBody =>
+      'Unesite lozinku koju ste koristili pri izvozu.';
+
+  @override
+  String get backupImportPasswordLabel => 'Lozinka';
+
+  @override
+  String get backupImportPreviewTitle => 'Pregled rezerve';
+
+  @override
+  String backupImportPreviewVersion(String version) {
+    return 'Verzija aplikacije: $version';
+  }
+
+  @override
+  String backupImportPreviewExported(String date) {
+    return 'Izvezeno: $date';
+  }
+
+  @override
+  String backupImportPreviewCounts(
+    int accounts,
+    int transactions,
+    int planned,
+    int attachments,
+    int income,
+    int expense,
+  ) {
+    return '$accounts računa · $transactions transakcija · $planned planiranih · $attachments priloga · $income kategorija prihoda · $expense kategorija rashoda';
+  }
+
+  @override
+  String get backupImportPreviewContinue => 'Dalje';
+
+  @override
+  String get settingsBackupWrongPassword => 'Pogrešna lozinka';
+
+  @override
+  String get settingsBackupChecksumMismatch =>
+      'Provera integriteta rezerve nije uspela';
+
+  @override
+  String get settingsBackupCorruptFile => 'Nevažeći ili oštećen fajl rezerve';
+
+  @override
+  String get settingsBackupUnsupportedVersion =>
+      'Rezerva zahteva noviju verziju aplikacije';
 
   @override
   String get settingsDataImportConfirmTitle =>

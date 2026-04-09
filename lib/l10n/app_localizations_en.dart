@@ -647,14 +647,98 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsDataExportSubtitle =>
-      'ZIP file with ledger data and receipt attachments (photos, PDFs, etc.)';
+      'Save as .zip (plain) or .platrare (password-protected) with ledger data and attachments';
 
   @override
   String get settingsDataImportTitle => 'Import data backup';
 
   @override
   String get settingsDataImportSubtitle =>
-      'Restore from a Platrare ZIP backup or a legacy JSON file';
+      'Restore from a Platrare .zip or encrypted .platrare backup';
+
+  @override
+  String get backupExportDialogTitle => 'Protect this backup';
+
+  @override
+  String get backupExportDialogBody =>
+      'A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.';
+
+  @override
+  String get backupExportPasswordLabel => 'Password';
+
+  @override
+  String get backupExportPasswordConfirmLabel => 'Confirm password';
+
+  @override
+  String get backupExportPasswordMismatch => 'Passwords do not match';
+
+  @override
+  String get backupExportPasswordEmpty =>
+      'Enter a matching password, or export without encryption below.';
+
+  @override
+  String get backupExportWithoutEncryption => 'Export without encryption';
+
+  @override
+  String get backupExportSkipWarningTitle => 'Export without encryption?';
+
+  @override
+  String get backupExportSkipWarningBody =>
+      'Anyone with access to the file can read your data. Use this only for local copies you control.';
+
+  @override
+  String get backupExportSkipWarningConfirm => 'Export unencrypted';
+
+  @override
+  String get backupImportPasswordTitle => 'Encrypted backup';
+
+  @override
+  String get backupImportPasswordBody =>
+      'Enter the password you used when exporting.';
+
+  @override
+  String get backupImportPasswordLabel => 'Password';
+
+  @override
+  String get backupImportPreviewTitle => 'Backup summary';
+
+  @override
+  String backupImportPreviewVersion(String version) {
+    return 'App version: $version';
+  }
+
+  @override
+  String backupImportPreviewExported(String date) {
+    return 'Exported: $date';
+  }
+
+  @override
+  String backupImportPreviewCounts(
+    int accounts,
+    int transactions,
+    int planned,
+    int attachments,
+    int income,
+    int expense,
+  ) {
+    return '$accounts accounts · $transactions transactions · $planned planned · $attachments attachment files · $income income categories · $expense expense categories';
+  }
+
+  @override
+  String get backupImportPreviewContinue => 'Continue';
+
+  @override
+  String get settingsBackupWrongPassword => 'Wrong password';
+
+  @override
+  String get settingsBackupChecksumMismatch => 'Backup failed integrity check';
+
+  @override
+  String get settingsBackupCorruptFile => 'Invalid or damaged backup file';
+
+  @override
+  String get settingsBackupUnsupportedVersion =>
+      'Backup needs a newer app version';
 
   @override
   String get settingsDataImportConfirmTitle =>
