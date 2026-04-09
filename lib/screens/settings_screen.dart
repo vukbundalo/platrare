@@ -913,10 +913,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           currencyCard(
             icon: Icons.policy_outlined,
             title: l10n.settingsPrivacyPolicyTitle,
-            subtitle:
-                '${l10n.settingsPrivacyPolicySubtitle}\n\n${l10n.settingsPrivacyFxDisclosure}',
+            subtitle: l10n.settingsPrivacyPolicySubtitle,
             semanticsLabel:
-                '${l10n.settingsPrivacyPolicyTitle}. ${l10n.settingsPrivacyPolicySubtitle}. ${l10n.settingsPrivacyFxDisclosure}',
+                '${l10n.settingsPrivacyPolicyTitle}. ${l10n.settingsPrivacyPolicySubtitle}',
             onTap: _openPrivacyPolicy,
           ),
           const SizedBox(height: 8),

@@ -69,13 +69,29 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
               );
             }
             final data = snapshot.data ?? '';
-            return Markdown(
-              data: data,
-              selectable: true,
+            final styleSheet = MarkdownStyleSheet.fromTheme(
+              Theme.of(context),
+            ).copyWith(blockSpacing: 12);
+            return SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-              styleSheet: MarkdownStyleSheet.fromTheme(
-                Theme.of(context),
-              ).copyWith(blockSpacing: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.settingsPrivacyFxDisclosure,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: cs.onSurfaceVariant,
+                          height: 1.45,
+                        ),
+                  ),
+                  const SizedBox(height: 16),
+                  MarkdownBody(
+                    data: data,
+                    selectable: true,
+                    styleSheet: styleSheet,
+                  ),
+                ],
+              ),
             );
           },
         ),
