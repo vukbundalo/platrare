@@ -58,6 +58,48 @@ abstract final class AppHeroChrome {
       );
 }
 
+/// Filter icons in hero cards: [AppHeroChrome] backgrounds are primary-tinted
+/// containers, so pills need a contrasting fill + outline (not faint
+/// primaryContainer washes).
+abstract final class HeroFilterChipStyle {
+  static BoxDecoration decoration(
+    ColorScheme cs,
+    Brightness brightness, {
+    required bool selected,
+    BorderRadius? borderRadius,
+  }) {
+    final radius = borderRadius ?? BorderRadius.circular(20);
+    final idleBorder = cs.outlineVariant.withValues(
+      alpha: brightness == Brightness.dark ? 0.58 : 0.88,
+    );
+    if (selected) {
+      return BoxDecoration(
+        color: Color.alphaBlend(
+          cs.primary.withValues(
+            alpha: brightness == Brightness.dark ? 0.28 : 0.22,
+          ),
+          cs.surface,
+        ),
+        borderRadius: radius,
+        border: Border.all(
+          color: cs.primary.withValues(
+            alpha: brightness == Brightness.dark ? 0.52 : 0.40,
+          ),
+        ),
+      );
+    }
+    return BoxDecoration(
+      color: cs.surface,
+      borderRadius: radius,
+      border: Border.all(color: idleBorder),
+    );
+  }
+
+  /// Icon / label on hero filter pills.
+  static Color foreground(ColorScheme cs, {required bool selected}) =>
+      selected ? cs.primary : cs.onSurface.withValues(alpha: 0.72);
+}
+
 /// Two-column metrics row: [flex 3 | divider | flex 2], same on all main tabs.
 class HeroTwoColumnMetricsRow extends StatelessWidget {
   final Widget leftColumn;

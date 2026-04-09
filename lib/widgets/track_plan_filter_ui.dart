@@ -76,6 +76,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final brightness = Theme.of(context).brightness;
     final l10n = AppLocalizations.of(context);
 
     Widget mainChip({
@@ -90,14 +91,16 @@ class TrackPlanFilterChipRow extends StatelessWidget {
         child: Container(
           height: AppHeroConstants.filterChipHeight,
           alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: active
-                ? cs.primary.withValues(alpha: 0.15)
-                : cs.primaryContainer.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(20),
+          decoration: HeroFilterChipStyle.decoration(
+            cs,
+            brightness,
+            selected: active,
           ),
-          child: Icon(icon, size: 15,
-              color: active ? cs.primary : cs.onSurfaceVariant),
+          child: Icon(
+            icon,
+            size: 15,
+            color: HeroFilterChipStyle.foreground(cs, selected: active),
+          ),
         ),
       );
       return Expanded(
@@ -120,11 +123,10 @@ class TrackPlanFilterChipRow extends StatelessWidget {
         child: Container(
           height: AppHeroConstants.filterChipHeight,
           alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: active
-                ? cs.primary.withValues(alpha: 0.15)
-                : cs.primaryContainer.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(20),
+          decoration: HeroFilterChipStyle.decoration(
+            cs,
+            brightness,
+            selected: active,
           ),
           child: SizedBox(
             width: 24,
@@ -134,20 +136,23 @@ class TrackPlanFilterChipRow extends StatelessWidget {
                   ? Icon(
                       Icons.calendar_today_outlined,
                       size: 15,
-                      color: active ? cs.primary : cs.onSurfaceVariant,
+                      color:
+                          HeroFilterChipStyle.foreground(cs, selected: active),
                     )
                   : letter == '∞'
                       ? Icon(
                           Icons.all_inclusive_rounded,
                           size: 16,
-                          color: active ? cs.primary : cs.onSurfaceVariant,
+                          color: HeroFilterChipStyle.foreground(
+                              cs, selected: active),
                         )
                       : Text(
                           letter,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w800,
-                            color: active ? cs.primary : cs.onSurfaceVariant,
+                            color: HeroFilterChipStyle.foreground(
+                                cs, selected: active),
                           ),
                         ),
             ),
@@ -197,15 +202,16 @@ class TrackPlanFilterChipRow extends StatelessWidget {
                         child: Container(
                           height: AppHeroConstants.filterChipHeight,
                           alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color:
-                                cs.primaryContainer.withValues(alpha: 0.5),
-                            borderRadius: BorderRadius.circular(20),
+                          decoration: HeroFilterChipStyle.decoration(
+                            cs,
+                            brightness,
+                            selected: false,
                           ),
                           child: Icon(
                             Icons.account_balance_wallet_outlined,
                             size: 15,
-                            color: cs.onSurfaceVariant,
+                            color:
+                                HeroFilterChipStyle.foreground(cs, selected: false),
                           ),
                         ),
                       ),
@@ -310,19 +316,27 @@ class TrackPlanNavButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final brightness = Theme.of(context).brightness;
     final enabled = onTap != null;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 32,
         height: 32,
-        decoration: BoxDecoration(
-          color: enabled
-              ? cs.primaryContainer.withValues(alpha: 0.5)
-              : cs.surfaceContainerHighest.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.4)),
-        ),
+        decoration: enabled
+            ? HeroFilterChipStyle.decoration(
+                cs,
+                brightness,
+                selected: false,
+                borderRadius: BorderRadius.circular(8),
+              )
+            : BoxDecoration(
+                color: cs.surfaceContainerHighest.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: cs.outlineVariant.withValues(alpha: 0.4),
+                ),
+              ),
         child: Icon(
           icon,
           size: 18,
@@ -352,16 +366,14 @@ Widget trackPlanNamePill(
   String? semanticsLabel,
 }) {
   final cs = Theme.of(context).colorScheme;
+  final brightness = Theme.of(context).brightness;
   const padH = 12.0;
   final style = TextStyle(
     fontSize: 11,
     fontWeight: FontWeight.w700,
-    color: selected ? cs.primary : cs.onSurfaceVariant,
+    color: HeroFilterChipStyle.foreground(cs, selected: selected),
     height: 1.1,
   );
-  final fill = selected
-      ? cs.primary.withValues(alpha: 0.15)
-      : cs.primaryContainer.withValues(alpha: 0.5);
   final radius = BorderRadius.circular(20);
 
   final oneLine = TextPainter(
@@ -383,7 +395,12 @@ Widget trackPlanNamePill(
       width: chipW,
       height: AppHeroConstants.filterChipHeight,
       child: DecoratedBox(
-        decoration: BoxDecoration(color: fill, borderRadius: radius),
+        decoration: HeroFilterChipStyle.decoration(
+          cs,
+          brightness,
+          selected: selected,
+          borderRadius: radius,
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: padH),
           child: Center(

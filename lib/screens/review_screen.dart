@@ -988,14 +988,17 @@ class _NetWorthHero extends StatelessWidget {
         child: Container(
           height: AppHeroConstants.filterChipHeight,
           alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: active
-                ? cs.primary.withValues(alpha: 0.15)
-                : cs.primaryContainer.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(20),
+          decoration: HeroFilterChipStyle.decoration(
+            cs,
+            brightness,
+            selected: active,
           ),
-          child: child ?? Icon(icon, size: 15,
-              color: active ? cs.primary : cs.onSurfaceVariant),
+          child: child ??
+              Icon(
+                icon,
+                size: 15,
+                color: HeroFilterChipStyle.foreground(cs, selected: active),
+              ),
         ),
       );
     }
@@ -1158,6 +1161,7 @@ class _StatsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final brightness = Theme.of(context).brightness;
     final l10n = AppLocalizations.of(context);
     final isAllTime = spendingMonths == 0;
     final vizIcon = vizMode == 1 ? Icons.donut_large_rounded : Icons.bar_chart_rounded;
@@ -1170,11 +1174,10 @@ class _StatsHeader extends StatelessWidget {
         child: Container(
           height: AppHeroConstants.filterChipHeight,
           alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: active
-                ? cs.primary.withValues(alpha: 0.15)
-                : cs.primaryContainer.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(20),
+          decoration: HeroFilterChipStyle.decoration(
+            cs,
+            brightness,
+            selected: active,
           ),
           child: label != null
               ? FittedBox(
@@ -1183,10 +1186,12 @@ class _StatsHeader extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
-                          color: active ? cs.primary : cs.onSurfaceVariant)),
+                          color: HeroFilterChipStyle.foreground(
+                              cs, selected: active),
+                      )),
                 )
               : Icon(icon, size: 15,
-                  color: active ? cs.primary : cs.onSurfaceVariant),
+                  color: HeroFilterChipStyle.foreground(cs, selected: active)),
         ),
       );
 
@@ -1198,12 +1203,20 @@ class _StatsHeader extends StatelessWidget {
           width: 36,
           height: 36,
           alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: enabled
-                ? cs.primary.withValues(alpha: 0.15)
-                : cs.primaryContainer.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(20),
-          ),
+          decoration: enabled
+              ? HeroFilterChipStyle.decoration(
+                  cs,
+                  brightness,
+                  selected: false,
+                  borderRadius: BorderRadius.circular(20),
+                )
+              : BoxDecoration(
+                  color: cs.surfaceContainerHighest.withValues(alpha: 0.45),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: cs.outlineVariant.withValues(alpha: 0.35),
+                  ),
+                ),
           child: Icon(icon, size: 18,
               color: enabled ? cs.primary : cs.onSurfaceVariant.withValues(alpha: 0.4)),
         ),
