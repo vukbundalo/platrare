@@ -126,9 +126,9 @@ class ReviewScreen extends StatefulWidget {
 
 class _ReviewScreenState extends State<ReviewScreen> {
   String _displayCurrency = settings.baseCurrency;
-  // 'personal' | 'individuals' | 'entities' | 'statistics' | null
-  /// Opens with Personal expanded so account cards are visible without an extra tap.
-  String? _activeSection = 'personal';
+  // 'personal' | 'individuals' | 'entities' | 'statistics' — always one selected.
+  /// Opens with Personal so account cards are visible without an extra tap.
+  String _activeSection = 'personal';
   // 'expense' | 'income' | null
   String? _activeStats;
   // 0 = all time, 1 = calendar month, 3 = calendar quarter, 6 = half-year, 12 = year
@@ -603,12 +603,20 @@ class _ReviewScreenState extends State<ReviewScreen> {
       backgroundColor: Colors.transparent,
       floatingActionButton: visibleAccounts.isEmpty
           ? null
-          : FloatingActionButton(
-              heroTag: 'review_fab',
-              onPressed: _addAccount,
-              tooltip: l10n.tooltipAddAccount,
-              child: const Icon(Icons.add_rounded),
-            ),
+          : _displayCurrency != settings.baseCurrency
+              ? FloatingActionButton.extended(
+                  heroTag: 'review_fab',
+                  onPressed: () => setState(
+                      () => _displayCurrency = settings.baseCurrency),
+                  icon: const Icon(Icons.currency_exchange_rounded),
+                  label: Text(l10n.reviewUseBaseCurrency),
+                )
+              : FloatingActionButton(
+                  heroTag: 'review_fab',
+                  onPressed: _addAccount,
+                  tooltip: l10n.tooltipAddAccount,
+                  child: const Icon(Icons.add_rounded),
+                ),
       body: CustomScrollView(
         slivers: [
           // ── App bar with net worth ────────────────────────────────────────
@@ -661,13 +669,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       sectionChipsEnabled: visibleAccounts.isNotEmpty,
                       activeSection: _activeSection,
                       onSelectSection: (s) => setState(() {
-                        if (_activeSection == s) {
-                          _activeSection = null;
-                        } else {
-                          _activeSection = s;
-                          if (s == 'statistics' && _activeStats == null) {
-                            _activeStats = 'expense';
-                          }
+                        _activeSection = s;
+                        if (s == 'statistics' && _activeStats == null) {
+                          _activeStats = 'expense';
                         }
                       }),
                       onToggleCurrency: () => setState(() {
@@ -953,7 +957,7 @@ class _NetWorthHero extends StatelessWidget {
   final double net;
   final String displayCurrency;
   final bool sectionChipsEnabled;
-  final String? activeSection;
+  final String activeSection;
   final void Function(String section) onSelectSection;
   final VoidCallback onToggleCurrency;
 

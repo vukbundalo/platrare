@@ -318,6 +318,7 @@
 
   "tooltipSettings": "Podešavanja",
   "tooltipAddAccount": "Dodaj račun",
+  "reviewUseBaseCurrency": "Koristi osnovnu valutu",
   "tooltipRemoveAccount": "Ukloni račun",
 
   "accountNameTaken": "Račun sa ovim imenom i identifikatorom već postoji (aktivan ili arhiviran). Promenite naziv ili identifikator.",

@@ -1845,6 +1845,12 @@ abstract class AppLocalizations {
   /// **'Add account'**
   String get tooltipAddAccount;
 
+  /// No description provided for @reviewUseBaseCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Use base currency'**
+  String get reviewUseBaseCurrency;
+
   /// No description provided for @tooltipRemoveAccount.
   ///
   /// In en, this message translates to:

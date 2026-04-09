@@ -427,6 +427,7 @@
 
   "tooltipSettings": "Settings",
   "tooltipAddAccount": "Add account",
+  "reviewUseBaseCurrency": "Use base currency",
   "tooltipRemoveAccount": "Remove account",
 
   "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
