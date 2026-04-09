@@ -198,6 +198,7 @@
 				97C146EC1CF9000F007C117D /* Resources */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
+				B7E8F9A01E4923F5004D2609 /* Sign Native Asset Frameworks */,
 				A11025F0D8CCA238FD5DF7ED /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -307,6 +308,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
+		};
+		B7E8F9A01E4923F5004D2609 /* Sign Native Asset Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Sign Native Asset Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Flutter's embed_and_thin only re-signs native-asset frameworks on macOS, not iOS.\n# Without this, Dart-bundled frameworks (e.g. objective_c.framework) can fail device install (0xe8008014).\nset -e\nFRAMEWORKS_DIR=\"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\nif [ -z \"${EXPANDED_CODE_SIGN_IDENTITY}\" ] || [ \"${EXPANDED_CODE_SIGN_IDENTITY}\" = \"-\" ]; then\n  exit 0\nfi\nif [ ! -d \"${FRAMEWORKS_DIR}\" ]; then\n  exit 0\nfi\nfor FW_PATH in \"${FRAMEWORKS_DIR}\"/*.framework; do\n  [ -d \"${FW_PATH}\" ] || continue\n  NAME=$(basename \"${FW_PATH}\" .framework)\n  if [ \"${NAME}\" = \"Flutter\" ] || [ \"${NAME}\" = \"App\" ]; then\n    continue\n  fi\n  BINARY=\"${FW_PATH}/${NAME}\"\n  if [ -f \"${BINARY}\" ]; then\n    /usr/bin/codesign --force --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" --timestamp=none \"${BINARY}\"\n  fi\ndone\n";
+			showEnvVarsInLog = 0;
 		};
 		9740EEB61CF901F6004384FC /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
