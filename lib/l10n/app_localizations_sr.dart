@@ -639,7 +639,7 @@ class AppLocalizationsSr extends AppLocalizations {
   String get settingsSectionData => 'Podaci';
 
   @override
-  String get settingsSectionPrivacy => 'Privatnost';
+  String get settingsSectionPrivacy => 'Privatnost i informacije';
 
   @override
   String get settingsPrivacyPolicyTitle => 'Politika privatnosti';
@@ -660,11 +660,38 @@ class AppLocalizationsSr extends AppLocalizations {
   String get settingsPrivacyRetry => 'Pokušaj ponovo';
 
   @override
-  String get settingsCopySupportInfoTitle => 'Kopiraj podršku';
+  String get settingsSoftwareVersionTitle => 'Verzija softvera';
 
   @override
-  String get settingsCopySupportInfoSubtitle =>
-      'Verzija aplikacije i build za prijavu grešaka';
+  String get settingsSoftwareVersionSubtitle =>
+      'Izdanje, dijagnostika i pravni dokumenti';
+
+  @override
+  String get aboutScreenTitle => 'O aplikaciji';
+
+  @override
+  String get aboutAppTagline =>
+      'Knjiga, novčani tok i planiranje na jednom mestu.';
+
+  @override
+  String get aboutDescriptionBody =>
+      'Platrare čuva račune, transakcije i planove na vašem uređaju. Šifrovane rezervne kopije izvezite kada vam treba kopija i drugde. Kursna lista koristi samo javne podatke; vaša knjiga se ne otprema.';
+
+  @override
+  String get aboutVersionLabel => 'Verzija';
+
+  @override
+  String get aboutBuildLabel => 'Build';
+
+  @override
+  String get aboutCopySupportDetails => 'Kopiraj podatke za podršku';
+
+  @override
+  String get aboutOpenPrivacySubtitle =>
+      'Otvara pun tekst politike u aplikaciji.';
+
+  @override
+  String get aboutSupportBundleLocaleLabel => 'Lokalizacija';
 
   @override
   String get settingsSupportInfoCopied => 'Kopirano u ostavu';
@@ -2111,7 +2138,7 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   String get settingsSectionData => 'Podaci';
 
   @override
-  String get settingsSectionPrivacy => 'Privatnost';
+  String get settingsSectionPrivacy => 'Privatnost i informacije';
 
   @override
   String get settingsPrivacyPolicyTitle => 'Politika privatnosti';
@@ -2132,11 +2159,38 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   String get settingsPrivacyRetry => 'Pokušaj ponovo';
 
   @override
-  String get settingsCopySupportInfoTitle => 'Kopiraj podršku';
+  String get settingsSoftwareVersionTitle => 'Verzija softvera';
 
   @override
-  String get settingsCopySupportInfoSubtitle =>
-      'Verzija aplikacije i build za prijavu grešaka';
+  String get settingsSoftwareVersionSubtitle =>
+      'Izdanje, dijagnostika i pravni dokumenti';
+
+  @override
+  String get aboutScreenTitle => 'O aplikaciji';
+
+  @override
+  String get aboutAppTagline =>
+      'Knjiga, novčani tok i planiranje na jednom mestu.';
+
+  @override
+  String get aboutDescriptionBody =>
+      'Platrare čuva račune, transakcije i planove na vašem uređaju. Šifrovane rezervne kopije izvezite kada vam treba kopija i drugde. Kursna lista koristi samo javne podatke; vaša knjiga se ne otprema.';
+
+  @override
+  String get aboutVersionLabel => 'Verzija';
+
+  @override
+  String get aboutBuildLabel => 'Build';
+
+  @override
+  String get aboutCopySupportDetails => 'Kopiraj podatke za podršku';
+
+  @override
+  String get aboutOpenPrivacySubtitle =>
+      'Otvara pun tekst politike u aplikaciji.';
+
+  @override
+  String get aboutSupportBundleLocaleLabel => 'Lokalizacija';
 
   @override
   String get settingsSupportInfoCopied => 'Kopirano u ostavu';

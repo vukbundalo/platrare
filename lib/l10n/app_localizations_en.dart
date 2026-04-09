@@ -636,7 +636,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsSectionData => 'Data';
 
   @override
-  String get settingsSectionPrivacy => 'Privacy';
+  String get settingsSectionPrivacy => 'Privacy & about';
 
   @override
   String get settingsPrivacyPolicyTitle => 'Privacy policy';
@@ -655,11 +655,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsPrivacyRetry => 'Try again';
 
   @override
-  String get settingsCopySupportInfoTitle => 'Copy support info';
+  String get settingsSoftwareVersionTitle => 'Software version';
 
   @override
-  String get settingsCopySupportInfoSubtitle =>
-      'App version and build for bug reports';
+  String get settingsSoftwareVersionSubtitle =>
+      'Release, diagnostics, and legal';
+
+  @override
+  String get aboutScreenTitle => 'About';
+
+  @override
+  String get aboutAppTagline =>
+      'Ledger, cashflow, and planning in one workspace.';
+
+  @override
+  String get aboutDescriptionBody =>
+      'Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.';
+
+  @override
+  String get aboutVersionLabel => 'Version';
+
+  @override
+  String get aboutBuildLabel => 'Build';
+
+  @override
+  String get aboutCopySupportDetails => 'Copy support details';
+
+  @override
+  String get aboutOpenPrivacySubtitle =>
+      'Opens the full in-app policy document.';
+
+  @override
+  String get aboutSupportBundleLocaleLabel => 'Locale';
 
   @override
   String get settingsSupportInfoCopied => 'Copied to clipboard';

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../data/app_data.dart' as data;
@@ -20,6 +19,7 @@ import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/persistence_guard.dart';
+import 'app_about_screen.dart';
 import 'privacy_policy_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -30,6 +30,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  late final Future<PackageInfo> _packageInfoFuture = PackageInfo.fromPlatform();
+
   Future<void> _showExportDoneSnack(AppLocalizations l10n, String? path) async {
     if (!mounted || path == null) return;
     final openNow = await showDialog<bool>(
@@ -410,16 +412,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       MaterialPageRoute<void>(
         builder: (_) => const PrivacyPolicyScreen(),
       ),
-    );
-  }
-
-  Future<void> _copySupportInfo(AppLocalizations l10n) async {
-    final info = await PackageInfo.fromPlatform();
-    final line = 'Platrare ${info.version} (${info.buildNumber})';
-    await Clipboard.setData(ClipboardData(text: line));
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.settingsSupportInfoCopied)),
     );
   }
 
@@ -954,13 +946,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onTap: _openPrivacyPolicy,
           ),
           const SizedBox(height: 8),
-          currencyCard(
-            icon: Icons.info_outline_rounded,
-            title: l10n.settingsCopySupportInfoTitle,
-            subtitle: l10n.settingsCopySupportInfoSubtitle,
-            semanticsLabel:
-                '${l10n.settingsCopySupportInfoTitle}. ${l10n.settingsCopySupportInfoSubtitle}',
-            onTap: () => _copySupportInfo(l10n),
+          FutureBuilder<PackageInfo>(
+            future: _packageInfoFuture,
+            builder: (context, snap) {
+              final subtitle = snap.hasData
+                  ? '${snap.data!.version} · ${l10n.aboutBuildLabel} ${snap.data!.buildNumber}'
+                  : l10n.settingsSoftwareVersionSubtitle;
+              final semanticsLabel = snap.hasData
+                  ? '${l10n.settingsSoftwareVersionTitle}. $subtitle'
+                  : '${l10n.settingsSoftwareVersionTitle}. ${l10n.settingsSoftwareVersionSubtitle}';
+              return currencyCard(
+                icon: Icons.layers_outlined,
+                title: l10n.settingsSoftwareVersionTitle,
+                subtitle: subtitle,
+                semanticsLabel: semanticsLabel,
+                onTap: () {
+                  Navigator.of(context).push<void>(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const AppAboutScreen(),
+                    ),
+                  );
+                },
+              );
+            },
           ),
         ],
       ),

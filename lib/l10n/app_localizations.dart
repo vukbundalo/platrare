@@ -1176,7 +1176,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsSectionPrivacy.
   ///
   /// In en, this message translates to:
-  /// **'Privacy'**
+  /// **'Privacy & about'**
   String get settingsSectionPrivacy;
 
   /// No description provided for @settingsPrivacyPolicyTitle.
@@ -1209,17 +1209,65 @@ abstract class AppLocalizations {
   /// **'Try again'**
   String get settingsPrivacyRetry;
 
-  /// No description provided for @settingsCopySupportInfoTitle.
+  /// No description provided for @settingsSoftwareVersionTitle.
   ///
   /// In en, this message translates to:
-  /// **'Copy support info'**
-  String get settingsCopySupportInfoTitle;
+  /// **'Software version'**
+  String get settingsSoftwareVersionTitle;
 
-  /// No description provided for @settingsCopySupportInfoSubtitle.
+  /// No description provided for @settingsSoftwareVersionSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'App version and build for bug reports'**
-  String get settingsCopySupportInfoSubtitle;
+  /// **'Release, diagnostics, and legal'**
+  String get settingsSoftwareVersionSubtitle;
+
+  /// No description provided for @aboutScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get aboutScreenTitle;
+
+  /// No description provided for @aboutAppTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger, cashflow, and planning in one workspace.'**
+  String get aboutAppTagline;
+
+  /// No description provided for @aboutDescriptionBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.'**
+  String get aboutDescriptionBody;
+
+  /// No description provided for @aboutVersionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get aboutVersionLabel;
+
+  /// No description provided for @aboutBuildLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Build'**
+  String get aboutBuildLabel;
+
+  /// No description provided for @aboutCopySupportDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy support details'**
+  String get aboutCopySupportDetails;
+
+  /// No description provided for @aboutOpenPrivacySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens the full in-app policy document.'**
+  String get aboutOpenPrivacySubtitle;
+
+  /// No description provided for @aboutSupportBundleLocaleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Locale'**
+  String get aboutSupportBundleLocaleLabel;
 
   /// No description provided for @settingsSupportInfoCopied.
   ///
