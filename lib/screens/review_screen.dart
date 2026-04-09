@@ -2442,7 +2442,6 @@ class _AccountCard extends StatelessWidget {
     final bookPositive = shownBook >= 0;
     final bookColor = bookPositive ? lc.positive : lc.negative;
 
-    final groupLabel = l10nAccountCardGroupLabel(context, account.group);
     final nameLabel = accountDisplayName(account);
 
     final inner = Padding(
@@ -2461,16 +2460,12 @@ class _AccountCard extends StatelessWidget {
                 AccountAvatar(account: account),
                 const SizedBox(width: 14),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(nameLabel,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 15)),
-                      Text(groupLabel,
-                          style: TextStyle(
-                              fontSize: 12, color: cs.onSurfaceVariant)),
-                    ],
+                  child: Text(
+                    nameLabel,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                    ),
                   ),
                 ),
                 Column(
@@ -2517,7 +2512,7 @@ class _AccountCard extends StatelessWidget {
       final l10n = AppLocalizations.of(context);
       return Semantics(
         container: true,
-        label: '$nameLabel. $groupLabel',
+        label: nameLabel,
         hint: l10n.semanticsReorderAccountHint,
         child: ReorderableDelayedDragStartListener(
           index: reorderListIndex!,

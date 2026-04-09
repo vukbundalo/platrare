@@ -26,16 +26,6 @@ String l10nAccountSectionTitle(BuildContext context, AccountGroup group) {
   };
 }
 
-/// Subtitle on account cards (Personal / Individual / Entity).
-String l10nAccountCardGroupLabel(BuildContext context, AccountGroup group) {
-  final l = AppLocalizations.of(context);
-  return switch (group) {
-    AccountGroup.personal => l.accountGroupPersonal,
-    AccountGroup.individuals => l.accountGroupIndividual,
-    AccountGroup.entities => l.accountGroupEntity,
-  };
-}
-
 /// Localized transaction type label (uppercase).
 String l10nTxLabel(BuildContext context, TxType t) {
   final l = AppLocalizations.of(context);
