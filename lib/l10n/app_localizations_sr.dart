@@ -1742,9 +1742,9 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count dana',
-      few: '$count dana',
-      one: 'dan',
+      other: '$count дана',
+      few: '$count дана',
+      one: 'дан',
     );
     return '$_temp0';
   }
@@ -1754,9 +1754,9 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count nedelja',
-      few: '$count nedelje',
-      one: 'nedelju',
+      other: '$count недеља',
+      few: '$count недеље',
+      one: 'недељу',
     );
     return '$_temp0';
   }
@@ -1766,9 +1766,9 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count meseci',
-      few: '$count meseca',
-      one: 'mesec',
+      other: '$count месеци',
+      few: '$count месеца',
+      one: 'месец',
     );
     return '$_temp0';
   }
@@ -1778,9 +1778,9 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count godina',
-      few: '$count godine',
-      one: 'godinu',
+      other: '$count година',
+      few: '$count године',
+      one: 'годину',
     );
     return '$_temp0';
   }
@@ -1796,7 +1796,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String repeatEndAfterCount(int count) {
-    return 'Posle $count puta';
+    return 'После $count пута';
   }
 
   @override
@@ -1807,22 +1807,22 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String repeatSummaryEvery(int count, String unit) {
-    return 'Svaki $count $unit';
+    return 'Сваки $count $unit';
   }
 
   @override
   String repeatSummaryUntil(String date) {
-    return 'do $date';
+    return 'до $date';
   }
 
   @override
   String repeatSummaryTimes(int count) {
-    return '$count puta';
+    return '$count пута';
   }
 
   @override
   String repeatSummaryTimesRemaining(int remaining, int total) {
-    return '$remaining od $total preostalo';
+    return '$remaining од $total преостало';
   }
 
   @override
@@ -1836,12 +1836,12 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String detailEndsOnDate(String date) {
-    return 'Na $date';
+    return 'На $date';
   }
 
   @override
   String detailEndsAfterCount(int count) {
-    return 'Posle $count puta';
+    return 'После $count пута';
   }
 
   @override
@@ -1858,7 +1858,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String weekendQuestion(String day) {
-    return 'Ako $day. padne na vikend?';
+    return 'Ако $day. падне на викенд?';
   }
 
   @override
@@ -1946,7 +1946,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String emptyNoTransactionsForMonth(String month) {
-    return 'Nema transakcija za $month';
+    return 'Нема трансакција за $month';
   }
 
   @override
@@ -1969,7 +1969,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String planConfirmBodyEarly(String date, String todayDate, String nextDate) {
-    return 'Ova stavka je zakazana za $date. Biće evidentirana u Istoriji sa današnjim datumom ($todayDate). Sledeća stavka ostaje na $nextDate.';
+    return 'Ова ставка је заказана за $date. Биће евидентирана у Историји са данашњим датумом ($todayDate). Следећа ставка остаје на $nextDate.';
   }
 
   @override
@@ -2013,7 +2013,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String planNoPlannedInMonth(String month) {
-    return 'Nema planiranih transakcija u $month';
+    return 'Нема планираних трансакција у $month';
   }
 
   @override
@@ -2082,7 +2082,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String amountReceivedBy(String name, String currency) {
-    return 'Iznos primljen od $name ($currency)';
+    return 'Износ примљен од $name ($currency)';
   }
 
   @override
@@ -2140,12 +2140,12 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String projectedBalancesForDate(String date) {
-    return 'Projektovana stanja za $date';
+    return 'Пројектована стања за $date';
   }
 
   @override
   String destReceivesLabel(String name, String currency) {
-    return '$name prima ($currency)';
+    return '$name прима ($currency)';
   }
 
   @override
@@ -2202,9 +2202,9 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count fajlova',
-      few: '$count fajla',
-      one: '1 fajl',
+      other: '$count фајлова',
+      few: '$count фајла',
+      one: '1 фајл',
     );
     return '$_temp0';
   }
@@ -2241,7 +2241,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String settingsCategoriesSubtitle(int incomeCount, int expenseCount) {
-    return '$incomeCount prihoda · $expenseCount rashoda';
+    return '$incomeCount прихода · $expenseCount расхода';
   }
 
   @override
@@ -2253,7 +2253,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String settingsArchivedAccountsSubtitleCount(int count) {
-    return '$count sakriveno iz pregleda i biranja';
+    return '$count сакривено из прегледа и бирања';
   }
 
   @override
@@ -2396,12 +2396,12 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String backupImportPreviewVersion(String version) {
-    return 'Verzija aplikacije: $version';
+    return 'Верзија апликације: $version';
   }
 
   @override
   String backupImportPreviewExported(String date) {
-    return 'Izvezeno: $date';
+    return 'Извезено: $date';
   }
 
   @override
@@ -2413,7 +2413,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
     int income,
     int expense,
   ) {
-    return '$accounts računa · $transactions transakcija · $planned planiranih · $attachments priloga · $income kategorija prihoda · $expense kategorija rashoda';
+    return '$accounts рачуна · $transactions трансакција · $planned планираних · $attachments прилога · $income категорија прихода · $expense категорија расхода';
   }
 
   @override
@@ -2458,7 +2458,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String settingsDataExportDoneBody(String path) {
-    return 'Rezervna kopija je sačuvana na:\n$path';
+    return 'Резервна копија је сачувана на:\n$path';
   }
 
   @override
@@ -2483,7 +2483,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
     String replayed,
     String diff,
   ) {
-    return '$accountName\nSačuvano: $stored\nPonovo: $replayed\nRazlika: $diff';
+    return '$accountName\nСачувано: $stored\nПоново: $replayed\nРазлика: $diff';
   }
 
   @override
@@ -2626,7 +2626,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String deleteCategoryBody(String category) {
-    return '\"$category\" će biti uklonjena sa liste.';
+    return '\"$category\" ће бити уклоњена са листе.';
   }
 
   @override
@@ -2664,7 +2664,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String transactionSavedMessage(String type, String amount) {
-    return '$type — sačuvano  •  $amount';
+    return '$type — сачувано  •  $amount';
   }
 
   @override
@@ -2708,11 +2708,11 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count planiranih transakcija koristi ovaj račun.',
-      few: '$count planirane transakcije koriste ovaj račun.',
-      one: '1 planirana transakcija koristi ovaj račun.',
+      other: '$count планираних трансакција користи овај рачун.',
+      few: '$count планиране трансакције користе овај рачун.',
+      one: '1 планирана трансакција користи овај рачун.',
     );
-    return '$_temp0 Uklonite ih da plan bude usklađen sa arhiviranim računom.';
+    return '$_temp0 Уклоните их да план буде усклађен са архивираним рачуном.';
   }
 
   @override
@@ -2755,10 +2755,10 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
       count,
       locale: localeName,
       other:
-          '$count planiranih transakcija koristi ovaj račun i biće takođe obrisane.',
+          '$count планираних трансакција користи овај рачун и биће такође обрисане.',
       few:
-          '$count planirane transakcije koriste ovaj račun i biće takođe obrisane.',
-      one: '1 planirana transakcija koristi ovaj račun i biće takođe obrisana.',
+          '$count планиране трансакције користе овај рачун и биће такође обрисане.',
+      one: '1 планирана трансакција користи овај рачун и биће такође обрисана.',
     );
     return '$_temp0';
   }
@@ -2837,7 +2837,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String balanceAdjustedBody(String previous, String current, String symbol) {
-    return 'Stvarno stanje je ažurirano sa $previous na $current $symbol.\n\nTransakcija za podešavanje stanja je kreirana u Evidenciji (Istorija) radi konzistentnosti knjiženja.\n\n• Stvarno stanje odražava stvarni iznos na ovom računu.\n• Proverite Istoriju za stavku podešavanja.';
+    return 'Стварно стање је ажурирано са $previous на $current $symbol.\n\nТрансакција за подешавање стања је креирана у Евиденцији (Историја) ради конзистентности књижења.\n\n• Стварно стање одражава стварни износ на овом рачуну.\n• Проверите Историју за ставку подешавања.';
   }
 
   @override
@@ -2885,7 +2885,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String statsNoExpensesPeriod(String period) {
-    return 'Nema rashoda u poslednjih $period';
+    return 'Нема расхода у последњих $period';
   }
 
   @override
@@ -2902,7 +2902,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String statsNoIncomePeriod(String period) {
-    return 'Nema prihoda u poslednjih $period';
+    return 'Нема прихода у последњих $period';
   }
 
   @override
@@ -3006,12 +3006,12 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String semanticsProjectionDate(String date) {
-    return 'Datum projekcije $date. Dvaput dodirnite za izbor datuma';
+    return 'Датум пројекције $date. Двапут додирните за избор датума';
   }
 
   @override
   String semanticsProjectedBalance(String amount) {
-    return 'Projektovano lično stanje $amount';
+    return 'Пројектовано лично стање $amount';
   }
 
   @override
@@ -3033,7 +3033,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String semanticsDateMode(String mode) {
-    return 'Datum: $mode — dodirnite za promenu režima';
+    return 'Датум: $mode — додирните за промену режима';
   }
 
   @override
@@ -3093,7 +3093,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String semanticsPeriod(String label) {
-    return 'Period: $label';
+    return 'Период: $label';
   }
 
   @override
@@ -3107,7 +3107,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String settingsExchangeRatesUpdated(String time) {
-    return 'Posljednje ažuriranje: $time';
+    return 'Посљедње ажурирање: $time';
   }
 
   @override
@@ -3138,7 +3138,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String clearDataTransactionsSubtitle(int count) {
-    return '$count transakcija · stanja računa se postavljaju na nulu';
+    return '$count трансакција · стања рачуна се постављају на нулу';
   }
 
   @override
@@ -3146,7 +3146,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String clearDataPlannedSubtitle(int count) {
-    return '$count planiranih stavki';
+    return '$count планираних ставки';
   }
 
   @override
@@ -3154,7 +3154,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String clearDataAccountsSubtitle(int count) {
-    return '$count računa · briše i istoriju i plan';
+    return '$count рачуна · брише и историју и план';
   }
 
   @override
@@ -3162,7 +3162,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String clearDataCategoriesSubtitle(int count) {
-    return '$count kategorija · zamenjuje se podrazumevanim';
+    return '$count категорија · замењује се подразумеваним';
   }
 
   @override
@@ -3212,7 +3212,7 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String autoBackupLastAt(String date) {
-    return 'Poslednja kopija $date';
+    return 'Последња копија $date';
   }
 
   @override
