@@ -448,7 +448,9 @@ class _AccountTransactionsScreenState
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
                 child: TrackPlanFilterStrip(
-                  panel: _filterPanel,
+                  showAccountSection: false,
+                  showCategorySection:
+                      _filterPanel == TrackPlanFilterPanel.category,
                   accounts: activeAccounts(data.accounts),
                   accountFilter: null,
                   onAccountFilter: (_) {},
@@ -621,8 +623,11 @@ class _AccountTxHero extends StatelessWidget {
           ),
           const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
           TrackPlanFilterChipRow(
-            panel: panel,
-            onTogglePanel: onTogglePanel,
+            accountPanelOpen: false,
+            categoryPanelOpen: panel == TrackPlanFilterPanel.category,
+            onToggleAccountPanel: () {},
+            onToggleCategoryPanel: () =>
+                onTogglePanel(TrackPlanFilterPanel.category),
             typeFilter: typeFilter,
             onCycleType: onCycleType,
             dateModeLetter: dateModeLetter,

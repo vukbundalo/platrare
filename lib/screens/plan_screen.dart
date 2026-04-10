@@ -840,7 +840,6 @@ class _PlanScreenState extends State<PlanScreen> {
         slivers: [
           SliverAppBar(
             pinned: true,
-            expandedHeight: AppHeroConstants.mainSliverAppBarExpandedHeight,
             backgroundColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
             scrolledUnderElevation: 0,
@@ -860,39 +859,33 @@ class _PlanScreenState extends State<PlanScreen> {
                 },
               ),
             ],
-            flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.pin,
-              background: Padding(
-                padding: AppHeroConstants.mainFlexibleSpaceHeroOuterPadding,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    _ProjectionHero(
-                      personal: snapshotPersonal,
-                      net: snapshotNet,
-                      snapshotDate: _snapshotDate,
-                      isFutureSnapshot: _isFutureProjection,
-                      detailExpanded: _detailExpanded,
-                      projectionHeroInteractive: planHeroInteractive,
-                      filterChipsEnabled: planChipsEnabled,
-                      filterChipsDisabledSemantics: planFilterDisabledSemantics,
-                      onPickSnapshotDate: _pickSnapshotDate,
-                      onTapBalance: () =>
-                          setState(() => _detailExpanded = !_detailExpanded),
-                      panel: _planPanel,
-                      onTogglePanel: _togglePlanPanel,
-                      typeFilter: _typeFilter,
-                      onCycleType: _cycleTypeFilter,
-                      dateModeLetter: _dateChipModeLetter,
-                      dateFilterActive: _dateFilter != null,
-                      onCycleDate: _cycleDateFilter,
-                      accountFilter: _accountFilter,
-                      categoryFilter: _categoryFilter,
-                      newestFirst: _newestFirst,
-                      onToggleSort: _toggleSort,
-                    ),
-                  ],
-                ),
+          ),
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: HeroPinnedDelegate(
+              child: _ProjectionHero(
+                personal: snapshotPersonal,
+                net: snapshotNet,
+                snapshotDate: _snapshotDate,
+                isFutureSnapshot: _isFutureProjection,
+                detailExpanded: _detailExpanded,
+                projectionHeroInteractive: planHeroInteractive,
+                filterChipsEnabled: planChipsEnabled,
+                filterChipsDisabledSemantics: planFilterDisabledSemantics,
+                onPickSnapshotDate: _pickSnapshotDate,
+                onTapBalance: () =>
+                    setState(() => _detailExpanded = !_detailExpanded),
+                panel: _planPanel,
+                onTogglePanel: _togglePlanPanel,
+                typeFilter: _typeFilter,
+                onCycleType: _cycleTypeFilter,
+                dateModeLetter: _dateChipModeLetter,
+                dateFilterActive: _dateFilter != null,
+                onCycleDate: _cycleDateFilter,
+                accountFilter: _accountFilter,
+                categoryFilter: _categoryFilter,
+                newestFirst: _newestFirst,
+                onToggleSort: _toggleSort,
               ),
             ),
           ),
@@ -915,7 +908,10 @@ class _PlanScreenState extends State<PlanScreen> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
                 child: TrackPlanFilterStrip(
-                  panel: _planPanel,
+                  showAccountSection:
+                      _planPanel == TrackPlanFilterPanel.account,
+                  showCategorySection:
+                      _planPanel == TrackPlanFilterPanel.category,
                   accounts: activeAccounts(data.accounts),
                   accountFilter: _accountFilter,
                   onAccountFilter: (a) => setState(() => _accountFilter = a),
@@ -1233,8 +1229,12 @@ class _ProjectionHero extends StatelessWidget {
           ),
           const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
           TrackPlanFilterChipRow(
-            panel: panel,
-            onTogglePanel: onTogglePanel,
+            accountPanelOpen: panel == TrackPlanFilterPanel.account,
+            categoryPanelOpen: panel == TrackPlanFilterPanel.category,
+            onToggleAccountPanel: () =>
+                onTogglePanel(TrackPlanFilterPanel.account),
+            onToggleCategoryPanel: () =>
+                onTogglePanel(TrackPlanFilterPanel.category),
             typeFilter: typeFilter,
             onCycleType: onCycleType,
             dateModeLetter: dateModeLetter,

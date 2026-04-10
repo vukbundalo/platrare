@@ -61,7 +61,9 @@ class _TrackScreenState extends State<TrackScreen> {
   String? _dateFilter;
   DateTime _dateAnchor = DateTime.now();
   bool _newestFirst = true;
-  TrackPlanFilterPanel _trackPanel = TrackPlanFilterPanel.none;
+  /// Filter strips below the hero: account and category can both be open on Track.
+  bool _accountStripOpen = false;
+  bool _categoryStripOpen = false;
   String _searchQuery = '';
   /// Calendar day whose last transaction row has balance history expanded.
   DateTime? _expandedTrackHistoryDay;
@@ -81,7 +83,8 @@ class _TrackScreenState extends State<TrackScreen> {
         _dateFilter = null;
         _dateAnchor = DateTime.now();
         _newestFirst = true;
-        _trackPanel = TrackPlanFilterPanel.none;
+        _accountStripOpen = false;
+        _categoryStripOpen = false;
         _searchQuery = '';
         _searchController.clear();
         _expandedTrackHistoryDay = null;
@@ -102,6 +105,8 @@ class _TrackScreenState extends State<TrackScreen> {
   void _trackFabReset() {
     setState(() {
       _expandedTrackHistoryDay = null;
+      _accountStripOpen = false;
+      _categoryStripOpen = false;
       if (_hasActiveFilter) {
         _typeFilter = null;
         _accountFilter = null;
@@ -109,15 +114,18 @@ class _TrackScreenState extends State<TrackScreen> {
         _dateFilter = null;
         _dateAnchor = DateTime.now();
         _newestFirst = true;
-        _trackPanel = TrackPlanFilterPanel.none;
         _searchQuery = '';
         _searchController.clear();
       }
     });
   }
 
-  void _toggleTrackPanel(TrackPlanFilterPanel panel) => setState(() {
-        _trackPanel = _trackPanel == panel ? TrackPlanFilterPanel.none : panel;
+  void _toggleAccountStrip() => setState(() {
+        _accountStripOpen = !_accountStripOpen;
+      });
+
+  void _toggleCategoryStrip() => setState(() {
+        _categoryStripOpen = !_categoryStripOpen;
       });
 
   void _cycleTypeFilter() => setState(() {
@@ -529,15 +537,19 @@ class _TrackScreenState extends State<TrackScreen> {
     final trackChipsEnabled = activeAccounts(data.accounts).isNotEmpty &&
         data.transactions.isNotEmpty;
     if (!trackChipsEnabled &&
-        (_trackPanel != TrackPlanFilterPanel.none || _hasActiveFilter)) {
+        (_accountStripOpen ||
+            _categoryStripOpen ||
+            _hasActiveFilter)) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) _clearFilters();
       });
     }
     final allTx = data.transactions;
     final l10n = AppLocalizations.of(context);
-    final showTrackResetFab =
-        _expandedTrackHistoryDay != null || _hasActiveFilter;
+    final showTrackResetFab = _expandedTrackHistoryDay != null ||
+        _hasActiveFilter ||
+        _accountStripOpen ||
+        _categoryStripOpen;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -574,7 +586,6 @@ class _TrackScreenState extends State<TrackScreen> {
       slivers: [
         SliverAppBar(
           pinned: true,
-          expandedHeight: AppHeroConstants.mainSliverAppBarExpandedHeight,
           backgroundColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
           scrolledUnderElevation: 0,
@@ -593,32 +604,28 @@ class _TrackScreenState extends State<TrackScreen> {
               },
             ),
           ],
-          flexibleSpace: FlexibleSpaceBar(
-            collapseMode: CollapseMode.pin,
-            background: Padding(
-              padding: AppHeroConstants.mainFlexibleSpaceHeroOuterPadding,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  _TrackHero(
-                    totalIn: 0,
-                    totalOut: 0,
-                    panel: _trackPanel,
-                    onTogglePanel: _toggleTrackPanel,
-                    typeFilter: _typeFilter,
-                    onCycleType: _cycleTypeFilter,
-                    dateModeLetter: _dateChipModeLetter,
-                    dateFilterActive: _dateFilter != null,
-                    onCycleDate: _cycleDateFilter,
-                    accountFilter: _accountFilter,
-                    categoryFilter: _categoryFilter,
-                    newestFirst: _newestFirst,
-                    onToggleSort: _toggleSort,
-                    filterChipsEnabled: trackChipsEnabled,
-                    filterChipsDisabledSemantics: trackDisabledSemantics,
-                  ),
-                ],
-              ),
+        ),
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: HeroPinnedDelegate(
+            child: _TrackHero(
+              totalIn: 0,
+              totalOut: 0,
+              accountPanelOpen: _accountStripOpen,
+              categoryPanelOpen: _categoryStripOpen,
+              onToggleAccountPanel: _toggleAccountStrip,
+              onToggleCategoryPanel: _toggleCategoryStrip,
+              typeFilter: _typeFilter,
+              onCycleType: _cycleTypeFilter,
+              dateModeLetter: _dateChipModeLetter,
+              dateFilterActive: _dateFilter != null,
+              onCycleDate: _cycleDateFilter,
+              accountFilter: _accountFilter,
+              categoryFilter: _categoryFilter,
+              newestFirst: _newestFirst,
+              onToggleSort: _toggleSort,
+              filterChipsEnabled: trackChipsEnabled,
+              filterChipsDisabledSemantics: trackDisabledSemantics,
             ),
           ),
         ),
@@ -635,12 +642,14 @@ class _TrackScreenState extends State<TrackScreen> {
               ),
             ),
           ),
-        if (trackChipsEnabled && _trackPanel != TrackPlanFilterPanel.none)
+        if (trackChipsEnabled &&
+            (_accountStripOpen || _categoryStripOpen))
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
               child: TrackPlanFilterStrip(
-                panel: _trackPanel,
+                showAccountSection: _accountStripOpen,
+                showCategorySection: _categoryStripOpen,
                 accounts: activeAccounts(data.accounts),
                 accountFilter: _accountFilter,
                 onAccountFilter: (a) => setState(() => _accountFilter = a),
@@ -751,7 +760,6 @@ class _TrackScreenState extends State<TrackScreen> {
       slivers: [
         SliverAppBar(
           pinned: true,
-          expandedHeight: AppHeroConstants.mainSliverAppBarExpandedHeight,
           backgroundColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
           scrolledUnderElevation: 0,
@@ -770,32 +778,28 @@ class _TrackScreenState extends State<TrackScreen> {
               },
             ),
           ],
-          flexibleSpace: FlexibleSpaceBar(
-            collapseMode: CollapseMode.pin,
-            background: Padding(
-              padding: AppHeroConstants.mainFlexibleSpaceHeroOuterPadding,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  _TrackHero(
-                    totalIn: totals.totalIn,
-                    totalOut: totals.totalOut,
-                    panel: _trackPanel,
-                    onTogglePanel: _toggleTrackPanel,
-                    typeFilter: _typeFilter,
-                    onCycleType: _cycleTypeFilter,
-                    dateModeLetter: _dateChipModeLetter,
-                    dateFilterActive: _dateFilter != null,
-                    onCycleDate: _cycleDateFilter,
-                    accountFilter: _accountFilter,
-                    categoryFilter: _categoryFilter,
-                    newestFirst: _newestFirst,
-                    onToggleSort: _toggleSort,
-                    filterChipsEnabled: trackChipsEnabled,
-                    filterChipsDisabledSemantics: trackDisabledSemantics,
-                  ),
-                ],
-              ),
+        ),
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: HeroPinnedDelegate(
+            child: _TrackHero(
+              totalIn: totals.totalIn,
+              totalOut: totals.totalOut,
+              accountPanelOpen: _accountStripOpen,
+              categoryPanelOpen: _categoryStripOpen,
+              onToggleAccountPanel: _toggleAccountStrip,
+              onToggleCategoryPanel: _toggleCategoryStrip,
+              typeFilter: _typeFilter,
+              onCycleType: _cycleTypeFilter,
+              dateModeLetter: _dateChipModeLetter,
+              dateFilterActive: _dateFilter != null,
+              onCycleDate: _cycleDateFilter,
+              accountFilter: _accountFilter,
+              categoryFilter: _categoryFilter,
+              newestFirst: _newestFirst,
+              onToggleSort: _toggleSort,
+              filterChipsEnabled: trackChipsEnabled,
+              filterChipsDisabledSemantics: trackDisabledSemantics,
             ),
           ),
         ),
@@ -809,6 +813,27 @@ class _TrackScreenState extends State<TrackScreen> {
                 onNavigateForward: _canNavigateDateForward
                     ? () => _navigateDate(1)
                     : null,
+              ),
+            ),
+          ),
+        if (trackChipsEnabled &&
+            (_accountStripOpen || _categoryStripOpen))
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
+              child: TrackPlanFilterStrip(
+                showAccountSection: _accountStripOpen,
+                showCategorySection: _categoryStripOpen,
+                accounts: activeAccounts(data.accounts),
+                accountFilter: _accountFilter,
+                onAccountFilter: (a) => setState(() => _accountFilter = a),
+                categories: <String>{
+                  ...data.incomeCategories,
+                  ...data.expenseCategories,
+                }.toList()
+                  ..sort(),
+                categoryFilter: _categoryFilter,
+                onCategoryFilter: (c) => setState(() => _categoryFilter = c),
               ),
             ),
           ),
@@ -835,25 +860,6 @@ class _TrackScreenState extends State<TrackScreen> {
             ),
           ),
         ),
-        if (trackChipsEnabled && _trackPanel != TrackPlanFilterPanel.none)
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
-              child: TrackPlanFilterStrip(
-                panel: _trackPanel,
-                accounts: activeAccounts(data.accounts),
-                accountFilter: _accountFilter,
-                onAccountFilter: (a) => setState(() => _accountFilter = a),
-                categories: <String>{
-                  ...data.incomeCategories,
-                  ...data.expenseCategories,
-                }.toList()
-                  ..sort(),
-                categoryFilter: _categoryFilter,
-                onCategoryFilter: (c) => setState(() => _categoryFilter = c),
-              ),
-            ),
-          ),
 
         if (displayTx.isEmpty)
           SliverFillRemaining(
@@ -924,8 +930,10 @@ class _TrackScreenState extends State<TrackScreen> {
 class _TrackHero extends StatelessWidget {
   final double totalIn;
   final double totalOut;
-  final TrackPlanFilterPanel panel;
-  final void Function(TrackPlanFilterPanel) onTogglePanel;
+  final bool accountPanelOpen;
+  final bool categoryPanelOpen;
+  final VoidCallback onToggleAccountPanel;
+  final VoidCallback onToggleCategoryPanel;
   final String? typeFilter;
   final VoidCallback onCycleType;
   /// `M` / `W` / `Y` when that period mode is active; null → calendar icon.
@@ -942,8 +950,10 @@ class _TrackHero extends StatelessWidget {
   const _TrackHero({
     required this.totalIn,
     required this.totalOut,
-    required this.panel,
-    required this.onTogglePanel,
+    required this.accountPanelOpen,
+    required this.categoryPanelOpen,
+    required this.onToggleAccountPanel,
+    required this.onToggleCategoryPanel,
     required this.typeFilter,
     required this.onCycleType,
     required this.dateModeLetter,
@@ -1023,8 +1033,10 @@ class _TrackHero extends StatelessWidget {
           ),
           const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
           TrackPlanFilterChipRow(
-            panel: panel,
-            onTogglePanel: onTogglePanel,
+            accountPanelOpen: accountPanelOpen,
+            categoryPanelOpen: categoryPanelOpen,
+            onToggleAccountPanel: onToggleAccountPanel,
+            onToggleCategoryPanel: onToggleCategoryPanel,
             typeFilter: typeFilter,
             onCycleType: onCycleType,
             dateModeLetter: dateModeLetter,

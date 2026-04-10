@@ -24,8 +24,12 @@ String _semanticsDateModeWord(AppLocalizations l10n, String letter) {
 // ─── Main filter chip row (matches Track hero bottom row) ─────────────────────
 
 class TrackPlanFilterChipRow extends StatelessWidget {
-  final TrackPlanFilterPanel panel;
-  final void Function(TrackPlanFilterPanel) onTogglePanel;
+  /// When true, the account filter strip is expanded (chip appears selected).
+  final bool accountPanelOpen;
+  /// When true, the category filter strip is expanded.
+  final bool categoryPanelOpen;
+  final VoidCallback onToggleAccountPanel;
+  final VoidCallback onToggleCategoryPanel;
   final String? typeFilter;
   final VoidCallback onCycleType;
   final String? dateModeLetter;
@@ -49,8 +53,10 @@ class TrackPlanFilterChipRow extends StatelessWidget {
 
   const TrackPlanFilterChipRow({
     super.key,
-    required this.panel,
-    required this.onTogglePanel,
+    required this.accountPanelOpen,
+    required this.categoryPanelOpen,
+    required this.onToggleAccountPanel,
+    required this.onToggleCategoryPanel,
     required this.typeFilter,
     required this.onCycleType,
     required this.dateModeLetter,
@@ -187,9 +193,8 @@ class TrackPlanFilterChipRow extends StatelessWidget {
         accountChipEnabled
             ? mainChip(
                 icon: Icons.account_balance_wallet_outlined,
-                active: accountFilter != null ||
-                    panel == TrackPlanFilterPanel.account,
-                onTap: () => onTogglePanel(TrackPlanFilterPanel.account),
+                active: accountFilter != null || accountPanelOpen,
+                onTap: onToggleAccountPanel,
                 semanticsLabel: l10n.semanticsAccountFilter,
               )
             : Expanded(
@@ -222,9 +227,8 @@ class TrackPlanFilterChipRow extends StatelessWidget {
         const SizedBox(width: 6),
         mainChip(
           icon: Icons.label_outline_rounded,
-          active: categoryFilter != null ||
-              panel == TrackPlanFilterPanel.category,
-          onTap: () => onTogglePanel(TrackPlanFilterPanel.category),
+          active: categoryFilter != null || categoryPanelOpen,
+          onTap: onToggleCategoryPanel,
           semanticsLabel: l10n.semanticsCategoryFilter,
         ),
         const SizedBox(width: 6),
@@ -428,7 +432,8 @@ Widget trackPlanNamePill(
 }
 
 class TrackPlanFilterStrip extends StatelessWidget {
-  final TrackPlanFilterPanel panel;
+  final bool showAccountSection;
+  final bool showCategorySection;
   final List<Account> accounts;
   final Account? accountFilter;
   final void Function(Account?) onAccountFilter;
@@ -438,7 +443,8 @@ class TrackPlanFilterStrip extends StatelessWidget {
 
   const TrackPlanFilterStrip({
     super.key,
-    required this.panel,
+    required this.showAccountSection,
+    required this.showCategorySection,
     required this.accounts,
     required this.accountFilter,
     required this.onAccountFilter,
@@ -538,10 +544,21 @@ class TrackPlanFilterStrip extends StatelessWidget {
       );
     }
 
-    return switch (panel) {
-      TrackPlanFilterPanel.account => accountSection(),
-      TrackPlanFilterPanel.category => categorySection(),
-      TrackPlanFilterPanel.none => const SizedBox.shrink(),
-    };
+    final children = <Widget>[];
+    if (showAccountSection) {
+      children.add(accountSection());
+    }
+    if (showAccountSection && showCategorySection) {
+      children.add(const SizedBox(height: 8));
+    }
+    if (showCategorySection) {
+      children.add(categorySection());
+    }
+    if (children.isEmpty) return const SizedBox.shrink();
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: children,
+    );
   }
 }
