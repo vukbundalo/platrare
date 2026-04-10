@@ -9,6 +9,7 @@ import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
 import '../widgets/account_avatar.dart';
+import '../widgets/attachments_editor.dart';
 import '../widgets/app_hero_layout.dart';
 import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
@@ -39,6 +40,7 @@ class _NewPlannedTransactionScreenState
   DateTime? _repeatEndDate;
   int? _repeatEndAfter;
   bool _forceClose = false;
+  List<String> _attachments = [];
 
   bool get _isEdit => widget.existing != null;
 
@@ -71,13 +73,18 @@ class _NewPlannedTransactionScreenState
       if (_weekendAdjustment != e.weekendAdjustment) return true;
       if (_repeatEndDate != e.repeatEndDate) return true;
       if (_repeatEndAfter != e.repeatEndAfter) return true;
+      if (_attachments.length != e.attachments.length ||
+          !_attachments.every((p) => e.attachments.contains(p))) {
+        return true;
+      }
       return false;
     }
     return _amountController.text.trim().isNotEmpty ||
         _fromAccount != null ||
         _toAccount != null ||
         _category != null ||
-        _descriptionController.text.trim().isNotEmpty;
+        _descriptionController.text.trim().isNotEmpty ||
+        _attachments.isNotEmpty;
   }
 
   void _showDiscardDialog() {
@@ -145,6 +152,7 @@ class _NewPlannedTransactionScreenState
       } else {
         _date = e.date;
       }
+      _attachments = List.from(e.attachments);
     }
   }
 
@@ -225,9 +233,19 @@ class _NewPlannedTransactionScreenState
         repeatConfirmedCount: widget.existing?.repeatConfirmedCount ?? 0,
         createdAt: widget.existing?.createdAt,
         updatedAt: widget.existing != null ? DateTime.now() : null,
-        attachments: List<String>.from(widget.existing?.attachments ?? const []),
+        attachments: List<String>.from(_attachments),
       ),
     );
+  }
+
+  Future<void> _pickAttachments() async {
+    final paths = await pickNewAttachmentPaths(context);
+    if (!mounted || paths.isEmpty) return;
+    setState(() {
+      for (final p in paths) {
+        if (!_attachments.contains(p)) _attachments.add(p);
+      }
+    });
   }
 
   Future<void> _pickDate() async {
@@ -504,6 +522,21 @@ class _NewPlannedTransactionScreenState
                     ),
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: (_) => setState(() {}),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    AppLocalizations.of(context).sectionAttachments,
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelLarge
+                        ?.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 8),
+                  AttachmentsEditorSection(
+                    attachments: _attachments,
+                    onAdd: _pickAttachments,
+                    onRemove: (path) =>
+                        setState(() => _attachments.remove(path)),
                   ),
                   const SizedBox(height: 16),
 

@@ -367,6 +367,10 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
                 color: color,
               ),
           ]),
+          if (pt.attachments.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            _AttachmentsCard(attachments: pt.attachments),
+          ],
         ],
       ),
     );
