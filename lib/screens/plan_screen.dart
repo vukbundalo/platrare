@@ -63,12 +63,15 @@ class _PlanScreenState extends State<PlanScreen> {
   DateTime _dateAnchor = DateTime.now();
   /// Planned list: oldest → newest by default (overdue / soonest days first).
   bool _newestFirst = false;
-  TrackPlanFilterPanel _planPanel = TrackPlanFilterPanel.none;
+  bool _accountStripOpen = false;
+  bool _categoryStripOpen = false;
   bool _detailExpanded = false;
   /// Calendar day whose last planned row has per-day projection panel expanded.
   DateTime? _expandedPlanProjectionDay;
 
   final _planScrollController = ScrollController();
+  final _planSearchController = TextEditingController();
+  String _planSearchQuery = '';
   int _planVisibleDaySlots = kLazyDayInitialCount;
   int? _planLazyListSig;
 
@@ -77,7 +80,8 @@ class _PlanScreenState extends State<PlanScreen> {
       _accountFilter != null ||
       _categoryFilter != null ||
       _dateFilter != null ||
-      _newestFirst;
+      _newestFirst ||
+      _planSearchQuery.trim().isNotEmpty;
 
   void _clearFilters() => setState(() {
         _typeFilter = null;
@@ -86,7 +90,10 @@ class _PlanScreenState extends State<PlanScreen> {
         _dateFilter = null;
         _dateAnchor = DateTime.now();
         _newestFirst = false;
-        _planPanel = TrackPlanFilterPanel.none;
+        _accountStripOpen = false;
+        _categoryStripOpen = false;
+        _planSearchQuery = '';
+        _planSearchController.clear();
         _expandedPlanProjectionDay = null;
       });
 
@@ -107,8 +114,12 @@ class _PlanScreenState extends State<PlanScreen> {
     widget.onChanged?.call();
   }
 
-  void _togglePlanPanel(TrackPlanFilterPanel panel) => setState(() {
-        _planPanel = _planPanel == panel ? TrackPlanFilterPanel.none : panel;
+  void _toggleAccountStrip() => setState(() {
+        _accountStripOpen = !_accountStripOpen;
+      });
+
+  void _toggleCategoryStrip() => setState(() {
+        _categoryStripOpen = !_categoryStripOpen;
       });
 
   void _cycleTypeFilter() => setState(() {
@@ -274,6 +285,8 @@ class _PlanScreenState extends State<PlanScreen> {
     setState(() {
       _expandedPlanProjectionDay = null;
       _detailExpanded = false;
+      _accountStripOpen = false;
+      _categoryStripOpen = false;
       if (_hasActiveFilter) {
         _typeFilter = null;
         _accountFilter = null;
@@ -281,9 +294,36 @@ class _PlanScreenState extends State<PlanScreen> {
         _dateFilter = null;
         _dateAnchor = DateTime.now();
         _newestFirst = false;
-        _planPanel = TrackPlanFilterPanel.none;
+        _planSearchQuery = '';
+        _planSearchController.clear();
       }
     });
+  }
+
+  List<PlannedTransaction> _applyPlannedSearch(List<PlannedTransaction> pts) {
+    final q = _planSearchQuery.trim().toLowerCase();
+    if (q.isEmpty) return pts;
+    return pts.where((pt) {
+      if (pt.description?.toLowerCase().contains(q) ?? false) return true;
+      final cat = pt.category;
+      if (cat != null) {
+        if (cat.toLowerCase().contains(q)) return true;
+        if (l10nCategoryName(context, cat).toLowerCase().contains(q)) {
+          return true;
+        }
+      }
+      if (pt.fromAccount != null &&
+          accountDisplayName(pt.fromAccount!).toLowerCase().contains(q)) {
+        return true;
+      }
+      if (pt.toAccount != null &&
+          accountDisplayName(pt.toAccount!).toLowerCase().contains(q)) {
+        return true;
+      }
+      final amt = pt.nativeAmount;
+      if (amt != null && amt.toString().contains(q)) return true;
+      return false;
+    }).toList();
   }
 
   List<PlannedTransaction> get _filteredPlanned {
@@ -328,7 +368,8 @@ class _PlanScreenState extends State<PlanScreen> {
     if (!pos.hasPixels || !pos.hasContentDimensions) return;
     if (pos.pixels < pos.maxScrollExtent - 360) return;
 
-    final bundle = DayGroupedPlanned.build(_filteredPlanned, _newestFirst);
+    final bundle = DayGroupedPlanned.build(
+        _applyPlannedSearch(_filteredPlanned), _newestFirst);
     if (!shouldLazyLoadDaySections(_dateFilter, bundle.dayKeys.length)) return;
     if (_planVisibleDaySlots >= bundle.dayKeys.length) return;
 
@@ -347,6 +388,7 @@ class _PlanScreenState extends State<PlanScreen> {
       _accountFilter?.id,
       _categoryFilter,
       _newestFirst,
+      _planSearchQuery,
       _filteredPlanned.length,
       data.plannedTransactions.length,
     );
@@ -360,6 +402,7 @@ class _PlanScreenState extends State<PlanScreen> {
   void dispose() {
     _planScrollController.removeListener(_onPlanScrollLoadMoreDays);
     _planScrollController.dispose();
+    _planSearchController.dispose();
     super.dispose();
   }
 
@@ -754,7 +797,9 @@ class _PlanScreenState extends State<PlanScreen> {
     final planChipsEnabled =
         !_isFutureProjection && hasAccounts && hasPlanned;
     if (!planChipsEnabled &&
-        (_planPanel != TrackPlanFilterPanel.none || _hasActiveFilter)) {
+        (_accountStripOpen ||
+            _categoryStripOpen ||
+            _hasActiveFilter)) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) _clearFilters();
       });
@@ -787,8 +832,10 @@ class _PlanScreenState extends State<PlanScreen> {
       });
     }
     final planned = _filteredPlanned;
+    final displayPlanned = _applyPlannedSearch(planned);
     _syncPlanLazyWindowSignature();
-    final planDayBundle = DayGroupedPlanned.build(planned, _newestFirst);
+    final planDayBundle =
+        DayGroupedPlanned.build(displayPlanned, _newestFirst);
     final lazyPlanDays =
         shouldLazyLoadDaySections(_dateFilter, planDayBundle.dayKeys.length);
     final planVisibleDayGroups = lazyPlanDays
@@ -815,7 +862,9 @@ class _PlanScreenState extends State<PlanScreen> {
       final showPlanResetFab = _isFutureProjection ||
           _hasActiveFilter ||
           _detailExpanded ||
-          _expandedPlanProjectionDay != null;
+          _expandedPlanProjectionDay != null ||
+          _accountStripOpen ||
+          _categoryStripOpen;
       if (showPlanResetFab) {
         fab = FloatingActionButton.extended(
           heroTag: 'plan_fab',
@@ -824,7 +873,7 @@ class _PlanScreenState extends State<PlanScreen> {
           icon: const Icon(Icons.restart_alt_rounded),
           label: Text(l10n.heroResetButton),
         );
-      } else if (planned.isNotEmpty) {
+      } else if (displayPlanned.isNotEmpty) {
         fab = FloatingActionButton(
           heroTag: 'plan_fab',
           onPressed: _addPlanned,
@@ -875,8 +924,10 @@ class _PlanScreenState extends State<PlanScreen> {
                 onPickSnapshotDate: _pickSnapshotDate,
                 onTapBalance: () =>
                     setState(() => _detailExpanded = !_detailExpanded),
-                panel: _planPanel,
-                onTogglePanel: _togglePlanPanel,
+                accountPanelOpen: _accountStripOpen,
+                categoryPanelOpen: _categoryStripOpen,
+                onToggleAccountPanel: _toggleAccountStrip,
+                onToggleCategoryPanel: _toggleCategoryStrip,
                 typeFilter: _typeFilter,
                 onCycleType: _cycleTypeFilter,
                 dateModeLetter: _dateChipModeLetter,
@@ -903,15 +954,14 @@ class _PlanScreenState extends State<PlanScreen> {
                 ),
               ),
             ),
-          if (planChipsEnabled && _planPanel != TrackPlanFilterPanel.none)
+          if (planChipsEnabled &&
+              (_accountStripOpen || _categoryStripOpen))
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
                 child: TrackPlanFilterStrip(
-                  showAccountSection:
-                      _planPanel == TrackPlanFilterPanel.account,
-                  showCategorySection:
-                      _planPanel == TrackPlanFilterPanel.category,
+                  showAccountSection: _accountStripOpen,
+                  showCategorySection: _categoryStripOpen,
                   accounts: activeAccounts(data.accounts),
                   accountFilter: _accountFilter,
                   onAccountFilter: (a) => setState(() => _accountFilter = a),
@@ -922,6 +972,32 @@ class _PlanScreenState extends State<PlanScreen> {
                     ..sort(),
                   categoryFilter: _categoryFilter,
                   onCategoryFilter: (c) => setState(() => _categoryFilter = c),
+                ),
+              ),
+            ),
+          if (planChipsEnabled &&
+              !_isFutureProjection &&
+              !_detailExpanded)
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                child: TextField(
+                  controller: _planSearchController,
+                  onChanged: (v) => setState(() => _planSearchQuery = v),
+                  decoration: InputDecoration(
+                    hintText: l10n.trackSearchHint,
+                    prefixIcon: const Icon(Icons.search_rounded, size: 22),
+                    suffixIcon: _planSearchQuery.isNotEmpty
+                        ? IconButton(
+                            tooltip: l10n.trackSearchClear,
+                            icon: const Icon(Icons.clear_rounded),
+                            onPressed: () {
+                              _planSearchController.clear();
+                              setState(() => _planSearchQuery = '');
+                            },
+                          )
+                        : null,
+                  ),
                 ),
               ),
             ),
@@ -1006,7 +1082,7 @@ class _PlanScreenState extends State<PlanScreen> {
             const SliverToBoxAdapter(child: SizedBox(height: 8)),
           ],
           if (!_isFutureProjection && !_detailExpanded)
-            if (planned.isEmpty)
+            if (displayPlanned.isEmpty)
               SliverFillRemaining(
                 hasScrollBody: false,
                 child: activeAccounts(data.accounts).isEmpty
@@ -1058,8 +1134,10 @@ class _ProjectionHero extends StatelessWidget {
   final String filterChipsDisabledSemantics;
   final VoidCallback onPickSnapshotDate;
   final VoidCallback onTapBalance;
-  final TrackPlanFilterPanel panel;
-  final void Function(TrackPlanFilterPanel) onTogglePanel;
+  final bool accountPanelOpen;
+  final bool categoryPanelOpen;
+  final VoidCallback onToggleAccountPanel;
+  final VoidCallback onToggleCategoryPanel;
   final String? typeFilter;
   final VoidCallback onCycleType;
   final String? dateModeLetter;
@@ -1081,8 +1159,10 @@ class _ProjectionHero extends StatelessWidget {
     required this.filterChipsDisabledSemantics,
     required this.onPickSnapshotDate,
     required this.onTapBalance,
-    required this.panel,
-    required this.onTogglePanel,
+    required this.accountPanelOpen,
+    required this.categoryPanelOpen,
+    required this.onToggleAccountPanel,
+    required this.onToggleCategoryPanel,
     required this.typeFilter,
     required this.onCycleType,
     required this.dateModeLetter,
@@ -1229,12 +1309,10 @@ class _ProjectionHero extends StatelessWidget {
           ),
           const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
           TrackPlanFilterChipRow(
-            accountPanelOpen: panel == TrackPlanFilterPanel.account,
-            categoryPanelOpen: panel == TrackPlanFilterPanel.category,
-            onToggleAccountPanel: () =>
-                onTogglePanel(TrackPlanFilterPanel.account),
-            onToggleCategoryPanel: () =>
-                onTogglePanel(TrackPlanFilterPanel.category),
+            accountPanelOpen: accountPanelOpen,
+            categoryPanelOpen: categoryPanelOpen,
+            onToggleAccountPanel: onToggleAccountPanel,
+            onToggleCategoryPanel: onToggleCategoryPanel,
             typeFilter: typeFilter,
             onCycleType: onCycleType,
             dateModeLetter: dateModeLetter,
