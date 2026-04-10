@@ -31,6 +31,15 @@ bool _inGroup(TxType t, String group) => switch (group) {
   _ => true,
 };
 
+/// True when the transaction has both legs and they are exactly [a] and [b].
+bool _txBetweenAccounts(Transaction t, String a, String b) {
+  final from = t.fromAccount?.id ?? t.fromAccountId;
+  final to = t.toAccount?.id ?? t.toAccountId;
+  if (from == null || to == null) return false;
+  final legs = {from, to};
+  return legs.contains(a) && legs.contains(b);
+}
+
 class AccountTransactionsScreen extends StatefulWidget {
   final Account account;
   const AccountTransactionsScreen({super.key, required this.account});
@@ -44,6 +53,8 @@ class _AccountTransactionsScreenState
     extends State<AccountTransactionsScreen> {
   String? _typeFilter;
   String? _categoryFilter;
+  /// When set, only transactions that involve both [widget.account] and this account.
+  Account? _counterpartyFilter;
   String? _dateFilter;
   DateTime _dateAnchor = DateTime.now();
   bool _newestFirst = true;
@@ -127,11 +138,11 @@ class _AccountTransactionsScreenState
   bool get _hasActiveFilter =>
       _typeFilter != null ||
       _categoryFilter != null ||
+      _counterpartyFilter != null ||
       _dateFilter != null ||
       !_newestFirst;
 
   void _toggleFilterPanel(TrackPlanFilterPanel panel) {
-    if (panel == TrackPlanFilterPanel.account) return;
     setState(() {
       _filterPanel = _filterPanel == panel ? TrackPlanFilterPanel.none : panel;
     });
@@ -171,6 +182,7 @@ class _AccountTransactionsScreenState
   void _clearFilters() => setState(() {
         _typeFilter = null;
         _categoryFilter = null;
+        _counterpartyFilter = null;
         _dateFilter = null;
         _dateAnchor = DateTime.now();
         _newestFirst = true;
@@ -242,6 +254,13 @@ class _AccountTransactionsScreenState
       source = source.where((t) => t.category == _categoryFilter);
     }
 
+    if (_counterpartyFilter != null) {
+      final mainId = widget.account.id;
+      final otherId = _counterpartyFilter!.id;
+      source = source.where(
+          (t) => _txBetweenAccounts(t, mainId, otherId));
+    }
+
     return source.toList();
   }
 
@@ -298,6 +317,7 @@ class _AccountTransactionsScreenState
       _dateFilter,
       _typeFilter,
       _categoryFilter,
+      _counterpartyFilter?.id,
       _newestFirst,
       _filteredTx.length,
       data.transactions.length,
@@ -333,6 +353,16 @@ class _AccountTransactionsScreenState
     final totals = _totals;
     final acctChipsEnabled = activeAccounts(data.accounts).isNotEmpty &&
         _allAccountTx.isNotEmpty;
+
+    if (_counterpartyFilter != null && _counterpartyFilter!.archived) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted &&
+            _counterpartyFilter != null &&
+            _counterpartyFilter!.archived) {
+          setState(() => _counterpartyFilter = null);
+        }
+      });
+    }
     if (!acctChipsEnabled &&
         (_filterPanel != TrackPlanFilterPanel.none || _hasActiveFilter)) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -419,6 +449,7 @@ class _AccountTransactionsScreenState
                       dateModeLetter: _dateChipModeLetter,
                       dateFilterActive: _dateFilter != null,
                       onCycleDate: _cycleDateFilter,
+                      counterpartyFilter: _counterpartyFilter,
                       categoryFilter: _categoryFilter,
                       newestFirst: _newestFirst,
                       onToggleSort: _toggleSort,
@@ -448,12 +479,16 @@ class _AccountTransactionsScreenState
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
                 child: TrackPlanFilterStrip(
-                  showAccountSection: false,
+                  showAccountSection:
+                      _filterPanel == TrackPlanFilterPanel.account,
                   showCategorySection:
                       _filterPanel == TrackPlanFilterPanel.category,
-                  accounts: activeAccounts(data.accounts),
-                  accountFilter: null,
-                  onAccountFilter: (_) {},
+                  accounts: activeAccounts(data.accounts)
+                      .where((a) => a.id != account.id)
+                      .toList(),
+                  accountFilter: _counterpartyFilter,
+                  onAccountFilter: (a) =>
+                      setState(() => _counterpartyFilter = a),
                   categories: categoriesSorted,
                   categoryFilter: _categoryFilter,
                   onCategoryFilter: (c) =>
@@ -532,6 +567,7 @@ class _AccountTxHero extends StatelessWidget {
   final String? dateModeLetter;
   final bool dateFilterActive;
   final VoidCallback onCycleDate;
+  final Account? counterpartyFilter;
   final String? categoryFilter;
   final bool newestFirst;
   final VoidCallback onToggleSort;
@@ -548,6 +584,7 @@ class _AccountTxHero extends StatelessWidget {
     required this.dateModeLetter,
     required this.dateFilterActive,
     required this.onCycleDate,
+    required this.counterpartyFilter,
     required this.categoryFilter,
     required this.newestFirst,
     required this.onToggleSort,
@@ -623,9 +660,10 @@ class _AccountTxHero extends StatelessWidget {
           ),
           const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
           TrackPlanFilterChipRow(
-            accountPanelOpen: false,
+            accountPanelOpen: panel == TrackPlanFilterPanel.account,
             categoryPanelOpen: panel == TrackPlanFilterPanel.category,
-            onToggleAccountPanel: () {},
+            onToggleAccountPanel: () =>
+                onTogglePanel(TrackPlanFilterPanel.account),
             onToggleCategoryPanel: () =>
                 onTogglePanel(TrackPlanFilterPanel.category),
             typeFilter: typeFilter,
@@ -633,11 +671,11 @@ class _AccountTxHero extends StatelessWidget {
             dateModeLetter: dateModeLetter,
             dateFilterActive: dateFilterActive,
             onCycleDate: onCycleDate,
-            accountFilter: null,
+            accountFilter: counterpartyFilter,
             categoryFilter: categoryFilter,
             newestFirst: newestFirst,
             onToggleSort: onToggleSort,
-            accountChipEnabled: false,
+            accountChipEnabled: true,
             enabled: filterChipsEnabled,
             disabledSemanticsLabel: filterChipsDisabledSemantics,
           ),
