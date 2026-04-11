@@ -816,13 +816,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       vizMode: _vizMode,
                       onCycleViz: _cycleViz,
                       compareMode: _compareMode,
-                      onSelectStatisticsMode: () => setState(() {
-                        _compareMode = false;
-                      }),
-                      onSelectComparisonMode: () => setState(() {
-                        _compareMode = true;
-                        if (_spendingMonths == 0) {
-                          _spendingMonths = 1;
+                      onToggleCompare: () => setState(() {
+                        if (_compareMode) {
+                          _compareMode = false;
+                        } else {
+                          _compareMode = true;
+                          if (_spendingMonths == 0) {
+                            _spendingMonths = 1;
+                          }
                         }
                       }),
                       compareCategoryKeys: _compareMode
@@ -1141,8 +1142,7 @@ class _StatsHeader extends StatelessWidget {
   final int vizMode;
   final VoidCallback onCycleViz;
   final bool compareMode;
-  final VoidCallback onSelectStatisticsMode;
-  final VoidCallback onSelectComparisonMode;
+  final VoidCallback onToggleCompare;
   /// Compare mode: categories available for the two periods (Spent vs Received).
   final List<String> compareCategoryKeys;
   final String? compareSelectedCategory;
@@ -1161,8 +1161,7 @@ class _StatsHeader extends StatelessWidget {
     required this.vizMode,
     required this.onCycleViz,
     required this.compareMode,
-    required this.onSelectStatisticsMode,
-    required this.onSelectComparisonMode,
+    required this.onToggleCompare,
     this.compareCategoryKeys = const [],
     this.compareSelectedCategory,
     this.onCompareCategoryChanged,
@@ -1177,6 +1176,7 @@ class _StatsHeader extends StatelessWidget {
     final vizIcon = vizMode == 1 ? Icons.donut_large_rounded : Icons.bar_chart_rounded;
 
     // Same footprint as _NetWorthHero chips: full row width, shared chip height, 6px gaps.
+    // Row: spent / received / period / chart type (bar↔pie) / compare toggle.
     Widget chip({required IconData icon, required bool active, required VoidCallback onTap, String? label}) =>
       GestureDetector(
         onTap: onTap,
@@ -1236,7 +1236,7 @@ class _StatsHeader extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
       child: Column(
         children: [
-          // Chip row: spent, received, period, viz, compare (same tap targets as hero).
+          // Chip row: spent, received, period, chart type (bar↔pie), compare.
           Row(
             children: [
               Expanded(
@@ -1266,14 +1266,18 @@ class _StatsHeader extends StatelessWidget {
               const SizedBox(width: 6),
               Expanded(
                 child: Semantics(
-                  label: l10n.reviewStatsModeStatistics,
+                  enabled: !compareMode,
+                  label: compareMode
+                      ? l10n.semanticsChartStyleUnavailable
+                      : l10n.semanticsChartStyle,
                   button: true,
-                  selected: !compareMode,
-                  child: chip(
-                    icon: Icons.bar_chart_rounded,
-                    active: !compareMode,
-                    onTap: onSelectStatisticsMode,
-                    label: l10n.reviewStatsModeStatistics,
+                  child: IgnorePointer(
+                    ignoring: compareMode,
+                    child: chip(
+                      icon: vizIcon,
+                      active: !compareMode,
+                      onTap: onCycleViz,
+                    ),
                   ),
                 ),
               ),
@@ -1286,25 +1290,7 @@ class _StatsHeader extends StatelessWidget {
                   child: chip(
                     icon: Icons.compare_arrows_rounded,
                     active: compareMode,
-                    onTap: onSelectComparisonMode,
-                    label: l10n.reviewStatsModeComparison,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: Semantics(
-                  enabled: !compareMode,
-                  label: compareMode
-                      ? l10n.semanticsChartStyleUnavailable
-                      : l10n.semanticsChartStyle,
-                  child: IgnorePointer(
-                    ignoring: compareMode,
-                    child: chip(
-                      icon: vizIcon,
-                      active: !compareMode,
-                      onTap: onCycleViz,
-                    ),
+                    onTap: onToggleCompare,
                   ),
                 ),
               ),
