@@ -181,6 +181,9 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
+  String get repeatEndAfterChoice => 'Na een aantal keer';
+
+  @override
   String get repeatEndPickDate => 'Pick end date';
 
   @override

@@ -84,6 +84,7 @@
       }
     }
   },
+  "repeatEndAfterChoice": "Na een aantal keer",
   "repeatEndPickDate": "Pick end date",
   "repeatEndTimes": "times",
   "repeatSummaryEvery": "Every {count} {unit}",

@@ -84,6 +84,7 @@
       }
     }
   },
+  "repeatEndAfterChoice": "कई बार के बाद",
   "repeatEndPickDate": "समाप्ति तिथि चुनें",
   "repeatEndTimes": "टाइम्स",
   "repeatSummaryEvery": "हर {count} {unit}",

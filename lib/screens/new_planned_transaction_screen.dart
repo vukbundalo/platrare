@@ -1009,7 +1009,7 @@ class _EndConditionPicker extends StatelessWidget {
             FilterChip(
               label: Text(endAfter != null
                   ? l10n.repeatEndAfterCount(endAfter!)
-                  : l10n.repeatEndAfterCount(3)),
+                  : l10n.repeatEndAfterChoice),
               selected: isCount,
               onSelected: (_) {
                 if (!isCount) {

@@ -54,6 +54,7 @@
   "repeatEndOnDate": "À la date",
   "repeatEndAfterCount": "Après {count} fois",
   "@repeatEndAfterCount": { "placeholders": { "count": {"type": "int"} } },
+  "repeatEndAfterChoice": "Après un certain nombre de fois",
   "repeatEndPickDate": "Choisir la date de fin",
   "repeatEndTimes": "fois",
   "repeatSummaryEvery": "Tous les {count} {unit}",

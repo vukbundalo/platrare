@@ -185,6 +185,9 @@ class AppLocalizationsSr extends AppLocalizations {
   }
 
   @override
+  String get repeatEndAfterChoice => 'Posle određenog broja puta';
+
+  @override
   String get repeatEndPickDate => 'Izaberite krajnji datum';
 
   @override
@@ -1806,6 +1809,9 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
   }
 
   @override
+  String get repeatEndAfterChoice => 'После одређеног броја пута';
+
+  @override
   String get repeatEndPickDate => 'Изаберите крајњи датум';
 
   @override
@@ -3422,6 +3428,9 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   String repeatEndAfterCount(int count) {
     return 'Posle $count puta';
   }
+
+  @override
+  String get repeatEndAfterChoice => 'Posle određenog broja puta';
 
   @override
   String get repeatEndPickDate => 'Izaberite krajnji datum';

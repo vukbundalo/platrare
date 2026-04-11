@@ -414,6 +414,12 @@ abstract class AppLocalizations {
   /// **'After {count} times'**
   String repeatEndAfterCount(int count);
 
+  /// No description provided for @repeatEndAfterChoice.
+  ///
+  /// In en, this message translates to:
+  /// **'After a number of times'**
+  String get repeatEndAfterChoice;
+
   /// No description provided for @repeatEndPickDate.
   ///
   /// In en, this message translates to:

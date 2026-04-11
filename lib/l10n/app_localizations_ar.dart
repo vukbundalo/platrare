@@ -181,6 +181,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get repeatEndAfterChoice => 'بعد عدد من المرات';
+
+  @override
   String get repeatEndPickDate => 'اختر تاريخ الانتهاء';
 
   @override

@@ -84,6 +84,7 @@
       }
     }
   },
+  "repeatEndAfterChoice": "Efter ett visst antal gånger",
   "repeatEndPickDate": "Välj slutdatum",
   "repeatEndTimes": "gånger",
   "repeatSummaryEvery": "Varje {count} {unit}",

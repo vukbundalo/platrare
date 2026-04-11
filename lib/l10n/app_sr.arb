@@ -54,6 +54,7 @@
   "repeatEndNever": "Nikad",
   "repeatEndOnDate": "Na datum",
   "repeatEndAfterCount": "Posle {count} puta",
+  "repeatEndAfterChoice": "Posle određenog broja puta",
   "repeatEndPickDate": "Izaberite krajnji datum",
   "repeatEndTimes": "puta",
 

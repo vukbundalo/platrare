@@ -181,6 +181,9 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
+  String get repeatEndAfterChoice => 'कई बार के बाद';
+
+  @override
   String get repeatEndPickDate => 'समाप्ति तिथि चुनें';
 
   @override

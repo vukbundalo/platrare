@@ -181,6 +181,9 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get repeatEndAfterChoice => 'Après un certain nombre de fois';
+
+  @override
   String get repeatEndPickDate => 'Choisir la date de fin';
 
   @override

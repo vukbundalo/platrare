@@ -181,6 +181,9 @@ class AppLocalizationsBs extends AppLocalizations {
   }
 
   @override
+  String get repeatEndAfterChoice => 'Nakon određenog broja puta';
+
+  @override
   String get repeatEndPickDate => 'Odaberite datum završetka';
 
   @override

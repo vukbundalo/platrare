@@ -181,6 +181,9 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String get repeatEndAfterChoice => 'After a number of times';
+
+  @override
   String get repeatEndPickDate => 'Pick end date';
 
   @override
@@ -1786,6 +1789,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String repeatEndAfterCount(int count) {
     return 'Depois de $count vezes';
   }
+
+  @override
+  String get repeatEndAfterChoice => 'Depois de um número de vezes';
 
   @override
   String get repeatEndPickDate => 'Escolha a data de término';

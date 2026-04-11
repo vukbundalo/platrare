@@ -62,6 +62,7 @@
   "repeatEndOnDate": "On date",
   "repeatEndAfterCount": "After {count} times",
   "@repeatEndAfterCount": { "placeholders": { "count": {"type": "int"} } },
+  "repeatEndAfterChoice": "After a number of times",
   "repeatEndPickDate": "Pick end date",
   "repeatEndTimes": "times",
 

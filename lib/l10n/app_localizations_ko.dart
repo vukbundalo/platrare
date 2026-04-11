@@ -181,6 +181,9 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String get repeatEndAfterChoice => '일정 횟수 후';
+
+  @override
   String get repeatEndPickDate => '종료일 선택';
 
   @override

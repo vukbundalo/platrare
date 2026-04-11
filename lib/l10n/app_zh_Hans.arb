@@ -84,6 +84,7 @@
       }
     }
   },
+  "repeatEndAfterChoice": "若干次后",
   "repeatEndPickDate": "选择结束日期",
   "repeatEndTimes": "次",
   "repeatSummaryEvery": "每{count}{unit}",

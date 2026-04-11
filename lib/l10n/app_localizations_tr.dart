@@ -181,6 +181,9 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String get repeatEndAfterChoice => 'Belirli sayıda tekrar sonrasında';
+
+  @override
   String get repeatEndPickDate => 'Bitiş tarihini seç';
 
   @override

@@ -84,6 +84,7 @@
       }
     }
   },
+  "repeatEndAfterChoice": "بعد عدد من المرات",
   "repeatEndPickDate": "اختر تاريخ الانتهاء",
   "repeatEndTimes": "مرات",
   "repeatSummaryEvery": "كل {count} {unit}",

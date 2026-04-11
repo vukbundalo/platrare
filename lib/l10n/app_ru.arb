@@ -84,6 +84,7 @@
       }
     }
   },
+  "repeatEndAfterChoice": "После определённого числа раз",
   "repeatEndPickDate": "Выберите дату окончания",
   "repeatEndTimes": "раз",
   "repeatSummaryEvery": "Каждые {count} {unit}",

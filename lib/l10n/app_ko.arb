@@ -84,6 +84,7 @@
       }
     }
   },
+  "repeatEndAfterChoice": "일정 횟수 후",
   "repeatEndPickDate": "종료일 선택",
   "repeatEndTimes": "타임스",
   "repeatSummaryEvery": "{count} {unit}마다",

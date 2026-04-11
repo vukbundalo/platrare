@@ -54,6 +54,7 @@
   "repeatEndOnDate": "На дату",
   "repeatEndAfterCount": "Після {count} разів",
   "@repeatEndAfterCount": { "placeholders": { "count": {"type": "int"} } },
+  "repeatEndAfterChoice": "Після певної кількості разів",
   "repeatEndPickDate": "Вибрати дату завершення",
   "repeatEndTimes": "разів",
   "repeatSummaryEvery": "Кожні {count} {unit}",

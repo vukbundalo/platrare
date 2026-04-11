@@ -181,6 +181,9 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get repeatEndAfterChoice => 'After a number of times';
+
+  @override
   String get repeatEndPickDate => 'Pick end date';
 
   @override
@@ -1786,6 +1789,9 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String repeatEndAfterCount(int count) {
     return '$count次后';
   }
+
+  @override
+  String get repeatEndAfterChoice => '若干次后';
 
   @override
   String get repeatEndPickDate => '选择结束日期';

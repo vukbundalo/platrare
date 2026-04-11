@@ -46,6 +46,7 @@
   "repeatEndNever": "Никад",
   "repeatEndOnDate": "На датум",
   "repeatEndAfterCount": "После {count} пута",
+  "repeatEndAfterChoice": "После одређеног броја пута",
   "repeatEndPickDate": "Изаберите крајњи датум",
   "repeatEndTimes": "пута",
   "repeatSummaryEvery": "Сваки {count} {unit}",

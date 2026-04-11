@@ -84,6 +84,7 @@
       }
     }
   },
+  "repeatEndAfterChoice": "Belirli sayıda tekrar sonrasında",
   "repeatEndPickDate": "Bitiş tarihini seç",
   "repeatEndTimes": "kez",
   "repeatSummaryEvery": "Her {count} {unit}",

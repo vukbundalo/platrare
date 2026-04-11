@@ -84,6 +84,7 @@
       }
     }
   },
+  "repeatEndAfterChoice": "Nakon određenog broja puta",
   "repeatEndPickDate": "Odaberite datum završetka",
   "repeatEndTimes": "puta",
   "repeatSummaryEvery": "Svaki {count} {unit}",

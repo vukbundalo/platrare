@@ -84,6 +84,7 @@
       }
     }
   },
+  "repeatEndAfterChoice": "一定回数後",
   "repeatEndPickDate": "終了日を選択してください",
   "repeatEndTimes": "回",
   "repeatSummaryEvery": "{count} {unit} ごと",
