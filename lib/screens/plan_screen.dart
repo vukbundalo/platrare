@@ -24,6 +24,7 @@ import 'review_screen.dart';
 import 'settings_screen.dart';
 import 'transaction_detail_screen.dart';
 import '../widgets/app_hero_layout.dart';
+import '../widgets/stacked_scroll_fab.dart';
 import '../widgets/track_plan_filter_ui.dart';
 
 const _kTypeIncome = 'income';
@@ -74,6 +75,7 @@ class _PlanScreenState extends State<PlanScreen> {
   String _planSearchQuery = '';
   int _planVisibleDaySlots = kLazyDayInitialCount;
   int? _planLazyListSig;
+  bool _showPlanScrollToTopFab = false;
 
   bool get _hasActiveFilter =>
       _typeFilter != null ||
@@ -355,10 +357,31 @@ class _PlanScreenState extends State<PlanScreen> {
     return source.toList();
   }
 
+  static const double _kPlanScrollToTopFabThreshold = 280;
+
   @override
   void initState() {
     super.initState();
-    _planScrollController.addListener(_onPlanScrollLoadMoreDays);
+    _planScrollController.addListener(_onPlanScrollControllerChanged);
+  }
+
+  void _onPlanScrollControllerChanged() {
+    _onPlanScrollLoadMoreDays();
+    if (!_planScrollController.hasClients) return;
+    final show =
+        _planScrollController.offset > _kPlanScrollToTopFabThreshold;
+    if (show != _showPlanScrollToTopFab && mounted) {
+      setState(() => _showPlanScrollToTopFab = show);
+    }
+  }
+
+  void _scrollPlanToTop() {
+    if (!_planScrollController.hasClients) return;
+    _planScrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 380),
+      curve: Curves.easeOutCubic,
+    );
   }
 
   void _onPlanScrollLoadMoreDays() {
@@ -400,7 +423,7 @@ class _PlanScreenState extends State<PlanScreen> {
 
   @override
   void dispose() {
-    _planScrollController.removeListener(_onPlanScrollLoadMoreDays);
+    _planScrollController.removeListener(_onPlanScrollControllerChanged);
     _planScrollController.dispose();
     _planSearchController.dispose();
     super.dispose();
@@ -880,6 +903,16 @@ class _PlanScreenState extends State<PlanScreen> {
           child: const Icon(Icons.add_rounded),
         );
       }
+    }
+    final mainFab = fab;
+    if (mainFab != null) {
+      fab = StackedScrollFab(
+        showScrollToTop: _showPlanScrollToTopFab,
+        onScrollToTop: _scrollPlanToTop,
+        scrollToTopTooltip: l10n.fabScrollToTop,
+        scrollHeroTag: 'plan_scroll_top',
+        mainFab: mainFab,
+      );
     }
 
     return Scaffold(

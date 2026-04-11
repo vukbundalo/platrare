@@ -240,6 +240,12 @@ abstract class AppLocalizations {
   /// **'Reset'**
   String get heroResetButton;
 
+  /// No description provided for @fabScrollToTop.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to top'**
+  String get fabScrollToTop;
+
   /// No description provided for @filterAll.
   ///
   /// In en, this message translates to:

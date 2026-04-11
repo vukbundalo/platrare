@@ -58,6 +58,9 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get heroResetButton => 'Reset';
+  @override
+  String get fabScrollToTop => 'Back to top';
+
 
   @override
   String get filterAll => 'All';

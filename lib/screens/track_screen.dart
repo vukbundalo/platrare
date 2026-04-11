@@ -22,6 +22,7 @@ import 'review_screen.dart' show AccountFormSheet;
 import 'settings_screen.dart';
 import 'transaction_detail_screen.dart';
 import '../widgets/app_hero_layout.dart';
+import '../widgets/stacked_scroll_fab.dart';
 import '../widgets/track_plan_filter_ui.dart';
 
 class TrackScreen extends StatefulWidget {
@@ -67,6 +68,9 @@ class _TrackScreenState extends State<TrackScreen> {
   String _searchQuery = '';
   /// Calendar day whose last transaction row has balance history expanded.
   DateTime? _expandedTrackHistoryDay;
+
+  /// Small FAB above main FAB when list is scrolled down.
+  bool _showScrollToTopFab = false;
 
   bool get _hasActiveFilter =>
       _typeFilter != null ||
@@ -256,7 +260,27 @@ class _TrackScreenState extends State<TrackScreen> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onTrackScrollLoadMoreDays);
+    _scrollController.addListener(_onScrollControllerChanged);
+  }
+
+  static const double _kScrollToTopFabThreshold = 280;
+
+  void _onScrollControllerChanged() {
+    _onTrackScrollLoadMoreDays();
+    if (!_scrollController.hasClients) return;
+    final show = _scrollController.offset > _kScrollToTopFabThreshold;
+    if (show != _showScrollToTopFab && mounted) {
+      setState(() => _showScrollToTopFab = show);
+    }
+  }
+
+  void _scrollTrackToTop() {
+    if (!_scrollController.hasClients) return;
+    _scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 380),
+      curve: Curves.easeOutCubic,
+    );
   }
 
   void _onTrackScrollLoadMoreDays() {
@@ -297,7 +321,7 @@ class _TrackScreenState extends State<TrackScreen> {
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onTrackScrollLoadMoreDays);
+    _scrollController.removeListener(_onScrollControllerChanged);
     _scrollController.dispose();
     _searchController.dispose();
     super.dispose();
@@ -558,19 +582,25 @@ class _TrackScreenState extends State<TrackScreen> {
           : _listBody(context, trackChipsEnabled),
       floatingActionButton: allTx.isEmpty
           ? null
-          : showTrackResetFab
-              ? FloatingActionButton.extended(
-                  heroTag: 'track_fab',
-                  onPressed: _trackFabReset,
-                  tooltip: l10n.heroResetButton,
-                  icon: const Icon(Icons.restart_alt_rounded),
-                  label: Text(l10n.heroResetButton),
-                )
-              : FloatingActionButton(
-                  heroTag: 'track_fab',
-                  onPressed: _openNewTransaction,
-                  child: const Icon(Icons.add_rounded),
-                ),
+          : StackedScrollFab(
+              showScrollToTop: _showScrollToTopFab,
+              onScrollToTop: _scrollTrackToTop,
+              scrollToTopTooltip: l10n.fabScrollToTop,
+              scrollHeroTag: 'track_scroll_top',
+              mainFab: showTrackResetFab
+                  ? FloatingActionButton.extended(
+                      heroTag: 'track_fab',
+                      onPressed: _trackFabReset,
+                      tooltip: l10n.heroResetButton,
+                      icon: const Icon(Icons.restart_alt_rounded),
+                      label: Text(l10n.heroResetButton),
+                    )
+                  : FloatingActionButton(
+                      heroTag: 'track_fab',
+                      onPressed: _openNewTransaction,
+                      child: const Icon(Icons.add_rounded),
+                    ),
+            ),
     );
   }
 
