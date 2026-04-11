@@ -15,120 +15,120 @@ class AppLocalizationsEs extends AppLocalizations {
   String get navPlan => 'Plan';
 
   @override
-  String get navTrack => 'Track';
+  String get navTrack => 'Historial';
 
   @override
-  String get navReview => 'Review';
+  String get navReview => 'Análisis';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Cancelar';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Eliminar';
 
   @override
-  String get close => 'Close';
+  String get close => 'Cerrar';
 
   @override
-  String get add => 'Add';
+  String get add => 'Añadir';
 
   @override
-  String get undo => 'Undo';
+  String get undo => 'Deshacer';
 
   @override
-  String get confirm => 'Confirm';
+  String get confirm => 'Confirmar';
 
   @override
-  String get restore => 'Restore';
+  String get restore => 'Restaurar';
 
   @override
-  String get heroIn => 'In';
+  String get heroIn => 'Entradas';
 
   @override
-  String get heroOut => 'Out';
+  String get heroOut => 'Salidas';
 
   @override
-  String get heroNet => 'Net';
+  String get heroNet => 'Neto';
 
   @override
-  String get heroBalance => 'Balance';
+  String get heroBalance => 'Saldo';
 
   @override
-  String get realBalance => 'Real balance';
+  String get realBalance => 'Saldo real';
 
   @override
-  String get heroResetButton => 'Reset';
-  @override
-  String get fabScrollToTop => 'Back to top';
-
+  String get heroResetButton => 'Restablecer';
 
   @override
-  String get filterAll => 'All';
+  String get fabScrollToTop => 'Volver arriba';
 
   @override
-  String get filterAllAccounts => 'All accounts';
+  String get filterAll => 'Todo';
 
   @override
-  String get filterAllCategories => 'All categories';
+  String get filterAllAccounts => 'Todas las cuentas';
 
   @override
-  String get txLabelIncome => 'INCOME';
+  String get filterAllCategories => 'Todas las categorías';
 
   @override
-  String get txLabelExpense => 'EXPENSE';
+  String get txLabelIncome => 'INGRESO';
 
   @override
-  String get txLabelInvoice => 'INVOICE';
+  String get txLabelExpense => 'GASTO';
 
   @override
-  String get txLabelBill => 'BILL';
+  String get txLabelInvoice => 'FACTURA';
 
   @override
-  String get txLabelAdvance => 'ADVANCE';
+  String get txLabelBill => 'RECIBO';
 
   @override
-  String get txLabelSettlement => 'SETTLEMENT';
+  String get txLabelAdvance => 'ANTICIPO';
 
   @override
-  String get txLabelLoan => 'LOAN';
+  String get txLabelSettlement => 'LIQUIDACIÓN';
 
   @override
-  String get txLabelCollection => 'COLLECTION';
+  String get txLabelLoan => 'PRÉSTAMO';
 
   @override
-  String get txLabelOffset => 'OFFSET';
+  String get txLabelCollection => 'COBRO';
 
   @override
-  String get txLabelTransfer => 'TRANSFER';
+  String get txLabelOffset => 'COMPENSACIÓN';
 
   @override
-  String get txLabelTransaction => 'TRANSACTION';
+  String get txLabelTransfer => 'TRANSFERENCIA';
 
   @override
-  String get repeatNone => 'No repeat';
+  String get txLabelTransaction => 'TRANSACCIÓN';
 
   @override
-  String get repeatDaily => 'Daily';
+  String get repeatNone => 'Sin repetición';
 
   @override
-  String get repeatWeekly => 'Weekly';
+  String get repeatDaily => 'Diario';
 
   @override
-  String get repeatMonthly => 'Monthly';
+  String get repeatWeekly => 'Semanal';
 
   @override
-  String get repeatYearly => 'Yearly';
+  String get repeatMonthly => 'Mensual';
 
   @override
-  String get repeatEveryLabel => 'Every';
+  String get repeatYearly => 'Anual';
+
+  @override
+  String get repeatEveryLabel => 'Cada';
 
   @override
   String repeatEveryDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days',
-      one: 'day',
+      other: '$count días',
+      one: 'día',
     );
     return '$_temp0';
   }
@@ -138,8 +138,8 @@ class AppLocalizationsEs extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count weeks',
-      one: 'week',
+      other: '$count semanas',
+      one: 'semana',
     );
     return '$_temp0';
   }
@@ -149,8 +149,8 @@ class AppLocalizationsEs extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months',
-      one: 'month',
+      other: '$count meses',
+      one: 'mes',
     );
     return '$_temp0';
   }
@@ -160,99 +160,99 @@ class AppLocalizationsEs extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years',
-      one: 'year',
+      other: '$count años',
+      one: 'año',
     );
     return '$_temp0';
   }
 
   @override
-  String get repeatEndLabel => 'Ends';
+  String get repeatEndLabel => 'Finaliza';
 
   @override
-  String get repeatEndNever => 'Never';
+  String get repeatEndNever => 'Nunca';
 
   @override
-  String get repeatEndOnDate => 'On date';
+  String get repeatEndOnDate => 'En fecha';
 
   @override
   String repeatEndAfterCount(int count) {
-    return 'After $count times';
+    return 'Después de $count veces';
   }
 
   @override
-  String get repeatEndPickDate => 'Pick end date';
+  String get repeatEndPickDate => 'Seleccionar fecha de fin';
 
   @override
-  String get repeatEndTimes => 'times';
+  String get repeatEndTimes => 'veces';
 
   @override
   String repeatSummaryEvery(int count, String unit) {
-    return 'Every $count $unit';
+    return 'Cada $count $unit';
   }
 
   @override
   String repeatSummaryUntil(String date) {
-    return 'until $date';
+    return 'hasta $date';
   }
 
   @override
   String repeatSummaryTimes(int count) {
-    return '$count times';
+    return '$count veces';
   }
 
   @override
   String repeatSummaryTimesRemaining(int remaining, int total) {
-    return '$remaining of $total remaining';
+    return '$remaining de $total restantes';
   }
 
   @override
-  String get detailRepeatEvery => 'Repeat every';
+  String get detailRepeatEvery => 'Repetir cada';
 
   @override
-  String get detailEnds => 'Ends';
+  String get detailEnds => 'Finaliza';
 
   @override
-  String get detailEndsNever => 'Never';
+  String get detailEndsNever => 'Nunca';
 
   @override
   String detailEndsOnDate(String date) {
-    return 'On $date';
+    return 'El $date';
   }
 
   @override
   String detailEndsAfterCount(int count) {
-    return 'After $count times';
+    return 'Después de $count veces';
   }
 
   @override
-  String get detailProgress => 'Progress';
+  String get detailProgress => 'Progreso';
 
   @override
-  String get weekendNoChange => 'No change';
+  String get weekendNoChange => 'Sin cambio';
 
   @override
-  String get weekendFriday => 'Move to Friday';
+  String get weekendFriday => 'Mover al viernes';
 
   @override
-  String get weekendMonday => 'Move to Monday';
+  String get weekendMonday => 'Mover al lunes';
 
   @override
   String weekendQuestion(String day) {
-    return 'If the $day falls on a weekend?';
+    return '¿Si el $day cae en fin de semana?';
   }
 
   @override
-  String get dateToday => 'Today';
+  String get dateToday => 'Hoy';
 
   @override
-  String get dateTomorrow => 'Tomorrow';
+  String get dateTomorrow => 'Mañana';
 
   @override
-  String get dateYesterday => 'Yesterday';
+  String get dateYesterday => 'Ayer';
 
   @override
-  String get statsAllTime => 'All time';
+  String get statsAllTime => 'Todo el tiempo';
 
   @override
   String get accountGroupPersonal => 'Personal';
@@ -261,527 +261,532 @@ class AppLocalizationsEs extends AppLocalizations {
   String get accountGroupIndividual => 'Individual';
 
   @override
-  String get accountGroupEntity => 'Entity';
+  String get accountGroupEntity => 'Entidad';
 
   @override
-  String get accountSectionIndividuals => 'Individuals';
+  String get accountSectionIndividuals => 'Personas';
 
   @override
-  String get accountSectionEntities => 'Entities';
+  String get accountSectionEntities => 'Entidades';
 
   @override
-  String get emptyNoTransactionsYet => 'No transactions yet';
+  String get emptyNoTransactionsYet => 'Aún no hay transacciones';
 
   @override
-  String get emptyNoAccountsYet => 'No accounts yet';
+  String get emptyNoAccountsYet => 'Aún no hay cuentas';
 
   @override
   String get emptyRecordFirstTransaction =>
-      'Tap the button below to record your first transaction.';
+      'Toca el botón de abajo para registrar tu primera transacción.';
 
   @override
   String get emptyAddFirstAccountTx =>
-      'Add your first account before recording transactions.';
+      'Añade tu primera cuenta antes de registrar transacciones.';
 
   @override
   String get emptyAddFirstAccountPlan =>
-      'Add your first account before planning transactions.';
+      'Añade tu primera cuenta antes de planificar transacciones.';
 
   @override
   String get emptyAddFirstAccountReview =>
-      'Add your first account to start tracking your finances.';
+      'Añade tu primera cuenta para comenzar a seguir tus finanzas.';
 
   @override
-  String get emptyAddTransaction => 'Add transaction';
+  String get emptyAddTransaction => 'Añadir transacción';
 
   @override
-  String get emptyAddAccount => 'Add account';
+  String get emptyAddAccount => 'Añadir cuenta';
 
   @override
-  String get reviewEmptyGroupPersonalTitle => 'No personal accounts yet';
+  String get reviewEmptyGroupPersonalTitle => 'Aún no hay cuentas personales';
 
   @override
   String get reviewEmptyGroupPersonalBody =>
-      'Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.';
+      'Las cuentas personales son tus propias carteras y cuentas bancarias. Añade una para seguir ingresos y gastos del día a día.';
 
   @override
-  String get reviewEmptyGroupIndividualsTitle => 'No individual accounts yet';
+  String get reviewEmptyGroupIndividualsTitle =>
+      'Aún no hay cuentas individuales';
 
   @override
   String get reviewEmptyGroupIndividualsBody =>
-      'Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.';
+      'Las cuentas individuales registran el dinero con personas específicas: gastos compartidos, préstamos o deudas. Añade una cuenta por cada persona con quien liquidas.';
 
   @override
-  String get reviewEmptyGroupEntitiesTitle => 'No entity accounts yet';
+  String get reviewEmptyGroupEntitiesTitle => 'Aún no hay cuentas de entidades';
 
   @override
   String get reviewEmptyGroupEntitiesBody =>
-      'Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.';
+      'Las cuentas de entidades son para empresas, proyectos u organizaciones. Úsalas para mantener el flujo de caja empresarial separado de tus finanzas personales.';
 
   @override
   String get emptyNoTransactionsForFilters =>
-      'No transactions for applied filters';
+      'No hay transacciones para los filtros aplicados';
 
   @override
-  String get emptyNoTransactionsInHistory => 'No transactions in history';
+  String get emptyNoTransactionsInHistory =>
+      'No hay transacciones en el historial';
 
   @override
   String emptyNoTransactionsForMonth(String month) {
-    return 'No transactions for $month';
+    return 'No hay transacciones en $month';
   }
 
   @override
   String get emptyNoTransactionsForAccount =>
-      'No transactions for this account';
+      'No hay transacciones para esta cuenta';
 
   @override
-  String get trackTransactionDeleted => 'Transaction deleted';
+  String get trackTransactionDeleted => 'Transacción eliminada';
 
   @override
-  String get trackDeleteTitle => 'Delete transaction?';
+  String get trackDeleteTitle => '¿Eliminar transacción?';
 
   @override
   String get trackDeleteBody =>
-      'This will reverse the account balance changes.';
+      'Esto revertirá los cambios en el saldo de la cuenta.';
 
   @override
-  String get trackTransaction => 'Transaction';
+  String get trackTransaction => 'Transacción';
 
   @override
-  String get planConfirmTitle => 'Confirm transaction?';
+  String get planConfirmTitle => '¿Confirmar transacción?';
 
   @override
   String planConfirmBodyEarly(String date, String todayDate, String nextDate) {
-    return 'This occurrence is scheduled for $date. It will be recorded in History with today’s date ($todayDate). The next occurrence remains on $nextDate.';
+    return 'Esta ocurrencia está programada para $date. Se registrará en el Historial con la fecha de hoy ($todayDate). La próxima ocurrencia permanece el $nextDate.';
   }
 
   @override
   String get planConfirmBodyNormal =>
-      'This will apply the transaction to your real account balances and move it to History.';
+      'Esto aplicará la transacción a los saldos reales de tu cuenta y la moverá al Historial.';
 
   @override
-  String get planTransactionConfirmed => 'Transaction confirmed and applied';
+  String get planTransactionConfirmed => 'Transacción confirmada y aplicada';
 
   @override
-  String get planTransactionRemoved => 'Planned transaction removed';
+  String get planTransactionRemoved => 'Transacción planificada eliminada';
 
   @override
-  String get planRepeatingTitle => 'Repeating transaction';
+  String get planRepeatingTitle => 'Transacción recurrente';
 
   @override
   String get planRepeatingBody =>
-      'Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.';
+      'Omite solo esta fecha —la serie continúa con la siguiente ocurrencia— o elimina todas las ocurrencias restantes de tu plan.';
 
   @override
-  String get planDeleteAll => 'Delete all';
+  String get planDeleteAll => 'Eliminar todas';
 
   @override
-  String get planSkipThisOnly => 'Skip this only';
+  String get planSkipThisOnly => 'Omitir solo esta';
 
   @override
   String get planOccurrenceSkipped =>
-      'This occurrence skipped — next one scheduled';
+      'Esta ocurrencia omitida — la siguiente está programada';
 
   @override
-  String get planNothingPlanned => 'Nothing planned for now';
+  String get planNothingPlanned => 'Nada planificado por ahora';
 
   @override
-  String get planPlanBody => 'Plan upcoming transactions.';
+  String get planPlanBody => 'Planifica transacciones futuras.';
 
   @override
-  String get planAddPlan => 'Add plan';
+  String get planAddPlan => 'Añadir plan';
 
   @override
   String get planNoPlannedForFilters =>
-      'No planned transactions for applied filters';
+      'No hay transacciones planificadas para los filtros aplicados';
 
   @override
   String planNoPlannedInMonth(String month) {
-    return 'No planned transactions in $month';
+    return 'No hay transacciones planificadas en $month';
   }
 
   @override
-  String get planOverdue => 'overdue';
+  String get planOverdue => 'vencido';
 
   @override
-  String get planPlannedTransaction => 'Planned transaction';
+  String get planPlannedTransaction => 'Transacción planificada';
 
   @override
-  String get discardTitle => 'Discard changes?';
+  String get discardTitle => '¿Descartar cambios?';
 
   @override
   String get discardBody =>
-      'You have unsaved changes. They will be lost if you leave now.';
+      'Tienes cambios sin guardar. Se perderán si sales ahora.';
 
   @override
-  String get keepEditing => 'Keep editing';
+  String get keepEditing => 'Seguir editando';
 
   @override
-  String get discard => 'Discard';
+  String get discard => 'Descartar';
 
   @override
-  String get newTransactionTitle => 'New Transaction';
+  String get newTransactionTitle => 'Nueva transacción';
 
   @override
-  String get editTransactionTitle => 'Edit Transaction';
+  String get editTransactionTitle => 'Editar transacción';
 
   @override
-  String get transactionUpdated => 'Transaction updated';
+  String get transactionUpdated => 'Transacción actualizada';
 
   @override
-  String get sectionAccounts => 'Accounts';
+  String get sectionAccounts => 'Cuentas';
 
   @override
-  String get labelFrom => 'From';
+  String get labelFrom => 'De';
 
   @override
-  String get labelTo => 'To';
+  String get labelTo => 'A';
 
   @override
-  String get sectionCategory => 'Category';
+  String get sectionCategory => 'Categoría';
 
   @override
-  String get sectionAttachments => 'Attachments';
+  String get sectionAttachments => 'Adjuntos';
 
   @override
-  String get labelNote => 'Note';
+  String get labelNote => 'Nota';
 
   @override
-  String get hintOptionalDescription => 'Optional description';
+  String get hintOptionalDescription => 'Descripción opcional';
 
   @override
-  String get updateTransaction => 'Update Transaction';
+  String get updateTransaction => 'Actualizar transacción';
 
   @override
-  String get saveTransaction => 'Save Transaction';
+  String get saveTransaction => 'Guardar transacción';
 
   @override
-  String get selectAccount => 'Select account';
+  String get selectAccount => 'Seleccionar cuenta';
 
   @override
-  String get selectAccountTitle => 'Select Account';
+  String get selectAccountTitle => 'Seleccionar cuenta';
 
   @override
-  String get noAccountsAvailable => 'No accounts available';
+  String get noAccountsAvailable => 'No hay cuentas disponibles';
 
   @override
   String amountReceivedBy(String name, String currency) {
-    return 'Amount received by $name ($currency)';
+    return 'Importe recibido por $name ($currency)';
   }
 
   @override
   String get amountReceivedHelper =>
-      'Enter the exact amount the destination account receives. This locks the real exchange rate used.';
+      'Introduce el importe exacto que recibe la cuenta de destino. Esto fija el tipo de cambio real utilizado.';
 
   @override
-  String get attachTakePhoto => 'Take photo';
+  String get attachTakePhoto => 'Tomar foto';
 
   @override
-  String get attachTakePhotoSub => 'Use camera to capture a receipt';
+  String get attachTakePhotoSub => 'Usa la cámara para capturar un recibo';
 
   @override
-  String get attachChooseGallery => 'Choose from gallery';
+  String get attachChooseGallery => 'Elegir de la galería';
 
   @override
-  String get attachChooseGallerySub => 'Select photos from your library';
+  String get attachChooseGallerySub => 'Selecciona fotos de tu biblioteca';
 
   @override
-  String get attachBrowseFiles => 'Browse files';
+  String get attachBrowseFiles => 'Explorar archivos';
 
   @override
-  String get attachBrowseFilesSub => 'Attach PDFs, documents or other files';
+  String get attachBrowseFilesSub =>
+      'Adjunta PDFs, documentos u otros archivos';
 
   @override
-  String get attachButton => 'Attach';
+  String get attachButton => 'Adjuntar';
 
   @override
-  String get editPlanTitle => 'Edit Plan';
+  String get editPlanTitle => 'Editar plan';
 
   @override
-  String get planTransactionTitle => 'Plan Transaction';
+  String get planTransactionTitle => 'Planificar transacción';
 
   @override
-  String get tapToSelect => 'Tap to select';
+  String get tapToSelect => 'Toca para seleccionar';
 
   @override
-  String get updatePlan => 'Update Plan';
+  String get updatePlan => 'Actualizar plan';
 
   @override
-  String get addToPlan => 'Add to Plan';
+  String get addToPlan => 'Añadir al plan';
 
   @override
-  String get labelRepeat => 'Repeat';
+  String get labelRepeat => 'Repetir';
 
   @override
-  String get selectPlannedDate => 'Select planned date';
+  String get selectPlannedDate => 'Seleccionar fecha planificada';
 
   @override
-  String get balancesAsOfToday => 'Balances as of today';
+  String get balancesAsOfToday => 'Saldos a fecha de hoy';
 
   @override
-  String get projectedBalancesForTomorrow => 'Projected balances for tomorrow';
+  String get projectedBalancesForTomorrow => 'Saldos proyectados para mañana';
 
   @override
   String projectedBalancesForDate(String date) {
-    return 'Projected balances for $date';
+    return 'Saldos proyectados para $date';
   }
 
   @override
   String destReceivesLabel(String name, String currency) {
-    return '$name receives ($currency)';
+    return '$name recibe ($currency)';
   }
 
   @override
   String get destHelper =>
-      'Estimated destination amount. Exact rate is locked at confirmation.';
+      'Importe estimado en destino. El tipo de cambio exacto se fija al confirmar.';
 
   @override
-  String get descriptionOptional => 'Description (optional)';
+  String get descriptionOptional => 'Descripción (opcional)';
 
   @override
-  String get detailTransactionTitle => 'Transaction';
+  String get detailTransactionTitle => 'Transacción';
 
   @override
-  String get detailPlannedTitle => 'Planned';
+  String get detailPlannedTitle => 'Planificada';
 
   @override
-  String get detailConfirmTransaction => 'Confirm transaction';
+  String get detailConfirmTransaction => 'Confirmar transacción';
 
   @override
-  String get detailDate => 'Date';
+  String get detailDate => 'Fecha';
 
   @override
-  String get detailFrom => 'From';
+  String get detailFrom => 'De';
 
   @override
-  String get detailTo => 'To';
+  String get detailTo => 'A';
 
   @override
-  String get detailCategory => 'Category';
+  String get detailCategory => 'Categoría';
 
   @override
-  String get detailNote => 'Note';
+  String get detailNote => 'Nota';
 
   @override
-  String get detailDestinationAmount => 'Destination amount';
+  String get detailDestinationAmount => 'Importe en destino';
 
   @override
-  String get detailExchangeRate => 'Exchange rate';
+  String get detailExchangeRate => 'Tipo de cambio';
 
   @override
-  String get detailRepeats => 'Repeats';
+  String get detailRepeats => 'Se repite';
 
   @override
-  String get detailDayOfMonth => 'Day of month';
+  String get detailDayOfMonth => 'Día del mes';
 
   @override
-  String get detailWeekends => 'Weekends';
+  String get detailWeekends => 'Fines de semana';
 
   @override
-  String get detailAttachments => 'Attachments';
+  String get detailAttachments => 'Adjuntos';
 
   @override
   String detailFileCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count archivos',
+      one: '1 archivo',
     );
     return '$_temp0';
   }
 
   @override
-  String get settingsTitle => 'Settings';
+  String get settingsTitle => 'Ajustes';
 
   @override
-  String get settingsSectionDisplay => 'Display';
+  String get settingsSectionDisplay => 'Pantalla';
 
   @override
-  String get settingsSectionLanguage => 'Language';
+  String get settingsSectionLanguage => 'Idioma';
 
   @override
-  String get settingsSectionCategories => 'Categories';
+  String get settingsSectionCategories => 'Categorías';
 
   @override
-  String get settingsSectionAccounts => 'Accounts';
+  String get settingsSectionAccounts => 'Cuentas';
 
   @override
-  String get settingsSectionPreferences => 'Preferences';
+  String get settingsSectionPreferences => 'Preferencias';
 
   @override
-  String get settingsSectionManage => 'Manage';
+  String get settingsSectionManage => 'Gestionar';
 
   @override
-  String get settingsBaseCurrency => 'Home currency';
+  String get settingsBaseCurrency => 'Moneda principal';
 
   @override
-  String get settingsSecondaryCurrency => 'Secondary currency';
+  String get settingsSecondaryCurrency => 'Moneda secundaria';
 
   @override
-  String get settingsCategories => 'Categories';
+  String get settingsCategories => 'Categorías';
 
   @override
   String settingsCategoriesSubtitle(int incomeCount, int expenseCount) {
-    return '$incomeCount income · $expenseCount expense';
+    return '$incomeCount ingresos · $expenseCount gastos';
   }
 
   @override
-  String get settingsArchivedAccounts => 'Archived accounts';
+  String get settingsArchivedAccounts => 'Cuentas archivadas';
 
   @override
   String get settingsArchivedAccountsSubtitleZero =>
-      'None right now — archive from account edit when balance is clear';
+      'Ninguna por ahora — archiva desde la edición de cuenta cuando el saldo esté a cero';
 
   @override
   String settingsArchivedAccountsSubtitleCount(int count) {
-    return '$count hidden from Review and pickers';
+    return '$count ocultas de Análisis y selectores';
   }
 
   @override
-  String get settingsSectionData => 'Data';
+  String get settingsSectionData => 'Datos';
 
   @override
-  String get settingsSectionPrivacy => 'About';
+  String get settingsSectionPrivacy => 'Acerca de';
 
   @override
-  String get settingsPrivacyPolicyTitle => 'Privacy policy';
+  String get settingsPrivacyPolicyTitle => 'Política de privacidad';
 
   @override
-  String get settingsPrivacyPolicySubtitle => 'How Platrare handles your data.';
+  String get settingsPrivacyPolicySubtitle =>
+      'Cómo Platrare gestiona tus datos.';
 
   @override
   String get settingsPrivacyFxDisclosure =>
-      'Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.';
+      'Tipos de cambio: la aplicación obtiene tasas de divisas públicas de internet. Tus cuentas y transacciones nunca se envían.';
 
   @override
-  String get settingsPrivacyOpenFailed => 'Could not load the privacy policy.';
+  String get settingsPrivacyOpenFailed =>
+      'No se pudo cargar la política de privacidad.';
 
   @override
-  String get settingsPrivacyRetry => 'Try again';
+  String get settingsPrivacyRetry => 'Reintentar';
 
   @override
-  String get settingsSoftwareVersionTitle => 'Software version';
+  String get settingsSoftwareVersionTitle => 'Versión del software';
 
   @override
   String get settingsSoftwareVersionSubtitle =>
-      'Release, diagnostics, and legal';
+      'Versión, diagnósticos y avisos legales';
 
   @override
-  String get aboutScreenTitle => 'About';
+  String get aboutScreenTitle => 'Acerca de';
 
   @override
   String get aboutAppTagline =>
-      'Ledger, cashflow, and planning in one workspace.';
+      'Libro mayor, flujo de caja y planificación en un solo espacio.';
 
   @override
   String get aboutDescriptionBody =>
-      'Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.';
+      'Platrare guarda cuentas, transacciones y planes en tu dispositivo. Exporta copias de seguridad cifradas cuando necesites una copia en otro lugar. Los tipos de cambio solo usan datos públicos del mercado; tu libro mayor no se sube.';
 
   @override
-  String get aboutVersionLabel => 'Version';
+  String get aboutVersionLabel => 'Versión';
 
   @override
-  String get aboutBuildLabel => 'Build';
+  String get aboutBuildLabel => 'Compilación';
 
   @override
-  String get aboutCopySupportDetails => 'Copy support details';
+  String get aboutCopySupportDetails => 'Copiar detalles de soporte';
 
   @override
   String get aboutOpenPrivacySubtitle =>
-      'Opens the full in-app policy document.';
+      'Abre el documento de política completo en la app.';
 
   @override
-  String get aboutSupportBundleLocaleLabel => 'Locale';
+  String get aboutSupportBundleLocaleLabel => 'Idioma del sistema';
 
   @override
-  String get settingsSupportInfoCopied => 'Copied to clipboard';
+  String get settingsSupportInfoCopied => 'Copiado al portapapeles';
 
   @override
-  String get settingsVerifyLedger => 'Verify data';
+  String get settingsVerifyLedger => 'Verificar datos';
 
   @override
   String get settingsVerifyLedgerSubtitle =>
-      'Check that account balances match your transaction history';
+      'Comprobar que los saldos de cuenta coinciden con el historial de transacciones';
 
   @override
-  String get settingsDataExportTitle => 'Export backup';
+  String get settingsDataExportTitle => 'Exportar copia de seguridad';
 
   @override
   String get settingsDataExportSubtitle =>
-      'Save as .zip or encrypted .platrare with all data and attachments';
+      'Guardar como .zip o .platrare cifrado con todos los datos y adjuntos';
 
   @override
-  String get settingsDataImportTitle => 'Restore from backup';
+  String get settingsDataImportTitle => 'Restaurar desde copia de seguridad';
 
   @override
   String get settingsDataImportSubtitle =>
-      'Replace current data from a Platrare .zip or .platrare backup';
+      'Reemplazar los datos actuales desde una copia de seguridad .zip o .platrare de Platrare';
 
   @override
-  String get backupExportDialogTitle => 'Protect this backup';
+  String get backupExportDialogTitle => 'Proteger esta copia de seguridad';
 
   @override
   String get backupExportDialogBody =>
-      'A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.';
+      'Se recomienda una contraseña segura, especialmente si guardas el archivo en la nube. Necesitarás la misma contraseña para importar.';
 
   @override
-  String get backupExportPasswordLabel => 'Password';
+  String get backupExportPasswordLabel => 'Contraseña';
 
   @override
-  String get backupExportPasswordConfirmLabel => 'Confirm password';
+  String get backupExportPasswordConfirmLabel => 'Confirmar contraseña';
 
   @override
-  String get backupExportPasswordMismatch => 'Passwords do not match';
+  String get backupExportPasswordMismatch => 'Las contraseñas no coinciden';
 
   @override
   String get backupExportPasswordEmpty =>
-      'Enter a matching password, or export without encryption below.';
+      'Introduce una contraseña coincidente o exporta sin cifrado a continuación.';
 
   @override
   String get backupExportPasswordTooShort =>
-      'Password must be at least 8 characters.';
+      'La contraseña debe tener al menos 8 caracteres.';
 
   @override
-  String get backupExportSaveToDevice => 'Save to device';
+  String get backupExportSaveToDevice => 'Guardar en el dispositivo';
 
   @override
-  String get backupExportShareToCloud => 'Share (iCloud, Drive…)';
+  String get backupExportShareToCloud => 'Compartir (iCloud, Drive…)';
 
   @override
-  String get backupExportWithoutEncryption => 'Export without encryption';
+  String get backupExportWithoutEncryption => 'Exportar sin cifrado';
 
   @override
-  String get backupExportSkipWarningTitle => 'Export without encryption?';
+  String get backupExportSkipWarningTitle => '¿Exportar sin cifrado?';
 
   @override
   String get backupExportSkipWarningBody =>
-      'Anyone with access to the file can read your data. Use this only for local copies you control.';
+      'Cualquiera con acceso al archivo puede leer tus datos. Úsalo solo para copias locales que controles.';
 
   @override
-  String get backupExportSkipWarningConfirm => 'Export unencrypted';
+  String get backupExportSkipWarningConfirm => 'Exportar sin cifrar';
 
   @override
-  String get backupImportPasswordTitle => 'Encrypted backup';
+  String get backupImportPasswordTitle => 'Copia de seguridad cifrada';
 
   @override
   String get backupImportPasswordBody =>
-      'Enter the password you used when exporting.';
+      'Introduce la contraseña que usaste al exportar.';
 
   @override
-  String get backupImportPasswordLabel => 'Password';
+  String get backupImportPasswordLabel => 'Contraseña';
 
   @override
-  String get backupImportPreviewTitle => 'Backup summary';
+  String get backupImportPreviewTitle => 'Resumen de la copia de seguridad';
 
   @override
   String backupImportPreviewVersion(String version) {
-    return 'App version: $version';
+    return 'Versión de la app: $version';
   }
 
   @override
   String backupImportPreviewExported(String date) {
-    return 'Exported: $date';
+    return 'Exportado: $date';
   }
 
   @override
@@ -793,67 +798,70 @@ class AppLocalizationsEs extends AppLocalizations {
     int income,
     int expense,
   ) {
-    return '$accounts accounts · $transactions transactions · $planned planned · $attachments attachment files · $income income categories · $expense expense categories';
+    return '$accounts cuentas · $transactions transacciones · $planned planificadas · $attachments archivos adjuntos · $income categorías de ingresos · $expense categorías de gastos';
   }
 
   @override
-  String get backupImportPreviewContinue => 'Continue';
+  String get backupImportPreviewContinue => 'Continuar';
 
   @override
-  String get settingsBackupWrongPassword => 'Wrong password';
+  String get settingsBackupWrongPassword => 'Contraseña incorrecta';
 
   @override
-  String get settingsBackupChecksumMismatch => 'Backup failed integrity check';
+  String get settingsBackupChecksumMismatch =>
+      'La copia de seguridad no superó la verificación de integridad';
 
   @override
-  String get settingsBackupCorruptFile => 'Invalid or damaged backup file';
+  String get settingsBackupCorruptFile =>
+      'Archivo de copia de seguridad no válido o dañado';
 
   @override
   String get settingsBackupUnsupportedVersion =>
-      'Backup needs a newer app version';
+      'La copia de seguridad requiere una versión más reciente de la app';
 
   @override
-  String get settingsDataImportConfirmTitle => 'Replace current data?';
+  String get settingsDataImportConfirmTitle =>
+      '¿Reemplazar los datos actuales?';
 
   @override
   String get settingsDataImportConfirmBody =>
-      'This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.';
+      'Esto reemplazará tus cuentas, transacciones, transacciones planificadas, categorías y adjuntos importados actuales con el contenido de la copia de seguridad seleccionada. Esta acción no se puede deshacer.';
 
   @override
-  String get settingsDataImportConfirmAction => 'Replace data';
+  String get settingsDataImportConfirmAction => 'Reemplazar datos';
 
   @override
-  String get settingsDataImportDone => 'Data restored successfully';
+  String get settingsDataImportDone => 'Datos restaurados correctamente';
 
   @override
   String get settingsDataImportInvalidFile =>
-      'This file is not a valid Platrare backup';
+      'Este archivo no es una copia de seguridad válida de Platrare';
 
   @override
-  String get settingsDataImportFailed => 'Import failed';
+  String get settingsDataImportFailed => 'Error al importar';
 
   @override
-  String get settingsDataExportDoneTitle => 'Backup exported';
+  String get settingsDataExportDoneTitle => 'Copia de seguridad exportada';
 
   @override
   String settingsDataExportDoneBody(String path) {
-    return 'Backup saved to:\n$path';
+    return 'Copia de seguridad guardada en:\n$path';
   }
 
   @override
-  String get settingsDataOpenExportFile => 'Open file';
+  String get settingsDataOpenExportFile => 'Abrir archivo';
 
   @override
-  String get settingsDataExportFailed => 'Export failed';
+  String get settingsDataExportFailed => 'Error al exportar';
 
   @override
-  String get ledgerVerifyDialogTitle => 'Ledger verification';
+  String get ledgerVerifyDialogTitle => 'Verificación del libro mayor';
 
   @override
-  String get ledgerVerifyAllMatch => 'All accounts match.';
+  String get ledgerVerifyAllMatch => 'Todas las cuentas coinciden.';
 
   @override
-  String get ledgerVerifyMismatchesTitle => 'Mismatches';
+  String get ledgerVerifyMismatchesTitle => 'Discrepancias';
 
   @override
   String ledgerVerifyMismatchDetails(
@@ -862,14 +870,15 @@ class AppLocalizationsEs extends AppLocalizations {
     String replayed,
     String diff,
   ) {
-    return '$accountName\nStored: $stored\nReplay: $replayed\nDifference: $diff';
+    return '$accountName\nAlmacenado: $stored\nReproducido: $replayed\nDiferencia: $diff';
   }
 
   @override
-  String get settingsLanguage => 'App language';
+  String get settingsLanguage => 'Idioma de la app';
 
   @override
-  String get settingsLanguageSubtitleSystem => 'Following system settings';
+  String get settingsLanguageSubtitleSystem =>
+      'Según la configuración del sistema';
 
   @override
   String get settingsLanguageSubtitleEnglish => 'English';
@@ -878,10 +887,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsLanguageSubtitleSerbianLatin => 'Serbian (Latin)';
 
   @override
-  String get settingsLanguagePickerTitle => 'App language';
+  String get settingsLanguagePickerTitle => 'Idioma de la app';
 
   @override
-  String get settingsLanguageOptionSystem => 'System default';
+  String get settingsLanguageOptionSystem => 'Por defecto del sistema';
 
   @override
   String get settingsLanguageOptionEnglish => 'English';
@@ -890,134 +899,135 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsLanguageOptionSerbianLatin => 'Serbian (Latin)';
 
   @override
-  String get settingsSectionAppearance => 'Appearance';
+  String get settingsSectionAppearance => 'Apariencia';
 
   @override
-  String get settingsSectionSecurity => 'Security';
+  String get settingsSectionSecurity => 'Seguridad';
 
   @override
-  String get settingsSecurityEnableLock => 'Lock app on open';
+  String get settingsSecurityEnableLock => 'Bloquear app al abrir';
 
   @override
   String get settingsSecurityEnableLockSubtitle =>
-      'Require biometric unlock or PIN when app opens';
+      'Requerir desbloqueo biométrico o PIN al abrir la app';
 
   @override
-  String get settingsSecuritySetPin => 'Set PIN';
+  String get settingsSecuritySetPin => 'Establecer PIN';
 
   @override
-  String get settingsSecurityChangePin => 'Change PIN';
+  String get settingsSecurityChangePin => 'Cambiar PIN';
 
   @override
   String get settingsSecurityPinSubtitle =>
-      'Use a PIN as fallback if biometric is unavailable';
+      'Usa un PIN como alternativa si la biometría no está disponible';
 
   @override
-  String get settingsSecurityRemovePin => 'Remove PIN';
+  String get settingsSecurityRemovePin => 'Eliminar PIN';
 
   @override
-  String get securitySetPinTitle => 'Set app PIN';
+  String get securitySetPinTitle => 'Establecer PIN de la app';
 
   @override
-  String get securityPinLabel => 'PIN code';
+  String get securityPinLabel => 'Código PIN';
 
   @override
-  String get securityConfirmPinLabel => 'Confirm PIN code';
+  String get securityConfirmPinLabel => 'Confirmar código PIN';
 
   @override
-  String get securityPinMustBe4Digits => 'PIN must have at least 4 digits';
+  String get securityPinMustBe4Digits => 'El PIN debe tener al menos 4 dígitos';
 
   @override
-  String get securityPinMismatch => 'PIN codes do not match';
+  String get securityPinMismatch => 'Los códigos PIN no coinciden';
 
   @override
-  String get securityRemovePinTitle => 'Remove PIN?';
+  String get securityRemovePinTitle => '¿Eliminar PIN?';
 
   @override
   String get securityRemovePinBody =>
-      'Biometric unlock can still be used if available.';
+      'El desbloqueo biométrico aún puede usarse si está disponible.';
 
   @override
-  String get securityUnlockTitle => 'App locked';
+  String get securityUnlockTitle => 'App bloqueada';
 
   @override
   String get securityUnlockSubtitle =>
-      'Unlock with Face ID, fingerprint, or PIN.';
+      'Desbloquea con Face ID, huella dactilar o PIN.';
 
   @override
-  String get securityUnlockWithPin => 'Unlock with PIN';
+  String get securityUnlockWithPin => 'Desbloquear con PIN';
 
   @override
-  String get securityTryBiometric => 'Try biometric unlock';
+  String get securityTryBiometric => 'Intentar desbloqueo biométrico';
 
   @override
-  String get securityPinIncorrect => 'Incorrect PIN, try again';
+  String get securityPinIncorrect => 'PIN incorrecto, inténtalo de nuevo';
 
   @override
-  String get securityBiometricReason => 'Authenticate to open your app';
+  String get securityBiometricReason => 'Autentícate para abrir tu app';
 
   @override
-  String get settingsTheme => 'Theme';
+  String get settingsTheme => 'Tema';
 
   @override
-  String get settingsThemeSubtitleSystem => 'Following system settings';
+  String get settingsThemeSubtitleSystem =>
+      'Según la configuración del sistema';
 
   @override
-  String get settingsThemeSubtitleLight => 'Light';
+  String get settingsThemeSubtitleLight => 'Claro';
 
   @override
-  String get settingsThemeSubtitleDark => 'Dark';
+  String get settingsThemeSubtitleDark => 'Oscuro';
 
   @override
-  String get settingsThemePickerTitle => 'Theme';
+  String get settingsThemePickerTitle => 'Tema';
 
   @override
-  String get settingsThemeOptionSystem => 'System default';
+  String get settingsThemeOptionSystem => 'Por defecto del sistema';
 
   @override
-  String get settingsThemeOptionLight => 'Light';
+  String get settingsThemeOptionLight => 'Claro';
 
   @override
-  String get settingsThemeOptionDark => 'Dark';
+  String get settingsThemeOptionDark => 'Oscuro';
 
   @override
-  String get archivedAccountsTitle => 'Archived accounts';
+  String get archivedAccountsTitle => 'Cuentas archivadas';
 
   @override
-  String get archivedAccountsEmptyTitle => 'No archived accounts';
+  String get archivedAccountsEmptyTitle => 'No hay cuentas archivadas';
 
   @override
   String get archivedAccountsEmptyBody =>
-      'Book balance and overdraft must be zero. Archive from account options in Review.';
+      'El saldo contable y el descubierto deben ser cero. Archiva desde las opciones de cuenta en Análisis.';
 
   @override
-  String get categoriesTitle => 'Categories';
+  String get categoriesTitle => 'Categorías';
 
   @override
-  String get newCategoryTitle => 'New Category';
+  String get newCategoryTitle => 'Nueva categoría';
 
   @override
-  String get categoryNameLabel => 'Category name';
+  String get categoryNameLabel => 'Nombre de la categoría';
 
   @override
-  String get deleteCategoryTitle => 'Delete category?';
+  String get deleteCategoryTitle => '¿Eliminar categoría?';
 
   @override
   String deleteCategoryBody(String category) {
-    return '\"$category\" will be removed from the list.';
+    return '\"$category\" se eliminará de la lista.';
   }
 
   @override
-  String get categoryIncome => 'Income';
+  String get categoryIncome => 'Ingreso';
 
   @override
-  String get categoryExpense => 'Expense';
+  String get categoryExpense => 'Gasto';
 
   @override
-  String get categoryAdd => 'Add';
+  String get categoryAdd => 'Añadir';
 
   @override
-  String get searchCurrencies => 'Search currencies…';
+  String get searchCurrencies => 'Buscar divisas…';
 
   @override
   String get period1M => '1M';
@@ -1029,103 +1039,104 @@ class AppLocalizationsEs extends AppLocalizations {
   String get period6M => '6M';
 
   @override
-  String get period1Y => '1Y';
+  String get period1Y => '1A';
 
   @override
-  String get periodAll => 'ALL';
+  String get periodAll => 'TODO';
 
   @override
-  String get categoryLabel => 'category';
+  String get categoryLabel => 'categoría';
 
   @override
-  String get categoriesLabel => 'categories';
+  String get categoriesLabel => 'categorías';
 
   @override
   String transactionSavedMessage(String type, String amount) {
-    return '$type saved  •  $amount';
+    return '$type guardada  •  $amount';
   }
 
   @override
-  String get tooltipSettings => 'Settings';
+  String get tooltipSettings => 'Ajustes';
 
   @override
-  String get tooltipAddAccount => 'Add account';
+  String get tooltipAddAccount => 'Añadir cuenta';
 
   @override
-  String get tooltipRemoveAccount => 'Remove account';
+  String get tooltipRemoveAccount => 'Eliminar cuenta';
 
   @override
   String get accountNameTaken =>
-      'You already have an account with this name and identifier (active or archived). Change the name or identifier.';
+      'Ya tienes una cuenta con este nombre e identificador (activa o archivada). Cambia el nombre o el identificador.';
 
   @override
-  String get groupDescPersonal => 'Your own wallets & bank accounts';
+  String get groupDescPersonal => 'Tus propias carteras y cuentas bancarias';
 
   @override
-  String get groupDescIndividuals => 'Family, friends, individuals';
+  String get groupDescIndividuals => 'Familia, amigos, personas';
 
   @override
-  String get groupDescEntities => 'Entities, utilities, organisations';
+  String get groupDescEntities => 'Entidades, servicios, organizaciones';
 
   @override
-  String get cannotArchiveTitle => 'Cannot archive yet';
+  String get cannotArchiveTitle => 'No se puede archivar aún';
 
   @override
   String get cannotArchiveBody =>
-      'Archive is only available when the book balance and overdraft limit are both effectively zero.';
+      'El archivo solo está disponible cuando el saldo contable y el límite de descubierto son efectivamente cero.';
 
   @override
   String get cannotArchiveBodyAdjust =>
-      'Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.';
+      'El archivo solo está disponible cuando el saldo contable y el límite de descubierto son efectivamente cero. Ajusta primero el libro mayor o la facilidad.';
 
   @override
-  String get archiveAccountTitle => 'Archive account?';
+  String get archiveAccountTitle => '¿Archivar cuenta?';
 
   @override
   String archiveWithPlannedBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count planned transactions reference this account.',
-      one: '1 planned transaction references this account.',
+      other:
+          '$count transacciones planificadas hacen referencia a esta cuenta.',
+      one: '1 transacción planificada hace referencia a esta cuenta.',
     );
-    return '$_temp0 Remove them to keep your plan consistent with an archived account.';
+    return '$_temp0 Elimínalas para mantener tu plan coherente con una cuenta archivada.';
   }
 
   @override
-  String get removeAndArchive => 'Remove planned & archive';
+  String get removeAndArchive => 'Eliminar planificadas y archivar';
 
   @override
   String get archiveBody =>
-      'The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.';
+      'La cuenta se ocultará de los selectores de Análisis, Historial y Plan. Puedes restaurarla desde Ajustes.';
 
   @override
-  String get archiveAction => 'Archive';
+  String get archiveAction => 'Archivar';
 
   @override
-  String get archiveInstead => 'Archive instead';
+  String get archiveInstead => 'Archivar en su lugar';
 
   @override
-  String get cannotDeleteTitle => 'Cannot delete account';
+  String get cannotDeleteTitle => 'No se puede eliminar la cuenta';
 
   @override
   String get cannotDeleteBodyShort =>
-      'This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.';
+      'Esta cuenta aparece en tu historial. Elimina o reasigna esas transacciones primero, o archiva la cuenta si el saldo está saldado.';
 
   @override
   String get cannotDeleteBodyHistory =>
-      'This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.';
+      'Esta cuenta aparece en tu historial. Eliminarla rompería ese historial; elimina o reasigna esas transacciones primero.';
 
   @override
   String get cannotDeleteBodySuggestArchive =>
-      'This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.';
+      'Esta cuenta aparece en tu historial, por lo que no puede eliminarse. Puedes archivarla si el saldo contable y el descubierto están saldados; se ocultará de las listas pero el historial permanecerá intacto.';
 
   @override
-  String get deleteAccountTitle => 'Delete account?';
+  String get deleteAccountTitle => '¿Eliminar cuenta?';
 
   @override
   String get deleteAccountBodyPermanent =>
-      'This account will be removed permanently.';
+      'Esta cuenta se eliminará permanentemente.';
 
   @override
   String deleteWithPlannedBody(int count) {
@@ -1133,480 +1144,490 @@ class AppLocalizationsEs extends AppLocalizations {
       count,
       locale: localeName,
       other:
-          '$count planned transactions reference this account and will also be deleted.',
+          '$count transacciones planificadas hacen referencia a esta cuenta y también se eliminarán.',
       one:
-          '1 planned transaction references this account and will also be deleted.',
+          '1 transacción planificada hace referencia a esta cuenta y también se eliminará.',
     );
     return '$_temp0';
   }
 
   @override
-  String get deleteAllAndDelete => 'Delete all';
+  String get deleteAllAndDelete => 'Eliminar todas';
 
   @override
-  String get editAccountTitle => 'Edit Account';
+  String get editAccountTitle => 'Editar cuenta';
 
   @override
-  String get newAccountTitle => 'New Account';
+  String get newAccountTitle => 'Nueva cuenta';
 
   @override
-  String get labelAccountName => 'Account name';
+  String get labelAccountName => 'Nombre de la cuenta';
 
   @override
-  String get labelAccountIdentifier => 'Identifier (optional)';
+  String get labelAccountIdentifier => 'Identificador (opcional)';
 
   @override
-  String get accountAppearanceSection => 'Icon & color';
+  String get accountAppearanceSection => 'Icono y color';
 
   @override
-  String get accountPickIcon => 'Choose icon';
+  String get accountPickIcon => 'Elegir icono';
 
   @override
-  String get accountPickColor => 'Choose color';
+  String get accountPickColor => 'Elegir color';
 
   @override
-  String get accountIconSheetTitle => 'Account icon';
+  String get accountIconSheetTitle => 'Icono de la cuenta';
 
   @override
-  String get accountColorSheetTitle => 'Account color';
+  String get accountColorSheetTitle => 'Color de la cuenta';
 
   @override
-  String get accountUseInitialLetter => 'Initial letter';
+  String get accountUseInitialLetter => 'Inicial';
 
   @override
-  String get accountUseDefaultColor => 'Match group';
+  String get accountUseDefaultColor => 'Igualar grupo';
 
   @override
-  String get labelRealBalance => 'Real balance';
+  String get labelRealBalance => 'Saldo real';
 
   @override
-  String get labelOverdraftLimit => 'Overdraft / advance limit';
+  String get labelOverdraftLimit => 'Límite de descubierto / anticipo';
 
   @override
-  String get labelCurrency => 'Currency';
+  String get labelCurrency => 'Divisa';
 
   @override
-  String get saveChanges => 'Save Changes';
+  String get saveChanges => 'Guardar cambios';
 
   @override
-  String get addAccountAction => 'Add Account';
+  String get addAccountAction => 'Añadir cuenta';
 
   @override
-  String get removeAccountSheetTitle => 'Remove account';
+  String get removeAccountSheetTitle => 'Eliminar cuenta';
 
   @override
-  String get deletePermanently => 'Delete permanently';
+  String get deletePermanently => 'Eliminar permanentemente';
 
   @override
   String get deletePermanentlySubtitle =>
-      'Only possible when this account is not used in Track. Planned items can be removed as part of delete.';
+      'Solo posible cuando esta cuenta no se usa en el Historial. Los elementos planificados pueden eliminarse como parte del proceso.';
 
   @override
   String get archiveOptionSubtitle =>
-      'Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.';
+      'Ocultar de Análisis y selectores. Restaurar en cualquier momento desde Ajustes. Requiere saldo y descubierto a cero.';
 
   @override
   String get archivedBannerText =>
-      'This account is archived. It stays in your data but is hidden from lists and pickers.';
+      'Esta cuenta está archivada. Permanece en tus datos pero está oculta de listas y selectores.';
 
   @override
-  String get balanceAdjustedTitle => 'Balance adjusted in Track';
+  String get balanceAdjustedTitle => 'Saldo ajustado en Historial';
 
   @override
   String balanceAdjustedBody(String previous, String current, String symbol) {
-    return 'Real balance was updated from $previous to $current $symbol.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.';
+    return 'El saldo real se actualizó de $previous a $current $symbol.\n\nSe creó una transacción de ajuste de saldo en el Historial para mantener la coherencia del libro mayor.\n\n• El saldo real refleja el importe real en esta cuenta.\n• Consulta el Historial para ver el asiento de ajuste.';
   }
 
   @override
-  String get ok => 'OK';
+  String get ok => 'Aceptar';
 
   @override
-  String get categoryBalanceAdjustment => 'Balance adjustment';
+  String get categoryBalanceAdjustment => 'Ajuste de saldo';
 
   @override
-  String get descriptionBalanceCorrection => 'Balance correction';
+  String get descriptionBalanceCorrection => 'Corrección de saldo';
 
   @override
-  String get descriptionOpeningBalance => 'Opening balance';
+  String get descriptionOpeningBalance => 'Saldo inicial';
 
   @override
-  String get reviewStatsModeStatistics => 'Statistics';
+  String get reviewStatsModeStatistics => 'Estadísticas';
 
   @override
-  String get reviewStatsModeComparison => 'Comparison';
+  String get reviewStatsModeComparison => 'Comparación';
 
   @override
-  String get statsUncategorized => 'Uncategorized';
+  String get statsUncategorized => 'Sin categoría';
 
   @override
   String get statsNoCategories =>
-      'No categories in the selected periods for comparison.';
+      'No hay categorías en los períodos seleccionados para comparar.';
 
   @override
-  String get statsNoTransactions => 'No transactions';
+  String get statsNoTransactions => 'No hay transacciones';
 
   @override
-  String get statsSpendingInCategory => 'Spending in this category';
+  String get statsSpendingInCategory => 'Gasto en esta categoría';
 
   @override
-  String get statsIncomeInCategory => 'Income in this category';
+  String get statsIncomeInCategory => 'Ingreso en esta categoría';
 
   @override
-  String get statsDifference => 'Difference (B vs A): ';
+  String get statsDifference => 'Diferencia (B vs A): ';
 
   @override
-  String get statsNoExpensesMonth => 'No expenses this month';
+  String get statsNoExpensesMonth => 'No hay gastos este mes';
 
   @override
-  String get statsNoExpensesAll => 'No expenses recorded';
+  String get statsNoExpensesAll => 'No hay gastos registrados';
 
   @override
   String statsNoExpensesPeriod(String period) {
-    return 'No expenses in the last $period';
+    return 'No hay gastos en los últimos $period';
   }
 
   @override
-  String get statsTotalSpent => 'Total spent';
+  String get statsTotalSpent => 'Total gastado';
 
   @override
-  String get statsNoExpensesThisPeriod => 'No expenses in this period';
+  String get statsNoExpensesThisPeriod => 'No hay gastos en este período';
 
   @override
-  String get statsNoIncomeMonth => 'No income this month';
+  String get statsNoIncomeMonth => 'No hay ingresos este mes';
 
   @override
-  String get statsNoIncomeAll => 'No income recorded';
+  String get statsNoIncomeAll => 'No hay ingresos registrados';
 
   @override
   String statsNoIncomePeriod(String period) {
-    return 'No income in the last $period';
+    return 'No hay ingresos en los últimos $period';
   }
 
   @override
-  String get statsTotalReceived => 'Total received';
+  String get statsTotalReceived => 'Total recibido';
 
   @override
-  String get statsNoIncomeThisPeriod => 'No income in this period';
+  String get statsNoIncomeThisPeriod => 'No hay ingresos en este período';
 
   @override
-  String get catSalary => 'Salary';
+  String get catSalary => 'Salario';
 
   @override
   String get catFreelance => 'Freelance';
 
   @override
-  String get catConsulting => 'Consulting';
+  String get catConsulting => 'Consultoría';
 
   @override
-  String get catGift => 'Gift';
+  String get catGift => 'Regalo';
 
   @override
-  String get catRental => 'Rental';
+  String get catRental => 'Alquiler';
 
   @override
-  String get catDividends => 'Dividends';
+  String get catDividends => 'Dividendos';
 
   @override
-  String get catRefund => 'Refund';
+  String get catRefund => 'Reembolso';
 
   @override
-  String get catBonus => 'Bonus';
+  String get catBonus => 'Bono';
 
   @override
-  String get catInterest => 'Interest';
+  String get catInterest => 'Intereses';
 
   @override
-  String get catSideHustle => 'Side hustle';
+  String get catSideHustle => 'Ingresos extra';
 
   @override
-  String get catSaleOfGoods => 'Sale of goods';
+  String get catSaleOfGoods => 'Venta de bienes';
 
   @override
-  String get catOther => 'Other';
+  String get catOther => 'Otros';
 
   @override
-  String get catGroceries => 'Groceries';
+  String get catGroceries => 'Supermercado';
 
   @override
-  String get catDining => 'Dining';
+  String get catDining => 'Restaurantes';
 
   @override
-  String get catTransport => 'Transport';
+  String get catTransport => 'Transporte';
 
   @override
-  String get catUtilities => 'Utilities';
+  String get catUtilities => 'Suministros';
 
   @override
-  String get catHousing => 'Housing';
+  String get catHousing => 'Vivienda';
 
   @override
-  String get catHealthcare => 'Healthcare';
+  String get catHealthcare => 'Salud';
 
   @override
-  String get catEntertainment => 'Entertainment';
+  String get catEntertainment => 'Ocio';
 
   @override
-  String get catShopping => 'Shopping';
+  String get catShopping => 'Compras';
 
   @override
-  String get catTravel => 'Travel';
+  String get catTravel => 'Viajes';
 
   @override
-  String get catEducation => 'Education';
+  String get catEducation => 'Educación';
 
   @override
-  String get catSubscriptions => 'Subscriptions';
+  String get catSubscriptions => 'Suscripciones';
 
   @override
-  String get catInsurance => 'Insurance';
+  String get catInsurance => 'Seguros';
 
   @override
-  String get catFuel => 'Fuel';
+  String get catFuel => 'Combustible';
 
   @override
-  String get catGym => 'Gym';
+  String get catGym => 'Gimnasio';
 
   @override
-  String get catPets => 'Pets';
+  String get catPets => 'Mascotas';
 
   @override
-  String get catKids => 'Kids';
+  String get catKids => 'Hijos';
 
   @override
-  String get catCharity => 'Charity';
+  String get catCharity => 'Donaciones';
 
   @override
-  String get catCoffee => 'Coffee';
+  String get catCoffee => 'Café';
 
   @override
-  String get catGifts => 'Gifts';
+  String get catGifts => 'Regalos';
 
   @override
   String semanticsProjectionDate(String date) {
-    return 'Projection date $date. Double tap to choose date';
+    return 'Fecha de proyección $date. Doble toque para elegir fecha';
   }
 
   @override
   String semanticsProjectedBalance(String amount) {
-    return 'Projected personal balance $amount';
+    return 'Saldo personal proyectado $amount';
   }
 
   @override
-  String get statsEmptyTitle => 'No transactions yet';
+  String get statsEmptyTitle => 'Aún no hay transacciones';
 
   @override
-  String get statsEmptySubtitle => 'No spending data for the selected range.';
+  String get statsEmptySubtitle =>
+      'No hay datos de gasto para el rango seleccionado.';
 
   @override
-  String get semanticsShowProjections => 'Show projected balances by account';
+  String get semanticsShowProjections =>
+      'Mostrar saldos proyectados por cuenta';
 
   @override
-  String get semanticsHideProjections => 'Hide projected balances by account';
+  String get semanticsHideProjections =>
+      'Ocultar saldos proyectados por cuenta';
 
   @override
-  String get semanticsDateAllTime => 'Date: all time — tap to change mode';
+  String get semanticsDateAllTime =>
+      'Fecha: todo el tiempo — toca para cambiar modo';
 
   @override
   String semanticsDateMode(String mode) {
-    return 'Date: $mode — tap to change mode';
+    return 'Fecha: $mode — toca para cambiar modo';
   }
 
   @override
   String get semanticsDateThisMonth =>
-      'Date: this month — tap for month, week, year, or all time';
+      'Fecha: este mes — toca para mes, semana, año o todo el tiempo';
 
   @override
   String get semanticsTxTypeCycle =>
-      'Transaction type: cycle all, income, expense, transfer';
+      'Tipo de transacción: ciclar todo, ingreso, gasto, transferencia';
 
   @override
-  String get semanticsAccountFilter => 'Account filter';
+  String get semanticsAccountFilter => 'Filtro de cuenta';
 
   @override
-  String get semanticsAlreadyFiltered => 'Already filtered to this account';
+  String get semanticsAlreadyFiltered => 'Ya filtrado a esta cuenta';
 
   @override
-  String get semanticsCategoryFilter => 'Category filter';
+  String get semanticsCategoryFilter => 'Filtro de categoría';
 
   @override
-  String get semanticsSortToggle => 'Sort: toggle newest or oldest first';
+  String get semanticsSortToggle =>
+      'Orden: alternar más reciente o más antiguo primero';
 
   @override
   String get semanticsFiltersDisabled =>
-      'List filters disabled while viewing a future projection date. Clear projections to use filters.';
+      'Filtros de lista desactivados mientras se ve una fecha de proyección futura. Borra las proyecciones para usar los filtros.';
 
   @override
   String get semanticsFiltersDisabledNeedAccount =>
-      'List filters disabled. Add an account first.';
+      'Filtros de lista desactivados. Añade primero una cuenta.';
 
   @override
   String get semanticsFiltersDisabledNeedPlannedTransaction =>
-      'List filters disabled. Add a planned transaction first.';
+      'Filtros de lista desactivados. Añade primero una transacción planificada.';
 
   @override
   String get semanticsFiltersDisabledNeedRecordedTransaction =>
-      'List filters disabled. Record a transaction first.';
+      'Filtros de lista desactivados. Registra primero una transacción.';
 
   @override
   String get semanticsReviewSectionChipsDisabledNeedAccount =>
-      'Section and currency controls disabled. Add an account first.';
+      'Controles de sección y divisa desactivados. Añade primero una cuenta.';
 
   @override
   String get semanticsPlanProjectionControlsDisabled =>
-      'Projection date and balance breakdown disabled. Add an account and a planned transaction first.';
+      'Fecha de proyección y desglose de saldo desactivados. Añade primero una cuenta y una transacción planificada.';
 
   @override
   String get semanticsReorderAccountHint =>
-      'Long press, then drag to reorder within this group';
+      'Mantén pulsado y arrastra para reordenar dentro de este grupo';
 
   @override
-  String get semanticsChartStyle => 'Chart style';
+  String get semanticsChartStyle => 'Estilo de gráfico';
 
   @override
   String get semanticsChartStyleUnavailable =>
-      'Chart style (unavailable in comparison mode)';
+      'Estilo de gráfico (no disponible en modo comparación)';
 
   @override
   String semanticsPeriod(String label) {
-    return 'Period: $label';
+    return 'Período: $label';
   }
 
   @override
-  String get trackSearchHint => 'Search description, category, account…';
+  String get trackSearchHint => 'Buscar descripción, categoría, cuenta…';
 
   @override
-  String get trackSearchClear => 'Clear search';
+  String get trackSearchClear => 'Limpiar búsqueda';
 
   @override
-  String get settingsExchangeRatesTitle => 'Exchange rates';
+  String get settingsExchangeRatesTitle => 'Tipos de cambio';
 
   @override
   String settingsExchangeRatesUpdated(String time) {
-    return 'Last updated: $time';
+    return 'Última actualización: $time';
   }
 
   @override
   String get settingsExchangeRatesNeverUpdated =>
-      'Using offline or bundled rates — tap to refresh';
+      'Usando tasas sin conexión o incluidas — toca para actualizar';
 
   @override
   String get settingsExchangeRatesSource => 'ECB';
 
   @override
-  String get settingsExchangeRatesUpdatedSnack => 'Exchange rates updated';
+  String get settingsExchangeRatesUpdatedSnack =>
+      'Tipos de cambio actualizados';
 
   @override
   String get settingsExchangeRatesUpdateFailed =>
-      'Could not update exchange rates. Check your connection.';
+      'No se pudieron actualizar los tipos de cambio. Comprueba tu conexión.';
 
   @override
-  String get settingsClearData => 'Clear data';
+  String get settingsClearData => 'Borrar datos';
 
   @override
-  String get settingsClearDataSubtitle => 'Permanently remove selected data';
+  String get settingsClearDataSubtitle =>
+      'Eliminar permanentemente los datos seleccionados';
 
   @override
-  String get clearDataTitle => 'Clear data';
+  String get clearDataTitle => 'Borrar datos';
 
   @override
-  String get clearDataTransactions => 'Transaction history';
+  String get clearDataTransactions => 'Historial de transacciones';
 
   @override
   String clearDataTransactionsSubtitle(int count) {
-    return '$count transactions · account balances reset to zero';
+    return '$count transacciones · saldos de cuenta restablecidos a cero';
   }
 
   @override
-  String get clearDataPlanned => 'Planned transactions';
+  String get clearDataPlanned => 'Transacciones planificadas';
 
   @override
   String clearDataPlannedSubtitle(int count) {
-    return '$count planned items';
+    return '$count elementos planificados';
   }
 
   @override
-  String get clearDataAccounts => 'Accounts';
+  String get clearDataAccounts => 'Cuentas';
 
   @override
   String clearDataAccountsSubtitle(int count) {
-    return '$count accounts · also clears history and plan';
+    return '$count cuentas · también borra el historial y el plan';
   }
 
   @override
-  String get clearDataCategories => 'Categories';
+  String get clearDataCategories => 'Categorías';
 
   @override
   String clearDataCategoriesSubtitle(int count) {
-    return '$count categories · replaced with defaults';
+    return '$count categorías · sustituidas por las predeterminadas';
   }
 
   @override
-  String get clearDataPreferences => 'Preferences';
+  String get clearDataPreferences => 'Preferencias';
 
   @override
   String get clearDataPreferencesSubtitle =>
-      'Reset currency, theme and language to defaults';
+      'Restablecer divisa, tema e idioma a los valores predeterminados';
 
   @override
-  String get clearDataSecurity => 'App lock & PIN';
+  String get clearDataSecurity => 'Bloqueo de app y PIN';
 
   @override
-  String get clearDataSecuritySubtitle => 'Disable app lock and remove PIN';
+  String get clearDataSecuritySubtitle =>
+      'Desactivar bloqueo de app y eliminar PIN';
 
   @override
-  String get clearDataConfirmButton => 'Clear selected';
+  String get clearDataConfirmButton => 'Borrar seleccionados';
 
   @override
-  String get clearDataConfirmTitle => 'This cannot be undone';
+  String get clearDataConfirmTitle => 'Esta acción no se puede deshacer';
 
   @override
   String get clearDataConfirmBody =>
-      'The selected data will be permanently deleted. Export a backup first if you may need it later.';
+      'Los datos seleccionados se eliminarán permanentemente. Exporta una copia de seguridad primero si puedes necesitarlos más adelante.';
 
   @override
-  String get clearDataTypeConfirm => 'Type DELETE to confirm';
+  String get clearDataTypeConfirm => 'Escribe DELETE para confirmar';
 
   @override
-  String get clearDataTypeConfirmError => 'Type DELETE exactly to continue';
+  String get clearDataTypeConfirmError =>
+      'Escribe DELETE exactamente para continuar';
 
   @override
-  String get clearDataPinTitle => 'Confirm with PIN';
+  String get clearDataPinTitle => 'Confirmar con PIN';
 
   @override
-  String get clearDataPinBody => 'Enter your app PIN to authorize this action.';
+  String get clearDataPinBody =>
+      'Introduce tu PIN de la app para autorizar esta acción.';
 
   @override
-  String get clearDataPinIncorrect => 'Incorrect PIN';
+  String get clearDataPinIncorrect => 'PIN incorrecto';
 
   @override
-  String get clearDataDone => 'Selected data cleared';
+  String get clearDataDone => 'Datos seleccionados borrados';
 
   @override
-  String get autoBackupTitle => 'Automatic daily backup';
+  String get autoBackupTitle => 'Copia de seguridad automática diaria';
 
   @override
   String autoBackupLastAt(String date) {
-    return 'Last backed up $date';
+    return 'Última copia de seguridad $date';
   }
 
   @override
-  String get autoBackupNeverRun => 'No backup yet';
+  String get autoBackupNeverRun => 'Aún no hay copia de seguridad';
 
   @override
-  String get autoBackupShareTitle => 'Save to cloud';
+  String get autoBackupShareTitle => 'Guardar en la nube';
 
   @override
   String get autoBackupShareSubtitle =>
-      'Upload latest backup to iCloud Drive, Google Drive or any app';
+      'Subir la última copia de seguridad a iCloud Drive, Google Drive o cualquier app';
 
   @override
   String get autoBackupCloudReminder =>
-      'Auto-backup ready — save it to cloud for off-device protection';
+      'Copia de seguridad automática lista — guárdala en la nube para protección fuera del dispositivo';
 
   @override
-  String get autoBackupCloudReminderAction => 'Share';
+  String get autoBackupCloudReminderAction => 'Compartir';
 
   @override
   String get persistenceErrorReloaded =>
-      'Couldn’t save changes. Data was reloaded from storage.';
+      'No se pudieron guardar los cambios. Los datos se recargaron desde el almacenamiento.';
 }

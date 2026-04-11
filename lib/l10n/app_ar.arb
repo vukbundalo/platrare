@@ -1,46 +1,47 @@
 {
   "@@locale": "ar",
-  "appTitle": "Platrare",
+  "appTitle": "بلاترار",
   "@appTitle": {
     "description": "Application title"
   },
-  "navPlan": "Plan",
-  "navTrack": "Track",
-  "navReview": "Review",
-  "cancel": "Cancel",
-  "delete": "Delete",
-  "close": "Close",
-  "add": "Add",
-  "undo": "Undo",
-  "confirm": "Confirm",
-  "restore": "Restore",
-  "heroIn": "In",
-  "heroOut": "Out",
-  "heroNet": "Net",
-  "heroBalance": "Balance",
-  "realBalance": "Real balance",
-  "heroResetButton": "Reset",
-  "filterAll": "All",
-  "filterAllAccounts": "All accounts",
-  "filterAllCategories": "All categories",
-  "txLabelIncome": "INCOME",
-  "txLabelExpense": "EXPENSE",
-  "txLabelInvoice": "INVOICE",
-  "txLabelBill": "BILL",
-  "txLabelAdvance": "ADVANCE",
-  "txLabelSettlement": "SETTLEMENT",
-  "txLabelLoan": "LOAN",
-  "txLabelCollection": "COLLECTION",
-  "txLabelOffset": "OFFSET",
-  "txLabelTransfer": "TRANSFER",
-  "txLabelTransaction": "TRANSACTION",
-  "repeatNone": "No repeat",
-  "repeatDaily": "Daily",
-  "repeatWeekly": "Weekly",
-  "repeatMonthly": "Monthly",
-  "repeatYearly": "Yearly",
-  "repeatEveryLabel": "Every",
-  "repeatEveryDays": "{count, plural, =1{day} other{{count} days}}",
+  "navPlan": "يخطط",
+  "navTrack": "مسار",
+  "navReview": "مراجعة",
+  "cancel": "يلغي",
+  "delete": "يمسح",
+  "close": "يغلق",
+  "add": "يضيف",
+  "undo": "تراجع",
+  "confirm": "يتأكد",
+  "restore": "يعيد",
+  "heroIn": "في",
+  "heroOut": "خارج",
+  "heroNet": "شبكة",
+  "heroBalance": "توازن",
+  "realBalance": "التوازن الحقيقي",
+  "heroResetButton": "إعادة ضبط",
+  "fabScrollToTop": "للأعلى",
+  "filterAll": "الجميع",
+  "filterAllAccounts": "جميع الحسابات",
+  "filterAllCategories": "جميع الفئات",
+  "txLabelIncome": "دخل",
+  "txLabelExpense": "النفقات",
+  "txLabelInvoice": "فاتورة",
+  "txLabelBill": "فاتورة",
+  "txLabelAdvance": "يتقدم",
+  "txLabelSettlement": "مستعمرة",
+  "txLabelLoan": "يُقرض",
+  "txLabelCollection": "مجموعة",
+  "txLabelOffset": "إزاحة",
+  "txLabelTransfer": "تحويل",
+  "txLabelTransaction": "عملية",
+  "repeatNone": "لا تكرار",
+  "repeatDaily": "يوميًا",
+  "repeatWeekly": "أسبوعي",
+  "repeatMonthly": "شهريا",
+  "repeatYearly": "سنوي",
+  "repeatEveryLabel": "كل",
+  "repeatEveryDays": "{count, plural, =1{يوم} other{{count} أيام}}",
   "@repeatEveryDays": {
     "placeholders": {
       "count": {
@@ -48,7 +49,7 @@
       }
     }
   },
-  "repeatEveryWeeks": "{count, plural, =1{week} other{{count} weeks}}",
+  "repeatEveryWeeks": "{count, plural, =1{أسبوع} other{{count} أسابيع}}",
   "@repeatEveryWeeks": {
     "placeholders": {
       "count": {
@@ -56,7 +57,7 @@
       }
     }
   },
-  "repeatEveryMonths": "{count, plural, =1{month} other{{count} months}}",
+  "repeatEveryMonths": "{count, plural, =1{شهر} other{{count} أشهر}}",
   "@repeatEveryMonths": {
     "placeholders": {
       "count": {
@@ -64,7 +65,7 @@
       }
     }
   },
-  "repeatEveryYears": "{count, plural, =1{year} other{{count} years}}",
+  "repeatEveryYears": "{count, plural, =1{سنة} other{{count} سنوات}}",
   "@repeatEveryYears": {
     "placeholders": {
       "count": {
@@ -72,10 +73,10 @@
       }
     }
   },
-  "repeatEndLabel": "Ends",
-  "repeatEndNever": "Never",
-  "repeatEndOnDate": "On date",
-  "repeatEndAfterCount": "After {count} times",
+  "repeatEndLabel": "ينتهي",
+  "repeatEndNever": "أبداً",
+  "repeatEndOnDate": "في موعد",
+  "repeatEndAfterCount": "بعد {count} مرات",
   "@repeatEndAfterCount": {
     "placeholders": {
       "count": {
@@ -83,9 +84,9 @@
       }
     }
   },
-  "repeatEndPickDate": "Pick end date",
-  "repeatEndTimes": "times",
-  "repeatSummaryEvery": "Every {count} {unit}",
+  "repeatEndPickDate": "اختر تاريخ الانتهاء",
+  "repeatEndTimes": "مرات",
+  "repeatSummaryEvery": "كل {count} {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
       "count": {
@@ -96,7 +97,7 @@
       }
     }
   },
-  "repeatSummaryUntil": "until {date}",
+  "repeatSummaryUntil": "حتى {date}",
   "@repeatSummaryUntil": {
     "placeholders": {
       "date": {
@@ -104,7 +105,7 @@
       }
     }
   },
-  "repeatSummaryTimes": "{count} times",
+  "repeatSummaryTimes": "{count} مرات",
   "@repeatSummaryTimes": {
     "placeholders": {
       "count": {
@@ -112,7 +113,7 @@
       }
     }
   },
-  "repeatSummaryTimesRemaining": "{remaining} of {total} remaining",
+  "repeatSummaryTimesRemaining": "{remaining} من {total} المتبقي",
   "@repeatSummaryTimesRemaining": {
     "placeholders": {
       "remaining": {
@@ -123,10 +124,10 @@
       }
     }
   },
-  "detailRepeatEvery": "Repeat every",
-  "detailEnds": "Ends",
-  "detailEndsNever": "Never",
-  "detailEndsOnDate": "On {date}",
+  "detailRepeatEvery": "كرر كل",
+  "detailEnds": "ينتهي",
+  "detailEndsNever": "أبداً",
+  "detailEndsOnDate": "على {date}",
   "@detailEndsOnDate": {
     "placeholders": {
       "date": {
@@ -134,7 +135,7 @@
       }
     }
   },
-  "detailEndsAfterCount": "After {count} times",
+  "detailEndsAfterCount": "بعد {count} مرات",
   "@detailEndsAfterCount": {
     "placeholders": {
       "count": {
@@ -142,11 +143,11 @@
       }
     }
   },
-  "detailProgress": "Progress",
-  "weekendNoChange": "No change",
-  "weekendFriday": "Move to Friday",
-  "weekendMonday": "Move to Monday",
-  "weekendQuestion": "If the {day} falls on a weekend?",
+  "detailProgress": "تقدم",
+  "weekendNoChange": "لا تغيير",
+  "weekendFriday": "الانتقال إلى الجمعة",
+  "weekendMonday": "الانتقال إلى يوم الاثنين",
+  "weekendQuestion": "إذا كان {day} يقع في عطلة نهاية الأسبوع؟",
   "@weekendQuestion": {
     "placeholders": {
       "day": {
@@ -154,32 +155,32 @@
       }
     }
   },
-  "dateToday": "Today",
-  "dateTomorrow": "Tomorrow",
-  "dateYesterday": "Yesterday",
-  "statsAllTime": "All time",
-  "accountGroupPersonal": "Personal",
-  "accountGroupIndividual": "Individual",
-  "accountGroupEntity": "Entity",
-  "accountSectionIndividuals": "Individuals",
-  "accountSectionEntities": "Entities",
-  "emptyNoTransactionsYet": "No transactions yet",
-  "emptyNoAccountsYet": "No accounts yet",
-  "emptyRecordFirstTransaction": "Tap the button below to record your first transaction.",
-  "emptyAddFirstAccountTx": "Add your first account before recording transactions.",
-  "emptyAddFirstAccountPlan": "Add your first account before planning transactions.",
-  "emptyAddFirstAccountReview": "Add your first account to start tracking your finances.",
-  "emptyAddTransaction": "Add transaction",
-  "emptyAddAccount": "Add account",
-  "reviewEmptyGroupPersonalTitle": "No personal accounts yet",
-  "reviewEmptyGroupPersonalBody": "Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.",
-  "reviewEmptyGroupIndividualsTitle": "No individual accounts yet",
-  "reviewEmptyGroupIndividualsBody": "Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.",
-  "reviewEmptyGroupEntitiesTitle": "No entity accounts yet",
-  "reviewEmptyGroupEntitiesBody": "Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.",
-  "emptyNoTransactionsForFilters": "No transactions for applied filters",
-  "emptyNoTransactionsInHistory": "No transactions in history",
-  "emptyNoTransactionsForMonth": "No transactions for {month}",
+  "dateToday": "اليوم",
+  "dateTomorrow": "غداً",
+  "dateYesterday": "أمس",
+  "statsAllTime": "كل الوقت",
+  "accountGroupPersonal": "شخصي",
+  "accountGroupIndividual": "فردي",
+  "accountGroupEntity": "كيان",
+  "accountSectionIndividuals": "فرادى",
+  "accountSectionEntities": "الكيانات",
+  "emptyNoTransactionsYet": "لا توجد معاملات حتى الآن",
+  "emptyNoAccountsYet": "لا توجد حسابات حتى الآن",
+  "emptyRecordFirstTransaction": "اضغط على الزر أدناه لتسجيل معاملتك الأولى.",
+  "emptyAddFirstAccountTx": "قم بإضافة حسابك الأول قبل تسجيل المعاملات.",
+  "emptyAddFirstAccountPlan": "قم بإضافة حسابك الأول قبل التخطيط للمعاملات.",
+  "emptyAddFirstAccountReview": "قم بإضافة حسابك الأول لبدء تتبع أموالك.",
+  "emptyAddTransaction": "إضافة المعاملة",
+  "emptyAddAccount": "إضافة حساب",
+  "reviewEmptyGroupPersonalTitle": "لا توجد حسابات شخصية حتى الآن",
+  "reviewEmptyGroupPersonalBody": "الحسابات الشخصية هي محافظك الخاصة وحساباتك المصرفية. أضف واحدًا لتتبع الدخل والإنفاق اليومي.",
+  "reviewEmptyGroupIndividualsTitle": "لا توجد حسابات فردية حتى الآن",
+  "reviewEmptyGroupIndividualsBody": "تقوم الحسابات الفردية بتتبع الأموال مع أشخاص محددين - التكاليف المشتركة أو القروض أو سندات الدين. أضف حسابًا لكل شخص تستقر معه.",
+  "reviewEmptyGroupEntitiesTitle": "لا توجد حسابات كيان حتى الآن",
+  "reviewEmptyGroupEntitiesBody": "حسابات الكيان مخصصة للشركات أو المشاريع أو المؤسسات. استخدمها لفصل التدفق النقدي التجاري عن أموالك الشخصية.",
+  "emptyNoTransactionsForFilters": "لا توجد معاملات للمرشحات المطبقة",
+  "emptyNoTransactionsInHistory": "لا توجد معاملات في التاريخ",
+  "emptyNoTransactionsForMonth": "لا توجد معاملات لـ {month}",
   "@emptyNoTransactionsForMonth": {
     "placeholders": {
       "month": {
@@ -187,13 +188,13 @@
       }
     }
   },
-  "emptyNoTransactionsForAccount": "No transactions for this account",
-  "trackTransactionDeleted": "Transaction deleted",
-  "trackDeleteTitle": "Delete transaction?",
-  "trackDeleteBody": "This will reverse the account balance changes.",
-  "trackTransaction": "Transaction",
-  "planConfirmTitle": "Confirm transaction?",
-  "planConfirmBodyEarly": "This occurrence is scheduled for {date}. It will be recorded in History with today’s date ({todayDate}). The next occurrence remains on {nextDate}.",
+  "emptyNoTransactionsForAccount": "لا توجد معاملات لهذا الحساب",
+  "trackTransactionDeleted": "تم حذف المعاملة",
+  "trackDeleteTitle": "هل تريد حذف المعاملة؟",
+  "trackDeleteBody": "سيؤدي هذا إلى عكس التغييرات في رصيد الحساب.",
+  "trackTransaction": "عملية",
+  "planConfirmTitle": "تأكيد المعاملة؟",
+  "planConfirmBodyEarly": "تمت جدولة هذا الحدث لـ {date}. سيتم تسجيله في التاريخ بتاريخ اليوم ({todayDate}). يبقى الحدث التالي على {nextDate}.",
   "@planConfirmBodyEarly": {
     "placeholders": {
       "date": {
@@ -207,19 +208,19 @@
       }
     }
   },
-  "planConfirmBodyNormal": "This will apply the transaction to your real account balances and move it to History.",
-  "planTransactionConfirmed": "Transaction confirmed and applied",
-  "planTransactionRemoved": "Planned transaction removed",
-  "planRepeatingTitle": "Repeating transaction",
-  "planRepeatingBody": "Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.",
-  "planDeleteAll": "Delete all",
-  "planSkipThisOnly": "Skip this only",
-  "planOccurrenceSkipped": "This occurrence skipped — next one scheduled",
-  "planNothingPlanned": "Nothing planned for now",
-  "planPlanBody": "Plan upcoming transactions.",
-  "planAddPlan": "Add plan",
-  "planNoPlannedForFilters": "No planned transactions for applied filters",
-  "planNoPlannedInMonth": "No planned transactions in {month}",
+  "planConfirmBodyNormal": "سيؤدي هذا إلى تطبيق المعاملة على أرصدة حسابك الحقيقية ونقلها إلى السجل.",
+  "planTransactionConfirmed": "تم تأكيد المعاملة وتطبيقها",
+  "planTransactionRemoved": "تمت إزالة المعاملة المخططة",
+  "planRepeatingTitle": "تكرار المعاملة",
+  "planRepeatingBody": "قم بتخطي هذا التاريخ فقط - تستمر السلسلة مع التكرار التالي - أو احذف كل التكرار المتبقي من خطتك.",
+  "planDeleteAll": "احذف الكل",
+  "planSkipThisOnly": "تخطي هذا فقط",
+  "planOccurrenceSkipped": "تم تخطي هذا الحدث — تمت جدولة الحدث التالي",
+  "planNothingPlanned": "لا شيء مخطط له في الوقت الراهن",
+  "planPlanBody": "التخطيط للمعاملات القادمة.",
+  "planAddPlan": "أضف خطة",
+  "planNoPlannedForFilters": "لا توجد معاملات مخططة للمرشحات المطبقة",
+  "planNoPlannedInMonth": "لا توجد معاملات مخطط لها في {month}",
   "@planNoPlannedInMonth": {
     "placeholders": {
       "month": {
@@ -227,28 +228,28 @@
       }
     }
   },
-  "planOverdue": "overdue",
-  "planPlannedTransaction": "Planned transaction",
-  "discardTitle": "Discard changes?",
-  "discardBody": "You have unsaved changes. They will be lost if you leave now.",
-  "keepEditing": "Keep editing",
-  "discard": "Discard",
-  "newTransactionTitle": "New Transaction",
-  "editTransactionTitle": "Edit Transaction",
-  "transactionUpdated": "Transaction updated",
-  "sectionAccounts": "Accounts",
-  "labelFrom": "From",
-  "labelTo": "To",
-  "sectionCategory": "Category",
-  "sectionAttachments": "Attachments",
-  "labelNote": "Note",
-  "hintOptionalDescription": "Optional description",
-  "updateTransaction": "Update Transaction",
-  "saveTransaction": "Save Transaction",
-  "selectAccount": "Select account",
-  "selectAccountTitle": "Select Account",
-  "noAccountsAvailable": "No accounts available",
-  "amountReceivedBy": "Amount received by {name} ({currency})",
+  "planOverdue": "تأخرت",
+  "planPlannedTransaction": "الصفقة المخططة",
+  "discardTitle": "هل تريد تجاهل التغييرات؟",
+  "discardBody": "لديك تغييرات غير محفوظة. سوف يضيعون إذا غادرت الآن.",
+  "keepEditing": "استمر في التحرير",
+  "discard": "تجاهل",
+  "newTransactionTitle": "معاملة جديدة",
+  "editTransactionTitle": "تحرير المعاملة",
+  "transactionUpdated": "تم تحديث المعاملة",
+  "sectionAccounts": "الحسابات",
+  "labelFrom": "من",
+  "labelTo": "ل",
+  "sectionCategory": "فئة",
+  "sectionAttachments": "المرفقات",
+  "labelNote": "ملحوظة",
+  "hintOptionalDescription": "وصف اختياري",
+  "updateTransaction": "تحديث المعاملة",
+  "saveTransaction": "حفظ المعاملة",
+  "selectAccount": "اختر الحساب",
+  "selectAccountTitle": "حدد الحساب",
+  "noAccountsAvailable": "لا توجد حسابات متاحة",
+  "amountReceivedBy": "المبلغ المستلم بواسطة {name} ({currency})",
   "@amountReceivedBy": {
     "placeholders": {
       "name": {
@@ -259,24 +260,24 @@
       }
     }
   },
-  "amountReceivedHelper": "Enter the exact amount the destination account receives. This locks the real exchange rate used.",
-  "attachTakePhoto": "Take photo",
-  "attachTakePhotoSub": "Use camera to capture a receipt",
-  "attachChooseGallery": "Choose from gallery",
-  "attachChooseGallerySub": "Select photos from your library",
-  "attachBrowseFiles": "Browse files",
-  "attachBrowseFilesSub": "Attach PDFs, documents or other files",
-  "attachButton": "Attach",
-  "editPlanTitle": "Edit Plan",
-  "planTransactionTitle": "Plan Transaction",
-  "tapToSelect": "Tap to select",
-  "updatePlan": "Update Plan",
-  "addToPlan": "Add to Plan",
-  "labelRepeat": "Repeat",
-  "selectPlannedDate": "Select planned date",
-  "balancesAsOfToday": "Balances as of today",
-  "projectedBalancesForTomorrow": "Projected balances for tomorrow",
-  "projectedBalancesForDate": "Projected balances for {date}",
+  "amountReceivedHelper": "أدخل المبلغ الدقيق الذي يتلقاه حساب الوجهة. وهذا يقفل سعر الصرف الحقيقي المستخدم.",
+  "attachTakePhoto": "التقط صورة",
+  "attachTakePhotoSub": "استخدم الكاميرا لالتقاط إيصال",
+  "attachChooseGallery": "اختر من المعرض",
+  "attachChooseGallerySub": "حدد الصور من مكتبتك",
+  "attachBrowseFiles": "تصفح الملفات",
+  "attachBrowseFilesSub": "إرفاق ملفات PDF أو المستندات أو الملفات الأخرى",
+  "attachButton": "نعلق",
+  "editPlanTitle": "تحرير الخطة",
+  "planTransactionTitle": "صفقة الخطة",
+  "tapToSelect": "انقر للتحديد",
+  "updatePlan": "تحديث الخطة",
+  "addToPlan": "أضف إلى الخطة",
+  "labelRepeat": "يكرر",
+  "selectPlannedDate": "حدد التاريخ المخطط",
+  "balancesAsOfToday": "الرصيد اعتبارا من اليوم",
+  "projectedBalancesForTomorrow": "الأرصدة المتوقعة ليوم غد",
+  "projectedBalancesForDate": "الأرصدة المتوقعة لـ {date}",
   "@projectedBalancesForDate": {
     "placeholders": {
       "date": {
@@ -284,7 +285,7 @@
       }
     }
   },
-  "destReceivesLabel": "{name} receives ({currency})",
+  "destReceivesLabel": "{name} يستقبل ({currency})",
   "@destReceivesLabel": {
     "placeholders": {
       "name": {
@@ -295,23 +296,23 @@
       }
     }
   },
-  "destHelper": "Estimated destination amount. Exact rate is locked at confirmation.",
-  "descriptionOptional": "Description (optional)",
-  "detailTransactionTitle": "Transaction",
-  "detailPlannedTitle": "Planned",
-  "detailConfirmTransaction": "Confirm transaction",
-  "detailDate": "Date",
-  "detailFrom": "From",
-  "detailTo": "To",
-  "detailCategory": "Category",
-  "detailNote": "Note",
-  "detailDestinationAmount": "Destination amount",
-  "detailExchangeRate": "Exchange rate",
-  "detailRepeats": "Repeats",
-  "detailDayOfMonth": "Day of month",
-  "detailWeekends": "Weekends",
-  "detailAttachments": "Attachments",
-  "detailFileCount": "{count, plural, =1{1 file} other{{count} files}}",
+  "destHelper": "المبلغ المقصود المقدر. يتم تأمين السعر الدقيق عند التأكيد.",
+  "descriptionOptional": "الوصف (اختياري)",
+  "detailTransactionTitle": "عملية",
+  "detailPlannedTitle": "المخطط لها",
+  "detailConfirmTransaction": "تأكيد المعاملة",
+  "detailDate": "تاريخ",
+  "detailFrom": "من",
+  "detailTo": "ل",
+  "detailCategory": "فئة",
+  "detailNote": "ملحوظة",
+  "detailDestinationAmount": "مبلغ الوجهة",
+  "detailExchangeRate": "سعر الصرف",
+  "detailRepeats": "يكرر",
+  "detailDayOfMonth": "يوم من الشهر",
+  "detailWeekends": "عطلات نهاية الأسبوع",
+  "detailAttachments": "المرفقات",
+  "detailFileCount": "{count, plural, =1{ملف واحد} other{{count} ملفات}}",
   "@detailFileCount": {
     "placeholders": {
       "count": {
@@ -319,17 +320,17 @@
       }
     }
   },
-  "settingsTitle": "Settings",
-  "settingsSectionDisplay": "Display",
-  "settingsSectionLanguage": "Language",
-  "settingsSectionCategories": "Categories",
-  "settingsSectionAccounts": "Accounts",
-  "settingsSectionPreferences": "Preferences",
-  "settingsSectionManage": "Manage",
-  "settingsBaseCurrency": "Home currency",
-  "settingsSecondaryCurrency": "Secondary currency",
-  "settingsCategories": "Categories",
-  "settingsCategoriesSubtitle": "{incomeCount} income · {expenseCount} expense",
+  "settingsTitle": "إعدادات",
+  "settingsSectionDisplay": "عرض",
+  "settingsSectionLanguage": "لغة",
+  "settingsSectionCategories": "فئات",
+  "settingsSectionAccounts": "الحسابات",
+  "settingsSectionPreferences": "التفضيلات",
+  "settingsSectionManage": "يدير",
+  "settingsBaseCurrency": "العملة الرئيسية",
+  "settingsSecondaryCurrency": "العملة الثانوية",
+  "settingsCategories": "فئات",
+  "settingsCategoriesSubtitle": "{incomeCount} الدخل · {expenseCount} المصاريف",
   "@settingsCategoriesSubtitle": {
     "placeholders": {
       "incomeCount": {
@@ -340,9 +341,9 @@
       }
     }
   },
-  "settingsArchivedAccounts": "Archived accounts",
-  "settingsArchivedAccountsSubtitleZero": "None right now — archive from account edit when balance is clear",
-  "settingsArchivedAccountsSubtitleCount": "{count} hidden from Review and pickers",
+  "settingsArchivedAccounts": "الحسابات المؤرشفة",
+  "settingsArchivedAccountsSubtitleZero": "لا يوجد أي شيء الآن — أرشفة من تعديل الحساب عندما يكون الرصيد واضحًا",
+  "settingsArchivedAccountsSubtitleCount": "{count} مخفي عن المراجعة والملتقطين",
   "@settingsArchivedAccountsSubtitleCount": {
     "placeholders": {
       "count": {
@@ -350,48 +351,48 @@
       }
     }
   },
-  "settingsSectionData": "Data",
-  "settingsSectionPrivacy": "About",
-  "settingsPrivacyPolicyTitle": "Privacy policy",
-  "settingsPrivacyPolicySubtitle": "How Platrare handles your data.",
-  "settingsPrivacyFxDisclosure": "Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.",
-  "settingsPrivacyOpenFailed": "Could not load the privacy policy.",
-  "settingsPrivacyRetry": "Try again",
-  "settingsSoftwareVersionTitle": "Software version",
-  "settingsSoftwareVersionSubtitle": "Release, diagnostics, and legal",
-  "aboutScreenTitle": "About",
-  "aboutAppTagline": "Ledger, cashflow, and planning in one workspace.",
-  "aboutDescriptionBody": "Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.",
-  "aboutVersionLabel": "Version",
-  "aboutBuildLabel": "Build",
-  "aboutCopySupportDetails": "Copy support details",
-  "aboutOpenPrivacySubtitle": "Opens the full in-app policy document.",
-  "aboutSupportBundleLocaleLabel": "Locale",
-  "settingsSupportInfoCopied": "Copied to clipboard",
-  "settingsVerifyLedger": "Verify data",
-  "settingsVerifyLedgerSubtitle": "Check that account balances match your transaction history",
-  "settingsDataExportTitle": "Export backup",
-  "settingsDataExportSubtitle": "Save as .zip or encrypted .platrare with all data and attachments",
-  "settingsDataImportTitle": "Restore from backup",
-  "settingsDataImportSubtitle": "Replace current data from a Platrare .zip or .platrare backup",
-  "backupExportDialogTitle": "Protect this backup",
-  "backupExportDialogBody": "A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.",
-  "backupExportPasswordLabel": "Password",
-  "backupExportPasswordConfirmLabel": "Confirm password",
-  "backupExportPasswordMismatch": "Passwords do not match",
-  "backupExportPasswordEmpty": "Enter a matching password, or export without encryption below.",
-  "backupExportPasswordTooShort": "Password must be at least 8 characters.",
-  "backupExportSaveToDevice": "Save to device",
-  "backupExportShareToCloud": "Share (iCloud, Drive…)",
-  "backupExportWithoutEncryption": "Export without encryption",
-  "backupExportSkipWarningTitle": "Export without encryption?",
-  "backupExportSkipWarningBody": "Anyone with access to the file can read your data. Use this only for local copies you control.",
-  "backupExportSkipWarningConfirm": "Export unencrypted",
-  "backupImportPasswordTitle": "Encrypted backup",
-  "backupImportPasswordBody": "Enter the password you used when exporting.",
-  "backupImportPasswordLabel": "Password",
-  "backupImportPreviewTitle": "Backup summary",
-  "backupImportPreviewVersion": "App version: {version}",
+  "settingsSectionData": "بيانات",
+  "settingsSectionPrivacy": "عن",
+  "settingsPrivacyPolicyTitle": "سياسة الخصوصية",
+  "settingsPrivacyPolicySubtitle": "كيف يتعامل Platrare مع بياناتك.",
+  "settingsPrivacyFxDisclosure": "أسعار الصرف: يجلب التطبيق أسعار العملات العامة عبر الإنترنت. لا يتم إرسال حساباتك ومعاملاتك أبدًا.",
+  "settingsPrivacyOpenFailed": "لا يمكن تحميل سياسة الخصوصية.",
+  "settingsPrivacyRetry": "حاول ثانية",
+  "settingsSoftwareVersionTitle": "نسخة البرنامج",
+  "settingsSoftwareVersionSubtitle": "الإصدار والتشخيص والقانونية",
+  "aboutScreenTitle": "عن",
+  "aboutAppTagline": "دفتر الأستاذ والتدفق النقدي والتخطيط في مساحة عمل واحدة.",
+  "aboutDescriptionBody": "يحتفظ Platrare بالحسابات والمعاملات والخطط على جهازك. قم بتصدير النسخ الاحتياطية المشفرة عندما تحتاج إلى نسخة في مكان آخر. تستخدم أسعار الصرف بيانات السوق العامة فقط؛ لم يتم تحميل دفتر الأستاذ الخاص بك.",
+  "aboutVersionLabel": "إصدار",
+  "aboutBuildLabel": "يبني",
+  "aboutCopySupportDetails": "نسخ تفاصيل الدعم",
+  "aboutOpenPrivacySubtitle": "يفتح مستند السياسة الكامل داخل التطبيق.",
+  "aboutSupportBundleLocaleLabel": "لغة",
+  "settingsSupportInfoCopied": "تم النسخ إلى الحافظة",
+  "settingsVerifyLedger": "التحقق من البيانات",
+  "settingsVerifyLedgerSubtitle": "تأكد من تطابق أرصدة الحسابات مع سجل معاملاتك",
+  "settingsDataExportTitle": "تصدير النسخة الاحتياطية",
+  "settingsDataExportSubtitle": "احفظه بتنسيق .zip أو .platrare المشفر مع كافة البيانات والمرفقات",
+  "settingsDataImportTitle": "استعادة من النسخة الاحتياطية",
+  "settingsDataImportSubtitle": "استبدل البيانات الحالية من نسخة احتياطية Platrare .zip أو .platrare",
+  "backupExportDialogTitle": "حماية هذه النسخة الاحتياطية",
+  "backupExportDialogBody": "يوصى باستخدام كلمة مرور قوية، خاصة إذا قمت بتخزين الملف في السحابة. أنت بحاجة إلى نفس كلمة المرور للاستيراد.",
+  "backupExportPasswordLabel": "كلمة المرور",
+  "backupExportPasswordConfirmLabel": "تأكيد كلمة المرور",
+  "backupExportPasswordMismatch": "كلمات المرور غير متطابقة",
+  "backupExportPasswordEmpty": "أدخل كلمة مرور مطابقة، أو قم بالتصدير بدون تشفير أدناه.",
+  "backupExportPasswordTooShort": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
+  "backupExportSaveToDevice": "حفظ على الجهاز",
+  "backupExportShareToCloud": "المشاركة (iCloud، Drive...)",
+  "backupExportWithoutEncryption": "تصدير بدون تشفير",
+  "backupExportSkipWarningTitle": "تصدير بدون تشفير؟",
+  "backupExportSkipWarningBody": "يمكن لأي شخص لديه حق الوصول إلى الملف قراءة بياناتك. استخدم هذا فقط للنسخ المحلية التي تتحكم فيها.",
+  "backupExportSkipWarningConfirm": "تصدير غير مشفرة",
+  "backupImportPasswordTitle": "نسخة احتياطية مشفرة",
+  "backupImportPasswordBody": "أدخل كلمة المرور التي استخدمتها عند التصدير.",
+  "backupImportPasswordLabel": "كلمة المرور",
+  "backupImportPreviewTitle": "ملخص النسخ الاحتياطي",
+  "backupImportPreviewVersion": "إصدار التطبيق: {version}",
   "@backupImportPreviewVersion": {
     "placeholders": {
       "version": {
@@ -399,7 +400,7 @@
       }
     }
   },
-  "backupImportPreviewExported": "Exported: {date}",
+  "backupImportPreviewExported": "تم التصدير: {date}",
   "@backupImportPreviewExported": {
     "placeholders": {
       "date": {
@@ -407,7 +408,7 @@
       }
     }
   },
-  "backupImportPreviewCounts": "{accounts} accounts · {transactions} transactions · {planned} planned · {attachments} attachment files · {income} income categories · {expense} expense categories",
+  "backupImportPreviewCounts": "{accounts} حسابات · {transactions} المعاملات · {planned} المخطط لها · {attachments} ملفات المرفقات · {income} فئات الدخل · {expense} فئات النفقات",
   "@backupImportPreviewCounts": {
     "placeholders": {
       "accounts": {
@@ -430,19 +431,19 @@
       }
     }
   },
-  "backupImportPreviewContinue": "Continue",
-  "settingsBackupWrongPassword": "Wrong password",
-  "settingsBackupChecksumMismatch": "Backup failed integrity check",
-  "settingsBackupCorruptFile": "Invalid or damaged backup file",
-  "settingsBackupUnsupportedVersion": "Backup needs a newer app version",
-  "settingsDataImportConfirmTitle": "Replace current data?",
-  "settingsDataImportConfirmBody": "This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.",
-  "settingsDataImportConfirmAction": "Replace data",
-  "settingsDataImportDone": "Data restored successfully",
-  "settingsDataImportInvalidFile": "This file is not a valid Platrare backup",
-  "settingsDataImportFailed": "Import failed",
-  "settingsDataExportDoneTitle": "Backup exported",
-  "settingsDataExportDoneBody": "Backup saved to:\n{path}",
+  "backupImportPreviewContinue": "يكمل",
+  "settingsBackupWrongPassword": "كلمة مرور خاطئة",
+  "settingsBackupChecksumMismatch": "فشل النسخ الاحتياطي في التحقق من التكامل",
+  "settingsBackupCorruptFile": "ملف النسخ الاحتياطي غير صالح أو تالف",
+  "settingsBackupUnsupportedVersion": "يحتاج النسخ الاحتياطي إلى إصدار أحدث من التطبيق",
+  "settingsDataImportConfirmTitle": "هل تريد استبدال البيانات الحالية؟",
+  "settingsDataImportConfirmBody": "سيؤدي هذا إلى استبدال حساباتك الحالية ومعاملاتك ومعاملاتك المخططة والفئات والمرفقات المستوردة بمحتويات النسخة الاحتياطية المحددة. لا يمكن التراجع عن هذا الإجراء.",
+  "settingsDataImportConfirmAction": "استبدال البيانات",
+  "settingsDataImportDone": "تمت استعادة البيانات بنجاح",
+  "settingsDataImportInvalidFile": "هذا الملف ليس نسخة احتياطية صالحة لـ Platrare",
+  "settingsDataImportFailed": "فشل الاستيراد",
+  "settingsDataExportDoneTitle": "تم تصدير النسخة الاحتياطية",
+  "settingsDataExportDoneBody": "تم حفظ النسخة الاحتياطية في:\n{path}",
   "@settingsDataExportDoneBody": {
     "placeholders": {
       "path": {
@@ -450,12 +451,12 @@
       }
     }
   },
-  "settingsDataOpenExportFile": "Open file",
-  "settingsDataExportFailed": "Export failed",
-  "ledgerVerifyDialogTitle": "Ledger verification",
-  "ledgerVerifyAllMatch": "All accounts match.",
-  "ledgerVerifyMismatchesTitle": "Mismatches",
-  "ledgerVerifyMismatchDetails": "{accountName}\nStored: {stored}\nReplay: {replayed}\nDifference: {diff}",
+  "settingsDataOpenExportFile": "افتح الملف",
+  "settingsDataExportFailed": "فشل التصدير",
+  "ledgerVerifyDialogTitle": "التحقق من دفتر الأستاذ",
+  "ledgerVerifyAllMatch": "جميع الحسابات متطابقة.",
+  "ledgerVerifyMismatchesTitle": "عدم التطابق",
+  "ledgerVerifyMismatchDetails": "{accountName}\nالمخزنة: {stored}\nإعادة: {replayed}\nالفرق: {diff}",
   "@ledgerVerifyMismatchDetails": {
     "placeholders": {
       "accountName": {
@@ -472,51 +473,51 @@
       }
     }
   },
-  "settingsLanguage": "App language",
-  "settingsLanguageSubtitleSystem": "Following system settings",
-  "settingsLanguageSubtitleEnglish": "English",
-  "settingsLanguageSubtitleSerbianLatin": "Serbian (Latin)",
-  "settingsLanguagePickerTitle": "App language",
-  "settingsLanguageOptionSystem": "System default",
-  "settingsLanguageOptionEnglish": "English",
-  "settingsLanguageOptionSerbianLatin": "Serbian (Latin)",
-  "settingsSectionAppearance": "Appearance",
-  "settingsSectionSecurity": "Security",
-  "settingsSecurityEnableLock": "Lock app on open",
-  "settingsSecurityEnableLockSubtitle": "Require biometric unlock or PIN when app opens",
-  "settingsSecuritySetPin": "Set PIN",
-  "settingsSecurityChangePin": "Change PIN",
-  "settingsSecurityPinSubtitle": "Use a PIN as fallback if biometric is unavailable",
-  "settingsSecurityRemovePin": "Remove PIN",
-  "securitySetPinTitle": "Set app PIN",
-  "securityPinLabel": "PIN code",
-  "securityConfirmPinLabel": "Confirm PIN code",
-  "securityPinMustBe4Digits": "PIN must have at least 4 digits",
-  "securityPinMismatch": "PIN codes do not match",
-  "securityRemovePinTitle": "Remove PIN?",
-  "securityRemovePinBody": "Biometric unlock can still be used if available.",
-  "securityUnlockTitle": "App locked",
-  "securityUnlockSubtitle": "Unlock with Face ID, fingerprint, or PIN.",
-  "securityUnlockWithPin": "Unlock with PIN",
-  "securityTryBiometric": "Try biometric unlock",
-  "securityPinIncorrect": "Incorrect PIN, try again",
-  "securityBiometricReason": "Authenticate to open your app",
-  "settingsTheme": "Theme",
-  "settingsThemeSubtitleSystem": "Following system settings",
-  "settingsThemeSubtitleLight": "Light",
-  "settingsThemeSubtitleDark": "Dark",
-  "settingsThemePickerTitle": "Theme",
-  "settingsThemeOptionSystem": "System default",
-  "settingsThemeOptionLight": "Light",
-  "settingsThemeOptionDark": "Dark",
-  "archivedAccountsTitle": "Archived accounts",
-  "archivedAccountsEmptyTitle": "No archived accounts",
-  "archivedAccountsEmptyBody": "Book balance and overdraft must be zero. Archive from account options in Review.",
-  "categoriesTitle": "Categories",
-  "newCategoryTitle": "New Category",
-  "categoryNameLabel": "Category name",
-  "deleteCategoryTitle": "Delete category?",
-  "deleteCategoryBody": "\"{category}\" will be removed from the list.",
+  "settingsLanguage": "لغة التطبيق",
+  "settingsLanguageSubtitleSystem": "بعد إعدادات النظام",
+  "settingsLanguageSubtitleEnglish": "إنجليزي",
+  "settingsLanguageSubtitleSerbianLatin": "الصربية (اللاتينية)",
+  "settingsLanguagePickerTitle": "لغة التطبيق",
+  "settingsLanguageOptionSystem": "الافتراضي للنظام",
+  "settingsLanguageOptionEnglish": "إنجليزي",
+  "settingsLanguageOptionSerbianLatin": "الصربية (اللاتينية)",
+  "settingsSectionAppearance": "مظهر",
+  "settingsSectionSecurity": "حماية",
+  "settingsSecurityEnableLock": "قفل التطبيق مفتوحا",
+  "settingsSecurityEnableLockSubtitle": "يتطلب فتح القفل البيومتري أو رقم التعريف الشخصي عند فتح التطبيق",
+  "settingsSecuritySetPin": "تعيين رقم التعريف الشخصي",
+  "settingsSecurityChangePin": "تغيير رقم التعريف الشخصي",
+  "settingsSecurityPinSubtitle": "استخدم رقم التعريف الشخصي كإجراء احتياطي في حالة عدم توفر القياسات الحيوية",
+  "settingsSecurityRemovePin": "قم بإزالة رقم التعريف الشخصي",
+  "securitySetPinTitle": "تعيين رقم التعريف الشخصي للتطبيق",
+  "securityPinLabel": "رمز التعريف الشخصي",
+  "securityConfirmPinLabel": "تأكيد رمز PIN",
+  "securityPinMustBe4Digits": "يجب أن يتكون رقم التعريف الشخصي من 4 أرقام على الأقل",
+  "securityPinMismatch": "رموز PIN غير متطابقة",
+  "securityRemovePinTitle": "هل تريد إزالة رقم التعريف الشخصي؟",
+  "securityRemovePinBody": "لا يزال من الممكن استخدام فتح القفل البيومتري إذا كان ذلك متاحًا.",
+  "securityUnlockTitle": "التطبيق مغلق",
+  "securityUnlockSubtitle": "افتح القفل باستخدام Face ID أو بصمة الإصبع أو PIN.",
+  "securityUnlockWithPin": "فتح القفل باستخدام رقم التعريف الشخصي",
+  "securityTryBiometric": "حاول فتح القفل البيومتري",
+  "securityPinIncorrect": "رقم التعريف الشخصي غير صحيح، حاول مرة أخرى",
+  "securityBiometricReason": "قم بالمصادقة لفتح التطبيق الخاص بك",
+  "settingsTheme": "سمة",
+  "settingsThemeSubtitleSystem": "بعد إعدادات النظام",
+  "settingsThemeSubtitleLight": "ضوء",
+  "settingsThemeSubtitleDark": "مظلم",
+  "settingsThemePickerTitle": "سمة",
+  "settingsThemeOptionSystem": "الافتراضي للنظام",
+  "settingsThemeOptionLight": "ضوء",
+  "settingsThemeOptionDark": "مظلم",
+  "archivedAccountsTitle": "الحسابات المؤرشفة",
+  "archivedAccountsEmptyTitle": "لا توجد حسابات مؤرشفة",
+  "archivedAccountsEmptyBody": "يجب أن يكون الرصيد الدفتري والسحب على المكشوف صفراً. الأرشفة من خيارات الحساب في المراجعة.",
+  "categoriesTitle": "فئات",
+  "newCategoryTitle": "فئة جديدة",
+  "categoryNameLabel": "اسم الفئة",
+  "deleteCategoryTitle": "هل تريد حذف الفئة؟",
+  "deleteCategoryBody": "ستتم إزالة \"{category}\" من القائمة.",
   "@deleteCategoryBody": {
     "placeholders": {
       "category": {
@@ -524,18 +525,18 @@
       }
     }
   },
-  "categoryIncome": "Income",
-  "categoryExpense": "Expense",
-  "categoryAdd": "Add",
-  "searchCurrencies": "Search currencies…",
-  "period1M": "1M",
+  "categoryIncome": "دخل",
+  "categoryExpense": "حساب",
+  "categoryAdd": "يضيف",
+  "searchCurrencies": "بحث عن العملات...",
+  "period1M": "1 م",
   "period3M": "3M",
-  "period6M": "6M",
+  "period6M": "6 م",
   "period1Y": "1Y",
-  "periodAll": "ALL",
-  "categoryLabel": "category",
-  "categoriesLabel": "categories",
-  "transactionSavedMessage": "{type} saved  •  {amount}",
+  "periodAll": "الجميع",
+  "categoryLabel": "فئة",
+  "categoriesLabel": "فئات",
+  "transactionSavedMessage": "{type} تم الحفظ • {amount}",
   "@transactionSavedMessage": {
     "placeholders": {
       "type": {
@@ -546,18 +547,18 @@
       }
     }
   },
-  "tooltipSettings": "Settings",
-  "tooltipAddAccount": "Add account",
-  "tooltipRemoveAccount": "Remove account",
-  "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
-  "groupDescPersonal": "Your own wallets & bank accounts",
-  "groupDescIndividuals": "Family, friends, individuals",
-  "groupDescEntities": "Entities, utilities, organisations",
-  "cannotArchiveTitle": "Cannot archive yet",
-  "cannotArchiveBody": "Archive is only available when the book balance and overdraft limit are both effectively zero.",
-  "cannotArchiveBodyAdjust": "Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.",
-  "archiveAccountTitle": "Archive account?",
-  "archiveWithPlannedBody": "{count, plural, =1{1 planned transaction references this account.} other{{count} planned transactions reference this account.}} Remove them to keep your plan consistent with an archived account.",
+  "tooltipSettings": "إعدادات",
+  "tooltipAddAccount": "إضافة حساب",
+  "tooltipRemoveAccount": "إزالة الحساب",
+  "accountNameTaken": "لديك بالفعل حساب بهذا الاسم والمعرف (نشط أو مؤرشف). تغيير الاسم أو المعرف.",
+  "groupDescPersonal": "محافظك الخاصة وحساباتك المصرفية",
+  "groupDescIndividuals": "العائلة، الأصدقاء، الأفراد",
+  "groupDescEntities": "الكيانات والمرافق والمنظمات",
+  "cannotArchiveTitle": "لا يمكن الأرشفة بعد",
+  "cannotArchiveBody": "لا يتوفر الأرشيف إلا عندما يكون الرصيد الدفتري وحد السحب على المكشوف صفرًا فعليًا.",
+  "cannotArchiveBodyAdjust": "لا يتوفر الأرشيف إلا عندما يكون الرصيد الدفتري وحد السحب على المكشوف صفرًا فعليًا. اضبط دفتر الأستاذ أو المنشأة أولاً.",
+  "archiveAccountTitle": "أرشيف الحساب؟",
+  "archiveWithPlannedBody": "{count, plural, =1{معاملة مخططة واحدة تشير إلى هذا الحساب.} other{{count} معاملات مخططة تشير إلى هذا الحساب.}} أزلها للحفاظ على تناسق خطتك مع حساب مؤرشف.",
   "@archiveWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -565,17 +566,17 @@
       }
     }
   },
-  "removeAndArchive": "Remove planned & archive",
-  "archiveBody": "The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.",
-  "archiveAction": "Archive",
-  "archiveInstead": "Archive instead",
-  "cannotDeleteTitle": "Cannot delete account",
-  "cannotDeleteBodyShort": "This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.",
-  "cannotDeleteBodyHistory": "This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.",
-  "cannotDeleteBodySuggestArchive": "This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.",
-  "deleteAccountTitle": "Delete account?",
-  "deleteAccountBodyPermanent": "This account will be removed permanently.",
-  "deleteWithPlannedBody": "{count, plural, =1{1 planned transaction references this account and will also be deleted.} other{{count} planned transactions reference this account and will also be deleted.}}",
+  "removeAndArchive": "إزالة المخطط والأرشيف",
+  "archiveBody": "سيتم إخفاء الحساب عن منتقي المراجعة والتتبع والخطة. يمكنك استعادته من الإعدادات.",
+  "archiveAction": "أرشيف",
+  "archiveInstead": "الأرشيف بدلا من ذلك",
+  "cannotDeleteTitle": "لا يمكن حذف الحساب",
+  "cannotDeleteBodyShort": "يظهر هذا الحساب في سجل المسار الخاص بك. قم بإزالة تلك المعاملات أو إعادة تعيينها أولاً، أو أرشفة الحساب إذا تمت تصفية الرصيد.",
+  "cannotDeleteBodyHistory": "يظهر هذا الحساب في سجل المسار الخاص بك. سيؤدي الحذف إلى كسر هذا السجل — قم بإزالة تلك المعاملات أو إعادة تعيينها أولاً.",
+  "cannotDeleteBodySuggestArchive": "يظهر هذا الحساب في سجل المسار الخاص بك، لذا لا يمكن حذفه. يمكنك أرشفته بدلاً من ذلك إذا تمت تصفية رصيد الكتاب والسحب على المكشوف - فسيتم إخفاؤه من القوائم ولكن التاريخ سيظل كما هو.",
+  "deleteAccountTitle": "هل تريد حذف الحساب؟",
+  "deleteAccountBodyPermanent": "ستتم إزالة هذا الحساب نهائيًا.",
+  "deleteWithPlannedBody": "{count, plural, =1{معاملة مخططة واحدة تشير إلى هذا الحساب وسيتم حذفها أيضًا.} other{{count} معاملات مخططة تشير إلى هذا الحساب وسيتم حذفها أيضًا.}}",
   "@deleteWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -583,30 +584,30 @@
       }
     }
   },
-  "deleteAllAndDelete": "Delete all",
-  "editAccountTitle": "Edit Account",
-  "newAccountTitle": "New Account",
-  "labelAccountName": "Account name",
-  "labelAccountIdentifier": "Identifier (optional)",
-  "accountAppearanceSection": "Icon & color",
-  "accountPickIcon": "Choose icon",
-  "accountPickColor": "Choose color",
-  "accountIconSheetTitle": "Account icon",
-  "accountColorSheetTitle": "Account color",
-  "accountUseInitialLetter": "Initial letter",
-  "accountUseDefaultColor": "Match group",
-  "labelRealBalance": "Real balance",
-  "labelOverdraftLimit": "Overdraft / advance limit",
-  "labelCurrency": "Currency",
-  "saveChanges": "Save Changes",
-  "addAccountAction": "Add Account",
-  "removeAccountSheetTitle": "Remove account",
-  "deletePermanently": "Delete permanently",
-  "deletePermanentlySubtitle": "Only possible when this account is not used in Track. Planned items can be removed as part of delete.",
-  "archiveOptionSubtitle": "Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.",
-  "archivedBannerText": "This account is archived. It stays in your data but is hidden from lists and pickers.",
-  "balanceAdjustedTitle": "Balance adjusted in Track",
-  "balanceAdjustedBody": "Real balance was updated from {previous} to {current} {symbol}.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.",
+  "deleteAllAndDelete": "احذف الكل",
+  "editAccountTitle": "تحرير الحساب",
+  "newAccountTitle": "حساب جديد",
+  "labelAccountName": "إسم الحساب",
+  "labelAccountIdentifier": "المعرف (اختياري)",
+  "accountAppearanceSection": "أيقونة ولون",
+  "accountPickIcon": "اختر أيقونة",
+  "accountPickColor": "اختر اللون",
+  "accountIconSheetTitle": "رمز الحساب",
+  "accountColorSheetTitle": "لون الحساب",
+  "accountUseInitialLetter": "الرسالة الأولية",
+  "accountUseDefaultColor": "مباراة المجموعة",
+  "labelRealBalance": "التوازن الحقيقي",
+  "labelOverdraftLimit": "السحب على المكشوف / الحد المسبق",
+  "labelCurrency": "عملة",
+  "saveChanges": "حفظ التغييرات",
+  "addAccountAction": "إضافة حساب",
+  "removeAccountSheetTitle": "إزالة الحساب",
+  "deletePermanently": "حذف نهائيا",
+  "deletePermanentlySubtitle": "ممكن فقط عندما لا يتم استخدام هذا الحساب في المسار. يمكن إزالة العناصر المخططة كجزء من الحذف.",
+  "archiveOptionSubtitle": "إخفاء من المراجعة والملتقطين. استعادة في أي وقت من الإعدادات. يتطلب رصيد صفر والسحب على المكشوف.",
+  "archivedBannerText": "تم أرشفة هذا الحساب. ويظل موجودًا في بياناتك ولكنه مخفي من القوائم والملتقطين.",
+  "balanceAdjustedTitle": "تم تعديل الرصيد في المسار",
+  "balanceAdjustedBody": "تم تحديث الرصيد الحقيقي من {previous} إلى {current} {symbol}.\n\nتم إنشاء معاملة تسوية الرصيد في التعقب (السجل) للحفاظ على اتساق دفتر الأستاذ.\n\n• الرصيد الحقيقي يعكس المبلغ الفعلي في هذا الحساب.\n• التحقق من التاريخ لإدخال التعديل.",
   "@balanceAdjustedBody": {
     "placeholders": {
       "previous": {
@@ -620,21 +621,21 @@
       }
     }
   },
-  "ok": "OK",
-  "categoryBalanceAdjustment": "Balance adjustment",
-  "descriptionBalanceCorrection": "Balance correction",
-  "descriptionOpeningBalance": "Opening balance",
-  "reviewStatsModeStatistics": "Statistics",
-  "reviewStatsModeComparison": "Comparison",
-  "statsUncategorized": "Uncategorized",
-  "statsNoCategories": "No categories in the selected periods for comparison.",
-  "statsNoTransactions": "No transactions",
-  "statsSpendingInCategory": "Spending in this category",
-  "statsIncomeInCategory": "Income in this category",
-  "statsDifference": "Difference (B vs A): ",
-  "statsNoExpensesMonth": "No expenses this month",
-  "statsNoExpensesAll": "No expenses recorded",
-  "statsNoExpensesPeriod": "No expenses in the last {period}",
+  "ok": "نعم",
+  "categoryBalanceAdjustment": "تعديل الرصيد",
+  "descriptionBalanceCorrection": "تصحيح الرصيد",
+  "descriptionOpeningBalance": "الرصيد الافتتاحي",
+  "reviewStatsModeStatistics": "إحصائيات",
+  "reviewStatsModeComparison": "مقارنة",
+  "statsUncategorized": "غير مصنف",
+  "statsNoCategories": "لا توجد فئات في الفترات المحددة للمقارنة.",
+  "statsNoTransactions": "لا معاملات",
+  "statsSpendingInCategory": "الإنفاق في هذه الفئة",
+  "statsIncomeInCategory": "الدخل في هذه الفئة",
+  "statsDifference": "الفرق (ب مقابل أ):",
+  "statsNoExpensesMonth": "لا يوجد مصاريف هذا الشهر",
+  "statsNoExpensesAll": "لم يتم تسجيل أي نفقات",
+  "statsNoExpensesPeriod": "لا يوجد مصاريف في الأخير {period}",
   "@statsNoExpensesPeriod": {
     "placeholders": {
       "period": {
@@ -642,11 +643,11 @@
       }
     }
   },
-  "statsTotalSpent": "Total spent",
-  "statsNoExpensesThisPeriod": "No expenses in this period",
-  "statsNoIncomeMonth": "No income this month",
-  "statsNoIncomeAll": "No income recorded",
-  "statsNoIncomePeriod": "No income in the last {period}",
+  "statsTotalSpent": "إجمالي ما تم إنفاقه",
+  "statsNoExpensesThisPeriod": "لا توجد نفقات في هذه الفترة",
+  "statsNoIncomeMonth": "لا يوجد دخل هذا الشهر",
+  "statsNoIncomeAll": "لم يتم تسجيل أي دخل",
+  "statsNoIncomePeriod": "لا دخل في الماضي {period}",
   "@statsNoIncomePeriod": {
     "placeholders": {
       "period": {
@@ -654,40 +655,40 @@
       }
     }
   },
-  "statsTotalReceived": "Total received",
-  "statsNoIncomeThisPeriod": "No income in this period",
-  "catSalary": "Salary",
-  "catFreelance": "Freelance",
-  "catConsulting": "Consulting",
-  "catGift": "Gift",
-  "catRental": "Rental",
-  "catDividends": "Dividends",
-  "catRefund": "Refund",
-  "catBonus": "Bonus",
-  "catInterest": "Interest",
-  "catSideHustle": "Side hustle",
-  "catSaleOfGoods": "Sale of goods",
-  "catOther": "Other",
-  "catGroceries": "Groceries",
-  "catDining": "Dining",
-  "catTransport": "Transport",
-  "catUtilities": "Utilities",
-  "catHousing": "Housing",
-  "catHealthcare": "Healthcare",
-  "catEntertainment": "Entertainment",
-  "catShopping": "Shopping",
-  "catTravel": "Travel",
-  "catEducation": "Education",
-  "catSubscriptions": "Subscriptions",
-  "catInsurance": "Insurance",
-  "catFuel": "Fuel",
-  "catGym": "Gym",
-  "catPets": "Pets",
-  "catKids": "Kids",
-  "catCharity": "Charity",
-  "catCoffee": "Coffee",
-  "catGifts": "Gifts",
-  "semanticsProjectionDate": "Projection date {date}. Double tap to choose date",
+  "statsTotalReceived": "إجمالي المستلمة",
+  "statsNoIncomeThisPeriod": "لا يوجد دخل في هذه الفترة",
+  "catSalary": "مرتب",
+  "catFreelance": "مستقل",
+  "catConsulting": "استشارات",
+  "catGift": "هدية",
+  "catRental": "تأجير",
+  "catDividends": "توزيعات الأرباح",
+  "catRefund": "استرداد",
+  "catBonus": "علاوة",
+  "catInterest": "اهتمام",
+  "catSideHustle": "صخب الجانب",
+  "catSaleOfGoods": "بيع البضائع",
+  "catOther": "آخر",
+  "catGroceries": "بقالة",
+  "catDining": "تناول الطعام",
+  "catTransport": "ينقل",
+  "catUtilities": "المرافق",
+  "catHousing": "السكن",
+  "catHealthcare": "الرعاية الصحية",
+  "catEntertainment": "ترفيه",
+  "catShopping": "التسوق",
+  "catTravel": "يسافر",
+  "catEducation": "تعليم",
+  "catSubscriptions": "الاشتراكات",
+  "catInsurance": "تأمين",
+  "catFuel": "وقود",
+  "catGym": "نادي رياضي",
+  "catPets": "حيوانات أليفة",
+  "catKids": "أطفال",
+  "catCharity": "صدقة",
+  "catCoffee": "قهوة",
+  "catGifts": "الهدايا",
+  "semanticsProjectionDate": "تاريخ العرض {date}. انقر مرّتين لاختيار التاريخ",
   "@semanticsProjectionDate": {
     "placeholders": {
       "date": {
@@ -695,7 +696,7 @@
       }
     }
   },
-  "semanticsProjectedBalance": "Projected personal balance {amount}",
+  "semanticsProjectedBalance": "الرصيد الشخصي المتوقع {amount}",
   "@semanticsProjectedBalance": {
     "placeholders": {
       "amount": {
@@ -703,12 +704,12 @@
       }
     }
   },
-  "statsEmptyTitle": "No transactions yet",
-  "statsEmptySubtitle": "No spending data for the selected range.",
-  "semanticsShowProjections": "Show projected balances by account",
-  "semanticsHideProjections": "Hide projected balances by account",
-  "semanticsDateAllTime": "Date: all time — tap to change mode",
-  "semanticsDateMode": "Date: {mode} — tap to change mode",
+  "statsEmptyTitle": "لا توجد معاملات حتى الآن",
+  "statsEmptySubtitle": "لا توجد بيانات الإنفاق للنطاق المحدد.",
+  "semanticsShowProjections": "عرض الأرصدة المتوقعة حسب الحساب",
+  "semanticsHideProjections": "إخفاء الأرصدة المتوقعة حسب الحساب",
+  "semanticsDateAllTime": "التاريخ: طوال الوقت — انقر لتغيير الوضع",
+  "semanticsDateMode": "التاريخ: {mode} — انقر لتغيير الوضع",
   "@semanticsDateMode": {
     "placeholders": {
       "mode": {
@@ -716,22 +717,22 @@
       }
     }
   },
-  "semanticsDateThisMonth": "Date: this month — tap for month, week, year, or all time",
-  "semanticsTxTypeCycle": "Transaction type: cycle all, income, expense, transfer",
-  "semanticsAccountFilter": "Account filter",
-  "semanticsAlreadyFiltered": "Already filtered to this account",
-  "semanticsCategoryFilter": "Category filter",
-  "semanticsSortToggle": "Sort: toggle newest or oldest first",
-  "semanticsFiltersDisabled": "List filters disabled while viewing a future projection date. Clear projections to use filters.",
-  "semanticsFiltersDisabledNeedAccount": "List filters disabled. Add an account first.",
-  "semanticsFiltersDisabledNeedPlannedTransaction": "List filters disabled. Add a planned transaction first.",
-  "semanticsFiltersDisabledNeedRecordedTransaction": "List filters disabled. Record a transaction first.",
-  "semanticsReviewSectionChipsDisabledNeedAccount": "Section and currency controls disabled. Add an account first.",
-  "semanticsPlanProjectionControlsDisabled": "Projection date and balance breakdown disabled. Add an account and a planned transaction first.",
-  "semanticsReorderAccountHint": "Long press, then drag to reorder within this group",
-  "semanticsChartStyle": "Chart style",
-  "semanticsChartStyleUnavailable": "Chart style (unavailable in comparison mode)",
-  "semanticsPeriod": "Period: {label}",
+  "semanticsDateThisMonth": "التاريخ: هذا الشهر - اضغط على الشهر أو الأسبوع أو السنة أو كل الأوقات",
+  "semanticsTxTypeCycle": "نوع المعاملة: دورة الكل، الدخل، النفقات، التحويل",
+  "semanticsAccountFilter": "مرشح الحساب",
+  "semanticsAlreadyFiltered": "تمت تصفيته بالفعل لهذا الحساب",
+  "semanticsCategoryFilter": "مرشح الفئة",
+  "semanticsSortToggle": "الفرز: قم بالتبديل بين الأحدث والأقدم أولاً",
+  "semanticsFiltersDisabled": "تم تعطيل عوامل تصفية القائمة أثناء عرض تاريخ العرض المستقبلي. توقعات واضحة لاستخدام المرشحات.",
+  "semanticsFiltersDisabledNeedAccount": "تم تعطيل عوامل تصفية القائمة. أضف حسابًا أولاً.",
+  "semanticsFiltersDisabledNeedPlannedTransaction": "تم تعطيل عوامل تصفية القائمة. أضف معاملة مخططة أولاً.",
+  "semanticsFiltersDisabledNeedRecordedTransaction": "تم تعطيل عوامل تصفية القائمة. قم بتسجيل المعاملة أولاً.",
+  "semanticsReviewSectionChipsDisabledNeedAccount": "تم تعطيل ضوابط القسم والعملة. أضف حسابًا أولاً.",
+  "semanticsPlanProjectionControlsDisabled": "تم تعطيل تاريخ الإسقاط وتفاصيل الرصيد. أضف حسابًا ومعاملة مخططة أولاً.",
+  "semanticsReorderAccountHint": "اضغط لفترة طويلة، ثم اسحب لإعادة الترتيب داخل هذه المجموعة",
+  "semanticsChartStyle": "نمط الرسم البياني",
+  "semanticsChartStyleUnavailable": "نمط الرسم البياني (غير متوفر في وضع المقارنة)",
+  "semanticsPeriod": "الفترة: {label}",
   "@semanticsPeriod": {
     "placeholders": {
       "label": {
@@ -739,10 +740,10 @@
       }
     }
   },
-  "trackSearchHint": "Search description, category, account…",
-  "trackSearchClear": "Clear search",
-  "settingsExchangeRatesTitle": "Exchange rates",
-  "settingsExchangeRatesUpdated": "Last updated: {time}",
+  "trackSearchHint": "وصف البحث والفئة والحساب ...",
+  "trackSearchClear": "مسح البحث",
+  "settingsExchangeRatesTitle": "أسعار الصرف",
+  "settingsExchangeRatesUpdated": "آخر تحديث: {time}",
   "@settingsExchangeRatesUpdated": {
     "placeholders": {
       "time": {
@@ -750,15 +751,15 @@
       }
     }
   },
-  "settingsExchangeRatesNeverUpdated": "Using offline or bundled rates — tap to refresh",
-  "settingsExchangeRatesSource": "ECB",
-  "settingsExchangeRatesUpdatedSnack": "Exchange rates updated",
-  "settingsExchangeRatesUpdateFailed": "Could not update exchange rates. Check your connection.",
-  "settingsClearData": "Clear data",
-  "settingsClearDataSubtitle": "Permanently remove selected data",
-  "clearDataTitle": "Clear data",
-  "clearDataTransactions": "Transaction history",
-  "clearDataTransactionsSubtitle": "{count} transactions · account balances reset to zero",
+  "settingsExchangeRatesNeverUpdated": "استخدام الأسعار غير المتصلة بالإنترنت أو المجمعة — انقر للتحديث",
+  "settingsExchangeRatesSource": "البنك المركزي الأوروبي",
+  "settingsExchangeRatesUpdatedSnack": "تم تحديث أسعار الصرف",
+  "settingsExchangeRatesUpdateFailed": "لا يمكن تحديث أسعار الصرف. تحقق من اتصالك.",
+  "settingsClearData": "مسح البيانات",
+  "settingsClearDataSubtitle": "إزالة البيانات المحددة بشكل دائم",
+  "clearDataTitle": "مسح البيانات",
+  "clearDataTransactions": "تاريخ المعاملات",
+  "clearDataTransactionsSubtitle": "{count} المعاملات · إعادة ضبط أرصدة الحسابات إلى الصفر",
   "@clearDataTransactionsSubtitle": {
     "placeholders": {
       "count": {
@@ -766,8 +767,8 @@
       }
     }
   },
-  "clearDataPlanned": "Planned transactions",
-  "clearDataPlannedSubtitle": "{count} planned items",
+  "clearDataPlanned": "المعاملات المخططة",
+  "clearDataPlannedSubtitle": "{count} العناصر المخططة",
   "@clearDataPlannedSubtitle": {
     "placeholders": {
       "count": {
@@ -775,8 +776,8 @@
       }
     }
   },
-  "clearDataAccounts": "Accounts",
-  "clearDataAccountsSubtitle": "{count} accounts · also clears history and plan",
+  "clearDataAccounts": "الحسابات",
+  "clearDataAccountsSubtitle": "حسابات {count} · يقوم أيضًا بمسح السجل والخطة",
   "@clearDataAccountsSubtitle": {
     "placeholders": {
       "count": {
@@ -784,8 +785,8 @@
       }
     }
   },
-  "clearDataCategories": "Categories",
-  "clearDataCategoriesSubtitle": "{count} categories · replaced with defaults",
+  "clearDataCategories": "فئات",
+  "clearDataCategoriesSubtitle": "{count} الفئات · تم استبدالها بالإعدادات الافتراضية",
   "@clearDataCategoriesSubtitle": {
     "placeholders": {
       "count": {
@@ -793,21 +794,21 @@
       }
     }
   },
-  "clearDataPreferences": "Preferences",
-  "clearDataPreferencesSubtitle": "Reset currency, theme and language to defaults",
-  "clearDataSecurity": "App lock & PIN",
-  "clearDataSecuritySubtitle": "Disable app lock and remove PIN",
-  "clearDataConfirmButton": "Clear selected",
-  "clearDataConfirmTitle": "This cannot be undone",
-  "clearDataConfirmBody": "The selected data will be permanently deleted. Export a backup first if you may need it later.",
-  "clearDataTypeConfirm": "Type DELETE to confirm",
-  "clearDataTypeConfirmError": "Type DELETE exactly to continue",
-  "clearDataPinTitle": "Confirm with PIN",
-  "clearDataPinBody": "Enter your app PIN to authorize this action.",
-  "clearDataPinIncorrect": "Incorrect PIN",
-  "clearDataDone": "Selected data cleared",
-  "autoBackupTitle": "Automatic daily backup",
-  "autoBackupLastAt": "Last backed up {date}",
+  "clearDataPreferences": "التفضيلات",
+  "clearDataPreferencesSubtitle": "إعادة تعيين العملة والموضوع واللغة إلى الإعدادات الافتراضية",
+  "clearDataSecurity": "قفل التطبيق ورقم التعريف الشخصي",
+  "clearDataSecuritySubtitle": "قم بتعطيل قفل التطبيق وإزالة رمز PIN",
+  "clearDataConfirmButton": "مسح المحدد",
+  "clearDataConfirmTitle": "لا يمكن التراجع عن هذا",
+  "clearDataConfirmBody": "سيتم حذف البيانات المحددة نهائيًا. قم بتصدير نسخة احتياطية أولاً إذا كنت قد تحتاجها لاحقًا.",
+  "clearDataTypeConfirm": "اكتب DELETE للتأكيد",
+  "clearDataTypeConfirmError": "اكتب DELETE بالضبط للمتابعة",
+  "clearDataPinTitle": "قم بالتأكيد باستخدام رقم التعريف الشخصي",
+  "clearDataPinBody": "أدخل رقم التعريف الشخصي للتطبيق الخاص بك للسماح بهذا الإجراء.",
+  "clearDataPinIncorrect": "رقم التعريف الشخصي غير صحيح",
+  "clearDataDone": "تم مسح البيانات المحددة",
+  "autoBackupTitle": "النسخ الاحتياطي اليومي التلقائي",
+  "autoBackupLastAt": "آخر نسخة احتياطية {date}",
   "@autoBackupLastAt": {
     "placeholders": {
       "date": {
@@ -815,10 +816,10 @@
       }
     }
   },
-  "autoBackupNeverRun": "No backup yet",
-  "autoBackupShareTitle": "Save to cloud",
-  "autoBackupShareSubtitle": "Upload latest backup to iCloud Drive, Google Drive or any app",
-  "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
-  "autoBackupCloudReminderAction": "Share",
-  "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
+  "autoBackupNeverRun": "لا يوجد نسخة احتياطية حتى الآن",
+  "autoBackupShareTitle": "حفظ إلى السحابة",
+  "autoBackupShareSubtitle": "قم بتحميل أحدث نسخة احتياطية إلى iCloud Drive أو Google Drive أو أي تطبيق",
+  "autoBackupCloudReminder": "النسخ الاحتياطي التلقائي جاهز - احفظه على السحابة للحماية خارج الجهاز",
+  "autoBackupCloudReminderAction": "يشارك",
+  "persistenceErrorReloaded": "تعذر حفظ التغييرات. تم إعادة تحميل البيانات من التخزين."
 }

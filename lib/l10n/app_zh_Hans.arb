@@ -1,46 +1,47 @@
 {
   "@@locale": "zh_Hans",
-  "appTitle": "Platrare",
+  "appTitle": "普拉特拉雷",
   "@appTitle": {
     "description": "Application title"
   },
-  "navPlan": "Plan",
-  "navTrack": "Track",
-  "navReview": "Review",
-  "cancel": "Cancel",
-  "delete": "Delete",
-  "close": "Close",
-  "add": "Add",
-  "undo": "Undo",
-  "confirm": "Confirm",
-  "restore": "Restore",
-  "heroIn": "In",
-  "heroOut": "Out",
-  "heroNet": "Net",
-  "heroBalance": "Balance",
-  "realBalance": "Real balance",
-  "heroResetButton": "Reset",
-  "filterAll": "All",
-  "filterAllAccounts": "All accounts",
-  "filterAllCategories": "All categories",
-  "txLabelIncome": "INCOME",
-  "txLabelExpense": "EXPENSE",
-  "txLabelInvoice": "INVOICE",
-  "txLabelBill": "BILL",
-  "txLabelAdvance": "ADVANCE",
-  "txLabelSettlement": "SETTLEMENT",
-  "txLabelLoan": "LOAN",
-  "txLabelCollection": "COLLECTION",
-  "txLabelOffset": "OFFSET",
-  "txLabelTransfer": "TRANSFER",
-  "txLabelTransaction": "TRANSACTION",
-  "repeatNone": "No repeat",
-  "repeatDaily": "Daily",
-  "repeatWeekly": "Weekly",
-  "repeatMonthly": "Monthly",
-  "repeatYearly": "Yearly",
-  "repeatEveryLabel": "Every",
-  "repeatEveryDays": "{count, plural, =1{day} other{{count} days}}",
+  "navPlan": "计划",
+  "navTrack": "追踪",
+  "navReview": "审查",
+  "cancel": "取消",
+  "delete": "删除",
+  "close": "关闭",
+  "add": "添加",
+  "undo": "撤消",
+  "confirm": "确认",
+  "restore": "恢复",
+  "heroIn": "在",
+  "heroOut": "出去",
+  "heroNet": "网",
+  "heroBalance": "平衡",
+  "realBalance": "实际余额",
+  "heroResetButton": "重置",
+  "fabScrollToTop": "返回顶部",
+  "filterAll": "全部",
+  "filterAllAccounts": "所有账户",
+  "filterAllCategories": "所有类别",
+  "txLabelIncome": "收入",
+  "txLabelExpense": "费用",
+  "txLabelInvoice": "发票",
+  "txLabelBill": "账单",
+  "txLabelAdvance": "进步",
+  "txLabelSettlement": "沉降",
+  "txLabelLoan": "贷款",
+  "txLabelCollection": "收藏",
+  "txLabelOffset": "抵消",
+  "txLabelTransfer": "转移",
+  "txLabelTransaction": "交易",
+  "repeatNone": "不重复",
+  "repeatDaily": "日常的",
+  "repeatWeekly": "每周",
+  "repeatMonthly": "每月",
+  "repeatYearly": "每年",
+  "repeatEveryLabel": "每一个",
+  "repeatEveryDays": "{count, plural, =1{天} other{{count} 天}}",
   "@repeatEveryDays": {
     "placeholders": {
       "count": {
@@ -48,7 +49,7 @@
       }
     }
   },
-  "repeatEveryWeeks": "{count, plural, =1{week} other{{count} weeks}}",
+  "repeatEveryWeeks": "{count, plural, =1{周} other{{count} 周}}",
   "@repeatEveryWeeks": {
     "placeholders": {
       "count": {
@@ -56,7 +57,7 @@
       }
     }
   },
-  "repeatEveryMonths": "{count, plural, =1{month} other{{count} months}}",
+  "repeatEveryMonths": "{count, plural, =1{个月} other{{count} 个月}}",
   "@repeatEveryMonths": {
     "placeholders": {
       "count": {
@@ -64,7 +65,7 @@
       }
     }
   },
-  "repeatEveryYears": "{count, plural, =1{year} other{{count} years}}",
+  "repeatEveryYears": "{count, plural, =1{年} other{{count} 年}}",
   "@repeatEveryYears": {
     "placeholders": {
       "count": {
@@ -72,10 +73,10 @@
       }
     }
   },
-  "repeatEndLabel": "Ends",
-  "repeatEndNever": "Never",
-  "repeatEndOnDate": "On date",
-  "repeatEndAfterCount": "After {count} times",
+  "repeatEndLabel": "结束",
+  "repeatEndNever": "绝不",
+  "repeatEndOnDate": "约会时",
+  "repeatEndAfterCount": "{count}次后",
   "@repeatEndAfterCount": {
     "placeholders": {
       "count": {
@@ -83,9 +84,9 @@
       }
     }
   },
-  "repeatEndPickDate": "Pick end date",
-  "repeatEndTimes": "times",
-  "repeatSummaryEvery": "Every {count} {unit}",
+  "repeatEndPickDate": "选择结束日期",
+  "repeatEndTimes": "次",
+  "repeatSummaryEvery": "每{count}{unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
       "count": {
@@ -96,7 +97,7 @@
       }
     }
   },
-  "repeatSummaryUntil": "until {date}",
+  "repeatSummaryUntil": "直到{date}",
   "@repeatSummaryUntil": {
     "placeholders": {
       "date": {
@@ -104,7 +105,7 @@
       }
     }
   },
-  "repeatSummaryTimes": "{count} times",
+  "repeatSummaryTimes": "{count}次",
   "@repeatSummaryTimes": {
     "placeholders": {
       "count": {
@@ -112,7 +113,7 @@
       }
     }
   },
-  "repeatSummaryTimesRemaining": "{remaining} of {total} remaining",
+  "repeatSummaryTimesRemaining": "剩余 {total} 的 {remaining}",
   "@repeatSummaryTimesRemaining": {
     "placeholders": {
       "remaining": {
@@ -123,10 +124,10 @@
       }
     }
   },
-  "detailRepeatEvery": "Repeat every",
-  "detailEnds": "Ends",
-  "detailEndsNever": "Never",
-  "detailEndsOnDate": "On {date}",
+  "detailRepeatEvery": "重复每个",
+  "detailEnds": "结束",
+  "detailEndsNever": "绝不",
+  "detailEndsOnDate": "在{date}",
   "@detailEndsOnDate": {
     "placeholders": {
       "date": {
@@ -134,7 +135,7 @@
       }
     }
   },
-  "detailEndsAfterCount": "After {count} times",
+  "detailEndsAfterCount": "{count}次后",
   "@detailEndsAfterCount": {
     "placeholders": {
       "count": {
@@ -142,11 +143,11 @@
       }
     }
   },
-  "detailProgress": "Progress",
-  "weekendNoChange": "No change",
-  "weekendFriday": "Move to Friday",
-  "weekendMonday": "Move to Monday",
-  "weekendQuestion": "If the {day} falls on a weekend?",
+  "detailProgress": "进步",
+  "weekendNoChange": "没有变化",
+  "weekendFriday": "移至周五",
+  "weekendMonday": "移至星期一",
+  "weekendQuestion": "如果{day}恰逢周末？",
   "@weekendQuestion": {
     "placeholders": {
       "day": {
@@ -154,32 +155,32 @@
       }
     }
   },
-  "dateToday": "Today",
-  "dateTomorrow": "Tomorrow",
-  "dateYesterday": "Yesterday",
-  "statsAllTime": "All time",
-  "accountGroupPersonal": "Personal",
-  "accountGroupIndividual": "Individual",
-  "accountGroupEntity": "Entity",
-  "accountSectionIndividuals": "Individuals",
-  "accountSectionEntities": "Entities",
-  "emptyNoTransactionsYet": "No transactions yet",
-  "emptyNoAccountsYet": "No accounts yet",
-  "emptyRecordFirstTransaction": "Tap the button below to record your first transaction.",
-  "emptyAddFirstAccountTx": "Add your first account before recording transactions.",
-  "emptyAddFirstAccountPlan": "Add your first account before planning transactions.",
-  "emptyAddFirstAccountReview": "Add your first account to start tracking your finances.",
-  "emptyAddTransaction": "Add transaction",
-  "emptyAddAccount": "Add account",
-  "reviewEmptyGroupPersonalTitle": "No personal accounts yet",
-  "reviewEmptyGroupPersonalBody": "Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.",
-  "reviewEmptyGroupIndividualsTitle": "No individual accounts yet",
-  "reviewEmptyGroupIndividualsBody": "Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.",
-  "reviewEmptyGroupEntitiesTitle": "No entity accounts yet",
-  "reviewEmptyGroupEntitiesBody": "Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.",
-  "emptyNoTransactionsForFilters": "No transactions for applied filters",
-  "emptyNoTransactionsInHistory": "No transactions in history",
-  "emptyNoTransactionsForMonth": "No transactions for {month}",
+  "dateToday": "今天",
+  "dateTomorrow": "明天",
+  "dateYesterday": "昨天",
+  "statsAllTime": "所有时间",
+  "accountGroupPersonal": "个人的",
+  "accountGroupIndividual": "个人",
+  "accountGroupEntity": "实体",
+  "accountSectionIndividuals": "个人",
+  "accountSectionEntities": "实体",
+  "emptyNoTransactionsYet": "还没有交易",
+  "emptyNoAccountsYet": "还没有账户",
+  "emptyRecordFirstTransaction": "点击下面的按钮记录您的第一笔交易。",
+  "emptyAddFirstAccountTx": "在记录交易之前添加您的第一个帐户。",
+  "emptyAddFirstAccountPlan": "在计划交易之前添加您的第一个帐户。",
+  "emptyAddFirstAccountReview": "添加您的第一个帐户以开始跟踪您的财务状况。",
+  "emptyAddTransaction": "添加交易",
+  "emptyAddAccount": "添加帐户",
+  "reviewEmptyGroupPersonalTitle": "还没有个人账户",
+  "reviewEmptyGroupPersonalBody": "个人账户是您自己的钱包和银行账户。添加一个来跟踪日常收入和支出。",
+  "reviewEmptyGroupIndividualsTitle": "还没有个人账户",
+  "reviewEmptyGroupIndividualsBody": "个人账户跟踪特定人员的资金情况——分担成本、贷款或欠条。为与您和解的每个人添加一个帐户。",
+  "reviewEmptyGroupEntitiesTitle": "还没有实体账户",
+  "reviewEmptyGroupEntitiesBody": "实体帐户适用于企业、项目或组织。使用它们将业务现金流与您的个人财务分开。",
+  "emptyNoTransactionsForFilters": "没有应用过滤器的交易",
+  "emptyNoTransactionsInHistory": "历史上没有交易记录",
+  "emptyNoTransactionsForMonth": "{month} 没有交易",
   "@emptyNoTransactionsForMonth": {
     "placeholders": {
       "month": {
@@ -187,13 +188,13 @@
       }
     }
   },
-  "emptyNoTransactionsForAccount": "No transactions for this account",
-  "trackTransactionDeleted": "Transaction deleted",
-  "trackDeleteTitle": "Delete transaction?",
-  "trackDeleteBody": "This will reverse the account balance changes.",
-  "trackTransaction": "Transaction",
-  "planConfirmTitle": "Confirm transaction?",
-  "planConfirmBodyEarly": "This occurrence is scheduled for {date}. It will be recorded in History with today’s date ({todayDate}). The next occurrence remains on {nextDate}.",
+  "emptyNoTransactionsForAccount": "该账户没有任何交易",
+  "trackTransactionDeleted": "交易已删除",
+  "trackDeleteTitle": "删除交易？",
+  "trackDeleteBody": "这将扭转账户余额的变化。",
+  "trackTransaction": "交易",
+  "planConfirmTitle": "确认交易？",
+  "planConfirmBodyEarly": "此事件安排在{date}。它将以今天的日期（{todayDate}）记录在历史中。下一次发生仍发生在{nextDate}。",
   "@planConfirmBodyEarly": {
     "placeholders": {
       "date": {
@@ -207,19 +208,19 @@
       }
     }
   },
-  "planConfirmBodyNormal": "This will apply the transaction to your real account balances and move it to History.",
-  "planTransactionConfirmed": "Transaction confirmed and applied",
-  "planTransactionRemoved": "Planned transaction removed",
-  "planRepeatingTitle": "Repeating transaction",
-  "planRepeatingBody": "Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.",
-  "planDeleteAll": "Delete all",
-  "planSkipThisOnly": "Skip this only",
-  "planOccurrenceSkipped": "This occurrence skipped — next one scheduled",
-  "planNothingPlanned": "Nothing planned for now",
-  "planPlanBody": "Plan upcoming transactions.",
-  "planAddPlan": "Add plan",
-  "planNoPlannedForFilters": "No planned transactions for applied filters",
-  "planNoPlannedInMonth": "No planned transactions in {month}",
+  "planConfirmBodyNormal": "这会将交易应用于您的真实账户余额并将其移至历史记录。",
+  "planTransactionConfirmed": "交易确认并应用",
+  "planTransactionRemoved": "计划交易已删除",
+  "planRepeatingTitle": "重复交易",
+  "planRepeatingBody": "仅跳过此日期 - 该系列继续下一个事件 - 或从计划中删除所有剩余的事件。",
+  "planDeleteAll": "全部删除",
+  "planSkipThisOnly": "仅跳过此部分",
+  "planOccurrenceSkipped": "已跳过此事件 — 已安排下一个事件",
+  "planNothingPlanned": "暂时没有计划",
+  "planPlanBody": "计划即将进行的交易。",
+  "planAddPlan": "添加计划",
+  "planNoPlannedForFilters": "没有针对所应用的过滤器的计划交易",
+  "planNoPlannedInMonth": "{month}无计划交易",
   "@planNoPlannedInMonth": {
     "placeholders": {
       "month": {
@@ -227,28 +228,28 @@
       }
     }
   },
-  "planOverdue": "overdue",
-  "planPlannedTransaction": "Planned transaction",
-  "discardTitle": "Discard changes?",
-  "discardBody": "You have unsaved changes. They will be lost if you leave now.",
-  "keepEditing": "Keep editing",
-  "discard": "Discard",
-  "newTransactionTitle": "New Transaction",
-  "editTransactionTitle": "Edit Transaction",
-  "transactionUpdated": "Transaction updated",
-  "sectionAccounts": "Accounts",
-  "labelFrom": "From",
-  "labelTo": "To",
-  "sectionCategory": "Category",
-  "sectionAttachments": "Attachments",
-  "labelNote": "Note",
-  "hintOptionalDescription": "Optional description",
-  "updateTransaction": "Update Transaction",
-  "saveTransaction": "Save Transaction",
-  "selectAccount": "Select account",
-  "selectAccountTitle": "Select Account",
-  "noAccountsAvailable": "No accounts available",
-  "amountReceivedBy": "Amount received by {name} ({currency})",
+  "planOverdue": "逾期的",
+  "planPlannedTransaction": "计划交易",
+  "discardTitle": "放弃更改？",
+  "discardBody": "您有未保存的更改。如果你现在离开，它们就会丢失。",
+  "keepEditing": "继续编辑",
+  "discard": "丢弃",
+  "newTransactionTitle": "新交易",
+  "editTransactionTitle": "编辑交易",
+  "transactionUpdated": "交易已更新",
+  "sectionAccounts": "账户",
+  "labelFrom": "从",
+  "labelTo": "到",
+  "sectionCategory": "类别",
+  "sectionAttachments": "附件",
+  "labelNote": "笔记",
+  "hintOptionalDescription": "可选描述",
+  "updateTransaction": "更新交易",
+  "saveTransaction": "保存交易",
+  "selectAccount": "选择账户",
+  "selectAccountTitle": "选择账户",
+  "noAccountsAvailable": "没有可用帐户",
+  "amountReceivedBy": "{name} ({currency}) 收到的金额",
   "@amountReceivedBy": {
     "placeholders": {
       "name": {
@@ -259,24 +260,24 @@
       }
     }
   },
-  "amountReceivedHelper": "Enter the exact amount the destination account receives. This locks the real exchange rate used.",
-  "attachTakePhoto": "Take photo",
-  "attachTakePhotoSub": "Use camera to capture a receipt",
-  "attachChooseGallery": "Choose from gallery",
-  "attachChooseGallerySub": "Select photos from your library",
-  "attachBrowseFiles": "Browse files",
-  "attachBrowseFilesSub": "Attach PDFs, documents or other files",
-  "attachButton": "Attach",
-  "editPlanTitle": "Edit Plan",
-  "planTransactionTitle": "Plan Transaction",
-  "tapToSelect": "Tap to select",
-  "updatePlan": "Update Plan",
-  "addToPlan": "Add to Plan",
-  "labelRepeat": "Repeat",
-  "selectPlannedDate": "Select planned date",
-  "balancesAsOfToday": "Balances as of today",
-  "projectedBalancesForTomorrow": "Projected balances for tomorrow",
-  "projectedBalancesForDate": "Projected balances for {date}",
+  "amountReceivedHelper": "输入目标帐户收到的确切金额。这会锁定所使用的实际汇率。",
+  "attachTakePhoto": "拍照",
+  "attachTakePhotoSub": "使用相机拍摄收据",
+  "attachChooseGallery": "从画廊中选择",
+  "attachChooseGallerySub": "从您的图库中选择照片",
+  "attachBrowseFiles": "浏览文件",
+  "attachBrowseFilesSub": "附加 PDF、文档或其他文件",
+  "attachButton": "附",
+  "editPlanTitle": "编辑计划",
+  "planTransactionTitle": "计划交易",
+  "tapToSelect": "点击选择",
+  "updatePlan": "更新计划",
+  "addToPlan": "添加到计划",
+  "labelRepeat": "重复",
+  "selectPlannedDate": "选择计划日期",
+  "balancesAsOfToday": "截至今日的余额",
+  "projectedBalancesForTomorrow": "明天的预计余额",
+  "projectedBalancesForDate": "{date} 的预计余额",
   "@projectedBalancesForDate": {
     "placeholders": {
       "date": {
@@ -284,7 +285,7 @@
       }
     }
   },
-  "destReceivesLabel": "{name} receives ({currency})",
+  "destReceivesLabel": "{name} 接收 ({currency})",
   "@destReceivesLabel": {
     "placeholders": {
       "name": {
@@ -295,23 +296,23 @@
       }
     }
   },
-  "destHelper": "Estimated destination amount. Exact rate is locked at confirmation.",
-  "descriptionOptional": "Description (optional)",
-  "detailTransactionTitle": "Transaction",
-  "detailPlannedTitle": "Planned",
-  "detailConfirmTransaction": "Confirm transaction",
-  "detailDate": "Date",
-  "detailFrom": "From",
-  "detailTo": "To",
-  "detailCategory": "Category",
-  "detailNote": "Note",
-  "detailDestinationAmount": "Destination amount",
-  "detailExchangeRate": "Exchange rate",
-  "detailRepeats": "Repeats",
-  "detailDayOfMonth": "Day of month",
-  "detailWeekends": "Weekends",
-  "detailAttachments": "Attachments",
-  "detailFileCount": "{count, plural, =1{1 file} other{{count} files}}",
+  "destHelper": "预计目的地金额。确切的汇率在确认时被锁定。",
+  "descriptionOptional": "说明（可选）",
+  "detailTransactionTitle": "交易",
+  "detailPlannedTitle": "计划",
+  "detailConfirmTransaction": "确认交易",
+  "detailDate": "日期",
+  "detailFrom": "从",
+  "detailTo": "到",
+  "detailCategory": "类别",
+  "detailNote": "笔记",
+  "detailDestinationAmount": "目的地金额",
+  "detailExchangeRate": "汇率",
+  "detailRepeats": "重复",
+  "detailDayOfMonth": "一个月中的哪一天",
+  "detailWeekends": "周末",
+  "detailAttachments": "附件",
+  "detailFileCount": "{count, plural, =1{1 个文件} other{{count} 个文件}}",
   "@detailFileCount": {
     "placeholders": {
       "count": {
@@ -319,17 +320,17 @@
       }
     }
   },
-  "settingsTitle": "Settings",
-  "settingsSectionDisplay": "Display",
-  "settingsSectionLanguage": "Language",
-  "settingsSectionCategories": "Categories",
-  "settingsSectionAccounts": "Accounts",
-  "settingsSectionPreferences": "Preferences",
-  "settingsSectionManage": "Manage",
-  "settingsBaseCurrency": "Home currency",
-  "settingsSecondaryCurrency": "Secondary currency",
-  "settingsCategories": "Categories",
-  "settingsCategoriesSubtitle": "{incomeCount} income · {expenseCount} expense",
+  "settingsTitle": "设置",
+  "settingsSectionDisplay": "展示",
+  "settingsSectionLanguage": "语言",
+  "settingsSectionCategories": "类别",
+  "settingsSectionAccounts": "账户",
+  "settingsSectionPreferences": "偏好设置",
+  "settingsSectionManage": "管理",
+  "settingsBaseCurrency": "本国货币",
+  "settingsSecondaryCurrency": "次要货币",
+  "settingsCategories": "类别",
+  "settingsCategoriesSubtitle": "{incomeCount} 收入 · {expenseCount} 支出",
   "@settingsCategoriesSubtitle": {
     "placeholders": {
       "incomeCount": {
@@ -340,9 +341,9 @@
       }
     }
   },
-  "settingsArchivedAccounts": "Archived accounts",
-  "settingsArchivedAccountsSubtitleZero": "None right now — archive from account edit when balance is clear",
-  "settingsArchivedAccountsSubtitleCount": "{count} hidden from Review and pickers",
+  "settingsArchivedAccounts": "存档帐户",
+  "settingsArchivedAccountsSubtitleZero": "现在没有 - 当余额清晰时从帐户编辑存档",
+  "settingsArchivedAccountsSubtitleCount": "{count} 对审阅和选择器隐藏",
   "@settingsArchivedAccountsSubtitleCount": {
     "placeholders": {
       "count": {
@@ -350,48 +351,48 @@
       }
     }
   },
-  "settingsSectionData": "Data",
-  "settingsSectionPrivacy": "About",
-  "settingsPrivacyPolicyTitle": "Privacy policy",
-  "settingsPrivacyPolicySubtitle": "How Platrare handles your data.",
-  "settingsPrivacyFxDisclosure": "Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.",
-  "settingsPrivacyOpenFailed": "Could not load the privacy policy.",
-  "settingsPrivacyRetry": "Try again",
-  "settingsSoftwareVersionTitle": "Software version",
-  "settingsSoftwareVersionSubtitle": "Release, diagnostics, and legal",
-  "aboutScreenTitle": "About",
-  "aboutAppTagline": "Ledger, cashflow, and planning in one workspace.",
-  "aboutDescriptionBody": "Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.",
-  "aboutVersionLabel": "Version",
-  "aboutBuildLabel": "Build",
-  "aboutCopySupportDetails": "Copy support details",
-  "aboutOpenPrivacySubtitle": "Opens the full in-app policy document.",
-  "aboutSupportBundleLocaleLabel": "Locale",
-  "settingsSupportInfoCopied": "Copied to clipboard",
-  "settingsVerifyLedger": "Verify data",
-  "settingsVerifyLedgerSubtitle": "Check that account balances match your transaction history",
-  "settingsDataExportTitle": "Export backup",
-  "settingsDataExportSubtitle": "Save as .zip or encrypted .platrare with all data and attachments",
-  "settingsDataImportTitle": "Restore from backup",
-  "settingsDataImportSubtitle": "Replace current data from a Platrare .zip or .platrare backup",
-  "backupExportDialogTitle": "Protect this backup",
-  "backupExportDialogBody": "A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.",
-  "backupExportPasswordLabel": "Password",
-  "backupExportPasswordConfirmLabel": "Confirm password",
-  "backupExportPasswordMismatch": "Passwords do not match",
-  "backupExportPasswordEmpty": "Enter a matching password, or export without encryption below.",
-  "backupExportPasswordTooShort": "Password must be at least 8 characters.",
-  "backupExportSaveToDevice": "Save to device",
-  "backupExportShareToCloud": "Share (iCloud, Drive…)",
-  "backupExportWithoutEncryption": "Export without encryption",
-  "backupExportSkipWarningTitle": "Export without encryption?",
-  "backupExportSkipWarningBody": "Anyone with access to the file can read your data. Use this only for local copies you control.",
-  "backupExportSkipWarningConfirm": "Export unencrypted",
-  "backupImportPasswordTitle": "Encrypted backup",
-  "backupImportPasswordBody": "Enter the password you used when exporting.",
-  "backupImportPasswordLabel": "Password",
-  "backupImportPreviewTitle": "Backup summary",
-  "backupImportPreviewVersion": "App version: {version}",
+  "settingsSectionData": "数据",
+  "settingsSectionPrivacy": "关于",
+  "settingsPrivacyPolicyTitle": "隐私政策",
+  "settingsPrivacyPolicySubtitle": "Platrare 如何处理您的数据。",
+  "settingsPrivacyFxDisclosure": "汇率：该应用程序通过互联网获取公共货币汇率。您的帐户和交易永远不会发送。",
+  "settingsPrivacyOpenFailed": "无法加载隐私政策。",
+  "settingsPrivacyRetry": "再试一次",
+  "settingsSoftwareVersionTitle": "软件版本",
+  "settingsSoftwareVersionSubtitle": "发布、诊断和法律",
+  "aboutScreenTitle": "关于",
+  "aboutAppTagline": "账本、现金流和规划在一个工作空间中进行。",
+  "aboutDescriptionBody": "Platrare 在您的设备上保存账户、交易和计划。当您在其他地方需要副本时导出加密备份。汇率仅使用公开市场数据；您的分类帐尚未上传。",
+  "aboutVersionLabel": "版本",
+  "aboutBuildLabel": "建造",
+  "aboutCopySupportDetails": "复制支持详细信息",
+  "aboutOpenPrivacySubtitle": "打开完整的应用内政策文档。",
+  "aboutSupportBundleLocaleLabel": "语言环境",
+  "settingsSupportInfoCopied": "已复制到剪贴板",
+  "settingsVerifyLedger": "验证数据",
+  "settingsVerifyLedgerSubtitle": "检查账户余额是否与您的交易记录相符",
+  "settingsDataExportTitle": "导出备份",
+  "settingsDataExportSubtitle": "将所有数据和附件另存为 .zip 或加密的 .platrare",
+  "settingsDataImportTitle": "从备份恢复",
+  "settingsDataImportSubtitle": "替换 Platrare .zip 或 .platrare 备份中的当前数据",
+  "backupExportDialogTitle": "保护此备份",
+  "backupExportDialogBody": "建议使用强密码，尤其是当您将文件存储在云中时。您需要相同的密码才能导入。",
+  "backupExportPasswordLabel": "密码",
+  "backupExportPasswordConfirmLabel": "确认密码",
+  "backupExportPasswordMismatch": "密码不匹配",
+  "backupExportPasswordEmpty": "输入匹配的密码，或在下面不加密地导出。",
+  "backupExportPasswordTooShort": "密码必须至少为 8 个字符。",
+  "backupExportSaveToDevice": "保存到设备",
+  "backupExportShareToCloud": "共享（iCloud、云端硬盘...）",
+  "backupExportWithoutEncryption": "不加密导出",
+  "backupExportSkipWarningTitle": "导出时不加密？",
+  "backupExportSkipWarningBody": "任何有权访问该文件的人都可以读取您的数据。仅将其用于您控制的本地副本。",
+  "backupExportSkipWarningConfirm": "导出未加密",
+  "backupImportPasswordTitle": "加密备份",
+  "backupImportPasswordBody": "输入导出时使用的密码。",
+  "backupImportPasswordLabel": "密码",
+  "backupImportPreviewTitle": "备份摘要",
+  "backupImportPreviewVersion": "应用程序版本：{version}",
   "@backupImportPreviewVersion": {
     "placeholders": {
       "version": {
@@ -399,7 +400,7 @@
       }
     }
   },
-  "backupImportPreviewExported": "Exported: {date}",
+  "backupImportPreviewExported": "导出：{date}",
   "@backupImportPreviewExported": {
     "placeholders": {
       "date": {
@@ -407,7 +408,7 @@
       }
     }
   },
-  "backupImportPreviewCounts": "{accounts} accounts · {transactions} transactions · {planned} planned · {attachments} attachment files · {income} income categories · {expense} expense categories",
+  "backupImportPreviewCounts": "{accounts} 账户 · {transactions} 交易 · {planned} 计划 · {attachments} 附件文件 · {income} 收入类别 · {expense} 费用类别",
   "@backupImportPreviewCounts": {
     "placeholders": {
       "accounts": {
@@ -430,19 +431,19 @@
       }
     }
   },
-  "backupImportPreviewContinue": "Continue",
-  "settingsBackupWrongPassword": "Wrong password",
-  "settingsBackupChecksumMismatch": "Backup failed integrity check",
-  "settingsBackupCorruptFile": "Invalid or damaged backup file",
-  "settingsBackupUnsupportedVersion": "Backup needs a newer app version",
-  "settingsDataImportConfirmTitle": "Replace current data?",
-  "settingsDataImportConfirmBody": "This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.",
-  "settingsDataImportConfirmAction": "Replace data",
-  "settingsDataImportDone": "Data restored successfully",
-  "settingsDataImportInvalidFile": "This file is not a valid Platrare backup",
-  "settingsDataImportFailed": "Import failed",
-  "settingsDataExportDoneTitle": "Backup exported",
-  "settingsDataExportDoneBody": "Backup saved to:\n{path}",
+  "backupImportPreviewContinue": "继续",
+  "settingsBackupWrongPassword": "密码错误",
+  "settingsBackupChecksumMismatch": "备份完整性检查失败",
+  "settingsBackupCorruptFile": "备份文件无效或损坏",
+  "settingsBackupUnsupportedVersion": "备份需要更新的应用程序版本",
+  "settingsDataImportConfirmTitle": "替换当前数据？",
+  "settingsDataImportConfirmBody": "这会将您的当前帐户、交易、计划交易、类别和导入的附件替换为所选备份的内容。此操作无法撤消。",
+  "settingsDataImportConfirmAction": "替换数据",
+  "settingsDataImportDone": "数据恢复成功",
+  "settingsDataImportInvalidFile": "该文件不是有效的 Platrare 备份",
+  "settingsDataImportFailed": "导入失败",
+  "settingsDataExportDoneTitle": "备份导出",
+  "settingsDataExportDoneBody": "备份保存至：\n{path}",
   "@settingsDataExportDoneBody": {
     "placeholders": {
       "path": {
@@ -450,12 +451,12 @@
       }
     }
   },
-  "settingsDataOpenExportFile": "Open file",
-  "settingsDataExportFailed": "Export failed",
-  "ledgerVerifyDialogTitle": "Ledger verification",
-  "ledgerVerifyAllMatch": "All accounts match.",
-  "ledgerVerifyMismatchesTitle": "Mismatches",
-  "ledgerVerifyMismatchDetails": "{accountName}\nStored: {stored}\nReplay: {replayed}\nDifference: {diff}",
+  "settingsDataOpenExportFile": "打开文件",
+  "settingsDataExportFailed": "导出失败",
+  "ledgerVerifyDialogTitle": "账本验证",
+  "ledgerVerifyAllMatch": "所有帐户都匹配。",
+  "ledgerVerifyMismatchesTitle": "不匹配",
+  "ledgerVerifyMismatchDetails": "{accountName}\n存储：{stored}\n重播：{replayed}\n差异：{diff}",
   "@ledgerVerifyMismatchDetails": {
     "placeholders": {
       "accountName": {
@@ -472,51 +473,51 @@
       }
     }
   },
-  "settingsLanguage": "App language",
-  "settingsLanguageSubtitleSystem": "Following system settings",
-  "settingsLanguageSubtitleEnglish": "English",
-  "settingsLanguageSubtitleSerbianLatin": "Serbian (Latin)",
-  "settingsLanguagePickerTitle": "App language",
-  "settingsLanguageOptionSystem": "System default",
-  "settingsLanguageOptionEnglish": "English",
-  "settingsLanguageOptionSerbianLatin": "Serbian (Latin)",
-  "settingsSectionAppearance": "Appearance",
-  "settingsSectionSecurity": "Security",
-  "settingsSecurityEnableLock": "Lock app on open",
-  "settingsSecurityEnableLockSubtitle": "Require biometric unlock or PIN when app opens",
-  "settingsSecuritySetPin": "Set PIN",
-  "settingsSecurityChangePin": "Change PIN",
-  "settingsSecurityPinSubtitle": "Use a PIN as fallback if biometric is unavailable",
-  "settingsSecurityRemovePin": "Remove PIN",
-  "securitySetPinTitle": "Set app PIN",
-  "securityPinLabel": "PIN code",
-  "securityConfirmPinLabel": "Confirm PIN code",
-  "securityPinMustBe4Digits": "PIN must have at least 4 digits",
-  "securityPinMismatch": "PIN codes do not match",
-  "securityRemovePinTitle": "Remove PIN?",
-  "securityRemovePinBody": "Biometric unlock can still be used if available.",
-  "securityUnlockTitle": "App locked",
-  "securityUnlockSubtitle": "Unlock with Face ID, fingerprint, or PIN.",
-  "securityUnlockWithPin": "Unlock with PIN",
-  "securityTryBiometric": "Try biometric unlock",
-  "securityPinIncorrect": "Incorrect PIN, try again",
-  "securityBiometricReason": "Authenticate to open your app",
-  "settingsTheme": "Theme",
-  "settingsThemeSubtitleSystem": "Following system settings",
-  "settingsThemeSubtitleLight": "Light",
-  "settingsThemeSubtitleDark": "Dark",
-  "settingsThemePickerTitle": "Theme",
-  "settingsThemeOptionSystem": "System default",
-  "settingsThemeOptionLight": "Light",
-  "settingsThemeOptionDark": "Dark",
-  "archivedAccountsTitle": "Archived accounts",
-  "archivedAccountsEmptyTitle": "No archived accounts",
-  "archivedAccountsEmptyBody": "Book balance and overdraft must be zero. Archive from account options in Review.",
-  "categoriesTitle": "Categories",
-  "newCategoryTitle": "New Category",
-  "categoryNameLabel": "Category name",
-  "deleteCategoryTitle": "Delete category?",
-  "deleteCategoryBody": "\"{category}\" will be removed from the list.",
+  "settingsLanguage": "应用语言",
+  "settingsLanguageSubtitleSystem": "以下系统设置",
+  "settingsLanguageSubtitleEnglish": "英语",
+  "settingsLanguageSubtitleSerbianLatin": "塞尔维亚语（拉丁语）",
+  "settingsLanguagePickerTitle": "应用语言",
+  "settingsLanguageOptionSystem": "系统默认",
+  "settingsLanguageOptionEnglish": "英语",
+  "settingsLanguageOptionSerbianLatin": "塞尔维亚语（拉丁语）",
+  "settingsSectionAppearance": "外貌",
+  "settingsSectionSecurity": "安全",
+  "settingsSecurityEnableLock": "锁定应用程序打开状态",
+  "settingsSecurityEnableLockSubtitle": "应用程序打开时需要生物识别解锁或 PIN",
+  "settingsSecuritySetPin": "设置密码",
+  "settingsSecurityChangePin": "更改密码",
+  "settingsSecurityPinSubtitle": "如果生物识别不可用，请使用 PIN 作为后备措施",
+  "settingsSecurityRemovePin": "删除 PIN 码",
+  "securitySetPinTitle": "设置应用程序 PIN",
+  "securityPinLabel": "密码",
+  "securityConfirmPinLabel": "确认 PIN 码",
+  "securityPinMustBe4Digits": "PIN 码必须至少有 4 位数字",
+  "securityPinMismatch": "PIN 码不匹配",
+  "securityRemovePinTitle": "删除 PIN 码？",
+  "securityRemovePinBody": "如果有的话，仍然可以使用生物识别解锁。",
+  "securityUnlockTitle": "应用程序已锁定",
+  "securityUnlockSubtitle": "使用面容 ID、指纹或 PIN 码解锁。",
+  "securityUnlockWithPin": "使用 PIN 码解锁",
+  "securityTryBiometric": "尝试生物识别解锁",
+  "securityPinIncorrect": "PIN 码不正确，请重试",
+  "securityBiometricReason": "进行身份验证以打开您的应用程序",
+  "settingsTheme": "主题",
+  "settingsThemeSubtitleSystem": "以下系统设置",
+  "settingsThemeSubtitleLight": "光",
+  "settingsThemeSubtitleDark": "黑暗的",
+  "settingsThemePickerTitle": "主题",
+  "settingsThemeOptionSystem": "系统默认",
+  "settingsThemeOptionLight": "光",
+  "settingsThemeOptionDark": "黑暗的",
+  "archivedAccountsTitle": "存档帐户",
+  "archivedAccountsEmptyTitle": "没有存档帐户",
+  "archivedAccountsEmptyBody": "账面余额和透支必须为零。从“审核”中的帐户选项存档。",
+  "categoriesTitle": "类别",
+  "newCategoryTitle": "新类别",
+  "categoryNameLabel": "类别名称",
+  "deleteCategoryTitle": "删除类别？",
+  "deleteCategoryBody": "“{category}”将从列表中删除。",
   "@deleteCategoryBody": {
     "placeholders": {
       "category": {
@@ -524,18 +525,18 @@
       }
     }
   },
-  "categoryIncome": "Income",
-  "categoryExpense": "Expense",
-  "categoryAdd": "Add",
-  "searchCurrencies": "Search currencies…",
+  "categoryIncome": "收入",
+  "categoryExpense": "费用",
+  "categoryAdd": "添加",
+  "searchCurrencies": "搜索货币...",
   "period1M": "1M",
   "period3M": "3M",
   "period6M": "6M",
-  "period1Y": "1Y",
-  "periodAll": "ALL",
-  "categoryLabel": "category",
-  "categoriesLabel": "categories",
-  "transactionSavedMessage": "{type} saved  •  {amount}",
+  "period1Y": "1年",
+  "periodAll": "全部",
+  "categoryLabel": "类别",
+  "categoriesLabel": "类别",
+  "transactionSavedMessage": "{type} 已保存 • {amount}",
   "@transactionSavedMessage": {
     "placeholders": {
       "type": {
@@ -546,18 +547,18 @@
       }
     }
   },
-  "tooltipSettings": "Settings",
-  "tooltipAddAccount": "Add account",
-  "tooltipRemoveAccount": "Remove account",
-  "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
-  "groupDescPersonal": "Your own wallets & bank accounts",
-  "groupDescIndividuals": "Family, friends, individuals",
-  "groupDescEntities": "Entities, utilities, organisations",
-  "cannotArchiveTitle": "Cannot archive yet",
-  "cannotArchiveBody": "Archive is only available when the book balance and overdraft limit are both effectively zero.",
-  "cannotArchiveBodyAdjust": "Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.",
-  "archiveAccountTitle": "Archive account?",
-  "archiveWithPlannedBody": "{count, plural, =1{1 planned transaction references this account.} other{{count} planned transactions reference this account.}} Remove them to keep your plan consistent with an archived account.",
+  "tooltipSettings": "设置",
+  "tooltipAddAccount": "添加帐户",
+  "tooltipRemoveAccount": "删除帐户",
+  "accountNameTaken": "您已经拥有一个具有此名称和标识符的帐户（活动或已存档）。更改名称或标识符。",
+  "groupDescPersonal": "您自己的钱包和银行账户",
+  "groupDescIndividuals": "家人、朋友、个人",
+  "groupDescEntities": "实体、公用事业、组织",
+  "cannotArchiveTitle": "还不能存档",
+  "cannotArchiveBody": "仅当账面余额和透支限额实际上均为零时，存档才可用。",
+  "cannotArchiveBodyAdjust": "仅当账面余额和透支限额实际上均为零时，存档才可用。首先调整分类账或设施。",
+  "archiveAccountTitle": "存档帐户？",
+  "archiveWithPlannedBody": "{count, plural, =1{1 条计划交易引用了此账户。} other{{count} 条计划交易引用了此账户。}} 请删除它们，以使计划与已归档账户保持一致。",
   "@archiveWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -565,17 +566,17 @@
       }
     }
   },
-  "removeAndArchive": "Remove planned & archive",
-  "archiveBody": "The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.",
-  "archiveAction": "Archive",
-  "archiveInstead": "Archive instead",
-  "cannotDeleteTitle": "Cannot delete account",
-  "cannotDeleteBodyShort": "This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.",
-  "cannotDeleteBodyHistory": "This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.",
-  "cannotDeleteBodySuggestArchive": "This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.",
-  "deleteAccountTitle": "Delete account?",
-  "deleteAccountBodyPermanent": "This account will be removed permanently.",
-  "deleteWithPlannedBody": "{count, plural, =1{1 planned transaction references this account and will also be deleted.} other{{count} planned transactions reference this account and will also be deleted.}}",
+  "removeAndArchive": "删除计划和存档",
+  "archiveBody": "该帐户将对“审阅”、“跟踪”和“计划”选择器隐藏。您可以从“设置”中恢复它。",
+  "archiveAction": "档案",
+  "archiveInstead": "改为存档",
+  "cannotDeleteTitle": "无法删除帐户",
+  "cannotDeleteBodyShort": "该帐户出现在您的跟踪历史记录中。首先删除或重新分配这些交易，或者在余额已清除的情况下存档帐户。",
+  "cannotDeleteBodyHistory": "该帐户出现在您的跟踪历史记录中。删除会破坏该历史记录——首先删除或重新分配这些事务。",
+  "cannotDeleteBodySuggestArchive": "该帐户出现在您的跟踪历史记录中，因此无法删除。如果账面余额和透支已清除，您可以将其存档 - 它将从列表中隐藏，但历史记录保持不变。",
+  "deleteAccountTitle": "删除帐户？",
+  "deleteAccountBodyPermanent": "该帐户将被永久删除。",
+  "deleteWithPlannedBody": "{count, plural, =1{1 条计划交易引用了此账户，也将被删除。} other{{count} 条计划交易引用了此账户，也将被删除。}}",
   "@deleteWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -583,30 +584,30 @@
       }
     }
   },
-  "deleteAllAndDelete": "Delete all",
-  "editAccountTitle": "Edit Account",
-  "newAccountTitle": "New Account",
-  "labelAccountName": "Account name",
-  "labelAccountIdentifier": "Identifier (optional)",
-  "accountAppearanceSection": "Icon & color",
-  "accountPickIcon": "Choose icon",
-  "accountPickColor": "Choose color",
-  "accountIconSheetTitle": "Account icon",
-  "accountColorSheetTitle": "Account color",
-  "accountUseInitialLetter": "Initial letter",
-  "accountUseDefaultColor": "Match group",
-  "labelRealBalance": "Real balance",
-  "labelOverdraftLimit": "Overdraft / advance limit",
-  "labelCurrency": "Currency",
-  "saveChanges": "Save Changes",
-  "addAccountAction": "Add Account",
-  "removeAccountSheetTitle": "Remove account",
-  "deletePermanently": "Delete permanently",
-  "deletePermanentlySubtitle": "Only possible when this account is not used in Track. Planned items can be removed as part of delete.",
-  "archiveOptionSubtitle": "Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.",
-  "archivedBannerText": "This account is archived. It stays in your data but is hidden from lists and pickers.",
-  "balanceAdjustedTitle": "Balance adjusted in Track",
-  "balanceAdjustedBody": "Real balance was updated from {previous} to {current} {symbol}.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.",
+  "deleteAllAndDelete": "全部删除",
+  "editAccountTitle": "编辑帐户",
+  "newAccountTitle": "新账户",
+  "labelAccountName": "帐户名称",
+  "labelAccountIdentifier": "标识符（可选）",
+  "accountAppearanceSection": "图标和颜色",
+  "accountPickIcon": "选择图标",
+  "accountPickColor": "选择颜色",
+  "accountIconSheetTitle": "帐户图标",
+  "accountColorSheetTitle": "帐号颜色",
+  "accountUseInitialLetter": "首字母",
+  "accountUseDefaultColor": "比赛组",
+  "labelRealBalance": "实际余额",
+  "labelOverdraftLimit": "透支/预支限额",
+  "labelCurrency": "货币",
+  "saveChanges": "保存更改",
+  "addAccountAction": "添加账户",
+  "removeAccountSheetTitle": "删除帐户",
+  "deletePermanently": "永久删除",
+  "deletePermanentlySubtitle": "仅当此帐户未在 Track 中使用时才可用。计划项目可以作为删除的一部分被删除。",
+  "archiveOptionSubtitle": "隐藏审阅和选择器。随时从“设置”恢复。需要零余额和透支。",
+  "archivedBannerText": "该帐户已存档。它保留在您的数据中，但对列表和选择器隐藏。",
+  "balanceAdjustedTitle": "轨道中的平衡调整",
+  "balanceAdjustedBody": "实际余额从{previous}更新为{current}{symbol}。\n\n在跟踪（历史记录）中创建了余额调整交易，以保持账本一致。\n\n• 实际余额反映该账户的实际金额。\n• 检查调整条目的历史记录。",
   "@balanceAdjustedBody": {
     "placeholders": {
       "previous": {
@@ -620,21 +621,21 @@
       }
     }
   },
-  "ok": "OK",
-  "categoryBalanceAdjustment": "Balance adjustment",
-  "descriptionBalanceCorrection": "Balance correction",
-  "descriptionOpeningBalance": "Opening balance",
-  "reviewStatsModeStatistics": "Statistics",
-  "reviewStatsModeComparison": "Comparison",
-  "statsUncategorized": "Uncategorized",
-  "statsNoCategories": "No categories in the selected periods for comparison.",
-  "statsNoTransactions": "No transactions",
-  "statsSpendingInCategory": "Spending in this category",
-  "statsIncomeInCategory": "Income in this category",
-  "statsDifference": "Difference (B vs A): ",
-  "statsNoExpensesMonth": "No expenses this month",
-  "statsNoExpensesAll": "No expenses recorded",
-  "statsNoExpensesPeriod": "No expenses in the last {period}",
+  "ok": "好的",
+  "categoryBalanceAdjustment": "平衡调整",
+  "descriptionBalanceCorrection": "平衡校正",
+  "descriptionOpeningBalance": "期初余额",
+  "reviewStatsModeStatistics": "统计数据",
+  "reviewStatsModeComparison": "比较",
+  "statsUncategorized": "未分类",
+  "statsNoCategories": "所选期间没有类别可供比较。",
+  "statsNoTransactions": "没有交易",
+  "statsSpendingInCategory": "此类别的支出",
+  "statsIncomeInCategory": "此类别的收入",
+  "statsDifference": "差异（B 与 A）：",
+  "statsNoExpensesMonth": "本月无任何开支",
+  "statsNoExpensesAll": "没有记录任何费用",
+  "statsNoExpensesPeriod": "过去{period}没有任何费用",
   "@statsNoExpensesPeriod": {
     "placeholders": {
       "period": {
@@ -642,11 +643,11 @@
       }
     }
   },
-  "statsTotalSpent": "Total spent",
-  "statsNoExpensesThisPeriod": "No expenses in this period",
-  "statsNoIncomeMonth": "No income this month",
-  "statsNoIncomeAll": "No income recorded",
-  "statsNoIncomePeriod": "No income in the last {period}",
+  "statsTotalSpent": "总支出",
+  "statsNoExpensesThisPeriod": "此期间无任何费用",
+  "statsNoIncomeMonth": "这个月没有收入",
+  "statsNoIncomeAll": "没有收入记录",
+  "statsNoIncomePeriod": "过去{period}没有收入",
   "@statsNoIncomePeriod": {
     "placeholders": {
       "period": {
@@ -654,40 +655,40 @@
       }
     }
   },
-  "statsTotalReceived": "Total received",
-  "statsNoIncomeThisPeriod": "No income in this period",
-  "catSalary": "Salary",
-  "catFreelance": "Freelance",
-  "catConsulting": "Consulting",
-  "catGift": "Gift",
-  "catRental": "Rental",
-  "catDividends": "Dividends",
-  "catRefund": "Refund",
-  "catBonus": "Bonus",
-  "catInterest": "Interest",
-  "catSideHustle": "Side hustle",
-  "catSaleOfGoods": "Sale of goods",
-  "catOther": "Other",
-  "catGroceries": "Groceries",
-  "catDining": "Dining",
-  "catTransport": "Transport",
-  "catUtilities": "Utilities",
-  "catHousing": "Housing",
-  "catHealthcare": "Healthcare",
-  "catEntertainment": "Entertainment",
-  "catShopping": "Shopping",
-  "catTravel": "Travel",
-  "catEducation": "Education",
-  "catSubscriptions": "Subscriptions",
-  "catInsurance": "Insurance",
-  "catFuel": "Fuel",
-  "catGym": "Gym",
-  "catPets": "Pets",
-  "catKids": "Kids",
-  "catCharity": "Charity",
-  "catCoffee": "Coffee",
-  "catGifts": "Gifts",
-  "semanticsProjectionDate": "Projection date {date}. Double tap to choose date",
+  "statsTotalReceived": "收到总计",
+  "statsNoIncomeThisPeriod": "此期间无收入",
+  "catSalary": "薪水",
+  "catFreelance": "自由职业者",
+  "catConsulting": "咨询",
+  "catGift": "礼物",
+  "catRental": "出租",
+  "catDividends": "股息",
+  "catRefund": "退款",
+  "catBonus": "奖金",
+  "catInterest": "兴趣",
+  "catSideHustle": "副业",
+  "catSaleOfGoods": "商品销售",
+  "catOther": "其他",
+  "catGroceries": "杂货",
+  "catDining": "用餐",
+  "catTransport": "运输",
+  "catUtilities": "公用事业",
+  "catHousing": "住房",
+  "catHealthcare": "卫生保健",
+  "catEntertainment": "娱乐",
+  "catShopping": "购物",
+  "catTravel": "旅行",
+  "catEducation": "教育",
+  "catSubscriptions": "订阅",
+  "catInsurance": "保险",
+  "catFuel": "燃料",
+  "catGym": "健身房",
+  "catPets": "宠物",
+  "catKids": "孩子们",
+  "catCharity": "慈善事业",
+  "catCoffee": "咖啡",
+  "catGifts": "礼物",
+  "semanticsProjectionDate": "投影日期{date}。双击选择日期",
   "@semanticsProjectionDate": {
     "placeholders": {
       "date": {
@@ -695,7 +696,7 @@
       }
     }
   },
-  "semanticsProjectedBalance": "Projected personal balance {amount}",
+  "semanticsProjectedBalance": "预计个人余额{amount}",
   "@semanticsProjectedBalance": {
     "placeholders": {
       "amount": {
@@ -703,12 +704,12 @@
       }
     }
   },
-  "statsEmptyTitle": "No transactions yet",
-  "statsEmptySubtitle": "No spending data for the selected range.",
-  "semanticsShowProjections": "Show projected balances by account",
-  "semanticsHideProjections": "Hide projected balances by account",
-  "semanticsDateAllTime": "Date: all time — tap to change mode",
-  "semanticsDateMode": "Date: {mode} — tap to change mode",
+  "statsEmptyTitle": "还没有交易",
+  "statsEmptySubtitle": "所选范围内没有支出数据。",
+  "semanticsShowProjections": "按账户显示预计余额",
+  "semanticsHideProjections": "按账户隐藏预计余额",
+  "semanticsDateAllTime": "日期：所有时间 — 点击即可更改模式",
+  "semanticsDateMode": "日期：{mode} — 点击即可更改模式",
   "@semanticsDateMode": {
     "placeholders": {
       "mode": {
@@ -716,22 +717,22 @@
       }
     }
   },
-  "semanticsDateThisMonth": "Date: this month — tap for month, week, year, or all time",
-  "semanticsTxTypeCycle": "Transaction type: cycle all, income, expense, transfer",
-  "semanticsAccountFilter": "Account filter",
-  "semanticsAlreadyFiltered": "Already filtered to this account",
-  "semanticsCategoryFilter": "Category filter",
-  "semanticsSortToggle": "Sort: toggle newest or oldest first",
-  "semanticsFiltersDisabled": "List filters disabled while viewing a future projection date. Clear projections to use filters.",
-  "semanticsFiltersDisabledNeedAccount": "List filters disabled. Add an account first.",
-  "semanticsFiltersDisabledNeedPlannedTransaction": "List filters disabled. Add a planned transaction first.",
-  "semanticsFiltersDisabledNeedRecordedTransaction": "List filters disabled. Record a transaction first.",
-  "semanticsReviewSectionChipsDisabledNeedAccount": "Section and currency controls disabled. Add an account first.",
-  "semanticsPlanProjectionControlsDisabled": "Projection date and balance breakdown disabled. Add an account and a planned transaction first.",
-  "semanticsReorderAccountHint": "Long press, then drag to reorder within this group",
-  "semanticsChartStyle": "Chart style",
-  "semanticsChartStyleUnavailable": "Chart style (unavailable in comparison mode)",
-  "semanticsPeriod": "Period: {label}",
+  "semanticsDateThisMonth": "日期：本月 — 点击月份、周、年或所有时间",
+  "semanticsTxTypeCycle": "交易类型：循环全部、收入、支出、转账",
+  "semanticsAccountFilter": "账户过滤器",
+  "semanticsAlreadyFiltered": "已过滤到此帐户",
+  "semanticsCategoryFilter": "类别过滤器",
+  "semanticsSortToggle": "排序：切换最新或最旧的优先",
+  "semanticsFiltersDisabled": "列出在查看未来投影日期时禁用的过滤器。清除投影以使用过滤器。",
+  "semanticsFiltersDisabledNeedAccount": "列表过滤器已禁用。首先添加一个帐户。",
+  "semanticsFiltersDisabledNeedPlannedTransaction": "列表过滤器已禁用。首先添加计划交易。",
+  "semanticsFiltersDisabledNeedRecordedTransaction": "列表过滤器已禁用。先记录一笔交易。",
+  "semanticsReviewSectionChipsDisabledNeedAccount": "部分和货币控制已禁用。首先添加一个帐户。",
+  "semanticsPlanProjectionControlsDisabled": "预测日期和余额明细已禁用。首先添加账户和计划交易。",
+  "semanticsReorderAccountHint": "长按，然后拖动以在该组内重新排序",
+  "semanticsChartStyle": "图表样式",
+  "semanticsChartStyleUnavailable": "图表样式（比较模式下不可用）",
+  "semanticsPeriod": "期间：{label}",
   "@semanticsPeriod": {
     "placeholders": {
       "label": {
@@ -739,10 +740,10 @@
       }
     }
   },
-  "trackSearchHint": "Search description, category, account…",
-  "trackSearchClear": "Clear search",
-  "settingsExchangeRatesTitle": "Exchange rates",
-  "settingsExchangeRatesUpdated": "Last updated: {time}",
+  "trackSearchHint": "搜索描述、类别、帐户...",
+  "trackSearchClear": "清除搜索",
+  "settingsExchangeRatesTitle": "汇率",
+  "settingsExchangeRatesUpdated": "最后更新：{time}",
   "@settingsExchangeRatesUpdated": {
     "placeholders": {
       "time": {
@@ -750,15 +751,15 @@
       }
     }
   },
-  "settingsExchangeRatesNeverUpdated": "Using offline or bundled rates — tap to refresh",
-  "settingsExchangeRatesSource": "ECB",
-  "settingsExchangeRatesUpdatedSnack": "Exchange rates updated",
-  "settingsExchangeRatesUpdateFailed": "Could not update exchange rates. Check your connection.",
-  "settingsClearData": "Clear data",
-  "settingsClearDataSubtitle": "Permanently remove selected data",
-  "clearDataTitle": "Clear data",
-  "clearDataTransactions": "Transaction history",
-  "clearDataTransactionsSubtitle": "{count} transactions · account balances reset to zero",
+  "settingsExchangeRatesNeverUpdated": "使用离线或捆绑费率 — 点击刷新",
+  "settingsExchangeRatesSource": "欧洲央行",
+  "settingsExchangeRatesUpdatedSnack": "汇率已更新",
+  "settingsExchangeRatesUpdateFailed": "无法更新汇率。检查您的连接。",
+  "settingsClearData": "清除数据",
+  "settingsClearDataSubtitle": "永久删除选定的数据",
+  "clearDataTitle": "清除数据",
+  "clearDataTransactions": "交易记录",
+  "clearDataTransactionsSubtitle": "{count}交易·账户余额清零",
   "@clearDataTransactionsSubtitle": {
     "placeholders": {
       "count": {
@@ -766,8 +767,8 @@
       }
     }
   },
-  "clearDataPlanned": "Planned transactions",
-  "clearDataPlannedSubtitle": "{count} planned items",
+  "clearDataPlanned": "计划交易",
+  "clearDataPlannedSubtitle": "{count} 计划项目",
   "@clearDataPlannedSubtitle": {
     "placeholders": {
       "count": {
@@ -775,8 +776,8 @@
       }
     }
   },
-  "clearDataAccounts": "Accounts",
-  "clearDataAccountsSubtitle": "{count} accounts · also clears history and plan",
+  "clearDataAccounts": "账户",
+  "clearDataAccountsSubtitle": "{count} 账户 · 还清除历史记录和计划",
   "@clearDataAccountsSubtitle": {
     "placeholders": {
       "count": {
@@ -784,8 +785,8 @@
       }
     }
   },
-  "clearDataCategories": "Categories",
-  "clearDataCategoriesSubtitle": "{count} categories · replaced with defaults",
+  "clearDataCategories": "类别",
+  "clearDataCategoriesSubtitle": "{count} 类别 · 替换为默认值",
   "@clearDataCategoriesSubtitle": {
     "placeholders": {
       "count": {
@@ -793,21 +794,21 @@
       }
     }
   },
-  "clearDataPreferences": "Preferences",
-  "clearDataPreferencesSubtitle": "Reset currency, theme and language to defaults",
-  "clearDataSecurity": "App lock & PIN",
-  "clearDataSecuritySubtitle": "Disable app lock and remove PIN",
-  "clearDataConfirmButton": "Clear selected",
-  "clearDataConfirmTitle": "This cannot be undone",
-  "clearDataConfirmBody": "The selected data will be permanently deleted. Export a backup first if you may need it later.",
-  "clearDataTypeConfirm": "Type DELETE to confirm",
-  "clearDataTypeConfirmError": "Type DELETE exactly to continue",
-  "clearDataPinTitle": "Confirm with PIN",
-  "clearDataPinBody": "Enter your app PIN to authorize this action.",
-  "clearDataPinIncorrect": "Incorrect PIN",
-  "clearDataDone": "Selected data cleared",
-  "autoBackupTitle": "Automatic daily backup",
-  "autoBackupLastAt": "Last backed up {date}",
+  "clearDataPreferences": "偏好设置",
+  "clearDataPreferencesSubtitle": "将货币、主题和语言重置为默认值",
+  "clearDataSecurity": "应用程序锁定和 PIN",
+  "clearDataSecuritySubtitle": "禁用应用程序锁定并删除 PIN",
+  "clearDataConfirmButton": "清除所选内容",
+  "clearDataConfirmTitle": "此操作无法撤消",
+  "clearDataConfirmBody": "所选数据将被永久删除。如果稍后需要，请先导出备份。",
+  "clearDataTypeConfirm": "键入 DELETE 进行确认",
+  "clearDataTypeConfirmError": "准确键入 DELETE 以继续",
+  "clearDataPinTitle": "使用 PIN 码确认",
+  "clearDataPinBody": "输入您的应用程序 PIN 码以授权此操作。",
+  "clearDataPinIncorrect": "PIN 码不正确",
+  "clearDataDone": "已清除所选数据",
+  "autoBackupTitle": "每日自动备份",
+  "autoBackupLastAt": "最后备份{date}",
   "@autoBackupLastAt": {
     "placeholders": {
       "date": {
@@ -815,10 +816,10 @@
       }
     }
   },
-  "autoBackupNeverRun": "No backup yet",
-  "autoBackupShareTitle": "Save to cloud",
-  "autoBackupShareSubtitle": "Upload latest backup to iCloud Drive, Google Drive or any app",
-  "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
-  "autoBackupCloudReminderAction": "Share",
-  "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
+  "autoBackupNeverRun": "还没有备份",
+  "autoBackupShareTitle": "保存到云端",
+  "autoBackupShareSubtitle": "将最新备份上传到 iCloud Drive、Google Drive 或任何应用程序",
+  "autoBackupCloudReminder": "自动备份就绪 - 将其保存到云端以实现设备外保护",
+  "autoBackupCloudReminderAction": "分享",
+  "persistenceErrorReloaded": "无法保存更改。数据已从存储中重新加载。"
 }

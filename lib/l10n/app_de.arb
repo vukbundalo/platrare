@@ -20,6 +20,7 @@
   "heroBalance": "Gleichgewicht",
   "realBalance": "Echtes Gleichgewicht",
   "heroResetButton": "Zurücksetzen",
+  "fabScrollToTop": "Nach oben",
   "filterAll": "Alle",
   "filterAllAccounts": "Alle Konten",
   "filterAllCategories": "Alle Kategorien",
@@ -819,6 +820,6 @@
   "autoBackupShareTitle": "In der Cloud speichern",
   "autoBackupShareSubtitle": "Laden Sie das neueste Backup auf iCloud Drive, Google Drive oder eine beliebige App hoch",
   "autoBackupCloudReminder": "Bereit für automatisches Backup – speichern Sie es in der Cloud, um es auch außerhalb des Geräts zu schützen",
-  "autoBackupCloudReminderAction": "Aktie",
+  "autoBackupCloudReminderAction": "Teilen",
   "persistenceErrorReloaded": "Änderungen konnten nicht gespeichert werden. Daten wurden aus dem Speicher neu geladen."
 }

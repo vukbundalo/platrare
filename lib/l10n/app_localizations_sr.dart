@@ -58,9 +58,9 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get heroResetButton => 'Reset';
+
   @override
   String get fabScrollToTop => 'Back to top';
-
 
   @override
   String get filterAll => 'Sve';
@@ -1681,6 +1681,9 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
   String get heroResetButton => 'Ресет';
 
   @override
+  String get fabScrollToTop => 'На врх';
+
+  @override
   String get filterAll => 'Све';
 
   @override
@@ -3192,11 +3195,11 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
       'Одабрани подаци биће трајно обрисани. Направите бацкуп ако ће вам требати.';
 
   @override
-  String get clearDataTypeConfirm => 'Упишите ДЕЛЕТЕ за потврду';
+  String get clearDataTypeConfirm => 'Упишите DELETE за потврду';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Упишите ДЕЛЕТЕ тачно како бисте наставили';
+      'Упишите DELETE тачно како бисте наставили';
 
   @override
   String get clearDataPinTitle => 'Потврдите ПИН-ом';
@@ -3294,6 +3297,9 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get heroResetButton => 'Reset';
+
+  @override
+  String get fabScrollToTop => 'Back to top';
 
   @override
   String get filterAll => 'Sve';

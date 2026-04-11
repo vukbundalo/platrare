@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
+import 'dart:ui' show Rect;
+
+import 'package:flutter/foundation.dart';
 
 import 'package:archive/archive.dart';
 import 'package:file_picker/file_picker.dart';
@@ -150,7 +152,10 @@ class DataTransfer {
   static Future<void> shareBackup({
     required bool encrypt,
     String? password,
+    Rect? sharePositionOrigin,
   }) async {
+    debugPrint('[Backup:Export] Starting — encrypted: $encrypt');
+
     if (encrypt) {
       final pwd = password?.trim();
       if (pwd == null || pwd.isEmpty) {
@@ -161,13 +166,20 @@ class DataTransfer {
       }
     }
 
+    debugPrint('[Backup:Export] Building inner ZIP (accounts: ${data.accounts.length}, '
+        'transactions: ${data.transactions.length}, '
+        'planned: ${data.plannedTransactions.length})');
     final inner = await _buildInnerZipBytes();
+    debugPrint('[Backup:Export] Inner ZIP built — ${inner.length} bytes');
+
     final Uint8List outBytes;
     if (encrypt) {
+      debugPrint('[Backup:Export] Encrypting…');
       outBytes = await encryptInnerZip(
         innerZip: inner,
         password: password!.trim(),
       );
+      debugPrint('[Backup:Export] Encrypted — ${outBytes.length} bytes');
     } else {
       outBytes = inner;
     }
@@ -176,12 +188,54 @@ class DataTransfer {
     final tmpDir = await getTemporaryDirectory();
     final tmpFile = File(p.join(tmpDir.path, name));
     await tmpFile.writeAsBytes(outBytes, flush: true);
+    debugPrint('[Backup:Export] Wrote temp file: ${tmpFile.path}');
 
     final mimeType = encrypt ? 'application/octet-stream' : 'application/zip';
+    debugPrint('[Backup:Export] Opening share sheet — mime: $mimeType');
     await Share.shareXFiles(
       [XFile(tmpFile.path, mimeType: mimeType, name: name)],
       subject: name,
+      sharePositionOrigin: sharePositionOrigin,
     );
+    debugPrint('[Backup:Export] Share sheet dismissed');
+  }
+
+  /// Builds a data-only (no attachments) unencrypted ZIP for the automatic
+  /// daily backup. Mirrors [_buildInnerZipBytes] but skips attachment loading —
+  /// auto-backups are lightweight by design and attachments are covered by
+  /// OS-level device backup (iCloud / Google Backup) separately.
+  static Future<Uint8List> buildAutoBackupBytes() async {
+    debugPrint('[Backup:Auto] Building data-only ZIP (no attachments) — '
+        'accounts: ${data.accounts.length}, '
+        'transactions: ${data.transactions.length}, '
+        'planned: ${data.plannedTransactions.length}');
+    final secBackup = await getSecurityBackup();
+    final json = _encodeDataJson(
+      attachmentPathMap: {},
+      securityEnabled: secBackup.enabled,
+      pinHash: secBackup.pinHash,
+    );
+    final exportedAt = DateTime.now().toUtc().toIso8601String();
+    String appVersion;
+    try {
+      final pkg = await PackageInfo.fromPlatform();
+      appVersion = '${pkg.version}+${pkg.buildNumber}';
+    } catch (_) {
+      appVersion = 'unknown';
+    }
+    final bytes = buildInnerZipBytes(
+      dataJson: json,
+      relativeAttachmentBytes: {},
+      exportedAtIso: exportedAt,
+      appVersion: appVersion,
+      accountsCount: data.accounts.length,
+      transactionsCount: data.transactions.length,
+      plannedTransactionsCount: data.plannedTransactions.length,
+      incomeCategoriesCount: data.incomeCategories.length,
+      expenseCategoriesCount: data.expenseCategories.length,
+    );
+    debugPrint('[Backup:Auto] ZIP built — ${bytes.length} bytes, exportedAt: $exportedAt');
+    return bytes;
   }
 
   static Future<Uint8List> _buildInnerZipBytes() async {

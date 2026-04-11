@@ -9,126 +9,126 @@ class AppLocalizationsKo extends AppLocalizations {
   AppLocalizationsKo([String locale = 'ko']) : super(locale);
 
   @override
-  String get appTitle => 'Platrare';
+  String get appTitle => '플라트라레';
 
   @override
-  String get navPlan => 'Plan';
+  String get navPlan => '계획';
 
   @override
-  String get navTrack => 'Track';
+  String get navTrack => '길';
 
   @override
-  String get navReview => 'Review';
+  String get navReview => '검토';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => '취소';
 
   @override
-  String get delete => 'Delete';
+  String get delete => '삭제';
 
   @override
-  String get close => 'Close';
+  String get close => '닫다';
 
   @override
-  String get add => 'Add';
+  String get add => '추가하다';
 
   @override
-  String get undo => 'Undo';
+  String get undo => '끄르다';
 
   @override
-  String get confirm => 'Confirm';
+  String get confirm => '확인하다';
 
   @override
-  String get restore => 'Restore';
+  String get restore => '복원하다';
 
   @override
-  String get heroIn => 'In';
+  String get heroIn => '~ 안에';
 
   @override
-  String get heroOut => 'Out';
+  String get heroOut => '밖으로';
 
   @override
-  String get heroNet => 'Net';
+  String get heroNet => '그물';
 
   @override
-  String get heroBalance => 'Balance';
+  String get heroBalance => '균형';
 
   @override
-  String get realBalance => 'Real balance';
+  String get realBalance => '실제 균형';
 
   @override
-  String get heroResetButton => 'Reset';
-  @override
-  String get fabScrollToTop => 'Back to top';
-
+  String get heroResetButton => '다시 놓기';
 
   @override
-  String get filterAll => 'All';
+  String get fabScrollToTop => '맨 위로';
 
   @override
-  String get filterAllAccounts => 'All accounts';
+  String get filterAll => '모두';
 
   @override
-  String get filterAllCategories => 'All categories';
+  String get filterAllAccounts => '모든 계정';
 
   @override
-  String get txLabelIncome => 'INCOME';
+  String get filterAllCategories => '모든 카테고리';
 
   @override
-  String get txLabelExpense => 'EXPENSE';
+  String get txLabelIncome => '소득';
 
   @override
-  String get txLabelInvoice => 'INVOICE';
+  String get txLabelExpense => '비용';
 
   @override
-  String get txLabelBill => 'BILL';
+  String get txLabelInvoice => '송장';
 
   @override
-  String get txLabelAdvance => 'ADVANCE';
+  String get txLabelBill => '청구서';
 
   @override
-  String get txLabelSettlement => 'SETTLEMENT';
+  String get txLabelAdvance => '전진';
 
   @override
-  String get txLabelLoan => 'LOAN';
+  String get txLabelSettlement => '합의';
 
   @override
-  String get txLabelCollection => 'COLLECTION';
+  String get txLabelLoan => '대출';
 
   @override
-  String get txLabelOffset => 'OFFSET';
+  String get txLabelCollection => '수집';
 
   @override
-  String get txLabelTransfer => 'TRANSFER';
+  String get txLabelOffset => '오프셋';
 
   @override
-  String get txLabelTransaction => 'TRANSACTION';
+  String get txLabelTransfer => '옮기다';
 
   @override
-  String get repeatNone => 'No repeat';
+  String get txLabelTransaction => '거래';
 
   @override
-  String get repeatDaily => 'Daily';
+  String get repeatNone => '반복 없음';
 
   @override
-  String get repeatWeekly => 'Weekly';
+  String get repeatDaily => '일일';
 
   @override
-  String get repeatMonthly => 'Monthly';
+  String get repeatWeekly => '주간';
 
   @override
-  String get repeatYearly => 'Yearly';
+  String get repeatMonthly => '월간 간행물';
 
   @override
-  String get repeatEveryLabel => 'Every';
+  String get repeatYearly => '매년';
+
+  @override
+  String get repeatEveryLabel => '모든';
 
   @override
   String repeatEveryDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days',
-      one: 'day',
+      other: '$count 일',
+      one: '일',
     );
     return '$_temp0';
   }
@@ -138,8 +138,8 @@ class AppLocalizationsKo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count weeks',
-      one: 'week',
+      other: '$count 주',
+      one: '주',
     );
     return '$_temp0';
   }
@@ -149,8 +149,8 @@ class AppLocalizationsKo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months',
-      one: 'month',
+      other: '$count 개월',
+      one: '개월',
     );
     return '$_temp0';
   }
@@ -160,628 +160,610 @@ class AppLocalizationsKo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years',
-      one: 'year',
+      other: '$count 년',
+      one: '년',
     );
     return '$_temp0';
   }
 
   @override
-  String get repeatEndLabel => 'Ends';
+  String get repeatEndLabel => '종료';
 
   @override
-  String get repeatEndNever => 'Never';
+  String get repeatEndNever => '절대';
 
   @override
-  String get repeatEndOnDate => 'On date';
+  String get repeatEndOnDate => '날짜에';
 
   @override
   String repeatEndAfterCount(int count) {
-    return 'After $count times';
+    return '$count회 후';
   }
 
   @override
-  String get repeatEndPickDate => 'Pick end date';
+  String get repeatEndPickDate => '종료일 선택';
 
   @override
-  String get repeatEndTimes => 'times';
+  String get repeatEndTimes => '타임스';
 
   @override
   String repeatSummaryEvery(int count, String unit) {
-    return 'Every $count $unit';
+    return '$count $unit마다';
   }
 
   @override
   String repeatSummaryUntil(String date) {
-    return 'until $date';
+    return '$date까지';
   }
 
   @override
   String repeatSummaryTimes(int count) {
-    return '$count times';
+    return '$count회';
   }
 
   @override
   String repeatSummaryTimesRemaining(int remaining, int total) {
-    return '$remaining of $total remaining';
+    return '$remaining/$total 남음';
   }
 
   @override
-  String get detailRepeatEvery => 'Repeat every';
+  String get detailRepeatEvery => '반복 간격';
 
   @override
-  String get detailEnds => 'Ends';
+  String get detailEnds => '종료';
 
   @override
-  String get detailEndsNever => 'Never';
+  String get detailEndsNever => '절대';
 
   @override
   String detailEndsOnDate(String date) {
-    return 'On $date';
+    return '$date에';
   }
 
   @override
   String detailEndsAfterCount(int count) {
-    return 'After $count times';
+    return '$count회 후';
   }
 
   @override
-  String get detailProgress => 'Progress';
+  String get detailProgress => '진전';
 
   @override
-  String get weekendNoChange => 'No change';
+  String get weekendNoChange => '변화 없음';
 
   @override
-  String get weekendFriday => 'Move to Friday';
+  String get weekendFriday => '금요일로 이동';
 
   @override
-  String get weekendMonday => 'Move to Monday';
+  String get weekendMonday => '월요일로 이동';
 
   @override
   String weekendQuestion(String day) {
-    return 'If the $day falls on a weekend?';
+    return '$day가 주말에 해당한다면?';
   }
 
   @override
-  String get dateToday => 'Today';
+  String get dateToday => '오늘';
 
   @override
-  String get dateTomorrow => 'Tomorrow';
+  String get dateTomorrow => '내일';
 
   @override
-  String get dateYesterday => 'Yesterday';
+  String get dateYesterday => '어제';
 
   @override
-  String get statsAllTime => 'All time';
+  String get statsAllTime => '모든 시간';
 
   @override
-  String get accountGroupPersonal => 'Personal';
+  String get accountGroupPersonal => '개인의';
 
   @override
-  String get accountGroupIndividual => 'Individual';
+  String get accountGroupIndividual => '개인';
 
   @override
-  String get accountGroupEntity => 'Entity';
+  String get accountGroupEntity => '실재';
 
   @override
-  String get accountSectionIndividuals => 'Individuals';
+  String get accountSectionIndividuals => '개인';
 
   @override
-  String get accountSectionEntities => 'Entities';
+  String get accountSectionEntities => '엔터티';
 
   @override
-  String get emptyNoTransactionsYet => 'No transactions yet';
+  String get emptyNoTransactionsYet => '아직 거래가 없습니다.';
 
   @override
-  String get emptyNoAccountsYet => 'No accounts yet';
+  String get emptyNoAccountsYet => '아직 계정이 없습니다';
 
   @override
-  String get emptyRecordFirstTransaction =>
-      'Tap the button below to record your first transaction.';
+  String get emptyRecordFirstTransaction => '첫 번째 거래를 기록하려면 아래 버튼을 누르세요.';
 
   @override
-  String get emptyAddFirstAccountTx =>
-      'Add your first account before recording transactions.';
+  String get emptyAddFirstAccountTx => '거래를 기록하기 전에 첫 번째 계정을 추가하세요.';
 
   @override
-  String get emptyAddFirstAccountPlan =>
-      'Add your first account before planning transactions.';
+  String get emptyAddFirstAccountPlan => '거래를 계획하기 전에 첫 번째 계정을 추가하세요.';
 
   @override
-  String get emptyAddFirstAccountReview =>
-      'Add your first account to start tracking your finances.';
+  String get emptyAddFirstAccountReview => '재정 추적을 시작하려면 첫 번째 계정을 추가하세요.';
 
   @override
-  String get emptyAddTransaction => 'Add transaction';
+  String get emptyAddTransaction => '거래 추가';
 
   @override
-  String get emptyAddAccount => 'Add account';
+  String get emptyAddAccount => '계정 추가';
 
   @override
-  String get reviewEmptyGroupPersonalTitle => 'No personal accounts yet';
+  String get reviewEmptyGroupPersonalTitle => '아직 개인 계정이 없습니다.';
 
   @override
   String get reviewEmptyGroupPersonalBody =>
-      'Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.';
+      '개인계좌는 본인의 지갑이자 은행계좌입니다. 일일 수입과 지출을 추적하려면 하나를 추가하세요.';
 
   @override
-  String get reviewEmptyGroupIndividualsTitle => 'No individual accounts yet';
+  String get reviewEmptyGroupIndividualsTitle => '아직 개인 계정이 없습니다.';
 
   @override
   String get reviewEmptyGroupIndividualsBody =>
-      'Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.';
+      '개인 계정은 비용 공유, 대출, IOU 등 특정 사람들과의 자금을 추적합니다. 합의한 각 사람에 대한 계정을 추가하십시오.';
 
   @override
-  String get reviewEmptyGroupEntitiesTitle => 'No entity accounts yet';
+  String get reviewEmptyGroupEntitiesTitle => '아직 법인 계정이 없습니다.';
 
   @override
   String get reviewEmptyGroupEntitiesBody =>
-      'Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.';
+      '엔터티 계정은 비즈니스, 프로젝트 또는 조직을 위한 것입니다. 이를 사용하여 비즈니스 현금 흐름을 개인 재정과 별도로 유지하십시오.';
 
   @override
-  String get emptyNoTransactionsForFilters =>
-      'No transactions for applied filters';
+  String get emptyNoTransactionsForFilters => '적용된 필터에 대한 거래가 없습니다.';
 
   @override
-  String get emptyNoTransactionsInHistory => 'No transactions in history';
+  String get emptyNoTransactionsInHistory => '내역에 거래가 없습니다.';
 
   @override
   String emptyNoTransactionsForMonth(String month) {
-    return 'No transactions for $month';
+    return '$month에 대한 거래가 없습니다.';
   }
 
   @override
-  String get emptyNoTransactionsForAccount =>
-      'No transactions for this account';
+  String get emptyNoTransactionsForAccount => '이 계정에 거래가 없습니다.';
 
   @override
-  String get trackTransactionDeleted => 'Transaction deleted';
+  String get trackTransactionDeleted => '거래가 삭제되었습니다.';
 
   @override
-  String get trackDeleteTitle => 'Delete transaction?';
+  String get trackDeleteTitle => '거래를 삭제하시겠습니까?';
 
   @override
-  String get trackDeleteBody =>
-      'This will reverse the account balance changes.';
+  String get trackDeleteBody => '이렇게 하면 계정 잔액 변경 사항이 취소됩니다.';
 
   @override
-  String get trackTransaction => 'Transaction';
+  String get trackTransaction => '거래';
 
   @override
-  String get planConfirmTitle => 'Confirm transaction?';
+  String get planConfirmTitle => '거래를 확인하시겠습니까?';
 
   @override
   String planConfirmBodyEarly(String date, String todayDate, String nextDate) {
-    return 'This occurrence is scheduled for $date. It will be recorded in History with today’s date ($todayDate). The next occurrence remains on $nextDate.';
+    return '이 사건은 $date에 예정되어 있습니다. 오늘 날짜($todayDate)로 히스토리에 기록됩니다. 다음 발생은 $nextDate에 남아 있습니다.';
   }
 
   @override
-  String get planConfirmBodyNormal =>
-      'This will apply the transaction to your real account balances and move it to History.';
+  String get planConfirmBodyNormal => '그러면 거래가 실제 계좌 잔액에 적용되어 내역으로 이동됩니다.';
 
   @override
-  String get planTransactionConfirmed => 'Transaction confirmed and applied';
+  String get planTransactionConfirmed => '거래 확인 및 적용';
 
   @override
-  String get planTransactionRemoved => 'Planned transaction removed';
+  String get planTransactionRemoved => '계획된 거래가 삭제되었습니다.';
 
   @override
-  String get planRepeatingTitle => 'Repeating transaction';
+  String get planRepeatingTitle => '반복 거래';
 
   @override
   String get planRepeatingBody =>
-      'Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.';
+      '이 날짜만 건너뛰거나 다음 항목으로 시리즈가 계속되거나 계획에서 나머지 항목을 모두 삭제하세요.';
 
   @override
-  String get planDeleteAll => 'Delete all';
+  String get planDeleteAll => '모두 삭제';
 
   @override
-  String get planSkipThisOnly => 'Skip this only';
+  String get planSkipThisOnly => '이것만 건너뛰기';
 
   @override
-  String get planOccurrenceSkipped =>
-      'This occurrence skipped — next one scheduled';
+  String get planOccurrenceSkipped => '이 항목을 건너뛰었습니다. 다음 항목이 예정되어 있습니다.';
 
   @override
-  String get planNothingPlanned => 'Nothing planned for now';
+  String get planNothingPlanned => '지금은 계획된 것이 없습니다.';
 
   @override
-  String get planPlanBody => 'Plan upcoming transactions.';
+  String get planPlanBody => '다가오는 거래를 계획하십시오.';
 
   @override
-  String get planAddPlan => 'Add plan';
+  String get planAddPlan => '계획 추가';
 
   @override
-  String get planNoPlannedForFilters =>
-      'No planned transactions for applied filters';
+  String get planNoPlannedForFilters => '적용된 필터에 대해 계획된 거래가 없습니다.';
 
   @override
   String planNoPlannedInMonth(String month) {
-    return 'No planned transactions in $month';
+    return '$month에는 계획된 거래가 없습니다.';
   }
 
   @override
-  String get planOverdue => 'overdue';
+  String get planOverdue => '기한이 지난';
 
   @override
-  String get planPlannedTransaction => 'Planned transaction';
+  String get planPlannedTransaction => '계획된 거래';
 
   @override
-  String get discardTitle => 'Discard changes?';
+  String get discardTitle => '변경사항을 취소하시겠습니까?';
 
   @override
-  String get discardBody =>
-      'You have unsaved changes. They will be lost if you leave now.';
+  String get discardBody => '저장되지 않은 변경사항이 있습니다. 지금 떠나면 그것들은 사라질 것입니다.';
 
   @override
-  String get keepEditing => 'Keep editing';
+  String get keepEditing => '계속 수정하세요';
 
   @override
-  String get discard => 'Discard';
+  String get discard => '취소';
 
   @override
-  String get newTransactionTitle => 'New Transaction';
+  String get newTransactionTitle => '새로운 거래';
 
   @override
-  String get editTransactionTitle => 'Edit Transaction';
+  String get editTransactionTitle => '거래 편집';
 
   @override
-  String get transactionUpdated => 'Transaction updated';
+  String get transactionUpdated => '거래가 업데이트되었습니다.';
 
   @override
-  String get sectionAccounts => 'Accounts';
+  String get sectionAccounts => '계정';
 
   @override
-  String get labelFrom => 'From';
+  String get labelFrom => '에서';
 
   @override
-  String get labelTo => 'To';
+  String get labelTo => '에게';
 
   @override
-  String get sectionCategory => 'Category';
+  String get sectionCategory => '범주';
 
   @override
-  String get sectionAttachments => 'Attachments';
+  String get sectionAttachments => '첨부파일';
 
   @override
-  String get labelNote => 'Note';
+  String get labelNote => '메모';
 
   @override
-  String get hintOptionalDescription => 'Optional description';
+  String get hintOptionalDescription => '선택적 설명';
 
   @override
-  String get updateTransaction => 'Update Transaction';
+  String get updateTransaction => '거래 업데이트';
 
   @override
-  String get saveTransaction => 'Save Transaction';
+  String get saveTransaction => '거래 저장';
 
   @override
-  String get selectAccount => 'Select account';
+  String get selectAccount => '계정 선택';
 
   @override
-  String get selectAccountTitle => 'Select Account';
+  String get selectAccountTitle => '계정 선택';
 
   @override
-  String get noAccountsAvailable => 'No accounts available';
+  String get noAccountsAvailable => '사용 가능한 계정이 없습니다.';
 
   @override
   String amountReceivedBy(String name, String currency) {
-    return 'Amount received by $name ($currency)';
+    return '$name($currency)님이 받은 금액';
   }
 
   @override
   String get amountReceivedHelper =>
-      'Enter the exact amount the destination account receives. This locks the real exchange rate used.';
+      '대상 계정이 받는 정확한 금액을 입력하세요. 이렇게 하면 사용된 실제 환율이 잠깁니다.';
 
   @override
-  String get attachTakePhoto => 'Take photo';
+  String get attachTakePhoto => '사진 찍기';
 
   @override
-  String get attachTakePhotoSub => 'Use camera to capture a receipt';
+  String get attachTakePhotoSub => '카메라를 사용하여 영수증 캡처';
 
   @override
-  String get attachChooseGallery => 'Choose from gallery';
+  String get attachChooseGallery => '갤러리에서 선택';
 
   @override
-  String get attachChooseGallerySub => 'Select photos from your library';
+  String get attachChooseGallerySub => '라이브러리에서 사진을 선택하세요.';
 
   @override
-  String get attachBrowseFiles => 'Browse files';
+  String get attachBrowseFiles => '파일 찾아보기';
 
   @override
-  String get attachBrowseFilesSub => 'Attach PDFs, documents or other files';
+  String get attachBrowseFilesSub => 'PDF, 문서 또는 기타 파일 첨부';
 
   @override
-  String get attachButton => 'Attach';
+  String get attachButton => '붙이다';
 
   @override
-  String get editPlanTitle => 'Edit Plan';
+  String get editPlanTitle => '계획 편집';
 
   @override
-  String get planTransactionTitle => 'Plan Transaction';
+  String get planTransactionTitle => '계획 거래';
 
   @override
-  String get tapToSelect => 'Tap to select';
+  String get tapToSelect => '선택하려면 탭하세요.';
 
   @override
-  String get updatePlan => 'Update Plan';
+  String get updatePlan => '업데이트 계획';
 
   @override
-  String get addToPlan => 'Add to Plan';
+  String get addToPlan => '계획에 추가';
 
   @override
-  String get labelRepeat => 'Repeat';
+  String get labelRepeat => '반복하다';
 
   @override
-  String get selectPlannedDate => 'Select planned date';
+  String get selectPlannedDate => '예정일 선택';
 
   @override
-  String get balancesAsOfToday => 'Balances as of today';
+  String get balancesAsOfToday => '오늘 기준 잔액';
 
   @override
-  String get projectedBalancesForTomorrow => 'Projected balances for tomorrow';
+  String get projectedBalancesForTomorrow => '내일 예상 잔액';
 
   @override
   String projectedBalancesForDate(String date) {
-    return 'Projected balances for $date';
+    return '$date의 예상 잔액';
   }
 
   @override
   String destReceivesLabel(String name, String currency) {
-    return '$name receives ($currency)';
+    return '$name 수신($currency)';
   }
 
   @override
-  String get destHelper =>
-      'Estimated destination amount. Exact rate is locked at confirmation.';
+  String get destHelper => '예상 목적지 금액. 정확한 환율은 확인 시 고정됩니다.';
 
   @override
-  String get descriptionOptional => 'Description (optional)';
+  String get descriptionOptional => '설명(선택사항)';
 
   @override
-  String get detailTransactionTitle => 'Transaction';
+  String get detailTransactionTitle => '거래';
 
   @override
-  String get detailPlannedTitle => 'Planned';
+  String get detailPlannedTitle => '예정';
 
   @override
-  String get detailConfirmTransaction => 'Confirm transaction';
+  String get detailConfirmTransaction => '거래 확인';
 
   @override
-  String get detailDate => 'Date';
+  String get detailDate => '날짜';
 
   @override
-  String get detailFrom => 'From';
+  String get detailFrom => '에서';
 
   @override
-  String get detailTo => 'To';
+  String get detailTo => '에게';
 
   @override
-  String get detailCategory => 'Category';
+  String get detailCategory => '범주';
 
   @override
-  String get detailNote => 'Note';
+  String get detailNote => '메모';
 
   @override
-  String get detailDestinationAmount => 'Destination amount';
+  String get detailDestinationAmount => '목적지 금액';
 
   @override
-  String get detailExchangeRate => 'Exchange rate';
+  String get detailExchangeRate => '환율';
 
   @override
-  String get detailRepeats => 'Repeats';
+  String get detailRepeats => '반복';
 
   @override
-  String get detailDayOfMonth => 'Day of month';
+  String get detailDayOfMonth => '날짜';
 
   @override
-  String get detailWeekends => 'Weekends';
+  String get detailWeekends => '주말';
 
   @override
-  String get detailAttachments => 'Attachments';
+  String get detailAttachments => '첨부파일';
 
   @override
   String detailFileCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count개 파일',
+      one: '1개 파일',
     );
     return '$_temp0';
   }
 
   @override
-  String get settingsTitle => 'Settings';
+  String get settingsTitle => '설정';
 
   @override
-  String get settingsSectionDisplay => 'Display';
+  String get settingsSectionDisplay => '표시하다';
 
   @override
-  String get settingsSectionLanguage => 'Language';
+  String get settingsSectionLanguage => '언어';
 
   @override
-  String get settingsSectionCategories => 'Categories';
+  String get settingsSectionCategories => '카테고리';
 
   @override
-  String get settingsSectionAccounts => 'Accounts';
+  String get settingsSectionAccounts => '계정';
 
   @override
-  String get settingsSectionPreferences => 'Preferences';
+  String get settingsSectionPreferences => '환경설정';
 
   @override
-  String get settingsSectionManage => 'Manage';
+  String get settingsSectionManage => '관리하다';
 
   @override
-  String get settingsBaseCurrency => 'Home currency';
+  String get settingsBaseCurrency => '자국 통화';
 
   @override
-  String get settingsSecondaryCurrency => 'Secondary currency';
+  String get settingsSecondaryCurrency => '보조 통화';
 
   @override
-  String get settingsCategories => 'Categories';
+  String get settingsCategories => '카테고리';
 
   @override
   String settingsCategoriesSubtitle(int incomeCount, int expenseCount) {
-    return '$incomeCount income · $expenseCount expense';
+    return '$incomeCount 수입 · $expenseCount 지출';
   }
 
   @override
-  String get settingsArchivedAccounts => 'Archived accounts';
+  String get settingsArchivedAccounts => '보관된 계정';
 
   @override
   String get settingsArchivedAccountsSubtitleZero =>
-      'None right now — archive from account edit when balance is clear';
+      '현재는 없음 — 잔액이 정상화되면 계정 수정에서 보관처리됩니다.';
 
   @override
   String settingsArchivedAccountsSubtitleCount(int count) {
-    return '$count hidden from Review and pickers';
+    return '$count 리뷰 및 선택기에서 숨겨짐';
   }
 
   @override
-  String get settingsSectionData => 'Data';
+  String get settingsSectionData => '데이터';
 
   @override
-  String get settingsSectionPrivacy => 'About';
+  String get settingsSectionPrivacy => '에 대한';
 
   @override
-  String get settingsPrivacyPolicyTitle => 'Privacy policy';
+  String get settingsPrivacyPolicyTitle => '개인 정보 보호 정책';
 
   @override
-  String get settingsPrivacyPolicySubtitle => 'How Platrare handles your data.';
+  String get settingsPrivacyPolicySubtitle => 'Platrare가 귀하의 데이터를 처리하는 방법.';
 
   @override
   String get settingsPrivacyFxDisclosure =>
-      'Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.';
+      '환율: 앱은 인터넷을 통해 공개 환율을 가져옵니다. 귀하의 계정과 거래는 전송되지 않습니다.';
 
   @override
-  String get settingsPrivacyOpenFailed => 'Could not load the privacy policy.';
+  String get settingsPrivacyOpenFailed => '개인정보취급방침을 로드할 수 없습니다.';
 
   @override
-  String get settingsPrivacyRetry => 'Try again';
+  String get settingsPrivacyRetry => '다시 시도하세요';
 
   @override
-  String get settingsSoftwareVersionTitle => 'Software version';
+  String get settingsSoftwareVersionTitle => '소프트웨어 버전';
 
   @override
-  String get settingsSoftwareVersionSubtitle =>
-      'Release, diagnostics, and legal';
+  String get settingsSoftwareVersionSubtitle => '릴리스, 진단 및 법률';
 
   @override
-  String get aboutScreenTitle => 'About';
+  String get aboutScreenTitle => '에 대한';
 
   @override
-  String get aboutAppTagline =>
-      'Ledger, cashflow, and planning in one workspace.';
+  String get aboutAppTagline => '하나의 작업 공간에서 원장, 현금 흐름 및 계획을 관리하세요.';
 
   @override
   String get aboutDescriptionBody =>
-      'Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.';
+      'Platrare는 귀하의 장치에 계정, 거래 및 계획을 보관합니다. 다른 곳에 복사본이 필요할 때 암호화된 백업을 내보냅니다. 환율은 공개 시장 데이터만 사용합니다. 귀하의 원장이 업로드되지 않았습니다.';
 
   @override
-  String get aboutVersionLabel => 'Version';
+  String get aboutVersionLabel => '버전';
 
   @override
-  String get aboutBuildLabel => 'Build';
+  String get aboutBuildLabel => '짓다';
 
   @override
-  String get aboutCopySupportDetails => 'Copy support details';
+  String get aboutCopySupportDetails => '지원 세부정보 복사';
 
   @override
-  String get aboutOpenPrivacySubtitle =>
-      'Opens the full in-app policy document.';
+  String get aboutOpenPrivacySubtitle => '전체 인앱 정책 문서를 엽니다.';
 
   @override
-  String get aboutSupportBundleLocaleLabel => 'Locale';
+  String get aboutSupportBundleLocaleLabel => '장소';
 
   @override
-  String get settingsSupportInfoCopied => 'Copied to clipboard';
+  String get settingsSupportInfoCopied => '클립보드에 복사됨';
 
   @override
-  String get settingsVerifyLedger => 'Verify data';
+  String get settingsVerifyLedger => '데이터 확인';
 
   @override
-  String get settingsVerifyLedgerSubtitle =>
-      'Check that account balances match your transaction history';
+  String get settingsVerifyLedgerSubtitle => '계좌 잔액이 거래 내역과 일치하는지 확인하세요.';
 
   @override
-  String get settingsDataExportTitle => 'Export backup';
+  String get settingsDataExportTitle => '백업 내보내기';
 
   @override
   String get settingsDataExportSubtitle =>
-      'Save as .zip or encrypted .platrare with all data and attachments';
+      '모든 데이터 및 첨부 파일과 함께 .zip 또는 암호화된 .platrare로 저장';
 
   @override
-  String get settingsDataImportTitle => 'Restore from backup';
+  String get settingsDataImportTitle => '백업에서 복원';
 
   @override
   String get settingsDataImportSubtitle =>
-      'Replace current data from a Platrare .zip or .platrare backup';
+      'Platrare .zip 또는 .platrare 백업에서 현재 데이터 교체';
 
   @override
-  String get backupExportDialogTitle => 'Protect this backup';
+  String get backupExportDialogTitle => '이 백업을 보호하세요';
 
   @override
   String get backupExportDialogBody =>
-      'A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.';
+      '특히 파일을 클라우드에 저장하는 경우 강력한 비밀번호를 사용하는 것이 좋습니다. 가져오려면 동일한 비밀번호가 필요합니다.';
 
   @override
-  String get backupExportPasswordLabel => 'Password';
+  String get backupExportPasswordLabel => '비밀번호';
 
   @override
-  String get backupExportPasswordConfirmLabel => 'Confirm password';
+  String get backupExportPasswordConfirmLabel => '비밀번호 확인';
 
   @override
-  String get backupExportPasswordMismatch => 'Passwords do not match';
+  String get backupExportPasswordMismatch => '비밀번호가 일치하지 않습니다.';
 
   @override
   String get backupExportPasswordEmpty =>
-      'Enter a matching password, or export without encryption below.';
+      '일치하는 비밀번호를 입력하거나 아래에서 암호화하지 않고 내보내세요.';
 
   @override
-  String get backupExportPasswordTooShort =>
-      'Password must be at least 8 characters.';
+  String get backupExportPasswordTooShort => '비밀번호는 8자 이상이어야 합니다.';
 
   @override
-  String get backupExportSaveToDevice => 'Save to device';
+  String get backupExportSaveToDevice => '장치에 저장';
 
   @override
-  String get backupExportShareToCloud => 'Share (iCloud, Drive…)';
+  String get backupExportShareToCloud => '공유(iCloud, 드라이브…)';
 
   @override
-  String get backupExportWithoutEncryption => 'Export without encryption';
+  String get backupExportWithoutEncryption => '암호화하지 않고 내보내기';
 
   @override
-  String get backupExportSkipWarningTitle => 'Export without encryption?';
+  String get backupExportSkipWarningTitle => '암호화하지 않고 내보내시겠습니까?';
 
   @override
   String get backupExportSkipWarningBody =>
-      'Anyone with access to the file can read your data. Use this only for local copies you control.';
+      '파일에 액세스할 수 있는 사람은 누구나 귀하의 데이터를 읽을 수 있습니다. 귀하가 제어하는 ​​로컬 복사본에만 이 옵션을 사용하십시오.';
 
   @override
-  String get backupExportSkipWarningConfirm => 'Export unencrypted';
+  String get backupExportSkipWarningConfirm => '암호화되지 않은 상태로 내보내기';
 
   @override
-  String get backupImportPasswordTitle => 'Encrypted backup';
+  String get backupImportPasswordTitle => '암호화된 백업';
 
   @override
-  String get backupImportPasswordBody =>
-      'Enter the password you used when exporting.';
+  String get backupImportPasswordBody => '내보낼 때 사용한 비밀번호를 입력하세요.';
 
   @override
-  String get backupImportPasswordLabel => 'Password';
+  String get backupImportPasswordLabel => '비밀번호';
 
   @override
-  String get backupImportPreviewTitle => 'Backup summary';
+  String get backupImportPreviewTitle => '백업 요약';
 
   @override
   String backupImportPreviewVersion(String version) {
-    return 'App version: $version';
+    return '앱 버전: $version';
   }
 
   @override
   String backupImportPreviewExported(String date) {
-    return 'Exported: $date';
+    return '내보낸 날짜: $date';
   }
 
   @override
@@ -793,67 +775,65 @@ class AppLocalizationsKo extends AppLocalizations {
     int income,
     int expense,
   ) {
-    return '$accounts accounts · $transactions transactions · $planned planned · $attachments attachment files · $income income categories · $expense expense categories';
+    return '$accounts 계정 · $transactions 거래 · $planned 계획됨 · $attachments 첨부 파일 · $income 소득 범주 · $expense 비용 범주';
   }
 
   @override
-  String get backupImportPreviewContinue => 'Continue';
+  String get backupImportPreviewContinue => '계속하다';
 
   @override
-  String get settingsBackupWrongPassword => 'Wrong password';
+  String get settingsBackupWrongPassword => '잘못된 비밀번호';
 
   @override
-  String get settingsBackupChecksumMismatch => 'Backup failed integrity check';
+  String get settingsBackupChecksumMismatch => '백업 무결성 검사 실패';
 
   @override
-  String get settingsBackupCorruptFile => 'Invalid or damaged backup file';
+  String get settingsBackupCorruptFile => '유효하지 않거나 손상된 백업 파일';
 
   @override
-  String get settingsBackupUnsupportedVersion =>
-      'Backup needs a newer app version';
+  String get settingsBackupUnsupportedVersion => '백업에는 최신 앱 버전이 필요합니다.';
 
   @override
-  String get settingsDataImportConfirmTitle => 'Replace current data?';
+  String get settingsDataImportConfirmTitle => '현재 데이터를 바꾸시겠습니까?';
 
   @override
   String get settingsDataImportConfirmBody =>
-      'This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.';
+      '그러면 현재 계정, 거래, 계획된 거래, 카테고리 및 가져온 첨부 파일이 선택한 백업의 내용으로 대체됩니다. 이 작업은 취소할 수 없습니다.';
 
   @override
-  String get settingsDataImportConfirmAction => 'Replace data';
+  String get settingsDataImportConfirmAction => '데이터 교체';
 
   @override
-  String get settingsDataImportDone => 'Data restored successfully';
+  String get settingsDataImportDone => '데이터가 성공적으로 복원되었습니다.';
 
   @override
-  String get settingsDataImportInvalidFile =>
-      'This file is not a valid Platrare backup';
+  String get settingsDataImportInvalidFile => '이 파일은 유효한 Platrare 백업이 아닙니다.';
 
   @override
-  String get settingsDataImportFailed => 'Import failed';
+  String get settingsDataImportFailed => '가져오기 실패';
 
   @override
-  String get settingsDataExportDoneTitle => 'Backup exported';
+  String get settingsDataExportDoneTitle => '백업을 내보냈습니다.';
 
   @override
   String settingsDataExportDoneBody(String path) {
-    return 'Backup saved to:\n$path';
+    return '백업 저장 위치:\n$path';
   }
 
   @override
-  String get settingsDataOpenExportFile => 'Open file';
+  String get settingsDataOpenExportFile => '파일 열기';
 
   @override
-  String get settingsDataExportFailed => 'Export failed';
+  String get settingsDataExportFailed => '내보내기 실패';
 
   @override
-  String get ledgerVerifyDialogTitle => 'Ledger verification';
+  String get ledgerVerifyDialogTitle => '원장 검증';
 
   @override
-  String get ledgerVerifyAllMatch => 'All accounts match.';
+  String get ledgerVerifyAllMatch => '모든 계정이 일치합니다.';
 
   @override
-  String get ledgerVerifyMismatchesTitle => 'Mismatches';
+  String get ledgerVerifyMismatchesTitle => '불일치';
 
   @override
   String ledgerVerifyMismatchDetails(
@@ -862,165 +842,163 @@ class AppLocalizationsKo extends AppLocalizations {
     String replayed,
     String diff,
   ) {
-    return '$accountName\nStored: $stored\nReplay: $replayed\nDifference: $diff';
+    return '$accountName\n저장됨: $stored\n재생: $replayed\n차이점: $diff';
   }
 
   @override
-  String get settingsLanguage => 'App language';
+  String get settingsLanguage => '앱 언어';
 
   @override
-  String get settingsLanguageSubtitleSystem => 'Following system settings';
+  String get settingsLanguageSubtitleSystem => '다음 시스템 설정';
 
   @override
-  String get settingsLanguageSubtitleEnglish => 'English';
+  String get settingsLanguageSubtitleEnglish => '영어';
 
   @override
-  String get settingsLanguageSubtitleSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageSubtitleSerbianLatin => '세르비아어(라틴어)';
 
   @override
-  String get settingsLanguagePickerTitle => 'App language';
+  String get settingsLanguagePickerTitle => '앱 언어';
 
   @override
-  String get settingsLanguageOptionSystem => 'System default';
+  String get settingsLanguageOptionSystem => '시스템 기본값';
 
   @override
-  String get settingsLanguageOptionEnglish => 'English';
+  String get settingsLanguageOptionEnglish => '영어';
 
   @override
-  String get settingsLanguageOptionSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageOptionSerbianLatin => '세르비아어(라틴어)';
 
   @override
-  String get settingsSectionAppearance => 'Appearance';
+  String get settingsSectionAppearance => '모습';
 
   @override
-  String get settingsSectionSecurity => 'Security';
+  String get settingsSectionSecurity => '보안';
 
   @override
-  String get settingsSecurityEnableLock => 'Lock app on open';
+  String get settingsSecurityEnableLock => '열 때 앱 잠금';
 
   @override
   String get settingsSecurityEnableLockSubtitle =>
-      'Require biometric unlock or PIN when app opens';
+      '앱이 열릴 때 생체 인식 잠금 해제 또는 PIN 요구';
 
   @override
-  String get settingsSecuritySetPin => 'Set PIN';
+  String get settingsSecuritySetPin => 'PIN 설정';
 
   @override
-  String get settingsSecurityChangePin => 'Change PIN';
+  String get settingsSecurityChangePin => 'PIN 변경';
 
   @override
   String get settingsSecurityPinSubtitle =>
-      'Use a PIN as fallback if biometric is unavailable';
+      '생체 인식을 사용할 수 없는 경우 대체 수단으로 PIN을 사용하세요.';
 
   @override
-  String get settingsSecurityRemovePin => 'Remove PIN';
+  String get settingsSecurityRemovePin => 'PIN 삭제';
 
   @override
-  String get securitySetPinTitle => 'Set app PIN';
+  String get securitySetPinTitle => '앱 PIN 설정';
 
   @override
-  String get securityPinLabel => 'PIN code';
+  String get securityPinLabel => '핀코드';
 
   @override
-  String get securityConfirmPinLabel => 'Confirm PIN code';
+  String get securityConfirmPinLabel => 'PIN 코드 확인';
 
   @override
-  String get securityPinMustBe4Digits => 'PIN must have at least 4 digits';
+  String get securityPinMustBe4Digits => 'PIN은 4자리 이상이어야 합니다.';
 
   @override
-  String get securityPinMismatch => 'PIN codes do not match';
+  String get securityPinMismatch => 'PIN 코드가 일치하지 않습니다.';
 
   @override
-  String get securityRemovePinTitle => 'Remove PIN?';
+  String get securityRemovePinTitle => 'PIN을 삭제하시겠습니까?';
 
   @override
-  String get securityRemovePinBody =>
-      'Biometric unlock can still be used if available.';
+  String get securityRemovePinBody => '가능한 경우 생체 인식 잠금 해제를 계속 사용할 수 있습니다.';
 
   @override
-  String get securityUnlockTitle => 'App locked';
+  String get securityUnlockTitle => '앱이 잠겼습니다.';
 
   @override
-  String get securityUnlockSubtitle =>
-      'Unlock with Face ID, fingerprint, or PIN.';
+  String get securityUnlockSubtitle => 'Face ID, 지문 또는 PIN으로 잠금을 해제하세요.';
 
   @override
-  String get securityUnlockWithPin => 'Unlock with PIN';
+  String get securityUnlockWithPin => 'PIN으로 잠금 해제';
 
   @override
-  String get securityTryBiometric => 'Try biometric unlock';
+  String get securityTryBiometric => '생체 인식 잠금 해제를 사용해 보세요';
 
   @override
-  String get securityPinIncorrect => 'Incorrect PIN, try again';
+  String get securityPinIncorrect => 'PIN이 잘못되었습니다. 다시 시도해 주세요.';
 
   @override
-  String get securityBiometricReason => 'Authenticate to open your app';
+  String get securityBiometricReason => '앱을 열려면 인증하세요.';
 
   @override
-  String get settingsTheme => 'Theme';
+  String get settingsTheme => '주제';
 
   @override
-  String get settingsThemeSubtitleSystem => 'Following system settings';
+  String get settingsThemeSubtitleSystem => '다음 시스템 설정';
 
   @override
-  String get settingsThemeSubtitleLight => 'Light';
+  String get settingsThemeSubtitleLight => '빛';
 
   @override
-  String get settingsThemeSubtitleDark => 'Dark';
+  String get settingsThemeSubtitleDark => '어두운';
 
   @override
-  String get settingsThemePickerTitle => 'Theme';
+  String get settingsThemePickerTitle => '주제';
 
   @override
-  String get settingsThemeOptionSystem => 'System default';
+  String get settingsThemeOptionSystem => '시스템 기본값';
 
   @override
-  String get settingsThemeOptionLight => 'Light';
+  String get settingsThemeOptionLight => '빛';
 
   @override
-  String get settingsThemeOptionDark => 'Dark';
+  String get settingsThemeOptionDark => '어두운';
 
   @override
-  String get archivedAccountsTitle => 'Archived accounts';
+  String get archivedAccountsTitle => '보관된 계정';
 
   @override
-  String get archivedAccountsEmptyTitle => 'No archived accounts';
+  String get archivedAccountsEmptyTitle => '보관된 계정 없음';
 
   @override
   String get archivedAccountsEmptyBody =>
-      'Book balance and overdraft must be zero. Archive from account options in Review.';
+      '장부 잔액과 당좌 대월은 0이어야 합니다. 검토의 계정 옵션에서 보관하세요.';
 
   @override
-  String get categoriesTitle => 'Categories';
+  String get categoriesTitle => '카테고리';
 
   @override
-  String get newCategoryTitle => 'New Category';
+  String get newCategoryTitle => '새 카테고리';
 
   @override
-  String get categoryNameLabel => 'Category name';
+  String get categoryNameLabel => '카테고리 이름';
 
   @override
-  String get deleteCategoryTitle => 'Delete category?';
+  String get deleteCategoryTitle => '카테고리를 삭제하시겠습니까?';
 
   @override
   String deleteCategoryBody(String category) {
-    return '\"$category\" will be removed from the list.';
+    return '\'$category\'이 목록에서 제거됩니다.';
   }
 
   @override
-  String get categoryIncome => 'Income';
+  String get categoryIncome => '소득';
 
   @override
-  String get categoryExpense => 'Expense';
+  String get categoryExpense => '비용';
 
   @override
-  String get categoryAdd => 'Add';
+  String get categoryAdd => '추가하다';
 
   @override
-  String get searchCurrencies => 'Search currencies…';
+  String get searchCurrencies => '통화 검색…';
 
   @override
-  String get period1M => '1M';
+  String get period1M => '100만';
 
   @override
   String get period3M => '3M';
@@ -1029,584 +1007,575 @@ class AppLocalizationsKo extends AppLocalizations {
   String get period6M => '6M';
 
   @override
-  String get period1Y => '1Y';
+  String get period1Y => '1년';
 
   @override
-  String get periodAll => 'ALL';
+  String get periodAll => '모두';
 
   @override
-  String get categoryLabel => 'category';
+  String get categoryLabel => '범주';
 
   @override
-  String get categoriesLabel => 'categories';
+  String get categoriesLabel => '카테고리';
 
   @override
   String transactionSavedMessage(String type, String amount) {
-    return '$type saved  •  $amount';
+    return '$type 저장됨 • $amount';
   }
 
   @override
-  String get tooltipSettings => 'Settings';
+  String get tooltipSettings => '설정';
 
   @override
-  String get tooltipAddAccount => 'Add account';
+  String get tooltipAddAccount => '계정 추가';
 
   @override
-  String get tooltipRemoveAccount => 'Remove account';
+  String get tooltipRemoveAccount => '계정 삭제';
 
   @override
   String get accountNameTaken =>
-      'You already have an account with this name and identifier (active or archived). Change the name or identifier.';
+      '이 이름과 식별자(활성 또는 보관됨)를 가진 계정이 이미 있습니다. 이름이나 식별자를 변경하세요.';
 
   @override
-  String get groupDescPersonal => 'Your own wallets & bank accounts';
+  String get groupDescPersonal => '나만의 지갑과 은행 계좌';
 
   @override
-  String get groupDescIndividuals => 'Family, friends, individuals';
+  String get groupDescIndividuals => '가족, 친구, 개인';
 
   @override
-  String get groupDescEntities => 'Entities, utilities, organisations';
+  String get groupDescEntities => '법인, 유틸리티, 조직';
 
   @override
-  String get cannotArchiveTitle => 'Cannot archive yet';
+  String get cannotArchiveTitle => '아직 보관할 수 없습니다.';
 
   @override
   String get cannotArchiveBody =>
-      'Archive is only available when the book balance and overdraft limit are both effectively zero.';
+      '보관은 장부 잔액과 당좌 대월 한도가 모두 사실상 0인 경우에만 사용할 수 있습니다.';
 
   @override
   String get cannotArchiveBodyAdjust =>
-      'Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.';
+      '보관은 장부 잔액과 당좌 대월 한도가 모두 사실상 0인 경우에만 사용할 수 있습니다. 원장이나 시설을 먼저 조정하세요.';
 
   @override
-  String get archiveAccountTitle => 'Archive account?';
+  String get archiveAccountTitle => '계정을 보관하시겠습니까?';
 
   @override
   String archiveWithPlannedBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count planned transactions reference this account.',
-      one: '1 planned transaction references this account.',
+      other: '$count건이 이 계정을 참조하는 예정 거래가 더 있습니다.',
+      one: '예정 거래 1건이 이 계정을 참조합니다.',
     );
-    return '$_temp0 Remove them to keep your plan consistent with an archived account.';
+    return '$_temp0 보관된 계정과 계획의 일관성을 유지하려면 삭제하세요.';
   }
 
   @override
-  String get removeAndArchive => 'Remove planned & archive';
+  String get removeAndArchive => '계획된 아카이브 및 아카이브 제거';
 
   @override
-  String get archiveBody =>
-      'The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.';
+  String get archiveBody => '검토, 추적 및 계획 선택기에서 계정이 숨겨집니다. 설정에서 복원할 수 있습니다.';
 
   @override
-  String get archiveAction => 'Archive';
+  String get archiveAction => '보관소';
 
   @override
-  String get archiveInstead => 'Archive instead';
+  String get archiveInstead => '대신 보관처리';
 
   @override
-  String get cannotDeleteTitle => 'Cannot delete account';
+  String get cannotDeleteTitle => '계정을 삭제할 수 없습니다';
 
   @override
   String get cannotDeleteBodyShort =>
-      'This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.';
+      '이 계정은 귀하의 운동기록에 나타납니다. 해당 거래를 먼저 제거하거나 재할당하거나, 잔액이 삭제된 경우 계정을 보관하세요.';
 
   @override
   String get cannotDeleteBodyHistory =>
-      'This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.';
+      '이 계정은 귀하의 운동기록에 나타납니다. 삭제하면 해당 기록이 손상됩니다. 먼저 해당 거래를 제거하거나 재할당하세요.';
 
   @override
   String get cannotDeleteBodySuggestArchive =>
-      'This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.';
+      '이 계정은 운동기록에 나타나므로 삭제할 수 없습니다. 장부 잔액과 당좌 대월이 삭제된 경우 대신 보관할 수 있습니다. 목록에서는 숨겨지지만 내역은 그대로 유지됩니다.';
 
   @override
-  String get deleteAccountTitle => 'Delete account?';
+  String get deleteAccountTitle => '계정을 삭제하시겠습니까?';
 
   @override
-  String get deleteAccountBodyPermanent =>
-      'This account will be removed permanently.';
+  String get deleteAccountBodyPermanent => '이 계정은 영구적으로 제거됩니다.';
 
   @override
   String deleteWithPlannedBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          '$count planned transactions reference this account and will also be deleted.',
-      one:
-          '1 planned transaction references this account and will also be deleted.',
+      other: '$count건의 예정 거래가 이 계정을 참조하며 삭제됩니다.',
+      one: '예정 거래 1건이 이 계정을 참조하며 삭제됩니다.',
     );
     return '$_temp0';
   }
 
   @override
-  String get deleteAllAndDelete => 'Delete all';
+  String get deleteAllAndDelete => '모두 삭제';
 
   @override
-  String get editAccountTitle => 'Edit Account';
+  String get editAccountTitle => '계정 편집';
 
   @override
-  String get newAccountTitle => 'New Account';
+  String get newAccountTitle => '새 계정';
 
   @override
-  String get labelAccountName => 'Account name';
+  String get labelAccountName => '계정 이름';
 
   @override
-  String get labelAccountIdentifier => 'Identifier (optional)';
+  String get labelAccountIdentifier => '식별자(선택사항)';
 
   @override
-  String get accountAppearanceSection => 'Icon & color';
+  String get accountAppearanceSection => '아이콘 및 색상';
 
   @override
-  String get accountPickIcon => 'Choose icon';
+  String get accountPickIcon => '아이콘 선택';
 
   @override
-  String get accountPickColor => 'Choose color';
+  String get accountPickColor => '색상을 선택하세요';
 
   @override
-  String get accountIconSheetTitle => 'Account icon';
+  String get accountIconSheetTitle => '계정 아이콘';
 
   @override
-  String get accountColorSheetTitle => 'Account color';
+  String get accountColorSheetTitle => '계정 색상';
 
   @override
-  String get accountUseInitialLetter => 'Initial letter';
+  String get accountUseInitialLetter => '첫 글자';
 
   @override
-  String get accountUseDefaultColor => 'Match group';
+  String get accountUseDefaultColor => '경기 그룹';
 
   @override
-  String get labelRealBalance => 'Real balance';
+  String get labelRealBalance => '실제 균형';
 
   @override
-  String get labelOverdraftLimit => 'Overdraft / advance limit';
+  String get labelOverdraftLimit => '당좌 대월 / 대출 한도';
 
   @override
-  String get labelCurrency => 'Currency';
+  String get labelCurrency => '통화';
 
   @override
-  String get saveChanges => 'Save Changes';
+  String get saveChanges => '변경 사항 저장';
 
   @override
-  String get addAccountAction => 'Add Account';
+  String get addAccountAction => '계정 추가';
 
   @override
-  String get removeAccountSheetTitle => 'Remove account';
+  String get removeAccountSheetTitle => '계정 삭제';
 
   @override
-  String get deletePermanently => 'Delete permanently';
+  String get deletePermanently => '영구 삭제';
 
   @override
   String get deletePermanentlySubtitle =>
-      'Only possible when this account is not used in Track. Planned items can be removed as part of delete.';
+      '이 계정이 추적에서 사용되지 않는 경우에만 가능합니다. 계획된 항목은 삭제의 일부로 제거될 수 있습니다.';
 
   @override
   String get archiveOptionSubtitle =>
-      'Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.';
+      '검토 및 선택기에서 숨깁니다. 언제든지 설정에서 복원하세요. 제로 잔액과 당좌 대월이 필요합니다.';
 
   @override
   String get archivedBannerText =>
-      'This account is archived. It stays in your data but is hidden from lists and pickers.';
+      '이 계정은 보관되었습니다. 이는 데이터에 유지되지만 목록 및 선택기에서는 숨겨집니다.';
 
   @override
-  String get balanceAdjustedTitle => 'Balance adjusted in Track';
+  String get balanceAdjustedTitle => '트랙에서 밸런스 조정됨';
 
   @override
   String balanceAdjustedBody(String previous, String current, String symbol) {
-    return 'Real balance was updated from $previous to $current $symbol.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.';
+    return '실제 잔액이 $previous에서 $current $symbol로 업데이트되었습니다.\n\n원장의 일관성을 유지하기 위해 추적(내역)에 잔액 조정 거래가 생성되었습니다.\n\n• 실제 잔액은 이 계좌의 실제 금액을 반영합니다.\n• 조정 항목에 대한 기록을 확인합니다.';
   }
 
   @override
-  String get ok => 'OK';
+  String get ok => '좋아요';
 
   @override
-  String get categoryBalanceAdjustment => 'Balance adjustment';
+  String get categoryBalanceAdjustment => '밸런스 조정';
 
   @override
-  String get descriptionBalanceCorrection => 'Balance correction';
+  String get descriptionBalanceCorrection => '밸런스 수정';
 
   @override
-  String get descriptionOpeningBalance => 'Opening balance';
+  String get descriptionOpeningBalance => '기초 잔액';
 
   @override
-  String get reviewStatsModeStatistics => 'Statistics';
+  String get reviewStatsModeStatistics => '통계';
 
   @override
-  String get reviewStatsModeComparison => 'Comparison';
+  String get reviewStatsModeComparison => '비교';
 
   @override
-  String get statsUncategorized => 'Uncategorized';
+  String get statsUncategorized => '분류되지 않음';
 
   @override
-  String get statsNoCategories =>
-      'No categories in the selected periods for comparison.';
+  String get statsNoCategories => '선택한 기간에는 비교를 위해 카테고리가 없습니다.';
 
   @override
-  String get statsNoTransactions => 'No transactions';
+  String get statsNoTransactions => '거래 없음';
 
   @override
-  String get statsSpendingInCategory => 'Spending in this category';
+  String get statsSpendingInCategory => '이 카테고리의 지출';
 
   @override
-  String get statsIncomeInCategory => 'Income in this category';
+  String get statsIncomeInCategory => '이 카테고리의 소득';
 
   @override
-  String get statsDifference => 'Difference (B vs A): ';
+  String get statsDifference => '차이점(B 대 A):';
 
   @override
-  String get statsNoExpensesMonth => 'No expenses this month';
+  String get statsNoExpensesMonth => '이번 달에는 지출이 없습니다';
 
   @override
-  String get statsNoExpensesAll => 'No expenses recorded';
+  String get statsNoExpensesAll => '기록된 비용이 없습니다.';
 
   @override
   String statsNoExpensesPeriod(String period) {
-    return 'No expenses in the last $period';
+    return '지난번에는 비용이 발생하지 않았습니다 $period';
   }
 
   @override
-  String get statsTotalSpent => 'Total spent';
+  String get statsTotalSpent => '총 지출액';
 
   @override
-  String get statsNoExpensesThisPeriod => 'No expenses in this period';
+  String get statsNoExpensesThisPeriod => '이 기간에는 비용이 발생하지 않습니다.';
 
   @override
-  String get statsNoIncomeMonth => 'No income this month';
+  String get statsNoIncomeMonth => '이번 달에는 수입이 없습니다';
 
   @override
-  String get statsNoIncomeAll => 'No income recorded';
+  String get statsNoIncomeAll => '소득이 기록되지 않았습니다.';
 
   @override
   String statsNoIncomePeriod(String period) {
-    return 'No income in the last $period';
+    return '최근 수입이 없습니다 $period';
   }
 
   @override
-  String get statsTotalReceived => 'Total received';
+  String get statsTotalReceived => '총 수령액';
 
   @override
-  String get statsNoIncomeThisPeriod => 'No income in this period';
+  String get statsNoIncomeThisPeriod => '이 기간에는 수입이 없습니다.';
 
   @override
-  String get catSalary => 'Salary';
+  String get catSalary => '샐러리';
 
   @override
-  String get catFreelance => 'Freelance';
+  String get catFreelance => '프리랜서';
 
   @override
-  String get catConsulting => 'Consulting';
+  String get catConsulting => '컨설팅';
 
   @override
-  String get catGift => 'Gift';
+  String get catGift => '선물';
 
   @override
-  String get catRental => 'Rental';
+  String get catRental => '렌탈';
 
   @override
-  String get catDividends => 'Dividends';
+  String get catDividends => '배당금';
 
   @override
-  String get catRefund => 'Refund';
+  String get catRefund => '환불하다';
 
   @override
-  String get catBonus => 'Bonus';
+  String get catBonus => '보너스';
 
   @override
-  String get catInterest => 'Interest';
+  String get catInterest => '관심';
 
   @override
-  String get catSideHustle => 'Side hustle';
+  String get catSideHustle => '부업';
 
   @override
-  String get catSaleOfGoods => 'Sale of goods';
+  String get catSaleOfGoods => '상품 판매';
 
   @override
-  String get catOther => 'Other';
+  String get catOther => '다른';
 
   @override
-  String get catGroceries => 'Groceries';
+  String get catGroceries => '식료 잡화류';
 
   @override
-  String get catDining => 'Dining';
+  String get catDining => '다이닝';
 
   @override
-  String get catTransport => 'Transport';
+  String get catTransport => '수송';
 
   @override
-  String get catUtilities => 'Utilities';
+  String get catUtilities => '유용';
 
   @override
-  String get catHousing => 'Housing';
+  String get catHousing => '주택';
 
   @override
-  String get catHealthcare => 'Healthcare';
+  String get catHealthcare => '헬스케어';
 
   @override
-  String get catEntertainment => 'Entertainment';
+  String get catEntertainment => '오락';
 
   @override
-  String get catShopping => 'Shopping';
+  String get catShopping => '쇼핑';
 
   @override
-  String get catTravel => 'Travel';
+  String get catTravel => '여행하다';
 
   @override
-  String get catEducation => 'Education';
+  String get catEducation => '교육';
 
   @override
-  String get catSubscriptions => 'Subscriptions';
+  String get catSubscriptions => '구독';
 
   @override
-  String get catInsurance => 'Insurance';
+  String get catInsurance => '보험';
 
   @override
-  String get catFuel => 'Fuel';
+  String get catFuel => '연료';
 
   @override
-  String get catGym => 'Gym';
+  String get catGym => '체육관';
 
   @override
-  String get catPets => 'Pets';
+  String get catPets => '애완동물';
 
   @override
-  String get catKids => 'Kids';
+  String get catKids => '어린이';
 
   @override
-  String get catCharity => 'Charity';
+  String get catCharity => '자선 단체';
 
   @override
-  String get catCoffee => 'Coffee';
+  String get catCoffee => '커피';
 
   @override
-  String get catGifts => 'Gifts';
+  String get catGifts => '선물';
 
   @override
   String semanticsProjectionDate(String date) {
-    return 'Projection date $date. Double tap to choose date';
+    return '투사일 $date. 날짜를 선택하려면 두 번 탭하세요.';
   }
 
   @override
   String semanticsProjectedBalance(String amount) {
-    return 'Projected personal balance $amount';
+    return '예상 개인 잔액 $amount';
   }
 
   @override
-  String get statsEmptyTitle => 'No transactions yet';
+  String get statsEmptyTitle => '아직 거래가 없습니다.';
 
   @override
-  String get statsEmptySubtitle => 'No spending data for the selected range.';
+  String get statsEmptySubtitle => '선택한 범위에 대한 지출 데이터가 없습니다.';
 
   @override
-  String get semanticsShowProjections => 'Show projected balances by account';
+  String get semanticsShowProjections => '계정별 예상 잔액 표시';
 
   @override
-  String get semanticsHideProjections => 'Hide projected balances by account';
+  String get semanticsHideProjections => '계정별 예상 잔액 숨기기';
 
   @override
-  String get semanticsDateAllTime => 'Date: all time — tap to change mode';
+  String get semanticsDateAllTime => '날짜: 항상 — 모드를 변경하려면 탭하세요.';
 
   @override
   String semanticsDateMode(String mode) {
-    return 'Date: $mode — tap to change mode';
+    return '날짜: $mode — 탭하여 모드 변경';
   }
 
   @override
   String get semanticsDateThisMonth =>
-      'Date: this month — tap for month, week, year, or all time';
+      '날짜: 이번 달 — 탭하여 월, 주, 연도 또는 전체 기간을 확인하세요.';
 
   @override
-  String get semanticsTxTypeCycle =>
-      'Transaction type: cycle all, income, expense, transfer';
+  String get semanticsTxTypeCycle => '거래형태 : 순환전체, 수입, 지출, 이체';
 
   @override
-  String get semanticsAccountFilter => 'Account filter';
+  String get semanticsAccountFilter => '계정 필터';
 
   @override
-  String get semanticsAlreadyFiltered => 'Already filtered to this account';
+  String get semanticsAlreadyFiltered => '이 계정으로 이미 필터링되었습니다.';
 
   @override
-  String get semanticsCategoryFilter => 'Category filter';
+  String get semanticsCategoryFilter => '카테고리 필터';
 
   @override
-  String get semanticsSortToggle => 'Sort: toggle newest or oldest first';
+  String get semanticsSortToggle => '정렬: 최신 항목 또는 오래된 항목부터 전환';
 
   @override
   String get semanticsFiltersDisabled =>
-      'List filters disabled while viewing a future projection date. Clear projections to use filters.';
+      '미래의 예상 날짜를 보는 동안 목록 필터가 비활성화되었습니다. 필터를 사용하려면 투영을 지우세요.';
 
   @override
   String get semanticsFiltersDisabledNeedAccount =>
-      'List filters disabled. Add an account first.';
+      '목록 필터가 비활성화되었습니다. 먼저 계정을 추가하세요.';
 
   @override
   String get semanticsFiltersDisabledNeedPlannedTransaction =>
-      'List filters disabled. Add a planned transaction first.';
+      '목록 필터가 비활성화되었습니다. 먼저 계획된 거래를 추가하세요.';
 
   @override
   String get semanticsFiltersDisabledNeedRecordedTransaction =>
-      'List filters disabled. Record a transaction first.';
+      '목록 필터가 비활성화되었습니다. 먼저 거래를 기록하세요.';
 
   @override
   String get semanticsReviewSectionChipsDisabledNeedAccount =>
-      'Section and currency controls disabled. Add an account first.';
+      '섹션 및 통화 제어가 비활성화되었습니다. 먼저 계정을 추가하세요.';
 
   @override
   String get semanticsPlanProjectionControlsDisabled =>
-      'Projection date and balance breakdown disabled. Add an account and a planned transaction first.';
+      '예상 날짜 및 잔액 분석이 비활성화되었습니다. 먼저 계정과 계획된 거래를 추가하세요.';
 
   @override
   String get semanticsReorderAccountHint =>
-      'Long press, then drag to reorder within this group';
+      '이 그룹 내에서 순서를 변경하려면 길게 누른 다음 드래그하세요.';
 
   @override
-  String get semanticsChartStyle => 'Chart style';
+  String get semanticsChartStyle => '차트 스타일';
 
   @override
-  String get semanticsChartStyleUnavailable =>
-      'Chart style (unavailable in comparison mode)';
+  String get semanticsChartStyleUnavailable => '차트 스타일(비교 모드에서는 사용할 수 없음)';
 
   @override
   String semanticsPeriod(String label) {
-    return 'Period: $label';
+    return '기간: $label';
   }
 
   @override
-  String get trackSearchHint => 'Search description, category, account…';
+  String get trackSearchHint => '검색 설명, 카테고리, 계정…';
 
   @override
-  String get trackSearchClear => 'Clear search';
+  String get trackSearchClear => '검색 지우기';
 
   @override
-  String get settingsExchangeRatesTitle => 'Exchange rates';
+  String get settingsExchangeRatesTitle => '환율';
 
   @override
   String settingsExchangeRatesUpdated(String time) {
-    return 'Last updated: $time';
+    return '최종 업데이트: $time';
   }
 
   @override
   String get settingsExchangeRatesNeverUpdated =>
-      'Using offline or bundled rates — tap to refresh';
+      '오프라인 또는 묶음 요금 사용 - 새로고침하려면 탭하세요.';
 
   @override
   String get settingsExchangeRatesSource => 'ECB';
 
   @override
-  String get settingsExchangeRatesUpdatedSnack => 'Exchange rates updated';
+  String get settingsExchangeRatesUpdatedSnack => '환율이 업데이트되었습니다.';
 
   @override
   String get settingsExchangeRatesUpdateFailed =>
-      'Could not update exchange rates. Check your connection.';
+      '환율을 업데이트할 수 없습니다. 연결을 확인하세요.';
 
   @override
-  String get settingsClearData => 'Clear data';
+  String get settingsClearData => '데이터 지우기';
 
   @override
-  String get settingsClearDataSubtitle => 'Permanently remove selected data';
+  String get settingsClearDataSubtitle => '선택한 데이터를 영구적으로 제거';
 
   @override
-  String get clearDataTitle => 'Clear data';
+  String get clearDataTitle => '데이터 지우기';
 
   @override
-  String get clearDataTransactions => 'Transaction history';
+  String get clearDataTransactions => '거래 내역';
 
   @override
   String clearDataTransactionsSubtitle(int count) {
-    return '$count transactions · account balances reset to zero';
+    return '$count 거래 · 계정 잔액이 0으로 재설정됨';
   }
 
   @override
-  String get clearDataPlanned => 'Planned transactions';
+  String get clearDataPlanned => '계획된 거래';
 
   @override
   String clearDataPlannedSubtitle(int count) {
-    return '$count planned items';
+    return '$count 예정상품';
   }
 
   @override
-  String get clearDataAccounts => 'Accounts';
+  String get clearDataAccounts => '계정';
 
   @override
   String clearDataAccountsSubtitle(int count) {
-    return '$count accounts · also clears history and plan';
+    return '$count 계정 · 기록 및 계획도 삭제';
   }
 
   @override
-  String get clearDataCategories => 'Categories';
+  String get clearDataCategories => '카테고리';
 
   @override
   String clearDataCategoriesSubtitle(int count) {
-    return '$count categories · replaced with defaults';
+    return '$count 카테고리 · 기본값으로 대체됨';
   }
 
   @override
-  String get clearDataPreferences => 'Preferences';
+  String get clearDataPreferences => '환경설정';
 
   @override
-  String get clearDataPreferencesSubtitle =>
-      'Reset currency, theme and language to defaults';
+  String get clearDataPreferencesSubtitle => '통화, 테마, 언어를 기본값으로 재설정';
 
   @override
-  String get clearDataSecurity => 'App lock & PIN';
+  String get clearDataSecurity => '앱 잠금 및 PIN';
 
   @override
-  String get clearDataSecuritySubtitle => 'Disable app lock and remove PIN';
+  String get clearDataSecuritySubtitle => '앱 잠금을 비활성화하고 PIN을 제거합니다.';
 
   @override
-  String get clearDataConfirmButton => 'Clear selected';
+  String get clearDataConfirmButton => '선택 항목 지우기';
 
   @override
-  String get clearDataConfirmTitle => 'This cannot be undone';
+  String get clearDataConfirmTitle => '이 작업은 취소할 수 없습니다.';
 
   @override
   String get clearDataConfirmBody =>
-      'The selected data will be permanently deleted. Export a backup first if you may need it later.';
+      '선택한 데이터가 영구적으로 삭제됩니다. 나중에 필요할 경우 먼저 백업을 내보내십시오.';
 
   @override
-  String get clearDataTypeConfirm => 'Type DELETE to confirm';
+  String get clearDataTypeConfirm => '확인하려면 DELETE를 입력하세요.';
 
   @override
-  String get clearDataTypeConfirmError => 'Type DELETE exactly to continue';
+  String get clearDataTypeConfirmError => '계속하려면 DELETE를 정확히 입력하세요.';
 
   @override
-  String get clearDataPinTitle => 'Confirm with PIN';
+  String get clearDataPinTitle => 'PIN으로 확인';
 
   @override
-  String get clearDataPinBody => 'Enter your app PIN to authorize this action.';
+  String get clearDataPinBody => '이 작업을 승인하려면 앱 PIN을 입력하세요.';
 
   @override
-  String get clearDataPinIncorrect => 'Incorrect PIN';
+  String get clearDataPinIncorrect => '잘못된 PIN';
 
   @override
-  String get clearDataDone => 'Selected data cleared';
+  String get clearDataDone => '선택한 데이터가 삭제되었습니다.';
 
   @override
-  String get autoBackupTitle => 'Automatic daily backup';
+  String get autoBackupTitle => '매일 자동 백업';
 
   @override
   String autoBackupLastAt(String date) {
-    return 'Last backed up $date';
+    return '마지막 백업 $date';
   }
 
   @override
-  String get autoBackupNeverRun => 'No backup yet';
+  String get autoBackupNeverRun => '아직 백업이 없습니다';
 
   @override
-  String get autoBackupShareTitle => 'Save to cloud';
+  String get autoBackupShareTitle => '클라우드에 저장';
 
   @override
   String get autoBackupShareSubtitle =>
-      'Upload latest backup to iCloud Drive, Google Drive or any app';
+      'iCloud Drive, Google Drive 또는 모든 앱에 최신 백업 업로드';
 
   @override
-  String get autoBackupCloudReminder =>
-      'Auto-backup ready — save it to cloud for off-device protection';
+  String get autoBackupCloudReminder => '자동 백업 준비 - 기기 외부 보호를 위해 클라우드에 저장';
 
   @override
-  String get autoBackupCloudReminderAction => 'Share';
+  String get autoBackupCloudReminderAction => '공유';
 
   @override
   String get persistenceErrorReloaded =>
-      'Couldn’t save changes. Data was reloaded from storage.';
+      '변경사항을 저장할 수 없습니다. 데이터가 저장소에서 다시 로드되었습니다.';
 }

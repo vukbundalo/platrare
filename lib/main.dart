@@ -184,20 +184,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   Future<void> _runAutoBackup() async {
-    final result = await AutoBackupService.instance.runIfDue();
-    if (result == AutoBackupResult.ranWithCloudReminder && mounted) {
-      final l10n = AppLocalizations.of(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.autoBackupCloudReminder),
-          action: SnackBarAction(
-            label: l10n.autoBackupCloudReminderAction,
-            onPressed: () => AutoBackupService.instance.shareLatestBackup(),
-          ),
-          duration: const Duration(seconds: 6),
-        ),
-      );
-    }
+    await AutoBackupService.instance.runIfDue();
   }
 
   @override

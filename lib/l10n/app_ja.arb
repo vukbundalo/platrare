@@ -1,46 +1,47 @@
 {
   "@@locale": "ja",
-  "appTitle": "Platrare",
+  "appTitle": "プラトラレ",
   "@appTitle": {
     "description": "Application title"
   },
-  "navPlan": "Plan",
-  "navTrack": "Track",
-  "navReview": "Review",
-  "cancel": "Cancel",
-  "delete": "Delete",
-  "close": "Close",
-  "add": "Add",
-  "undo": "Undo",
-  "confirm": "Confirm",
-  "restore": "Restore",
-  "heroIn": "In",
-  "heroOut": "Out",
-  "heroNet": "Net",
-  "heroBalance": "Balance",
-  "realBalance": "Real balance",
-  "heroResetButton": "Reset",
-  "filterAll": "All",
-  "filterAllAccounts": "All accounts",
-  "filterAllCategories": "All categories",
-  "txLabelIncome": "INCOME",
-  "txLabelExpense": "EXPENSE",
-  "txLabelInvoice": "INVOICE",
-  "txLabelBill": "BILL",
-  "txLabelAdvance": "ADVANCE",
-  "txLabelSettlement": "SETTLEMENT",
-  "txLabelLoan": "LOAN",
-  "txLabelCollection": "COLLECTION",
-  "txLabelOffset": "OFFSET",
-  "txLabelTransfer": "TRANSFER",
-  "txLabelTransaction": "TRANSACTION",
-  "repeatNone": "No repeat",
-  "repeatDaily": "Daily",
-  "repeatWeekly": "Weekly",
-  "repeatMonthly": "Monthly",
-  "repeatYearly": "Yearly",
-  "repeatEveryLabel": "Every",
-  "repeatEveryDays": "{count, plural, =1{day} other{{count} days}}",
+  "navPlan": "プラン",
+  "navTrack": "追跡",
+  "navReview": "レビュー",
+  "cancel": "キャンセル",
+  "delete": "消去",
+  "close": "近い",
+  "add": "追加",
+  "undo": "元に戻す",
+  "confirm": "確認する",
+  "restore": "復元する",
+  "heroIn": "で",
+  "heroOut": "外",
+  "heroNet": "ネット",
+  "heroBalance": "バランス",
+  "realBalance": "実質残高",
+  "heroResetButton": "リセット",
+  "fabScrollToTop": "先頭に戻る",
+  "filterAll": "全て",
+  "filterAllAccounts": "すべてのアカウント",
+  "filterAllCategories": "すべてのカテゴリー",
+  "txLabelIncome": "所得",
+  "txLabelExpense": "費用",
+  "txLabelInvoice": "請求書",
+  "txLabelBill": "請求書",
+  "txLabelAdvance": "前進",
+  "txLabelSettlement": "決済",
+  "txLabelLoan": "ローン",
+  "txLabelCollection": "コレクション",
+  "txLabelOffset": "オフセット",
+  "txLabelTransfer": "移行",
+  "txLabelTransaction": "取引",
+  "repeatNone": "リピートなし",
+  "repeatDaily": "毎日",
+  "repeatWeekly": "毎週",
+  "repeatMonthly": "毎月",
+  "repeatYearly": "毎年",
+  "repeatEveryLabel": "毎",
+  "repeatEveryDays": "{count, plural, =1{日} other{{count} 日}}",
   "@repeatEveryDays": {
     "placeholders": {
       "count": {
@@ -48,7 +49,7 @@
       }
     }
   },
-  "repeatEveryWeeks": "{count, plural, =1{week} other{{count} weeks}}",
+  "repeatEveryWeeks": "{count, plural, =1{週間} other{{count} 週間}}",
   "@repeatEveryWeeks": {
     "placeholders": {
       "count": {
@@ -56,7 +57,7 @@
       }
     }
   },
-  "repeatEveryMonths": "{count, plural, =1{month} other{{count} months}}",
+  "repeatEveryMonths": "{count, plural, =1{か月} other{{count} か月}}",
   "@repeatEveryMonths": {
     "placeholders": {
       "count": {
@@ -64,7 +65,7 @@
       }
     }
   },
-  "repeatEveryYears": "{count, plural, =1{year} other{{count} years}}",
+  "repeatEveryYears": "{count, plural, =1{年} other{{count} 年}}",
   "@repeatEveryYears": {
     "placeholders": {
       "count": {
@@ -72,10 +73,10 @@
       }
     }
   },
-  "repeatEndLabel": "Ends",
-  "repeatEndNever": "Never",
-  "repeatEndOnDate": "On date",
-  "repeatEndAfterCount": "After {count} times",
+  "repeatEndLabel": "終わり",
+  "repeatEndNever": "一度もない",
+  "repeatEndOnDate": "デート中",
+  "repeatEndAfterCount": "{count}回後",
   "@repeatEndAfterCount": {
     "placeholders": {
       "count": {
@@ -83,9 +84,9 @@
       }
     }
   },
-  "repeatEndPickDate": "Pick end date",
-  "repeatEndTimes": "times",
-  "repeatSummaryEvery": "Every {count} {unit}",
+  "repeatEndPickDate": "終了日を選択してください",
+  "repeatEndTimes": "回",
+  "repeatSummaryEvery": "{count} {unit} ごと",
   "@repeatSummaryEvery": {
     "placeholders": {
       "count": {
@@ -96,7 +97,7 @@
       }
     }
   },
-  "repeatSummaryUntil": "until {date}",
+  "repeatSummaryUntil": "{date}まで",
   "@repeatSummaryUntil": {
     "placeholders": {
       "date": {
@@ -104,7 +105,7 @@
       }
     }
   },
-  "repeatSummaryTimes": "{count} times",
+  "repeatSummaryTimes": "{count} 回",
   "@repeatSummaryTimes": {
     "placeholders": {
       "count": {
@@ -112,7 +113,7 @@
       }
     }
   },
-  "repeatSummaryTimesRemaining": "{remaining} of {total} remaining",
+  "repeatSummaryTimesRemaining": "{total}中{remaining}が残っています",
   "@repeatSummaryTimesRemaining": {
     "placeholders": {
       "remaining": {
@@ -123,10 +124,10 @@
       }
     }
   },
-  "detailRepeatEvery": "Repeat every",
-  "detailEnds": "Ends",
-  "detailEndsNever": "Never",
-  "detailEndsOnDate": "On {date}",
+  "detailRepeatEvery": "毎回繰り返す",
+  "detailEnds": "終わり",
+  "detailEndsNever": "一度もない",
+  "detailEndsOnDate": "{date} に",
   "@detailEndsOnDate": {
     "placeholders": {
       "date": {
@@ -134,7 +135,7 @@
       }
     }
   },
-  "detailEndsAfterCount": "After {count} times",
+  "detailEndsAfterCount": "{count}回後",
   "@detailEndsAfterCount": {
     "placeholders": {
       "count": {
@@ -142,11 +143,11 @@
       }
     }
   },
-  "detailProgress": "Progress",
-  "weekendNoChange": "No change",
-  "weekendFriday": "Move to Friday",
-  "weekendMonday": "Move to Monday",
-  "weekendQuestion": "If the {day} falls on a weekend?",
+  "detailProgress": "進捗",
+  "weekendNoChange": "変化なし",
+  "weekendFriday": "金曜日に移動",
+  "weekendMonday": "月曜日に移動",
+  "weekendQuestion": "{day} が週末の場合は?",
   "@weekendQuestion": {
     "placeholders": {
       "day": {
@@ -154,32 +155,32 @@
       }
     }
   },
-  "dateToday": "Today",
-  "dateTomorrow": "Tomorrow",
-  "dateYesterday": "Yesterday",
-  "statsAllTime": "All time",
-  "accountGroupPersonal": "Personal",
-  "accountGroupIndividual": "Individual",
-  "accountGroupEntity": "Entity",
-  "accountSectionIndividuals": "Individuals",
-  "accountSectionEntities": "Entities",
-  "emptyNoTransactionsYet": "No transactions yet",
-  "emptyNoAccountsYet": "No accounts yet",
-  "emptyRecordFirstTransaction": "Tap the button below to record your first transaction.",
-  "emptyAddFirstAccountTx": "Add your first account before recording transactions.",
-  "emptyAddFirstAccountPlan": "Add your first account before planning transactions.",
-  "emptyAddFirstAccountReview": "Add your first account to start tracking your finances.",
-  "emptyAddTransaction": "Add transaction",
-  "emptyAddAccount": "Add account",
-  "reviewEmptyGroupPersonalTitle": "No personal accounts yet",
-  "reviewEmptyGroupPersonalBody": "Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.",
-  "reviewEmptyGroupIndividualsTitle": "No individual accounts yet",
-  "reviewEmptyGroupIndividualsBody": "Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.",
-  "reviewEmptyGroupEntitiesTitle": "No entity accounts yet",
-  "reviewEmptyGroupEntitiesBody": "Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.",
-  "emptyNoTransactionsForFilters": "No transactions for applied filters",
-  "emptyNoTransactionsInHistory": "No transactions in history",
-  "emptyNoTransactionsForMonth": "No transactions for {month}",
+  "dateToday": "今日",
+  "dateTomorrow": "明日",
+  "dateYesterday": "昨日",
+  "statsAllTime": "ずっと",
+  "accountGroupPersonal": "個人的",
+  "accountGroupIndividual": "個人",
+  "accountGroupEntity": "実在物",
+  "accountSectionIndividuals": "個人",
+  "accountSectionEntities": "エンティティ",
+  "emptyNoTransactionsYet": "まだ取引はありません",
+  "emptyNoAccountsYet": "まだアカウントがありません",
+  "emptyRecordFirstTransaction": "下のボタンをタップして、最初の取引を記録します。",
+  "emptyAddFirstAccountTx": "取引を記録する前に、最初のアカウントを追加してください。",
+  "emptyAddFirstAccountPlan": "取引を計画する前に、最初のアカウントを追加してください。",
+  "emptyAddFirstAccountReview": "最初のアカウントを追加して、財務状況の追跡を開始します。",
+  "emptyAddTransaction": "トランザクションの追加",
+  "emptyAddAccount": "アカウントを追加",
+  "reviewEmptyGroupPersonalTitle": "個人アカウントはまだありません",
+  "reviewEmptyGroupPersonalBody": "個人アカウントとは、あなた自身の財布や銀行口座のことです。毎日の収入と支出を追跡するには、1 つ追加します。",
+  "reviewEmptyGroupIndividualsTitle": "個人アカウントはまだありません",
+  "reviewEmptyGroupIndividualsBody": "個々のアカウントは、共有費用、ローン、借用書など、特定の人々とのお金を追跡します。決済する相手ごとにアカウントを追加します。",
+  "reviewEmptyGroupEntitiesTitle": "まだエンティティアカウントがありません",
+  "reviewEmptyGroupEntitiesBody": "エンティティ アカウントは、ビジネス、プロジェクト、または組織用です。これらを使用して、ビジネスのキャッシュフローを個人の財務から切り離して管理します。",
+  "emptyNoTransactionsForFilters": "適用されたフィルターに対するトランザクションはありません",
+  "emptyNoTransactionsInHistory": "履歴に取引はありません",
+  "emptyNoTransactionsForMonth": "{month} の取引はありません",
   "@emptyNoTransactionsForMonth": {
     "placeholders": {
       "month": {
@@ -187,13 +188,13 @@
       }
     }
   },
-  "emptyNoTransactionsForAccount": "No transactions for this account",
-  "trackTransactionDeleted": "Transaction deleted",
-  "trackDeleteTitle": "Delete transaction?",
-  "trackDeleteBody": "This will reverse the account balance changes.",
-  "trackTransaction": "Transaction",
-  "planConfirmTitle": "Confirm transaction?",
-  "planConfirmBodyEarly": "This occurrence is scheduled for {date}. It will be recorded in History with today’s date ({todayDate}). The next occurrence remains on {nextDate}.",
+  "emptyNoTransactionsForAccount": "このアカウントでは取引はありません",
+  "trackTransactionDeleted": "トランザクションが削除されました",
+  "trackDeleteTitle": "トランザクションを削除しますか?",
+  "trackDeleteBody": "これにより、アカウント残高の変更が取り消されます。",
+  "trackTransaction": "取引",
+  "planConfirmTitle": "取引を確認しますか?",
+  "planConfirmBodyEarly": "このイベントは {date} に予定されています。今日の日付 ({todayDate}) とともに履歴に​​記録されます。次の発生は {nextDate} に残ります。",
   "@planConfirmBodyEarly": {
     "placeholders": {
       "date": {
@@ -207,19 +208,19 @@
       }
     }
   },
-  "planConfirmBodyNormal": "This will apply the transaction to your real account balances and move it to History.",
-  "planTransactionConfirmed": "Transaction confirmed and applied",
-  "planTransactionRemoved": "Planned transaction removed",
-  "planRepeatingTitle": "Repeating transaction",
-  "planRepeatingBody": "Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.",
-  "planDeleteAll": "Delete all",
-  "planSkipThisOnly": "Skip this only",
-  "planOccurrenceSkipped": "This occurrence skipped — next one scheduled",
-  "planNothingPlanned": "Nothing planned for now",
-  "planPlanBody": "Plan upcoming transactions.",
-  "planAddPlan": "Add plan",
-  "planNoPlannedForFilters": "No planned transactions for applied filters",
-  "planNoPlannedInMonth": "No planned transactions in {month}",
+  "planConfirmBodyNormal": "これにより、トランザクションが実際の口座残高に適用され、履歴に移動されます。",
+  "planTransactionConfirmed": "トランザクションが確認され、適用されました",
+  "planTransactionRemoved": "計画されたトランザクションが削除されました",
+  "planRepeatingTitle": "繰り返し取引",
+  "planRepeatingBody": "この日付のみをスキップするか、シリーズは次の日付に続きます。または、残りの日付をすべて計画から削除します。",
+  "planDeleteAll": "すべて削除",
+  "planSkipThisOnly": "これだけはスキップしてください",
+  "planOccurrenceSkipped": "このイベントはスキップされました - 次のイベントが予定されています",
+  "planNothingPlanned": "今のところ何も予定はありません",
+  "planPlanBody": "今後の取引を計画します。",
+  "planAddPlan": "プランの追加",
+  "planNoPlannedForFilters": "適用されたフィルターに対して計画されたトランザクションはありません",
+  "planNoPlannedInMonth": "{month} には予定されている取引はありません",
   "@planNoPlannedInMonth": {
     "placeholders": {
       "month": {
@@ -227,28 +228,28 @@
       }
     }
   },
-  "planOverdue": "overdue",
-  "planPlannedTransaction": "Planned transaction",
-  "discardTitle": "Discard changes?",
-  "discardBody": "You have unsaved changes. They will be lost if you leave now.",
-  "keepEditing": "Keep editing",
-  "discard": "Discard",
-  "newTransactionTitle": "New Transaction",
-  "editTransactionTitle": "Edit Transaction",
-  "transactionUpdated": "Transaction updated",
-  "sectionAccounts": "Accounts",
-  "labelFrom": "From",
-  "labelTo": "To",
-  "sectionCategory": "Category",
-  "sectionAttachments": "Attachments",
-  "labelNote": "Note",
-  "hintOptionalDescription": "Optional description",
-  "updateTransaction": "Update Transaction",
-  "saveTransaction": "Save Transaction",
-  "selectAccount": "Select account",
-  "selectAccountTitle": "Select Account",
-  "noAccountsAvailable": "No accounts available",
-  "amountReceivedBy": "Amount received by {name} ({currency})",
+  "planOverdue": "期限を過ぎた",
+  "planPlannedTransaction": "予定されている取引",
+  "discardTitle": "変更を破棄しますか?",
+  "discardBody": "未保存の変更があります。今出発するとそれらは失われてしまいます。",
+  "keepEditing": "編集を続ける",
+  "discard": "破棄",
+  "newTransactionTitle": "新しいトランザクション",
+  "editTransactionTitle": "トランザクションの編集",
+  "transactionUpdated": "トランザクションが更新されました",
+  "sectionAccounts": "アカウント",
+  "labelFrom": "から",
+  "labelTo": "に",
+  "sectionCategory": "カテゴリ",
+  "sectionAttachments": "添付ファイル",
+  "labelNote": "注記",
+  "hintOptionalDescription": "オプションの説明",
+  "updateTransaction": "トランザクションの更新",
+  "saveTransaction": "トランザクションの保存",
+  "selectAccount": "アカウントの選択",
+  "selectAccountTitle": "アカウントの選択",
+  "noAccountsAvailable": "利用可能なアカウントがありません",
+  "amountReceivedBy": "{name} ({currency}) までに受け取った金額",
   "@amountReceivedBy": {
     "placeholders": {
       "name": {
@@ -259,24 +260,24 @@
       }
     }
   },
-  "amountReceivedHelper": "Enter the exact amount the destination account receives. This locks the real exchange rate used.",
-  "attachTakePhoto": "Take photo",
-  "attachTakePhotoSub": "Use camera to capture a receipt",
-  "attachChooseGallery": "Choose from gallery",
-  "attachChooseGallerySub": "Select photos from your library",
-  "attachBrowseFiles": "Browse files",
-  "attachBrowseFilesSub": "Attach PDFs, documents or other files",
-  "attachButton": "Attach",
-  "editPlanTitle": "Edit Plan",
-  "planTransactionTitle": "Plan Transaction",
-  "tapToSelect": "Tap to select",
-  "updatePlan": "Update Plan",
-  "addToPlan": "Add to Plan",
-  "labelRepeat": "Repeat",
-  "selectPlannedDate": "Select planned date",
-  "balancesAsOfToday": "Balances as of today",
-  "projectedBalancesForTomorrow": "Projected balances for tomorrow",
-  "projectedBalancesForDate": "Projected balances for {date}",
+  "amountReceivedHelper": "宛先アカウントが受け取る正確な金額を入力します。これにより、使用される実際の為替レートがロックされます。",
+  "attachTakePhoto": "写真を撮る",
+  "attachTakePhotoSub": "カメラを使用してレシートを撮影する",
+  "attachChooseGallery": "ギャラリーから選ぶ",
+  "attachChooseGallerySub": "ライブラリから写真を選択してください",
+  "attachBrowseFiles": "ファイルを参照する",
+  "attachBrowseFilesSub": "PDF、ドキュメント、またはその他のファイルを添付する",
+  "attachButton": "添付する",
+  "editPlanTitle": "計画の編集",
+  "planTransactionTitle": "計画トランザクション",
+  "tapToSelect": "タップして選択します",
+  "updatePlan": "計画を更新する",
+  "addToPlan": "プランに追加",
+  "labelRepeat": "繰り返す",
+  "selectPlannedDate": "予定日を選択してください",
+  "balancesAsOfToday": "本日時点の残高",
+  "projectedBalancesForTomorrow": "明日の予想残高",
+  "projectedBalancesForDate": "{date} の予想残高",
   "@projectedBalancesForDate": {
     "placeholders": {
       "date": {
@@ -284,7 +285,7 @@
       }
     }
   },
-  "destReceivesLabel": "{name} receives ({currency})",
+  "destReceivesLabel": "{name} が ({currency}) を受信します",
   "@destReceivesLabel": {
     "placeholders": {
       "name": {
@@ -295,23 +296,23 @@
       }
     }
   },
-  "destHelper": "Estimated destination amount. Exact rate is locked at confirmation.",
-  "descriptionOptional": "Description (optional)",
-  "detailTransactionTitle": "Transaction",
-  "detailPlannedTitle": "Planned",
-  "detailConfirmTransaction": "Confirm transaction",
-  "detailDate": "Date",
-  "detailFrom": "From",
-  "detailTo": "To",
-  "detailCategory": "Category",
-  "detailNote": "Note",
-  "detailDestinationAmount": "Destination amount",
-  "detailExchangeRate": "Exchange rate",
-  "detailRepeats": "Repeats",
-  "detailDayOfMonth": "Day of month",
-  "detailWeekends": "Weekends",
-  "detailAttachments": "Attachments",
-  "detailFileCount": "{count, plural, =1{1 file} other{{count} files}}",
+  "destHelper": "推定目的地金額。正確なレートは確認時にロックされます。",
+  "descriptionOptional": "説明 (オプション)",
+  "detailTransactionTitle": "取引",
+  "detailPlannedTitle": "計画済み",
+  "detailConfirmTransaction": "取引の確認",
+  "detailDate": "日付",
+  "detailFrom": "から",
+  "detailTo": "に",
+  "detailCategory": "カテゴリ",
+  "detailNote": "注記",
+  "detailDestinationAmount": "宛先金額",
+  "detailExchangeRate": "為替レート",
+  "detailRepeats": "繰り返し",
+  "detailDayOfMonth": "月の日",
+  "detailWeekends": "週末",
+  "detailAttachments": "添付ファイル",
+  "detailFileCount": "{count, plural, =1{1 ファイル} other{{count} ファイル}}",
   "@detailFileCount": {
     "placeholders": {
       "count": {
@@ -319,17 +320,17 @@
       }
     }
   },
-  "settingsTitle": "Settings",
-  "settingsSectionDisplay": "Display",
-  "settingsSectionLanguage": "Language",
-  "settingsSectionCategories": "Categories",
-  "settingsSectionAccounts": "Accounts",
-  "settingsSectionPreferences": "Preferences",
-  "settingsSectionManage": "Manage",
-  "settingsBaseCurrency": "Home currency",
-  "settingsSecondaryCurrency": "Secondary currency",
-  "settingsCategories": "Categories",
-  "settingsCategoriesSubtitle": "{incomeCount} income · {expenseCount} expense",
+  "settingsTitle": "設定",
+  "settingsSectionDisplay": "画面",
+  "settingsSectionLanguage": "言語",
+  "settingsSectionCategories": "カテゴリー",
+  "settingsSectionAccounts": "アカウント",
+  "settingsSectionPreferences": "設定",
+  "settingsSectionManage": "管理",
+  "settingsBaseCurrency": "自国通貨",
+  "settingsSecondaryCurrency": "二次通貨",
+  "settingsCategories": "カテゴリー",
+  "settingsCategoriesSubtitle": "{incomeCount} 収入 · {expenseCount} 支出",
   "@settingsCategoriesSubtitle": {
     "placeholders": {
       "incomeCount": {
@@ -340,9 +341,9 @@
       }
     }
   },
-  "settingsArchivedAccounts": "Archived accounts",
-  "settingsArchivedAccountsSubtitleZero": "None right now — archive from account edit when balance is clear",
-  "settingsArchivedAccountsSubtitleCount": "{count} hidden from Review and pickers",
+  "settingsArchivedAccounts": "アーカイブされたアカウント",
+  "settingsArchivedAccountsSubtitleZero": "現在はありません — 残高が明確になったらアカウント編集からアーカイブします",
+  "settingsArchivedAccountsSubtitleCount": "{count} レビューとピッカーから非表示に",
   "@settingsArchivedAccountsSubtitleCount": {
     "placeholders": {
       "count": {
@@ -350,48 +351,48 @@
       }
     }
   },
-  "settingsSectionData": "Data",
-  "settingsSectionPrivacy": "About",
-  "settingsPrivacyPolicyTitle": "Privacy policy",
-  "settingsPrivacyPolicySubtitle": "How Platrare handles your data.",
-  "settingsPrivacyFxDisclosure": "Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.",
-  "settingsPrivacyOpenFailed": "Could not load the privacy policy.",
-  "settingsPrivacyRetry": "Try again",
-  "settingsSoftwareVersionTitle": "Software version",
-  "settingsSoftwareVersionSubtitle": "Release, diagnostics, and legal",
-  "aboutScreenTitle": "About",
-  "aboutAppTagline": "Ledger, cashflow, and planning in one workspace.",
-  "aboutDescriptionBody": "Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.",
-  "aboutVersionLabel": "Version",
-  "aboutBuildLabel": "Build",
-  "aboutCopySupportDetails": "Copy support details",
-  "aboutOpenPrivacySubtitle": "Opens the full in-app policy document.",
-  "aboutSupportBundleLocaleLabel": "Locale",
-  "settingsSupportInfoCopied": "Copied to clipboard",
-  "settingsVerifyLedger": "Verify data",
-  "settingsVerifyLedgerSubtitle": "Check that account balances match your transaction history",
-  "settingsDataExportTitle": "Export backup",
-  "settingsDataExportSubtitle": "Save as .zip or encrypted .platrare with all data and attachments",
-  "settingsDataImportTitle": "Restore from backup",
-  "settingsDataImportSubtitle": "Replace current data from a Platrare .zip or .platrare backup",
-  "backupExportDialogTitle": "Protect this backup",
-  "backupExportDialogBody": "A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.",
-  "backupExportPasswordLabel": "Password",
-  "backupExportPasswordConfirmLabel": "Confirm password",
-  "backupExportPasswordMismatch": "Passwords do not match",
-  "backupExportPasswordEmpty": "Enter a matching password, or export without encryption below.",
-  "backupExportPasswordTooShort": "Password must be at least 8 characters.",
-  "backupExportSaveToDevice": "Save to device",
-  "backupExportShareToCloud": "Share (iCloud, Drive…)",
-  "backupExportWithoutEncryption": "Export without encryption",
-  "backupExportSkipWarningTitle": "Export without encryption?",
-  "backupExportSkipWarningBody": "Anyone with access to the file can read your data. Use this only for local copies you control.",
-  "backupExportSkipWarningConfirm": "Export unencrypted",
-  "backupImportPasswordTitle": "Encrypted backup",
-  "backupImportPasswordBody": "Enter the password you used when exporting.",
-  "backupImportPasswordLabel": "Password",
-  "backupImportPreviewTitle": "Backup summary",
-  "backupImportPreviewVersion": "App version: {version}",
+  "settingsSectionData": "データ",
+  "settingsSectionPrivacy": "について",
+  "settingsPrivacyPolicyTitle": "プライバシーポリシー",
+  "settingsPrivacyPolicySubtitle": "Platrare によるデータの処理方法。",
+  "settingsPrivacyFxDisclosure": "為替レート: アプリはインターネット経由で公的通貨レートを取得します。あなたのアカウントとトランザクションは決して送信されません。",
+  "settingsPrivacyOpenFailed": "プライバシー ポリシーを読み込めませんでした。",
+  "settingsPrivacyRetry": "もう一度やり直してください",
+  "settingsSoftwareVersionTitle": "ソフトウェアバージョン",
+  "settingsSoftwareVersionSubtitle": "リリース、診断、法的事項",
+  "aboutScreenTitle": "について",
+  "aboutAppTagline": "元帳、キャッシュフロー、計画を 1 つのワークスペースで実行できます。",
+  "aboutDescriptionBody": "Platrare はアカウント、トランザクション、プランをデバイス上に保存します。別の場所にコピーが必要な場合は、暗号化されたバックアップをエクスポートします。為替レートは公開市場データのみを使用します。台帳がアップロードされていません。",
+  "aboutVersionLabel": "バージョン",
+  "aboutBuildLabel": "建てる",
+  "aboutCopySupportDetails": "サポートの詳細をコピーする",
+  "aboutOpenPrivacySubtitle": "完全なアプリ内ポリシー文書を開きます。",
+  "aboutSupportBundleLocaleLabel": "ロケール",
+  "settingsSupportInfoCopied": "クリップボードにコピーされました",
+  "settingsVerifyLedger": "データの検証",
+  "settingsVerifyLedgerSubtitle": "口座残高が取引履歴と一致していることを確認してください",
+  "settingsDataExportTitle": "バックアップのエクスポート",
+  "settingsDataExportSubtitle": "すべてのデータと添付ファイルを含む .zip または暗号化された .platrare として保存します",
+  "settingsDataImportTitle": "バックアップから復元する",
+  "settingsDataImportSubtitle": "Platrare .zip または .platrare バックアップから現在のデータを置き換えます",
+  "backupExportDialogTitle": "このバックアップを保護する",
+  "backupExportDialogBody": "特にファイルをクラウドに保存する場合は、強力なパスワードを使用することをお勧めします。インポートするには同じパスワードが必要です。",
+  "backupExportPasswordLabel": "パスワード",
+  "backupExportPasswordConfirmLabel": "パスワードを認証する",
+  "backupExportPasswordMismatch": "パスワードが一致しません",
+  "backupExportPasswordEmpty": "一致するパスワードを入力するか、以下に暗号化せずにエクスポートします。",
+  "backupExportPasswordTooShort": "パスワードは 8 文字以上である必要があります。",
+  "backupExportSaveToDevice": "デバイスに保存",
+  "backupExportShareToCloud": "共有 (iCloud、ドライブなど)",
+  "backupExportWithoutEncryption": "暗号化せずにエクスポートする",
+  "backupExportSkipWarningTitle": "暗号化せずにエクスポートしますか?",
+  "backupExportSkipWarningBody": "ファイルにアクセスできる人は誰でもデータを読み取ることができます。これは、あなたが管理するローカル コピーに対してのみ使用してください。",
+  "backupExportSkipWarningConfirm": "暗号化せずにエクスポートする",
+  "backupImportPasswordTitle": "暗号化されたバックアップ",
+  "backupImportPasswordBody": "エクスポート時に使用したパスワードを入力します。",
+  "backupImportPasswordLabel": "パスワード",
+  "backupImportPreviewTitle": "バックアップの概要",
+  "backupImportPreviewVersion": "アプリのバージョン: {version}",
   "@backupImportPreviewVersion": {
     "placeholders": {
       "version": {
@@ -399,7 +400,7 @@
       }
     }
   },
-  "backupImportPreviewExported": "Exported: {date}",
+  "backupImportPreviewExported": "エクスポート済み: {date}",
   "@backupImportPreviewExported": {
     "placeholders": {
       "date": {
@@ -407,7 +408,7 @@
       }
     }
   },
-  "backupImportPreviewCounts": "{accounts} accounts · {transactions} transactions · {planned} planned · {attachments} attachment files · {income} income categories · {expense} expense categories",
+  "backupImportPreviewCounts": "{accounts} アカウント · {transactions} トランザクション · {planned} 計画済み · {attachments} 添付ファイル · {income} 収入カテゴリ · {expense} 支出カテゴリ",
   "@backupImportPreviewCounts": {
     "placeholders": {
       "accounts": {
@@ -430,19 +431,19 @@
       }
     }
   },
-  "backupImportPreviewContinue": "Continue",
-  "settingsBackupWrongPassword": "Wrong password",
-  "settingsBackupChecksumMismatch": "Backup failed integrity check",
-  "settingsBackupCorruptFile": "Invalid or damaged backup file",
-  "settingsBackupUnsupportedVersion": "Backup needs a newer app version",
-  "settingsDataImportConfirmTitle": "Replace current data?",
-  "settingsDataImportConfirmBody": "This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.",
-  "settingsDataImportConfirmAction": "Replace data",
-  "settingsDataImportDone": "Data restored successfully",
-  "settingsDataImportInvalidFile": "This file is not a valid Platrare backup",
-  "settingsDataImportFailed": "Import failed",
-  "settingsDataExportDoneTitle": "Backup exported",
-  "settingsDataExportDoneBody": "Backup saved to:\n{path}",
+  "backupImportPreviewContinue": "続く",
+  "settingsBackupWrongPassword": "パスワードが間違っています",
+  "settingsBackupChecksumMismatch": "バックアップの整合性チェックに失敗しました",
+  "settingsBackupCorruptFile": "バックアップファイルが無効または破損しています",
+  "settingsBackupUnsupportedVersion": "バックアップには新しいアプリバージョンが必要です",
+  "settingsDataImportConfirmTitle": "現在のデータを置き換えますか?",
+  "settingsDataImportConfirmBody": "これにより、現在のアカウント、トランザクション、計画されたトランザクション、カテゴリ、およびインポートされた添付ファイルが、選択したバックアップの内容に置き換えられます。この操作は元に戻すことができません。",
+  "settingsDataImportConfirmAction": "データを置き換える",
+  "settingsDataImportDone": "データは正常に復元されました",
+  "settingsDataImportInvalidFile": "このファイルは有効な Platrare バックアップではありません",
+  "settingsDataImportFailed": "インポートに失敗しました",
+  "settingsDataExportDoneTitle": "バックアップがエクスポートされました",
+  "settingsDataExportDoneBody": "バックアップの保存場所:\n{path}",
   "@settingsDataExportDoneBody": {
     "placeholders": {
       "path": {
@@ -450,12 +451,12 @@
       }
     }
   },
-  "settingsDataOpenExportFile": "Open file",
-  "settingsDataExportFailed": "Export failed",
-  "ledgerVerifyDialogTitle": "Ledger verification",
-  "ledgerVerifyAllMatch": "All accounts match.",
-  "ledgerVerifyMismatchesTitle": "Mismatches",
-  "ledgerVerifyMismatchDetails": "{accountName}\nStored: {stored}\nReplay: {replayed}\nDifference: {diff}",
+  "settingsDataOpenExportFile": "ファイルを開く",
+  "settingsDataExportFailed": "エクスポートに失敗しました",
+  "ledgerVerifyDialogTitle": "台帳検証",
+  "ledgerVerifyAllMatch": "すべてのアカウントが一致します。",
+  "ledgerVerifyMismatchesTitle": "不一致",
+  "ledgerVerifyMismatchDetails": "{accountName}\n保存場所: {stored}\nリプレイ: {replayed}\n違い: {diff}",
   "@ledgerVerifyMismatchDetails": {
     "placeholders": {
       "accountName": {
@@ -472,51 +473,51 @@
       }
     }
   },
-  "settingsLanguage": "App language",
-  "settingsLanguageSubtitleSystem": "Following system settings",
-  "settingsLanguageSubtitleEnglish": "English",
-  "settingsLanguageSubtitleSerbianLatin": "Serbian (Latin)",
-  "settingsLanguagePickerTitle": "App language",
-  "settingsLanguageOptionSystem": "System default",
-  "settingsLanguageOptionEnglish": "English",
-  "settingsLanguageOptionSerbianLatin": "Serbian (Latin)",
-  "settingsSectionAppearance": "Appearance",
-  "settingsSectionSecurity": "Security",
-  "settingsSecurityEnableLock": "Lock app on open",
-  "settingsSecurityEnableLockSubtitle": "Require biometric unlock or PIN when app opens",
-  "settingsSecuritySetPin": "Set PIN",
-  "settingsSecurityChangePin": "Change PIN",
-  "settingsSecurityPinSubtitle": "Use a PIN as fallback if biometric is unavailable",
-  "settingsSecurityRemovePin": "Remove PIN",
-  "securitySetPinTitle": "Set app PIN",
-  "securityPinLabel": "PIN code",
-  "securityConfirmPinLabel": "Confirm PIN code",
-  "securityPinMustBe4Digits": "PIN must have at least 4 digits",
-  "securityPinMismatch": "PIN codes do not match",
-  "securityRemovePinTitle": "Remove PIN?",
-  "securityRemovePinBody": "Biometric unlock can still be used if available.",
-  "securityUnlockTitle": "App locked",
-  "securityUnlockSubtitle": "Unlock with Face ID, fingerprint, or PIN.",
-  "securityUnlockWithPin": "Unlock with PIN",
-  "securityTryBiometric": "Try biometric unlock",
-  "securityPinIncorrect": "Incorrect PIN, try again",
-  "securityBiometricReason": "Authenticate to open your app",
-  "settingsTheme": "Theme",
-  "settingsThemeSubtitleSystem": "Following system settings",
-  "settingsThemeSubtitleLight": "Light",
-  "settingsThemeSubtitleDark": "Dark",
-  "settingsThemePickerTitle": "Theme",
-  "settingsThemeOptionSystem": "System default",
-  "settingsThemeOptionLight": "Light",
-  "settingsThemeOptionDark": "Dark",
-  "archivedAccountsTitle": "Archived accounts",
-  "archivedAccountsEmptyTitle": "No archived accounts",
-  "archivedAccountsEmptyBody": "Book balance and overdraft must be zero. Archive from account options in Review.",
-  "categoriesTitle": "Categories",
-  "newCategoryTitle": "New Category",
-  "categoryNameLabel": "Category name",
-  "deleteCategoryTitle": "Delete category?",
-  "deleteCategoryBody": "\"{category}\" will be removed from the list.",
+  "settingsLanguage": "アプリ言語",
+  "settingsLanguageSubtitleSystem": "以下のシステム設定",
+  "settingsLanguageSubtitleEnglish": "英語",
+  "settingsLanguageSubtitleSerbianLatin": "セルビア語 (ラテン語)",
+  "settingsLanguagePickerTitle": "アプリ言語",
+  "settingsLanguageOptionSystem": "システムのデフォルト",
+  "settingsLanguageOptionEnglish": "英語",
+  "settingsLanguageOptionSerbianLatin": "セルビア語 (ラテン語)",
+  "settingsSectionAppearance": "外観",
+  "settingsSectionSecurity": "安全",
+  "settingsSecurityEnableLock": "開いたときにアプリをロックする",
+  "settingsSecurityEnableLockSubtitle": "アプリを開くときに生体認証によるロック解除または PIN を要求する",
+  "settingsSecuritySetPin": "暗証番号を設定する",
+  "settingsSecurityChangePin": "PINの変更",
+  "settingsSecurityPinSubtitle": "生体認証が利用できない場合は、フォールバックとして PIN を使用する",
+  "settingsSecurityRemovePin": "PIN を削除する",
+  "securitySetPinTitle": "アプリのPINを設定する",
+  "securityPinLabel": "PINコード",
+  "securityConfirmPinLabel": "PINコードを確認する",
+  "securityPinMustBe4Digits": "PIN は 4 桁以上である必要があります",
+  "securityPinMismatch": "PINコードが一致しません",
+  "securityRemovePinTitle": "PIN を削除しますか?",
+  "securityRemovePinBody": "利用可能な場合は、生体認証によるロック解除も引き続き使用できます。",
+  "securityUnlockTitle": "アプリがロックされています",
+  "securityUnlockSubtitle": "Face ID、指紋、または PIN でロックを解除します。",
+  "securityUnlockWithPin": "PINでロックを解除する",
+  "securityTryBiometric": "生体認証によるロック解除を試す",
+  "securityPinIncorrect": "PIN が間違っています。もう一度お試しください",
+  "securityBiometricReason": "認証してアプリを開く",
+  "settingsTheme": "テーマ",
+  "settingsThemeSubtitleSystem": "以下のシステム設定",
+  "settingsThemeSubtitleLight": "ライト",
+  "settingsThemeSubtitleDark": "暗い",
+  "settingsThemePickerTitle": "テーマ",
+  "settingsThemeOptionSystem": "システムのデフォルト",
+  "settingsThemeOptionLight": "ライト",
+  "settingsThemeOptionDark": "暗い",
+  "archivedAccountsTitle": "アーカイブされたアカウント",
+  "archivedAccountsEmptyTitle": "アーカイブされたアカウントはありません",
+  "archivedAccountsEmptyBody": "帳簿残高と当座貸越はゼロでなければなりません。レビューのアカウントからアーカイブするオプション。",
+  "categoriesTitle": "カテゴリー",
+  "newCategoryTitle": "新しいカテゴリー",
+  "categoryNameLabel": "カテゴリ名",
+  "deleteCategoryTitle": "カテゴリを削除しますか?",
+  "deleteCategoryBody": "「{category}」はリストから削除されます。",
   "@deleteCategoryBody": {
     "placeholders": {
       "category": {
@@ -524,18 +525,18 @@
       }
     }
   },
-  "categoryIncome": "Income",
-  "categoryExpense": "Expense",
-  "categoryAdd": "Add",
-  "searchCurrencies": "Search currencies…",
+  "categoryIncome": "所得",
+  "categoryExpense": "費用",
+  "categoryAdd": "追加",
+  "searchCurrencies": "通貨を検索…",
   "period1M": "1M",
   "period3M": "3M",
   "period6M": "6M",
-  "period1Y": "1Y",
-  "periodAll": "ALL",
-  "categoryLabel": "category",
-  "categoriesLabel": "categories",
-  "transactionSavedMessage": "{type} saved  •  {amount}",
+  "period1Y": "1年",
+  "periodAll": "全て",
+  "categoryLabel": "カテゴリ",
+  "categoriesLabel": "カテゴリ",
+  "transactionSavedMessage": "{type} 保存しました • {amount}",
   "@transactionSavedMessage": {
     "placeholders": {
       "type": {
@@ -546,18 +547,18 @@
       }
     }
   },
-  "tooltipSettings": "Settings",
-  "tooltipAddAccount": "Add account",
-  "tooltipRemoveAccount": "Remove account",
-  "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
-  "groupDescPersonal": "Your own wallets & bank accounts",
-  "groupDescIndividuals": "Family, friends, individuals",
-  "groupDescEntities": "Entities, utilities, organisations",
-  "cannotArchiveTitle": "Cannot archive yet",
-  "cannotArchiveBody": "Archive is only available when the book balance and overdraft limit are both effectively zero.",
-  "cannotArchiveBodyAdjust": "Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.",
-  "archiveAccountTitle": "Archive account?",
-  "archiveWithPlannedBody": "{count, plural, =1{1 planned transaction references this account.} other{{count} planned transactions reference this account.}} Remove them to keep your plan consistent with an archived account.",
+  "tooltipSettings": "設定",
+  "tooltipAddAccount": "アカウントを追加",
+  "tooltipRemoveAccount": "アカウントを削除する",
+  "accountNameTaken": "この名前と識別子のアカウント (アクティブまたはアーカイブ済み) がすでにあります。名前または識別子を変更します。",
+  "groupDescPersonal": "自分の財布と銀行口座",
+  "groupDescIndividuals": "家族、友人、個人",
+  "groupDescEntities": "エンティティ、公益事業者、組織",
+  "cannotArchiveTitle": "まだアーカイブできません",
+  "cannotArchiveBody": "アーカイブは、帳簿残高と当座貸越限度額が両方とも実質的にゼロの場合にのみ使用できます。",
+  "cannotArchiveBodyAdjust": "アーカイブは、帳簿残高と当座貸越限度額が両方とも実質的にゼロの場合にのみ使用できます。まず台帳または施設を調整します。",
+  "archiveAccountTitle": "アーカイブアカウント?",
+  "archiveWithPlannedBody": "{count, plural, =1{1 件の予定取引がこの口座を参照しています。} other{{count} 件の予定取引がこの口座を参照しています。}} アーカイブされた口座と計画の整合性を保つために削除してください。",
   "@archiveWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -565,17 +566,17 @@
       }
     }
   },
-  "removeAndArchive": "Remove planned & archive",
-  "archiveBody": "The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.",
-  "archiveAction": "Archive",
-  "archiveInstead": "Archive instead",
-  "cannotDeleteTitle": "Cannot delete account",
-  "cannotDeleteBodyShort": "This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.",
-  "cannotDeleteBodyHistory": "This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.",
-  "cannotDeleteBodySuggestArchive": "This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.",
-  "deleteAccountTitle": "Delete account?",
-  "deleteAccountBodyPermanent": "This account will be removed permanently.",
-  "deleteWithPlannedBody": "{count, plural, =1{1 planned transaction references this account and will also be deleted.} other{{count} planned transactions reference this account and will also be deleted.}}",
+  "removeAndArchive": "計画を削除してアーカイブする",
+  "archiveBody": "アカウントはレビュー、追跡、および計画ピッカーから非表示になります。設定から復元できます。",
+  "archiveAction": "アーカイブ",
+  "archiveInstead": "代わりにアーカイブする",
+  "cannotDeleteTitle": "アカウントを削除できません",
+  "cannotDeleteBodyShort": "このアカウントはトラック履歴に表示されます。まずそれらのトランザクションを削除または再割り当てするか、残高がクリアされている場合はアカウントをアーカイブします。",
+  "cannotDeleteBodyHistory": "このアカウントはトラック履歴に表示されます。削除すると履歴が壊れます。最初にそれらのトランザクションを削除するか再割り当てしてください。",
+  "cannotDeleteBodySuggestArchive": "このアカウントはトラック履歴に表示されるため、削除できません。帳簿残高と当座貸越が解消された場合は、代わりにアーカイブすることができます。リストには表示されませんが、履歴はそのまま残ります。",
+  "deleteAccountTitle": "アカウントを削除しますか?",
+  "deleteAccountBodyPermanent": "このアカウントは完全に削除されます。",
+  "deleteWithPlannedBody": "{count, plural, =1{1 件の予定取引がこの口座を参照しており、削除されます。} other{{count} 件の予定取引がこの口座を参照しており、削除されます。}}",
   "@deleteWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -583,30 +584,30 @@
       }
     }
   },
-  "deleteAllAndDelete": "Delete all",
-  "editAccountTitle": "Edit Account",
-  "newAccountTitle": "New Account",
-  "labelAccountName": "Account name",
-  "labelAccountIdentifier": "Identifier (optional)",
-  "accountAppearanceSection": "Icon & color",
-  "accountPickIcon": "Choose icon",
-  "accountPickColor": "Choose color",
-  "accountIconSheetTitle": "Account icon",
-  "accountColorSheetTitle": "Account color",
-  "accountUseInitialLetter": "Initial letter",
-  "accountUseDefaultColor": "Match group",
-  "labelRealBalance": "Real balance",
-  "labelOverdraftLimit": "Overdraft / advance limit",
-  "labelCurrency": "Currency",
-  "saveChanges": "Save Changes",
-  "addAccountAction": "Add Account",
-  "removeAccountSheetTitle": "Remove account",
-  "deletePermanently": "Delete permanently",
-  "deletePermanentlySubtitle": "Only possible when this account is not used in Track. Planned items can be removed as part of delete.",
-  "archiveOptionSubtitle": "Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.",
-  "archivedBannerText": "This account is archived. It stays in your data but is hidden from lists and pickers.",
-  "balanceAdjustedTitle": "Balance adjusted in Track",
-  "balanceAdjustedBody": "Real balance was updated from {previous} to {current} {symbol}.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.",
+  "deleteAllAndDelete": "すべて削除",
+  "editAccountTitle": "アカウントの編集",
+  "newAccountTitle": "新しいアカウント",
+  "labelAccountName": "アカウント名",
+  "labelAccountIdentifier": "識別子 (オプション)",
+  "accountAppearanceSection": "アイコンと色",
+  "accountPickIcon": "アイコンを選択",
+  "accountPickColor": "色を選択してください",
+  "accountIconSheetTitle": "アカウントアイコン",
+  "accountColorSheetTitle": "アカウントの色",
+  "accountUseInitialLetter": "頭文字",
+  "accountUseDefaultColor": "マッチグループ",
+  "labelRealBalance": "実質残高",
+  "labelOverdraftLimit": "当座貸越/前払い限度額",
+  "labelCurrency": "通貨",
+  "saveChanges": "変更を保存",
+  "addAccountAction": "アカウントの追加",
+  "removeAccountSheetTitle": "アカウントを削除する",
+  "deletePermanently": "完全に削除",
+  "deletePermanentlySubtitle": "このアカウントが Track で使用されていない場合にのみ可能です。計画されたアイテムは、削除の一部として削除できます。",
+  "archiveOptionSubtitle": "レビューやピッカーから非表示にします。設定からいつでも復元できます。ゼロ残高と当座貸越が必要です。",
+  "archivedBannerText": "このアカウントはアーカイブされています。データには残りますが、リストやピッカーには表示されません。",
+  "balanceAdjustedTitle": "Trackでバランス調整",
+  "balanceAdjustedBody": "実質残高が {previous} から {current} {symbol} に更新されました。\n\n元帳の一貫性を保つために、残高調整トランザクションが追跡 (履歴) に作成されました。\n\n• 実際の残高は、このアカウントの実際の金額を反映します。\n• 調整エントリの履歴を確認します。",
   "@balanceAdjustedBody": {
     "placeholders": {
       "previous": {
@@ -620,21 +621,21 @@
       }
     }
   },
-  "ok": "OK",
-  "categoryBalanceAdjustment": "Balance adjustment",
-  "descriptionBalanceCorrection": "Balance correction",
-  "descriptionOpeningBalance": "Opening balance",
-  "reviewStatsModeStatistics": "Statistics",
-  "reviewStatsModeComparison": "Comparison",
-  "statsUncategorized": "Uncategorized",
-  "statsNoCategories": "No categories in the selected periods for comparison.",
-  "statsNoTransactions": "No transactions",
-  "statsSpendingInCategory": "Spending in this category",
-  "statsIncomeInCategory": "Income in this category",
-  "statsDifference": "Difference (B vs A): ",
-  "statsNoExpensesMonth": "No expenses this month",
-  "statsNoExpensesAll": "No expenses recorded",
-  "statsNoExpensesPeriod": "No expenses in the last {period}",
+  "ok": "わかりました",
+  "categoryBalanceAdjustment": "バランス調整",
+  "descriptionBalanceCorrection": "バランス補正",
+  "descriptionOpeningBalance": "期首残高",
+  "reviewStatsModeStatistics": "統計",
+  "reviewStatsModeComparison": "比較",
+  "statsUncategorized": "未分類",
+  "statsNoCategories": "選択した期間には比較対象のカテゴリがありません。",
+  "statsNoTransactions": "取引なし",
+  "statsSpendingInCategory": "このカテゴリーでの支出",
+  "statsIncomeInCategory": "このカテゴリーの収入",
+  "statsDifference": "違い (B 対 A):",
+  "statsNoExpensesMonth": "今月は出費なし",
+  "statsNoExpensesAll": "経費は記録されていません",
+  "statsNoExpensesPeriod": "最後 {period} には経費はかかりません",
   "@statsNoExpensesPeriod": {
     "placeholders": {
       "period": {
@@ -642,11 +643,11 @@
       }
     }
   },
-  "statsTotalSpent": "Total spent",
-  "statsNoExpensesThisPeriod": "No expenses in this period",
-  "statsNoIncomeMonth": "No income this month",
-  "statsNoIncomeAll": "No income recorded",
-  "statsNoIncomePeriod": "No income in the last {period}",
+  "statsTotalSpent": "支出総額",
+  "statsNoExpensesThisPeriod": "この期間は経費はかかりません",
+  "statsNoIncomeMonth": "今月は収入がない",
+  "statsNoIncomeAll": "収入は記録されていない",
+  "statsNoIncomePeriod": "最後 {period} は収入なし",
   "@statsNoIncomePeriod": {
     "placeholders": {
       "period": {
@@ -654,40 +655,40 @@
       }
     }
   },
-  "statsTotalReceived": "Total received",
-  "statsNoIncomeThisPeriod": "No income in this period",
-  "catSalary": "Salary",
-  "catFreelance": "Freelance",
-  "catConsulting": "Consulting",
-  "catGift": "Gift",
-  "catRental": "Rental",
-  "catDividends": "Dividends",
-  "catRefund": "Refund",
-  "catBonus": "Bonus",
-  "catInterest": "Interest",
-  "catSideHustle": "Side hustle",
-  "catSaleOfGoods": "Sale of goods",
-  "catOther": "Other",
-  "catGroceries": "Groceries",
-  "catDining": "Dining",
-  "catTransport": "Transport",
-  "catUtilities": "Utilities",
-  "catHousing": "Housing",
-  "catHealthcare": "Healthcare",
-  "catEntertainment": "Entertainment",
-  "catShopping": "Shopping",
-  "catTravel": "Travel",
-  "catEducation": "Education",
-  "catSubscriptions": "Subscriptions",
-  "catInsurance": "Insurance",
-  "catFuel": "Fuel",
-  "catGym": "Gym",
-  "catPets": "Pets",
-  "catKids": "Kids",
-  "catCharity": "Charity",
-  "catCoffee": "Coffee",
-  "catGifts": "Gifts",
-  "semanticsProjectionDate": "Projection date {date}. Double tap to choose date",
+  "statsTotalReceived": "受け取った合計",
+  "statsNoIncomeThisPeriod": "この期間は収入がない",
+  "catSalary": "給料",
+  "catFreelance": "フリーランス",
+  "catConsulting": "コンサルティング",
+  "catGift": "贈り物",
+  "catRental": "レンタル",
+  "catDividends": "配当金",
+  "catRefund": "返金",
+  "catBonus": "ボーナス",
+  "catInterest": "興味",
+  "catSideHustle": "サイドハッスル",
+  "catSaleOfGoods": "グッズの販売",
+  "catOther": "他の",
+  "catGroceries": "食料品",
+  "catDining": "ダイニング",
+  "catTransport": "輸送",
+  "catUtilities": "公共事業",
+  "catHousing": "ハウジング",
+  "catHealthcare": "健康管理",
+  "catEntertainment": "エンターテインメント",
+  "catShopping": "買い物",
+  "catTravel": "旅行",
+  "catEducation": "教育",
+  "catSubscriptions": "定期購入",
+  "catInsurance": "保険",
+  "catFuel": "燃料",
+  "catGym": "ジム",
+  "catPets": "ペット",
+  "catKids": "キッズ",
+  "catCharity": "チャリティー",
+  "catCoffee": "コーヒー",
+  "catGifts": "ギフト",
+  "semanticsProjectionDate": "予測日 {date}。ダブルタップして日付を選択します",
   "@semanticsProjectionDate": {
     "placeholders": {
       "date": {
@@ -695,7 +696,7 @@
       }
     }
   },
-  "semanticsProjectedBalance": "Projected personal balance {amount}",
+  "semanticsProjectedBalance": "予測される個人残高 {amount}",
   "@semanticsProjectedBalance": {
     "placeholders": {
       "amount": {
@@ -703,12 +704,12 @@
       }
     }
   },
-  "statsEmptyTitle": "No transactions yet",
-  "statsEmptySubtitle": "No spending data for the selected range.",
-  "semanticsShowProjections": "Show projected balances by account",
-  "semanticsHideProjections": "Hide projected balances by account",
-  "semanticsDateAllTime": "Date: all time — tap to change mode",
-  "semanticsDateMode": "Date: {mode} — tap to change mode",
+  "statsEmptyTitle": "まだ取引はありません",
+  "statsEmptySubtitle": "選択した範囲には支出データがありません。",
+  "semanticsShowProjections": "口座ごとに予想残高を表示",
+  "semanticsHideProjections": "口座ごとの予想残高を非表示にする",
+  "semanticsDateAllTime": "日付: 常時 — タップしてモードを変更します",
+  "semanticsDateMode": "日付: {mode} — タップしてモードを変更します",
   "@semanticsDateMode": {
     "placeholders": {
       "mode": {
@@ -716,22 +717,22 @@
       }
     }
   },
-  "semanticsDateThisMonth": "Date: this month — tap for month, week, year, or all time",
-  "semanticsTxTypeCycle": "Transaction type: cycle all, income, expense, transfer",
-  "semanticsAccountFilter": "Account filter",
-  "semanticsAlreadyFiltered": "Already filtered to this account",
-  "semanticsCategoryFilter": "Category filter",
-  "semanticsSortToggle": "Sort: toggle newest or oldest first",
-  "semanticsFiltersDisabled": "List filters disabled while viewing a future projection date. Clear projections to use filters.",
-  "semanticsFiltersDisabledNeedAccount": "List filters disabled. Add an account first.",
-  "semanticsFiltersDisabledNeedPlannedTransaction": "List filters disabled. Add a planned transaction first.",
-  "semanticsFiltersDisabledNeedRecordedTransaction": "List filters disabled. Record a transaction first.",
-  "semanticsReviewSectionChipsDisabledNeedAccount": "Section and currency controls disabled. Add an account first.",
-  "semanticsPlanProjectionControlsDisabled": "Projection date and balance breakdown disabled. Add an account and a planned transaction first.",
-  "semanticsReorderAccountHint": "Long press, then drag to reorder within this group",
-  "semanticsChartStyle": "Chart style",
-  "semanticsChartStyleUnavailable": "Chart style (unavailable in comparison mode)",
-  "semanticsPeriod": "Period: {label}",
+  "semanticsDateThisMonth": "日付: 今月 — 月、週、年、またはすべての期間をタップします",
+  "semanticsTxTypeCycle": "取引タイプ：サイクルオール、収入、支出、振替",
+  "semanticsAccountFilter": "アカウントフィルター",
+  "semanticsAlreadyFiltered": "すでにこのアカウントにフィルタリングされています",
+  "semanticsCategoryFilter": "カテゴリフィルター",
+  "semanticsSortToggle": "並べ替え: 新しい順または古い順を切り替えます",
+  "semanticsFiltersDisabled": "将来の予測日を表示しているときにリスト フィルターが無効になります。フィルターを使用するには投影をクリアします。",
+  "semanticsFiltersDisabledNeedAccount": "リストフィルターが無効になっています。まずアカウントを追加します。",
+  "semanticsFiltersDisabledNeedPlannedTransaction": "リストフィルターが無効になっています。まず計画されたトランザクションを追加します。",
+  "semanticsFiltersDisabledNeedRecordedTransaction": "リストフィルターが無効になっています。まずトランザクションを記録します。",
+  "semanticsReviewSectionChipsDisabledNeedAccount": "セクションと通貨の管理が無効になっています。まずアカウントを追加します。",
+  "semanticsPlanProjectionControlsDisabled": "予測日と残高の内訳は無効になっています。まずアカウントと計画されたトランザクションを追加します。",
+  "semanticsReorderAccountHint": "長押ししてからドラッグし、このグループ内で順序を変更します",
+  "semanticsChartStyle": "グラフのスタイル",
+  "semanticsChartStyleUnavailable": "グラフのスタイル (比較モードでは使用できません)",
+  "semanticsPeriod": "期間: {label}",
   "@semanticsPeriod": {
     "placeholders": {
       "label": {
@@ -739,10 +740,10 @@
       }
     }
   },
-  "trackSearchHint": "Search description, category, account…",
-  "trackSearchClear": "Clear search",
-  "settingsExchangeRatesTitle": "Exchange rates",
-  "settingsExchangeRatesUpdated": "Last updated: {time}",
+  "trackSearchHint": "説明、カテゴリ、アカウントを検索…",
+  "trackSearchClear": "検索をクリア",
+  "settingsExchangeRatesTitle": "為替レート",
+  "settingsExchangeRatesUpdated": "最終更新日: {time}",
   "@settingsExchangeRatesUpdated": {
     "placeholders": {
       "time": {
@@ -750,15 +751,15 @@
       }
     }
   },
-  "settingsExchangeRatesNeverUpdated": "Using offline or bundled rates — tap to refresh",
+  "settingsExchangeRatesNeverUpdated": "オフライン料金またはバンドル料金の使用 — タップして更新",
   "settingsExchangeRatesSource": "ECB",
-  "settingsExchangeRatesUpdatedSnack": "Exchange rates updated",
-  "settingsExchangeRatesUpdateFailed": "Could not update exchange rates. Check your connection.",
-  "settingsClearData": "Clear data",
-  "settingsClearDataSubtitle": "Permanently remove selected data",
-  "clearDataTitle": "Clear data",
-  "clearDataTransactions": "Transaction history",
-  "clearDataTransactionsSubtitle": "{count} transactions · account balances reset to zero",
+  "settingsExchangeRatesUpdatedSnack": "為替レートが更新されました",
+  "settingsExchangeRatesUpdateFailed": "為替レートを更新できませんでした。接続を確認してください。",
+  "settingsClearData": "データのクリア",
+  "settingsClearDataSubtitle": "選択したデータを完全に削除します",
+  "clearDataTitle": "データのクリア",
+  "clearDataTransactions": "取引履歴",
+  "clearDataTransactionsSubtitle": "{count} 取引 · 口座残高がゼロにリセット",
   "@clearDataTransactionsSubtitle": {
     "placeholders": {
       "count": {
@@ -766,8 +767,8 @@
       }
     }
   },
-  "clearDataPlanned": "Planned transactions",
-  "clearDataPlannedSubtitle": "{count} planned items",
+  "clearDataPlanned": "計画的な取引",
+  "clearDataPlannedSubtitle": "{count}予定アイテム",
   "@clearDataPlannedSubtitle": {
     "placeholders": {
       "count": {
@@ -775,8 +776,8 @@
       }
     }
   },
-  "clearDataAccounts": "Accounts",
-  "clearDataAccountsSubtitle": "{count} accounts · also clears history and plan",
+  "clearDataAccounts": "アカウント",
+  "clearDataAccountsSubtitle": "{count} アカウント · 履歴とプランもクリアします",
   "@clearDataAccountsSubtitle": {
     "placeholders": {
       "count": {
@@ -784,8 +785,8 @@
       }
     }
   },
-  "clearDataCategories": "Categories",
-  "clearDataCategoriesSubtitle": "{count} categories · replaced with defaults",
+  "clearDataCategories": "カテゴリー",
+  "clearDataCategoriesSubtitle": "{count} カテゴリ · デフォルトに置き換えられました",
   "@clearDataCategoriesSubtitle": {
     "placeholders": {
       "count": {
@@ -793,21 +794,21 @@
       }
     }
   },
-  "clearDataPreferences": "Preferences",
-  "clearDataPreferencesSubtitle": "Reset currency, theme and language to defaults",
-  "clearDataSecurity": "App lock & PIN",
-  "clearDataSecuritySubtitle": "Disable app lock and remove PIN",
-  "clearDataConfirmButton": "Clear selected",
-  "clearDataConfirmTitle": "This cannot be undone",
-  "clearDataConfirmBody": "The selected data will be permanently deleted. Export a backup first if you may need it later.",
-  "clearDataTypeConfirm": "Type DELETE to confirm",
-  "clearDataTypeConfirmError": "Type DELETE exactly to continue",
-  "clearDataPinTitle": "Confirm with PIN",
-  "clearDataPinBody": "Enter your app PIN to authorize this action.",
-  "clearDataPinIncorrect": "Incorrect PIN",
-  "clearDataDone": "Selected data cleared",
-  "autoBackupTitle": "Automatic daily backup",
-  "autoBackupLastAt": "Last backed up {date}",
+  "clearDataPreferences": "設定",
+  "clearDataPreferencesSubtitle": "通貨、テーマ、言語をデフォルトにリセットする",
+  "clearDataSecurity": "アプリロックとPIN",
+  "clearDataSecuritySubtitle": "アプリロックを無効にしてPINを削除する",
+  "clearDataConfirmButton": "選択をクリア",
+  "clearDataConfirmTitle": "これは元に戻すことはできません",
+  "clearDataConfirmBody": "選択したデータは完全に削除されます。後で必要になる可能性がある場合は、最初にバックアップをエクスポートしてください。",
+  "clearDataTypeConfirm": "「DELETE」と入力して確認します",
+  "clearDataTypeConfirmError": "続行するには DELETE を正確に入力してください",
+  "clearDataPinTitle": "PINで確認",
+  "clearDataPinBody": "このアクションを承認するには、アプリの PIN を入力してください。",
+  "clearDataPinIncorrect": "間違ったPIN",
+  "clearDataDone": "選択したデータがクリアされました",
+  "autoBackupTitle": "毎日の自動バックアップ",
+  "autoBackupLastAt": "最後にバックアップしたのは {date}",
   "@autoBackupLastAt": {
     "placeholders": {
       "date": {
@@ -815,10 +816,10 @@
       }
     }
   },
-  "autoBackupNeverRun": "No backup yet",
-  "autoBackupShareTitle": "Save to cloud",
-  "autoBackupShareSubtitle": "Upload latest backup to iCloud Drive, Google Drive or any app",
-  "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
-  "autoBackupCloudReminderAction": "Share",
-  "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
+  "autoBackupNeverRun": "まだバックアップがありません",
+  "autoBackupShareTitle": "クラウドに保存",
+  "autoBackupShareSubtitle": "最新のバックアップを iCloud Drive、Google Drive、または任意のアプリにアップロード",
+  "autoBackupCloudReminder": "自動バックアップの準備ができています - オフデバイス保護のためにクラウドに保存します",
+  "autoBackupCloudReminderAction": "共有",
+  "persistenceErrorReloaded": "変更を保存できませんでした。データがストレージから再ロードされました。"
 }

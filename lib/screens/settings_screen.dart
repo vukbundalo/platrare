@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../data/app_data.dart' as data;
 import '../theme/ledger_colors.dart';
@@ -34,112 +33,72 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   late final Future<PackageInfo> _packageInfoFuture = PackageInfo.fromPlatform();
   bool _refreshingRates = false;
-
-  Future<void> _showExportDoneSnack(AppLocalizations l10n, String? path) async {
-    if (!mounted || path == null) return;
-    final openNow = await showDialog<bool>(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text(l10n.settingsDataExportDoneTitle),
-            content: Text(l10n.settingsDataExportDoneBody(path)),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(ctx, false),
-                child: Text(l10n.close),
-              ),
-              FilledButton(
-                onPressed: () => Navigator.pop(ctx, true),
-                child: Text(l10n.settingsDataOpenExportFile),
-              ),
-            ],
-          ),
-        ) ??
-        false;
-    if (!mounted) return;
-    if (openNow) {
-      await OpenFilex.open(path);
-    }
-  }
+  bool _exportingBackup = false;
 
   Future<void> _exportBackup(AppLocalizations l10n) async {
-    try {
-      final choice = await showDialog<String?>(
-        context: context,
-        builder: (ctx) => _BackupExportPasswordDialog(l10n: l10n),
-      );
-      if (!mounted) return;
-      if (choice == null) return;
+    // Capture the share-sheet anchor rect before any async gap (iOS requires
+    // a non-zero sharePositionOrigin for the UIActivityViewController popover).
+    final screenSize = MediaQuery.sizeOf(context);
+    final shareOrigin = Rect.fromCenter(
+      center: Offset(screenSize.width / 2, screenSize.height - 120),
+      width: 200,
+      height: 56,
+    );
 
-      final bool encrypt;
-      final String? password;
-      if (choice.isEmpty) {
-        final ok = await showDialog<bool>(
-              context: context,
-              builder: (ctx) => AlertDialog(
-                title: Text(l10n.backupExportSkipWarningTitle),
-                content: Text(l10n.backupExportSkipWarningBody),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(ctx, false),
-                    child: Text(l10n.cancel),
-                  ),
-                  FilledButton(
-                    onPressed: () => Navigator.pop(ctx, true),
-                    child: Text(l10n.backupExportSkipWarningConfirm),
-                  ),
-                ],
-              ),
-            ) ??
-            false;
-        if (!mounted || !ok) return;
-        encrypt = false;
-        password = null;
-      } else {
-        encrypt = true;
-        password = choice;
-      }
+    // Step 1: password dialog (returns empty string = no encryption, null = cancelled)
+    final choice = await showDialog<String?>(
+      context: context,
+      builder: (ctx) => _BackupExportPasswordDialog(l10n: l10n),
+    );
+    if (!mounted || choice == null) return;
 
-      if (!mounted) return;
-      final share = await showDialog<bool>(
+    // Step 2: if no password chosen, warn the user before proceeding
+    final bool encrypt;
+    final String? password;
+    if (choice.isEmpty) {
+      final ok = await showDialog<bool>(
             context: context,
             builder: (ctx) => AlertDialog(
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  FilledButton.icon(
-                    icon: const Icon(Icons.folder_outlined),
-                    label: Text(l10n.backupExportSaveToDevice),
-                    onPressed: () => Navigator.pop(ctx, false),
-                  ),
-                  const SizedBox(height: 8),
-                  FilledButton.icon(
-                    icon: const Icon(Icons.cloud_upload_outlined),
-                    label: Text(l10n.backupExportShareToCloud),
-                    onPressed: () => Navigator.pop(ctx, true),
-                  ),
-                ],
-              ),
+              title: Text(l10n.backupExportSkipWarningTitle),
+              content: Text(l10n.backupExportSkipWarningBody),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx, false),
+                  child: Text(l10n.cancel),
+                ),
+                FilledButton(
+                  onPressed: () => Navigator.pop(ctx, true),
+                  child: Text(l10n.backupExportSkipWarningConfirm),
+                ),
+              ],
             ),
           ) ??
           false;
+      if (!mounted || !ok) return;
+      encrypt = false;
+      password = null;
+    } else {
+      encrypt = true;
+      password = choice;
+    }
 
-      if (!mounted) return;
-
-      if (share) {
-        await DataTransfer.shareBackup(encrypt: encrypt, password: password);
-      } else {
-        final path = await DataTransfer.exportToPickedPath(
-          encrypt: encrypt,
-          password: password,
-        );
-        await _showExportDoneSnack(l10n, path);
-      }
-    } catch (_) {
+    // Step 3: build + open native share sheet (covers both device save and cloud)
+    if (!mounted) return;
+    setState(() => _exportingBackup = true);
+    try {
+      await DataTransfer.shareBackup(
+        encrypt: encrypt,
+        password: password,
+        sharePositionOrigin: shareOrigin,
+      );
+    } catch (e) {
+      debugPrint('[Export] Failed: $e');
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.settingsDataExportFailed)),
       );
+    } finally {
+      if (mounted) setState(() => _exportingBackup = false);
     }
   }
 
@@ -883,45 +842,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  child: Column(
-                    children: [
-                      SwitchListTile.adaptive(
-                        contentPadding: EdgeInsets.zero,
-                        secondary: Icon(Icons.backup_outlined,
-                            size: 20, color: cs.primary),
-                        title: Text(l10n.autoBackupTitle,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 14)),
-                        subtitle: Text(subtitle,
-                            style: TextStyle(
-                                fontSize: 12, color: cs.onSurfaceVariant)),
-                        value: svc.enabled,
-                        onChanged: (v) async {
-                          await svc.setEnabled(v);
-                          setLocal(() {});
-                        },
-                      ),
-                      if (svc.latestPath != null) ...[
-                        const Divider(height: 1),
-                        ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: Icon(Icons.cloud_upload_outlined,
-                              size: 20, color: cs.primary),
-                          title: Text(l10n.autoBackupShareTitle,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 14)),
-                          subtitle: Text(l10n.autoBackupShareSubtitle,
-                              style: TextStyle(
-                                  fontSize: 12, color: cs.onSurfaceVariant)),
-                          trailing: Icon(Icons.chevron_right_rounded,
-                              size: 18, color: cs.onSurfaceVariant),
-                          onTap: () async {
-                            await svc.shareLatestBackup();
-                            setLocal(() {});
-                          },
-                        ),
-                      ],
-                    ],
+                  child: SwitchListTile.adaptive(
+                    contentPadding: EdgeInsets.zero,
+                    secondary: Icon(Icons.backup_outlined,
+                        size: 20, color: cs.primary),
+                    title: Text(l10n.autoBackupTitle,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 14)),
+                    subtitle: Text(subtitle,
+                        style: TextStyle(
+                            fontSize: 12, color: cs.onSurfaceVariant)),
+                    value: svc.enabled,
+                    onChanged: (v) async {
+                      await svc.setEnabled(v);
+                      setLocal(() {});
+                    },
                   ),
                 ),
               );
@@ -932,9 +867,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             icon: Icons.ios_share_rounded,
             title: l10n.settingsDataExportTitle,
             subtitle: l10n.settingsDataExportSubtitle,
+            loadingBadge: _exportingBackup,
             semanticsLabel:
                 '${l10n.settingsDataExportTitle}. ${l10n.settingsDataExportSubtitle}',
-            onTap: () => _exportBackup(l10n),
+            onTap: _exportingBackup ? null : () => _exportBackup(l10n),
           ),
           const SizedBox(height: 8),
           currencyCard(

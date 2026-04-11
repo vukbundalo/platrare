@@ -1,46 +1,47 @@
 {
   "@@locale": "ru",
-  "appTitle": "Platrare",
+  "appTitle": "Платраре",
   "@appTitle": {
     "description": "Application title"
   },
-  "navPlan": "Plan",
-  "navTrack": "Track",
-  "navReview": "Review",
-  "cancel": "Cancel",
-  "delete": "Delete",
-  "close": "Close",
-  "add": "Add",
-  "undo": "Undo",
-  "confirm": "Confirm",
-  "restore": "Restore",
-  "heroIn": "In",
-  "heroOut": "Out",
-  "heroNet": "Net",
-  "heroBalance": "Balance",
-  "realBalance": "Real balance",
-  "heroResetButton": "Reset",
-  "filterAll": "All",
-  "filterAllAccounts": "All accounts",
-  "filterAllCategories": "All categories",
-  "txLabelIncome": "INCOME",
-  "txLabelExpense": "EXPENSE",
-  "txLabelInvoice": "INVOICE",
-  "txLabelBill": "BILL",
-  "txLabelAdvance": "ADVANCE",
-  "txLabelSettlement": "SETTLEMENT",
-  "txLabelLoan": "LOAN",
-  "txLabelCollection": "COLLECTION",
-  "txLabelOffset": "OFFSET",
-  "txLabelTransfer": "TRANSFER",
-  "txLabelTransaction": "TRANSACTION",
-  "repeatNone": "No repeat",
-  "repeatDaily": "Daily",
-  "repeatWeekly": "Weekly",
-  "repeatMonthly": "Monthly",
-  "repeatYearly": "Yearly",
-  "repeatEveryLabel": "Every",
-  "repeatEveryDays": "{count, plural, =1{day} other{{count} days}}",
+  "navPlan": "План",
+  "navTrack": "Отслеживать",
+  "navReview": "Обзор",
+  "cancel": "Отмена",
+  "delete": "Удалить",
+  "close": "Закрывать",
+  "add": "Добавлять",
+  "undo": "Отменить",
+  "confirm": "Подтверждать",
+  "restore": "Восстановить",
+  "heroIn": "В",
+  "heroOut": "Вне",
+  "heroNet": "Сеть",
+  "heroBalance": "Баланс",
+  "realBalance": "Реальный баланс",
+  "heroResetButton": "Перезагрузить",
+  "fabScrollToTop": "Наверх",
+  "filterAll": "Все",
+  "filterAllAccounts": "Все аккаунты",
+  "filterAllCategories": "Все категории",
+  "txLabelIncome": "ДОХОД",
+  "txLabelExpense": "РАСХОД",
+  "txLabelInvoice": "СЧЕТ",
+  "txLabelBill": "СЧЕТ",
+  "txLabelAdvance": "ПРОДВИГАТЬ",
+  "txLabelSettlement": "УРЕГУЛИРОВАНИЕ",
+  "txLabelLoan": "ЗАЕМ",
+  "txLabelCollection": "КОЛЛЕКЦИЯ",
+  "txLabelOffset": "КОМПЕНСИРОВАТЬ",
+  "txLabelTransfer": "ПЕРЕДАЧА",
+  "txLabelTransaction": "СДЕЛКА",
+  "repeatNone": "Нет повтора",
+  "repeatDaily": "Ежедневно",
+  "repeatWeekly": "Еженедельно",
+  "repeatMonthly": "Ежемесячно",
+  "repeatYearly": "Ежегодно",
+  "repeatEveryLabel": "Каждый",
+  "repeatEveryDays": "{count, plural, =1{день} other{{count} дня}}",
   "@repeatEveryDays": {
     "placeholders": {
       "count": {
@@ -48,7 +49,7 @@
       }
     }
   },
-  "repeatEveryWeeks": "{count, plural, =1{week} other{{count} weeks}}",
+  "repeatEveryWeeks": "{count, plural, =1{неделя} other{{count} недели}}",
   "@repeatEveryWeeks": {
     "placeholders": {
       "count": {
@@ -56,7 +57,7 @@
       }
     }
   },
-  "repeatEveryMonths": "{count, plural, =1{month} other{{count} months}}",
+  "repeatEveryMonths": "{count, plural, =1{месяц} other{{count} месяца}}",
   "@repeatEveryMonths": {
     "placeholders": {
       "count": {
@@ -64,7 +65,7 @@
       }
     }
   },
-  "repeatEveryYears": "{count, plural, =1{year} other{{count} years}}",
+  "repeatEveryYears": "{count, plural, =1{год} other{{count} года}}",
   "@repeatEveryYears": {
     "placeholders": {
       "count": {
@@ -72,10 +73,10 @@
       }
     }
   },
-  "repeatEndLabel": "Ends",
-  "repeatEndNever": "Never",
-  "repeatEndOnDate": "On date",
-  "repeatEndAfterCount": "After {count} times",
+  "repeatEndLabel": "Заканчивается",
+  "repeatEndNever": "Никогда",
+  "repeatEndOnDate": "Дата",
+  "repeatEndAfterCount": "Через {count} раз",
   "@repeatEndAfterCount": {
     "placeholders": {
       "count": {
@@ -83,9 +84,9 @@
       }
     }
   },
-  "repeatEndPickDate": "Pick end date",
-  "repeatEndTimes": "times",
-  "repeatSummaryEvery": "Every {count} {unit}",
+  "repeatEndPickDate": "Выберите дату окончания",
+  "repeatEndTimes": "раз",
+  "repeatSummaryEvery": "Каждые {count} {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
       "count": {
@@ -96,7 +97,7 @@
       }
     }
   },
-  "repeatSummaryUntil": "until {date}",
+  "repeatSummaryUntil": "до {date}",
   "@repeatSummaryUntil": {
     "placeholders": {
       "date": {
@@ -104,7 +105,7 @@
       }
     }
   },
-  "repeatSummaryTimes": "{count} times",
+  "repeatSummaryTimes": "{count} раз",
   "@repeatSummaryTimes": {
     "placeholders": {
       "count": {
@@ -112,7 +113,7 @@
       }
     }
   },
-  "repeatSummaryTimesRemaining": "{remaining} of {total} remaining",
+  "repeatSummaryTimesRemaining": "{remaining} из {total} осталось",
   "@repeatSummaryTimesRemaining": {
     "placeholders": {
       "remaining": {
@@ -123,10 +124,10 @@
       }
     }
   },
-  "detailRepeatEvery": "Repeat every",
-  "detailEnds": "Ends",
-  "detailEndsNever": "Never",
-  "detailEndsOnDate": "On {date}",
+  "detailRepeatEvery": "Повторяйте каждые",
+  "detailEnds": "Заканчивается",
+  "detailEndsNever": "Никогда",
+  "detailEndsOnDate": "На {date}",
   "@detailEndsOnDate": {
     "placeholders": {
       "date": {
@@ -134,7 +135,7 @@
       }
     }
   },
-  "detailEndsAfterCount": "After {count} times",
+  "detailEndsAfterCount": "Через {count} раз",
   "@detailEndsAfterCount": {
     "placeholders": {
       "count": {
@@ -142,11 +143,11 @@
       }
     }
   },
-  "detailProgress": "Progress",
-  "weekendNoChange": "No change",
-  "weekendFriday": "Move to Friday",
-  "weekendMonday": "Move to Monday",
-  "weekendQuestion": "If the {day} falls on a weekend?",
+  "detailProgress": "Прогресс",
+  "weekendNoChange": "Без изменений",
+  "weekendFriday": "Перенесемся на пятницу",
+  "weekendMonday": "Перенести на понедельник",
+  "weekendQuestion": "Если {day} выпадает на выходные?",
   "@weekendQuestion": {
     "placeholders": {
       "day": {
@@ -154,32 +155,32 @@
       }
     }
   },
-  "dateToday": "Today",
-  "dateTomorrow": "Tomorrow",
-  "dateYesterday": "Yesterday",
-  "statsAllTime": "All time",
-  "accountGroupPersonal": "Personal",
-  "accountGroupIndividual": "Individual",
-  "accountGroupEntity": "Entity",
-  "accountSectionIndividuals": "Individuals",
-  "accountSectionEntities": "Entities",
-  "emptyNoTransactionsYet": "No transactions yet",
-  "emptyNoAccountsYet": "No accounts yet",
-  "emptyRecordFirstTransaction": "Tap the button below to record your first transaction.",
-  "emptyAddFirstAccountTx": "Add your first account before recording transactions.",
-  "emptyAddFirstAccountPlan": "Add your first account before planning transactions.",
-  "emptyAddFirstAccountReview": "Add your first account to start tracking your finances.",
-  "emptyAddTransaction": "Add transaction",
-  "emptyAddAccount": "Add account",
-  "reviewEmptyGroupPersonalTitle": "No personal accounts yet",
-  "reviewEmptyGroupPersonalBody": "Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.",
-  "reviewEmptyGroupIndividualsTitle": "No individual accounts yet",
-  "reviewEmptyGroupIndividualsBody": "Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.",
-  "reviewEmptyGroupEntitiesTitle": "No entity accounts yet",
-  "reviewEmptyGroupEntitiesBody": "Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.",
-  "emptyNoTransactionsForFilters": "No transactions for applied filters",
-  "emptyNoTransactionsInHistory": "No transactions in history",
-  "emptyNoTransactionsForMonth": "No transactions for {month}",
+  "dateToday": "Сегодня",
+  "dateTomorrow": "Завтра",
+  "dateYesterday": "Вчера",
+  "statsAllTime": "Все время",
+  "accountGroupPersonal": "Персональный",
+  "accountGroupIndividual": "Индивидуальный",
+  "accountGroupEntity": "Сущность",
+  "accountSectionIndividuals": "Частные лица",
+  "accountSectionEntities": "Сущности",
+  "emptyNoTransactionsYet": "Транзакций пока нет",
+  "emptyNoAccountsYet": "Аккаунтов пока нет",
+  "emptyRecordFirstTransaction": "Нажмите кнопку ниже, чтобы записать свою первую транзакцию.",
+  "emptyAddFirstAccountTx": "Добавьте свою первую учетную запись перед записью транзакций.",
+  "emptyAddFirstAccountPlan": "Добавьте свою первую учетную запись, прежде чем планировать транзакции.",
+  "emptyAddFirstAccountReview": "Добавьте свою первую учетную запись, чтобы начать отслеживать свои финансы.",
+  "emptyAddTransaction": "Добавить транзакцию",
+  "emptyAddAccount": "Добавить аккаунт",
+  "reviewEmptyGroupPersonalTitle": "Пока нет личных аккаунтов",
+  "reviewEmptyGroupPersonalBody": "Личные счета — это ваши собственные кошельки и банковские счета. Добавьте один, чтобы отслеживать ежедневные доходы и расходы.",
+  "reviewEmptyGroupIndividualsTitle": "Индивидуальных аккаунтов пока нет.",
+  "reviewEmptyGroupIndividualsBody": "Индивидуальные счета отслеживают деньги конкретных людей — общие затраты, кредиты или долговые расписки. Добавьте учетную запись для каждого человека, с которым вы рассчитываетесь.",
+  "reviewEmptyGroupEntitiesTitle": "Счетов юридических лиц пока нет",
+  "reviewEmptyGroupEntitiesBody": "Счета сущностей предназначены для предприятий, проектов или организаций. Используйте их, чтобы отделить коммерческие денежные потоки от ваших личных финансов.",
+  "emptyNoTransactionsForFilters": "Нет транзакций для примененных фильтров",
+  "emptyNoTransactionsInHistory": "Нет транзакций в истории",
+  "emptyNoTransactionsForMonth": "Нет транзакций для {month}",
   "@emptyNoTransactionsForMonth": {
     "placeholders": {
       "month": {
@@ -187,13 +188,13 @@
       }
     }
   },
-  "emptyNoTransactionsForAccount": "No transactions for this account",
-  "trackTransactionDeleted": "Transaction deleted",
-  "trackDeleteTitle": "Delete transaction?",
-  "trackDeleteBody": "This will reverse the account balance changes.",
-  "trackTransaction": "Transaction",
-  "planConfirmTitle": "Confirm transaction?",
-  "planConfirmBodyEarly": "This occurrence is scheduled for {date}. It will be recorded in History with today’s date ({todayDate}). The next occurrence remains on {nextDate}.",
+  "emptyNoTransactionsForAccount": "Для этого счета нет транзакций",
+  "trackTransactionDeleted": "Транзакция удалена",
+  "trackDeleteTitle": "Удалить транзакцию?",
+  "trackDeleteBody": "Это отменит изменения баланса счета.",
+  "trackTransaction": "Сделка",
+  "planConfirmTitle": "Подтвердить транзакцию?",
+  "planConfirmBodyEarly": "Это событие запланировано на {date}. Оно будет записано в истории с сегодняшней датой ({todayDate}). Следующее событие остается на {nextDate}.",
   "@planConfirmBodyEarly": {
     "placeholders": {
       "date": {
@@ -207,19 +208,19 @@
       }
     }
   },
-  "planConfirmBodyNormal": "This will apply the transaction to your real account balances and move it to History.",
-  "planTransactionConfirmed": "Transaction confirmed and applied",
-  "planTransactionRemoved": "Planned transaction removed",
-  "planRepeatingTitle": "Repeating transaction",
-  "planRepeatingBody": "Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.",
-  "planDeleteAll": "Delete all",
-  "planSkipThisOnly": "Skip this only",
-  "planOccurrenceSkipped": "This occurrence skipped — next one scheduled",
-  "planNothingPlanned": "Nothing planned for now",
-  "planPlanBody": "Plan upcoming transactions.",
-  "planAddPlan": "Add plan",
-  "planNoPlannedForFilters": "No planned transactions for applied filters",
-  "planNoPlannedInMonth": "No planned transactions in {month}",
+  "planConfirmBodyNormal": "Это применит транзакцию к остаткам вашего реального счета и переместит ее в историю.",
+  "planTransactionConfirmed": "Транзакция подтверждена и применена",
+  "planTransactionRemoved": "Запланированная транзакция удалена.",
+  "planRepeatingTitle": "Повторяющаяся транзакция",
+  "planRepeatingBody": "Пропустите только эту дату — серия продолжится со следующего события — или удалите все оставшиеся события из своего плана.",
+  "planDeleteAll": "Удалить все",
+  "planSkipThisOnly": "Пропустить только это",
+  "planOccurrenceSkipped": "Это событие пропущено — следующее запланировано",
+  "planNothingPlanned": "На данный момент ничего не запланировано",
+  "planPlanBody": "Планируйте предстоящие транзакции.",
+  "planAddPlan": "Добавить план",
+  "planNoPlannedForFilters": "Нет запланированных транзакций для примененных фильтров",
+  "planNoPlannedInMonth": "Нет запланированных транзакций в {month}",
   "@planNoPlannedInMonth": {
     "placeholders": {
       "month": {
@@ -227,28 +228,28 @@
       }
     }
   },
-  "planOverdue": "overdue",
-  "planPlannedTransaction": "Planned transaction",
-  "discardTitle": "Discard changes?",
-  "discardBody": "You have unsaved changes. They will be lost if you leave now.",
-  "keepEditing": "Keep editing",
-  "discard": "Discard",
-  "newTransactionTitle": "New Transaction",
-  "editTransactionTitle": "Edit Transaction",
-  "transactionUpdated": "Transaction updated",
-  "sectionAccounts": "Accounts",
-  "labelFrom": "From",
-  "labelTo": "To",
-  "sectionCategory": "Category",
-  "sectionAttachments": "Attachments",
-  "labelNote": "Note",
-  "hintOptionalDescription": "Optional description",
-  "updateTransaction": "Update Transaction",
-  "saveTransaction": "Save Transaction",
-  "selectAccount": "Select account",
-  "selectAccountTitle": "Select Account",
-  "noAccountsAvailable": "No accounts available",
-  "amountReceivedBy": "Amount received by {name} ({currency})",
+  "planOverdue": "просроченный",
+  "planPlannedTransaction": "Планируемая транзакция",
+  "discardTitle": "Отменить изменения?",
+  "discardBody": "У вас есть несохраненные изменения. Они потеряются, если вы уйдете сейчас.",
+  "keepEditing": "Продолжайте редактировать",
+  "discard": "Отменить",
+  "newTransactionTitle": "Новая транзакция",
+  "editTransactionTitle": "Редактировать транзакцию",
+  "transactionUpdated": "Транзакция обновлена",
+  "sectionAccounts": "Счета",
+  "labelFrom": "От",
+  "labelTo": "К",
+  "sectionCategory": "Категория",
+  "sectionAttachments": "Вложения",
+  "labelNote": "Примечание",
+  "hintOptionalDescription": "Дополнительное описание",
+  "updateTransaction": "Обновить транзакцию",
+  "saveTransaction": "Сохранить транзакцию",
+  "selectAccount": "Выберите аккаунт",
+  "selectAccountTitle": "Выберите учетную запись",
+  "noAccountsAvailable": "Нет доступных аккаунтов",
+  "amountReceivedBy": "Сумма, полученная {name} ({currency})",
   "@amountReceivedBy": {
     "placeholders": {
       "name": {
@@ -259,24 +260,24 @@
       }
     }
   },
-  "amountReceivedHelper": "Enter the exact amount the destination account receives. This locks the real exchange rate used.",
-  "attachTakePhoto": "Take photo",
-  "attachTakePhotoSub": "Use camera to capture a receipt",
-  "attachChooseGallery": "Choose from gallery",
-  "attachChooseGallerySub": "Select photos from your library",
-  "attachBrowseFiles": "Browse files",
-  "attachBrowseFilesSub": "Attach PDFs, documents or other files",
-  "attachButton": "Attach",
-  "editPlanTitle": "Edit Plan",
-  "planTransactionTitle": "Plan Transaction",
-  "tapToSelect": "Tap to select",
-  "updatePlan": "Update Plan",
-  "addToPlan": "Add to Plan",
-  "labelRepeat": "Repeat",
-  "selectPlannedDate": "Select planned date",
-  "balancesAsOfToday": "Balances as of today",
-  "projectedBalancesForTomorrow": "Projected balances for tomorrow",
-  "projectedBalancesForDate": "Projected balances for {date}",
+  "amountReceivedHelper": "Введите точную сумму, которую получает целевой счет. Это фиксирует используемый реальный обменный курс.",
+  "attachTakePhoto": "Сфотографироваться",
+  "attachTakePhotoSub": "Используйте камеру, чтобы запечатлеть чек",
+  "attachChooseGallery": "Выбрать из галереи",
+  "attachChooseGallerySub": "Выберите фотографии из своей библиотеки",
+  "attachBrowseFiles": "Просмотр файлов",
+  "attachBrowseFilesSub": "Прикрепляйте PDF-файлы, документы или другие файлы",
+  "attachButton": "Прикреплять",
+  "editPlanTitle": "Редактировать план",
+  "planTransactionTitle": "Планировать транзакцию",
+  "tapToSelect": "Нажмите, чтобы выбрать",
+  "updatePlan": "Обновить план",
+  "addToPlan": "Добавить в план",
+  "labelRepeat": "Повторить",
+  "selectPlannedDate": "Выберите запланированную дату",
+  "balancesAsOfToday": "Остатки на сегодняшний день",
+  "projectedBalancesForTomorrow": "Прогнозируемые остатки на завтра",
+  "projectedBalancesForDate": "Прогнозируемые остатки для {date}",
   "@projectedBalancesForDate": {
     "placeholders": {
       "date": {
@@ -284,7 +285,7 @@
       }
     }
   },
-  "destReceivesLabel": "{name} receives ({currency})",
+  "destReceivesLabel": "{name} получает ({currency})",
   "@destReceivesLabel": {
     "placeholders": {
       "name": {
@@ -295,23 +296,23 @@
       }
     }
   },
-  "destHelper": "Estimated destination amount. Exact rate is locked at confirmation.",
-  "descriptionOptional": "Description (optional)",
-  "detailTransactionTitle": "Transaction",
-  "detailPlannedTitle": "Planned",
-  "detailConfirmTransaction": "Confirm transaction",
-  "detailDate": "Date",
-  "detailFrom": "From",
-  "detailTo": "To",
-  "detailCategory": "Category",
-  "detailNote": "Note",
-  "detailDestinationAmount": "Destination amount",
-  "detailExchangeRate": "Exchange rate",
-  "detailRepeats": "Repeats",
-  "detailDayOfMonth": "Day of month",
-  "detailWeekends": "Weekends",
-  "detailAttachments": "Attachments",
-  "detailFileCount": "{count, plural, =1{1 file} other{{count} files}}",
+  "destHelper": "Ориентировочная сумма назначения. Точная ставка фиксируется при подтверждении.",
+  "descriptionOptional": "Описание (необязательно)",
+  "detailTransactionTitle": "Сделка",
+  "detailPlannedTitle": "Планируется",
+  "detailConfirmTransaction": "Подтвердить транзакцию",
+  "detailDate": "Дата",
+  "detailFrom": "От",
+  "detailTo": "К",
+  "detailCategory": "Категория",
+  "detailNote": "Примечание",
+  "detailDestinationAmount": "Сумма назначения",
+  "detailExchangeRate": "Обменный курс",
+  "detailRepeats": "Повторы",
+  "detailDayOfMonth": "День месяца",
+  "detailWeekends": "Выходные",
+  "detailAttachments": "Вложения",
+  "detailFileCount": "{count, plural, =1{1 файл} other{{count} файла}}",
   "@detailFileCount": {
     "placeholders": {
       "count": {
@@ -319,17 +320,17 @@
       }
     }
   },
-  "settingsTitle": "Settings",
-  "settingsSectionDisplay": "Display",
-  "settingsSectionLanguage": "Language",
-  "settingsSectionCategories": "Categories",
-  "settingsSectionAccounts": "Accounts",
-  "settingsSectionPreferences": "Preferences",
-  "settingsSectionManage": "Manage",
-  "settingsBaseCurrency": "Home currency",
-  "settingsSecondaryCurrency": "Secondary currency",
-  "settingsCategories": "Categories",
-  "settingsCategoriesSubtitle": "{incomeCount} income · {expenseCount} expense",
+  "settingsTitle": "Настройки",
+  "settingsSectionDisplay": "Отображать",
+  "settingsSectionLanguage": "Язык",
+  "settingsSectionCategories": "Категории",
+  "settingsSectionAccounts": "Счета",
+  "settingsSectionPreferences": "Предпочтения",
+  "settingsSectionManage": "Управлять",
+  "settingsBaseCurrency": "Домашняя валюта",
+  "settingsSecondaryCurrency": "Вторичная валюта",
+  "settingsCategories": "Категории",
+  "settingsCategoriesSubtitle": "{incomeCount} доход · {expenseCount} расход",
   "@settingsCategoriesSubtitle": {
     "placeholders": {
       "incomeCount": {
@@ -340,9 +341,9 @@
       }
     }
   },
-  "settingsArchivedAccounts": "Archived accounts",
-  "settingsArchivedAccountsSubtitleZero": "None right now — archive from account edit when balance is clear",
-  "settingsArchivedAccountsSubtitleCount": "{count} hidden from Review and pickers",
+  "settingsArchivedAccounts": "Архивированные аккаунты",
+  "settingsArchivedAccountsSubtitleZero": "Сейчас нет — архив из редактирования аккаунта, когда баланс чист",
+  "settingsArchivedAccountsSubtitleCount": "{count} скрыт от просмотра и сборщиков",
   "@settingsArchivedAccountsSubtitleCount": {
     "placeholders": {
       "count": {
@@ -350,48 +351,48 @@
       }
     }
   },
-  "settingsSectionData": "Data",
-  "settingsSectionPrivacy": "About",
-  "settingsPrivacyPolicyTitle": "Privacy policy",
-  "settingsPrivacyPolicySubtitle": "How Platrare handles your data.",
-  "settingsPrivacyFxDisclosure": "Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.",
-  "settingsPrivacyOpenFailed": "Could not load the privacy policy.",
-  "settingsPrivacyRetry": "Try again",
-  "settingsSoftwareVersionTitle": "Software version",
-  "settingsSoftwareVersionSubtitle": "Release, diagnostics, and legal",
-  "aboutScreenTitle": "About",
-  "aboutAppTagline": "Ledger, cashflow, and planning in one workspace.",
-  "aboutDescriptionBody": "Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.",
-  "aboutVersionLabel": "Version",
-  "aboutBuildLabel": "Build",
-  "aboutCopySupportDetails": "Copy support details",
-  "aboutOpenPrivacySubtitle": "Opens the full in-app policy document.",
-  "aboutSupportBundleLocaleLabel": "Locale",
-  "settingsSupportInfoCopied": "Copied to clipboard",
-  "settingsVerifyLedger": "Verify data",
-  "settingsVerifyLedgerSubtitle": "Check that account balances match your transaction history",
-  "settingsDataExportTitle": "Export backup",
-  "settingsDataExportSubtitle": "Save as .zip or encrypted .platrare with all data and attachments",
-  "settingsDataImportTitle": "Restore from backup",
-  "settingsDataImportSubtitle": "Replace current data from a Platrare .zip or .platrare backup",
-  "backupExportDialogTitle": "Protect this backup",
-  "backupExportDialogBody": "A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.",
-  "backupExportPasswordLabel": "Password",
-  "backupExportPasswordConfirmLabel": "Confirm password",
-  "backupExportPasswordMismatch": "Passwords do not match",
-  "backupExportPasswordEmpty": "Enter a matching password, or export without encryption below.",
-  "backupExportPasswordTooShort": "Password must be at least 8 characters.",
-  "backupExportSaveToDevice": "Save to device",
-  "backupExportShareToCloud": "Share (iCloud, Drive…)",
-  "backupExportWithoutEncryption": "Export without encryption",
-  "backupExportSkipWarningTitle": "Export without encryption?",
-  "backupExportSkipWarningBody": "Anyone with access to the file can read your data. Use this only for local copies you control.",
-  "backupExportSkipWarningConfirm": "Export unencrypted",
-  "backupImportPasswordTitle": "Encrypted backup",
-  "backupImportPasswordBody": "Enter the password you used when exporting.",
-  "backupImportPasswordLabel": "Password",
-  "backupImportPreviewTitle": "Backup summary",
-  "backupImportPreviewVersion": "App version: {version}",
+  "settingsSectionData": "Данные",
+  "settingsSectionPrivacy": "О",
+  "settingsPrivacyPolicyTitle": "Политика конфиденциальности",
+  "settingsPrivacyPolicySubtitle": "Как Platrare обрабатывает ваши данные.",
+  "settingsPrivacyFxDisclosure": "Курсы валют: приложение считывает общедоступные курсы валют через Интернет. Ваши счета и транзакции никогда не отправляются.",
+  "settingsPrivacyOpenFailed": "Не удалось загрузить политику конфиденциальности.",
+  "settingsPrivacyRetry": "Попробуйте еще раз",
+  "settingsSoftwareVersionTitle": "Версия программного обеспечения",
+  "settingsSoftwareVersionSubtitle": "Выпуск, диагностика и юридическая информация",
+  "aboutScreenTitle": "О",
+  "aboutAppTagline": "Книга учета, движение денежных средств и планирование в одном рабочем пространстве.",
+  "aboutDescriptionBody": "Platrare хранит счета, транзакции и планы на вашем устройстве. Экспортируйте зашифрованные резервные копии, когда вам понадобится копия в другом месте. В обменных курсах используются только данные публичного рынка; ваш реестр не загружен.",
+  "aboutVersionLabel": "Версия",
+  "aboutBuildLabel": "Строить",
+  "aboutCopySupportDetails": "Скопировать сведения о поддержке",
+  "aboutOpenPrivacySubtitle": "Открывает полный документ политики в приложении.",
+  "aboutSupportBundleLocaleLabel": "Языковой стандарт",
+  "settingsSupportInfoCopied": "Скопировано в буфер обмена",
+  "settingsVerifyLedger": "Проверьте данные",
+  "settingsVerifyLedgerSubtitle": "Убедитесь, что остатки на счетах соответствуют вашей истории транзакций.",
+  "settingsDataExportTitle": "Экспортировать резервную копию",
+  "settingsDataExportSubtitle": "Сохраните в формате .zip или зашифрованном .platrare со всеми данными и вложениями.",
+  "settingsDataImportTitle": "Восстановление из резервной копии",
+  "settingsDataImportSubtitle": "Замените текущие данные из резервной копии Platrare .zip или .platrare.",
+  "backupExportDialogTitle": "Защитите эту резервную копию",
+  "backupExportDialogBody": "Рекомендуется использовать надежный пароль, особенно если вы храните файл в облаке. Для импорта вам понадобится тот же пароль.",
+  "backupExportPasswordLabel": "Пароль",
+  "backupExportPasswordConfirmLabel": "Подтвердите пароль",
+  "backupExportPasswordMismatch": "Пароли не совпадают",
+  "backupExportPasswordEmpty": "Введите соответствующий пароль или экспортируйте данные без шифрования ниже.",
+  "backupExportPasswordTooShort": "Пароль должен быть не менее 8 символов.",
+  "backupExportSaveToDevice": "Сохранить на устройство",
+  "backupExportShareToCloud": "Поделиться (iCloud, Drive…)",
+  "backupExportWithoutEncryption": "Экспорт без шифрования",
+  "backupExportSkipWarningTitle": "Экспортировать без шифрования?",
+  "backupExportSkipWarningBody": "Любой, у кого есть доступ к файлу, может прочитать ваши данные. Используйте это только для локальных копий, которыми вы управляете.",
+  "backupExportSkipWarningConfirm": "Экспортировать в незашифрованном виде",
+  "backupImportPasswordTitle": "Зашифрованное резервное копирование",
+  "backupImportPasswordBody": "Введите пароль, который вы использовали при экспорте.",
+  "backupImportPasswordLabel": "Пароль",
+  "backupImportPreviewTitle": "Сводка резервного копирования",
+  "backupImportPreviewVersion": "Версия приложения: {version}",
   "@backupImportPreviewVersion": {
     "placeholders": {
       "version": {
@@ -399,7 +400,7 @@
       }
     }
   },
-  "backupImportPreviewExported": "Exported: {date}",
+  "backupImportPreviewExported": "Экспортировано: {date}",
   "@backupImportPreviewExported": {
     "placeholders": {
       "date": {
@@ -407,7 +408,7 @@
       }
     }
   },
-  "backupImportPreviewCounts": "{accounts} accounts · {transactions} transactions · {planned} planned · {attachments} attachment files · {income} income categories · {expense} expense categories",
+  "backupImportPreviewCounts": "{accounts} счета · {transactions} транзакции · {planned} запланированные · {attachments} вложенные файлы · {income} категории доходов · {expense} категории расходов",
   "@backupImportPreviewCounts": {
     "placeholders": {
       "accounts": {
@@ -430,19 +431,19 @@
       }
     }
   },
-  "backupImportPreviewContinue": "Continue",
-  "settingsBackupWrongPassword": "Wrong password",
-  "settingsBackupChecksumMismatch": "Backup failed integrity check",
-  "settingsBackupCorruptFile": "Invalid or damaged backup file",
-  "settingsBackupUnsupportedVersion": "Backup needs a newer app version",
-  "settingsDataImportConfirmTitle": "Replace current data?",
-  "settingsDataImportConfirmBody": "This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.",
-  "settingsDataImportConfirmAction": "Replace data",
-  "settingsDataImportDone": "Data restored successfully",
-  "settingsDataImportInvalidFile": "This file is not a valid Platrare backup",
-  "settingsDataImportFailed": "Import failed",
-  "settingsDataExportDoneTitle": "Backup exported",
-  "settingsDataExportDoneBody": "Backup saved to:\n{path}",
+  "backupImportPreviewContinue": "Продолжать",
+  "settingsBackupWrongPassword": "Неправильный пароль",
+  "settingsBackupChecksumMismatch": "Не удалось проверить целостность резервной копии",
+  "settingsBackupCorruptFile": "Неверный или поврежденный файл резервной копии",
+  "settingsBackupUnsupportedVersion": "Для резервного копирования требуется более новая версия приложения.",
+  "settingsDataImportConfirmTitle": "Заменить текущие данные?",
+  "settingsDataImportConfirmBody": "Ваши текущие счета, транзакции, запланированные транзакции, категории и импортированные вложения будут заменены содержимым выбранной резервной копии. Это действие невозможно отменить.",
+  "settingsDataImportConfirmAction": "Заменить данные",
+  "settingsDataImportDone": "Данные успешно восстановлены",
+  "settingsDataImportInvalidFile": "Этот файл не является действительной резервной копией Platrare.",
+  "settingsDataImportFailed": "Импорт не удался",
+  "settingsDataExportDoneTitle": "Резервная копия экспортирована.",
+  "settingsDataExportDoneBody": "Резервная копия сохранена в:\n{path}",
   "@settingsDataExportDoneBody": {
     "placeholders": {
       "path": {
@@ -450,12 +451,12 @@
       }
     }
   },
-  "settingsDataOpenExportFile": "Open file",
-  "settingsDataExportFailed": "Export failed",
-  "ledgerVerifyDialogTitle": "Ledger verification",
-  "ledgerVerifyAllMatch": "All accounts match.",
-  "ledgerVerifyMismatchesTitle": "Mismatches",
-  "ledgerVerifyMismatchDetails": "{accountName}\nStored: {stored}\nReplay: {replayed}\nDifference: {diff}",
+  "settingsDataOpenExportFile": "Открыть файл",
+  "settingsDataExportFailed": "Экспорт не удался",
+  "ledgerVerifyDialogTitle": "Проверка бухгалтерской книги",
+  "ledgerVerifyAllMatch": "Все аккаунты совпадают.",
+  "ledgerVerifyMismatchesTitle": "Несоответствия",
+  "ledgerVerifyMismatchDetails": "{accountName}\nСохранено: {stored}\nПовтор: {replayed}\nРазница: {diff}",
   "@ledgerVerifyMismatchDetails": {
     "placeholders": {
       "accountName": {
@@ -472,51 +473,51 @@
       }
     }
   },
-  "settingsLanguage": "App language",
-  "settingsLanguageSubtitleSystem": "Following system settings",
-  "settingsLanguageSubtitleEnglish": "English",
-  "settingsLanguageSubtitleSerbianLatin": "Serbian (Latin)",
-  "settingsLanguagePickerTitle": "App language",
-  "settingsLanguageOptionSystem": "System default",
-  "settingsLanguageOptionEnglish": "English",
-  "settingsLanguageOptionSerbianLatin": "Serbian (Latin)",
-  "settingsSectionAppearance": "Appearance",
-  "settingsSectionSecurity": "Security",
-  "settingsSecurityEnableLock": "Lock app on open",
-  "settingsSecurityEnableLockSubtitle": "Require biometric unlock or PIN when app opens",
-  "settingsSecuritySetPin": "Set PIN",
-  "settingsSecurityChangePin": "Change PIN",
-  "settingsSecurityPinSubtitle": "Use a PIN as fallback if biometric is unavailable",
-  "settingsSecurityRemovePin": "Remove PIN",
-  "securitySetPinTitle": "Set app PIN",
-  "securityPinLabel": "PIN code",
-  "securityConfirmPinLabel": "Confirm PIN code",
-  "securityPinMustBe4Digits": "PIN must have at least 4 digits",
-  "securityPinMismatch": "PIN codes do not match",
-  "securityRemovePinTitle": "Remove PIN?",
-  "securityRemovePinBody": "Biometric unlock can still be used if available.",
-  "securityUnlockTitle": "App locked",
-  "securityUnlockSubtitle": "Unlock with Face ID, fingerprint, or PIN.",
-  "securityUnlockWithPin": "Unlock with PIN",
-  "securityTryBiometric": "Try biometric unlock",
-  "securityPinIncorrect": "Incorrect PIN, try again",
-  "securityBiometricReason": "Authenticate to open your app",
-  "settingsTheme": "Theme",
-  "settingsThemeSubtitleSystem": "Following system settings",
-  "settingsThemeSubtitleLight": "Light",
-  "settingsThemeSubtitleDark": "Dark",
-  "settingsThemePickerTitle": "Theme",
-  "settingsThemeOptionSystem": "System default",
-  "settingsThemeOptionLight": "Light",
-  "settingsThemeOptionDark": "Dark",
-  "archivedAccountsTitle": "Archived accounts",
-  "archivedAccountsEmptyTitle": "No archived accounts",
-  "archivedAccountsEmptyBody": "Book balance and overdraft must be zero. Archive from account options in Review.",
-  "categoriesTitle": "Categories",
-  "newCategoryTitle": "New Category",
-  "categoryNameLabel": "Category name",
-  "deleteCategoryTitle": "Delete category?",
-  "deleteCategoryBody": "\"{category}\" will be removed from the list.",
+  "settingsLanguage": "Язык приложения",
+  "settingsLanguageSubtitleSystem": "Следующие настройки системы",
+  "settingsLanguageSubtitleEnglish": "Английский",
+  "settingsLanguageSubtitleSerbianLatin": "Сербский (латиница)",
+  "settingsLanguagePickerTitle": "Язык приложения",
+  "settingsLanguageOptionSystem": "Система по умолчанию",
+  "settingsLanguageOptionEnglish": "Английский",
+  "settingsLanguageOptionSerbianLatin": "Сербский (латиница)",
+  "settingsSectionAppearance": "Появление",
+  "settingsSectionSecurity": "Безопасность",
+  "settingsSecurityEnableLock": "Блокировать приложение при открытии",
+  "settingsSecurityEnableLockSubtitle": "Требовать биометрическую разблокировку или PIN-код при открытии приложения",
+  "settingsSecuritySetPin": "Установить PIN-код",
+  "settingsSecurityChangePin": "Изменить ПИН-код",
+  "settingsSecurityPinSubtitle": "Используйте PIN-код в качестве запасного варианта, если биометрические данные недоступны.",
+  "settingsSecurityRemovePin": "Удалить PIN-код",
+  "securitySetPinTitle": "Установить PIN-код приложения",
+  "securityPinLabel": "ПИН-код",
+  "securityConfirmPinLabel": "Подтвердите PIN-код",
+  "securityPinMustBe4Digits": "PIN-код должен содержать не менее 4 цифр.",
+  "securityPinMismatch": "ПИН-коды не совпадают",
+  "securityRemovePinTitle": "Удалить PIN-код?",
+  "securityRemovePinBody": "Биометрическую разблокировку по-прежнему можно использовать, если она доступна.",
+  "securityUnlockTitle": "Приложение заблокировано",
+  "securityUnlockSubtitle": "Разблокируйте с помощью Face ID, отпечатка пальца или PIN-кода.",
+  "securityUnlockWithPin": "Разблокировать с помощью PIN-кода",
+  "securityTryBiometric": "Попробуйте биометрическую разблокировку",
+  "securityPinIncorrect": "Неверный PIN-код, попробуйте еще раз.",
+  "securityBiometricReason": "Пройдите аутентификацию, чтобы открыть приложение",
+  "settingsTheme": "Тема",
+  "settingsThemeSubtitleSystem": "Следующие настройки системы",
+  "settingsThemeSubtitleLight": "Свет",
+  "settingsThemeSubtitleDark": "Темный",
+  "settingsThemePickerTitle": "Тема",
+  "settingsThemeOptionSystem": "Система по умолчанию",
+  "settingsThemeOptionLight": "Свет",
+  "settingsThemeOptionDark": "Темный",
+  "archivedAccountsTitle": "Архивированные аккаунты",
+  "archivedAccountsEmptyTitle": "Нет заархивированных аккаунтов",
+  "archivedAccountsEmptyBody": "Баланс книги и овердрафт должны быть равны нулю. Архив из параметров аккаунта в Обзоре.",
+  "categoriesTitle": "Категории",
+  "newCategoryTitle": "Новая категория",
+  "categoryNameLabel": "Название категории",
+  "deleteCategoryTitle": "Удалить категорию?",
+  "deleteCategoryBody": "«{category}» будет удален из списка.",
   "@deleteCategoryBody": {
     "placeholders": {
       "category": {
@@ -524,18 +525,18 @@
       }
     }
   },
-  "categoryIncome": "Income",
-  "categoryExpense": "Expense",
-  "categoryAdd": "Add",
-  "searchCurrencies": "Search currencies…",
-  "period1M": "1M",
-  "period3M": "3M",
-  "period6M": "6M",
-  "period1Y": "1Y",
-  "periodAll": "ALL",
-  "categoryLabel": "category",
-  "categoriesLabel": "categories",
-  "transactionSavedMessage": "{type} saved  •  {amount}",
+  "categoryIncome": "Доход",
+  "categoryExpense": "Расход",
+  "categoryAdd": "Добавлять",
+  "searchCurrencies": "Поиск валют…",
+  "period1M": "1М",
+  "period3M": "3М",
+  "period6M": "6М",
+  "period1Y": "1 год",
+  "periodAll": "ВСЕ",
+  "categoryLabel": "категория",
+  "categoriesLabel": "категории",
+  "transactionSavedMessage": "{type} сохранено • {amount}",
   "@transactionSavedMessage": {
     "placeholders": {
       "type": {
@@ -546,18 +547,18 @@
       }
     }
   },
-  "tooltipSettings": "Settings",
-  "tooltipAddAccount": "Add account",
-  "tooltipRemoveAccount": "Remove account",
-  "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
-  "groupDescPersonal": "Your own wallets & bank accounts",
-  "groupDescIndividuals": "Family, friends, individuals",
-  "groupDescEntities": "Entities, utilities, organisations",
-  "cannotArchiveTitle": "Cannot archive yet",
-  "cannotArchiveBody": "Archive is only available when the book balance and overdraft limit are both effectively zero.",
-  "cannotArchiveBodyAdjust": "Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.",
-  "archiveAccountTitle": "Archive account?",
-  "archiveWithPlannedBody": "{count, plural, =1{1 planned transaction references this account.} other{{count} planned transactions reference this account.}} Remove them to keep your plan consistent with an archived account.",
+  "tooltipSettings": "Настройки",
+  "tooltipAddAccount": "Добавить аккаунт",
+  "tooltipRemoveAccount": "Удалить аккаунт",
+  "accountNameTaken": "У вас уже есть аккаунт с таким именем и идентификатором (активный или заархивированный). Измените имя или идентификатор.",
+  "groupDescPersonal": "Ваши собственные кошельки и банковские счета",
+  "groupDescIndividuals": "Семья, друзья, отдельные лица",
+  "groupDescEntities": "Субъекты, коммунальные предприятия, организации",
+  "cannotArchiveTitle": "Пока не могу заархивировать",
+  "cannotArchiveBody": "Архив доступен только в том случае, если баланс книги и лимит овердрафта фактически равны нулю.",
+  "cannotArchiveBodyAdjust": "Архив доступен только в том случае, если баланс книги и лимит овердрафта фактически равны нулю. Сначала настройте бухгалтерскую книгу или объект.",
+  "archiveAccountTitle": "Архив аккаунта?",
+  "archiveWithPlannedBody": "{count, plural, =1{1 запланированная операция ссылается на этот счёт.} other{{count} запланированных операций ссылаются на этот счёт.}} Удалите их, чтобы план соответствовал архивному счёту.",
   "@archiveWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -565,17 +566,17 @@
       }
     }
   },
-  "removeAndArchive": "Remove planned & archive",
-  "archiveBody": "The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.",
-  "archiveAction": "Archive",
-  "archiveInstead": "Archive instead",
-  "cannotDeleteTitle": "Cannot delete account",
-  "cannotDeleteBodyShort": "This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.",
-  "cannotDeleteBodyHistory": "This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.",
-  "cannotDeleteBodySuggestArchive": "This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.",
-  "deleteAccountTitle": "Delete account?",
-  "deleteAccountBodyPermanent": "This account will be removed permanently.",
-  "deleteWithPlannedBody": "{count, plural, =1{1 planned transaction references this account and will also be deleted.} other{{count} planned transactions reference this account and will also be deleted.}}",
+  "removeAndArchive": "Удалить запланированное и заархивировать",
+  "archiveBody": "Учетная запись будет скрыта от средств выбора «Просмотр», «Отслеживание» и «План». Вы можете восстановить его из настроек.",
+  "archiveAction": "Архив",
+  "archiveInstead": "Вместо этого архивируйте",
+  "cannotDeleteTitle": "Не могу удалить аккаунт",
+  "cannotDeleteBodyShort": "Эта учетная запись появится в вашей истории треков. Сначала удалите или переназначьте эти транзакции или заархивируйте учетную запись, если баланс очищен.",
+  "cannotDeleteBodyHistory": "Эта учетная запись появится в вашей истории треков. Удаление нарушит эту историю — сначала удалите или переназначьте эти транзакции.",
+  "cannotDeleteBodySuggestArchive": "Эта учетная запись отображается в вашей истории треков, поэтому ее нельзя удалить. Вместо этого вы можете заархивировать его, если баланс книги и овердрафт очищены — он будет скрыт из списков, но история останется нетронутой.",
+  "deleteAccountTitle": "Удалить аккаунт?",
+  "deleteAccountBodyPermanent": "Эта учетная запись будет удалена навсегда.",
+  "deleteWithPlannedBody": "{count, plural, =1{1 запланированная операция ссылается на этот счёт и также будет удалена.} other{{count} запланированных операций ссылаются на этот счёт и также будут удалены.}}",
   "@deleteWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -583,30 +584,30 @@
       }
     }
   },
-  "deleteAllAndDelete": "Delete all",
-  "editAccountTitle": "Edit Account",
-  "newAccountTitle": "New Account",
-  "labelAccountName": "Account name",
-  "labelAccountIdentifier": "Identifier (optional)",
-  "accountAppearanceSection": "Icon & color",
-  "accountPickIcon": "Choose icon",
-  "accountPickColor": "Choose color",
-  "accountIconSheetTitle": "Account icon",
-  "accountColorSheetTitle": "Account color",
-  "accountUseInitialLetter": "Initial letter",
-  "accountUseDefaultColor": "Match group",
-  "labelRealBalance": "Real balance",
-  "labelOverdraftLimit": "Overdraft / advance limit",
-  "labelCurrency": "Currency",
-  "saveChanges": "Save Changes",
-  "addAccountAction": "Add Account",
-  "removeAccountSheetTitle": "Remove account",
-  "deletePermanently": "Delete permanently",
-  "deletePermanentlySubtitle": "Only possible when this account is not used in Track. Planned items can be removed as part of delete.",
-  "archiveOptionSubtitle": "Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.",
-  "archivedBannerText": "This account is archived. It stays in your data but is hidden from lists and pickers.",
-  "balanceAdjustedTitle": "Balance adjusted in Track",
-  "balanceAdjustedBody": "Real balance was updated from {previous} to {current} {symbol}.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.",
+  "deleteAllAndDelete": "Удалить все",
+  "editAccountTitle": "Редактировать аккаунт",
+  "newAccountTitle": "Новая учетная запись",
+  "labelAccountName": "Имя учетной записи",
+  "labelAccountIdentifier": "Идентификатор (необязательно)",
+  "accountAppearanceSection": "Значок и цвет",
+  "accountPickIcon": "Выберите значок",
+  "accountPickColor": "Выберите цвет",
+  "accountIconSheetTitle": "Значок учетной записи",
+  "accountColorSheetTitle": "Цвет аккаунта",
+  "accountUseInitialLetter": "Начальная буква",
+  "accountUseDefaultColor": "Группа совпадений",
+  "labelRealBalance": "Реальный баланс",
+  "labelOverdraftLimit": "Овердрафт/лимит аванса",
+  "labelCurrency": "Валюта",
+  "saveChanges": "Сохранить изменения",
+  "addAccountAction": "Добавить аккаунт",
+  "removeAccountSheetTitle": "Удалить аккаунт",
+  "deletePermanently": "Удалить навсегда",
+  "deletePermanentlySubtitle": "Возможно только в том случае, если эта учетная запись не используется в Track. Запланированные элементы можно удалить в рамках удаления.",
+  "archiveOptionSubtitle": "Скрыть от просмотра и сборщиков. Восстановление в любое время из настроек. Требуется нулевой баланс и овердрафт.",
+  "archivedBannerText": "Этот аккаунт заархивирован. Он остается в ваших данных, но скрыт от списков и средств выбора.",
+  "balanceAdjustedTitle": "Баланс скорректирован в Track",
+  "balanceAdjustedBody": "Реальный баланс обновлен с {previous} на {current} {symbol}.\n\nТранзакция корректировки баланса была создана в разделе «Отслеживание» (история), чтобы обеспечить согласованность бухгалтерской книги.\n\n• Реальный баланс отражает фактическую сумму на этом счете.\n• Проверьте историю на наличие записи о корректировке.",
   "@balanceAdjustedBody": {
     "placeholders": {
       "previous": {
@@ -620,21 +621,21 @@
       }
     }
   },
-  "ok": "OK",
-  "categoryBalanceAdjustment": "Balance adjustment",
-  "descriptionBalanceCorrection": "Balance correction",
-  "descriptionOpeningBalance": "Opening balance",
-  "reviewStatsModeStatistics": "Statistics",
-  "reviewStatsModeComparison": "Comparison",
-  "statsUncategorized": "Uncategorized",
-  "statsNoCategories": "No categories in the selected periods for comparison.",
-  "statsNoTransactions": "No transactions",
-  "statsSpendingInCategory": "Spending in this category",
-  "statsIncomeInCategory": "Income in this category",
-  "statsDifference": "Difference (B vs A): ",
-  "statsNoExpensesMonth": "No expenses this month",
-  "statsNoExpensesAll": "No expenses recorded",
-  "statsNoExpensesPeriod": "No expenses in the last {period}",
+  "ok": "ХОРОШО",
+  "categoryBalanceAdjustment": "Регулировка баланса",
+  "descriptionBalanceCorrection": "Коррекция баланса",
+  "descriptionOpeningBalance": "Начальный баланс",
+  "reviewStatsModeStatistics": "Статистика",
+  "reviewStatsModeComparison": "Сравнение",
+  "statsUncategorized": "Без категории",
+  "statsNoCategories": "Нет категорий в выбранных периодах для сравнения.",
+  "statsNoTransactions": "Нет транзакций",
+  "statsSpendingInCategory": "Расходы в этой категории",
+  "statsIncomeInCategory": "Доход в этой категории",
+  "statsDifference": "Разница (Б против А):",
+  "statsNoExpensesMonth": "Никаких расходов в этом месяце",
+  "statsNoExpensesAll": "Расходы не зафиксированы",
+  "statsNoExpensesPeriod": "Никаких расходов за последний {period}",
   "@statsNoExpensesPeriod": {
     "placeholders": {
       "period": {
@@ -642,11 +643,11 @@
       }
     }
   },
-  "statsTotalSpent": "Total spent",
-  "statsNoExpensesThisPeriod": "No expenses in this period",
-  "statsNoIncomeMonth": "No income this month",
-  "statsNoIncomeAll": "No income recorded",
-  "statsNoIncomePeriod": "No income in the last {period}",
+  "statsTotalSpent": "Всего потрачено",
+  "statsNoExpensesThisPeriod": "Никаких расходов в этот период",
+  "statsNoIncomeMonth": "В этом месяце дохода нет",
+  "statsNoIncomeAll": "Доход не зафиксирован",
+  "statsNoIncomePeriod": "Нет дохода за последний {period}",
   "@statsNoIncomePeriod": {
     "placeholders": {
       "period": {
@@ -654,40 +655,40 @@
       }
     }
   },
-  "statsTotalReceived": "Total received",
-  "statsNoIncomeThisPeriod": "No income in this period",
-  "catSalary": "Salary",
-  "catFreelance": "Freelance",
-  "catConsulting": "Consulting",
-  "catGift": "Gift",
-  "catRental": "Rental",
-  "catDividends": "Dividends",
-  "catRefund": "Refund",
-  "catBonus": "Bonus",
-  "catInterest": "Interest",
-  "catSideHustle": "Side hustle",
-  "catSaleOfGoods": "Sale of goods",
-  "catOther": "Other",
-  "catGroceries": "Groceries",
-  "catDining": "Dining",
-  "catTransport": "Transport",
-  "catUtilities": "Utilities",
-  "catHousing": "Housing",
-  "catHealthcare": "Healthcare",
-  "catEntertainment": "Entertainment",
-  "catShopping": "Shopping",
-  "catTravel": "Travel",
-  "catEducation": "Education",
-  "catSubscriptions": "Subscriptions",
-  "catInsurance": "Insurance",
-  "catFuel": "Fuel",
-  "catGym": "Gym",
-  "catPets": "Pets",
-  "catKids": "Kids",
-  "catCharity": "Charity",
-  "catCoffee": "Coffee",
-  "catGifts": "Gifts",
-  "semanticsProjectionDate": "Projection date {date}. Double tap to choose date",
+  "statsTotalReceived": "Всего получено",
+  "statsNoIncomeThisPeriod": "Нет дохода в этот период",
+  "catSalary": "Зарплата",
+  "catFreelance": "Внештатный",
+  "catConsulting": "Консалтинг",
+  "catGift": "Подарок",
+  "catRental": "Аренда",
+  "catDividends": "Дивиденды",
+  "catRefund": "Возвращать деньги",
+  "catBonus": "Бонус",
+  "catInterest": "Интерес",
+  "catSideHustle": "Подработка",
+  "catSaleOfGoods": "Продажа товаров",
+  "catOther": "Другой",
+  "catGroceries": "Продукты питания",
+  "catDining": "Столовая",
+  "catTransport": "Транспорт",
+  "catUtilities": "Утилиты",
+  "catHousing": "Жилье",
+  "catHealthcare": "Здравоохранение",
+  "catEntertainment": "Развлечение",
+  "catShopping": "Шоппинг",
+  "catTravel": "Путешествовать",
+  "catEducation": "Образование",
+  "catSubscriptions": "Подписки",
+  "catInsurance": "Страхование",
+  "catFuel": "Топливо",
+  "catGym": "Спортзал",
+  "catPets": "Домашние животные",
+  "catKids": "Дети",
+  "catCharity": "Благотворительность",
+  "catCoffee": "Кофе",
+  "catGifts": "Подарки",
+  "semanticsProjectionDate": "Дата прогноза {date}. Нажмите дважды, чтобы выбрать дату",
   "@semanticsProjectionDate": {
     "placeholders": {
       "date": {
@@ -695,7 +696,7 @@
       }
     }
   },
-  "semanticsProjectedBalance": "Projected personal balance {amount}",
+  "semanticsProjectedBalance": "Прогнозируемый личный баланс {amount}",
   "@semanticsProjectedBalance": {
     "placeholders": {
       "amount": {
@@ -703,12 +704,12 @@
       }
     }
   },
-  "statsEmptyTitle": "No transactions yet",
-  "statsEmptySubtitle": "No spending data for the selected range.",
-  "semanticsShowProjections": "Show projected balances by account",
-  "semanticsHideProjections": "Hide projected balances by account",
-  "semanticsDateAllTime": "Date: all time — tap to change mode",
-  "semanticsDateMode": "Date: {mode} — tap to change mode",
+  "statsEmptyTitle": "Транзакций пока нет",
+  "statsEmptySubtitle": "Нет данных о расходах для выбранного диапазона.",
+  "semanticsShowProjections": "Показать прогнозируемые остатки по счетам",
+  "semanticsHideProjections": "Скрыть прогнозируемые остатки по счетам",
+  "semanticsDateAllTime": "Дата: все время — нажмите, чтобы изменить режим",
+  "semanticsDateMode": "Дата: {mode} — нажмите, чтобы изменить режим.",
   "@semanticsDateMode": {
     "placeholders": {
       "mode": {
@@ -716,22 +717,22 @@
       }
     }
   },
-  "semanticsDateThisMonth": "Date: this month — tap for month, week, year, or all time",
-  "semanticsTxTypeCycle": "Transaction type: cycle all, income, expense, transfer",
-  "semanticsAccountFilter": "Account filter",
-  "semanticsAlreadyFiltered": "Already filtered to this account",
-  "semanticsCategoryFilter": "Category filter",
-  "semanticsSortToggle": "Sort: toggle newest or oldest first",
-  "semanticsFiltersDisabled": "List filters disabled while viewing a future projection date. Clear projections to use filters.",
-  "semanticsFiltersDisabledNeedAccount": "List filters disabled. Add an account first.",
-  "semanticsFiltersDisabledNeedPlannedTransaction": "List filters disabled. Add a planned transaction first.",
-  "semanticsFiltersDisabledNeedRecordedTransaction": "List filters disabled. Record a transaction first.",
-  "semanticsReviewSectionChipsDisabledNeedAccount": "Section and currency controls disabled. Add an account first.",
-  "semanticsPlanProjectionControlsDisabled": "Projection date and balance breakdown disabled. Add an account and a planned transaction first.",
-  "semanticsReorderAccountHint": "Long press, then drag to reorder within this group",
-  "semanticsChartStyle": "Chart style",
-  "semanticsChartStyleUnavailable": "Chart style (unavailable in comparison mode)",
-  "semanticsPeriod": "Period: {label}",
+  "semanticsDateThisMonth": "Дата: в этом месяце — нажмите, чтобы выбрать месяц, неделю, год или все время.",
+  "semanticsTxTypeCycle": "Тип транзакции: цикл все, доход, расход, перевод",
+  "semanticsAccountFilter": "Фильтр аккаунта",
+  "semanticsAlreadyFiltered": "Уже отфильтровано для этого аккаунта",
+  "semanticsCategoryFilter": "Фильтр категории",
+  "semanticsSortToggle": "Сортировать: сначала переключать самые новые или самые старые",
+  "semanticsFiltersDisabled": "Фильтры списка отключены при просмотре будущей даты прогноза. Очистите прогнозы, чтобы использовать фильтры.",
+  "semanticsFiltersDisabledNeedAccount": "Фильтры списка отключены. Сначала добавьте учетную запись.",
+  "semanticsFiltersDisabledNeedPlannedTransaction": "Фильтры списка отключены. Сначала добавьте запланированную транзакцию.",
+  "semanticsFiltersDisabledNeedRecordedTransaction": "Фильтры списка отключены. Сначала запишите транзакцию.",
+  "semanticsReviewSectionChipsDisabledNeedAccount": "Раздел и валютный контроль отключены. Сначала добавьте учетную запись.",
+  "semanticsPlanProjectionControlsDisabled": "Дата прогноза и разбивка баланса отключены. Сначала добавьте учетную запись и запланированную транзакцию.",
+  "semanticsReorderAccountHint": "Нажмите и удерживайте, затем перетащите, чтобы изменить порядок в этой группе.",
+  "semanticsChartStyle": "Стиль диаграммы",
+  "semanticsChartStyleUnavailable": "Стиль диаграммы (недоступен в режиме сравнения)",
+  "semanticsPeriod": "Период: {label}",
   "@semanticsPeriod": {
     "placeholders": {
       "label": {
@@ -739,10 +740,10 @@
       }
     }
   },
-  "trackSearchHint": "Search description, category, account…",
-  "trackSearchClear": "Clear search",
-  "settingsExchangeRatesTitle": "Exchange rates",
-  "settingsExchangeRatesUpdated": "Last updated: {time}",
+  "trackSearchHint": "Поиск по описанию, категории, аккаунту…",
+  "trackSearchClear": "Очистить поиск",
+  "settingsExchangeRatesTitle": "Курсы валют",
+  "settingsExchangeRatesUpdated": "Последнее обновление: {time}",
   "@settingsExchangeRatesUpdated": {
     "placeholders": {
       "time": {
@@ -750,15 +751,15 @@
       }
     }
   },
-  "settingsExchangeRatesNeverUpdated": "Using offline or bundled rates — tap to refresh",
-  "settingsExchangeRatesSource": "ECB",
-  "settingsExchangeRatesUpdatedSnack": "Exchange rates updated",
-  "settingsExchangeRatesUpdateFailed": "Could not update exchange rates. Check your connection.",
-  "settingsClearData": "Clear data",
-  "settingsClearDataSubtitle": "Permanently remove selected data",
-  "clearDataTitle": "Clear data",
-  "clearDataTransactions": "Transaction history",
-  "clearDataTransactionsSubtitle": "{count} transactions · account balances reset to zero",
+  "settingsExchangeRatesNeverUpdated": "Использование офлайн-тарифов или пакетных тарифов — нажмите, чтобы обновить.",
+  "settingsExchangeRatesSource": "ЕЦБ",
+  "settingsExchangeRatesUpdatedSnack": "Курсы валют обновлены",
+  "settingsExchangeRatesUpdateFailed": "Не удалось обновить курсы валют. Проверьте свое соединение.",
+  "settingsClearData": "Очистить данные",
+  "settingsClearDataSubtitle": "Удалить выбранные данные навсегда",
+  "clearDataTitle": "Очистить данные",
+  "clearDataTransactions": "История транзакций",
+  "clearDataTransactionsSubtitle": "{count} транзакции · балансы счетов обнуляются",
   "@clearDataTransactionsSubtitle": {
     "placeholders": {
       "count": {
@@ -766,8 +767,8 @@
       }
     }
   },
-  "clearDataPlanned": "Planned transactions",
-  "clearDataPlannedSubtitle": "{count} planned items",
+  "clearDataPlanned": "Планируемые транзакции",
+  "clearDataPlannedSubtitle": "{count} запланированные элементы",
   "@clearDataPlannedSubtitle": {
     "placeholders": {
       "count": {
@@ -775,8 +776,8 @@
       }
     }
   },
-  "clearDataAccounts": "Accounts",
-  "clearDataAccountsSubtitle": "{count} accounts · also clears history and plan",
+  "clearDataAccounts": "Счета",
+  "clearDataAccountsSubtitle": "Аккаунты {count} · также очищает историю и план",
   "@clearDataAccountsSubtitle": {
     "placeholders": {
       "count": {
@@ -784,8 +785,8 @@
       }
     }
   },
-  "clearDataCategories": "Categories",
-  "clearDataCategoriesSubtitle": "{count} categories · replaced with defaults",
+  "clearDataCategories": "Категории",
+  "clearDataCategoriesSubtitle": "Категории {count} · заменены значениями по умолчанию",
   "@clearDataCategoriesSubtitle": {
     "placeholders": {
       "count": {
@@ -793,21 +794,21 @@
       }
     }
   },
-  "clearDataPreferences": "Preferences",
-  "clearDataPreferencesSubtitle": "Reset currency, theme and language to defaults",
-  "clearDataSecurity": "App lock & PIN",
-  "clearDataSecuritySubtitle": "Disable app lock and remove PIN",
-  "clearDataConfirmButton": "Clear selected",
-  "clearDataConfirmTitle": "This cannot be undone",
-  "clearDataConfirmBody": "The selected data will be permanently deleted. Export a backup first if you may need it later.",
-  "clearDataTypeConfirm": "Type DELETE to confirm",
-  "clearDataTypeConfirmError": "Type DELETE exactly to continue",
-  "clearDataPinTitle": "Confirm with PIN",
-  "clearDataPinBody": "Enter your app PIN to authorize this action.",
-  "clearDataPinIncorrect": "Incorrect PIN",
-  "clearDataDone": "Selected data cleared",
-  "autoBackupTitle": "Automatic daily backup",
-  "autoBackupLastAt": "Last backed up {date}",
+  "clearDataPreferences": "Предпочтения",
+  "clearDataPreferencesSubtitle": "Сбросить валюту, тему и язык к значениям по умолчанию.",
+  "clearDataSecurity": "Блокировка приложения и PIN-код",
+  "clearDataSecuritySubtitle": "Отключить блокировку приложения и удалить PIN-код",
+  "clearDataConfirmButton": "Очистить выбранное",
+  "clearDataConfirmTitle": "Это нельзя отменить",
+  "clearDataConfirmBody": "Выбранные данные будут удалены без возможности восстановления. Сначала экспортируйте резервную копию, если она может понадобиться вам позже.",
+  "clearDataTypeConfirm": "Введите DELETE для подтверждения.",
+  "clearDataTypeConfirmError": "Введите DELETE, чтобы продолжить.",
+  "clearDataPinTitle": "Подтвердите с помощью PIN-кода",
+  "clearDataPinBody": "Введите PIN-код вашего приложения, чтобы авторизовать это действие.",
+  "clearDataPinIncorrect": "Неправильный PIN-код",
+  "clearDataDone": "Выбранные данные удалены",
+  "autoBackupTitle": "Автоматическое ежедневное резервное копирование",
+  "autoBackupLastAt": "Последняя резервная копия {date}",
   "@autoBackupLastAt": {
     "placeholders": {
       "date": {
@@ -815,10 +816,10 @@
       }
     }
   },
-  "autoBackupNeverRun": "No backup yet",
-  "autoBackupShareTitle": "Save to cloud",
-  "autoBackupShareSubtitle": "Upload latest backup to iCloud Drive, Google Drive or any app",
-  "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
-  "autoBackupCloudReminderAction": "Share",
-  "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
+  "autoBackupNeverRun": "Резервной копии пока нет",
+  "autoBackupShareTitle": "Сохранить в облако",
+  "autoBackupShareSubtitle": "Загрузите последнюю резервную копию на iCloud Drive, Google Drive или любое приложение.",
+  "autoBackupCloudReminder": "Готово к автоматическому резервному копированию — сохраните его в облаке для защиты вне устройства.",
+  "autoBackupCloudReminderAction": "Поделиться",
+  "persistenceErrorReloaded": "Не удалось сохранить изменения. Данные были перезагружены из хранилища."
 }

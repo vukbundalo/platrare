@@ -4,43 +4,44 @@
   "@appTitle": {
     "description": "Application title"
   },
-  "navPlan": "Plan",
-  "navTrack": "Track",
-  "navReview": "Review",
-  "cancel": "Cancel",
-  "delete": "Delete",
-  "close": "Close",
-  "add": "Add",
-  "undo": "Undo",
-  "confirm": "Confirm",
-  "restore": "Restore",
-  "heroIn": "In",
-  "heroOut": "Out",
-  "heroNet": "Net",
-  "heroBalance": "Balance",
-  "realBalance": "Real balance",
-  "heroResetButton": "Reset",
-  "filterAll": "All",
-  "filterAllAccounts": "All accounts",
-  "filterAllCategories": "All categories",
-  "txLabelIncome": "INCOME",
-  "txLabelExpense": "EXPENSE",
-  "txLabelInvoice": "INVOICE",
-  "txLabelBill": "BILL",
-  "txLabelAdvance": "ADVANCE",
-  "txLabelSettlement": "SETTLEMENT",
-  "txLabelLoan": "LOAN",
-  "txLabelCollection": "COLLECTION",
-  "txLabelOffset": "OFFSET",
-  "txLabelTransfer": "TRANSFER",
-  "txLabelTransaction": "TRANSACTION",
-  "repeatNone": "No repeat",
-  "repeatDaily": "Daily",
-  "repeatWeekly": "Weekly",
-  "repeatMonthly": "Monthly",
-  "repeatYearly": "Yearly",
-  "repeatEveryLabel": "Every",
-  "repeatEveryDays": "{count, plural, =1{day} other{{count} days}}",
+  "navPlan": "Planı",
+  "navTrack": "İzlemek",
+  "navReview": "Gözden geçirmek",
+  "cancel": "İptal etmek",
+  "delete": "Silmek",
+  "close": "Kapalı",
+  "add": "Eklemek",
+  "undo": "Geri al",
+  "confirm": "Onaylamak",
+  "restore": "Eski haline getirmek",
+  "heroIn": "İçinde",
+  "heroOut": "Dışarı",
+  "heroNet": "Açık",
+  "heroBalance": "Denge",
+  "realBalance": "Gerçek denge",
+  "heroResetButton": "Sıfırla",
+  "fabScrollToTop": "Başa dön",
+  "filterAll": "Tüm",
+  "filterAllAccounts": "Tüm hesaplar",
+  "filterAllCategories": "Tüm kategoriler",
+  "txLabelIncome": "GELİR",
+  "txLabelExpense": "GİDER",
+  "txLabelInvoice": "FATURA",
+  "txLabelBill": "FATURA",
+  "txLabelAdvance": "İLERLEMEK",
+  "txLabelSettlement": "YERLEŞİM",
+  "txLabelLoan": "BORÇ",
+  "txLabelCollection": "KOLEKSİYON",
+  "txLabelOffset": "TELAFİ ETMEK",
+  "txLabelTransfer": "AKTARIM",
+  "txLabelTransaction": "İŞLEM",
+  "repeatNone": "Tekrar yok",
+  "repeatDaily": "Günlük",
+  "repeatWeekly": "Haftalık",
+  "repeatMonthly": "Aylık",
+  "repeatYearly": "Yıllık",
+  "repeatEveryLabel": "Her",
+  "repeatEveryDays": "{count, plural, =1{gün} other{{count} gün}}",
   "@repeatEveryDays": {
     "placeholders": {
       "count": {
@@ -48,7 +49,7 @@
       }
     }
   },
-  "repeatEveryWeeks": "{count, plural, =1{week} other{{count} weeks}}",
+  "repeatEveryWeeks": "{count, plural, =1{hafta} other{{count} hafta}}",
   "@repeatEveryWeeks": {
     "placeholders": {
       "count": {
@@ -56,7 +57,7 @@
       }
     }
   },
-  "repeatEveryMonths": "{count, plural, =1{month} other{{count} months}}",
+  "repeatEveryMonths": "{count, plural, =1{ay} other{{count} ay}}",
   "@repeatEveryMonths": {
     "placeholders": {
       "count": {
@@ -64,7 +65,7 @@
       }
     }
   },
-  "repeatEveryYears": "{count, plural, =1{year} other{{count} years}}",
+  "repeatEveryYears": "{count, plural, =1{yıl} other{{count} yıl}}",
   "@repeatEveryYears": {
     "placeholders": {
       "count": {
@@ -72,10 +73,10 @@
       }
     }
   },
-  "repeatEndLabel": "Ends",
-  "repeatEndNever": "Never",
-  "repeatEndOnDate": "On date",
-  "repeatEndAfterCount": "After {count} times",
+  "repeatEndLabel": "biter",
+  "repeatEndNever": "Asla",
+  "repeatEndOnDate": "Tarihte",
+  "repeatEndAfterCount": "{count} kereden sonra",
   "@repeatEndAfterCount": {
     "placeholders": {
       "count": {
@@ -83,9 +84,9 @@
       }
     }
   },
-  "repeatEndPickDate": "Pick end date",
-  "repeatEndTimes": "times",
-  "repeatSummaryEvery": "Every {count} {unit}",
+  "repeatEndPickDate": "Bitiş tarihini seç",
+  "repeatEndTimes": "kez",
+  "repeatSummaryEvery": "Her {count} {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
       "count": {
@@ -96,7 +97,7 @@
       }
     }
   },
-  "repeatSummaryUntil": "until {date}",
+  "repeatSummaryUntil": "{date} tarihine kadar",
   "@repeatSummaryUntil": {
     "placeholders": {
       "date": {
@@ -104,7 +105,7 @@
       }
     }
   },
-  "repeatSummaryTimes": "{count} times",
+  "repeatSummaryTimes": "{count} kez",
   "@repeatSummaryTimes": {
     "placeholders": {
       "count": {
@@ -112,7 +113,7 @@
       }
     }
   },
-  "repeatSummaryTimesRemaining": "{remaining} of {total} remaining",
+  "repeatSummaryTimesRemaining": "{remaining} / {total} kaldı",
   "@repeatSummaryTimesRemaining": {
     "placeholders": {
       "remaining": {
@@ -123,10 +124,10 @@
       }
     }
   },
-  "detailRepeatEvery": "Repeat every",
-  "detailEnds": "Ends",
-  "detailEndsNever": "Never",
-  "detailEndsOnDate": "On {date}",
+  "detailRepeatEvery": "Her birini tekrarla",
+  "detailEnds": "biter",
+  "detailEndsNever": "Asla",
+  "detailEndsOnDate": "{date} tarihinde",
   "@detailEndsOnDate": {
     "placeholders": {
       "date": {
@@ -134,7 +135,7 @@
       }
     }
   },
-  "detailEndsAfterCount": "After {count} times",
+  "detailEndsAfterCount": "{count} kereden sonra",
   "@detailEndsAfterCount": {
     "placeholders": {
       "count": {
@@ -142,11 +143,11 @@
       }
     }
   },
-  "detailProgress": "Progress",
-  "weekendNoChange": "No change",
-  "weekendFriday": "Move to Friday",
-  "weekendMonday": "Move to Monday",
-  "weekendQuestion": "If the {day} falls on a weekend?",
+  "detailProgress": "İlerlemek",
+  "weekendNoChange": "Değişiklik yok",
+  "weekendFriday": "Cuma gününe taşın",
+  "weekendMonday": "Pazartesi'ye taşın",
+  "weekendQuestion": "{day} hafta sonuna düşerse?",
   "@weekendQuestion": {
     "placeholders": {
       "day": {
@@ -154,32 +155,32 @@
       }
     }
   },
-  "dateToday": "Today",
-  "dateTomorrow": "Tomorrow",
-  "dateYesterday": "Yesterday",
-  "statsAllTime": "All time",
-  "accountGroupPersonal": "Personal",
-  "accountGroupIndividual": "Individual",
-  "accountGroupEntity": "Entity",
-  "accountSectionIndividuals": "Individuals",
-  "accountSectionEntities": "Entities",
-  "emptyNoTransactionsYet": "No transactions yet",
-  "emptyNoAccountsYet": "No accounts yet",
-  "emptyRecordFirstTransaction": "Tap the button below to record your first transaction.",
-  "emptyAddFirstAccountTx": "Add your first account before recording transactions.",
-  "emptyAddFirstAccountPlan": "Add your first account before planning transactions.",
-  "emptyAddFirstAccountReview": "Add your first account to start tracking your finances.",
-  "emptyAddTransaction": "Add transaction",
-  "emptyAddAccount": "Add account",
-  "reviewEmptyGroupPersonalTitle": "No personal accounts yet",
-  "reviewEmptyGroupPersonalBody": "Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.",
-  "reviewEmptyGroupIndividualsTitle": "No individual accounts yet",
-  "reviewEmptyGroupIndividualsBody": "Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.",
-  "reviewEmptyGroupEntitiesTitle": "No entity accounts yet",
-  "reviewEmptyGroupEntitiesBody": "Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.",
-  "emptyNoTransactionsForFilters": "No transactions for applied filters",
-  "emptyNoTransactionsInHistory": "No transactions in history",
-  "emptyNoTransactionsForMonth": "No transactions for {month}",
+  "dateToday": "Bugün",
+  "dateTomorrow": "Yarın",
+  "dateYesterday": "Dün",
+  "statsAllTime": "Tüm zamanlar",
+  "accountGroupPersonal": "Kişisel",
+  "accountGroupIndividual": "Bireysel",
+  "accountGroupEntity": "Varlık",
+  "accountSectionIndividuals": "Bireyler",
+  "accountSectionEntities": "Varlıklar",
+  "emptyNoTransactionsYet": "Henüz işlem yok",
+  "emptyNoAccountsYet": "Henüz hesap yok",
+  "emptyRecordFirstTransaction": "İlk işleminizi kaydetmek için aşağıdaki düğmeye dokunun.",
+  "emptyAddFirstAccountTx": "İşlemleri kaydetmeden önce ilk hesabınızı ekleyin.",
+  "emptyAddFirstAccountPlan": "İşlemleri planlamadan önce ilk hesabınızı ekleyin.",
+  "emptyAddFirstAccountReview": "Mali durumunuzu izlemeye başlamak için ilk hesabınızı ekleyin.",
+  "emptyAddTransaction": "İşlem ekle",
+  "emptyAddAccount": "Hesap ekle",
+  "reviewEmptyGroupPersonalTitle": "Henüz kişisel hesap yok",
+  "reviewEmptyGroupPersonalBody": "Kişisel hesaplar, kendi cüzdanlarınız ve banka hesaplarınızdır. Günlük gelir ve harcamaları takip etmek için bir tane ekleyin.",
+  "reviewEmptyGroupIndividualsTitle": "Henüz bireysel hesap yok",
+  "reviewEmptyGroupIndividualsBody": "Bireysel hesaplar parayı belirli kişilerle (paylaşılan maliyetler, krediler veya borç senetleri) takip eder. Anlaştığınız her kişi için bir hesap ekleyin.",
+  "reviewEmptyGroupEntitiesTitle": "Henüz varlık hesabı yok",
+  "reviewEmptyGroupEntitiesBody": "Varlık hesapları işletmeler, projeler veya kuruluşlar içindir. İşletmenizin nakit akışını kişisel finansmanınızdan ayrı tutmak için bunları kullanın.",
+  "emptyNoTransactionsForFilters": "Uygulanan filtreler için işlem yok",
+  "emptyNoTransactionsInHistory": "Geçmişte işlem yok",
+  "emptyNoTransactionsForMonth": "{month} için işlem yok",
   "@emptyNoTransactionsForMonth": {
     "placeholders": {
       "month": {
@@ -187,13 +188,13 @@
       }
     }
   },
-  "emptyNoTransactionsForAccount": "No transactions for this account",
-  "trackTransactionDeleted": "Transaction deleted",
-  "trackDeleteTitle": "Delete transaction?",
-  "trackDeleteBody": "This will reverse the account balance changes.",
-  "trackTransaction": "Transaction",
-  "planConfirmTitle": "Confirm transaction?",
-  "planConfirmBodyEarly": "This occurrence is scheduled for {date}. It will be recorded in History with today’s date ({todayDate}). The next occurrence remains on {nextDate}.",
+  "emptyNoTransactionsForAccount": "Bu hesapta işlem yok",
+  "trackTransactionDeleted": "İşlem silindi",
+  "trackDeleteTitle": "İşlem silinsin mi?",
+  "trackDeleteBody": "Bu, hesap bakiyesindeki değişiklikleri tersine çevirecektir.",
+  "trackTransaction": "İşlem",
+  "planConfirmTitle": "İşlem onaylansın mı?",
+  "planConfirmBodyEarly": "Bu olay {date} için planlandı. Tarihe bugünün tarihiyle ({todayDate}) kaydedilecek. Bir sonraki olay {nextDate}'de kalıyor.",
   "@planConfirmBodyEarly": {
     "placeholders": {
       "date": {
@@ -207,19 +208,19 @@
       }
     }
   },
-  "planConfirmBodyNormal": "This will apply the transaction to your real account balances and move it to History.",
-  "planTransactionConfirmed": "Transaction confirmed and applied",
-  "planTransactionRemoved": "Planned transaction removed",
-  "planRepeatingTitle": "Repeating transaction",
-  "planRepeatingBody": "Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.",
-  "planDeleteAll": "Delete all",
-  "planSkipThisOnly": "Skip this only",
-  "planOccurrenceSkipped": "This occurrence skipped — next one scheduled",
-  "planNothingPlanned": "Nothing planned for now",
-  "planPlanBody": "Plan upcoming transactions.",
-  "planAddPlan": "Add plan",
-  "planNoPlannedForFilters": "No planned transactions for applied filters",
-  "planNoPlannedInMonth": "No planned transactions in {month}",
+  "planConfirmBodyNormal": "Bu, işlemi gerçek hesap bakiyelerinize uygulayacak ve Geçmiş'e taşıyacaktır.",
+  "planTransactionConfirmed": "İşlem onaylandı ve uygulandı",
+  "planTransactionRemoved": "Planlanan işlem kaldırıldı",
+  "planRepeatingTitle": "Tekrarlanan işlem",
+  "planRepeatingBody": "Yalnızca bu tarihi atlayın; dizi bir sonraki olayla devam eder veya kalan her olayı planınızdan silin.",
+  "planDeleteAll": "Tümünü sil",
+  "planSkipThisOnly": "Yalnızca bunu atla",
+  "planOccurrenceSkipped": "Bu olay atlandı; bir sonraki olay planlandı",
+  "planNothingPlanned": "Şimdilik planlanmış bir şey yok",
+  "planPlanBody": "Yaklaşan işlemleri planlayın.",
+  "planAddPlan": "Plan ekle",
+  "planNoPlannedForFilters": "Uygulanan filtreler için planlanmış işlem yok",
+  "planNoPlannedInMonth": "{month}'da planlanmış işlem yok",
   "@planNoPlannedInMonth": {
     "placeholders": {
       "month": {
@@ -227,28 +228,28 @@
       }
     }
   },
-  "planOverdue": "overdue",
-  "planPlannedTransaction": "Planned transaction",
-  "discardTitle": "Discard changes?",
-  "discardBody": "You have unsaved changes. They will be lost if you leave now.",
-  "keepEditing": "Keep editing",
-  "discard": "Discard",
-  "newTransactionTitle": "New Transaction",
-  "editTransactionTitle": "Edit Transaction",
-  "transactionUpdated": "Transaction updated",
-  "sectionAccounts": "Accounts",
-  "labelFrom": "From",
-  "labelTo": "To",
-  "sectionCategory": "Category",
-  "sectionAttachments": "Attachments",
-  "labelNote": "Note",
-  "hintOptionalDescription": "Optional description",
-  "updateTransaction": "Update Transaction",
-  "saveTransaction": "Save Transaction",
-  "selectAccount": "Select account",
-  "selectAccountTitle": "Select Account",
-  "noAccountsAvailable": "No accounts available",
-  "amountReceivedBy": "Amount received by {name} ({currency})",
+  "planOverdue": "vadesi geçmiş",
+  "planPlannedTransaction": "Planlanan işlem",
+  "discardTitle": "Değişiklikler silinsin mi?",
+  "discardBody": "Kaydedilmemiş değişiklikleriniz var. Şimdi gidersen kaybolurlar.",
+  "keepEditing": "Düzenlemeye devam et",
+  "discard": "Vazgeç",
+  "newTransactionTitle": "Yeni İşlem",
+  "editTransactionTitle": "İşlemi Düzenle",
+  "transactionUpdated": "İşlem güncellendi",
+  "sectionAccounts": "Hesaplar",
+  "labelFrom": "İtibaren",
+  "labelTo": "İle",
+  "sectionCategory": "Kategori",
+  "sectionAttachments": "Ekler",
+  "labelNote": "Not",
+  "hintOptionalDescription": "İsteğe bağlı açıklama",
+  "updateTransaction": "İşlemi Güncelle",
+  "saveTransaction": "İşlemi Kaydet",
+  "selectAccount": "Hesap seçin",
+  "selectAccountTitle": "Hesap Seçin",
+  "noAccountsAvailable": "Kullanılabilir hesap yok",
+  "amountReceivedBy": "{name} ({currency}) tarafından alınan tutar",
   "@amountReceivedBy": {
     "placeholders": {
       "name": {
@@ -259,24 +260,24 @@
       }
     }
   },
-  "amountReceivedHelper": "Enter the exact amount the destination account receives. This locks the real exchange rate used.",
-  "attachTakePhoto": "Take photo",
-  "attachTakePhotoSub": "Use camera to capture a receipt",
-  "attachChooseGallery": "Choose from gallery",
-  "attachChooseGallerySub": "Select photos from your library",
-  "attachBrowseFiles": "Browse files",
-  "attachBrowseFilesSub": "Attach PDFs, documents or other files",
-  "attachButton": "Attach",
-  "editPlanTitle": "Edit Plan",
-  "planTransactionTitle": "Plan Transaction",
-  "tapToSelect": "Tap to select",
-  "updatePlan": "Update Plan",
-  "addToPlan": "Add to Plan",
-  "labelRepeat": "Repeat",
-  "selectPlannedDate": "Select planned date",
-  "balancesAsOfToday": "Balances as of today",
-  "projectedBalancesForTomorrow": "Projected balances for tomorrow",
-  "projectedBalancesForDate": "Projected balances for {date}",
+  "amountReceivedHelper": "Hedef hesabın alacağı tam tutarı girin. Bu, kullanılan reel döviz kurunu kilitler.",
+  "attachTakePhoto": "Fotoğraf çek",
+  "attachTakePhotoSub": "Makbuz yakalamak için kamerayı kullanın",
+  "attachChooseGallery": "Galeriden seç",
+  "attachChooseGallerySub": "Kitaplığınızdan fotoğraf seçin",
+  "attachBrowseFiles": "Dosyalara göz atın",
+  "attachBrowseFilesSub": "PDF'leri, belgeleri veya diğer dosyaları ekleyin",
+  "attachButton": "Eklemek",
+  "editPlanTitle": "Planı Düzenle",
+  "planTransactionTitle": "İşlemi Planla",
+  "tapToSelect": "Seçmek için dokunun",
+  "updatePlan": "Planı Güncelle",
+  "addToPlan": "Plana Ekle",
+  "labelRepeat": "Tekrarlamak",
+  "selectPlannedDate": "Planlanan tarihi seçin",
+  "balancesAsOfToday": "Bugün itibariyle bakiyeler",
+  "projectedBalancesForTomorrow": "Yarın için öngörülen bakiyeler",
+  "projectedBalancesForDate": "{date} için tahmini bakiyeler",
   "@projectedBalancesForDate": {
     "placeholders": {
       "date": {
@@ -284,7 +285,7 @@
       }
     }
   },
-  "destReceivesLabel": "{name} receives ({currency})",
+  "destReceivesLabel": "{name} alır ({currency})",
   "@destReceivesLabel": {
     "placeholders": {
       "name": {
@@ -295,23 +296,23 @@
       }
     }
   },
-  "destHelper": "Estimated destination amount. Exact rate is locked at confirmation.",
-  "descriptionOptional": "Description (optional)",
-  "detailTransactionTitle": "Transaction",
-  "detailPlannedTitle": "Planned",
-  "detailConfirmTransaction": "Confirm transaction",
-  "detailDate": "Date",
-  "detailFrom": "From",
-  "detailTo": "To",
-  "detailCategory": "Category",
-  "detailNote": "Note",
-  "detailDestinationAmount": "Destination amount",
-  "detailExchangeRate": "Exchange rate",
-  "detailRepeats": "Repeats",
-  "detailDayOfMonth": "Day of month",
-  "detailWeekends": "Weekends",
-  "detailAttachments": "Attachments",
-  "detailFileCount": "{count, plural, =1{1 file} other{{count} files}}",
+  "destHelper": "Tahmini hedef miktarı. Kesin oran onay sırasında kilitlenir.",
+  "descriptionOptional": "Açıklama (isteğe bağlı)",
+  "detailTransactionTitle": "İşlem",
+  "detailPlannedTitle": "Planlanan",
+  "detailConfirmTransaction": "İşlemi onayla",
+  "detailDate": "Tarih",
+  "detailFrom": "İtibaren",
+  "detailTo": "İle",
+  "detailCategory": "Kategori",
+  "detailNote": "Not",
+  "detailDestinationAmount": "Hedef tutarı",
+  "detailExchangeRate": "Döviz kuru",
+  "detailRepeats": "Tekrarlar",
+  "detailDayOfMonth": "Ayın günü",
+  "detailWeekends": "Hafta sonları",
+  "detailAttachments": "Ekler",
+  "detailFileCount": "{count, plural, =1{1 dosya} other{{count} dosya}}",
   "@detailFileCount": {
     "placeholders": {
       "count": {
@@ -319,17 +320,17 @@
       }
     }
   },
-  "settingsTitle": "Settings",
-  "settingsSectionDisplay": "Display",
-  "settingsSectionLanguage": "Language",
-  "settingsSectionCategories": "Categories",
-  "settingsSectionAccounts": "Accounts",
-  "settingsSectionPreferences": "Preferences",
-  "settingsSectionManage": "Manage",
-  "settingsBaseCurrency": "Home currency",
-  "settingsSecondaryCurrency": "Secondary currency",
-  "settingsCategories": "Categories",
-  "settingsCategoriesSubtitle": "{incomeCount} income · {expenseCount} expense",
+  "settingsTitle": "Ayarlar",
+  "settingsSectionDisplay": "Görüntülemek",
+  "settingsSectionLanguage": "Dil",
+  "settingsSectionCategories": "Kategoriler",
+  "settingsSectionAccounts": "Hesaplar",
+  "settingsSectionPreferences": "Tercihler",
+  "settingsSectionManage": "Üstesinden gelmek",
+  "settingsBaseCurrency": "Ev para birimi",
+  "settingsSecondaryCurrency": "İkincil para birimi",
+  "settingsCategories": "Kategoriler",
+  "settingsCategoriesSubtitle": "{incomeCount} gelir · {expenseCount} gider",
   "@settingsCategoriesSubtitle": {
     "placeholders": {
       "incomeCount": {
@@ -340,9 +341,9 @@
       }
     }
   },
-  "settingsArchivedAccounts": "Archived accounts",
-  "settingsArchivedAccountsSubtitleZero": "None right now — archive from account edit when balance is clear",
-  "settingsArchivedAccountsSubtitleCount": "{count} hidden from Review and pickers",
+  "settingsArchivedAccounts": "Arşivlenmiş hesaplar",
+  "settingsArchivedAccountsSubtitleZero": "Şu anda yok — bakiye temizlendiğinde hesap düzenlemeden arşivle",
+  "settingsArchivedAccountsSubtitleCount": "{count} İnceleme ve seçicilerden gizlendi",
   "@settingsArchivedAccountsSubtitleCount": {
     "placeholders": {
       "count": {
@@ -350,48 +351,48 @@
       }
     }
   },
-  "settingsSectionData": "Data",
-  "settingsSectionPrivacy": "About",
-  "settingsPrivacyPolicyTitle": "Privacy policy",
-  "settingsPrivacyPolicySubtitle": "How Platrare handles your data.",
-  "settingsPrivacyFxDisclosure": "Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.",
-  "settingsPrivacyOpenFailed": "Could not load the privacy policy.",
-  "settingsPrivacyRetry": "Try again",
-  "settingsSoftwareVersionTitle": "Software version",
-  "settingsSoftwareVersionSubtitle": "Release, diagnostics, and legal",
-  "aboutScreenTitle": "About",
-  "aboutAppTagline": "Ledger, cashflow, and planning in one workspace.",
-  "aboutDescriptionBody": "Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.",
-  "aboutVersionLabel": "Version",
-  "aboutBuildLabel": "Build",
-  "aboutCopySupportDetails": "Copy support details",
-  "aboutOpenPrivacySubtitle": "Opens the full in-app policy document.",
-  "aboutSupportBundleLocaleLabel": "Locale",
-  "settingsSupportInfoCopied": "Copied to clipboard",
-  "settingsVerifyLedger": "Verify data",
-  "settingsVerifyLedgerSubtitle": "Check that account balances match your transaction history",
-  "settingsDataExportTitle": "Export backup",
-  "settingsDataExportSubtitle": "Save as .zip or encrypted .platrare with all data and attachments",
-  "settingsDataImportTitle": "Restore from backup",
-  "settingsDataImportSubtitle": "Replace current data from a Platrare .zip or .platrare backup",
-  "backupExportDialogTitle": "Protect this backup",
-  "backupExportDialogBody": "A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.",
-  "backupExportPasswordLabel": "Password",
-  "backupExportPasswordConfirmLabel": "Confirm password",
-  "backupExportPasswordMismatch": "Passwords do not match",
-  "backupExportPasswordEmpty": "Enter a matching password, or export without encryption below.",
-  "backupExportPasswordTooShort": "Password must be at least 8 characters.",
-  "backupExportSaveToDevice": "Save to device",
-  "backupExportShareToCloud": "Share (iCloud, Drive…)",
-  "backupExportWithoutEncryption": "Export without encryption",
-  "backupExportSkipWarningTitle": "Export without encryption?",
-  "backupExportSkipWarningBody": "Anyone with access to the file can read your data. Use this only for local copies you control.",
-  "backupExportSkipWarningConfirm": "Export unencrypted",
-  "backupImportPasswordTitle": "Encrypted backup",
-  "backupImportPasswordBody": "Enter the password you used when exporting.",
-  "backupImportPasswordLabel": "Password",
-  "backupImportPreviewTitle": "Backup summary",
-  "backupImportPreviewVersion": "App version: {version}",
+  "settingsSectionData": "Veri",
+  "settingsSectionPrivacy": "Hakkında",
+  "settingsPrivacyPolicyTitle": "Gizlilik politikası",
+  "settingsPrivacyPolicySubtitle": "Platrare verilerinizi nasıl işler?",
+  "settingsPrivacyFxDisclosure": "Döviz kurları: Uygulama, internet üzerinden genel döviz kurlarını getirir. Hesaplarınız ve işlemleriniz asla gönderilmez.",
+  "settingsPrivacyOpenFailed": "Gizlilik politikası yüklenemedi.",
+  "settingsPrivacyRetry": "Tekrar deneyin",
+  "settingsSoftwareVersionTitle": "Yazılım sürümü",
+  "settingsSoftwareVersionSubtitle": "Sürüm, teşhis ve yasal",
+  "aboutScreenTitle": "Hakkında",
+  "aboutAppTagline": "Tek bir çalışma alanında defter, nakit akışı ve planlama.",
+  "aboutDescriptionBody": "Platrare hesapları, işlemleri ve planları cihazınızda tutar. Başka bir yerde bir kopyaya ihtiyaç duyduğunuzda şifrelenmiş yedekleri dışa aktarın. Döviz kurları yalnızca kamuya açık piyasa verilerini kullanır; defteriniz yüklenmedi.",
+  "aboutVersionLabel": "Sürüm",
+  "aboutBuildLabel": "İnşa etmek",
+  "aboutCopySupportDetails": "Destek ayrıntılarını kopyala",
+  "aboutOpenPrivacySubtitle": "Tam uygulama içi politika belgesini açar.",
+  "aboutSupportBundleLocaleLabel": "Yerel ayar",
+  "settingsSupportInfoCopied": "Panoya kopyalandı",
+  "settingsVerifyLedger": "Verileri doğrulayın",
+  "settingsVerifyLedgerSubtitle": "Hesap bakiyelerinin işlem geçmişinizle eşleşip eşleşmediğini kontrol edin",
+  "settingsDataExportTitle": "Yedeği dışa aktar",
+  "settingsDataExportSubtitle": "Tüm veriler ve eklerle birlikte .zip veya şifrelenmiş .platrare olarak kaydedin",
+  "settingsDataImportTitle": "Yedeklemeden geri yükle",
+  "settingsDataImportSubtitle": "Platrare .zip veya .platrare yedeklemesindeki mevcut verileri değiştirin",
+  "backupExportDialogTitle": "Bu yedeği koruyun",
+  "backupExportDialogBody": "Özellikle dosyayı bulutta saklıyorsanız güçlü bir parola önerilir. İçe aktarmak için aynı şifreye ihtiyacınız var.",
+  "backupExportPasswordLabel": "Şifre",
+  "backupExportPasswordConfirmLabel": "Şifreyi onayla",
+  "backupExportPasswordMismatch": "Şifreler eşleşmiyor",
+  "backupExportPasswordEmpty": "Eşleşen bir şifre girin veya aşağıya şifreleme olmadan aktarın.",
+  "backupExportPasswordTooShort": "Şifre en az 8 karakter olmalıdır.",
+  "backupExportSaveToDevice": "Cihaza kaydet",
+  "backupExportShareToCloud": "Paylaş (iCloud, Drive…)",
+  "backupExportWithoutEncryption": "Şifreleme olmadan dışa aktar",
+  "backupExportSkipWarningTitle": "Şifreleme olmadan dışa aktarılsın mı?",
+  "backupExportSkipWarningBody": "Dosyaya erişimi olan herkes verilerinizi okuyabilir. Bunu yalnızca kontrol ettiğiniz yerel kopyalar için kullanın.",
+  "backupExportSkipWarningConfirm": "Şifrelenmemiş olarak dışa aktar",
+  "backupImportPasswordTitle": "Şifreli yedekleme",
+  "backupImportPasswordBody": "Dışa aktarırken kullandığınız şifreyi girin.",
+  "backupImportPasswordLabel": "Şifre",
+  "backupImportPreviewTitle": "Yedekleme özeti",
+  "backupImportPreviewVersion": "Uygulama sürümü: {version}",
   "@backupImportPreviewVersion": {
     "placeholders": {
       "version": {
@@ -399,7 +400,7 @@
       }
     }
   },
-  "backupImportPreviewExported": "Exported: {date}",
+  "backupImportPreviewExported": "Dışa aktarılan: {date}",
   "@backupImportPreviewExported": {
     "placeholders": {
       "date": {
@@ -407,7 +408,7 @@
       }
     }
   },
-  "backupImportPreviewCounts": "{accounts} accounts · {transactions} transactions · {planned} planned · {attachments} attachment files · {income} income categories · {expense} expense categories",
+  "backupImportPreviewCounts": "{accounts} hesaplar · {transactions} işlemler · {planned} planlanan · {attachments} ek dosyaları · {income} gelir kategorileri · {expense} gider kategorileri",
   "@backupImportPreviewCounts": {
     "placeholders": {
       "accounts": {
@@ -430,19 +431,19 @@
       }
     }
   },
-  "backupImportPreviewContinue": "Continue",
-  "settingsBackupWrongPassword": "Wrong password",
-  "settingsBackupChecksumMismatch": "Backup failed integrity check",
-  "settingsBackupCorruptFile": "Invalid or damaged backup file",
-  "settingsBackupUnsupportedVersion": "Backup needs a newer app version",
-  "settingsDataImportConfirmTitle": "Replace current data?",
-  "settingsDataImportConfirmBody": "This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.",
-  "settingsDataImportConfirmAction": "Replace data",
-  "settingsDataImportDone": "Data restored successfully",
-  "settingsDataImportInvalidFile": "This file is not a valid Platrare backup",
-  "settingsDataImportFailed": "Import failed",
-  "settingsDataExportDoneTitle": "Backup exported",
-  "settingsDataExportDoneBody": "Backup saved to:\n{path}",
+  "backupImportPreviewContinue": "Devam etmek",
+  "settingsBackupWrongPassword": "Yanlış şifre",
+  "settingsBackupChecksumMismatch": "Yedekleme başarısız oldu bütünlük kontrolü",
+  "settingsBackupCorruptFile": "Geçersiz veya hasarlı yedekleme dosyası",
+  "settingsBackupUnsupportedVersion": "Yedeklemenin daha yeni bir uygulama sürümüne ihtiyacı var",
+  "settingsDataImportConfirmTitle": "Mevcut veriler değiştirilsin mi?",
+  "settingsDataImportConfirmBody": "Bu, mevcut hesaplarınızı, işlemlerinizi, planlı işlemlerinizi, kategorilerinizi ve içe aktarılan eklerinizi seçilen yedeklemenin içeriğiyle değiştirecektir. Bu eylem geri alınamaz.",
+  "settingsDataImportConfirmAction": "Verileri değiştir",
+  "settingsDataImportDone": "Veriler başarıyla geri yüklendi",
+  "settingsDataImportInvalidFile": "Bu dosya geçerli bir Platrare yedeği değil",
+  "settingsDataImportFailed": "İçe aktarma başarısız oldu",
+  "settingsDataExportDoneTitle": "Yedekleme dışa aktarıldı",
+  "settingsDataExportDoneBody": "Yedekleme şuraya kaydedildi:\n{path}",
   "@settingsDataExportDoneBody": {
     "placeholders": {
       "path": {
@@ -450,12 +451,12 @@
       }
     }
   },
-  "settingsDataOpenExportFile": "Open file",
-  "settingsDataExportFailed": "Export failed",
-  "ledgerVerifyDialogTitle": "Ledger verification",
-  "ledgerVerifyAllMatch": "All accounts match.",
-  "ledgerVerifyMismatchesTitle": "Mismatches",
-  "ledgerVerifyMismatchDetails": "{accountName}\nStored: {stored}\nReplay: {replayed}\nDifference: {diff}",
+  "settingsDataOpenExportFile": "Dosyayı aç",
+  "settingsDataExportFailed": "Dışa aktarma başarısız oldu",
+  "ledgerVerifyDialogTitle": "Defter doğrulama",
+  "ledgerVerifyAllMatch": "Tüm hesaplar eşleşiyor.",
+  "ledgerVerifyMismatchesTitle": "Uyuşmazlıklar",
+  "ledgerVerifyMismatchDetails": "{accountName}\nSaklanan: {stored}\nTekrar: {replayed}\nFark: {diff}",
   "@ledgerVerifyMismatchDetails": {
     "placeholders": {
       "accountName": {
@@ -472,51 +473,51 @@
       }
     }
   },
-  "settingsLanguage": "App language",
-  "settingsLanguageSubtitleSystem": "Following system settings",
-  "settingsLanguageSubtitleEnglish": "English",
-  "settingsLanguageSubtitleSerbianLatin": "Serbian (Latin)",
-  "settingsLanguagePickerTitle": "App language",
-  "settingsLanguageOptionSystem": "System default",
-  "settingsLanguageOptionEnglish": "English",
-  "settingsLanguageOptionSerbianLatin": "Serbian (Latin)",
-  "settingsSectionAppearance": "Appearance",
-  "settingsSectionSecurity": "Security",
-  "settingsSecurityEnableLock": "Lock app on open",
-  "settingsSecurityEnableLockSubtitle": "Require biometric unlock or PIN when app opens",
-  "settingsSecuritySetPin": "Set PIN",
-  "settingsSecurityChangePin": "Change PIN",
-  "settingsSecurityPinSubtitle": "Use a PIN as fallback if biometric is unavailable",
-  "settingsSecurityRemovePin": "Remove PIN",
-  "securitySetPinTitle": "Set app PIN",
-  "securityPinLabel": "PIN code",
-  "securityConfirmPinLabel": "Confirm PIN code",
-  "securityPinMustBe4Digits": "PIN must have at least 4 digits",
-  "securityPinMismatch": "PIN codes do not match",
-  "securityRemovePinTitle": "Remove PIN?",
-  "securityRemovePinBody": "Biometric unlock can still be used if available.",
-  "securityUnlockTitle": "App locked",
-  "securityUnlockSubtitle": "Unlock with Face ID, fingerprint, or PIN.",
-  "securityUnlockWithPin": "Unlock with PIN",
-  "securityTryBiometric": "Try biometric unlock",
-  "securityPinIncorrect": "Incorrect PIN, try again",
-  "securityBiometricReason": "Authenticate to open your app",
-  "settingsTheme": "Theme",
-  "settingsThemeSubtitleSystem": "Following system settings",
-  "settingsThemeSubtitleLight": "Light",
-  "settingsThemeSubtitleDark": "Dark",
-  "settingsThemePickerTitle": "Theme",
-  "settingsThemeOptionSystem": "System default",
-  "settingsThemeOptionLight": "Light",
-  "settingsThemeOptionDark": "Dark",
-  "archivedAccountsTitle": "Archived accounts",
-  "archivedAccountsEmptyTitle": "No archived accounts",
-  "archivedAccountsEmptyBody": "Book balance and overdraft must be zero. Archive from account options in Review.",
-  "categoriesTitle": "Categories",
-  "newCategoryTitle": "New Category",
-  "categoryNameLabel": "Category name",
-  "deleteCategoryTitle": "Delete category?",
-  "deleteCategoryBody": "\"{category}\" will be removed from the list.",
+  "settingsLanguage": "Uygulama dili",
+  "settingsLanguageSubtitleSystem": "Sistem ayarlarını takip etmek",
+  "settingsLanguageSubtitleEnglish": "İngilizce",
+  "settingsLanguageSubtitleSerbianLatin": "Sırpça (Latince)",
+  "settingsLanguagePickerTitle": "Uygulama dili",
+  "settingsLanguageOptionSystem": "Sistem varsayılanı",
+  "settingsLanguageOptionEnglish": "İngilizce",
+  "settingsLanguageOptionSerbianLatin": "Sırpça (Latince)",
+  "settingsSectionAppearance": "Dış görünüş",
+  "settingsSectionSecurity": "Güvenlik",
+  "settingsSecurityEnableLock": "Uygulamayı açıkken kilitle",
+  "settingsSecurityEnableLockSubtitle": "Uygulama açıldığında biyometrik kilit açma veya PIN iste",
+  "settingsSecuritySetPin": "PIN'i ayarla",
+  "settingsSecurityChangePin": "PIN'i değiştir",
+  "settingsSecurityPinSubtitle": "Biyometri kullanılamıyorsa yedek olarak PIN kullanın",
+  "settingsSecurityRemovePin": "PIN'i kaldır",
+  "securitySetPinTitle": "Uygulama PIN'ini ayarla",
+  "securityPinLabel": "PIN kodu",
+  "securityConfirmPinLabel": "PIN kodunu onaylayın",
+  "securityPinMustBe4Digits": "PIN en az 4 haneli olmalıdır",
+  "securityPinMismatch": "PIN kodları eşleşmiyor",
+  "securityRemovePinTitle": "PIN kaldırılsın mı?",
+  "securityRemovePinBody": "Varsa biyometrik kilit açma hâlâ kullanılabilir.",
+  "securityUnlockTitle": "Uygulama kilitlendi",
+  "securityUnlockSubtitle": "Face ID, parmak izi veya PIN ile kilidi açın.",
+  "securityUnlockWithPin": "PIN ile kilidi aç",
+  "securityTryBiometric": "Biyometrik kilit açmayı deneyin",
+  "securityPinIncorrect": "Yanlış PIN, tekrar deneyin",
+  "securityBiometricReason": "Uygulamanızı açmak için kimlik doğrulaması yapın",
+  "settingsTheme": "Tema",
+  "settingsThemeSubtitleSystem": "Sistem ayarlarını takip etmek",
+  "settingsThemeSubtitleLight": "Işık",
+  "settingsThemeSubtitleDark": "Karanlık",
+  "settingsThemePickerTitle": "Tema",
+  "settingsThemeOptionSystem": "Sistem varsayılanı",
+  "settingsThemeOptionLight": "Işık",
+  "settingsThemeOptionDark": "Karanlık",
+  "archivedAccountsTitle": "Arşivlenmiş hesaplar",
+  "archivedAccountsEmptyTitle": "Arşivlenmiş hesap yok",
+  "archivedAccountsEmptyBody": "Defter bakiyesi ve kredili mevduat sıfır olmalıdır. İnceleme'deki hesap seçeneklerinden arşivleyin.",
+  "categoriesTitle": "Kategoriler",
+  "newCategoryTitle": "Yeni Kategori",
+  "categoryNameLabel": "Kategori adı",
+  "deleteCategoryTitle": "Kategori silinsin mi?",
+  "deleteCategoryBody": "\"{category}\" listeden kaldırılacaktır.",
   "@deleteCategoryBody": {
     "placeholders": {
       "category": {
@@ -524,18 +525,18 @@
       }
     }
   },
-  "categoryIncome": "Income",
-  "categoryExpense": "Expense",
-  "categoryAdd": "Add",
-  "searchCurrencies": "Search currencies…",
-  "period1M": "1M",
-  "period3M": "3M",
-  "period6M": "6M",
+  "categoryIncome": "Gelir",
+  "categoryExpense": "Gider",
+  "categoryAdd": "Eklemek",
+  "searchCurrencies": "Para birimlerini arayın…",
+  "period1M": "1 milyon",
+  "period3M": "3 milyon",
+  "period6M": "6 milyon",
   "period1Y": "1Y",
-  "periodAll": "ALL",
-  "categoryLabel": "category",
-  "categoriesLabel": "categories",
-  "transactionSavedMessage": "{type} saved  •  {amount}",
+  "periodAll": "TÜM",
+  "categoryLabel": "kategori",
+  "categoriesLabel": "kategoriler",
+  "transactionSavedMessage": "{type} kaydedildi • {amount}",
   "@transactionSavedMessage": {
     "placeholders": {
       "type": {
@@ -546,18 +547,18 @@
       }
     }
   },
-  "tooltipSettings": "Settings",
-  "tooltipAddAccount": "Add account",
-  "tooltipRemoveAccount": "Remove account",
-  "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
-  "groupDescPersonal": "Your own wallets & bank accounts",
-  "groupDescIndividuals": "Family, friends, individuals",
-  "groupDescEntities": "Entities, utilities, organisations",
-  "cannotArchiveTitle": "Cannot archive yet",
-  "cannotArchiveBody": "Archive is only available when the book balance and overdraft limit are both effectively zero.",
-  "cannotArchiveBodyAdjust": "Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.",
-  "archiveAccountTitle": "Archive account?",
-  "archiveWithPlannedBody": "{count, plural, =1{1 planned transaction references this account.} other{{count} planned transactions reference this account.}} Remove them to keep your plan consistent with an archived account.",
+  "tooltipSettings": "Ayarlar",
+  "tooltipAddAccount": "Hesap ekle",
+  "tooltipRemoveAccount": "Hesabı kaldır",
+  "accountNameTaken": "Bu ada ve tanımlayıcıya (etkin veya arşivlenmiş) sahip bir hesabınız zaten var. Adı veya tanımlayıcıyı değiştirin.",
+  "groupDescPersonal": "Kendi cüzdanlarınız ve banka hesaplarınız",
+  "groupDescIndividuals": "Aile, arkadaşlar, bireyler",
+  "groupDescEntities": "Varlıklar, kamu hizmetleri, kuruluşlar",
+  "cannotArchiveTitle": "Henüz arşivlenemiyor",
+  "cannotArchiveBody": "Arşiv yalnızca defter bakiyesi ve kredili mevduat limitinin her ikisi de fiilen sıfır olduğunda kullanılabilir.",
+  "cannotArchiveBodyAdjust": "Arşiv yalnızca defter bakiyesi ve kredili mevduat limitinin her ikisi de fiilen sıfır olduğunda kullanılabilir. Önce defteri veya tesisi ayarlayın.",
+  "archiveAccountTitle": "Hesabı arşivle?",
+  "archiveWithPlannedBody": "{count, plural, =1{1 planlanan işlem bu hesaba referans veriyor.} other{{count} planlanan işlem bu hesaba referans veriyor.}} Arşivlenmiş bir hesapla planınızın tutarlı kalması için bunları kaldırın.",
   "@archiveWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -565,17 +566,17 @@
       }
     }
   },
-  "removeAndArchive": "Remove planned & archive",
-  "archiveBody": "The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.",
-  "archiveAction": "Archive",
-  "archiveInstead": "Archive instead",
-  "cannotDeleteTitle": "Cannot delete account",
-  "cannotDeleteBodyShort": "This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.",
-  "cannotDeleteBodyHistory": "This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.",
-  "cannotDeleteBodySuggestArchive": "This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.",
-  "deleteAccountTitle": "Delete account?",
-  "deleteAccountBodyPermanent": "This account will be removed permanently.",
-  "deleteWithPlannedBody": "{count, plural, =1{1 planned transaction references this account and will also be deleted.} other{{count} planned transactions reference this account and will also be deleted.}}",
+  "removeAndArchive": "Planlananı kaldır ve arşivle",
+  "archiveBody": "Hesap İnceleme, Takip ve Plan seçicilerden gizlenecektir. Ayarlar'dan geri yükleyebilirsiniz.",
+  "archiveAction": "Arşiv",
+  "archiveInstead": "Bunun yerine arşivle",
+  "cannotDeleteTitle": "Hesap silinemiyor",
+  "cannotDeleteBodyShort": "Bu hesap Takip geçmişinizde görünür. Önce bu işlemleri kaldırın veya yeniden atayın ya da bakiye temizlendiyse hesabı arşivleyin.",
+  "cannotDeleteBodyHistory": "Bu hesap Takip geçmişinizde görünür. Silmek, bu geçmişi bozacaktır; önce bu işlemleri kaldırın veya yeniden atayın.",
+  "cannotDeleteBodySuggestArchive": "Bu hesap Takip geçmişinizde göründüğünden silinemez. Bunun yerine, defter bakiyesi ve kredili mevduat silinirse arşivleyebilirsiniz; listelerde gizlenir ancak geçmiş bozulmadan kalır.",
+  "deleteAccountTitle": "Hesap silinsin mi?",
+  "deleteAccountBodyPermanent": "Bu hesap kalıcı olarak kaldırılacaktır.",
+  "deleteWithPlannedBody": "{count, plural, =1{1 planlanan işlem bu hesaba referans veriyor ve silinecek.} other{{count} planlanan işlem bu hesaba referans veriyor ve silinecek.}}",
   "@deleteWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -583,30 +584,30 @@
       }
     }
   },
-  "deleteAllAndDelete": "Delete all",
-  "editAccountTitle": "Edit Account",
-  "newAccountTitle": "New Account",
-  "labelAccountName": "Account name",
-  "labelAccountIdentifier": "Identifier (optional)",
-  "accountAppearanceSection": "Icon & color",
-  "accountPickIcon": "Choose icon",
-  "accountPickColor": "Choose color",
-  "accountIconSheetTitle": "Account icon",
-  "accountColorSheetTitle": "Account color",
-  "accountUseInitialLetter": "Initial letter",
-  "accountUseDefaultColor": "Match group",
-  "labelRealBalance": "Real balance",
-  "labelOverdraftLimit": "Overdraft / advance limit",
-  "labelCurrency": "Currency",
-  "saveChanges": "Save Changes",
-  "addAccountAction": "Add Account",
-  "removeAccountSheetTitle": "Remove account",
-  "deletePermanently": "Delete permanently",
-  "deletePermanentlySubtitle": "Only possible when this account is not used in Track. Planned items can be removed as part of delete.",
-  "archiveOptionSubtitle": "Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.",
-  "archivedBannerText": "This account is archived. It stays in your data but is hidden from lists and pickers.",
-  "balanceAdjustedTitle": "Balance adjusted in Track",
-  "balanceAdjustedBody": "Real balance was updated from {previous} to {current} {symbol}.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.",
+  "deleteAllAndDelete": "Tümünü sil",
+  "editAccountTitle": "Hesabı Düzenle",
+  "newAccountTitle": "Yeni Hesap",
+  "labelAccountName": "Hesap adı",
+  "labelAccountIdentifier": "Tanımlayıcı (isteğe bağlı)",
+  "accountAppearanceSection": "Simge ve renk",
+  "accountPickIcon": "Simge seç",
+  "accountPickColor": "Renk seç",
+  "accountIconSheetTitle": "Hesap simgesi",
+  "accountColorSheetTitle": "Hesap rengi",
+  "accountUseInitialLetter": "İlk harf",
+  "accountUseDefaultColor": "Maç grubu",
+  "labelRealBalance": "Gerçek denge",
+  "labelOverdraftLimit": "Kredili mevduat / avans limiti",
+  "labelCurrency": "Para birimi",
+  "saveChanges": "Değişiklikleri Kaydet",
+  "addAccountAction": "Hesap Ekle",
+  "removeAccountSheetTitle": "Hesabı kaldır",
+  "deletePermanently": "Kalıcı olarak sil",
+  "deletePermanentlySubtitle": "Yalnızca bu hesap Track'te kullanılmadığında mümkündür. Planlanan öğeler, silme işleminin bir parçası olarak kaldırılabilir.",
+  "archiveOptionSubtitle": "İncelemeden ve seçicilerden gizle. İstediğiniz zaman Ayarlar'dan geri yükleyin. Sıfır bakiye ve kredili mevduat gerektirir.",
+  "archivedBannerText": "Bu hesap arşivlendi. Verilerinizde kalır ancak listelerden ve seçicilerden gizlenir.",
+  "balanceAdjustedTitle": "Parçada denge ayarlandı",
+  "balanceAdjustedBody": "Gerçek bakiye {previous}'den {current} {symbol}'ye güncellendi.\n\nDefterin tutarlı kalması için Takip (Geçmiş)'te bir bakiye düzeltme işlemi oluşturuldu.\n\n• Gerçek bakiye bu hesaptaki gerçek tutarı yansıtır.\n• Ayar girişi için Geçmişi kontrol edin.",
   "@balanceAdjustedBody": {
     "placeholders": {
       "previous": {
@@ -620,21 +621,21 @@
       }
     }
   },
-  "ok": "OK",
-  "categoryBalanceAdjustment": "Balance adjustment",
-  "descriptionBalanceCorrection": "Balance correction",
-  "descriptionOpeningBalance": "Opening balance",
-  "reviewStatsModeStatistics": "Statistics",
-  "reviewStatsModeComparison": "Comparison",
-  "statsUncategorized": "Uncategorized",
-  "statsNoCategories": "No categories in the selected periods for comparison.",
-  "statsNoTransactions": "No transactions",
-  "statsSpendingInCategory": "Spending in this category",
-  "statsIncomeInCategory": "Income in this category",
-  "statsDifference": "Difference (B vs A): ",
-  "statsNoExpensesMonth": "No expenses this month",
-  "statsNoExpensesAll": "No expenses recorded",
-  "statsNoExpensesPeriod": "No expenses in the last {period}",
+  "ok": "TAMAM",
+  "categoryBalanceAdjustment": "Denge ayarı",
+  "descriptionBalanceCorrection": "Denge düzeltmesi",
+  "descriptionOpeningBalance": "Açılış bakiyesi",
+  "reviewStatsModeStatistics": "İstatistikler",
+  "reviewStatsModeComparison": "Karşılaştırmak",
+  "statsUncategorized": "Kategorize edilmemiş",
+  "statsNoCategories": "Seçilen dönemlerde karşılaştırma için kategori yok.",
+  "statsNoTransactions": "İşlem yok",
+  "statsSpendingInCategory": "Bu kategorideki harcamalar",
+  "statsIncomeInCategory": "Bu kategorideki gelir",
+  "statsDifference": "Fark (B ve A):",
+  "statsNoExpensesMonth": "Bu ay masraf yok",
+  "statsNoExpensesAll": "Hiçbir harcama kaydedilmedi",
+  "statsNoExpensesPeriod": "Son dönemde masraf yok {period}",
   "@statsNoExpensesPeriod": {
     "placeholders": {
       "period": {
@@ -642,11 +643,11 @@
       }
     }
   },
-  "statsTotalSpent": "Total spent",
-  "statsNoExpensesThisPeriod": "No expenses in this period",
-  "statsNoIncomeMonth": "No income this month",
-  "statsNoIncomeAll": "No income recorded",
-  "statsNoIncomePeriod": "No income in the last {period}",
+  "statsTotalSpent": "Toplam harcanan",
+  "statsNoExpensesThisPeriod": "Bu dönemde masraf yok",
+  "statsNoIncomeMonth": "Bu ay gelir yok",
+  "statsNoIncomeAll": "Gelir kaydedilmedi",
+  "statsNoIncomePeriod": "Son dönemde gelir yok {period}",
   "@statsNoIncomePeriod": {
     "placeholders": {
       "period": {
@@ -654,40 +655,40 @@
       }
     }
   },
-  "statsTotalReceived": "Total received",
-  "statsNoIncomeThisPeriod": "No income in this period",
-  "catSalary": "Salary",
-  "catFreelance": "Freelance",
-  "catConsulting": "Consulting",
-  "catGift": "Gift",
-  "catRental": "Rental",
-  "catDividends": "Dividends",
-  "catRefund": "Refund",
+  "statsTotalReceived": "Toplam alınan",
+  "statsNoIncomeThisPeriod": "Bu dönemde gelir yok",
+  "catSalary": "Maaş",
+  "catFreelance": "Serbest çalışan",
+  "catConsulting": "Danışmanlık",
+  "catGift": "Hediye",
+  "catRental": "Kiralık",
+  "catDividends": "Temettüler",
+  "catRefund": "Geri ödemek",
   "catBonus": "Bonus",
-  "catInterest": "Interest",
-  "catSideHustle": "Side hustle",
-  "catSaleOfGoods": "Sale of goods",
-  "catOther": "Other",
-  "catGroceries": "Groceries",
-  "catDining": "Dining",
-  "catTransport": "Transport",
-  "catUtilities": "Utilities",
-  "catHousing": "Housing",
-  "catHealthcare": "Healthcare",
-  "catEntertainment": "Entertainment",
-  "catShopping": "Shopping",
-  "catTravel": "Travel",
-  "catEducation": "Education",
-  "catSubscriptions": "Subscriptions",
-  "catInsurance": "Insurance",
-  "catFuel": "Fuel",
-  "catGym": "Gym",
-  "catPets": "Pets",
-  "catKids": "Kids",
-  "catCharity": "Charity",
-  "catCoffee": "Coffee",
-  "catGifts": "Gifts",
-  "semanticsProjectionDate": "Projection date {date}. Double tap to choose date",
+  "catInterest": "Faiz",
+  "catSideHustle": "Yan koşuşturma",
+  "catSaleOfGoods": "Mal satışı",
+  "catOther": "Diğer",
+  "catGroceries": "Bakkaliye",
+  "catDining": "Yemek",
+  "catTransport": "Taşıma",
+  "catUtilities": "Yardımcı programlar",
+  "catHousing": "Konut",
+  "catHealthcare": "Sağlık hizmeti",
+  "catEntertainment": "Eğlence",
+  "catShopping": "Alışveriş",
+  "catTravel": "Seyahat",
+  "catEducation": "Eğitim",
+  "catSubscriptions": "Abonelikler",
+  "catInsurance": "Sigorta",
+  "catFuel": "Yakıt",
+  "catGym": "Spor salonu",
+  "catPets": "Evcil hayvanlar",
+  "catKids": "Çocuklar",
+  "catCharity": "Hayır kurumu",
+  "catCoffee": "Kahve",
+  "catGifts": "Hediyeler",
+  "semanticsProjectionDate": "Projeksiyon tarihi {date}. Tarihi seçmek için iki kez dokunun",
   "@semanticsProjectionDate": {
     "placeholders": {
       "date": {
@@ -695,7 +696,7 @@
       }
     }
   },
-  "semanticsProjectedBalance": "Projected personal balance {amount}",
+  "semanticsProjectedBalance": "Tahmini kişisel denge {amount}",
   "@semanticsProjectedBalance": {
     "placeholders": {
       "amount": {
@@ -703,12 +704,12 @@
       }
     }
   },
-  "statsEmptyTitle": "No transactions yet",
-  "statsEmptySubtitle": "No spending data for the selected range.",
-  "semanticsShowProjections": "Show projected balances by account",
-  "semanticsHideProjections": "Hide projected balances by account",
-  "semanticsDateAllTime": "Date: all time — tap to change mode",
-  "semanticsDateMode": "Date: {mode} — tap to change mode",
+  "statsEmptyTitle": "Henüz işlem yok",
+  "statsEmptySubtitle": "Seçilen aralık için harcama verisi yok.",
+  "semanticsShowProjections": "Tahmini bakiyeleri hesaba göre göster",
+  "semanticsHideProjections": "Tahmini bakiyeleri hesaba göre gizle",
+  "semanticsDateAllTime": "Tarih: tüm zamanlar — modu değiştirmek için dokunun",
+  "semanticsDateMode": "Tarih: {mode} — modu değiştirmek için dokunun",
   "@semanticsDateMode": {
     "placeholders": {
       "mode": {
@@ -716,22 +717,22 @@
       }
     }
   },
-  "semanticsDateThisMonth": "Date: this month — tap for month, week, year, or all time",
-  "semanticsTxTypeCycle": "Transaction type: cycle all, income, expense, transfer",
-  "semanticsAccountFilter": "Account filter",
-  "semanticsAlreadyFiltered": "Already filtered to this account",
-  "semanticsCategoryFilter": "Category filter",
-  "semanticsSortToggle": "Sort: toggle newest or oldest first",
-  "semanticsFiltersDisabled": "List filters disabled while viewing a future projection date. Clear projections to use filters.",
-  "semanticsFiltersDisabledNeedAccount": "List filters disabled. Add an account first.",
-  "semanticsFiltersDisabledNeedPlannedTransaction": "List filters disabled. Add a planned transaction first.",
-  "semanticsFiltersDisabledNeedRecordedTransaction": "List filters disabled. Record a transaction first.",
-  "semanticsReviewSectionChipsDisabledNeedAccount": "Section and currency controls disabled. Add an account first.",
-  "semanticsPlanProjectionControlsDisabled": "Projection date and balance breakdown disabled. Add an account and a planned transaction first.",
-  "semanticsReorderAccountHint": "Long press, then drag to reorder within this group",
-  "semanticsChartStyle": "Chart style",
-  "semanticsChartStyleUnavailable": "Chart style (unavailable in comparison mode)",
-  "semanticsPeriod": "Period: {label}",
+  "semanticsDateThisMonth": "Tarih: bu ay — ay, hafta, yıl veya tüm zamanlar için dokunun",
+  "semanticsTxTypeCycle": "İşlem türü: tümünü çevir, gelir, gider, transfer",
+  "semanticsAccountFilter": "Hesap filtresi",
+  "semanticsAlreadyFiltered": "Bu hesaba zaten filtre uygulandı",
+  "semanticsCategoryFilter": "Kategori filtresi",
+  "semanticsSortToggle": "Sırala: önce en yeniye veya en eskiye geçiş yap",
+  "semanticsFiltersDisabled": "Gelecekteki bir projeksiyon tarihini görüntülerken liste filtreleri devre dışı bırakıldı. Filtreleri kullanmak için projeksiyonları temizleyin.",
+  "semanticsFiltersDisabledNeedAccount": "Liste filtreleri devre dışı bırakıldı. Önce bir hesap ekleyin.",
+  "semanticsFiltersDisabledNeedPlannedTransaction": "Liste filtreleri devre dışı bırakıldı. Önce planlı bir işlem ekleyin.",
+  "semanticsFiltersDisabledNeedRecordedTransaction": "Liste filtreleri devre dışı bırakıldı. Önce bir işlemi kaydedin.",
+  "semanticsReviewSectionChipsDisabledNeedAccount": "Bölüm ve para birimi kontrolleri devre dışı bırakıldı. Önce bir hesap ekleyin.",
+  "semanticsPlanProjectionControlsDisabled": "Projeksiyon tarihi ve bakiye dökümü devre dışı bırakıldı. Önce bir hesap ve planlı bir işlem ekleyin.",
+  "semanticsReorderAccountHint": "Bu grup içinde yeniden sıralamak için uzun basın, ardından sürükleyin",
+  "semanticsChartStyle": "Grafik stili",
+  "semanticsChartStyleUnavailable": "Grafik stili (karşılaştırma modunda kullanılamaz)",
+  "semanticsPeriod": "Dönem: {label}",
   "@semanticsPeriod": {
     "placeholders": {
       "label": {
@@ -739,10 +740,10 @@
       }
     }
   },
-  "trackSearchHint": "Search description, category, account…",
-  "trackSearchClear": "Clear search",
-  "settingsExchangeRatesTitle": "Exchange rates",
-  "settingsExchangeRatesUpdated": "Last updated: {time}",
+  "trackSearchHint": "Arama açıklaması, kategori, hesap…",
+  "trackSearchClear": "Aramayı temizle",
+  "settingsExchangeRatesTitle": "Döviz kurları",
+  "settingsExchangeRatesUpdated": "Son güncelleme: {time}",
   "@settingsExchangeRatesUpdated": {
     "placeholders": {
       "time": {
@@ -750,15 +751,15 @@
       }
     }
   },
-  "settingsExchangeRatesNeverUpdated": "Using offline or bundled rates — tap to refresh",
+  "settingsExchangeRatesNeverUpdated": "Çevrimdışı veya paket fiyatları kullanılıyor; yenilemek için dokunun",
   "settingsExchangeRatesSource": "ECB",
-  "settingsExchangeRatesUpdatedSnack": "Exchange rates updated",
-  "settingsExchangeRatesUpdateFailed": "Could not update exchange rates. Check your connection.",
-  "settingsClearData": "Clear data",
-  "settingsClearDataSubtitle": "Permanently remove selected data",
-  "clearDataTitle": "Clear data",
-  "clearDataTransactions": "Transaction history",
-  "clearDataTransactionsSubtitle": "{count} transactions · account balances reset to zero",
+  "settingsExchangeRatesUpdatedSnack": "Döviz kurları güncellendi",
+  "settingsExchangeRatesUpdateFailed": "Döviz kurları güncellenemedi. Bağlantınızı kontrol edin.",
+  "settingsClearData": "Verileri temizle",
+  "settingsClearDataSubtitle": "Seçilen verileri kalıcı olarak kaldır",
+  "clearDataTitle": "Verileri temizle",
+  "clearDataTransactions": "İşlem geçmişi",
+  "clearDataTransactionsSubtitle": "{count} işlemler · hesap bakiyeleri sıfıra sıfırlandı",
   "@clearDataTransactionsSubtitle": {
     "placeholders": {
       "count": {
@@ -766,8 +767,8 @@
       }
     }
   },
-  "clearDataPlanned": "Planned transactions",
-  "clearDataPlannedSubtitle": "{count} planned items",
+  "clearDataPlanned": "Planlanan işlemler",
+  "clearDataPlannedSubtitle": "{count} planlanan öğeler",
   "@clearDataPlannedSubtitle": {
     "placeholders": {
       "count": {
@@ -775,8 +776,8 @@
       }
     }
   },
-  "clearDataAccounts": "Accounts",
-  "clearDataAccountsSubtitle": "{count} accounts · also clears history and plan",
+  "clearDataAccounts": "Hesaplar",
+  "clearDataAccountsSubtitle": "{count} hesaplar · aynı zamanda geçmişi ve planı da temizler",
   "@clearDataAccountsSubtitle": {
     "placeholders": {
       "count": {
@@ -784,8 +785,8 @@
       }
     }
   },
-  "clearDataCategories": "Categories",
-  "clearDataCategoriesSubtitle": "{count} categories · replaced with defaults",
+  "clearDataCategories": "Kategoriler",
+  "clearDataCategoriesSubtitle": "{count} kategoriler · varsayılanlarla değiştirildi",
   "@clearDataCategoriesSubtitle": {
     "placeholders": {
       "count": {
@@ -793,21 +794,21 @@
       }
     }
   },
-  "clearDataPreferences": "Preferences",
-  "clearDataPreferencesSubtitle": "Reset currency, theme and language to defaults",
-  "clearDataSecurity": "App lock & PIN",
-  "clearDataSecuritySubtitle": "Disable app lock and remove PIN",
-  "clearDataConfirmButton": "Clear selected",
-  "clearDataConfirmTitle": "This cannot be undone",
-  "clearDataConfirmBody": "The selected data will be permanently deleted. Export a backup first if you may need it later.",
-  "clearDataTypeConfirm": "Type DELETE to confirm",
-  "clearDataTypeConfirmError": "Type DELETE exactly to continue",
-  "clearDataPinTitle": "Confirm with PIN",
-  "clearDataPinBody": "Enter your app PIN to authorize this action.",
-  "clearDataPinIncorrect": "Incorrect PIN",
-  "clearDataDone": "Selected data cleared",
-  "autoBackupTitle": "Automatic daily backup",
-  "autoBackupLastAt": "Last backed up {date}",
+  "clearDataPreferences": "Tercihler",
+  "clearDataPreferencesSubtitle": "Para birimini, temayı ve dili varsayılanlara sıfırlayın",
+  "clearDataSecurity": "Uygulama kilidi ve PIN",
+  "clearDataSecuritySubtitle": "Uygulama kilidini devre dışı bırakın ve PIN'i kaldırın",
+  "clearDataConfirmButton": "Seçileni temizle",
+  "clearDataConfirmTitle": "Bu geri alınamaz",
+  "clearDataConfirmBody": "Seçilen veriler kalıcı olarak silinecek. Daha sonra ihtiyacınız olursa önce bir yedeği dışa aktarın.",
+  "clearDataTypeConfirm": "Onaylamak için DELETE yazın",
+  "clearDataTypeConfirmError": "Devam etmek için tam olarak DELETE yazın",
+  "clearDataPinTitle": "PIN ile onayla",
+  "clearDataPinBody": "Bu işlemi yetkilendirmek için uygulama PIN'inizi girin.",
+  "clearDataPinIncorrect": "Yanlış PIN",
+  "clearDataDone": "Seçilen veriler temizlendi",
+  "autoBackupTitle": "Otomatik günlük yedekleme",
+  "autoBackupLastAt": "Son yedekleme {date}",
   "@autoBackupLastAt": {
     "placeholders": {
       "date": {
@@ -815,10 +816,10 @@
       }
     }
   },
-  "autoBackupNeverRun": "No backup yet",
-  "autoBackupShareTitle": "Save to cloud",
-  "autoBackupShareSubtitle": "Upload latest backup to iCloud Drive, Google Drive or any app",
-  "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
-  "autoBackupCloudReminderAction": "Share",
-  "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
+  "autoBackupNeverRun": "Henüz yedekleme yok",
+  "autoBackupShareTitle": "Buluta kaydet",
+  "autoBackupShareSubtitle": "En son yedeklemeyi iCloud Drive'a, Google Drive'a veya herhangi bir uygulamaya yükleyin",
+  "autoBackupCloudReminder": "Otomatik yedeklemeye hazır; cihaz dışı koruma için buluta kaydedin",
+  "autoBackupCloudReminderAction": "Paylaş",
+  "persistenceErrorReloaded": "Değişiklikler kaydedilemedi. Veriler depolama alanından yeniden yüklendi."
 }

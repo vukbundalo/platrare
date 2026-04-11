@@ -58,9 +58,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get heroResetButton => 'Reset';
+
   @override
   String get fabScrollToTop => 'Back to top';
-
 
   @override
   String get filterAll => 'All';
@@ -1616,123 +1616,126 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   AppLocalizationsZhHans() : super('zh_Hans');
 
   @override
-  String get appTitle => 'Platrare';
+  String get appTitle => '普拉特拉雷';
 
   @override
-  String get navPlan => 'Plan';
+  String get navPlan => '计划';
 
   @override
-  String get navTrack => 'Track';
+  String get navTrack => '追踪';
 
   @override
-  String get navReview => 'Review';
+  String get navReview => '审查';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => '取消';
 
   @override
-  String get delete => 'Delete';
+  String get delete => '删除';
 
   @override
-  String get close => 'Close';
+  String get close => '关闭';
 
   @override
-  String get add => 'Add';
+  String get add => '添加';
 
   @override
-  String get undo => 'Undo';
+  String get undo => '撤消';
 
   @override
-  String get confirm => 'Confirm';
+  String get confirm => '确认';
 
   @override
-  String get restore => 'Restore';
+  String get restore => '恢复';
 
   @override
-  String get heroIn => 'In';
+  String get heroIn => '在';
 
   @override
-  String get heroOut => 'Out';
+  String get heroOut => '出去';
 
   @override
-  String get heroNet => 'Net';
+  String get heroNet => '网';
 
   @override
-  String get heroBalance => 'Balance';
+  String get heroBalance => '平衡';
 
   @override
-  String get realBalance => 'Real balance';
+  String get realBalance => '实际余额';
 
   @override
-  String get heroResetButton => 'Reset';
+  String get heroResetButton => '重置';
 
   @override
-  String get filterAll => 'All';
+  String get fabScrollToTop => '返回顶部';
 
   @override
-  String get filterAllAccounts => 'All accounts';
+  String get filterAll => '全部';
 
   @override
-  String get filterAllCategories => 'All categories';
+  String get filterAllAccounts => '所有账户';
 
   @override
-  String get txLabelIncome => 'INCOME';
+  String get filterAllCategories => '所有类别';
 
   @override
-  String get txLabelExpense => 'EXPENSE';
+  String get txLabelIncome => '收入';
 
   @override
-  String get txLabelInvoice => 'INVOICE';
+  String get txLabelExpense => '费用';
 
   @override
-  String get txLabelBill => 'BILL';
+  String get txLabelInvoice => '发票';
 
   @override
-  String get txLabelAdvance => 'ADVANCE';
+  String get txLabelBill => '账单';
 
   @override
-  String get txLabelSettlement => 'SETTLEMENT';
+  String get txLabelAdvance => '进步';
 
   @override
-  String get txLabelLoan => 'LOAN';
+  String get txLabelSettlement => '沉降';
 
   @override
-  String get txLabelCollection => 'COLLECTION';
+  String get txLabelLoan => '贷款';
 
   @override
-  String get txLabelOffset => 'OFFSET';
+  String get txLabelCollection => '收藏';
 
   @override
-  String get txLabelTransfer => 'TRANSFER';
+  String get txLabelOffset => '抵消';
 
   @override
-  String get txLabelTransaction => 'TRANSACTION';
+  String get txLabelTransfer => '转移';
 
   @override
-  String get repeatNone => 'No repeat';
+  String get txLabelTransaction => '交易';
 
   @override
-  String get repeatDaily => 'Daily';
+  String get repeatNone => '不重复';
 
   @override
-  String get repeatWeekly => 'Weekly';
+  String get repeatDaily => '日常的';
 
   @override
-  String get repeatMonthly => 'Monthly';
+  String get repeatWeekly => '每周';
 
   @override
-  String get repeatYearly => 'Yearly';
+  String get repeatMonthly => '每月';
 
   @override
-  String get repeatEveryLabel => 'Every';
+  String get repeatYearly => '每年';
+
+  @override
+  String get repeatEveryLabel => '每一个';
 
   @override
   String repeatEveryDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days',
-      one: 'day',
+      other: '$count 天',
+      one: '天',
     );
     return '$_temp0';
   }
@@ -1742,8 +1745,8 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count weeks',
-      one: 'week',
+      other: '$count 周',
+      one: '周',
     );
     return '$_temp0';
   }
@@ -1753,8 +1756,8 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months',
-      one: 'month',
+      other: '$count 个月',
+      one: '个月',
     );
     return '$_temp0';
   }
@@ -1764,628 +1767,603 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years',
-      one: 'year',
+      other: '$count 年',
+      one: '年',
     );
     return '$_temp0';
   }
 
   @override
-  String get repeatEndLabel => 'Ends';
+  String get repeatEndLabel => '结束';
 
   @override
-  String get repeatEndNever => 'Never';
+  String get repeatEndNever => '绝不';
 
   @override
-  String get repeatEndOnDate => 'On date';
+  String get repeatEndOnDate => '约会时';
 
   @override
   String repeatEndAfterCount(int count) {
-    return 'After $count times';
+    return '$count次后';
   }
 
   @override
-  String get repeatEndPickDate => 'Pick end date';
+  String get repeatEndPickDate => '选择结束日期';
 
   @override
-  String get repeatEndTimes => 'times';
+  String get repeatEndTimes => '次';
 
   @override
   String repeatSummaryEvery(int count, String unit) {
-    return 'Every $count $unit';
+    return '每$count$unit';
   }
 
   @override
   String repeatSummaryUntil(String date) {
-    return 'until $date';
+    return '直到$date';
   }
 
   @override
   String repeatSummaryTimes(int count) {
-    return '$count times';
+    return '$count次';
   }
 
   @override
   String repeatSummaryTimesRemaining(int remaining, int total) {
-    return '$remaining of $total remaining';
+    return '剩余 $total 的 $remaining';
   }
 
   @override
-  String get detailRepeatEvery => 'Repeat every';
+  String get detailRepeatEvery => '重复每个';
 
   @override
-  String get detailEnds => 'Ends';
+  String get detailEnds => '结束';
 
   @override
-  String get detailEndsNever => 'Never';
+  String get detailEndsNever => '绝不';
 
   @override
   String detailEndsOnDate(String date) {
-    return 'On $date';
+    return '在$date';
   }
 
   @override
   String detailEndsAfterCount(int count) {
-    return 'After $count times';
+    return '$count次后';
   }
 
   @override
-  String get detailProgress => 'Progress';
+  String get detailProgress => '进步';
 
   @override
-  String get weekendNoChange => 'No change';
+  String get weekendNoChange => '没有变化';
 
   @override
-  String get weekendFriday => 'Move to Friday';
+  String get weekendFriday => '移至周五';
 
   @override
-  String get weekendMonday => 'Move to Monday';
+  String get weekendMonday => '移至星期一';
 
   @override
   String weekendQuestion(String day) {
-    return 'If the $day falls on a weekend?';
+    return '如果$day恰逢周末？';
   }
 
   @override
-  String get dateToday => 'Today';
+  String get dateToday => '今天';
 
   @override
-  String get dateTomorrow => 'Tomorrow';
+  String get dateTomorrow => '明天';
 
   @override
-  String get dateYesterday => 'Yesterday';
+  String get dateYesterday => '昨天';
 
   @override
-  String get statsAllTime => 'All time';
+  String get statsAllTime => '所有时间';
 
   @override
-  String get accountGroupPersonal => 'Personal';
+  String get accountGroupPersonal => '个人的';
 
   @override
-  String get accountGroupIndividual => 'Individual';
+  String get accountGroupIndividual => '个人';
 
   @override
-  String get accountGroupEntity => 'Entity';
+  String get accountGroupEntity => '实体';
 
   @override
-  String get accountSectionIndividuals => 'Individuals';
+  String get accountSectionIndividuals => '个人';
 
   @override
-  String get accountSectionEntities => 'Entities';
+  String get accountSectionEntities => '实体';
 
   @override
-  String get emptyNoTransactionsYet => 'No transactions yet';
+  String get emptyNoTransactionsYet => '还没有交易';
 
   @override
-  String get emptyNoAccountsYet => 'No accounts yet';
+  String get emptyNoAccountsYet => '还没有账户';
 
   @override
-  String get emptyRecordFirstTransaction =>
-      'Tap the button below to record your first transaction.';
+  String get emptyRecordFirstTransaction => '点击下面的按钮记录您的第一笔交易。';
 
   @override
-  String get emptyAddFirstAccountTx =>
-      'Add your first account before recording transactions.';
+  String get emptyAddFirstAccountTx => '在记录交易之前添加您的第一个帐户。';
 
   @override
-  String get emptyAddFirstAccountPlan =>
-      'Add your first account before planning transactions.';
+  String get emptyAddFirstAccountPlan => '在计划交易之前添加您的第一个帐户。';
 
   @override
-  String get emptyAddFirstAccountReview =>
-      'Add your first account to start tracking your finances.';
+  String get emptyAddFirstAccountReview => '添加您的第一个帐户以开始跟踪您的财务状况。';
 
   @override
-  String get emptyAddTransaction => 'Add transaction';
+  String get emptyAddTransaction => '添加交易';
 
   @override
-  String get emptyAddAccount => 'Add account';
+  String get emptyAddAccount => '添加帐户';
 
   @override
-  String get reviewEmptyGroupPersonalTitle => 'No personal accounts yet';
+  String get reviewEmptyGroupPersonalTitle => '还没有个人账户';
 
   @override
-  String get reviewEmptyGroupPersonalBody =>
-      'Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.';
+  String get reviewEmptyGroupPersonalBody => '个人账户是您自己的钱包和银行账户。添加一个来跟踪日常收入和支出。';
 
   @override
-  String get reviewEmptyGroupIndividualsTitle => 'No individual accounts yet';
+  String get reviewEmptyGroupIndividualsTitle => '还没有个人账户';
 
   @override
   String get reviewEmptyGroupIndividualsBody =>
-      'Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.';
+      '个人账户跟踪特定人员的资金情况——分担成本、贷款或欠条。为与您和解的每个人添加一个帐户。';
 
   @override
-  String get reviewEmptyGroupEntitiesTitle => 'No entity accounts yet';
+  String get reviewEmptyGroupEntitiesTitle => '还没有实体账户';
 
   @override
   String get reviewEmptyGroupEntitiesBody =>
-      'Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.';
+      '实体帐户适用于企业、项目或组织。使用它们将业务现金流与您的个人财务分开。';
 
   @override
-  String get emptyNoTransactionsForFilters =>
-      'No transactions for applied filters';
+  String get emptyNoTransactionsForFilters => '没有应用过滤器的交易';
 
   @override
-  String get emptyNoTransactionsInHistory => 'No transactions in history';
+  String get emptyNoTransactionsInHistory => '历史上没有交易记录';
 
   @override
   String emptyNoTransactionsForMonth(String month) {
-    return 'No transactions for $month';
+    return '$month 没有交易';
   }
 
   @override
-  String get emptyNoTransactionsForAccount =>
-      'No transactions for this account';
+  String get emptyNoTransactionsForAccount => '该账户没有任何交易';
 
   @override
-  String get trackTransactionDeleted => 'Transaction deleted';
+  String get trackTransactionDeleted => '交易已删除';
 
   @override
-  String get trackDeleteTitle => 'Delete transaction?';
+  String get trackDeleteTitle => '删除交易？';
 
   @override
-  String get trackDeleteBody =>
-      'This will reverse the account balance changes.';
+  String get trackDeleteBody => '这将扭转账户余额的变化。';
 
   @override
-  String get trackTransaction => 'Transaction';
+  String get trackTransaction => '交易';
 
   @override
-  String get planConfirmTitle => 'Confirm transaction?';
+  String get planConfirmTitle => '确认交易？';
 
   @override
   String planConfirmBodyEarly(String date, String todayDate, String nextDate) {
-    return 'This occurrence is scheduled for $date. It will be recorded in History with today’s date ($todayDate). The next occurrence remains on $nextDate.';
+    return '此事件安排在$date。它将以今天的日期（$todayDate）记录在历史中。下一次发生仍发生在$nextDate。';
   }
 
   @override
-  String get planConfirmBodyNormal =>
-      'This will apply the transaction to your real account balances and move it to History.';
+  String get planConfirmBodyNormal => '这会将交易应用于您的真实账户余额并将其移至历史记录。';
 
   @override
-  String get planTransactionConfirmed => 'Transaction confirmed and applied';
+  String get planTransactionConfirmed => '交易确认并应用';
 
   @override
-  String get planTransactionRemoved => 'Planned transaction removed';
+  String get planTransactionRemoved => '计划交易已删除';
 
   @override
-  String get planRepeatingTitle => 'Repeating transaction';
+  String get planRepeatingTitle => '重复交易';
 
   @override
-  String get planRepeatingBody =>
-      'Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.';
+  String get planRepeatingBody => '仅跳过此日期 - 该系列继续下一个事件 - 或从计划中删除所有剩余的事件。';
 
   @override
-  String get planDeleteAll => 'Delete all';
+  String get planDeleteAll => '全部删除';
 
   @override
-  String get planSkipThisOnly => 'Skip this only';
+  String get planSkipThisOnly => '仅跳过此部分';
 
   @override
-  String get planOccurrenceSkipped =>
-      'This occurrence skipped — next one scheduled';
+  String get planOccurrenceSkipped => '已跳过此事件 — 已安排下一个事件';
 
   @override
-  String get planNothingPlanned => 'Nothing planned for now';
+  String get planNothingPlanned => '暂时没有计划';
 
   @override
-  String get planPlanBody => 'Plan upcoming transactions.';
+  String get planPlanBody => '计划即将进行的交易。';
 
   @override
-  String get planAddPlan => 'Add plan';
+  String get planAddPlan => '添加计划';
 
   @override
-  String get planNoPlannedForFilters =>
-      'No planned transactions for applied filters';
+  String get planNoPlannedForFilters => '没有针对所应用的过滤器的计划交易';
 
   @override
   String planNoPlannedInMonth(String month) {
-    return 'No planned transactions in $month';
+    return '$month无计划交易';
   }
 
   @override
-  String get planOverdue => 'overdue';
+  String get planOverdue => '逾期的';
 
   @override
-  String get planPlannedTransaction => 'Planned transaction';
+  String get planPlannedTransaction => '计划交易';
 
   @override
-  String get discardTitle => 'Discard changes?';
+  String get discardTitle => '放弃更改？';
 
   @override
-  String get discardBody =>
-      'You have unsaved changes. They will be lost if you leave now.';
+  String get discardBody => '您有未保存的更改。如果你现在离开，它们就会丢失。';
 
   @override
-  String get keepEditing => 'Keep editing';
+  String get keepEditing => '继续编辑';
 
   @override
-  String get discard => 'Discard';
+  String get discard => '丢弃';
 
   @override
-  String get newTransactionTitle => 'New Transaction';
+  String get newTransactionTitle => '新交易';
 
   @override
-  String get editTransactionTitle => 'Edit Transaction';
+  String get editTransactionTitle => '编辑交易';
 
   @override
-  String get transactionUpdated => 'Transaction updated';
+  String get transactionUpdated => '交易已更新';
 
   @override
-  String get sectionAccounts => 'Accounts';
+  String get sectionAccounts => '账户';
 
   @override
-  String get labelFrom => 'From';
+  String get labelFrom => '从';
 
   @override
-  String get labelTo => 'To';
+  String get labelTo => '到';
 
   @override
-  String get sectionCategory => 'Category';
+  String get sectionCategory => '类别';
 
   @override
-  String get sectionAttachments => 'Attachments';
+  String get sectionAttachments => '附件';
 
   @override
-  String get labelNote => 'Note';
+  String get labelNote => '笔记';
 
   @override
-  String get hintOptionalDescription => 'Optional description';
+  String get hintOptionalDescription => '可选描述';
 
   @override
-  String get updateTransaction => 'Update Transaction';
+  String get updateTransaction => '更新交易';
 
   @override
-  String get saveTransaction => 'Save Transaction';
+  String get saveTransaction => '保存交易';
 
   @override
-  String get selectAccount => 'Select account';
+  String get selectAccount => '选择账户';
 
   @override
-  String get selectAccountTitle => 'Select Account';
+  String get selectAccountTitle => '选择账户';
 
   @override
-  String get noAccountsAvailable => 'No accounts available';
+  String get noAccountsAvailable => '没有可用帐户';
 
   @override
   String amountReceivedBy(String name, String currency) {
-    return 'Amount received by $name ($currency)';
+    return '$name ($currency) 收到的金额';
   }
 
   @override
-  String get amountReceivedHelper =>
-      'Enter the exact amount the destination account receives. This locks the real exchange rate used.';
+  String get amountReceivedHelper => '输入目标帐户收到的确切金额。这会锁定所使用的实际汇率。';
 
   @override
-  String get attachTakePhoto => 'Take photo';
+  String get attachTakePhoto => '拍照';
 
   @override
-  String get attachTakePhotoSub => 'Use camera to capture a receipt';
+  String get attachTakePhotoSub => '使用相机拍摄收据';
 
   @override
-  String get attachChooseGallery => 'Choose from gallery';
+  String get attachChooseGallery => '从画廊中选择';
 
   @override
-  String get attachChooseGallerySub => 'Select photos from your library';
+  String get attachChooseGallerySub => '从您的图库中选择照片';
 
   @override
-  String get attachBrowseFiles => 'Browse files';
+  String get attachBrowseFiles => '浏览文件';
 
   @override
-  String get attachBrowseFilesSub => 'Attach PDFs, documents or other files';
+  String get attachBrowseFilesSub => '附加 PDF、文档或其他文件';
 
   @override
-  String get attachButton => 'Attach';
+  String get attachButton => '附';
 
   @override
-  String get editPlanTitle => 'Edit Plan';
+  String get editPlanTitle => '编辑计划';
 
   @override
-  String get planTransactionTitle => 'Plan Transaction';
+  String get planTransactionTitle => '计划交易';
 
   @override
-  String get tapToSelect => 'Tap to select';
+  String get tapToSelect => '点击选择';
 
   @override
-  String get updatePlan => 'Update Plan';
+  String get updatePlan => '更新计划';
 
   @override
-  String get addToPlan => 'Add to Plan';
+  String get addToPlan => '添加到计划';
 
   @override
-  String get labelRepeat => 'Repeat';
+  String get labelRepeat => '重复';
 
   @override
-  String get selectPlannedDate => 'Select planned date';
+  String get selectPlannedDate => '选择计划日期';
 
   @override
-  String get balancesAsOfToday => 'Balances as of today';
+  String get balancesAsOfToday => '截至今日的余额';
 
   @override
-  String get projectedBalancesForTomorrow => 'Projected balances for tomorrow';
+  String get projectedBalancesForTomorrow => '明天的预计余额';
 
   @override
   String projectedBalancesForDate(String date) {
-    return 'Projected balances for $date';
+    return '$date 的预计余额';
   }
 
   @override
   String destReceivesLabel(String name, String currency) {
-    return '$name receives ($currency)';
+    return '$name 接收 ($currency)';
   }
 
   @override
-  String get destHelper =>
-      'Estimated destination amount. Exact rate is locked at confirmation.';
+  String get destHelper => '预计目的地金额。确切的汇率在确认时被锁定。';
 
   @override
-  String get descriptionOptional => 'Description (optional)';
+  String get descriptionOptional => '说明（可选）';
 
   @override
-  String get detailTransactionTitle => 'Transaction';
+  String get detailTransactionTitle => '交易';
 
   @override
-  String get detailPlannedTitle => 'Planned';
+  String get detailPlannedTitle => '计划';
 
   @override
-  String get detailConfirmTransaction => 'Confirm transaction';
+  String get detailConfirmTransaction => '确认交易';
 
   @override
-  String get detailDate => 'Date';
+  String get detailDate => '日期';
 
   @override
-  String get detailFrom => 'From';
+  String get detailFrom => '从';
 
   @override
-  String get detailTo => 'To';
+  String get detailTo => '到';
 
   @override
-  String get detailCategory => 'Category';
+  String get detailCategory => '类别';
 
   @override
-  String get detailNote => 'Note';
+  String get detailNote => '笔记';
 
   @override
-  String get detailDestinationAmount => 'Destination amount';
+  String get detailDestinationAmount => '目的地金额';
 
   @override
-  String get detailExchangeRate => 'Exchange rate';
+  String get detailExchangeRate => '汇率';
 
   @override
-  String get detailRepeats => 'Repeats';
+  String get detailRepeats => '重复';
 
   @override
-  String get detailDayOfMonth => 'Day of month';
+  String get detailDayOfMonth => '一个月中的哪一天';
 
   @override
-  String get detailWeekends => 'Weekends';
+  String get detailWeekends => '周末';
 
   @override
-  String get detailAttachments => 'Attachments';
+  String get detailAttachments => '附件';
 
   @override
   String detailFileCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count 个文件',
+      one: '1 个文件',
     );
     return '$_temp0';
   }
 
   @override
-  String get settingsTitle => 'Settings';
+  String get settingsTitle => '设置';
 
   @override
-  String get settingsSectionDisplay => 'Display';
+  String get settingsSectionDisplay => '展示';
 
   @override
-  String get settingsSectionLanguage => 'Language';
+  String get settingsSectionLanguage => '语言';
 
   @override
-  String get settingsSectionCategories => 'Categories';
+  String get settingsSectionCategories => '类别';
 
   @override
-  String get settingsSectionAccounts => 'Accounts';
+  String get settingsSectionAccounts => '账户';
 
   @override
-  String get settingsSectionPreferences => 'Preferences';
+  String get settingsSectionPreferences => '偏好设置';
 
   @override
-  String get settingsSectionManage => 'Manage';
+  String get settingsSectionManage => '管理';
 
   @override
-  String get settingsBaseCurrency => 'Home currency';
+  String get settingsBaseCurrency => '本国货币';
 
   @override
-  String get settingsSecondaryCurrency => 'Secondary currency';
+  String get settingsSecondaryCurrency => '次要货币';
 
   @override
-  String get settingsCategories => 'Categories';
+  String get settingsCategories => '类别';
 
   @override
   String settingsCategoriesSubtitle(int incomeCount, int expenseCount) {
-    return '$incomeCount income · $expenseCount expense';
+    return '$incomeCount 收入 · $expenseCount 支出';
   }
 
   @override
-  String get settingsArchivedAccounts => 'Archived accounts';
+  String get settingsArchivedAccounts => '存档帐户';
 
   @override
-  String get settingsArchivedAccountsSubtitleZero =>
-      'None right now — archive from account edit when balance is clear';
+  String get settingsArchivedAccountsSubtitleZero => '现在没有 - 当余额清晰时从帐户编辑存档';
 
   @override
   String settingsArchivedAccountsSubtitleCount(int count) {
-    return '$count hidden from Review and pickers';
+    return '$count 对审阅和选择器隐藏';
   }
 
   @override
-  String get settingsSectionData => 'Data';
+  String get settingsSectionData => '数据';
 
   @override
-  String get settingsSectionPrivacy => 'About';
+  String get settingsSectionPrivacy => '关于';
 
   @override
-  String get settingsPrivacyPolicyTitle => 'Privacy policy';
+  String get settingsPrivacyPolicyTitle => '隐私政策';
 
   @override
-  String get settingsPrivacyPolicySubtitle => 'How Platrare handles your data.';
+  String get settingsPrivacyPolicySubtitle => 'Platrare 如何处理您的数据。';
 
   @override
   String get settingsPrivacyFxDisclosure =>
-      'Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.';
+      '汇率：该应用程序通过互联网获取公共货币汇率。您的帐户和交易永远不会发送。';
 
   @override
-  String get settingsPrivacyOpenFailed => 'Could not load the privacy policy.';
+  String get settingsPrivacyOpenFailed => '无法加载隐私政策。';
 
   @override
-  String get settingsPrivacyRetry => 'Try again';
+  String get settingsPrivacyRetry => '再试一次';
 
   @override
-  String get settingsSoftwareVersionTitle => 'Software version';
+  String get settingsSoftwareVersionTitle => '软件版本';
 
   @override
-  String get settingsSoftwareVersionSubtitle =>
-      'Release, diagnostics, and legal';
+  String get settingsSoftwareVersionSubtitle => '发布、诊断和法律';
 
   @override
-  String get aboutScreenTitle => 'About';
+  String get aboutScreenTitle => '关于';
 
   @override
-  String get aboutAppTagline =>
-      'Ledger, cashflow, and planning in one workspace.';
+  String get aboutAppTagline => '账本、现金流和规划在一个工作空间中进行。';
 
   @override
   String get aboutDescriptionBody =>
-      'Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.';
+      'Platrare 在您的设备上保存账户、交易和计划。当您在其他地方需要副本时导出加密备份。汇率仅使用公开市场数据；您的分类帐尚未上传。';
 
   @override
-  String get aboutVersionLabel => 'Version';
+  String get aboutVersionLabel => '版本';
 
   @override
-  String get aboutBuildLabel => 'Build';
+  String get aboutBuildLabel => '建造';
 
   @override
-  String get aboutCopySupportDetails => 'Copy support details';
+  String get aboutCopySupportDetails => '复制支持详细信息';
 
   @override
-  String get aboutOpenPrivacySubtitle =>
-      'Opens the full in-app policy document.';
+  String get aboutOpenPrivacySubtitle => '打开完整的应用内政策文档。';
 
   @override
-  String get aboutSupportBundleLocaleLabel => 'Locale';
+  String get aboutSupportBundleLocaleLabel => '语言环境';
 
   @override
-  String get settingsSupportInfoCopied => 'Copied to clipboard';
+  String get settingsSupportInfoCopied => '已复制到剪贴板';
 
   @override
-  String get settingsVerifyLedger => 'Verify data';
+  String get settingsVerifyLedger => '验证数据';
 
   @override
-  String get settingsVerifyLedgerSubtitle =>
-      'Check that account balances match your transaction history';
+  String get settingsVerifyLedgerSubtitle => '检查账户余额是否与您的交易记录相符';
 
   @override
-  String get settingsDataExportTitle => 'Export backup';
+  String get settingsDataExportTitle => '导出备份';
 
   @override
-  String get settingsDataExportSubtitle =>
-      'Save as .zip or encrypted .platrare with all data and attachments';
+  String get settingsDataExportSubtitle => '将所有数据和附件另存为 .zip 或加密的 .platrare';
 
   @override
-  String get settingsDataImportTitle => 'Restore from backup';
+  String get settingsDataImportTitle => '从备份恢复';
 
   @override
   String get settingsDataImportSubtitle =>
-      'Replace current data from a Platrare .zip or .platrare backup';
+      '替换 Platrare .zip 或 .platrare 备份中的当前数据';
 
   @override
-  String get backupExportDialogTitle => 'Protect this backup';
+  String get backupExportDialogTitle => '保护此备份';
 
   @override
-  String get backupExportDialogBody =>
-      'A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.';
+  String get backupExportDialogBody => '建议使用强密码，尤其是当您将文件存储在云中时。您需要相同的密码才能导入。';
 
   @override
-  String get backupExportPasswordLabel => 'Password';
+  String get backupExportPasswordLabel => '密码';
 
   @override
-  String get backupExportPasswordConfirmLabel => 'Confirm password';
+  String get backupExportPasswordConfirmLabel => '确认密码';
 
   @override
-  String get backupExportPasswordMismatch => 'Passwords do not match';
+  String get backupExportPasswordMismatch => '密码不匹配';
 
   @override
-  String get backupExportPasswordEmpty =>
-      'Enter a matching password, or export without encryption below.';
+  String get backupExportPasswordEmpty => '输入匹配的密码，或在下面不加密地导出。';
 
   @override
-  String get backupExportPasswordTooShort =>
-      'Password must be at least 8 characters.';
+  String get backupExportPasswordTooShort => '密码必须至少为 8 个字符。';
 
   @override
-  String get backupExportSaveToDevice => 'Save to device';
+  String get backupExportSaveToDevice => '保存到设备';
 
   @override
-  String get backupExportShareToCloud => 'Share (iCloud, Drive…)';
+  String get backupExportShareToCloud => '共享（iCloud、云端硬盘...）';
 
   @override
-  String get backupExportWithoutEncryption => 'Export without encryption';
+  String get backupExportWithoutEncryption => '不加密导出';
 
   @override
-  String get backupExportSkipWarningTitle => 'Export without encryption?';
+  String get backupExportSkipWarningTitle => '导出时不加密？';
 
   @override
   String get backupExportSkipWarningBody =>
-      'Anyone with access to the file can read your data. Use this only for local copies you control.';
+      '任何有权访问该文件的人都可以读取您的数据。仅将其用于您控制的本地副本。';
 
   @override
-  String get backupExportSkipWarningConfirm => 'Export unencrypted';
+  String get backupExportSkipWarningConfirm => '导出未加密';
 
   @override
-  String get backupImportPasswordTitle => 'Encrypted backup';
+  String get backupImportPasswordTitle => '加密备份';
 
   @override
-  String get backupImportPasswordBody =>
-      'Enter the password you used when exporting.';
+  String get backupImportPasswordBody => '输入导出时使用的密码。';
 
   @override
-  String get backupImportPasswordLabel => 'Password';
+  String get backupImportPasswordLabel => '密码';
 
   @override
-  String get backupImportPreviewTitle => 'Backup summary';
+  String get backupImportPreviewTitle => '备份摘要';
 
   @override
   String backupImportPreviewVersion(String version) {
-    return 'App version: $version';
+    return '应用程序版本：$version';
   }
 
   @override
   String backupImportPreviewExported(String date) {
-    return 'Exported: $date';
+    return '导出：$date';
   }
 
   @override
@@ -2397,67 +2375,65 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
     int income,
     int expense,
   ) {
-    return '$accounts accounts · $transactions transactions · $planned planned · $attachments attachment files · $income income categories · $expense expense categories';
+    return '$accounts 账户 · $transactions 交易 · $planned 计划 · $attachments 附件文件 · $income 收入类别 · $expense 费用类别';
   }
 
   @override
-  String get backupImportPreviewContinue => 'Continue';
+  String get backupImportPreviewContinue => '继续';
 
   @override
-  String get settingsBackupWrongPassword => 'Wrong password';
+  String get settingsBackupWrongPassword => '密码错误';
 
   @override
-  String get settingsBackupChecksumMismatch => 'Backup failed integrity check';
+  String get settingsBackupChecksumMismatch => '备份完整性检查失败';
 
   @override
-  String get settingsBackupCorruptFile => 'Invalid or damaged backup file';
+  String get settingsBackupCorruptFile => '备份文件无效或损坏';
 
   @override
-  String get settingsBackupUnsupportedVersion =>
-      'Backup needs a newer app version';
+  String get settingsBackupUnsupportedVersion => '备份需要更新的应用程序版本';
 
   @override
-  String get settingsDataImportConfirmTitle => 'Replace current data?';
+  String get settingsDataImportConfirmTitle => '替换当前数据？';
 
   @override
   String get settingsDataImportConfirmBody =>
-      'This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.';
+      '这会将您的当前帐户、交易、计划交易、类别和导入的附件替换为所选备份的内容。此操作无法撤消。';
 
   @override
-  String get settingsDataImportConfirmAction => 'Replace data';
+  String get settingsDataImportConfirmAction => '替换数据';
 
   @override
-  String get settingsDataImportDone => 'Data restored successfully';
+  String get settingsDataImportDone => '数据恢复成功';
 
   @override
-  String get settingsDataImportInvalidFile =>
-      'This file is not a valid Platrare backup';
+  String get settingsDataImportInvalidFile => '该文件不是有效的 Platrare 备份';
 
   @override
-  String get settingsDataImportFailed => 'Import failed';
+  String get settingsDataImportFailed => '导入失败';
 
   @override
-  String get settingsDataExportDoneTitle => 'Backup exported';
+  String get settingsDataExportDoneTitle => '备份导出';
 
   @override
   String settingsDataExportDoneBody(String path) {
-    return 'Backup saved to:\n$path';
+    return '备份保存至：\n$path';
   }
 
   @override
-  String get settingsDataOpenExportFile => 'Open file';
+  String get settingsDataOpenExportFile => '打开文件';
 
   @override
-  String get settingsDataExportFailed => 'Export failed';
+  String get settingsDataExportFailed => '导出失败';
 
   @override
-  String get ledgerVerifyDialogTitle => 'Ledger verification';
+  String get ledgerVerifyDialogTitle => '账本验证';
 
   @override
-  String get ledgerVerifyAllMatch => 'All accounts match.';
+  String get ledgerVerifyAllMatch => '所有帐户都匹配。';
 
   @override
-  String get ledgerVerifyMismatchesTitle => 'Mismatches';
+  String get ledgerVerifyMismatchesTitle => '不匹配';
 
   @override
   String ledgerVerifyMismatchDetails(
@@ -2466,162 +2442,157 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
     String replayed,
     String diff,
   ) {
-    return '$accountName\nStored: $stored\nReplay: $replayed\nDifference: $diff';
+    return '$accountName\n存储：$stored\n重播：$replayed\n差异：$diff';
   }
 
   @override
-  String get settingsLanguage => 'App language';
+  String get settingsLanguage => '应用语言';
 
   @override
-  String get settingsLanguageSubtitleSystem => 'Following system settings';
+  String get settingsLanguageSubtitleSystem => '以下系统设置';
 
   @override
-  String get settingsLanguageSubtitleEnglish => 'English';
+  String get settingsLanguageSubtitleEnglish => '英语';
 
   @override
-  String get settingsLanguageSubtitleSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageSubtitleSerbianLatin => '塞尔维亚语（拉丁语）';
 
   @override
-  String get settingsLanguagePickerTitle => 'App language';
+  String get settingsLanguagePickerTitle => '应用语言';
 
   @override
-  String get settingsLanguageOptionSystem => 'System default';
+  String get settingsLanguageOptionSystem => '系统默认';
 
   @override
-  String get settingsLanguageOptionEnglish => 'English';
+  String get settingsLanguageOptionEnglish => '英语';
 
   @override
-  String get settingsLanguageOptionSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageOptionSerbianLatin => '塞尔维亚语（拉丁语）';
 
   @override
-  String get settingsSectionAppearance => 'Appearance';
+  String get settingsSectionAppearance => '外貌';
 
   @override
-  String get settingsSectionSecurity => 'Security';
+  String get settingsSectionSecurity => '安全';
 
   @override
-  String get settingsSecurityEnableLock => 'Lock app on open';
+  String get settingsSecurityEnableLock => '锁定应用程序打开状态';
 
   @override
-  String get settingsSecurityEnableLockSubtitle =>
-      'Require biometric unlock or PIN when app opens';
+  String get settingsSecurityEnableLockSubtitle => '应用程序打开时需要生物识别解锁或 PIN';
 
   @override
-  String get settingsSecuritySetPin => 'Set PIN';
+  String get settingsSecuritySetPin => '设置密码';
 
   @override
-  String get settingsSecurityChangePin => 'Change PIN';
+  String get settingsSecurityChangePin => '更改密码';
 
   @override
-  String get settingsSecurityPinSubtitle =>
-      'Use a PIN as fallback if biometric is unavailable';
+  String get settingsSecurityPinSubtitle => '如果生物识别不可用，请使用 PIN 作为后备措施';
 
   @override
-  String get settingsSecurityRemovePin => 'Remove PIN';
+  String get settingsSecurityRemovePin => '删除 PIN 码';
 
   @override
-  String get securitySetPinTitle => 'Set app PIN';
+  String get securitySetPinTitle => '设置应用程序 PIN';
 
   @override
-  String get securityPinLabel => 'PIN code';
+  String get securityPinLabel => '密码';
 
   @override
-  String get securityConfirmPinLabel => 'Confirm PIN code';
+  String get securityConfirmPinLabel => '确认 PIN 码';
 
   @override
-  String get securityPinMustBe4Digits => 'PIN must have at least 4 digits';
+  String get securityPinMustBe4Digits => 'PIN 码必须至少有 4 位数字';
 
   @override
-  String get securityPinMismatch => 'PIN codes do not match';
+  String get securityPinMismatch => 'PIN 码不匹配';
 
   @override
-  String get securityRemovePinTitle => 'Remove PIN?';
+  String get securityRemovePinTitle => '删除 PIN 码？';
 
   @override
-  String get securityRemovePinBody =>
-      'Biometric unlock can still be used if available.';
+  String get securityRemovePinBody => '如果有的话，仍然可以使用生物识别解锁。';
 
   @override
-  String get securityUnlockTitle => 'App locked';
+  String get securityUnlockTitle => '应用程序已锁定';
 
   @override
-  String get securityUnlockSubtitle =>
-      'Unlock with Face ID, fingerprint, or PIN.';
+  String get securityUnlockSubtitle => '使用面容 ID、指纹或 PIN 码解锁。';
 
   @override
-  String get securityUnlockWithPin => 'Unlock with PIN';
+  String get securityUnlockWithPin => '使用 PIN 码解锁';
 
   @override
-  String get securityTryBiometric => 'Try biometric unlock';
+  String get securityTryBiometric => '尝试生物识别解锁';
 
   @override
-  String get securityPinIncorrect => 'Incorrect PIN, try again';
+  String get securityPinIncorrect => 'PIN 码不正确，请重试';
 
   @override
-  String get securityBiometricReason => 'Authenticate to open your app';
+  String get securityBiometricReason => '进行身份验证以打开您的应用程序';
 
   @override
-  String get settingsTheme => 'Theme';
+  String get settingsTheme => '主题';
 
   @override
-  String get settingsThemeSubtitleSystem => 'Following system settings';
+  String get settingsThemeSubtitleSystem => '以下系统设置';
 
   @override
-  String get settingsThemeSubtitleLight => 'Light';
+  String get settingsThemeSubtitleLight => '光';
 
   @override
-  String get settingsThemeSubtitleDark => 'Dark';
+  String get settingsThemeSubtitleDark => '黑暗的';
 
   @override
-  String get settingsThemePickerTitle => 'Theme';
+  String get settingsThemePickerTitle => '主题';
 
   @override
-  String get settingsThemeOptionSystem => 'System default';
+  String get settingsThemeOptionSystem => '系统默认';
 
   @override
-  String get settingsThemeOptionLight => 'Light';
+  String get settingsThemeOptionLight => '光';
 
   @override
-  String get settingsThemeOptionDark => 'Dark';
+  String get settingsThemeOptionDark => '黑暗的';
 
   @override
-  String get archivedAccountsTitle => 'Archived accounts';
+  String get archivedAccountsTitle => '存档帐户';
 
   @override
-  String get archivedAccountsEmptyTitle => 'No archived accounts';
+  String get archivedAccountsEmptyTitle => '没有存档帐户';
 
   @override
-  String get archivedAccountsEmptyBody =>
-      'Book balance and overdraft must be zero. Archive from account options in Review.';
+  String get archivedAccountsEmptyBody => '账面余额和透支必须为零。从“审核”中的帐户选项存档。';
 
   @override
-  String get categoriesTitle => 'Categories';
+  String get categoriesTitle => '类别';
 
   @override
-  String get newCategoryTitle => 'New Category';
+  String get newCategoryTitle => '新类别';
 
   @override
-  String get categoryNameLabel => 'Category name';
+  String get categoryNameLabel => '类别名称';
 
   @override
-  String get deleteCategoryTitle => 'Delete category?';
+  String get deleteCategoryTitle => '删除类别？';
 
   @override
   String deleteCategoryBody(String category) {
-    return '\"$category\" will be removed from the list.';
+    return '“$category”将从列表中删除。';
   }
 
   @override
-  String get categoryIncome => 'Income';
+  String get categoryIncome => '收入';
 
   @override
-  String get categoryExpense => 'Expense';
+  String get categoryExpense => '费用';
 
   @override
-  String get categoryAdd => 'Add';
+  String get categoryAdd => '添加';
 
   @override
-  String get searchCurrencies => 'Search currencies…';
+  String get searchCurrencies => '搜索货币...';
 
   @override
   String get period1M => '1M';
@@ -2633,584 +2604,562 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get period6M => '6M';
 
   @override
-  String get period1Y => '1Y';
+  String get period1Y => '1年';
 
   @override
-  String get periodAll => 'ALL';
+  String get periodAll => '全部';
 
   @override
-  String get categoryLabel => 'category';
+  String get categoryLabel => '类别';
 
   @override
-  String get categoriesLabel => 'categories';
+  String get categoriesLabel => '类别';
 
   @override
   String transactionSavedMessage(String type, String amount) {
-    return '$type saved  •  $amount';
+    return '$type 已保存 • $amount';
   }
 
   @override
-  String get tooltipSettings => 'Settings';
+  String get tooltipSettings => '设置';
 
   @override
-  String get tooltipAddAccount => 'Add account';
+  String get tooltipAddAccount => '添加帐户';
 
   @override
-  String get tooltipRemoveAccount => 'Remove account';
+  String get tooltipRemoveAccount => '删除帐户';
 
   @override
-  String get accountNameTaken =>
-      'You already have an account with this name and identifier (active or archived). Change the name or identifier.';
+  String get accountNameTaken => '您已经拥有一个具有此名称和标识符的帐户（活动或已存档）。更改名称或标识符。';
 
   @override
-  String get groupDescPersonal => 'Your own wallets & bank accounts';
+  String get groupDescPersonal => '您自己的钱包和银行账户';
 
   @override
-  String get groupDescIndividuals => 'Family, friends, individuals';
+  String get groupDescIndividuals => '家人、朋友、个人';
 
   @override
-  String get groupDescEntities => 'Entities, utilities, organisations';
+  String get groupDescEntities => '实体、公用事业、组织';
 
   @override
-  String get cannotArchiveTitle => 'Cannot archive yet';
+  String get cannotArchiveTitle => '还不能存档';
 
   @override
-  String get cannotArchiveBody =>
-      'Archive is only available when the book balance and overdraft limit are both effectively zero.';
+  String get cannotArchiveBody => '仅当账面余额和透支限额实际上均为零时，存档才可用。';
 
   @override
-  String get cannotArchiveBodyAdjust =>
-      'Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.';
+  String get cannotArchiveBodyAdjust => '仅当账面余额和透支限额实际上均为零时，存档才可用。首先调整分类账或设施。';
 
   @override
-  String get archiveAccountTitle => 'Archive account?';
+  String get archiveAccountTitle => '存档帐户？';
 
   @override
   String archiveWithPlannedBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count planned transactions reference this account.',
-      one: '1 planned transaction references this account.',
+      other: '$count 条计划交易引用了此账户。',
+      one: '1 条计划交易引用了此账户。',
     );
-    return '$_temp0 Remove them to keep your plan consistent with an archived account.';
+    return '$_temp0 请删除它们，以使计划与已归档账户保持一致。';
   }
 
   @override
-  String get removeAndArchive => 'Remove planned & archive';
+  String get removeAndArchive => '删除计划和存档';
 
   @override
-  String get archiveBody =>
-      'The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.';
+  String get archiveBody => '该帐户将对“审阅”、“跟踪”和“计划”选择器隐藏。您可以从“设置”中恢复它。';
 
   @override
-  String get archiveAction => 'Archive';
+  String get archiveAction => '档案';
 
   @override
-  String get archiveInstead => 'Archive instead';
+  String get archiveInstead => '改为存档';
 
   @override
-  String get cannotDeleteTitle => 'Cannot delete account';
+  String get cannotDeleteTitle => '无法删除帐户';
 
   @override
   String get cannotDeleteBodyShort =>
-      'This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.';
+      '该帐户出现在您的跟踪历史记录中。首先删除或重新分配这些交易，或者在余额已清除的情况下存档帐户。';
 
   @override
   String get cannotDeleteBodyHistory =>
-      'This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.';
+      '该帐户出现在您的跟踪历史记录中。删除会破坏该历史记录——首先删除或重新分配这些事务。';
 
   @override
   String get cannotDeleteBodySuggestArchive =>
-      'This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.';
+      '该帐户出现在您的跟踪历史记录中，因此无法删除。如果账面余额和透支已清除，您可以将其存档 - 它将从列表中隐藏，但历史记录保持不变。';
 
   @override
-  String get deleteAccountTitle => 'Delete account?';
+  String get deleteAccountTitle => '删除帐户？';
 
   @override
-  String get deleteAccountBodyPermanent =>
-      'This account will be removed permanently.';
+  String get deleteAccountBodyPermanent => '该帐户将被永久删除。';
 
   @override
   String deleteWithPlannedBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          '$count planned transactions reference this account and will also be deleted.',
-      one:
-          '1 planned transaction references this account and will also be deleted.',
+      other: '$count 条计划交易引用了此账户，也将被删除。',
+      one: '1 条计划交易引用了此账户，也将被删除。',
     );
     return '$_temp0';
   }
 
   @override
-  String get deleteAllAndDelete => 'Delete all';
+  String get deleteAllAndDelete => '全部删除';
 
   @override
-  String get editAccountTitle => 'Edit Account';
+  String get editAccountTitle => '编辑帐户';
 
   @override
-  String get newAccountTitle => 'New Account';
+  String get newAccountTitle => '新账户';
 
   @override
-  String get labelAccountName => 'Account name';
+  String get labelAccountName => '帐户名称';
 
   @override
-  String get labelAccountIdentifier => 'Identifier (optional)';
+  String get labelAccountIdentifier => '标识符（可选）';
 
   @override
-  String get accountAppearanceSection => 'Icon & color';
+  String get accountAppearanceSection => '图标和颜色';
 
   @override
-  String get accountPickIcon => 'Choose icon';
+  String get accountPickIcon => '选择图标';
 
   @override
-  String get accountPickColor => 'Choose color';
+  String get accountPickColor => '选择颜色';
 
   @override
-  String get accountIconSheetTitle => 'Account icon';
+  String get accountIconSheetTitle => '帐户图标';
 
   @override
-  String get accountColorSheetTitle => 'Account color';
+  String get accountColorSheetTitle => '帐号颜色';
 
   @override
-  String get accountUseInitialLetter => 'Initial letter';
+  String get accountUseInitialLetter => '首字母';
 
   @override
-  String get accountUseDefaultColor => 'Match group';
+  String get accountUseDefaultColor => '比赛组';
 
   @override
-  String get labelRealBalance => 'Real balance';
+  String get labelRealBalance => '实际余额';
 
   @override
-  String get labelOverdraftLimit => 'Overdraft / advance limit';
+  String get labelOverdraftLimit => '透支/预支限额';
 
   @override
-  String get labelCurrency => 'Currency';
+  String get labelCurrency => '货币';
 
   @override
-  String get saveChanges => 'Save Changes';
+  String get saveChanges => '保存更改';
 
   @override
-  String get addAccountAction => 'Add Account';
+  String get addAccountAction => '添加账户';
 
   @override
-  String get removeAccountSheetTitle => 'Remove account';
+  String get removeAccountSheetTitle => '删除帐户';
 
   @override
-  String get deletePermanently => 'Delete permanently';
+  String get deletePermanently => '永久删除';
 
   @override
   String get deletePermanentlySubtitle =>
-      'Only possible when this account is not used in Track. Planned items can be removed as part of delete.';
+      '仅当此帐户未在 Track 中使用时才可用。计划项目可以作为删除的一部分被删除。';
 
   @override
-  String get archiveOptionSubtitle =>
-      'Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.';
+  String get archiveOptionSubtitle => '隐藏审阅和选择器。随时从“设置”恢复。需要零余额和透支。';
 
   @override
-  String get archivedBannerText =>
-      'This account is archived. It stays in your data but is hidden from lists and pickers.';
+  String get archivedBannerText => '该帐户已存档。它保留在您的数据中，但对列表和选择器隐藏。';
 
   @override
-  String get balanceAdjustedTitle => 'Balance adjusted in Track';
+  String get balanceAdjustedTitle => '轨道中的平衡调整';
 
   @override
   String balanceAdjustedBody(String previous, String current, String symbol) {
-    return 'Real balance was updated from $previous to $current $symbol.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.';
+    return '实际余额从$previous更新为$current$symbol。\n\n在跟踪（历史记录）中创建了余额调整交易，以保持账本一致。\n\n• 实际余额反映该账户的实际金额。\n• 检查调整条目的历史记录。';
   }
 
   @override
-  String get ok => 'OK';
+  String get ok => '好的';
 
   @override
-  String get categoryBalanceAdjustment => 'Balance adjustment';
+  String get categoryBalanceAdjustment => '平衡调整';
 
   @override
-  String get descriptionBalanceCorrection => 'Balance correction';
+  String get descriptionBalanceCorrection => '平衡校正';
 
   @override
-  String get descriptionOpeningBalance => 'Opening balance';
+  String get descriptionOpeningBalance => '期初余额';
 
   @override
-  String get reviewStatsModeStatistics => 'Statistics';
+  String get reviewStatsModeStatistics => '统计数据';
 
   @override
-  String get reviewStatsModeComparison => 'Comparison';
+  String get reviewStatsModeComparison => '比较';
 
   @override
-  String get statsUncategorized => 'Uncategorized';
+  String get statsUncategorized => '未分类';
 
   @override
-  String get statsNoCategories =>
-      'No categories in the selected periods for comparison.';
+  String get statsNoCategories => '所选期间没有类别可供比较。';
 
   @override
-  String get statsNoTransactions => 'No transactions';
+  String get statsNoTransactions => '没有交易';
 
   @override
-  String get statsSpendingInCategory => 'Spending in this category';
+  String get statsSpendingInCategory => '此类别的支出';
 
   @override
-  String get statsIncomeInCategory => 'Income in this category';
+  String get statsIncomeInCategory => '此类别的收入';
 
   @override
-  String get statsDifference => 'Difference (B vs A): ';
+  String get statsDifference => '差异（B 与 A）：';
 
   @override
-  String get statsNoExpensesMonth => 'No expenses this month';
+  String get statsNoExpensesMonth => '本月无任何开支';
 
   @override
-  String get statsNoExpensesAll => 'No expenses recorded';
+  String get statsNoExpensesAll => '没有记录任何费用';
 
   @override
   String statsNoExpensesPeriod(String period) {
-    return 'No expenses in the last $period';
+    return '过去$period没有任何费用';
   }
 
   @override
-  String get statsTotalSpent => 'Total spent';
+  String get statsTotalSpent => '总支出';
 
   @override
-  String get statsNoExpensesThisPeriod => 'No expenses in this period';
+  String get statsNoExpensesThisPeriod => '此期间无任何费用';
 
   @override
-  String get statsNoIncomeMonth => 'No income this month';
+  String get statsNoIncomeMonth => '这个月没有收入';
 
   @override
-  String get statsNoIncomeAll => 'No income recorded';
+  String get statsNoIncomeAll => '没有收入记录';
 
   @override
   String statsNoIncomePeriod(String period) {
-    return 'No income in the last $period';
+    return '过去$period没有收入';
   }
 
   @override
-  String get statsTotalReceived => 'Total received';
+  String get statsTotalReceived => '收到总计';
 
   @override
-  String get statsNoIncomeThisPeriod => 'No income in this period';
+  String get statsNoIncomeThisPeriod => '此期间无收入';
 
   @override
-  String get catSalary => 'Salary';
+  String get catSalary => '薪水';
 
   @override
-  String get catFreelance => 'Freelance';
+  String get catFreelance => '自由职业者';
 
   @override
-  String get catConsulting => 'Consulting';
+  String get catConsulting => '咨询';
 
   @override
-  String get catGift => 'Gift';
+  String get catGift => '礼物';
 
   @override
-  String get catRental => 'Rental';
+  String get catRental => '出租';
 
   @override
-  String get catDividends => 'Dividends';
+  String get catDividends => '股息';
 
   @override
-  String get catRefund => 'Refund';
+  String get catRefund => '退款';
 
   @override
-  String get catBonus => 'Bonus';
+  String get catBonus => '奖金';
 
   @override
-  String get catInterest => 'Interest';
+  String get catInterest => '兴趣';
 
   @override
-  String get catSideHustle => 'Side hustle';
+  String get catSideHustle => '副业';
 
   @override
-  String get catSaleOfGoods => 'Sale of goods';
+  String get catSaleOfGoods => '商品销售';
 
   @override
-  String get catOther => 'Other';
+  String get catOther => '其他';
 
   @override
-  String get catGroceries => 'Groceries';
+  String get catGroceries => '杂货';
 
   @override
-  String get catDining => 'Dining';
+  String get catDining => '用餐';
 
   @override
-  String get catTransport => 'Transport';
+  String get catTransport => '运输';
 
   @override
-  String get catUtilities => 'Utilities';
+  String get catUtilities => '公用事业';
 
   @override
-  String get catHousing => 'Housing';
+  String get catHousing => '住房';
 
   @override
-  String get catHealthcare => 'Healthcare';
+  String get catHealthcare => '卫生保健';
 
   @override
-  String get catEntertainment => 'Entertainment';
+  String get catEntertainment => '娱乐';
 
   @override
-  String get catShopping => 'Shopping';
+  String get catShopping => '购物';
 
   @override
-  String get catTravel => 'Travel';
+  String get catTravel => '旅行';
 
   @override
-  String get catEducation => 'Education';
+  String get catEducation => '教育';
 
   @override
-  String get catSubscriptions => 'Subscriptions';
+  String get catSubscriptions => '订阅';
 
   @override
-  String get catInsurance => 'Insurance';
+  String get catInsurance => '保险';
 
   @override
-  String get catFuel => 'Fuel';
+  String get catFuel => '燃料';
 
   @override
-  String get catGym => 'Gym';
+  String get catGym => '健身房';
 
   @override
-  String get catPets => 'Pets';
+  String get catPets => '宠物';
 
   @override
-  String get catKids => 'Kids';
+  String get catKids => '孩子们';
 
   @override
-  String get catCharity => 'Charity';
+  String get catCharity => '慈善事业';
 
   @override
-  String get catCoffee => 'Coffee';
+  String get catCoffee => '咖啡';
 
   @override
-  String get catGifts => 'Gifts';
+  String get catGifts => '礼物';
 
   @override
   String semanticsProjectionDate(String date) {
-    return 'Projection date $date. Double tap to choose date';
+    return '投影日期$date。双击选择日期';
   }
 
   @override
   String semanticsProjectedBalance(String amount) {
-    return 'Projected personal balance $amount';
+    return '预计个人余额$amount';
   }
 
   @override
-  String get statsEmptyTitle => 'No transactions yet';
+  String get statsEmptyTitle => '还没有交易';
 
   @override
-  String get statsEmptySubtitle => 'No spending data for the selected range.';
+  String get statsEmptySubtitle => '所选范围内没有支出数据。';
 
   @override
-  String get semanticsShowProjections => 'Show projected balances by account';
+  String get semanticsShowProjections => '按账户显示预计余额';
 
   @override
-  String get semanticsHideProjections => 'Hide projected balances by account';
+  String get semanticsHideProjections => '按账户隐藏预计余额';
 
   @override
-  String get semanticsDateAllTime => 'Date: all time — tap to change mode';
+  String get semanticsDateAllTime => '日期：所有时间 — 点击即可更改模式';
 
   @override
   String semanticsDateMode(String mode) {
-    return 'Date: $mode — tap to change mode';
+    return '日期：$mode — 点击即可更改模式';
   }
 
   @override
-  String get semanticsDateThisMonth =>
-      'Date: this month — tap for month, week, year, or all time';
+  String get semanticsDateThisMonth => '日期：本月 — 点击月份、周、年或所有时间';
 
   @override
-  String get semanticsTxTypeCycle =>
-      'Transaction type: cycle all, income, expense, transfer';
+  String get semanticsTxTypeCycle => '交易类型：循环全部、收入、支出、转账';
 
   @override
-  String get semanticsAccountFilter => 'Account filter';
+  String get semanticsAccountFilter => '账户过滤器';
 
   @override
-  String get semanticsAlreadyFiltered => 'Already filtered to this account';
+  String get semanticsAlreadyFiltered => '已过滤到此帐户';
 
   @override
-  String get semanticsCategoryFilter => 'Category filter';
+  String get semanticsCategoryFilter => '类别过滤器';
 
   @override
-  String get semanticsSortToggle => 'Sort: toggle newest or oldest first';
+  String get semanticsSortToggle => '排序：切换最新或最旧的优先';
 
   @override
-  String get semanticsFiltersDisabled =>
-      'List filters disabled while viewing a future projection date. Clear projections to use filters.';
+  String get semanticsFiltersDisabled => '列出在查看未来投影日期时禁用的过滤器。清除投影以使用过滤器。';
 
   @override
-  String get semanticsFiltersDisabledNeedAccount =>
-      'List filters disabled. Add an account first.';
+  String get semanticsFiltersDisabledNeedAccount => '列表过滤器已禁用。首先添加一个帐户。';
 
   @override
   String get semanticsFiltersDisabledNeedPlannedTransaction =>
-      'List filters disabled. Add a planned transaction first.';
+      '列表过滤器已禁用。首先添加计划交易。';
 
   @override
   String get semanticsFiltersDisabledNeedRecordedTransaction =>
-      'List filters disabled. Record a transaction first.';
+      '列表过滤器已禁用。先记录一笔交易。';
 
   @override
   String get semanticsReviewSectionChipsDisabledNeedAccount =>
-      'Section and currency controls disabled. Add an account first.';
+      '部分和货币控制已禁用。首先添加一个帐户。';
 
   @override
   String get semanticsPlanProjectionControlsDisabled =>
-      'Projection date and balance breakdown disabled. Add an account and a planned transaction first.';
+      '预测日期和余额明细已禁用。首先添加账户和计划交易。';
 
   @override
-  String get semanticsReorderAccountHint =>
-      'Long press, then drag to reorder within this group';
+  String get semanticsReorderAccountHint => '长按，然后拖动以在该组内重新排序';
 
   @override
-  String get semanticsChartStyle => 'Chart style';
+  String get semanticsChartStyle => '图表样式';
 
   @override
-  String get semanticsChartStyleUnavailable =>
-      'Chart style (unavailable in comparison mode)';
+  String get semanticsChartStyleUnavailable => '图表样式（比较模式下不可用）';
 
   @override
   String semanticsPeriod(String label) {
-    return 'Period: $label';
+    return '期间：$label';
   }
 
   @override
-  String get trackSearchHint => 'Search description, category, account…';
+  String get trackSearchHint => '搜索描述、类别、帐户...';
 
   @override
-  String get trackSearchClear => 'Clear search';
+  String get trackSearchClear => '清除搜索';
 
   @override
-  String get settingsExchangeRatesTitle => 'Exchange rates';
+  String get settingsExchangeRatesTitle => '汇率';
 
   @override
   String settingsExchangeRatesUpdated(String time) {
-    return 'Last updated: $time';
+    return '最后更新：$time';
   }
 
   @override
-  String get settingsExchangeRatesNeverUpdated =>
-      'Using offline or bundled rates — tap to refresh';
+  String get settingsExchangeRatesNeverUpdated => '使用离线或捆绑费率 — 点击刷新';
 
   @override
-  String get settingsExchangeRatesSource => 'ECB';
+  String get settingsExchangeRatesSource => '欧洲央行';
 
   @override
-  String get settingsExchangeRatesUpdatedSnack => 'Exchange rates updated';
+  String get settingsExchangeRatesUpdatedSnack => '汇率已更新';
 
   @override
-  String get settingsExchangeRatesUpdateFailed =>
-      'Could not update exchange rates. Check your connection.';
+  String get settingsExchangeRatesUpdateFailed => '无法更新汇率。检查您的连接。';
 
   @override
-  String get settingsClearData => 'Clear data';
+  String get settingsClearData => '清除数据';
 
   @override
-  String get settingsClearDataSubtitle => 'Permanently remove selected data';
+  String get settingsClearDataSubtitle => '永久删除选定的数据';
 
   @override
-  String get clearDataTitle => 'Clear data';
+  String get clearDataTitle => '清除数据';
 
   @override
-  String get clearDataTransactions => 'Transaction history';
+  String get clearDataTransactions => '交易记录';
 
   @override
   String clearDataTransactionsSubtitle(int count) {
-    return '$count transactions · account balances reset to zero';
+    return '$count交易·账户余额清零';
   }
 
   @override
-  String get clearDataPlanned => 'Planned transactions';
+  String get clearDataPlanned => '计划交易';
 
   @override
   String clearDataPlannedSubtitle(int count) {
-    return '$count planned items';
+    return '$count 计划项目';
   }
 
   @override
-  String get clearDataAccounts => 'Accounts';
+  String get clearDataAccounts => '账户';
 
   @override
   String clearDataAccountsSubtitle(int count) {
-    return '$count accounts · also clears history and plan';
+    return '$count 账户 · 还清除历史记录和计划';
   }
 
   @override
-  String get clearDataCategories => 'Categories';
+  String get clearDataCategories => '类别';
 
   @override
   String clearDataCategoriesSubtitle(int count) {
-    return '$count categories · replaced with defaults';
+    return '$count 类别 · 替换为默认值';
   }
 
   @override
-  String get clearDataPreferences => 'Preferences';
+  String get clearDataPreferences => '偏好设置';
 
   @override
-  String get clearDataPreferencesSubtitle =>
-      'Reset currency, theme and language to defaults';
+  String get clearDataPreferencesSubtitle => '将货币、主题和语言重置为默认值';
 
   @override
-  String get clearDataSecurity => 'App lock & PIN';
+  String get clearDataSecurity => '应用程序锁定和 PIN';
 
   @override
-  String get clearDataSecuritySubtitle => 'Disable app lock and remove PIN';
+  String get clearDataSecuritySubtitle => '禁用应用程序锁定并删除 PIN';
 
   @override
-  String get clearDataConfirmButton => 'Clear selected';
+  String get clearDataConfirmButton => '清除所选内容';
 
   @override
-  String get clearDataConfirmTitle => 'This cannot be undone';
+  String get clearDataConfirmTitle => '此操作无法撤消';
 
   @override
-  String get clearDataConfirmBody =>
-      'The selected data will be permanently deleted. Export a backup first if you may need it later.';
+  String get clearDataConfirmBody => '所选数据将被永久删除。如果稍后需要，请先导出备份。';
 
   @override
-  String get clearDataTypeConfirm => 'Type DELETE to confirm';
+  String get clearDataTypeConfirm => '键入 DELETE 进行确认';
 
   @override
-  String get clearDataTypeConfirmError => 'Type DELETE exactly to continue';
+  String get clearDataTypeConfirmError => '准确键入 DELETE 以继续';
 
   @override
-  String get clearDataPinTitle => 'Confirm with PIN';
+  String get clearDataPinTitle => '使用 PIN 码确认';
 
   @override
-  String get clearDataPinBody => 'Enter your app PIN to authorize this action.';
+  String get clearDataPinBody => '输入您的应用程序 PIN 码以授权此操作。';
 
   @override
-  String get clearDataPinIncorrect => 'Incorrect PIN';
+  String get clearDataPinIncorrect => 'PIN 码不正确';
 
   @override
-  String get clearDataDone => 'Selected data cleared';
+  String get clearDataDone => '已清除所选数据';
 
   @override
-  String get autoBackupTitle => 'Automatic daily backup';
+  String get autoBackupTitle => '每日自动备份';
 
   @override
   String autoBackupLastAt(String date) {
-    return 'Last backed up $date';
+    return '最后备份$date';
   }
 
   @override
-  String get autoBackupNeverRun => 'No backup yet';
+  String get autoBackupNeverRun => '还没有备份';
 
   @override
-  String get autoBackupShareTitle => 'Save to cloud';
+  String get autoBackupShareTitle => '保存到云端';
 
   @override
   String get autoBackupShareSubtitle =>
-      'Upload latest backup to iCloud Drive, Google Drive or any app';
+      '将最新备份上传到 iCloud Drive、Google Drive 或任何应用程序';
 
   @override
-  String get autoBackupCloudReminder =>
-      'Auto-backup ready — save it to cloud for off-device protection';
+  String get autoBackupCloudReminder => '自动备份就绪 - 将其保存到云端以实现设备外保护';
 
   @override
-  String get autoBackupCloudReminderAction => 'Share';
+  String get autoBackupCloudReminderAction => '分享';
 
   @override
-  String get persistenceErrorReloaded =>
-      'Couldn’t save changes. Data was reloaded from storage.';
+  String get persistenceErrorReloaded => '无法保存更改。数据已从存储中重新加载。';
 }

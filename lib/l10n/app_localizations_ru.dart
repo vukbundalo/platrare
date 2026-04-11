@@ -9,126 +9,126 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
-  String get appTitle => 'Platrare';
+  String get appTitle => 'Платраре';
 
   @override
-  String get navPlan => 'Plan';
+  String get navPlan => 'План';
 
   @override
-  String get navTrack => 'Track';
+  String get navTrack => 'Отслеживать';
 
   @override
-  String get navReview => 'Review';
+  String get navReview => 'Обзор';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Отмена';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Удалить';
 
   @override
-  String get close => 'Close';
+  String get close => 'Закрывать';
 
   @override
-  String get add => 'Add';
+  String get add => 'Добавлять';
 
   @override
-  String get undo => 'Undo';
+  String get undo => 'Отменить';
 
   @override
-  String get confirm => 'Confirm';
+  String get confirm => 'Подтверждать';
 
   @override
-  String get restore => 'Restore';
+  String get restore => 'Восстановить';
 
   @override
-  String get heroIn => 'In';
+  String get heroIn => 'В';
 
   @override
-  String get heroOut => 'Out';
+  String get heroOut => 'Вне';
 
   @override
-  String get heroNet => 'Net';
+  String get heroNet => 'Сеть';
 
   @override
-  String get heroBalance => 'Balance';
+  String get heroBalance => 'Баланс';
 
   @override
-  String get realBalance => 'Real balance';
+  String get realBalance => 'Реальный баланс';
 
   @override
-  String get heroResetButton => 'Reset';
-  @override
-  String get fabScrollToTop => 'Back to top';
-
+  String get heroResetButton => 'Перезагрузить';
 
   @override
-  String get filterAll => 'All';
+  String get fabScrollToTop => 'Наверх';
 
   @override
-  String get filterAllAccounts => 'All accounts';
+  String get filterAll => 'Все';
 
   @override
-  String get filterAllCategories => 'All categories';
+  String get filterAllAccounts => 'Все аккаунты';
 
   @override
-  String get txLabelIncome => 'INCOME';
+  String get filterAllCategories => 'Все категории';
 
   @override
-  String get txLabelExpense => 'EXPENSE';
+  String get txLabelIncome => 'ДОХОД';
 
   @override
-  String get txLabelInvoice => 'INVOICE';
+  String get txLabelExpense => 'РАСХОД';
 
   @override
-  String get txLabelBill => 'BILL';
+  String get txLabelInvoice => 'СЧЕТ';
 
   @override
-  String get txLabelAdvance => 'ADVANCE';
+  String get txLabelBill => 'СЧЕТ';
 
   @override
-  String get txLabelSettlement => 'SETTLEMENT';
+  String get txLabelAdvance => 'ПРОДВИГАТЬ';
 
   @override
-  String get txLabelLoan => 'LOAN';
+  String get txLabelSettlement => 'УРЕГУЛИРОВАНИЕ';
 
   @override
-  String get txLabelCollection => 'COLLECTION';
+  String get txLabelLoan => 'ЗАЕМ';
 
   @override
-  String get txLabelOffset => 'OFFSET';
+  String get txLabelCollection => 'КОЛЛЕКЦИЯ';
 
   @override
-  String get txLabelTransfer => 'TRANSFER';
+  String get txLabelOffset => 'КОМПЕНСИРОВАТЬ';
 
   @override
-  String get txLabelTransaction => 'TRANSACTION';
+  String get txLabelTransfer => 'ПЕРЕДАЧА';
 
   @override
-  String get repeatNone => 'No repeat';
+  String get txLabelTransaction => 'СДЕЛКА';
 
   @override
-  String get repeatDaily => 'Daily';
+  String get repeatNone => 'Нет повтора';
 
   @override
-  String get repeatWeekly => 'Weekly';
+  String get repeatDaily => 'Ежедневно';
 
   @override
-  String get repeatMonthly => 'Monthly';
+  String get repeatWeekly => 'Еженедельно';
 
   @override
-  String get repeatYearly => 'Yearly';
+  String get repeatMonthly => 'Ежемесячно';
 
   @override
-  String get repeatEveryLabel => 'Every';
+  String get repeatYearly => 'Ежегодно';
+
+  @override
+  String get repeatEveryLabel => 'Каждый';
 
   @override
   String repeatEveryDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days',
-      one: 'day',
+      other: '$count дня',
+      one: 'день',
     );
     return '$_temp0';
   }
@@ -138,8 +138,8 @@ class AppLocalizationsRu extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count weeks',
-      one: 'week',
+      other: '$count недели',
+      one: 'неделя',
     );
     return '$_temp0';
   }
@@ -149,8 +149,8 @@ class AppLocalizationsRu extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months',
-      one: 'month',
+      other: '$count месяца',
+      one: 'месяц',
     );
     return '$_temp0';
   }
@@ -160,628 +160,632 @@ class AppLocalizationsRu extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years',
-      one: 'year',
+      other: '$count года',
+      one: 'год',
     );
     return '$_temp0';
   }
 
   @override
-  String get repeatEndLabel => 'Ends';
+  String get repeatEndLabel => 'Заканчивается';
 
   @override
-  String get repeatEndNever => 'Never';
+  String get repeatEndNever => 'Никогда';
 
   @override
-  String get repeatEndOnDate => 'On date';
+  String get repeatEndOnDate => 'Дата';
 
   @override
   String repeatEndAfterCount(int count) {
-    return 'After $count times';
+    return 'Через $count раз';
   }
 
   @override
-  String get repeatEndPickDate => 'Pick end date';
+  String get repeatEndPickDate => 'Выберите дату окончания';
 
   @override
-  String get repeatEndTimes => 'times';
+  String get repeatEndTimes => 'раз';
 
   @override
   String repeatSummaryEvery(int count, String unit) {
-    return 'Every $count $unit';
+    return 'Каждые $count $unit';
   }
 
   @override
   String repeatSummaryUntil(String date) {
-    return 'until $date';
+    return 'до $date';
   }
 
   @override
   String repeatSummaryTimes(int count) {
-    return '$count times';
+    return '$count раз';
   }
 
   @override
   String repeatSummaryTimesRemaining(int remaining, int total) {
-    return '$remaining of $total remaining';
+    return '$remaining из $total осталось';
   }
 
   @override
-  String get detailRepeatEvery => 'Repeat every';
+  String get detailRepeatEvery => 'Повторяйте каждые';
 
   @override
-  String get detailEnds => 'Ends';
+  String get detailEnds => 'Заканчивается';
 
   @override
-  String get detailEndsNever => 'Never';
+  String get detailEndsNever => 'Никогда';
 
   @override
   String detailEndsOnDate(String date) {
-    return 'On $date';
+    return 'На $date';
   }
 
   @override
   String detailEndsAfterCount(int count) {
-    return 'After $count times';
+    return 'Через $count раз';
   }
 
   @override
-  String get detailProgress => 'Progress';
+  String get detailProgress => 'Прогресс';
 
   @override
-  String get weekendNoChange => 'No change';
+  String get weekendNoChange => 'Без изменений';
 
   @override
-  String get weekendFriday => 'Move to Friday';
+  String get weekendFriday => 'Перенесемся на пятницу';
 
   @override
-  String get weekendMonday => 'Move to Monday';
+  String get weekendMonday => 'Перенести на понедельник';
 
   @override
   String weekendQuestion(String day) {
-    return 'If the $day falls on a weekend?';
+    return 'Если $day выпадает на выходные?';
   }
 
   @override
-  String get dateToday => 'Today';
+  String get dateToday => 'Сегодня';
 
   @override
-  String get dateTomorrow => 'Tomorrow';
+  String get dateTomorrow => 'Завтра';
 
   @override
-  String get dateYesterday => 'Yesterday';
+  String get dateYesterday => 'Вчера';
 
   @override
-  String get statsAllTime => 'All time';
+  String get statsAllTime => 'Все время';
 
   @override
-  String get accountGroupPersonal => 'Personal';
+  String get accountGroupPersonal => 'Персональный';
 
   @override
-  String get accountGroupIndividual => 'Individual';
+  String get accountGroupIndividual => 'Индивидуальный';
 
   @override
-  String get accountGroupEntity => 'Entity';
+  String get accountGroupEntity => 'Сущность';
 
   @override
-  String get accountSectionIndividuals => 'Individuals';
+  String get accountSectionIndividuals => 'Частные лица';
 
   @override
-  String get accountSectionEntities => 'Entities';
+  String get accountSectionEntities => 'Сущности';
 
   @override
-  String get emptyNoTransactionsYet => 'No transactions yet';
+  String get emptyNoTransactionsYet => 'Транзакций пока нет';
 
   @override
-  String get emptyNoAccountsYet => 'No accounts yet';
+  String get emptyNoAccountsYet => 'Аккаунтов пока нет';
 
   @override
   String get emptyRecordFirstTransaction =>
-      'Tap the button below to record your first transaction.';
+      'Нажмите кнопку ниже, чтобы записать свою первую транзакцию.';
 
   @override
   String get emptyAddFirstAccountTx =>
-      'Add your first account before recording transactions.';
+      'Добавьте свою первую учетную запись перед записью транзакций.';
 
   @override
   String get emptyAddFirstAccountPlan =>
-      'Add your first account before planning transactions.';
+      'Добавьте свою первую учетную запись, прежде чем планировать транзакции.';
 
   @override
   String get emptyAddFirstAccountReview =>
-      'Add your first account to start tracking your finances.';
+      'Добавьте свою первую учетную запись, чтобы начать отслеживать свои финансы.';
 
   @override
-  String get emptyAddTransaction => 'Add transaction';
+  String get emptyAddTransaction => 'Добавить транзакцию';
 
   @override
-  String get emptyAddAccount => 'Add account';
+  String get emptyAddAccount => 'Добавить аккаунт';
 
   @override
-  String get reviewEmptyGroupPersonalTitle => 'No personal accounts yet';
+  String get reviewEmptyGroupPersonalTitle => 'Пока нет личных аккаунтов';
 
   @override
   String get reviewEmptyGroupPersonalBody =>
-      'Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.';
+      'Личные счета — это ваши собственные кошельки и банковские счета. Добавьте один, чтобы отслеживать ежедневные доходы и расходы.';
 
   @override
-  String get reviewEmptyGroupIndividualsTitle => 'No individual accounts yet';
+  String get reviewEmptyGroupIndividualsTitle =>
+      'Индивидуальных аккаунтов пока нет.';
 
   @override
   String get reviewEmptyGroupIndividualsBody =>
-      'Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.';
+      'Индивидуальные счета отслеживают деньги конкретных людей — общие затраты, кредиты или долговые расписки. Добавьте учетную запись для каждого человека, с которым вы рассчитываетесь.';
 
   @override
-  String get reviewEmptyGroupEntitiesTitle => 'No entity accounts yet';
+  String get reviewEmptyGroupEntitiesTitle => 'Счетов юридических лиц пока нет';
 
   @override
   String get reviewEmptyGroupEntitiesBody =>
-      'Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.';
+      'Счета сущностей предназначены для предприятий, проектов или организаций. Используйте их, чтобы отделить коммерческие денежные потоки от ваших личных финансов.';
 
   @override
   String get emptyNoTransactionsForFilters =>
-      'No transactions for applied filters';
+      'Нет транзакций для примененных фильтров';
 
   @override
-  String get emptyNoTransactionsInHistory => 'No transactions in history';
+  String get emptyNoTransactionsInHistory => 'Нет транзакций в истории';
 
   @override
   String emptyNoTransactionsForMonth(String month) {
-    return 'No transactions for $month';
+    return 'Нет транзакций для $month';
   }
 
   @override
-  String get emptyNoTransactionsForAccount =>
-      'No transactions for this account';
+  String get emptyNoTransactionsForAccount => 'Для этого счета нет транзакций';
 
   @override
-  String get trackTransactionDeleted => 'Transaction deleted';
+  String get trackTransactionDeleted => 'Транзакция удалена';
 
   @override
-  String get trackDeleteTitle => 'Delete transaction?';
+  String get trackDeleteTitle => 'Удалить транзакцию?';
 
   @override
-  String get trackDeleteBody =>
-      'This will reverse the account balance changes.';
+  String get trackDeleteBody => 'Это отменит изменения баланса счета.';
 
   @override
-  String get trackTransaction => 'Transaction';
+  String get trackTransaction => 'Сделка';
 
   @override
-  String get planConfirmTitle => 'Confirm transaction?';
+  String get planConfirmTitle => 'Подтвердить транзакцию?';
 
   @override
   String planConfirmBodyEarly(String date, String todayDate, String nextDate) {
-    return 'This occurrence is scheduled for $date. It will be recorded in History with today’s date ($todayDate). The next occurrence remains on $nextDate.';
+    return 'Это событие запланировано на $date. Оно будет записано в истории с сегодняшней датой ($todayDate). Следующее событие остается на $nextDate.';
   }
 
   @override
   String get planConfirmBodyNormal =>
-      'This will apply the transaction to your real account balances and move it to History.';
+      'Это применит транзакцию к остаткам вашего реального счета и переместит ее в историю.';
 
   @override
-  String get planTransactionConfirmed => 'Transaction confirmed and applied';
+  String get planTransactionConfirmed => 'Транзакция подтверждена и применена';
 
   @override
-  String get planTransactionRemoved => 'Planned transaction removed';
+  String get planTransactionRemoved => 'Запланированная транзакция удалена.';
 
   @override
-  String get planRepeatingTitle => 'Repeating transaction';
+  String get planRepeatingTitle => 'Повторяющаяся транзакция';
 
   @override
   String get planRepeatingBody =>
-      'Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.';
+      'Пропустите только эту дату — серия продолжится со следующего события — или удалите все оставшиеся события из своего плана.';
 
   @override
-  String get planDeleteAll => 'Delete all';
+  String get planDeleteAll => 'Удалить все';
 
   @override
-  String get planSkipThisOnly => 'Skip this only';
+  String get planSkipThisOnly => 'Пропустить только это';
 
   @override
   String get planOccurrenceSkipped =>
-      'This occurrence skipped — next one scheduled';
+      'Это событие пропущено — следующее запланировано';
 
   @override
-  String get planNothingPlanned => 'Nothing planned for now';
+  String get planNothingPlanned => 'На данный момент ничего не запланировано';
 
   @override
-  String get planPlanBody => 'Plan upcoming transactions.';
+  String get planPlanBody => 'Планируйте предстоящие транзакции.';
 
   @override
-  String get planAddPlan => 'Add plan';
+  String get planAddPlan => 'Добавить план';
 
   @override
   String get planNoPlannedForFilters =>
-      'No planned transactions for applied filters';
+      'Нет запланированных транзакций для примененных фильтров';
 
   @override
   String planNoPlannedInMonth(String month) {
-    return 'No planned transactions in $month';
+    return 'Нет запланированных транзакций в $month';
   }
 
   @override
-  String get planOverdue => 'overdue';
+  String get planOverdue => 'просроченный';
 
   @override
-  String get planPlannedTransaction => 'Planned transaction';
+  String get planPlannedTransaction => 'Планируемая транзакция';
 
   @override
-  String get discardTitle => 'Discard changes?';
+  String get discardTitle => 'Отменить изменения?';
 
   @override
   String get discardBody =>
-      'You have unsaved changes. They will be lost if you leave now.';
+      'У вас есть несохраненные изменения. Они потеряются, если вы уйдете сейчас.';
 
   @override
-  String get keepEditing => 'Keep editing';
+  String get keepEditing => 'Продолжайте редактировать';
 
   @override
-  String get discard => 'Discard';
+  String get discard => 'Отменить';
 
   @override
-  String get newTransactionTitle => 'New Transaction';
+  String get newTransactionTitle => 'Новая транзакция';
 
   @override
-  String get editTransactionTitle => 'Edit Transaction';
+  String get editTransactionTitle => 'Редактировать транзакцию';
 
   @override
-  String get transactionUpdated => 'Transaction updated';
+  String get transactionUpdated => 'Транзакция обновлена';
 
   @override
-  String get sectionAccounts => 'Accounts';
+  String get sectionAccounts => 'Счета';
 
   @override
-  String get labelFrom => 'From';
+  String get labelFrom => 'От';
 
   @override
-  String get labelTo => 'To';
+  String get labelTo => 'К';
 
   @override
-  String get sectionCategory => 'Category';
+  String get sectionCategory => 'Категория';
 
   @override
-  String get sectionAttachments => 'Attachments';
+  String get sectionAttachments => 'Вложения';
 
   @override
-  String get labelNote => 'Note';
+  String get labelNote => 'Примечание';
 
   @override
-  String get hintOptionalDescription => 'Optional description';
+  String get hintOptionalDescription => 'Дополнительное описание';
 
   @override
-  String get updateTransaction => 'Update Transaction';
+  String get updateTransaction => 'Обновить транзакцию';
 
   @override
-  String get saveTransaction => 'Save Transaction';
+  String get saveTransaction => 'Сохранить транзакцию';
 
   @override
-  String get selectAccount => 'Select account';
+  String get selectAccount => 'Выберите аккаунт';
 
   @override
-  String get selectAccountTitle => 'Select Account';
+  String get selectAccountTitle => 'Выберите учетную запись';
 
   @override
-  String get noAccountsAvailable => 'No accounts available';
+  String get noAccountsAvailable => 'Нет доступных аккаунтов';
 
   @override
   String amountReceivedBy(String name, String currency) {
-    return 'Amount received by $name ($currency)';
+    return 'Сумма, полученная $name ($currency)';
   }
 
   @override
   String get amountReceivedHelper =>
-      'Enter the exact amount the destination account receives. This locks the real exchange rate used.';
+      'Введите точную сумму, которую получает целевой счет. Это фиксирует используемый реальный обменный курс.';
 
   @override
-  String get attachTakePhoto => 'Take photo';
+  String get attachTakePhoto => 'Сфотографироваться';
 
   @override
-  String get attachTakePhotoSub => 'Use camera to capture a receipt';
+  String get attachTakePhotoSub => 'Используйте камеру, чтобы запечатлеть чек';
 
   @override
-  String get attachChooseGallery => 'Choose from gallery';
+  String get attachChooseGallery => 'Выбрать из галереи';
 
   @override
-  String get attachChooseGallerySub => 'Select photos from your library';
+  String get attachChooseGallerySub =>
+      'Выберите фотографии из своей библиотеки';
 
   @override
-  String get attachBrowseFiles => 'Browse files';
+  String get attachBrowseFiles => 'Просмотр файлов';
 
   @override
-  String get attachBrowseFilesSub => 'Attach PDFs, documents or other files';
+  String get attachBrowseFilesSub =>
+      'Прикрепляйте PDF-файлы, документы или другие файлы';
 
   @override
-  String get attachButton => 'Attach';
+  String get attachButton => 'Прикреплять';
 
   @override
-  String get editPlanTitle => 'Edit Plan';
+  String get editPlanTitle => 'Редактировать план';
 
   @override
-  String get planTransactionTitle => 'Plan Transaction';
+  String get planTransactionTitle => 'Планировать транзакцию';
 
   @override
-  String get tapToSelect => 'Tap to select';
+  String get tapToSelect => 'Нажмите, чтобы выбрать';
 
   @override
-  String get updatePlan => 'Update Plan';
+  String get updatePlan => 'Обновить план';
 
   @override
-  String get addToPlan => 'Add to Plan';
+  String get addToPlan => 'Добавить в план';
 
   @override
-  String get labelRepeat => 'Repeat';
+  String get labelRepeat => 'Повторить';
 
   @override
-  String get selectPlannedDate => 'Select planned date';
+  String get selectPlannedDate => 'Выберите запланированную дату';
 
   @override
-  String get balancesAsOfToday => 'Balances as of today';
+  String get balancesAsOfToday => 'Остатки на сегодняшний день';
 
   @override
-  String get projectedBalancesForTomorrow => 'Projected balances for tomorrow';
+  String get projectedBalancesForTomorrow => 'Прогнозируемые остатки на завтра';
 
   @override
   String projectedBalancesForDate(String date) {
-    return 'Projected balances for $date';
+    return 'Прогнозируемые остатки для $date';
   }
 
   @override
   String destReceivesLabel(String name, String currency) {
-    return '$name receives ($currency)';
+    return '$name получает ($currency)';
   }
 
   @override
   String get destHelper =>
-      'Estimated destination amount. Exact rate is locked at confirmation.';
+      'Ориентировочная сумма назначения. Точная ставка фиксируется при подтверждении.';
 
   @override
-  String get descriptionOptional => 'Description (optional)';
+  String get descriptionOptional => 'Описание (необязательно)';
 
   @override
-  String get detailTransactionTitle => 'Transaction';
+  String get detailTransactionTitle => 'Сделка';
 
   @override
-  String get detailPlannedTitle => 'Planned';
+  String get detailPlannedTitle => 'Планируется';
 
   @override
-  String get detailConfirmTransaction => 'Confirm transaction';
+  String get detailConfirmTransaction => 'Подтвердить транзакцию';
 
   @override
-  String get detailDate => 'Date';
+  String get detailDate => 'Дата';
 
   @override
-  String get detailFrom => 'From';
+  String get detailFrom => 'От';
 
   @override
-  String get detailTo => 'To';
+  String get detailTo => 'К';
 
   @override
-  String get detailCategory => 'Category';
+  String get detailCategory => 'Категория';
 
   @override
-  String get detailNote => 'Note';
+  String get detailNote => 'Примечание';
 
   @override
-  String get detailDestinationAmount => 'Destination amount';
+  String get detailDestinationAmount => 'Сумма назначения';
 
   @override
-  String get detailExchangeRate => 'Exchange rate';
+  String get detailExchangeRate => 'Обменный курс';
 
   @override
-  String get detailRepeats => 'Repeats';
+  String get detailRepeats => 'Повторы';
 
   @override
-  String get detailDayOfMonth => 'Day of month';
+  String get detailDayOfMonth => 'День месяца';
 
   @override
-  String get detailWeekends => 'Weekends';
+  String get detailWeekends => 'Выходные';
 
   @override
-  String get detailAttachments => 'Attachments';
+  String get detailAttachments => 'Вложения';
 
   @override
   String detailFileCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count файла',
+      one: '1 файл',
     );
     return '$_temp0';
   }
 
   @override
-  String get settingsTitle => 'Settings';
+  String get settingsTitle => 'Настройки';
 
   @override
-  String get settingsSectionDisplay => 'Display';
+  String get settingsSectionDisplay => 'Отображать';
 
   @override
-  String get settingsSectionLanguage => 'Language';
+  String get settingsSectionLanguage => 'Язык';
 
   @override
-  String get settingsSectionCategories => 'Categories';
+  String get settingsSectionCategories => 'Категории';
 
   @override
-  String get settingsSectionAccounts => 'Accounts';
+  String get settingsSectionAccounts => 'Счета';
 
   @override
-  String get settingsSectionPreferences => 'Preferences';
+  String get settingsSectionPreferences => 'Предпочтения';
 
   @override
-  String get settingsSectionManage => 'Manage';
+  String get settingsSectionManage => 'Управлять';
 
   @override
-  String get settingsBaseCurrency => 'Home currency';
+  String get settingsBaseCurrency => 'Домашняя валюта';
 
   @override
-  String get settingsSecondaryCurrency => 'Secondary currency';
+  String get settingsSecondaryCurrency => 'Вторичная валюта';
 
   @override
-  String get settingsCategories => 'Categories';
+  String get settingsCategories => 'Категории';
 
   @override
   String settingsCategoriesSubtitle(int incomeCount, int expenseCount) {
-    return '$incomeCount income · $expenseCount expense';
+    return '$incomeCount доход · $expenseCount расход';
   }
 
   @override
-  String get settingsArchivedAccounts => 'Archived accounts';
+  String get settingsArchivedAccounts => 'Архивированные аккаунты';
 
   @override
   String get settingsArchivedAccountsSubtitleZero =>
-      'None right now — archive from account edit when balance is clear';
+      'Сейчас нет — архив из редактирования аккаунта, когда баланс чист';
 
   @override
   String settingsArchivedAccountsSubtitleCount(int count) {
-    return '$count hidden from Review and pickers';
+    return '$count скрыт от просмотра и сборщиков';
   }
 
   @override
-  String get settingsSectionData => 'Data';
+  String get settingsSectionData => 'Данные';
 
   @override
-  String get settingsSectionPrivacy => 'About';
+  String get settingsSectionPrivacy => 'О';
 
   @override
-  String get settingsPrivacyPolicyTitle => 'Privacy policy';
+  String get settingsPrivacyPolicyTitle => 'Политика конфиденциальности';
 
   @override
-  String get settingsPrivacyPolicySubtitle => 'How Platrare handles your data.';
+  String get settingsPrivacyPolicySubtitle =>
+      'Как Platrare обрабатывает ваши данные.';
 
   @override
   String get settingsPrivacyFxDisclosure =>
-      'Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.';
+      'Курсы валют: приложение считывает общедоступные курсы валют через Интернет. Ваши счета и транзакции никогда не отправляются.';
 
   @override
-  String get settingsPrivacyOpenFailed => 'Could not load the privacy policy.';
+  String get settingsPrivacyOpenFailed =>
+      'Не удалось загрузить политику конфиденциальности.';
 
   @override
-  String get settingsPrivacyRetry => 'Try again';
+  String get settingsPrivacyRetry => 'Попробуйте еще раз';
 
   @override
-  String get settingsSoftwareVersionTitle => 'Software version';
+  String get settingsSoftwareVersionTitle => 'Версия программного обеспечения';
 
   @override
   String get settingsSoftwareVersionSubtitle =>
-      'Release, diagnostics, and legal';
+      'Выпуск, диагностика и юридическая информация';
 
   @override
-  String get aboutScreenTitle => 'About';
+  String get aboutScreenTitle => 'О';
 
   @override
   String get aboutAppTagline =>
-      'Ledger, cashflow, and planning in one workspace.';
+      'Книга учета, движение денежных средств и планирование в одном рабочем пространстве.';
 
   @override
   String get aboutDescriptionBody =>
-      'Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.';
+      'Platrare хранит счета, транзакции и планы на вашем устройстве. Экспортируйте зашифрованные резервные копии, когда вам понадобится копия в другом месте. В обменных курсах используются только данные публичного рынка; ваш реестр не загружен.';
 
   @override
-  String get aboutVersionLabel => 'Version';
+  String get aboutVersionLabel => 'Версия';
 
   @override
-  String get aboutBuildLabel => 'Build';
+  String get aboutBuildLabel => 'Строить';
 
   @override
-  String get aboutCopySupportDetails => 'Copy support details';
+  String get aboutCopySupportDetails => 'Скопировать сведения о поддержке';
 
   @override
   String get aboutOpenPrivacySubtitle =>
-      'Opens the full in-app policy document.';
+      'Открывает полный документ политики в приложении.';
 
   @override
-  String get aboutSupportBundleLocaleLabel => 'Locale';
+  String get aboutSupportBundleLocaleLabel => 'Языковой стандарт';
 
   @override
-  String get settingsSupportInfoCopied => 'Copied to clipboard';
+  String get settingsSupportInfoCopied => 'Скопировано в буфер обмена';
 
   @override
-  String get settingsVerifyLedger => 'Verify data';
+  String get settingsVerifyLedger => 'Проверьте данные';
 
   @override
   String get settingsVerifyLedgerSubtitle =>
-      'Check that account balances match your transaction history';
+      'Убедитесь, что остатки на счетах соответствуют вашей истории транзакций.';
 
   @override
-  String get settingsDataExportTitle => 'Export backup';
+  String get settingsDataExportTitle => 'Экспортировать резервную копию';
 
   @override
   String get settingsDataExportSubtitle =>
-      'Save as .zip or encrypted .platrare with all data and attachments';
+      'Сохраните в формате .zip или зашифрованном .platrare со всеми данными и вложениями.';
 
   @override
-  String get settingsDataImportTitle => 'Restore from backup';
+  String get settingsDataImportTitle => 'Восстановление из резервной копии';
 
   @override
   String get settingsDataImportSubtitle =>
-      'Replace current data from a Platrare .zip or .platrare backup';
+      'Замените текущие данные из резервной копии Platrare .zip или .platrare.';
 
   @override
-  String get backupExportDialogTitle => 'Protect this backup';
+  String get backupExportDialogTitle => 'Защитите эту резервную копию';
 
   @override
   String get backupExportDialogBody =>
-      'A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.';
+      'Рекомендуется использовать надежный пароль, особенно если вы храните файл в облаке. Для импорта вам понадобится тот же пароль.';
 
   @override
-  String get backupExportPasswordLabel => 'Password';
+  String get backupExportPasswordLabel => 'Пароль';
 
   @override
-  String get backupExportPasswordConfirmLabel => 'Confirm password';
+  String get backupExportPasswordConfirmLabel => 'Подтвердите пароль';
 
   @override
-  String get backupExportPasswordMismatch => 'Passwords do not match';
+  String get backupExportPasswordMismatch => 'Пароли не совпадают';
 
   @override
   String get backupExportPasswordEmpty =>
-      'Enter a matching password, or export without encryption below.';
+      'Введите соответствующий пароль или экспортируйте данные без шифрования ниже.';
 
   @override
   String get backupExportPasswordTooShort =>
-      'Password must be at least 8 characters.';
+      'Пароль должен быть не менее 8 символов.';
 
   @override
-  String get backupExportSaveToDevice => 'Save to device';
+  String get backupExportSaveToDevice => 'Сохранить на устройство';
 
   @override
-  String get backupExportShareToCloud => 'Share (iCloud, Drive…)';
+  String get backupExportShareToCloud => 'Поделиться (iCloud, Drive…)';
 
   @override
-  String get backupExportWithoutEncryption => 'Export without encryption';
+  String get backupExportWithoutEncryption => 'Экспорт без шифрования';
 
   @override
-  String get backupExportSkipWarningTitle => 'Export without encryption?';
+  String get backupExportSkipWarningTitle => 'Экспортировать без шифрования?';
 
   @override
   String get backupExportSkipWarningBody =>
-      'Anyone with access to the file can read your data. Use this only for local copies you control.';
+      'Любой, у кого есть доступ к файлу, может прочитать ваши данные. Используйте это только для локальных копий, которыми вы управляете.';
 
   @override
-  String get backupExportSkipWarningConfirm => 'Export unencrypted';
+  String get backupExportSkipWarningConfirm =>
+      'Экспортировать в незашифрованном виде';
 
   @override
-  String get backupImportPasswordTitle => 'Encrypted backup';
+  String get backupImportPasswordTitle => 'Зашифрованное резервное копирование';
 
   @override
   String get backupImportPasswordBody =>
-      'Enter the password you used when exporting.';
+      'Введите пароль, который вы использовали при экспорте.';
 
   @override
-  String get backupImportPasswordLabel => 'Password';
+  String get backupImportPasswordLabel => 'Пароль';
 
   @override
-  String get backupImportPreviewTitle => 'Backup summary';
+  String get backupImportPreviewTitle => 'Сводка резервного копирования';
 
   @override
   String backupImportPreviewVersion(String version) {
-    return 'App version: $version';
+    return 'Версия приложения: $version';
   }
 
   @override
   String backupImportPreviewExported(String date) {
-    return 'Exported: $date';
+    return 'Экспортировано: $date';
   }
 
   @override
@@ -793,67 +797,69 @@ class AppLocalizationsRu extends AppLocalizations {
     int income,
     int expense,
   ) {
-    return '$accounts accounts · $transactions transactions · $planned planned · $attachments attachment files · $income income categories · $expense expense categories';
+    return '$accounts счета · $transactions транзакции · $planned запланированные · $attachments вложенные файлы · $income категории доходов · $expense категории расходов';
   }
 
   @override
-  String get backupImportPreviewContinue => 'Continue';
+  String get backupImportPreviewContinue => 'Продолжать';
 
   @override
-  String get settingsBackupWrongPassword => 'Wrong password';
+  String get settingsBackupWrongPassword => 'Неправильный пароль';
 
   @override
-  String get settingsBackupChecksumMismatch => 'Backup failed integrity check';
+  String get settingsBackupChecksumMismatch =>
+      'Не удалось проверить целостность резервной копии';
 
   @override
-  String get settingsBackupCorruptFile => 'Invalid or damaged backup file';
+  String get settingsBackupCorruptFile =>
+      'Неверный или поврежденный файл резервной копии';
 
   @override
   String get settingsBackupUnsupportedVersion =>
-      'Backup needs a newer app version';
+      'Для резервного копирования требуется более новая версия приложения.';
 
   @override
-  String get settingsDataImportConfirmTitle => 'Replace current data?';
+  String get settingsDataImportConfirmTitle => 'Заменить текущие данные?';
 
   @override
   String get settingsDataImportConfirmBody =>
-      'This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.';
+      'Ваши текущие счета, транзакции, запланированные транзакции, категории и импортированные вложения будут заменены содержимым выбранной резервной копии. Это действие невозможно отменить.';
 
   @override
-  String get settingsDataImportConfirmAction => 'Replace data';
+  String get settingsDataImportConfirmAction => 'Заменить данные';
 
   @override
-  String get settingsDataImportDone => 'Data restored successfully';
+  String get settingsDataImportDone => 'Данные успешно восстановлены';
 
   @override
   String get settingsDataImportInvalidFile =>
-      'This file is not a valid Platrare backup';
+      'Этот файл не является действительной резервной копией Platrare.';
 
   @override
-  String get settingsDataImportFailed => 'Import failed';
+  String get settingsDataImportFailed => 'Импорт не удался';
 
   @override
-  String get settingsDataExportDoneTitle => 'Backup exported';
+  String get settingsDataExportDoneTitle => 'Резервная копия экспортирована.';
 
   @override
   String settingsDataExportDoneBody(String path) {
-    return 'Backup saved to:\n$path';
+    return 'Резервная копия сохранена в:\n$path';
   }
 
   @override
-  String get settingsDataOpenExportFile => 'Open file';
+  String get settingsDataOpenExportFile => 'Открыть файл';
 
   @override
-  String get settingsDataExportFailed => 'Export failed';
+  String get settingsDataExportFailed => 'Экспорт не удался';
 
   @override
-  String get ledgerVerifyDialogTitle => 'Ledger verification';
+  String get ledgerVerifyDialogTitle => 'Проверка бухгалтерской книги';
 
   @override
-  String get ledgerVerifyAllMatch => 'All accounts match.';
+  String get ledgerVerifyAllMatch => 'Все аккаунты совпадают.';
 
   @override
-  String get ledgerVerifyMismatchesTitle => 'Mismatches';
+  String get ledgerVerifyMismatchesTitle => 'Несоответствия';
 
   @override
   String ledgerVerifyMismatchDetails(
@@ -862,270 +868,275 @@ class AppLocalizationsRu extends AppLocalizations {
     String replayed,
     String diff,
   ) {
-    return '$accountName\nStored: $stored\nReplay: $replayed\nDifference: $diff';
+    return '$accountName\nСохранено: $stored\nПовтор: $replayed\nРазница: $diff';
   }
 
   @override
-  String get settingsLanguage => 'App language';
+  String get settingsLanguage => 'Язык приложения';
 
   @override
-  String get settingsLanguageSubtitleSystem => 'Following system settings';
+  String get settingsLanguageSubtitleSystem => 'Следующие настройки системы';
 
   @override
-  String get settingsLanguageSubtitleEnglish => 'English';
+  String get settingsLanguageSubtitleEnglish => 'Английский';
 
   @override
-  String get settingsLanguageSubtitleSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageSubtitleSerbianLatin => 'Сербский (латиница)';
 
   @override
-  String get settingsLanguagePickerTitle => 'App language';
+  String get settingsLanguagePickerTitle => 'Язык приложения';
 
   @override
-  String get settingsLanguageOptionSystem => 'System default';
+  String get settingsLanguageOptionSystem => 'Система по умолчанию';
 
   @override
-  String get settingsLanguageOptionEnglish => 'English';
+  String get settingsLanguageOptionEnglish => 'Английский';
 
   @override
-  String get settingsLanguageOptionSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageOptionSerbianLatin => 'Сербский (латиница)';
 
   @override
-  String get settingsSectionAppearance => 'Appearance';
+  String get settingsSectionAppearance => 'Появление';
 
   @override
-  String get settingsSectionSecurity => 'Security';
+  String get settingsSectionSecurity => 'Безопасность';
 
   @override
-  String get settingsSecurityEnableLock => 'Lock app on open';
+  String get settingsSecurityEnableLock =>
+      'Блокировать приложение при открытии';
 
   @override
   String get settingsSecurityEnableLockSubtitle =>
-      'Require biometric unlock or PIN when app opens';
+      'Требовать биометрическую разблокировку или PIN-код при открытии приложения';
 
   @override
-  String get settingsSecuritySetPin => 'Set PIN';
+  String get settingsSecuritySetPin => 'Установить PIN-код';
 
   @override
-  String get settingsSecurityChangePin => 'Change PIN';
+  String get settingsSecurityChangePin => 'Изменить ПИН-код';
 
   @override
   String get settingsSecurityPinSubtitle =>
-      'Use a PIN as fallback if biometric is unavailable';
+      'Используйте PIN-код в качестве запасного варианта, если биометрические данные недоступны.';
 
   @override
-  String get settingsSecurityRemovePin => 'Remove PIN';
+  String get settingsSecurityRemovePin => 'Удалить PIN-код';
 
   @override
-  String get securitySetPinTitle => 'Set app PIN';
+  String get securitySetPinTitle => 'Установить PIN-код приложения';
 
   @override
-  String get securityPinLabel => 'PIN code';
+  String get securityPinLabel => 'ПИН-код';
 
   @override
-  String get securityConfirmPinLabel => 'Confirm PIN code';
+  String get securityConfirmPinLabel => 'Подтвердите PIN-код';
 
   @override
-  String get securityPinMustBe4Digits => 'PIN must have at least 4 digits';
+  String get securityPinMustBe4Digits =>
+      'PIN-код должен содержать не менее 4 цифр.';
 
   @override
-  String get securityPinMismatch => 'PIN codes do not match';
+  String get securityPinMismatch => 'ПИН-коды не совпадают';
 
   @override
-  String get securityRemovePinTitle => 'Remove PIN?';
+  String get securityRemovePinTitle => 'Удалить PIN-код?';
 
   @override
   String get securityRemovePinBody =>
-      'Biometric unlock can still be used if available.';
+      'Биометрическую разблокировку по-прежнему можно использовать, если она доступна.';
 
   @override
-  String get securityUnlockTitle => 'App locked';
+  String get securityUnlockTitle => 'Приложение заблокировано';
 
   @override
   String get securityUnlockSubtitle =>
-      'Unlock with Face ID, fingerprint, or PIN.';
+      'Разблокируйте с помощью Face ID, отпечатка пальца или PIN-кода.';
 
   @override
-  String get securityUnlockWithPin => 'Unlock with PIN';
+  String get securityUnlockWithPin => 'Разблокировать с помощью PIN-кода';
 
   @override
-  String get securityTryBiometric => 'Try biometric unlock';
+  String get securityTryBiometric => 'Попробуйте биометрическую разблокировку';
 
   @override
-  String get securityPinIncorrect => 'Incorrect PIN, try again';
+  String get securityPinIncorrect => 'Неверный PIN-код, попробуйте еще раз.';
 
   @override
-  String get securityBiometricReason => 'Authenticate to open your app';
+  String get securityBiometricReason =>
+      'Пройдите аутентификацию, чтобы открыть приложение';
 
   @override
-  String get settingsTheme => 'Theme';
+  String get settingsTheme => 'Тема';
 
   @override
-  String get settingsThemeSubtitleSystem => 'Following system settings';
+  String get settingsThemeSubtitleSystem => 'Следующие настройки системы';
 
   @override
-  String get settingsThemeSubtitleLight => 'Light';
+  String get settingsThemeSubtitleLight => 'Свет';
 
   @override
-  String get settingsThemeSubtitleDark => 'Dark';
+  String get settingsThemeSubtitleDark => 'Темный';
 
   @override
-  String get settingsThemePickerTitle => 'Theme';
+  String get settingsThemePickerTitle => 'Тема';
 
   @override
-  String get settingsThemeOptionSystem => 'System default';
+  String get settingsThemeOptionSystem => 'Система по умолчанию';
 
   @override
-  String get settingsThemeOptionLight => 'Light';
+  String get settingsThemeOptionLight => 'Свет';
 
   @override
-  String get settingsThemeOptionDark => 'Dark';
+  String get settingsThemeOptionDark => 'Темный';
 
   @override
-  String get archivedAccountsTitle => 'Archived accounts';
+  String get archivedAccountsTitle => 'Архивированные аккаунты';
 
   @override
-  String get archivedAccountsEmptyTitle => 'No archived accounts';
+  String get archivedAccountsEmptyTitle => 'Нет заархивированных аккаунтов';
 
   @override
   String get archivedAccountsEmptyBody =>
-      'Book balance and overdraft must be zero. Archive from account options in Review.';
+      'Баланс книги и овердрафт должны быть равны нулю. Архив из параметров аккаунта в Обзоре.';
 
   @override
-  String get categoriesTitle => 'Categories';
+  String get categoriesTitle => 'Категории';
 
   @override
-  String get newCategoryTitle => 'New Category';
+  String get newCategoryTitle => 'Новая категория';
 
   @override
-  String get categoryNameLabel => 'Category name';
+  String get categoryNameLabel => 'Название категории';
 
   @override
-  String get deleteCategoryTitle => 'Delete category?';
+  String get deleteCategoryTitle => 'Удалить категорию?';
 
   @override
   String deleteCategoryBody(String category) {
-    return '\"$category\" will be removed from the list.';
+    return '«$category» будет удален из списка.';
   }
 
   @override
-  String get categoryIncome => 'Income';
+  String get categoryIncome => 'Доход';
 
   @override
-  String get categoryExpense => 'Expense';
+  String get categoryExpense => 'Расход';
 
   @override
-  String get categoryAdd => 'Add';
+  String get categoryAdd => 'Добавлять';
 
   @override
-  String get searchCurrencies => 'Search currencies…';
+  String get searchCurrencies => 'Поиск валют…';
 
   @override
-  String get period1M => '1M';
+  String get period1M => '1М';
 
   @override
-  String get period3M => '3M';
+  String get period3M => '3М';
 
   @override
-  String get period6M => '6M';
+  String get period6M => '6М';
 
   @override
-  String get period1Y => '1Y';
+  String get period1Y => '1 год';
 
   @override
-  String get periodAll => 'ALL';
+  String get periodAll => 'ВСЕ';
 
   @override
-  String get categoryLabel => 'category';
+  String get categoryLabel => 'категория';
 
   @override
-  String get categoriesLabel => 'categories';
+  String get categoriesLabel => 'категории';
 
   @override
   String transactionSavedMessage(String type, String amount) {
-    return '$type saved  •  $amount';
+    return '$type сохранено • $amount';
   }
 
   @override
-  String get tooltipSettings => 'Settings';
+  String get tooltipSettings => 'Настройки';
 
   @override
-  String get tooltipAddAccount => 'Add account';
+  String get tooltipAddAccount => 'Добавить аккаунт';
 
   @override
-  String get tooltipRemoveAccount => 'Remove account';
+  String get tooltipRemoveAccount => 'Удалить аккаунт';
 
   @override
   String get accountNameTaken =>
-      'You already have an account with this name and identifier (active or archived). Change the name or identifier.';
+      'У вас уже есть аккаунт с таким именем и идентификатором (активный или заархивированный). Измените имя или идентификатор.';
 
   @override
-  String get groupDescPersonal => 'Your own wallets & bank accounts';
+  String get groupDescPersonal =>
+      'Ваши собственные кошельки и банковские счета';
 
   @override
-  String get groupDescIndividuals => 'Family, friends, individuals';
+  String get groupDescIndividuals => 'Семья, друзья, отдельные лица';
 
   @override
-  String get groupDescEntities => 'Entities, utilities, organisations';
+  String get groupDescEntities =>
+      'Субъекты, коммунальные предприятия, организации';
 
   @override
-  String get cannotArchiveTitle => 'Cannot archive yet';
+  String get cannotArchiveTitle => 'Пока не могу заархивировать';
 
   @override
   String get cannotArchiveBody =>
-      'Archive is only available when the book balance and overdraft limit are both effectively zero.';
+      'Архив доступен только в том случае, если баланс книги и лимит овердрафта фактически равны нулю.';
 
   @override
   String get cannotArchiveBodyAdjust =>
-      'Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.';
+      'Архив доступен только в том случае, если баланс книги и лимит овердрафта фактически равны нулю. Сначала настройте бухгалтерскую книгу или объект.';
 
   @override
-  String get archiveAccountTitle => 'Archive account?';
+  String get archiveAccountTitle => 'Архив аккаунта?';
 
   @override
   String archiveWithPlannedBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count planned transactions reference this account.',
-      one: '1 planned transaction references this account.',
+      other: '$count запланированных операций ссылаются на этот счёт.',
+      one: '1 запланированная операция ссылается на этот счёт.',
     );
-    return '$_temp0 Remove them to keep your plan consistent with an archived account.';
+    return '$_temp0 Удалите их, чтобы план соответствовал архивному счёту.';
   }
 
   @override
-  String get removeAndArchive => 'Remove planned & archive';
+  String get removeAndArchive => 'Удалить запланированное и заархивировать';
 
   @override
   String get archiveBody =>
-      'The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.';
+      'Учетная запись будет скрыта от средств выбора «Просмотр», «Отслеживание» и «План». Вы можете восстановить его из настроек.';
 
   @override
-  String get archiveAction => 'Archive';
+  String get archiveAction => 'Архив';
 
   @override
-  String get archiveInstead => 'Archive instead';
+  String get archiveInstead => 'Вместо этого архивируйте';
 
   @override
-  String get cannotDeleteTitle => 'Cannot delete account';
+  String get cannotDeleteTitle => 'Не могу удалить аккаунт';
 
   @override
   String get cannotDeleteBodyShort =>
-      'This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.';
+      'Эта учетная запись появится в вашей истории треков. Сначала удалите или переназначьте эти транзакции или заархивируйте учетную запись, если баланс очищен.';
 
   @override
   String get cannotDeleteBodyHistory =>
-      'This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.';
+      'Эта учетная запись появится в вашей истории треков. Удаление нарушит эту историю — сначала удалите или переназначьте эти транзакции.';
 
   @override
   String get cannotDeleteBodySuggestArchive =>
-      'This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.';
+      'Эта учетная запись отображается в вашей истории треков, поэтому ее нельзя удалить. Вместо этого вы можете заархивировать его, если баланс книги и овердрафт очищены — он будет скрыт из списков, но история останется нетронутой.';
 
   @override
-  String get deleteAccountTitle => 'Delete account?';
+  String get deleteAccountTitle => 'Удалить аккаунт?';
 
   @override
   String get deleteAccountBodyPermanent =>
-      'This account will be removed permanently.';
+      'Эта учетная запись будет удалена навсегда.';
 
   @override
   String deleteWithPlannedBody(int count) {
@@ -1133,480 +1144,488 @@ class AppLocalizationsRu extends AppLocalizations {
       count,
       locale: localeName,
       other:
-          '$count planned transactions reference this account and will also be deleted.',
+          '$count запланированных операций ссылаются на этот счёт и также будут удалены.',
       one:
-          '1 planned transaction references this account and will also be deleted.',
+          '1 запланированная операция ссылается на этот счёт и также будет удалена.',
     );
     return '$_temp0';
   }
 
   @override
-  String get deleteAllAndDelete => 'Delete all';
+  String get deleteAllAndDelete => 'Удалить все';
 
   @override
-  String get editAccountTitle => 'Edit Account';
+  String get editAccountTitle => 'Редактировать аккаунт';
 
   @override
-  String get newAccountTitle => 'New Account';
+  String get newAccountTitle => 'Новая учетная запись';
 
   @override
-  String get labelAccountName => 'Account name';
+  String get labelAccountName => 'Имя учетной записи';
 
   @override
-  String get labelAccountIdentifier => 'Identifier (optional)';
+  String get labelAccountIdentifier => 'Идентификатор (необязательно)';
 
   @override
-  String get accountAppearanceSection => 'Icon & color';
+  String get accountAppearanceSection => 'Значок и цвет';
 
   @override
-  String get accountPickIcon => 'Choose icon';
+  String get accountPickIcon => 'Выберите значок';
 
   @override
-  String get accountPickColor => 'Choose color';
+  String get accountPickColor => 'Выберите цвет';
 
   @override
-  String get accountIconSheetTitle => 'Account icon';
+  String get accountIconSheetTitle => 'Значок учетной записи';
 
   @override
-  String get accountColorSheetTitle => 'Account color';
+  String get accountColorSheetTitle => 'Цвет аккаунта';
 
   @override
-  String get accountUseInitialLetter => 'Initial letter';
+  String get accountUseInitialLetter => 'Начальная буква';
 
   @override
-  String get accountUseDefaultColor => 'Match group';
+  String get accountUseDefaultColor => 'Группа совпадений';
 
   @override
-  String get labelRealBalance => 'Real balance';
+  String get labelRealBalance => 'Реальный баланс';
 
   @override
-  String get labelOverdraftLimit => 'Overdraft / advance limit';
+  String get labelOverdraftLimit => 'Овердрафт/лимит аванса';
 
   @override
-  String get labelCurrency => 'Currency';
+  String get labelCurrency => 'Валюта';
 
   @override
-  String get saveChanges => 'Save Changes';
+  String get saveChanges => 'Сохранить изменения';
 
   @override
-  String get addAccountAction => 'Add Account';
+  String get addAccountAction => 'Добавить аккаунт';
 
   @override
-  String get removeAccountSheetTitle => 'Remove account';
+  String get removeAccountSheetTitle => 'Удалить аккаунт';
 
   @override
-  String get deletePermanently => 'Delete permanently';
+  String get deletePermanently => 'Удалить навсегда';
 
   @override
   String get deletePermanentlySubtitle =>
-      'Only possible when this account is not used in Track. Planned items can be removed as part of delete.';
+      'Возможно только в том случае, если эта учетная запись не используется в Track. Запланированные элементы можно удалить в рамках удаления.';
 
   @override
   String get archiveOptionSubtitle =>
-      'Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.';
+      'Скрыть от просмотра и сборщиков. Восстановление в любое время из настроек. Требуется нулевой баланс и овердрафт.';
 
   @override
   String get archivedBannerText =>
-      'This account is archived. It stays in your data but is hidden from lists and pickers.';
+      'Этот аккаунт заархивирован. Он остается в ваших данных, но скрыт от списков и средств выбора.';
 
   @override
-  String get balanceAdjustedTitle => 'Balance adjusted in Track';
+  String get balanceAdjustedTitle => 'Баланс скорректирован в Track';
 
   @override
   String balanceAdjustedBody(String previous, String current, String symbol) {
-    return 'Real balance was updated from $previous to $current $symbol.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.';
+    return 'Реальный баланс обновлен с $previous на $current $symbol.\n\nТранзакция корректировки баланса была создана в разделе «Отслеживание» (история), чтобы обеспечить согласованность бухгалтерской книги.\n\n• Реальный баланс отражает фактическую сумму на этом счете.\n• Проверьте историю на наличие записи о корректировке.';
   }
 
   @override
-  String get ok => 'OK';
+  String get ok => 'ХОРОШО';
 
   @override
-  String get categoryBalanceAdjustment => 'Balance adjustment';
+  String get categoryBalanceAdjustment => 'Регулировка баланса';
 
   @override
-  String get descriptionBalanceCorrection => 'Balance correction';
+  String get descriptionBalanceCorrection => 'Коррекция баланса';
 
   @override
-  String get descriptionOpeningBalance => 'Opening balance';
+  String get descriptionOpeningBalance => 'Начальный баланс';
 
   @override
-  String get reviewStatsModeStatistics => 'Statistics';
+  String get reviewStatsModeStatistics => 'Статистика';
 
   @override
-  String get reviewStatsModeComparison => 'Comparison';
+  String get reviewStatsModeComparison => 'Сравнение';
 
   @override
-  String get statsUncategorized => 'Uncategorized';
+  String get statsUncategorized => 'Без категории';
 
   @override
   String get statsNoCategories =>
-      'No categories in the selected periods for comparison.';
+      'Нет категорий в выбранных периодах для сравнения.';
 
   @override
-  String get statsNoTransactions => 'No transactions';
+  String get statsNoTransactions => 'Нет транзакций';
 
   @override
-  String get statsSpendingInCategory => 'Spending in this category';
+  String get statsSpendingInCategory => 'Расходы в этой категории';
 
   @override
-  String get statsIncomeInCategory => 'Income in this category';
+  String get statsIncomeInCategory => 'Доход в этой категории';
 
   @override
-  String get statsDifference => 'Difference (B vs A): ';
+  String get statsDifference => 'Разница (Б против А):';
 
   @override
-  String get statsNoExpensesMonth => 'No expenses this month';
+  String get statsNoExpensesMonth => 'Никаких расходов в этом месяце';
 
   @override
-  String get statsNoExpensesAll => 'No expenses recorded';
+  String get statsNoExpensesAll => 'Расходы не зафиксированы';
 
   @override
   String statsNoExpensesPeriod(String period) {
-    return 'No expenses in the last $period';
+    return 'Никаких расходов за последний $period';
   }
 
   @override
-  String get statsTotalSpent => 'Total spent';
+  String get statsTotalSpent => 'Всего потрачено';
 
   @override
-  String get statsNoExpensesThisPeriod => 'No expenses in this period';
+  String get statsNoExpensesThisPeriod => 'Никаких расходов в этот период';
 
   @override
-  String get statsNoIncomeMonth => 'No income this month';
+  String get statsNoIncomeMonth => 'В этом месяце дохода нет';
 
   @override
-  String get statsNoIncomeAll => 'No income recorded';
+  String get statsNoIncomeAll => 'Доход не зафиксирован';
 
   @override
   String statsNoIncomePeriod(String period) {
-    return 'No income in the last $period';
+    return 'Нет дохода за последний $period';
   }
 
   @override
-  String get statsTotalReceived => 'Total received';
+  String get statsTotalReceived => 'Всего получено';
 
   @override
-  String get statsNoIncomeThisPeriod => 'No income in this period';
+  String get statsNoIncomeThisPeriod => 'Нет дохода в этот период';
 
   @override
-  String get catSalary => 'Salary';
+  String get catSalary => 'Зарплата';
 
   @override
-  String get catFreelance => 'Freelance';
+  String get catFreelance => 'Внештатный';
 
   @override
-  String get catConsulting => 'Consulting';
+  String get catConsulting => 'Консалтинг';
 
   @override
-  String get catGift => 'Gift';
+  String get catGift => 'Подарок';
 
   @override
-  String get catRental => 'Rental';
+  String get catRental => 'Аренда';
 
   @override
-  String get catDividends => 'Dividends';
+  String get catDividends => 'Дивиденды';
 
   @override
-  String get catRefund => 'Refund';
+  String get catRefund => 'Возвращать деньги';
 
   @override
-  String get catBonus => 'Bonus';
+  String get catBonus => 'Бонус';
 
   @override
-  String get catInterest => 'Interest';
+  String get catInterest => 'Интерес';
 
   @override
-  String get catSideHustle => 'Side hustle';
+  String get catSideHustle => 'Подработка';
 
   @override
-  String get catSaleOfGoods => 'Sale of goods';
+  String get catSaleOfGoods => 'Продажа товаров';
 
   @override
-  String get catOther => 'Other';
+  String get catOther => 'Другой';
 
   @override
-  String get catGroceries => 'Groceries';
+  String get catGroceries => 'Продукты питания';
 
   @override
-  String get catDining => 'Dining';
+  String get catDining => 'Столовая';
 
   @override
-  String get catTransport => 'Transport';
+  String get catTransport => 'Транспорт';
 
   @override
-  String get catUtilities => 'Utilities';
+  String get catUtilities => 'Утилиты';
 
   @override
-  String get catHousing => 'Housing';
+  String get catHousing => 'Жилье';
 
   @override
-  String get catHealthcare => 'Healthcare';
+  String get catHealthcare => 'Здравоохранение';
 
   @override
-  String get catEntertainment => 'Entertainment';
+  String get catEntertainment => 'Развлечение';
 
   @override
-  String get catShopping => 'Shopping';
+  String get catShopping => 'Шоппинг';
 
   @override
-  String get catTravel => 'Travel';
+  String get catTravel => 'Путешествовать';
 
   @override
-  String get catEducation => 'Education';
+  String get catEducation => 'Образование';
 
   @override
-  String get catSubscriptions => 'Subscriptions';
+  String get catSubscriptions => 'Подписки';
 
   @override
-  String get catInsurance => 'Insurance';
+  String get catInsurance => 'Страхование';
 
   @override
-  String get catFuel => 'Fuel';
+  String get catFuel => 'Топливо';
 
   @override
-  String get catGym => 'Gym';
+  String get catGym => 'Спортзал';
 
   @override
-  String get catPets => 'Pets';
+  String get catPets => 'Домашние животные';
 
   @override
-  String get catKids => 'Kids';
+  String get catKids => 'Дети';
 
   @override
-  String get catCharity => 'Charity';
+  String get catCharity => 'Благотворительность';
 
   @override
-  String get catCoffee => 'Coffee';
+  String get catCoffee => 'Кофе';
 
   @override
-  String get catGifts => 'Gifts';
+  String get catGifts => 'Подарки';
 
   @override
   String semanticsProjectionDate(String date) {
-    return 'Projection date $date. Double tap to choose date';
+    return 'Дата прогноза $date. Нажмите дважды, чтобы выбрать дату';
   }
 
   @override
   String semanticsProjectedBalance(String amount) {
-    return 'Projected personal balance $amount';
+    return 'Прогнозируемый личный баланс $amount';
   }
 
   @override
-  String get statsEmptyTitle => 'No transactions yet';
+  String get statsEmptyTitle => 'Транзакций пока нет';
 
   @override
-  String get statsEmptySubtitle => 'No spending data for the selected range.';
+  String get statsEmptySubtitle =>
+      'Нет данных о расходах для выбранного диапазона.';
 
   @override
-  String get semanticsShowProjections => 'Show projected balances by account';
+  String get semanticsShowProjections =>
+      'Показать прогнозируемые остатки по счетам';
 
   @override
-  String get semanticsHideProjections => 'Hide projected balances by account';
+  String get semanticsHideProjections =>
+      'Скрыть прогнозируемые остатки по счетам';
 
   @override
-  String get semanticsDateAllTime => 'Date: all time — tap to change mode';
+  String get semanticsDateAllTime =>
+      'Дата: все время — нажмите, чтобы изменить режим';
 
   @override
   String semanticsDateMode(String mode) {
-    return 'Date: $mode — tap to change mode';
+    return 'Дата: $mode — нажмите, чтобы изменить режим.';
   }
 
   @override
   String get semanticsDateThisMonth =>
-      'Date: this month — tap for month, week, year, or all time';
+      'Дата: в этом месяце — нажмите, чтобы выбрать месяц, неделю, год или все время.';
 
   @override
   String get semanticsTxTypeCycle =>
-      'Transaction type: cycle all, income, expense, transfer';
+      'Тип транзакции: цикл все, доход, расход, перевод';
 
   @override
-  String get semanticsAccountFilter => 'Account filter';
+  String get semanticsAccountFilter => 'Фильтр аккаунта';
 
   @override
-  String get semanticsAlreadyFiltered => 'Already filtered to this account';
+  String get semanticsAlreadyFiltered => 'Уже отфильтровано для этого аккаунта';
 
   @override
-  String get semanticsCategoryFilter => 'Category filter';
+  String get semanticsCategoryFilter => 'Фильтр категории';
 
   @override
-  String get semanticsSortToggle => 'Sort: toggle newest or oldest first';
+  String get semanticsSortToggle =>
+      'Сортировать: сначала переключать самые новые или самые старые';
 
   @override
   String get semanticsFiltersDisabled =>
-      'List filters disabled while viewing a future projection date. Clear projections to use filters.';
+      'Фильтры списка отключены при просмотре будущей даты прогноза. Очистите прогнозы, чтобы использовать фильтры.';
 
   @override
   String get semanticsFiltersDisabledNeedAccount =>
-      'List filters disabled. Add an account first.';
+      'Фильтры списка отключены. Сначала добавьте учетную запись.';
 
   @override
   String get semanticsFiltersDisabledNeedPlannedTransaction =>
-      'List filters disabled. Add a planned transaction first.';
+      'Фильтры списка отключены. Сначала добавьте запланированную транзакцию.';
 
   @override
   String get semanticsFiltersDisabledNeedRecordedTransaction =>
-      'List filters disabled. Record a transaction first.';
+      'Фильтры списка отключены. Сначала запишите транзакцию.';
 
   @override
   String get semanticsReviewSectionChipsDisabledNeedAccount =>
-      'Section and currency controls disabled. Add an account first.';
+      'Раздел и валютный контроль отключены. Сначала добавьте учетную запись.';
 
   @override
   String get semanticsPlanProjectionControlsDisabled =>
-      'Projection date and balance breakdown disabled. Add an account and a planned transaction first.';
+      'Дата прогноза и разбивка баланса отключены. Сначала добавьте учетную запись и запланированную транзакцию.';
 
   @override
   String get semanticsReorderAccountHint =>
-      'Long press, then drag to reorder within this group';
+      'Нажмите и удерживайте, затем перетащите, чтобы изменить порядок в этой группе.';
 
   @override
-  String get semanticsChartStyle => 'Chart style';
+  String get semanticsChartStyle => 'Стиль диаграммы';
 
   @override
   String get semanticsChartStyleUnavailable =>
-      'Chart style (unavailable in comparison mode)';
+      'Стиль диаграммы (недоступен в режиме сравнения)';
 
   @override
   String semanticsPeriod(String label) {
-    return 'Period: $label';
+    return 'Период: $label';
   }
 
   @override
-  String get trackSearchHint => 'Search description, category, account…';
+  String get trackSearchHint => 'Поиск по описанию, категории, аккаунту…';
 
   @override
-  String get trackSearchClear => 'Clear search';
+  String get trackSearchClear => 'Очистить поиск';
 
   @override
-  String get settingsExchangeRatesTitle => 'Exchange rates';
+  String get settingsExchangeRatesTitle => 'Курсы валют';
 
   @override
   String settingsExchangeRatesUpdated(String time) {
-    return 'Last updated: $time';
+    return 'Последнее обновление: $time';
   }
 
   @override
   String get settingsExchangeRatesNeverUpdated =>
-      'Using offline or bundled rates — tap to refresh';
+      'Использование офлайн-тарифов или пакетных тарифов — нажмите, чтобы обновить.';
 
   @override
-  String get settingsExchangeRatesSource => 'ECB';
+  String get settingsExchangeRatesSource => 'ЕЦБ';
 
   @override
-  String get settingsExchangeRatesUpdatedSnack => 'Exchange rates updated';
+  String get settingsExchangeRatesUpdatedSnack => 'Курсы валют обновлены';
 
   @override
   String get settingsExchangeRatesUpdateFailed =>
-      'Could not update exchange rates. Check your connection.';
+      'Не удалось обновить курсы валют. Проверьте свое соединение.';
 
   @override
-  String get settingsClearData => 'Clear data';
+  String get settingsClearData => 'Очистить данные';
 
   @override
-  String get settingsClearDataSubtitle => 'Permanently remove selected data';
+  String get settingsClearDataSubtitle => 'Удалить выбранные данные навсегда';
 
   @override
-  String get clearDataTitle => 'Clear data';
+  String get clearDataTitle => 'Очистить данные';
 
   @override
-  String get clearDataTransactions => 'Transaction history';
+  String get clearDataTransactions => 'История транзакций';
 
   @override
   String clearDataTransactionsSubtitle(int count) {
-    return '$count transactions · account balances reset to zero';
+    return '$count транзакции · балансы счетов обнуляются';
   }
 
   @override
-  String get clearDataPlanned => 'Planned transactions';
+  String get clearDataPlanned => 'Планируемые транзакции';
 
   @override
   String clearDataPlannedSubtitle(int count) {
-    return '$count planned items';
+    return '$count запланированные элементы';
   }
 
   @override
-  String get clearDataAccounts => 'Accounts';
+  String get clearDataAccounts => 'Счета';
 
   @override
   String clearDataAccountsSubtitle(int count) {
-    return '$count accounts · also clears history and plan';
+    return 'Аккаунты $count · также очищает историю и план';
   }
 
   @override
-  String get clearDataCategories => 'Categories';
+  String get clearDataCategories => 'Категории';
 
   @override
   String clearDataCategoriesSubtitle(int count) {
-    return '$count categories · replaced with defaults';
+    return 'Категории $count · заменены значениями по умолчанию';
   }
 
   @override
-  String get clearDataPreferences => 'Preferences';
+  String get clearDataPreferences => 'Предпочтения';
 
   @override
   String get clearDataPreferencesSubtitle =>
-      'Reset currency, theme and language to defaults';
+      'Сбросить валюту, тему и язык к значениям по умолчанию.';
 
   @override
-  String get clearDataSecurity => 'App lock & PIN';
+  String get clearDataSecurity => 'Блокировка приложения и PIN-код';
 
   @override
-  String get clearDataSecuritySubtitle => 'Disable app lock and remove PIN';
+  String get clearDataSecuritySubtitle =>
+      'Отключить блокировку приложения и удалить PIN-код';
 
   @override
-  String get clearDataConfirmButton => 'Clear selected';
+  String get clearDataConfirmButton => 'Очистить выбранное';
 
   @override
-  String get clearDataConfirmTitle => 'This cannot be undone';
+  String get clearDataConfirmTitle => 'Это нельзя отменить';
 
   @override
   String get clearDataConfirmBody =>
-      'The selected data will be permanently deleted. Export a backup first if you may need it later.';
+      'Выбранные данные будут удалены без возможности восстановления. Сначала экспортируйте резервную копию, если она может понадобиться вам позже.';
 
   @override
-  String get clearDataTypeConfirm => 'Type DELETE to confirm';
+  String get clearDataTypeConfirm => 'Введите DELETE для подтверждения.';
 
   @override
-  String get clearDataTypeConfirmError => 'Type DELETE exactly to continue';
+  String get clearDataTypeConfirmError => 'Введите DELETE, чтобы продолжить.';
 
   @override
-  String get clearDataPinTitle => 'Confirm with PIN';
+  String get clearDataPinTitle => 'Подтвердите с помощью PIN-кода';
 
   @override
-  String get clearDataPinBody => 'Enter your app PIN to authorize this action.';
+  String get clearDataPinBody =>
+      'Введите PIN-код вашего приложения, чтобы авторизовать это действие.';
 
   @override
-  String get clearDataPinIncorrect => 'Incorrect PIN';
+  String get clearDataPinIncorrect => 'Неправильный PIN-код';
 
   @override
-  String get clearDataDone => 'Selected data cleared';
+  String get clearDataDone => 'Выбранные данные удалены';
 
   @override
-  String get autoBackupTitle => 'Automatic daily backup';
+  String get autoBackupTitle =>
+      'Автоматическое ежедневное резервное копирование';
 
   @override
   String autoBackupLastAt(String date) {
-    return 'Last backed up $date';
+    return 'Последняя резервная копия $date';
   }
 
   @override
-  String get autoBackupNeverRun => 'No backup yet';
+  String get autoBackupNeverRun => 'Резервной копии пока нет';
 
   @override
-  String get autoBackupShareTitle => 'Save to cloud';
+  String get autoBackupShareTitle => 'Сохранить в облако';
 
   @override
   String get autoBackupShareSubtitle =>
-      'Upload latest backup to iCloud Drive, Google Drive or any app';
+      'Загрузите последнюю резервную копию на iCloud Drive, Google Drive или любое приложение.';
 
   @override
   String get autoBackupCloudReminder =>
-      'Auto-backup ready — save it to cloud for off-device protection';
+      'Готово к автоматическому резервному копированию — сохраните его в облаке для защиты вне устройства.';
 
   @override
-  String get autoBackupCloudReminderAction => 'Share';
+  String get autoBackupCloudReminderAction => 'Поделиться';
 
   @override
   String get persistenceErrorReloaded =>
-      'Couldn’t save changes. Data was reloaded from storage.';
+      'Не удалось сохранить изменения. Данные были перезагружены из хранилища.';
 }

@@ -58,9 +58,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get heroResetButton => 'Zurücksetzen';
-  @override
-  String get fabScrollToTop => 'Back to top';
 
+  @override
+  String get fabScrollToTop => 'Nach oben';
 
   @override
   String get filterAll => 'Alle';
@@ -1627,7 +1627,7 @@ class AppLocalizationsDe extends AppLocalizations {
       'Bereit für automatisches Backup – speichern Sie es in der Cloud, um es auch außerhalb des Geräts zu schützen';
 
   @override
-  String get autoBackupCloudReminderAction => 'Aktie';
+  String get autoBackupCloudReminderAction => 'Teilen';
 
   @override
   String get persistenceErrorReloaded =>

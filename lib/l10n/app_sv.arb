@@ -4,43 +4,44 @@
   "@appTitle": {
     "description": "Application title"
   },
-  "navPlan": "Plan",
-  "navTrack": "Track",
-  "navReview": "Review",
-  "cancel": "Cancel",
-  "delete": "Delete",
-  "close": "Close",
-  "add": "Add",
-  "undo": "Undo",
-  "confirm": "Confirm",
-  "restore": "Restore",
-  "heroIn": "In",
-  "heroOut": "Out",
-  "heroNet": "Net",
-  "heroBalance": "Balance",
-  "realBalance": "Real balance",
-  "heroResetButton": "Reset",
-  "filterAll": "All",
-  "filterAllAccounts": "All accounts",
-  "filterAllCategories": "All categories",
-  "txLabelIncome": "INCOME",
-  "txLabelExpense": "EXPENSE",
-  "txLabelInvoice": "INVOICE",
-  "txLabelBill": "BILL",
-  "txLabelAdvance": "ADVANCE",
-  "txLabelSettlement": "SETTLEMENT",
-  "txLabelLoan": "LOAN",
-  "txLabelCollection": "COLLECTION",
+  "navPlan": "Planera",
+  "navTrack": "Spåra",
+  "navReview": "Recension",
+  "cancel": "Avboka",
+  "delete": "Radera",
+  "close": "Nära",
+  "add": "Tillägga",
+  "undo": "Ångra",
+  "confirm": "Bekräfta",
+  "restore": "Återställa",
+  "heroIn": "I",
+  "heroOut": "Ut",
+  "heroNet": "Netto",
+  "heroBalance": "Balans",
+  "realBalance": "Riktig balans",
+  "heroResetButton": "Återställa",
+  "fabScrollToTop": "Till toppen",
+  "filterAll": "Alla",
+  "filterAllAccounts": "Alla konton",
+  "filterAllCategories": "Alla kategorier",
+  "txLabelIncome": "INKOMST",
+  "txLabelExpense": "BEKOSTNAD",
+  "txLabelInvoice": "FAKTURA",
+  "txLabelBill": "FAKTURERA",
+  "txLabelAdvance": "FÖRSKOTT",
+  "txLabelSettlement": "LÖSNING",
+  "txLabelLoan": "LÅN",
+  "txLabelCollection": "SAMLING",
   "txLabelOffset": "OFFSET",
-  "txLabelTransfer": "TRANSFER",
-  "txLabelTransaction": "TRANSACTION",
-  "repeatNone": "No repeat",
-  "repeatDaily": "Daily",
-  "repeatWeekly": "Weekly",
-  "repeatMonthly": "Monthly",
-  "repeatYearly": "Yearly",
-  "repeatEveryLabel": "Every",
-  "repeatEveryDays": "{count, plural, =1{day} other{{count} days}}",
+  "txLabelTransfer": "ÖVERFÖRA",
+  "txLabelTransaction": "TRANSAKTION",
+  "repeatNone": "Ingen upprepning",
+  "repeatDaily": "Dagligen",
+  "repeatWeekly": "Varje vecka",
+  "repeatMonthly": "Månatlig",
+  "repeatYearly": "Årlig",
+  "repeatEveryLabel": "Varje",
+  "repeatEveryDays": "{count, plural, =1{dag} other{{count} dagar}}",
   "@repeatEveryDays": {
     "placeholders": {
       "count": {
@@ -48,7 +49,7 @@
       }
     }
   },
-  "repeatEveryWeeks": "{count, plural, =1{week} other{{count} weeks}}",
+  "repeatEveryWeeks": "{count, plural, =1{vecka} other{{count} veckor}}",
   "@repeatEveryWeeks": {
     "placeholders": {
       "count": {
@@ -56,7 +57,7 @@
       }
     }
   },
-  "repeatEveryMonths": "{count, plural, =1{month} other{{count} months}}",
+  "repeatEveryMonths": "{count, plural, =1{månad} other{{count} månader}}",
   "@repeatEveryMonths": {
     "placeholders": {
       "count": {
@@ -64,7 +65,7 @@
       }
     }
   },
-  "repeatEveryYears": "{count, plural, =1{year} other{{count} years}}",
+  "repeatEveryYears": "{count, plural, =1{år} other{{count} år}}",
   "@repeatEveryYears": {
     "placeholders": {
       "count": {
@@ -72,10 +73,10 @@
       }
     }
   },
-  "repeatEndLabel": "Ends",
-  "repeatEndNever": "Never",
-  "repeatEndOnDate": "On date",
-  "repeatEndAfterCount": "After {count} times",
+  "repeatEndLabel": "Slutar",
+  "repeatEndNever": "Aldrig",
+  "repeatEndOnDate": "På dejt",
+  "repeatEndAfterCount": "Efter {count} gånger",
   "@repeatEndAfterCount": {
     "placeholders": {
       "count": {
@@ -83,9 +84,9 @@
       }
     }
   },
-  "repeatEndPickDate": "Pick end date",
-  "repeatEndTimes": "times",
-  "repeatSummaryEvery": "Every {count} {unit}",
+  "repeatEndPickDate": "Välj slutdatum",
+  "repeatEndTimes": "gånger",
+  "repeatSummaryEvery": "Varje {count} {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
       "count": {
@@ -96,7 +97,7 @@
       }
     }
   },
-  "repeatSummaryUntil": "until {date}",
+  "repeatSummaryUntil": "tills {date}",
   "@repeatSummaryUntil": {
     "placeholders": {
       "date": {
@@ -104,7 +105,7 @@
       }
     }
   },
-  "repeatSummaryTimes": "{count} times",
+  "repeatSummaryTimes": "{count} gånger",
   "@repeatSummaryTimes": {
     "placeholders": {
       "count": {
@@ -112,7 +113,7 @@
       }
     }
   },
-  "repeatSummaryTimesRemaining": "{remaining} of {total} remaining",
+  "repeatSummaryTimesRemaining": "{remaining} av {total} kvar",
   "@repeatSummaryTimesRemaining": {
     "placeholders": {
       "remaining": {
@@ -123,10 +124,10 @@
       }
     }
   },
-  "detailRepeatEvery": "Repeat every",
-  "detailEnds": "Ends",
-  "detailEndsNever": "Never",
-  "detailEndsOnDate": "On {date}",
+  "detailRepeatEvery": "Upprepa varje",
+  "detailEnds": "Slutar",
+  "detailEndsNever": "Aldrig",
+  "detailEndsOnDate": "På {date}",
   "@detailEndsOnDate": {
     "placeholders": {
       "date": {
@@ -134,7 +135,7 @@
       }
     }
   },
-  "detailEndsAfterCount": "After {count} times",
+  "detailEndsAfterCount": "Efter {count} gånger",
   "@detailEndsAfterCount": {
     "placeholders": {
       "count": {
@@ -142,11 +143,11 @@
       }
     }
   },
-  "detailProgress": "Progress",
-  "weekendNoChange": "No change",
-  "weekendFriday": "Move to Friday",
-  "weekendMonday": "Move to Monday",
-  "weekendQuestion": "If the {day} falls on a weekend?",
+  "detailProgress": "Framsteg",
+  "weekendNoChange": "Ingen förändring",
+  "weekendFriday": "Flytta till fredag",
+  "weekendMonday": "Flytta till måndag",
+  "weekendQuestion": "Om {day} infaller på en helg?",
   "@weekendQuestion": {
     "placeholders": {
       "day": {
@@ -154,32 +155,32 @@
       }
     }
   },
-  "dateToday": "Today",
-  "dateTomorrow": "Tomorrow",
-  "dateYesterday": "Yesterday",
-  "statsAllTime": "All time",
-  "accountGroupPersonal": "Personal",
-  "accountGroupIndividual": "Individual",
-  "accountGroupEntity": "Entity",
-  "accountSectionIndividuals": "Individuals",
-  "accountSectionEntities": "Entities",
-  "emptyNoTransactionsYet": "No transactions yet",
-  "emptyNoAccountsYet": "No accounts yet",
-  "emptyRecordFirstTransaction": "Tap the button below to record your first transaction.",
-  "emptyAddFirstAccountTx": "Add your first account before recording transactions.",
-  "emptyAddFirstAccountPlan": "Add your first account before planning transactions.",
-  "emptyAddFirstAccountReview": "Add your first account to start tracking your finances.",
-  "emptyAddTransaction": "Add transaction",
-  "emptyAddAccount": "Add account",
-  "reviewEmptyGroupPersonalTitle": "No personal accounts yet",
-  "reviewEmptyGroupPersonalBody": "Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.",
-  "reviewEmptyGroupIndividualsTitle": "No individual accounts yet",
-  "reviewEmptyGroupIndividualsBody": "Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.",
-  "reviewEmptyGroupEntitiesTitle": "No entity accounts yet",
-  "reviewEmptyGroupEntitiesBody": "Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.",
-  "emptyNoTransactionsForFilters": "No transactions for applied filters",
-  "emptyNoTransactionsInHistory": "No transactions in history",
-  "emptyNoTransactionsForMonth": "No transactions for {month}",
+  "dateToday": "I dag",
+  "dateTomorrow": "I morgon",
+  "dateYesterday": "I går",
+  "statsAllTime": "Hela tiden",
+  "accountGroupPersonal": "Personlig",
+  "accountGroupIndividual": "Enskild",
+  "accountGroupEntity": "Enhet",
+  "accountSectionIndividuals": "Individer",
+  "accountSectionEntities": "Entiteter",
+  "emptyNoTransactionsYet": "Inga transaktioner ännu",
+  "emptyNoAccountsYet": "Inga konton ännu",
+  "emptyRecordFirstTransaction": "Tryck på knappen nedan för att spela in din första transaktion.",
+  "emptyAddFirstAccountTx": "Lägg till ditt första konto innan du registrerar transaktioner.",
+  "emptyAddFirstAccountPlan": "Lägg till ditt första konto innan du planerar transaktioner.",
+  "emptyAddFirstAccountReview": "Lägg till ditt första konto för att börja spåra din ekonomi.",
+  "emptyAddTransaction": "Lägg till transaktion",
+  "emptyAddAccount": "Lägg till konto",
+  "reviewEmptyGroupPersonalTitle": "Inga personliga konton ännu",
+  "reviewEmptyGroupPersonalBody": "Personliga konton är dina egna plånböcker och bankkonton. Lägg till en för att spåra dagliga inkomster och utgifter.",
+  "reviewEmptyGroupIndividualsTitle": "Inga enskilda konton ännu",
+  "reviewEmptyGroupIndividualsBody": "Individuella konton spårar pengar med specifika personer – delade kostnader, lån eller IOU. Lägg till ett konto för varje person du gör upp med.",
+  "reviewEmptyGroupEntitiesTitle": "Inga enhetskonton ännu",
+  "reviewEmptyGroupEntitiesBody": "Enhetskonton är för företag, projekt eller organisationer. Använd dem för att hålla företagets kassaflöde åtskilt från din privatekonomi.",
+  "emptyNoTransactionsForFilters": "Inga transaktioner för tillämpade filter",
+  "emptyNoTransactionsInHistory": "Inga transaktioner i historien",
+  "emptyNoTransactionsForMonth": "Inga transaktioner för {month}",
   "@emptyNoTransactionsForMonth": {
     "placeholders": {
       "month": {
@@ -187,13 +188,13 @@
       }
     }
   },
-  "emptyNoTransactionsForAccount": "No transactions for this account",
-  "trackTransactionDeleted": "Transaction deleted",
-  "trackDeleteTitle": "Delete transaction?",
-  "trackDeleteBody": "This will reverse the account balance changes.",
-  "trackTransaction": "Transaction",
-  "planConfirmTitle": "Confirm transaction?",
-  "planConfirmBodyEarly": "This occurrence is scheduled for {date}. It will be recorded in History with today’s date ({todayDate}). The next occurrence remains on {nextDate}.",
+  "emptyNoTransactionsForAccount": "Inga transaktioner för detta konto",
+  "trackTransactionDeleted": "Transaktionen raderad",
+  "trackDeleteTitle": "Ta bort transaktion?",
+  "trackDeleteBody": "Detta kommer att återställa ändringarna i kontosaldot.",
+  "trackTransaction": "Transaktion",
+  "planConfirmTitle": "Bekräfta transaktionen?",
+  "planConfirmBodyEarly": "Denna händelse är planerad till {date}. Det kommer att registreras i historiken med dagens datum ({todayDate}). Nästa händelse finns kvar på {nextDate}.",
   "@planConfirmBodyEarly": {
     "placeholders": {
       "date": {
@@ -207,19 +208,19 @@
       }
     }
   },
-  "planConfirmBodyNormal": "This will apply the transaction to your real account balances and move it to History.",
-  "planTransactionConfirmed": "Transaction confirmed and applied",
-  "planTransactionRemoved": "Planned transaction removed",
-  "planRepeatingTitle": "Repeating transaction",
-  "planRepeatingBody": "Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.",
-  "planDeleteAll": "Delete all",
-  "planSkipThisOnly": "Skip this only",
-  "planOccurrenceSkipped": "This occurrence skipped — next one scheduled",
-  "planNothingPlanned": "Nothing planned for now",
-  "planPlanBody": "Plan upcoming transactions.",
-  "planAddPlan": "Add plan",
-  "planNoPlannedForFilters": "No planned transactions for applied filters",
-  "planNoPlannedInMonth": "No planned transactions in {month}",
+  "planConfirmBodyNormal": "Detta kommer att tillämpa transaktionen på dina riktiga kontosaldon och flytta den till Historik.",
+  "planTransactionConfirmed": "Transaktionen bekräftad och tillämpad",
+  "planTransactionRemoved": "Planerad transaktion har tagits bort",
+  "planRepeatingTitle": "Upprepad transaktion",
+  "planRepeatingBody": "Hoppa bara över detta datum – serien fortsätter med nästa förekomst – eller ta bort alla återstående förekomster från din plan.",
+  "planDeleteAll": "Ta bort alla",
+  "planSkipThisOnly": "Hoppa bara över detta",
+  "planOccurrenceSkipped": "Den här händelsen hoppade över — nästa schemalagd",
+  "planNothingPlanned": "Inget planerat just nu",
+  "planPlanBody": "Planera kommande transaktioner.",
+  "planAddPlan": "Lägg till plan",
+  "planNoPlannedForFilters": "Inga planerade transaktioner för tillämpade filter",
+  "planNoPlannedInMonth": "Inga planerade transaktioner i {month}",
   "@planNoPlannedInMonth": {
     "placeholders": {
       "month": {
@@ -227,28 +228,28 @@
       }
     }
   },
-  "planOverdue": "overdue",
-  "planPlannedTransaction": "Planned transaction",
-  "discardTitle": "Discard changes?",
-  "discardBody": "You have unsaved changes. They will be lost if you leave now.",
-  "keepEditing": "Keep editing",
-  "discard": "Discard",
-  "newTransactionTitle": "New Transaction",
-  "editTransactionTitle": "Edit Transaction",
-  "transactionUpdated": "Transaction updated",
-  "sectionAccounts": "Accounts",
-  "labelFrom": "From",
-  "labelTo": "To",
-  "sectionCategory": "Category",
-  "sectionAttachments": "Attachments",
-  "labelNote": "Note",
-  "hintOptionalDescription": "Optional description",
-  "updateTransaction": "Update Transaction",
-  "saveTransaction": "Save Transaction",
-  "selectAccount": "Select account",
-  "selectAccountTitle": "Select Account",
-  "noAccountsAvailable": "No accounts available",
-  "amountReceivedBy": "Amount received by {name} ({currency})",
+  "planOverdue": "försenad",
+  "planPlannedTransaction": "Planerad transaktion",
+  "discardTitle": "Vill du ignorera ändringar?",
+  "discardBody": "Du har osparade ändringar. De kommer att gå förlorade om du går nu.",
+  "keepEditing": "Fortsätt redigera",
+  "discard": "Kassera",
+  "newTransactionTitle": "Ny transaktion",
+  "editTransactionTitle": "Redigera transaktion",
+  "transactionUpdated": "Transaktionen uppdaterad",
+  "sectionAccounts": "konton",
+  "labelFrom": "Från",
+  "labelTo": "Till",
+  "sectionCategory": "Kategori",
+  "sectionAttachments": "Bilagor",
+  "labelNote": "Notera",
+  "hintOptionalDescription": "Valfri beskrivning",
+  "updateTransaction": "Uppdatera transaktion",
+  "saveTransaction": "Spara transaktion",
+  "selectAccount": "Välj konto",
+  "selectAccountTitle": "Välj Konto",
+  "noAccountsAvailable": "Inga konton tillgängliga",
+  "amountReceivedBy": "Belopp mottaget av {name} ({currency})",
   "@amountReceivedBy": {
     "placeholders": {
       "name": {
@@ -259,24 +260,24 @@
       }
     }
   },
-  "amountReceivedHelper": "Enter the exact amount the destination account receives. This locks the real exchange rate used.",
-  "attachTakePhoto": "Take photo",
-  "attachTakePhotoSub": "Use camera to capture a receipt",
-  "attachChooseGallery": "Choose from gallery",
-  "attachChooseGallerySub": "Select photos from your library",
-  "attachBrowseFiles": "Browse files",
-  "attachBrowseFilesSub": "Attach PDFs, documents or other files",
-  "attachButton": "Attach",
-  "editPlanTitle": "Edit Plan",
-  "planTransactionTitle": "Plan Transaction",
-  "tapToSelect": "Tap to select",
-  "updatePlan": "Update Plan",
-  "addToPlan": "Add to Plan",
-  "labelRepeat": "Repeat",
-  "selectPlannedDate": "Select planned date",
-  "balancesAsOfToday": "Balances as of today",
-  "projectedBalancesForTomorrow": "Projected balances for tomorrow",
-  "projectedBalancesForDate": "Projected balances for {date}",
+  "amountReceivedHelper": "Ange det exakta belopp som destinationskontot tar emot. Detta låser den använda reala växelkursen.",
+  "attachTakePhoto": "Ta foto",
+  "attachTakePhotoSub": "Använd kameran för att fånga ett kvitto",
+  "attachChooseGallery": "Välj från galleri",
+  "attachChooseGallerySub": "Välj foton från ditt bibliotek",
+  "attachBrowseFiles": "Bläddra bland filer",
+  "attachBrowseFilesSub": "Bifoga PDF-filer, dokument eller andra filer",
+  "attachButton": "Bifoga",
+  "editPlanTitle": "Redigera plan",
+  "planTransactionTitle": "Planera transaktion",
+  "tapToSelect": "Tryck för att välja",
+  "updatePlan": "Uppdatera plan",
+  "addToPlan": "Lägg till i plan",
+  "labelRepeat": "Upprepa",
+  "selectPlannedDate": "Välj planerat datum",
+  "balancesAsOfToday": "Saldon från idag",
+  "projectedBalancesForTomorrow": "Beräknade saldon för morgondagen",
+  "projectedBalancesForDate": "Prognostiserade saldon för {date}",
   "@projectedBalancesForDate": {
     "placeholders": {
       "date": {
@@ -284,7 +285,7 @@
       }
     }
   },
-  "destReceivesLabel": "{name} receives ({currency})",
+  "destReceivesLabel": "{name} tar emot ({currency})",
   "@destReceivesLabel": {
     "placeholders": {
       "name": {
@@ -295,23 +296,23 @@
       }
     }
   },
-  "destHelper": "Estimated destination amount. Exact rate is locked at confirmation.",
-  "descriptionOptional": "Description (optional)",
-  "detailTransactionTitle": "Transaction",
-  "detailPlannedTitle": "Planned",
-  "detailConfirmTransaction": "Confirm transaction",
-  "detailDate": "Date",
-  "detailFrom": "From",
-  "detailTo": "To",
-  "detailCategory": "Category",
-  "detailNote": "Note",
-  "detailDestinationAmount": "Destination amount",
-  "detailExchangeRate": "Exchange rate",
-  "detailRepeats": "Repeats",
-  "detailDayOfMonth": "Day of month",
-  "detailWeekends": "Weekends",
-  "detailAttachments": "Attachments",
-  "detailFileCount": "{count, plural, =1{1 file} other{{count} files}}",
+  "destHelper": "Beräknat destinationsbelopp. Exakt kurs låses vid bekräftelse.",
+  "descriptionOptional": "Beskrivning (valfritt)",
+  "detailTransactionTitle": "Transaktion",
+  "detailPlannedTitle": "Planerad",
+  "detailConfirmTransaction": "Bekräfta transaktionen",
+  "detailDate": "Datum",
+  "detailFrom": "Från",
+  "detailTo": "Till",
+  "detailCategory": "Kategori",
+  "detailNote": "Notera",
+  "detailDestinationAmount": "Destinationsbelopp",
+  "detailExchangeRate": "Växelkurs",
+  "detailRepeats": "Upprepas",
+  "detailDayOfMonth": "Dag i månaden",
+  "detailWeekends": "Helger",
+  "detailAttachments": "Bilagor",
+  "detailFileCount": "{count, plural, =1{1 fil} other{{count} filer}}",
   "@detailFileCount": {
     "placeholders": {
       "count": {
@@ -319,17 +320,17 @@
       }
     }
   },
-  "settingsTitle": "Settings",
-  "settingsSectionDisplay": "Display",
-  "settingsSectionLanguage": "Language",
-  "settingsSectionCategories": "Categories",
-  "settingsSectionAccounts": "Accounts",
-  "settingsSectionPreferences": "Preferences",
-  "settingsSectionManage": "Manage",
-  "settingsBaseCurrency": "Home currency",
-  "settingsSecondaryCurrency": "Secondary currency",
-  "settingsCategories": "Categories",
-  "settingsCategoriesSubtitle": "{incomeCount} income · {expenseCount} expense",
+  "settingsTitle": "Inställningar",
+  "settingsSectionDisplay": "Visa",
+  "settingsSectionLanguage": "Språk",
+  "settingsSectionCategories": "Kategorier",
+  "settingsSectionAccounts": "konton",
+  "settingsSectionPreferences": "Inställningar",
+  "settingsSectionManage": "Hantera",
+  "settingsBaseCurrency": "Hemvaluta",
+  "settingsSecondaryCurrency": "Sekundär valuta",
+  "settingsCategories": "Kategorier",
+  "settingsCategoriesSubtitle": "{incomeCount} inkomst · {expenseCount} kostnad",
   "@settingsCategoriesSubtitle": {
     "placeholders": {
       "incomeCount": {
@@ -340,9 +341,9 @@
       }
     }
   },
-  "settingsArchivedAccounts": "Archived accounts",
-  "settingsArchivedAccountsSubtitleZero": "None right now — archive from account edit when balance is clear",
-  "settingsArchivedAccountsSubtitleCount": "{count} hidden from Review and pickers",
+  "settingsArchivedAccounts": "Arkiverade konton",
+  "settingsArchivedAccountsSubtitleZero": "Inga just nu – arkivera från kontoredigering när saldot är klart",
+  "settingsArchivedAccountsSubtitleCount": "{count} dold från granskning och väljare",
   "@settingsArchivedAccountsSubtitleCount": {
     "placeholders": {
       "count": {
@@ -351,47 +352,47 @@
     }
   },
   "settingsSectionData": "Data",
-  "settingsSectionPrivacy": "About",
-  "settingsPrivacyPolicyTitle": "Privacy policy",
-  "settingsPrivacyPolicySubtitle": "How Platrare handles your data.",
-  "settingsPrivacyFxDisclosure": "Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.",
-  "settingsPrivacyOpenFailed": "Could not load the privacy policy.",
-  "settingsPrivacyRetry": "Try again",
-  "settingsSoftwareVersionTitle": "Software version",
-  "settingsSoftwareVersionSubtitle": "Release, diagnostics, and legal",
-  "aboutScreenTitle": "About",
-  "aboutAppTagline": "Ledger, cashflow, and planning in one workspace.",
-  "aboutDescriptionBody": "Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.",
+  "settingsSectionPrivacy": "Om",
+  "settingsPrivacyPolicyTitle": "Integritetspolicy",
+  "settingsPrivacyPolicySubtitle": "Hur Platrare hanterar din data.",
+  "settingsPrivacyFxDisclosure": "Växelkurser: appen hämtar offentliga valutakurser över internet. Dina konton och transaktioner skickas aldrig.",
+  "settingsPrivacyOpenFailed": "Det gick inte att ladda sekretesspolicyn.",
+  "settingsPrivacyRetry": "Försök igen",
+  "settingsSoftwareVersionTitle": "Programvaruversion",
+  "settingsSoftwareVersionSubtitle": "Release, diagnostik och juridiska",
+  "aboutScreenTitle": "Om",
+  "aboutAppTagline": "Reskontra, kassaflöde och planering i en arbetsyta.",
+  "aboutDescriptionBody": "Platrare håller konton, transaktioner och planer på din enhet. Exportera krypterade säkerhetskopior när du behöver en kopia någon annanstans. Valutakurser använder endast offentlig marknadsdata; din reskontra laddas inte upp.",
   "aboutVersionLabel": "Version",
-  "aboutBuildLabel": "Build",
-  "aboutCopySupportDetails": "Copy support details",
-  "aboutOpenPrivacySubtitle": "Opens the full in-app policy document.",
-  "aboutSupportBundleLocaleLabel": "Locale",
-  "settingsSupportInfoCopied": "Copied to clipboard",
-  "settingsVerifyLedger": "Verify data",
-  "settingsVerifyLedgerSubtitle": "Check that account balances match your transaction history",
-  "settingsDataExportTitle": "Export backup",
-  "settingsDataExportSubtitle": "Save as .zip or encrypted .platrare with all data and attachments",
-  "settingsDataImportTitle": "Restore from backup",
-  "settingsDataImportSubtitle": "Replace current data from a Platrare .zip or .platrare backup",
-  "backupExportDialogTitle": "Protect this backup",
-  "backupExportDialogBody": "A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.",
-  "backupExportPasswordLabel": "Password",
-  "backupExportPasswordConfirmLabel": "Confirm password",
-  "backupExportPasswordMismatch": "Passwords do not match",
-  "backupExportPasswordEmpty": "Enter a matching password, or export without encryption below.",
-  "backupExportPasswordTooShort": "Password must be at least 8 characters.",
-  "backupExportSaveToDevice": "Save to device",
-  "backupExportShareToCloud": "Share (iCloud, Drive…)",
-  "backupExportWithoutEncryption": "Export without encryption",
-  "backupExportSkipWarningTitle": "Export without encryption?",
-  "backupExportSkipWarningBody": "Anyone with access to the file can read your data. Use this only for local copies you control.",
-  "backupExportSkipWarningConfirm": "Export unencrypted",
-  "backupImportPasswordTitle": "Encrypted backup",
-  "backupImportPasswordBody": "Enter the password you used when exporting.",
-  "backupImportPasswordLabel": "Password",
-  "backupImportPreviewTitle": "Backup summary",
-  "backupImportPreviewVersion": "App version: {version}",
+  "aboutBuildLabel": "Bygga",
+  "aboutCopySupportDetails": "Kopiera supportinformation",
+  "aboutOpenPrivacySubtitle": "Öppnar hela policydokumentet i appen.",
+  "aboutSupportBundleLocaleLabel": "Plats",
+  "settingsSupportInfoCopied": "Kopierade till urklipp",
+  "settingsVerifyLedger": "Verifiera data",
+  "settingsVerifyLedgerSubtitle": "Kontrollera att kontosaldon matchar din transaktionshistorik",
+  "settingsDataExportTitle": "Exportera säkerhetskopia",
+  "settingsDataExportSubtitle": "Spara som .zip eller krypterad .platrare med all data och bilagor",
+  "settingsDataImportTitle": "Återställ från säkerhetskopia",
+  "settingsDataImportSubtitle": "Ersätt aktuell data från en Platrare .zip eller .platrare backup",
+  "backupExportDialogTitle": "Skydda denna säkerhetskopia",
+  "backupExportDialogBody": "Ett starkt lösenord rekommenderas, särskilt om du lagrar filen i molnet. Du behöver samma lösenord för att importera.",
+  "backupExportPasswordLabel": "Lösenord",
+  "backupExportPasswordConfirmLabel": "Bekräfta lösenord",
+  "backupExportPasswordMismatch": "Lösenord stämmer inte överens",
+  "backupExportPasswordEmpty": "Ange ett matchande lösenord eller exportera utan kryptering nedan.",
+  "backupExportPasswordTooShort": "Lösenordet måste vara minst 8 tecken.",
+  "backupExportSaveToDevice": "Spara på enheten",
+  "backupExportShareToCloud": "Dela (iCloud, Drive...)",
+  "backupExportWithoutEncryption": "Exportera utan kryptering",
+  "backupExportSkipWarningTitle": "Exportera utan kryptering?",
+  "backupExportSkipWarningBody": "Alla som har tillgång till filen kan läsa dina data. Använd detta endast för lokala kopior som du kontrollerar.",
+  "backupExportSkipWarningConfirm": "Exportera okrypterad",
+  "backupImportPasswordTitle": "Krypterad backup",
+  "backupImportPasswordBody": "Ange lösenordet du använde när du exporterade.",
+  "backupImportPasswordLabel": "Lösenord",
+  "backupImportPreviewTitle": "Säkerhetskopieringssammanfattning",
+  "backupImportPreviewVersion": "Appversion: {version}",
   "@backupImportPreviewVersion": {
     "placeholders": {
       "version": {
@@ -399,7 +400,7 @@
       }
     }
   },
-  "backupImportPreviewExported": "Exported: {date}",
+  "backupImportPreviewExported": "Exporterat: {date}",
   "@backupImportPreviewExported": {
     "placeholders": {
       "date": {
@@ -407,7 +408,7 @@
       }
     }
   },
-  "backupImportPreviewCounts": "{accounts} accounts · {transactions} transactions · {planned} planned · {attachments} attachment files · {income} income categories · {expense} expense categories",
+  "backupImportPreviewCounts": "{accounts} konton · {transactions} transaktioner · {planned} planerade · {attachments} bifogade filer · {income} inkomstkategorier · {expense} utgiftskategorier",
   "@backupImportPreviewCounts": {
     "placeholders": {
       "accounts": {
@@ -430,19 +431,19 @@
       }
     }
   },
-  "backupImportPreviewContinue": "Continue",
-  "settingsBackupWrongPassword": "Wrong password",
-  "settingsBackupChecksumMismatch": "Backup failed integrity check",
-  "settingsBackupCorruptFile": "Invalid or damaged backup file",
-  "settingsBackupUnsupportedVersion": "Backup needs a newer app version",
-  "settingsDataImportConfirmTitle": "Replace current data?",
-  "settingsDataImportConfirmBody": "This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.",
-  "settingsDataImportConfirmAction": "Replace data",
-  "settingsDataImportDone": "Data restored successfully",
-  "settingsDataImportInvalidFile": "This file is not a valid Platrare backup",
-  "settingsDataImportFailed": "Import failed",
-  "settingsDataExportDoneTitle": "Backup exported",
-  "settingsDataExportDoneBody": "Backup saved to:\n{path}",
+  "backupImportPreviewContinue": "Fortsätta",
+  "settingsBackupWrongPassword": "Fel lösenord",
+  "settingsBackupChecksumMismatch": "Säkerhetskopieringen misslyckades integritetskontrollen",
+  "settingsBackupCorruptFile": "Ogiltig eller skadad säkerhetskopia",
+  "settingsBackupUnsupportedVersion": "Säkerhetskopiering kräver en nyare appversion",
+  "settingsDataImportConfirmTitle": "Ersätta nuvarande data?",
+  "settingsDataImportConfirmBody": "Detta kommer att ersätta dina nuvarande konton, transaktioner, planerade transaktioner, kategorier och importerade bilagor med innehållet i den valda säkerhetskopian. Denna åtgärd kan inte ångras.",
+  "settingsDataImportConfirmAction": "Byt ut data",
+  "settingsDataImportDone": "Data har återställts",
+  "settingsDataImportInvalidFile": "Den här filen är inte en giltig Platrare-säkerhetskopia",
+  "settingsDataImportFailed": "Importen misslyckades",
+  "settingsDataExportDoneTitle": "Backup exporterad",
+  "settingsDataExportDoneBody": "Säkerhetskopieringen har sparats till:\n{path}",
   "@settingsDataExportDoneBody": {
     "placeholders": {
       "path": {
@@ -450,12 +451,12 @@
       }
     }
   },
-  "settingsDataOpenExportFile": "Open file",
-  "settingsDataExportFailed": "Export failed",
-  "ledgerVerifyDialogTitle": "Ledger verification",
-  "ledgerVerifyAllMatch": "All accounts match.",
-  "ledgerVerifyMismatchesTitle": "Mismatches",
-  "ledgerVerifyMismatchDetails": "{accountName}\nStored: {stored}\nReplay: {replayed}\nDifference: {diff}",
+  "settingsDataOpenExportFile": "Öppna filen",
+  "settingsDataExportFailed": "Exporten misslyckades",
+  "ledgerVerifyDialogTitle": "Ledger verifiering",
+  "ledgerVerifyAllMatch": "Alla konton matchar.",
+  "ledgerVerifyMismatchesTitle": "Felmatchningar",
+  "ledgerVerifyMismatchDetails": "{accountName}\nLagrat: {stored}\nRepris: {replayed}\nSkillnad: {diff}",
   "@ledgerVerifyMismatchDetails": {
     "placeholders": {
       "accountName": {
@@ -472,51 +473,51 @@
       }
     }
   },
-  "settingsLanguage": "App language",
-  "settingsLanguageSubtitleSystem": "Following system settings",
-  "settingsLanguageSubtitleEnglish": "English",
-  "settingsLanguageSubtitleSerbianLatin": "Serbian (Latin)",
-  "settingsLanguagePickerTitle": "App language",
-  "settingsLanguageOptionSystem": "System default",
-  "settingsLanguageOptionEnglish": "English",
-  "settingsLanguageOptionSerbianLatin": "Serbian (Latin)",
-  "settingsSectionAppearance": "Appearance",
-  "settingsSectionSecurity": "Security",
-  "settingsSecurityEnableLock": "Lock app on open",
-  "settingsSecurityEnableLockSubtitle": "Require biometric unlock or PIN when app opens",
-  "settingsSecuritySetPin": "Set PIN",
-  "settingsSecurityChangePin": "Change PIN",
-  "settingsSecurityPinSubtitle": "Use a PIN as fallback if biometric is unavailable",
-  "settingsSecurityRemovePin": "Remove PIN",
-  "securitySetPinTitle": "Set app PIN",
-  "securityPinLabel": "PIN code",
-  "securityConfirmPinLabel": "Confirm PIN code",
-  "securityPinMustBe4Digits": "PIN must have at least 4 digits",
-  "securityPinMismatch": "PIN codes do not match",
-  "securityRemovePinTitle": "Remove PIN?",
-  "securityRemovePinBody": "Biometric unlock can still be used if available.",
-  "securityUnlockTitle": "App locked",
-  "securityUnlockSubtitle": "Unlock with Face ID, fingerprint, or PIN.",
-  "securityUnlockWithPin": "Unlock with PIN",
-  "securityTryBiometric": "Try biometric unlock",
-  "securityPinIncorrect": "Incorrect PIN, try again",
-  "securityBiometricReason": "Authenticate to open your app",
-  "settingsTheme": "Theme",
-  "settingsThemeSubtitleSystem": "Following system settings",
-  "settingsThemeSubtitleLight": "Light",
-  "settingsThemeSubtitleDark": "Dark",
-  "settingsThemePickerTitle": "Theme",
-  "settingsThemeOptionSystem": "System default",
-  "settingsThemeOptionLight": "Light",
-  "settingsThemeOptionDark": "Dark",
-  "archivedAccountsTitle": "Archived accounts",
-  "archivedAccountsEmptyTitle": "No archived accounts",
-  "archivedAccountsEmptyBody": "Book balance and overdraft must be zero. Archive from account options in Review.",
-  "categoriesTitle": "Categories",
-  "newCategoryTitle": "New Category",
-  "categoryNameLabel": "Category name",
-  "deleteCategoryTitle": "Delete category?",
-  "deleteCategoryBody": "\"{category}\" will be removed from the list.",
+  "settingsLanguage": "Appens språk",
+  "settingsLanguageSubtitleSystem": "Följande systeminställningar",
+  "settingsLanguageSubtitleEnglish": "engelska",
+  "settingsLanguageSubtitleSerbianLatin": "serbiska (latin)",
+  "settingsLanguagePickerTitle": "Appens språk",
+  "settingsLanguageOptionSystem": "Systemstandard",
+  "settingsLanguageOptionEnglish": "engelska",
+  "settingsLanguageOptionSerbianLatin": "serbiska (latin)",
+  "settingsSectionAppearance": "Utseende",
+  "settingsSectionSecurity": "Säkerhet",
+  "settingsSecurityEnableLock": "Lås appen på öppen",
+  "settingsSecurityEnableLockSubtitle": "Kräv biometrisk upplåsning eller PIN-kod när appen öppnas",
+  "settingsSecuritySetPin": "Ställ in PIN-kod",
+  "settingsSecurityChangePin": "Ändra PIN-kod",
+  "settingsSecurityPinSubtitle": "Använd en PIN-kod som reserv om biometrisk inte är tillgänglig",
+  "settingsSecurityRemovePin": "Ta bort PIN-koden",
+  "securitySetPinTitle": "Ställ in app-PIN",
+  "securityPinLabel": "PIN-kod",
+  "securityConfirmPinLabel": "Bekräfta PIN-koden",
+  "securityPinMustBe4Digits": "PIN-koden måste ha minst fyra siffror",
+  "securityPinMismatch": "PIN-koderna stämmer inte överens",
+  "securityRemovePinTitle": "Vill du ta bort PIN-koden?",
+  "securityRemovePinBody": "Biometrisk upplåsning kan fortfarande användas om tillgängligt.",
+  "securityUnlockTitle": "App låst",
+  "securityUnlockSubtitle": "Lås upp med Face ID, fingeravtryck eller PIN-kod.",
+  "securityUnlockWithPin": "Lås upp med PIN",
+  "securityTryBiometric": "Prova biometrisk upplåsning",
+  "securityPinIncorrect": "Fel PIN-kod, försök igen",
+  "securityBiometricReason": "Autentisera för att öppna din app",
+  "settingsTheme": "Tema",
+  "settingsThemeSubtitleSystem": "Följande systeminställningar",
+  "settingsThemeSubtitleLight": "Ljus",
+  "settingsThemeSubtitleDark": "Mörk",
+  "settingsThemePickerTitle": "Tema",
+  "settingsThemeOptionSystem": "Systemstandard",
+  "settingsThemeOptionLight": "Ljus",
+  "settingsThemeOptionDark": "Mörk",
+  "archivedAccountsTitle": "Arkiverade konton",
+  "archivedAccountsEmptyTitle": "Inga arkiverade konton",
+  "archivedAccountsEmptyBody": "Bokfört saldo och övertrassering måste vara noll. Arkivera från kontoalternativ i Granska.",
+  "categoriesTitle": "Kategorier",
+  "newCategoryTitle": "Ny kategori",
+  "categoryNameLabel": "Kategorinamn",
+  "deleteCategoryTitle": "Ta bort kategori?",
+  "deleteCategoryBody": "\"{category}\" kommer att tas bort från listan.",
   "@deleteCategoryBody": {
     "placeholders": {
       "category": {
@@ -524,18 +525,18 @@
       }
     }
   },
-  "categoryIncome": "Income",
-  "categoryExpense": "Expense",
-  "categoryAdd": "Add",
-  "searchCurrencies": "Search currencies…",
+  "categoryIncome": "Inkomst",
+  "categoryExpense": "Bekostnad",
+  "categoryAdd": "Tillägga",
+  "searchCurrencies": "Sök valutor...",
   "period1M": "1M",
   "period3M": "3M",
   "period6M": "6M",
   "period1Y": "1Y",
-  "periodAll": "ALL",
-  "categoryLabel": "category",
-  "categoriesLabel": "categories",
-  "transactionSavedMessage": "{type} saved  •  {amount}",
+  "periodAll": "ALLA",
+  "categoryLabel": "kategori",
+  "categoriesLabel": "kategorier",
+  "transactionSavedMessage": "{type} sparad • {amount}",
   "@transactionSavedMessage": {
     "placeholders": {
       "type": {
@@ -546,18 +547,18 @@
       }
     }
   },
-  "tooltipSettings": "Settings",
-  "tooltipAddAccount": "Add account",
-  "tooltipRemoveAccount": "Remove account",
-  "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
-  "groupDescPersonal": "Your own wallets & bank accounts",
-  "groupDescIndividuals": "Family, friends, individuals",
-  "groupDescEntities": "Entities, utilities, organisations",
-  "cannotArchiveTitle": "Cannot archive yet",
-  "cannotArchiveBody": "Archive is only available when the book balance and overdraft limit are both effectively zero.",
-  "cannotArchiveBodyAdjust": "Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.",
-  "archiveAccountTitle": "Archive account?",
-  "archiveWithPlannedBody": "{count, plural, =1{1 planned transaction references this account.} other{{count} planned transactions reference this account.}} Remove them to keep your plan consistent with an archived account.",
+  "tooltipSettings": "Inställningar",
+  "tooltipAddAccount": "Lägg till konto",
+  "tooltipRemoveAccount": "Ta bort konto",
+  "accountNameTaken": "Du har redan ett konto med detta namn och identifierare (aktivt eller arkiverat). Ändra namn eller identifierare.",
+  "groupDescPersonal": "Dina egna plånböcker och bankkonton",
+  "groupDescIndividuals": "Familj, vänner, individer",
+  "groupDescEntities": "Enheter, verktyg, organisationer",
+  "cannotArchiveTitle": "Kan inte arkivera ännu",
+  "cannotArchiveBody": "Arkiv är endast tillgängligt när boksaldot och övertrasseringsgränsen båda är noll.",
+  "cannotArchiveBodyAdjust": "Arkiv är endast tillgängligt när boksaldot och övertrasseringsgränsen båda är noll. Justera huvudboken eller anläggningen först.",
+  "archiveAccountTitle": "Arkivera konto?",
+  "archiveWithPlannedBody": "{count, plural, =1{1 planerad transaktion refererar till detta konto.} other{{count} planerade transaktioner refererar till detta konto.}} Ta bort dem för att hålla planen konsekvent med ett arkiverat konto.",
   "@archiveWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -565,17 +566,17 @@
       }
     }
   },
-  "removeAndArchive": "Remove planned & archive",
-  "archiveBody": "The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.",
-  "archiveAction": "Archive",
-  "archiveInstead": "Archive instead",
-  "cannotDeleteTitle": "Cannot delete account",
-  "cannotDeleteBodyShort": "This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.",
-  "cannotDeleteBodyHistory": "This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.",
-  "cannotDeleteBodySuggestArchive": "This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.",
-  "deleteAccountTitle": "Delete account?",
-  "deleteAccountBodyPermanent": "This account will be removed permanently.",
-  "deleteWithPlannedBody": "{count, plural, =1{1 planned transaction references this account and will also be deleted.} other{{count} planned transactions reference this account and will also be deleted.}}",
+  "removeAndArchive": "Ta bort planerat & arkivera",
+  "archiveBody": "Kontot kommer att döljas från gransknings-, spårnings- och planväljare. Du kan återställa det från Inställningar.",
+  "archiveAction": "Arkiv",
+  "archiveInstead": "Arkivera istället",
+  "cannotDeleteTitle": "Kan inte ta bort konto",
+  "cannotDeleteBodyShort": "Det här kontot visas i din spårhistorik. Ta bort eller tilldela om dessa transaktioner först, eller arkivera kontot om saldot har rensats.",
+  "cannotDeleteBodyHistory": "Det här kontot visas i din spårhistorik. Att ta bort skulle bryta den historiken – ta bort eller tilldela om transaktionerna först.",
+  "cannotDeleteBodySuggestArchive": "Det här kontot visas i din spårhistorik, så det kan inte raderas. Du kan arkivera det istället om boksaldot och övertrasseringen rensas – det kommer att döljas från listor men historiken förblir intakt.",
+  "deleteAccountTitle": "Ta bort konto?",
+  "deleteAccountBodyPermanent": "Detta konto kommer att tas bort permanent.",
+  "deleteWithPlannedBody": "{count, plural, =1{1 planerad transaktion refererar till detta konto och tas också bort.} other{{count} planerade transaktioner refererar till detta konto och tas också bort.}}",
   "@deleteWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -583,30 +584,30 @@
       }
     }
   },
-  "deleteAllAndDelete": "Delete all",
-  "editAccountTitle": "Edit Account",
-  "newAccountTitle": "New Account",
-  "labelAccountName": "Account name",
-  "labelAccountIdentifier": "Identifier (optional)",
-  "accountAppearanceSection": "Icon & color",
-  "accountPickIcon": "Choose icon",
-  "accountPickColor": "Choose color",
-  "accountIconSheetTitle": "Account icon",
-  "accountColorSheetTitle": "Account color",
-  "accountUseInitialLetter": "Initial letter",
-  "accountUseDefaultColor": "Match group",
-  "labelRealBalance": "Real balance",
-  "labelOverdraftLimit": "Overdraft / advance limit",
-  "labelCurrency": "Currency",
-  "saveChanges": "Save Changes",
-  "addAccountAction": "Add Account",
-  "removeAccountSheetTitle": "Remove account",
-  "deletePermanently": "Delete permanently",
-  "deletePermanentlySubtitle": "Only possible when this account is not used in Track. Planned items can be removed as part of delete.",
-  "archiveOptionSubtitle": "Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.",
-  "archivedBannerText": "This account is archived. It stays in your data but is hidden from lists and pickers.",
-  "balanceAdjustedTitle": "Balance adjusted in Track",
-  "balanceAdjustedBody": "Real balance was updated from {previous} to {current} {symbol}.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.",
+  "deleteAllAndDelete": "Ta bort alla",
+  "editAccountTitle": "Redigera konto",
+  "newAccountTitle": "Nytt konto",
+  "labelAccountName": "Kontonamn",
+  "labelAccountIdentifier": "Identifierare (valfritt)",
+  "accountAppearanceSection": "Ikon och färg",
+  "accountPickIcon": "Välj ikon",
+  "accountPickColor": "Välj färg",
+  "accountIconSheetTitle": "Kontoikon",
+  "accountColorSheetTitle": "Kontofärg",
+  "accountUseInitialLetter": "Inledande brev",
+  "accountUseDefaultColor": "Matchgrupp",
+  "labelRealBalance": "Riktig balans",
+  "labelOverdraftLimit": "Övertrassering/förskottsgräns",
+  "labelCurrency": "Valuta",
+  "saveChanges": "Spara ändringar",
+  "addAccountAction": "Lägg till konto",
+  "removeAccountSheetTitle": "Ta bort konto",
+  "deletePermanently": "Ta bort permanent",
+  "deletePermanentlySubtitle": "Endast möjligt när detta konto inte används i Track. Planerade objekt kan tas bort som en del av radering.",
+  "archiveOptionSubtitle": "Dölj från granskning och väljare. Återställ när som helst från Inställningar. Kräver nollsaldo och övertrassering.",
+  "archivedBannerText": "Detta konto är arkiverat. Det finns kvar i din data men döljs från listor och väljare.",
+  "balanceAdjustedTitle": "Balans justerad i Track",
+  "balanceAdjustedBody": "Verkligt saldo uppdaterades från {previous} till {current} {symbol}.\n\nEn saldojusteringstransaktion skapades i Track (Historik) för att hålla redovisningen konsekvent.\n\n• Verkligt saldo återspeglar det faktiska beloppet på detta konto.\n• Kontrollera Historik för justeringsposten.",
   "@balanceAdjustedBody": {
     "placeholders": {
       "previous": {
@@ -621,20 +622,20 @@
     }
   },
   "ok": "OK",
-  "categoryBalanceAdjustment": "Balance adjustment",
-  "descriptionBalanceCorrection": "Balance correction",
-  "descriptionOpeningBalance": "Opening balance",
-  "reviewStatsModeStatistics": "Statistics",
-  "reviewStatsModeComparison": "Comparison",
-  "statsUncategorized": "Uncategorized",
-  "statsNoCategories": "No categories in the selected periods for comparison.",
-  "statsNoTransactions": "No transactions",
-  "statsSpendingInCategory": "Spending in this category",
-  "statsIncomeInCategory": "Income in this category",
-  "statsDifference": "Difference (B vs A): ",
-  "statsNoExpensesMonth": "No expenses this month",
-  "statsNoExpensesAll": "No expenses recorded",
-  "statsNoExpensesPeriod": "No expenses in the last {period}",
+  "categoryBalanceAdjustment": "Balansjustering",
+  "descriptionBalanceCorrection": "Balanskorrigering",
+  "descriptionOpeningBalance": "Ingående balans",
+  "reviewStatsModeStatistics": "Statistik",
+  "reviewStatsModeComparison": "Jämförelse",
+  "statsUncategorized": "Okategoriserad",
+  "statsNoCategories": "Inga kategorier i de valda perioderna för jämförelse.",
+  "statsNoTransactions": "Inga transaktioner",
+  "statsSpendingInCategory": "Utgifter i denna kategori",
+  "statsIncomeInCategory": "Inkomst i denna kategori",
+  "statsDifference": "Skillnad (B vs A):",
+  "statsNoExpensesMonth": "Inga utgifter denna månad",
+  "statsNoExpensesAll": "Inga utgifter registrerade",
+  "statsNoExpensesPeriod": "Inga utgifter under de senaste {period}",
   "@statsNoExpensesPeriod": {
     "placeholders": {
       "period": {
@@ -642,11 +643,11 @@
       }
     }
   },
-  "statsTotalSpent": "Total spent",
-  "statsNoExpensesThisPeriod": "No expenses in this period",
-  "statsNoIncomeMonth": "No income this month",
-  "statsNoIncomeAll": "No income recorded",
-  "statsNoIncomePeriod": "No income in the last {period}",
+  "statsTotalSpent": "Totalt spenderat",
+  "statsNoExpensesThisPeriod": "Inga kostnader under denna period",
+  "statsNoIncomeMonth": "Ingen inkomst denna månad",
+  "statsNoIncomeAll": "Inga registrerade inkomster",
+  "statsNoIncomePeriod": "Ingen inkomst under den senaste {period}",
   "@statsNoIncomePeriod": {
     "placeholders": {
       "period": {
@@ -654,40 +655,40 @@
       }
     }
   },
-  "statsTotalReceived": "Total received",
-  "statsNoIncomeThisPeriod": "No income in this period",
-  "catSalary": "Salary",
-  "catFreelance": "Freelance",
-  "catConsulting": "Consulting",
-  "catGift": "Gift",
-  "catRental": "Rental",
-  "catDividends": "Dividends",
-  "catRefund": "Refund",
+  "statsTotalReceived": "Totalt mottaget",
+  "statsNoIncomeThisPeriod": "Ingen inkomst under denna period",
+  "catSalary": "Lön",
+  "catFreelance": "Frilans",
+  "catConsulting": "Konsultverksamhet",
+  "catGift": "Gåva",
+  "catRental": "Uthyrning",
+  "catDividends": "Utdelningar",
+  "catRefund": "Återbetalning",
   "catBonus": "Bonus",
-  "catInterest": "Interest",
-  "catSideHustle": "Side hustle",
-  "catSaleOfGoods": "Sale of goods",
-  "catOther": "Other",
-  "catGroceries": "Groceries",
-  "catDining": "Dining",
+  "catInterest": "Intressera",
+  "catSideHustle": "Sido jäkt",
+  "catSaleOfGoods": "Försäljning av varor",
+  "catOther": "Andra",
+  "catGroceries": "Specerier",
+  "catDining": "Matsal",
   "catTransport": "Transport",
-  "catUtilities": "Utilities",
-  "catHousing": "Housing",
-  "catHealthcare": "Healthcare",
-  "catEntertainment": "Entertainment",
+  "catUtilities": "Verktyg",
+  "catHousing": "Hus",
+  "catHealthcare": "Sjukvård",
+  "catEntertainment": "Underhållning",
   "catShopping": "Shopping",
-  "catTravel": "Travel",
-  "catEducation": "Education",
-  "catSubscriptions": "Subscriptions",
-  "catInsurance": "Insurance",
-  "catFuel": "Fuel",
+  "catTravel": "Resa",
+  "catEducation": "Utbildning",
+  "catSubscriptions": "Prenumerationer",
+  "catInsurance": "Försäkring",
+  "catFuel": "Bränsle",
   "catGym": "Gym",
-  "catPets": "Pets",
-  "catKids": "Kids",
-  "catCharity": "Charity",
-  "catCoffee": "Coffee",
-  "catGifts": "Gifts",
-  "semanticsProjectionDate": "Projection date {date}. Double tap to choose date",
+  "catPets": "Husdjur",
+  "catKids": "Barn",
+  "catCharity": "Välgörenhet",
+  "catCoffee": "Kaffe",
+  "catGifts": "Gåvor",
+  "semanticsProjectionDate": "Projekteringsdatum {date}. Dubbeltryck för att välja datum",
   "@semanticsProjectionDate": {
     "placeholders": {
       "date": {
@@ -695,7 +696,7 @@
       }
     }
   },
-  "semanticsProjectedBalance": "Projected personal balance {amount}",
+  "semanticsProjectedBalance": "Beräknad personlig balans {amount}",
   "@semanticsProjectedBalance": {
     "placeholders": {
       "amount": {
@@ -703,12 +704,12 @@
       }
     }
   },
-  "statsEmptyTitle": "No transactions yet",
-  "statsEmptySubtitle": "No spending data for the selected range.",
-  "semanticsShowProjections": "Show projected balances by account",
-  "semanticsHideProjections": "Hide projected balances by account",
-  "semanticsDateAllTime": "Date: all time — tap to change mode",
-  "semanticsDateMode": "Date: {mode} — tap to change mode",
+  "statsEmptyTitle": "Inga transaktioner ännu",
+  "statsEmptySubtitle": "Ingen utgiftsdata för det valda intervallet.",
+  "semanticsShowProjections": "Visa prognostiserade saldon per konto",
+  "semanticsHideProjections": "Dölj beräknade saldon per konto",
+  "semanticsDateAllTime": "Datum: hela tiden — tryck för att ändra läge",
+  "semanticsDateMode": "Datum: {mode} — tryck för att ändra läge",
   "@semanticsDateMode": {
     "placeholders": {
       "mode": {
@@ -716,21 +717,21 @@
       }
     }
   },
-  "semanticsDateThisMonth": "Date: this month — tap for month, week, year, or all time",
-  "semanticsTxTypeCycle": "Transaction type: cycle all, income, expense, transfer",
-  "semanticsAccountFilter": "Account filter",
-  "semanticsAlreadyFiltered": "Already filtered to this account",
-  "semanticsCategoryFilter": "Category filter",
-  "semanticsSortToggle": "Sort: toggle newest or oldest first",
-  "semanticsFiltersDisabled": "List filters disabled while viewing a future projection date. Clear projections to use filters.",
-  "semanticsFiltersDisabledNeedAccount": "List filters disabled. Add an account first.",
-  "semanticsFiltersDisabledNeedPlannedTransaction": "List filters disabled. Add a planned transaction first.",
-  "semanticsFiltersDisabledNeedRecordedTransaction": "List filters disabled. Record a transaction first.",
-  "semanticsReviewSectionChipsDisabledNeedAccount": "Section and currency controls disabled. Add an account first.",
-  "semanticsPlanProjectionControlsDisabled": "Projection date and balance breakdown disabled. Add an account and a planned transaction first.",
-  "semanticsReorderAccountHint": "Long press, then drag to reorder within this group",
-  "semanticsChartStyle": "Chart style",
-  "semanticsChartStyleUnavailable": "Chart style (unavailable in comparison mode)",
+  "semanticsDateThisMonth": "Datum: denna månad – tryck för månad, vecka, år eller hela tiden",
+  "semanticsTxTypeCycle": "Transaktionstyp: cykla alla, inkomst, kostnad, överföring",
+  "semanticsAccountFilter": "Kontofilter",
+  "semanticsAlreadyFiltered": "Redan filtrerad till det här kontot",
+  "semanticsCategoryFilter": "Kategorifilter",
+  "semanticsSortToggle": "Sortera: växla mellan nyaste eller äldsta först",
+  "semanticsFiltersDisabled": "Listfilter inaktiverade när du tittar på ett framtida projektionsdatum. Rensa projektioner för att använda filter.",
+  "semanticsFiltersDisabledNeedAccount": "Listfilter inaktiverade. Lägg till ett konto först.",
+  "semanticsFiltersDisabledNeedPlannedTransaction": "Listfilter inaktiverade. Lägg till en planerad transaktion först.",
+  "semanticsFiltersDisabledNeedRecordedTransaction": "Listfilter inaktiverade. Spela in en transaktion först.",
+  "semanticsReviewSectionChipsDisabledNeedAccount": "Sektions- och valutakontroller inaktiverade. Lägg till ett konto först.",
+  "semanticsPlanProjectionControlsDisabled": "Prognosdatum och balansfördelning inaktiverade. Lägg till ett konto och en planerad transaktion först.",
+  "semanticsReorderAccountHint": "Tryck länge och dra sedan för att ändra ordningen inom den här gruppen",
+  "semanticsChartStyle": "Diagramstil",
+  "semanticsChartStyleUnavailable": "Diagramstil (inte tillgänglig i jämförelseläge)",
   "semanticsPeriod": "Period: {label}",
   "@semanticsPeriod": {
     "placeholders": {
@@ -739,10 +740,10 @@
       }
     }
   },
-  "trackSearchHint": "Search description, category, account…",
-  "trackSearchClear": "Clear search",
-  "settingsExchangeRatesTitle": "Exchange rates",
-  "settingsExchangeRatesUpdated": "Last updated: {time}",
+  "trackSearchHint": "Sök beskrivning, kategori, konto...",
+  "trackSearchClear": "Rensa sökning",
+  "settingsExchangeRatesTitle": "Växelkurser",
+  "settingsExchangeRatesUpdated": "Senast uppdaterad: {time}",
   "@settingsExchangeRatesUpdated": {
     "placeholders": {
       "time": {
@@ -750,15 +751,15 @@
       }
     }
   },
-  "settingsExchangeRatesNeverUpdated": "Using offline or bundled rates — tap to refresh",
+  "settingsExchangeRatesNeverUpdated": "Använda offline- eller paketpriser – tryck för att uppdatera",
   "settingsExchangeRatesSource": "ECB",
-  "settingsExchangeRatesUpdatedSnack": "Exchange rates updated",
-  "settingsExchangeRatesUpdateFailed": "Could not update exchange rates. Check your connection.",
-  "settingsClearData": "Clear data",
-  "settingsClearDataSubtitle": "Permanently remove selected data",
-  "clearDataTitle": "Clear data",
-  "clearDataTransactions": "Transaction history",
-  "clearDataTransactionsSubtitle": "{count} transactions · account balances reset to zero",
+  "settingsExchangeRatesUpdatedSnack": "Växelkurser uppdaterade",
+  "settingsExchangeRatesUpdateFailed": "Det gick inte att uppdatera växelkurserna. Kontrollera din anslutning.",
+  "settingsClearData": "Rensa data",
+  "settingsClearDataSubtitle": "Ta bort markerade data permanent",
+  "clearDataTitle": "Rensa data",
+  "clearDataTransactions": "Transaktionshistorik",
+  "clearDataTransactionsSubtitle": "{count} transaktioner · kontosaldon nollställs",
   "@clearDataTransactionsSubtitle": {
     "placeholders": {
       "count": {
@@ -766,8 +767,8 @@
       }
     }
   },
-  "clearDataPlanned": "Planned transactions",
-  "clearDataPlannedSubtitle": "{count} planned items",
+  "clearDataPlanned": "Planerade transaktioner",
+  "clearDataPlannedSubtitle": "{count} planerade objekt",
   "@clearDataPlannedSubtitle": {
     "placeholders": {
       "count": {
@@ -775,8 +776,8 @@
       }
     }
   },
-  "clearDataAccounts": "Accounts",
-  "clearDataAccountsSubtitle": "{count} accounts · also clears history and plan",
+  "clearDataAccounts": "konton",
+  "clearDataAccountsSubtitle": "{count} konton · rensar också historik och plan",
   "@clearDataAccountsSubtitle": {
     "placeholders": {
       "count": {
@@ -784,8 +785,8 @@
       }
     }
   },
-  "clearDataCategories": "Categories",
-  "clearDataCategoriesSubtitle": "{count} categories · replaced with defaults",
+  "clearDataCategories": "Kategorier",
+  "clearDataCategoriesSubtitle": "{count} kategorier · ersatt med standardvärden",
   "@clearDataCategoriesSubtitle": {
     "placeholders": {
       "count": {
@@ -793,21 +794,21 @@
       }
     }
   },
-  "clearDataPreferences": "Preferences",
-  "clearDataPreferencesSubtitle": "Reset currency, theme and language to defaults",
-  "clearDataSecurity": "App lock & PIN",
-  "clearDataSecuritySubtitle": "Disable app lock and remove PIN",
-  "clearDataConfirmButton": "Clear selected",
-  "clearDataConfirmTitle": "This cannot be undone",
-  "clearDataConfirmBody": "The selected data will be permanently deleted. Export a backup first if you may need it later.",
-  "clearDataTypeConfirm": "Type DELETE to confirm",
-  "clearDataTypeConfirmError": "Type DELETE exactly to continue",
-  "clearDataPinTitle": "Confirm with PIN",
-  "clearDataPinBody": "Enter your app PIN to authorize this action.",
-  "clearDataPinIncorrect": "Incorrect PIN",
-  "clearDataDone": "Selected data cleared",
-  "autoBackupTitle": "Automatic daily backup",
-  "autoBackupLastAt": "Last backed up {date}",
+  "clearDataPreferences": "Inställningar",
+  "clearDataPreferencesSubtitle": "Återställ valuta, tema och språk till standardinställningarna",
+  "clearDataSecurity": "Applås & PIN-kod",
+  "clearDataSecuritySubtitle": "Inaktivera applås och ta bort PIN-kod",
+  "clearDataConfirmButton": "Rensa markerat",
+  "clearDataConfirmTitle": "Detta kan inte ångras",
+  "clearDataConfirmBody": "Den valda informationen kommer att raderas permanent. Exportera en säkerhetskopia först om du kan behöva den senare.",
+  "clearDataTypeConfirm": "Skriv DELETE för att bekräfta",
+  "clearDataTypeConfirmError": "Skriv DELETE exakt för att fortsätta",
+  "clearDataPinTitle": "Bekräfta med PIN",
+  "clearDataPinBody": "Ange din app-PIN för att godkänna denna åtgärd.",
+  "clearDataPinIncorrect": "Felaktig PIN-kod",
+  "clearDataDone": "Valda data raderade",
+  "autoBackupTitle": "Automatisk daglig säkerhetskopiering",
+  "autoBackupLastAt": "Senast säkerhetskopierades {date}",
   "@autoBackupLastAt": {
     "placeholders": {
       "date": {
@@ -815,10 +816,10 @@
       }
     }
   },
-  "autoBackupNeverRun": "No backup yet",
-  "autoBackupShareTitle": "Save to cloud",
-  "autoBackupShareSubtitle": "Upload latest backup to iCloud Drive, Google Drive or any app",
-  "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
-  "autoBackupCloudReminderAction": "Share",
-  "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
+  "autoBackupNeverRun": "Ingen backup ännu",
+  "autoBackupShareTitle": "Spara till molnet",
+  "autoBackupShareSubtitle": "Ladda upp senaste säkerhetskopian till iCloud Drive, Google Drive eller valfri app",
+  "autoBackupCloudReminder": "Klar för automatisk säkerhetskopiering – spara den i molnet för skydd utanför enheten",
+  "autoBackupCloudReminderAction": "Dela",
+  "persistenceErrorReloaded": "Det gick inte att spara ändringarna. Data laddades om från lagringen."
 }

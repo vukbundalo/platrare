@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-/// Subtle blue-forward surfaces and gradients for a stable, private, institutional
-/// feel—never loud “crypto” gradients.
+/// Surfaces for light and dark mode.
+///
+/// Light mode keeps the subtle blue-forward gradient feel.
+/// Dark mode uses flat, neutral surfaces — no gradients, no blue wash.
 abstract final class PlatrareSurfaces {
   static const double _heroRadius = 18;
 
-  /// Full main shell behind tabs: cool blue mist fading into the base surface.
+  /// Full main shell behind tabs.
   static BoxDecoration scaffoldShell(ColorScheme cs, Brightness brightness) {
     if (brightness == Brightness.light) {
       return BoxDecoration(
@@ -21,48 +23,38 @@ abstract final class PlatrareSurfaces {
         ),
       );
     }
-    return BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        stops: const [0.0, 0.5, 1.0],
-        colors: [
-          Color.alphaBlend(cs.primary.withValues(alpha: 0.16), cs.surface),
-          Color.alphaBlend(cs.primary.withValues(alpha: 0.07), cs.surface),
-          cs.surface,
-        ],
-      ),
-    );
+    return BoxDecoration(color: cs.surface);
   }
 
-  /// Bottom navigation: slight blue lift at the top edge, then solid surface.
+  /// Bottom navigation bar decoration.
   static BoxDecoration bottomBarDecoration(
     ColorScheme cs,
     Brightness brightness, {
     required BorderSide topBorder,
   }) {
-    final mist = Color.alphaBlend(
-      cs.primary.withValues(
-        alpha: brightness == Brightness.light ? 0.055 : 0.11,
-      ),
-      cs.surface,
-    );
+    if (brightness == Brightness.light) {
+      final mist = Color.alphaBlend(
+        cs.primary.withValues(alpha: 0.055),
+        cs.surface,
+      );
+      return BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          stops: const [0.0, 0.35, 1.0],
+          colors: [mist, cs.surface, cs.surface],
+        ),
+        border: Border(top: topBorder),
+      );
+    }
     return BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        stops: const [0.0, 0.35, 1.0],
-        colors: [mist, cs.surface, cs.surface],
-      ),
+      color: cs.surface,
       border: Border(top: topBorder),
     );
   }
 
-  /// Track / Plan / Review / account history summary card (“vault glass”).
+  /// Track / Plan / Review / account history summary card.
   static BoxDecoration heroSummaryCard(ColorScheme cs, Brightness brightness) {
-    final border = cs.outlineVariant.withValues(
-      alpha: brightness == Brightness.dark ? 0.55 : 0.72,
-    );
     if (brightness == Brightness.light) {
       return BoxDecoration(
         gradient: LinearGradient(
@@ -80,30 +72,22 @@ abstract final class PlatrareSurfaces {
           ],
         ),
         borderRadius: BorderRadius.circular(_heroRadius),
-        border: Border.all(color: border),
+        border: Border.all(
+          color: cs.outlineVariant.withValues(alpha: 0.72),
+        ),
       );
     }
+    // Dark: flat elevated surface, clear border, no blue wash.
     return BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Color.alphaBlend(
-            cs.primary.withValues(alpha: 0.22),
-            cs.surfaceContainerHigh,
-          ),
-          Color.alphaBlend(
-            cs.primary.withValues(alpha: 0.09),
-            cs.surfaceContainerLow,
-          ),
-        ],
-      ),
+      color: cs.surfaceContainerHigh,
       borderRadius: BorderRadius.circular(_heroRadius),
-      border: Border.all(color: border),
+      border: Border.all(
+        color: cs.outlineVariant.withValues(alpha: 0.40),
+      ),
     );
   }
 
-  /// App lock: slightly stronger blue veil (security / focus).
+  /// App lock backdrop.
   static BoxDecoration lockBackdrop(ColorScheme cs, Brightness brightness) {
     if (brightness == Brightness.light) {
       return BoxDecoration(
@@ -119,19 +103,10 @@ abstract final class PlatrareSurfaces {
         ),
       );
     }
-    return BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          Color.alphaBlend(cs.primary.withValues(alpha: 0.28), cs.surface),
-          Color.alphaBlend(cs.primary.withValues(alpha: 0.12), cs.surface),
-        ],
-      ),
-    );
+    return BoxDecoration(color: cs.surface);
   }
 
-  /// Optional: full-screen shell for pushed routes (settings, forms, etc.).
+  /// Shell for pushed routes (settings, forms, etc.).
   static BoxDecoration routeShell(ColorScheme cs, Brightness brightness) {
     if (brightness == Brightness.light) {
       return BoxDecoration(
@@ -147,15 +122,6 @@ abstract final class PlatrareSurfaces {
         ),
       );
     }
-    return BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          Color.alphaBlend(cs.primary.withValues(alpha: 0.12), cs.surface),
-          cs.surface,
-        ],
-      ),
-    );
+    return BoxDecoration(color: cs.surface);
   }
 }

@@ -628,7 +628,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
           // ── App bar with net worth ────────────────────────────────────────
           SliverAppBar(
             pinned: true,
-            expandedHeight: AppHeroConstants.mainSliverAppBarExpandedHeight,
             backgroundColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
             scrolledUnderElevation: 0,
@@ -661,34 +660,28 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 },
               ),
             ],
-            flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.pin,
-              background: Padding(
-                padding: AppHeroConstants.mainFlexibleSpaceHeroOuterPadding,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    _NetWorthHero(
-                      personal: _personalTotal,
-                      net: _netTotal,
-                      displayCurrency: _displayCurrency,
-                      sectionChipsEnabled: visibleAccounts.isNotEmpty,
-                      activeSection: _activeSection,
-                      onSelectSection: (s) => setState(() {
-                        _activeSection = s;
-                        if (s == 'statistics' && _activeStats == null) {
-                          _activeStats = 'expense';
-                        }
-                      }),
-                      onToggleCurrency: () => setState(() {
-                        _displayCurrency =
-                            _displayCurrency == settings.baseCurrency
-                                ? settings.secondaryCurrency
-                                : settings.baseCurrency;
-                      }),
-                    ),
-                  ],
-                ),
+          ),
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: HeroPinnedDelegate(
+              child: _NetWorthHero(
+                personal: _personalTotal,
+                net: _netTotal,
+                displayCurrency: _displayCurrency,
+                sectionChipsEnabled: visibleAccounts.isNotEmpty,
+                activeSection: _activeSection,
+                onSelectSection: (s) => setState(() {
+                  _activeSection = s;
+                  if (s == 'statistics' && _activeStats == null) {
+                    _activeStats = 'expense';
+                  }
+                }),
+                onToggleCurrency: () => setState(() {
+                  _displayCurrency =
+                      _displayCurrency == settings.baseCurrency
+                          ? settings.secondaryCurrency
+                          : settings.baseCurrency;
+                }),
               ),
             ),
           ),

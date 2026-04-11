@@ -4,821 +4,650 @@
   "@appTitle": {
     "description": "Application title"
   },
-  "navPlan": "Plan",
-  "navTrack": "Track",
-  "navReview": "Review",
-  "cancel": "Cancel",
-  "delete": "Delete",
-  "close": "Close",
-  "add": "Add",
-  "undo": "Undo",
-  "confirm": "Confirm",
-  "restore": "Restore",
-  "heroIn": "In",
-  "heroOut": "Out",
-  "heroNet": "Net",
-  "heroBalance": "Balance",
-  "realBalance": "Real balance",
-  "heroResetButton": "Reset",
-  "filterAll": "All",
-  "filterAllAccounts": "All accounts",
-  "filterAllCategories": "All categories",
-  "txLabelIncome": "INCOME",
-  "txLabelExpense": "EXPENSE",
-  "txLabelInvoice": "INVOICE",
-  "txLabelBill": "BILL",
-  "txLabelAdvance": "ADVANCE",
-  "txLabelSettlement": "SETTLEMENT",
-  "txLabelLoan": "LOAN",
-  "txLabelCollection": "COLLECTION",
-  "txLabelOffset": "OFFSET",
-  "txLabelTransfer": "TRANSFER",
-  "txLabelTransaction": "TRANSACTION",
-  "repeatNone": "No repeat",
-  "repeatDaily": "Daily",
-  "repeatWeekly": "Weekly",
-  "repeatMonthly": "Monthly",
-  "repeatYearly": "Yearly",
-  "repeatEveryLabel": "Every",
-  "repeatEveryDays": "{count, plural, =1{day} other{{count} days}}",
-  "@repeatEveryDays": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "repeatEveryWeeks": "{count, plural, =1{week} other{{count} weeks}}",
-  "@repeatEveryWeeks": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "repeatEveryMonths": "{count, plural, =1{month} other{{count} months}}",
-  "@repeatEveryMonths": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "repeatEveryYears": "{count, plural, =1{year} other{{count} years}}",
-  "@repeatEveryYears": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "repeatEndLabel": "Ends",
-  "repeatEndNever": "Never",
-  "repeatEndOnDate": "On date",
-  "repeatEndAfterCount": "After {count} times",
-  "@repeatEndAfterCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "repeatEndPickDate": "Pick end date",
-  "repeatEndTimes": "times",
-  "repeatSummaryEvery": "Every {count} {unit}",
-  "@repeatSummaryEvery": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      },
-      "unit": {
-        "type": "String"
-      }
-    }
-  },
-  "repeatSummaryUntil": "until {date}",
-  "@repeatSummaryUntil": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "repeatSummaryTimes": "{count} times",
-  "@repeatSummaryTimes": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "repeatSummaryTimesRemaining": "{remaining} of {total} remaining",
-  "@repeatSummaryTimesRemaining": {
-    "placeholders": {
-      "remaining": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      }
-    }
-  },
-  "detailRepeatEvery": "Repeat every",
-  "detailEnds": "Ends",
-  "detailEndsNever": "Never",
-  "detailEndsOnDate": "On {date}",
-  "@detailEndsOnDate": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "detailEndsAfterCount": "After {count} times",
-  "@detailEndsAfterCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "detailProgress": "Progress",
-  "weekendNoChange": "No change",
-  "weekendFriday": "Move to Friday",
-  "weekendMonday": "Move to Monday",
-  "weekendQuestion": "If the {day} falls on a weekend?",
+  "navPlan": "План",
+  "navTrack": "Історія",
+  "navReview": "Огляд",
+  "cancel": "Скасувати",
+  "delete": "Видалити",
+  "close": "Закрити",
+  "add": "Додати",
+  "undo": "Скасувати",
+  "confirm": "Підтвердити",
+  "restore": "Відновити",
+  "heroIn": "Доходи",
+  "heroOut": "Витрати",
+  "heroNet": "Нетто",
+  "heroBalance": "Баланс",
+  "realBalance": "Реальний баланс",
+  "heroResetButton": "Скинути",
+  "fabScrollToTop": "На початок",
+  "filterAll": "Усі",
+  "filterAllAccounts": "Усі рахунки",
+  "filterAllCategories": "Усі категорії",
+  "txLabelIncome": "ДОХІД",
+  "txLabelExpense": "ВИТРАТА",
+  "txLabelInvoice": "РАХУНОК-ФАКТУРА",
+  "txLabelBill": "РАХУНОК",
+  "txLabelAdvance": "АВАНС",
+  "txLabelSettlement": "РОЗРАХУНОК",
+  "txLabelLoan": "ПОЗИКА",
+  "txLabelCollection": "СТЯГНЕННЯ",
+  "txLabelOffset": "ЗАЛІК",
+  "txLabelTransfer": "ПЕРЕКАЗ",
+  "txLabelTransaction": "ТРАНЗАКЦІЯ",
+  "repeatNone": "Без повторення",
+  "repeatDaily": "Щодня",
+  "repeatWeekly": "Щотижня",
+  "repeatMonthly": "Щомісяця",
+  "repeatYearly": "Щороку",
+  "repeatEveryLabel": "Кожні",
+  "repeatEveryDays": "{count, plural, =1{день} other{{count} дні}}",
+  "@repeatEveryDays": { "placeholders": { "count": {"type": "int"} } },
+  "repeatEveryWeeks": "{count, plural, =1{тиждень} other{{count} тижні}}",
+  "@repeatEveryWeeks": { "placeholders": { "count": {"type": "int"} } },
+  "repeatEveryMonths": "{count, plural, =1{місяць} other{{count} місяці}}",
+  "@repeatEveryMonths": { "placeholders": { "count": {"type": "int"} } },
+  "repeatEveryYears": "{count, plural, =1{рік} other{{count} роки}}",
+  "@repeatEveryYears": { "placeholders": { "count": {"type": "int"} } },
+  "repeatEndLabel": "Закінчується",
+  "repeatEndNever": "Ніколи",
+  "repeatEndOnDate": "На дату",
+  "repeatEndAfterCount": "Після {count} разів",
+  "@repeatEndAfterCount": { "placeholders": { "count": {"type": "int"} } },
+  "repeatEndPickDate": "Вибрати дату завершення",
+  "repeatEndTimes": "разів",
+  "repeatSummaryEvery": "Кожні {count} {unit}",
+  "@repeatSummaryEvery": { "placeholders": { "count": {"type": "int"}, "unit": {"type": "String"} } },
+  "repeatSummaryUntil": "до {date}",
+  "@repeatSummaryUntil": { "placeholders": { "date": {"type": "String"} } },
+  "repeatSummaryTimes": "{count} разів",
+  "@repeatSummaryTimes": { "placeholders": { "count": {"type": "int"} } },
+  "repeatSummaryTimesRemaining": "{remaining} з {total} залишилося",
+  "@repeatSummaryTimesRemaining": { "placeholders": { "remaining": {"type": "int"}, "total": {"type": "int"} } },
+  "detailRepeatEvery": "Повторювати кожні",
+  "detailEnds": "Закінчується",
+  "detailEndsNever": "Ніколи",
+  "detailEndsOnDate": "{date}",
+  "@detailEndsOnDate": { "placeholders": { "date": {"type": "String"} } },
+  "detailEndsAfterCount": "Після {count} разів",
+  "@detailEndsAfterCount": { "placeholders": { "count": {"type": "int"} } },
+  "detailProgress": "Прогрес",
+  "weekendNoChange": "Без змін",
+  "weekendFriday": "Перенести на п'ятницю",
+  "weekendMonday": "Перенести на понеділок",
+  "weekendQuestion": "Якщо {day} припадає на вихідний?",
   "@weekendQuestion": {
     "placeholders": {
-      "day": {
-        "type": "String"
-      }
+      "day": {"type": "String"}
     }
   },
-  "dateToday": "Today",
-  "dateTomorrow": "Tomorrow",
-  "dateYesterday": "Yesterday",
-  "statsAllTime": "All time",
-  "accountGroupPersonal": "Personal",
-  "accountGroupIndividual": "Individual",
-  "accountGroupEntity": "Entity",
-  "accountSectionIndividuals": "Individuals",
-  "accountSectionEntities": "Entities",
-  "emptyNoTransactionsYet": "No transactions yet",
-  "emptyNoAccountsYet": "No accounts yet",
-  "emptyRecordFirstTransaction": "Tap the button below to record your first transaction.",
-  "emptyAddFirstAccountTx": "Add your first account before recording transactions.",
-  "emptyAddFirstAccountPlan": "Add your first account before planning transactions.",
-  "emptyAddFirstAccountReview": "Add your first account to start tracking your finances.",
-  "emptyAddTransaction": "Add transaction",
-  "emptyAddAccount": "Add account",
-  "reviewEmptyGroupPersonalTitle": "No personal accounts yet",
-  "reviewEmptyGroupPersonalBody": "Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.",
-  "reviewEmptyGroupIndividualsTitle": "No individual accounts yet",
-  "reviewEmptyGroupIndividualsBody": "Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.",
-  "reviewEmptyGroupEntitiesTitle": "No entity accounts yet",
-  "reviewEmptyGroupEntitiesBody": "Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.",
-  "emptyNoTransactionsForFilters": "No transactions for applied filters",
-  "emptyNoTransactionsInHistory": "No transactions in history",
-  "emptyNoTransactionsForMonth": "No transactions for {month}",
+  "dateToday": "Сьогодні",
+  "dateTomorrow": "Завтра",
+  "dateYesterday": "Вчора",
+  "statsAllTime": "За весь час",
+  "accountGroupPersonal": "Особистий",
+  "accountGroupIndividual": "Індивідуальний",
+  "accountGroupEntity": "Організація",
+  "accountSectionIndividuals": "Фізичні особи",
+  "accountSectionEntities": "Організації",
+  "emptyNoTransactionsYet": "Транзакцій ще немає",
+  "emptyNoAccountsYet": "Рахунків ще немає",
+  "emptyRecordFirstTransaction": "Натисніть кнопку нижче, щоб записати першу транзакцію.",
+  "emptyAddFirstAccountTx": "Додайте перший рахунок перед записом транзакцій.",
+  "emptyAddFirstAccountPlan": "Додайте перший рахунок, перш ніж планувати транзакції.",
+  "emptyAddFirstAccountReview": "Додайте перший рахунок, щоб почати відстежувати фінанси.",
+  "emptyAddTransaction": "Додати транзакцію",
+  "emptyAddAccount": "Додати рахунок",
+  "reviewEmptyGroupPersonalTitle": "Особистих рахунків ще немає",
+  "reviewEmptyGroupPersonalBody": "Особисті рахунки — це ваші власні гаманці та банківські рахунки. Додайте один, щоб відстежувати щоденні доходи та витрати.",
+  "reviewEmptyGroupIndividualsTitle": "Індивідуальних рахунків ще немає",
+  "reviewEmptyGroupIndividualsBody": "Індивідуальні рахунки відстежують гроші з конкретними людьми — спільні витрати, позики чи борги. Додайте рахунок для кожної людини, з якою ви розраховуєтесь.",
+  "reviewEmptyGroupEntitiesTitle": "Рахунків організацій ще немає",
+  "reviewEmptyGroupEntitiesBody": "Рахунки організацій призначені для підприємств, проєктів або установ. Використовуйте їх, щоб відокремити грошові потоки бізнесу від особистих фінансів.",
+  "emptyNoTransactionsForFilters": "Немає транзакцій для застосованих фільтрів",
+  "emptyNoTransactionsInHistory": "В історії немає транзакцій",
+  "emptyNoTransactionsForMonth": "Немає транзакцій за {month}",
   "@emptyNoTransactionsForMonth": {
     "placeholders": {
-      "month": {
-        "type": "String"
-      }
+      "month": {"type": "String"}
     }
   },
-  "emptyNoTransactionsForAccount": "No transactions for this account",
-  "trackTransactionDeleted": "Transaction deleted",
-  "trackDeleteTitle": "Delete transaction?",
-  "trackDeleteBody": "This will reverse the account balance changes.",
-  "trackTransaction": "Transaction",
-  "planConfirmTitle": "Confirm transaction?",
-  "planConfirmBodyEarly": "This occurrence is scheduled for {date}. It will be recorded in History with today’s date ({todayDate}). The next occurrence remains on {nextDate}.",
+  "emptyNoTransactionsForAccount": "Немає транзакцій для цього рахунку",
+  "trackTransactionDeleted": "Транзакцію видалено",
+  "trackDeleteTitle": "Видалити транзакцію?",
+  "trackDeleteBody": "Це скасує зміни балансу рахунку.",
+  "trackTransaction": "Транзакція",
+  "planConfirmTitle": "Підтвердити транзакцію?",
+  "planConfirmBodyEarly": "Ця подія заплановано на {date}. Вона буде записана в Історію з датою сьогодні ({todayDate}). Наступна подія залишається на {nextDate}.",
   "@planConfirmBodyEarly": {
     "placeholders": {
-      "date": {
-        "type": "String"
-      },
-      "todayDate": {
-        "type": "String"
-      },
-      "nextDate": {
-        "type": "String"
-      }
+      "date": {"type": "String"},
+      "todayDate": {"type": "String"},
+      "nextDate": {"type": "String"}
     }
   },
-  "planConfirmBodyNormal": "This will apply the transaction to your real account balances and move it to History.",
-  "planTransactionConfirmed": "Transaction confirmed and applied",
-  "planTransactionRemoved": "Planned transaction removed",
-  "planRepeatingTitle": "Repeating transaction",
-  "planRepeatingBody": "Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.",
-  "planDeleteAll": "Delete all",
-  "planSkipThisOnly": "Skip this only",
-  "planOccurrenceSkipped": "This occurrence skipped — next one scheduled",
-  "planNothingPlanned": "Nothing planned for now",
-  "planPlanBody": "Plan upcoming transactions.",
-  "planAddPlan": "Add plan",
-  "planNoPlannedForFilters": "No planned transactions for applied filters",
-  "planNoPlannedInMonth": "No planned transactions in {month}",
+  "planConfirmBodyNormal": "Це застосує транзакцію до реальних балансів рахунків і перемістить її до Історії.",
+  "planTransactionConfirmed": "Транзакцію підтверджено та застосовано",
+  "planTransactionRemoved": "Заплановану транзакцію видалено",
+  "planRepeatingTitle": "Повторювана транзакція",
+  "planRepeatingBody": "Пропустіть лише цю дату — серія продовжується з наступною подією — або видаліть усі залишкові події з плану.",
+  "planDeleteAll": "Видалити всі",
+  "planSkipThisOnly": "Пропустити лише цю",
+  "planOccurrenceSkipped": "Цю подію пропущено — наступна заплановано",
+  "planNothingPlanned": "Нічого не заплановано",
+  "planPlanBody": "Плануйте майбутні транзакції.",
+  "planAddPlan": "Додати план",
+  "planNoPlannedForFilters": "Немає запланованих транзакцій для застосованих фільтрів",
+  "planNoPlannedInMonth": "Немає запланованих транзакцій у {month}",
   "@planNoPlannedInMonth": {
     "placeholders": {
-      "month": {
-        "type": "String"
-      }
+      "month": {"type": "String"}
     }
   },
-  "planOverdue": "overdue",
-  "planPlannedTransaction": "Planned transaction",
-  "discardTitle": "Discard changes?",
-  "discardBody": "You have unsaved changes. They will be lost if you leave now.",
-  "keepEditing": "Keep editing",
-  "discard": "Discard",
-  "newTransactionTitle": "New Transaction",
-  "editTransactionTitle": "Edit Transaction",
-  "transactionUpdated": "Transaction updated",
-  "sectionAccounts": "Accounts",
-  "labelFrom": "From",
-  "labelTo": "To",
-  "sectionCategory": "Category",
-  "sectionAttachments": "Attachments",
-  "labelNote": "Note",
-  "hintOptionalDescription": "Optional description",
-  "updateTransaction": "Update Transaction",
-  "saveTransaction": "Save Transaction",
-  "selectAccount": "Select account",
-  "selectAccountTitle": "Select Account",
-  "noAccountsAvailable": "No accounts available",
-  "amountReceivedBy": "Amount received by {name} ({currency})",
+  "planOverdue": "прострочено",
+  "planPlannedTransaction": "Запланована транзакція",
+  "discardTitle": "Скасувати зміни?",
+  "discardBody": "У вас є незбережені зміни. Вони будуть втрачені, якщо вийти зараз.",
+  "keepEditing": "Продовжити редагування",
+  "discard": "Скасувати",
+  "newTransactionTitle": "Нова транзакція",
+  "editTransactionTitle": "Редагувати транзакцію",
+  "transactionUpdated": "Транзакцію оновлено",
+  "sectionAccounts": "Рахунки",
+  "labelFrom": "Від",
+  "labelTo": "До",
+  "sectionCategory": "Категорія",
+  "sectionAttachments": "Вкладення",
+  "labelNote": "Примітка",
+  "hintOptionalDescription": "Необов'язковий опис",
+  "updateTransaction": "Оновити транзакцію",
+  "saveTransaction": "Зберегти транзакцію",
+  "selectAccount": "Вибрати рахунок",
+  "selectAccountTitle": "Вибрати рахунок",
+  "noAccountsAvailable": "Немає доступних рахунків",
+  "amountReceivedBy": "Сума, отримана {name} ({currency})",
   "@amountReceivedBy": {
     "placeholders": {
-      "name": {
-        "type": "String"
-      },
-      "currency": {
-        "type": "String"
-      }
+      "name": {"type": "String"},
+      "currency": {"type": "String"}
     }
   },
-  "amountReceivedHelper": "Enter the exact amount the destination account receives. This locks the real exchange rate used.",
-  "attachTakePhoto": "Take photo",
-  "attachTakePhotoSub": "Use camera to capture a receipt",
-  "attachChooseGallery": "Choose from gallery",
-  "attachChooseGallerySub": "Select photos from your library",
-  "attachBrowseFiles": "Browse files",
-  "attachBrowseFilesSub": "Attach PDFs, documents or other files",
-  "attachButton": "Attach",
-  "editPlanTitle": "Edit Plan",
-  "planTransactionTitle": "Plan Transaction",
-  "tapToSelect": "Tap to select",
-  "updatePlan": "Update Plan",
-  "addToPlan": "Add to Plan",
-  "labelRepeat": "Repeat",
-  "selectPlannedDate": "Select planned date",
-  "balancesAsOfToday": "Balances as of today",
-  "projectedBalancesForTomorrow": "Projected balances for tomorrow",
-  "projectedBalancesForDate": "Projected balances for {date}",
+  "amountReceivedHelper": "Введіть точну суму, яку отримує рахунок призначення. Це фіксує реальний використаний курс обміну.",
+  "attachTakePhoto": "Сфотографувати",
+  "attachTakePhotoSub": "Використати камеру для фото чека",
+  "attachChooseGallery": "Вибрати з галереї",
+  "attachChooseGallerySub": "Вибрати фото з бібліотеки",
+  "attachBrowseFiles": "Переглянути файли",
+  "attachBrowseFilesSub": "Прикріпити PDF, документи або інші файли",
+  "attachButton": "Прикріпити",
+  "editPlanTitle": "Редагувати план",
+  "planTransactionTitle": "Запланувати транзакцію",
+  "tapToSelect": "Торкніться для вибору",
+  "updatePlan": "Оновити план",
+  "addToPlan": "Додати до плану",
+  "labelRepeat": "Повторення",
+  "selectPlannedDate": "Вибрати заплановану дату",
+  "balancesAsOfToday": "Баланси на сьогодні",
+  "projectedBalancesForTomorrow": "Прогнозовані баланси на завтра",
+  "projectedBalancesForDate": "Прогнозовані баланси на {date}",
   "@projectedBalancesForDate": {
     "placeholders": {
-      "date": {
-        "type": "String"
-      }
+      "date": {"type": "String"}
     }
   },
-  "destReceivesLabel": "{name} receives ({currency})",
+  "destReceivesLabel": "{name} отримує ({currency})",
   "@destReceivesLabel": {
     "placeholders": {
-      "name": {
-        "type": "String"
-      },
-      "currency": {
-        "type": "String"
-      }
+      "name": {"type": "String"},
+      "currency": {"type": "String"}
     }
   },
-  "destHelper": "Estimated destination amount. Exact rate is locked at confirmation.",
-  "descriptionOptional": "Description (optional)",
-  "detailTransactionTitle": "Transaction",
-  "detailPlannedTitle": "Planned",
-  "detailConfirmTransaction": "Confirm transaction",
-  "detailDate": "Date",
-  "detailFrom": "From",
-  "detailTo": "To",
-  "detailCategory": "Category",
-  "detailNote": "Note",
-  "detailDestinationAmount": "Destination amount",
-  "detailExchangeRate": "Exchange rate",
-  "detailRepeats": "Repeats",
-  "detailDayOfMonth": "Day of month",
-  "detailWeekends": "Weekends",
-  "detailAttachments": "Attachments",
-  "detailFileCount": "{count, plural, =1{1 file} other{{count} files}}",
-  "@detailFileCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "settingsTitle": "Settings",
-  "settingsSectionDisplay": "Display",
-  "settingsSectionLanguage": "Language",
-  "settingsSectionCategories": "Categories",
-  "settingsSectionAccounts": "Accounts",
-  "settingsSectionPreferences": "Preferences",
-  "settingsSectionManage": "Manage",
-  "settingsBaseCurrency": "Home currency",
-  "settingsSecondaryCurrency": "Secondary currency",
-  "settingsCategories": "Categories",
-  "settingsCategoriesSubtitle": "{incomeCount} income · {expenseCount} expense",
+  "destHelper": "Орієнтовна сума призначення. Точний курс фіксується при підтвердженні.",
+  "descriptionOptional": "Опис (необов'язково)",
+  "detailTransactionTitle": "Транзакція",
+  "detailPlannedTitle": "Заплановано",
+  "detailConfirmTransaction": "Підтвердити транзакцію",
+  "detailDate": "Дата",
+  "detailFrom": "Від",
+  "detailTo": "До",
+  "detailCategory": "Категорія",
+  "detailNote": "Примітка",
+  "detailDestinationAmount": "Сума призначення",
+  "detailExchangeRate": "Курс обміну",
+  "detailRepeats": "Повторення",
+  "detailDayOfMonth": "День місяця",
+  "detailWeekends": "Вихідні",
+  "detailAttachments": "Вкладення",
+  "detailFileCount": "{count, plural, =1{1 файл} other{{count} файли}}",
+  "@detailFileCount": { "placeholders": { "count": {"type": "int"} } },
+  "settingsTitle": "Налаштування",
+  "settingsSectionDisplay": "Відображення",
+  "settingsSectionLanguage": "Мова",
+  "settingsSectionCategories": "Категорії",
+  "settingsSectionAccounts": "Рахунки",
+  "settingsSectionPreferences": "Параметри",
+  "settingsSectionManage": "Керування",
+  "settingsBaseCurrency": "Основна валюта",
+  "settingsSecondaryCurrency": "Додаткова валюта",
+  "settingsCategories": "Категорії",
+  "settingsCategoriesSubtitle": "{incomeCount} доходів · {expenseCount} витрат",
   "@settingsCategoriesSubtitle": {
     "placeholders": {
-      "incomeCount": {
-        "type": "int"
-      },
-      "expenseCount": {
-        "type": "int"
-      }
+      "incomeCount": {"type": "int"},
+      "expenseCount": {"type": "int"}
     }
   },
-  "settingsArchivedAccounts": "Archived accounts",
-  "settingsArchivedAccountsSubtitleZero": "None right now — archive from account edit when balance is clear",
-  "settingsArchivedAccountsSubtitleCount": "{count} hidden from Review and pickers",
+  "settingsArchivedAccounts": "Архівні рахунки",
+  "settingsArchivedAccountsSubtitleZero": "Наразі немає — архівуйте з налаштувань рахунку, коли баланс нульовий",
+  "settingsArchivedAccountsSubtitleCount": "{count} приховано з Огляду та списків вибору",
   "@settingsArchivedAccountsSubtitleCount": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      }
+      "count": {"type": "int"}
     }
   },
-  "settingsSectionData": "Data",
-  "settingsSectionPrivacy": "About",
-  "settingsPrivacyPolicyTitle": "Privacy policy",
-  "settingsPrivacyPolicySubtitle": "How Platrare handles your data.",
-  "settingsPrivacyFxDisclosure": "Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.",
-  "settingsPrivacyOpenFailed": "Could not load the privacy policy.",
-  "settingsPrivacyRetry": "Try again",
-  "settingsSoftwareVersionTitle": "Software version",
-  "settingsSoftwareVersionSubtitle": "Release, diagnostics, and legal",
-  "aboutScreenTitle": "About",
-  "aboutAppTagline": "Ledger, cashflow, and planning in one workspace.",
-  "aboutDescriptionBody": "Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.",
-  "aboutVersionLabel": "Version",
-  "aboutBuildLabel": "Build",
-  "aboutCopySupportDetails": "Copy support details",
-  "aboutOpenPrivacySubtitle": "Opens the full in-app policy document.",
-  "aboutSupportBundleLocaleLabel": "Locale",
-  "settingsSupportInfoCopied": "Copied to clipboard",
-  "settingsVerifyLedger": "Verify data",
-  "settingsVerifyLedgerSubtitle": "Check that account balances match your transaction history",
-  "settingsDataExportTitle": "Export backup",
-  "settingsDataExportSubtitle": "Save as .zip or encrypted .platrare with all data and attachments",
-  "settingsDataImportTitle": "Restore from backup",
-  "settingsDataImportSubtitle": "Replace current data from a Platrare .zip or .platrare backup",
-  "backupExportDialogTitle": "Protect this backup",
-  "backupExportDialogBody": "A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.",
-  "backupExportPasswordLabel": "Password",
-  "backupExportPasswordConfirmLabel": "Confirm password",
-  "backupExportPasswordMismatch": "Passwords do not match",
-  "backupExportPasswordEmpty": "Enter a matching password, or export without encryption below.",
-  "backupExportPasswordTooShort": "Password must be at least 8 characters.",
-  "backupExportSaveToDevice": "Save to device",
-  "backupExportShareToCloud": "Share (iCloud, Drive…)",
-  "backupExportWithoutEncryption": "Export without encryption",
-  "backupExportSkipWarningTitle": "Export without encryption?",
-  "backupExportSkipWarningBody": "Anyone with access to the file can read your data. Use this only for local copies you control.",
-  "backupExportSkipWarningConfirm": "Export unencrypted",
-  "backupImportPasswordTitle": "Encrypted backup",
-  "backupImportPasswordBody": "Enter the password you used when exporting.",
-  "backupImportPasswordLabel": "Password",
-  "backupImportPreviewTitle": "Backup summary",
-  "backupImportPreviewVersion": "App version: {version}",
+  "settingsSectionData": "Дані",
+  "settingsSectionPrivacy": "Про програму",
+  "settingsPrivacyPolicyTitle": "Політика конфіденційності",
+  "settingsPrivacyPolicySubtitle": "Як Platrare обробляє ваші дані.",
+  "settingsPrivacyFxDisclosure": "Курси валют: програма отримує публічні курси з інтернету. Ваші рахунки та транзакції ніколи не передаються.",
+  "settingsPrivacyOpenFailed": "Не вдалося завантажити політику конфіденційності.",
+  "settingsPrivacyRetry": "Спробувати ще",
+  "settingsSoftwareVersionTitle": "Версія програми",
+  "settingsSoftwareVersionSubtitle": "Випуск, діагностика та правова інформація",
+  "aboutScreenTitle": "Про програму",
+  "aboutAppTagline": "Бухгалтерська книга, грошовий потік і планування в одному просторі.",
+  "aboutDescriptionBody": "Platrare зберігає рахунки, транзакції та плани на вашому пристрої. Експортуйте зашифровані резервні копії, коли потрібна копія деінде. Курси валют використовують лише публічні ринкові дані; ваша бухгалтерська книга не завантажується.",
+  "aboutVersionLabel": "Версія",
+  "aboutBuildLabel": "Збірка",
+  "aboutCopySupportDetails": "Скопіювати дані підтримки",
+  "aboutOpenPrivacySubtitle": "Відкриває повний документ політики в програмі.",
+  "aboutSupportBundleLocaleLabel": "Мова системи",
+  "settingsSupportInfoCopied": "Скопійовано до буфера обміну",
+  "settingsVerifyLedger": "Перевірити дані",
+  "settingsVerifyLedgerSubtitle": "Перевірити відповідність балансів рахунків та історії транзакцій",
+  "settingsDataExportTitle": "Експортувати резервну копію",
+  "settingsDataExportSubtitle": "Зберегти як .zip або зашифрований .platrare з усіма даними та вкладеннями",
+  "settingsDataImportTitle": "Відновити з резервної копії",
+  "settingsDataImportSubtitle": "Замінити поточні дані з резервної копії .zip або .platrare Platrare",
+  "backupExportDialogTitle": "Захистити цю резервну копію",
+  "backupExportDialogBody": "Рекомендується надійний пароль, особливо якщо файл зберігається в хмарі. Для імпорту знадобиться той самий пароль.",
+  "backupExportPasswordLabel": "Пароль",
+  "backupExportPasswordConfirmLabel": "Підтвердити пароль",
+  "backupExportPasswordMismatch": "Паролі не збігаються",
+  "backupExportPasswordEmpty": "Введіть відповідний пароль або експортуйте без шифрування нижче.",
+  "backupExportPasswordTooShort": "Пароль має містити щонайменше 8 символів.",
+  "backupExportSaveToDevice": "Зберегти на пристрій",
+  "backupExportShareToCloud": "Поділитися (iCloud, Drive…)",
+  "backupExportWithoutEncryption": "Експортувати без шифрування",
+  "backupExportSkipWarningTitle": "Експортувати без шифрування?",
+  "backupExportSkipWarningBody": "Будь-хто, хто має доступ до файлу, зможе прочитати ваші дані. Використовуйте лише для локальних копій під вашим контролем.",
+  "backupExportSkipWarningConfirm": "Експортувати без шифрування",
+  "backupImportPasswordTitle": "Зашифрована резервна копія",
+  "backupImportPasswordBody": "Введіть пароль, який використовувався під час експорту.",
+  "backupImportPasswordLabel": "Пароль",
+  "backupImportPreviewTitle": "Зведення резервної копії",
+  "backupImportPreviewVersion": "Версія програми: {version}",
   "@backupImportPreviewVersion": {
     "placeholders": {
-      "version": {
-        "type": "String"
-      }
+      "version": {"type": "String"}
     }
   },
-  "backupImportPreviewExported": "Exported: {date}",
+  "backupImportPreviewExported": "Експортовано: {date}",
   "@backupImportPreviewExported": {
     "placeholders": {
-      "date": {
-        "type": "String"
-      }
+      "date": {"type": "String"}
     }
   },
-  "backupImportPreviewCounts": "{accounts} accounts · {transactions} transactions · {planned} planned · {attachments} attachment files · {income} income categories · {expense} expense categories",
+  "backupImportPreviewCounts": "{accounts} рахунків · {transactions} транзакцій · {planned} запланованих · {attachments} вкладень · {income} категорій доходів · {expense} категорій витрат",
   "@backupImportPreviewCounts": {
     "placeholders": {
-      "accounts": {
-        "type": "int"
-      },
-      "transactions": {
-        "type": "int"
-      },
-      "planned": {
-        "type": "int"
-      },
-      "attachments": {
-        "type": "int"
-      },
-      "income": {
-        "type": "int"
-      },
-      "expense": {
-        "type": "int"
-      }
+      "accounts": {"type": "int"},
+      "transactions": {"type": "int"},
+      "planned": {"type": "int"},
+      "attachments": {"type": "int"},
+      "income": {"type": "int"},
+      "expense": {"type": "int"}
     }
   },
-  "backupImportPreviewContinue": "Continue",
-  "settingsBackupWrongPassword": "Wrong password",
-  "settingsBackupChecksumMismatch": "Backup failed integrity check",
-  "settingsBackupCorruptFile": "Invalid or damaged backup file",
-  "settingsBackupUnsupportedVersion": "Backup needs a newer app version",
-  "settingsDataImportConfirmTitle": "Replace current data?",
-  "settingsDataImportConfirmBody": "This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.",
-  "settingsDataImportConfirmAction": "Replace data",
-  "settingsDataImportDone": "Data restored successfully",
-  "settingsDataImportInvalidFile": "This file is not a valid Platrare backup",
-  "settingsDataImportFailed": "Import failed",
-  "settingsDataExportDoneTitle": "Backup exported",
-  "settingsDataExportDoneBody": "Backup saved to:\n{path}",
+  "backupImportPreviewContinue": "Продовжити",
+  "settingsBackupWrongPassword": "Невірний пароль",
+  "settingsBackupChecksumMismatch": "Резервна копія не пройшла перевірку цілісності",
+  "settingsBackupCorruptFile": "Недійсний або пошкоджений файл резервної копії",
+  "settingsBackupUnsupportedVersion": "Для відновлення потрібна новіша версія програми",
+  "settingsDataImportConfirmTitle": "Замінити поточні дані?",
+  "settingsDataImportConfirmBody": "Це замінить ваші поточні рахунки, транзакції, заплановані транзакції, категорії та імпортовані вкладення вмістом обраної резервної копії. Цю дію не можна скасувати.",
+  "settingsDataImportConfirmAction": "Замінити дані",
+  "settingsDataImportDone": "Дані успішно відновлено",
+  "settingsDataImportInvalidFile": "Цей файл не є дійсною резервною копією Platrare",
+  "settingsDataImportFailed": "Помилка імпорту",
+  "settingsDataExportDoneTitle": "Резервну копію експортовано",
+  "settingsDataExportDoneBody": "Резервну копію збережено:\n{path}",
   "@settingsDataExportDoneBody": {
     "placeholders": {
-      "path": {
-        "type": "String"
-      }
+      "path": {"type": "String"}
     }
   },
-  "settingsDataOpenExportFile": "Open file",
-  "settingsDataExportFailed": "Export failed",
-  "ledgerVerifyDialogTitle": "Ledger verification",
-  "ledgerVerifyAllMatch": "All accounts match.",
-  "ledgerVerifyMismatchesTitle": "Mismatches",
-  "ledgerVerifyMismatchDetails": "{accountName}\nStored: {stored}\nReplay: {replayed}\nDifference: {diff}",
+  "settingsDataOpenExportFile": "Відкрити файл",
+  "settingsDataExportFailed": "Помилка експорту",
+  "ledgerVerifyDialogTitle": "Перевірка бухгалтерської книги",
+  "ledgerVerifyAllMatch": "Усі рахунки збігаються.",
+  "ledgerVerifyMismatchesTitle": "Розбіжності",
+  "ledgerVerifyMismatchDetails": "{accountName}\nЗбережено: {stored}\nВідтворено: {replayed}\nРізниця: {diff}",
   "@ledgerVerifyMismatchDetails": {
     "placeholders": {
-      "accountName": {
-        "type": "String"
-      },
-      "stored": {
-        "type": "String"
-      },
-      "replayed": {
-        "type": "String"
-      },
-      "diff": {
-        "type": "String"
-      }
+      "accountName": {"type": "String"},
+      "stored": {"type": "String"},
+      "replayed": {"type": "String"},
+      "diff": {"type": "String"}
     }
   },
-  "settingsLanguage": "App language",
-  "settingsLanguageSubtitleSystem": "Following system settings",
+  "settingsLanguage": "Мова програми",
+  "settingsLanguageSubtitleSystem": "Відповідно до системних налаштувань",
   "settingsLanguageSubtitleEnglish": "English",
   "settingsLanguageSubtitleSerbianLatin": "Serbian (Latin)",
-  "settingsLanguagePickerTitle": "App language",
-  "settingsLanguageOptionSystem": "System default",
+  "settingsLanguagePickerTitle": "Мова програми",
+  "settingsLanguageOptionSystem": "Системна за замовчуванням",
   "settingsLanguageOptionEnglish": "English",
   "settingsLanguageOptionSerbianLatin": "Serbian (Latin)",
-  "settingsSectionAppearance": "Appearance",
-  "settingsSectionSecurity": "Security",
-  "settingsSecurityEnableLock": "Lock app on open",
-  "settingsSecurityEnableLockSubtitle": "Require biometric unlock or PIN when app opens",
-  "settingsSecuritySetPin": "Set PIN",
-  "settingsSecurityChangePin": "Change PIN",
-  "settingsSecurityPinSubtitle": "Use a PIN as fallback if biometric is unavailable",
-  "settingsSecurityRemovePin": "Remove PIN",
-  "securitySetPinTitle": "Set app PIN",
-  "securityPinLabel": "PIN code",
-  "securityConfirmPinLabel": "Confirm PIN code",
-  "securityPinMustBe4Digits": "PIN must have at least 4 digits",
-  "securityPinMismatch": "PIN codes do not match",
-  "securityRemovePinTitle": "Remove PIN?",
-  "securityRemovePinBody": "Biometric unlock can still be used if available.",
-  "securityUnlockTitle": "App locked",
-  "securityUnlockSubtitle": "Unlock with Face ID, fingerprint, or PIN.",
-  "securityUnlockWithPin": "Unlock with PIN",
-  "securityTryBiometric": "Try biometric unlock",
-  "securityPinIncorrect": "Incorrect PIN, try again",
-  "securityBiometricReason": "Authenticate to open your app",
-  "settingsTheme": "Theme",
-  "settingsThemeSubtitleSystem": "Following system settings",
-  "settingsThemeSubtitleLight": "Light",
-  "settingsThemeSubtitleDark": "Dark",
-  "settingsThemePickerTitle": "Theme",
-  "settingsThemeOptionSystem": "System default",
-  "settingsThemeOptionLight": "Light",
-  "settingsThemeOptionDark": "Dark",
-  "archivedAccountsTitle": "Archived accounts",
-  "archivedAccountsEmptyTitle": "No archived accounts",
-  "archivedAccountsEmptyBody": "Book balance and overdraft must be zero. Archive from account options in Review.",
-  "categoriesTitle": "Categories",
-  "newCategoryTitle": "New Category",
-  "categoryNameLabel": "Category name",
-  "deleteCategoryTitle": "Delete category?",
-  "deleteCategoryBody": "\"{category}\" will be removed from the list.",
+  "settingsSectionAppearance": "Зовнішній вигляд",
+  "settingsSectionSecurity": "Безпека",
+  "settingsSecurityEnableLock": "Блокувати програму при відкритті",
+  "settingsSecurityEnableLockSubtitle": "Вимагати біометричне розблокування або PIN при відкритті програми",
+  "settingsSecuritySetPin": "Встановити PIN",
+  "settingsSecurityChangePin": "Змінити PIN",
+  "settingsSecurityPinSubtitle": "Використовувати PIN як резерв, якщо біометрія недоступна",
+  "settingsSecurityRemovePin": "Видалити PIN",
+  "securitySetPinTitle": "Встановити PIN програми",
+  "securityPinLabel": "PIN-код",
+  "securityConfirmPinLabel": "Підтвердити PIN-код",
+  "securityPinMustBe4Digits": "PIN має містити щонайменше 4 цифри",
+  "securityPinMismatch": "PIN-коди не збігаються",
+  "securityRemovePinTitle": "Видалити PIN?",
+  "securityRemovePinBody": "Біометричне розблокування залишається доступним, якщо підтримується.",
+  "securityUnlockTitle": "Програму заблоковано",
+  "securityUnlockSubtitle": "Розблокуйте за допомогою Face ID, відбитка пальця або PIN.",
+  "securityUnlockWithPin": "Розблокувати за допомогою PIN",
+  "securityTryBiometric": "Спробувати біометричне розблокування",
+  "securityPinIncorrect": "Невірний PIN, спробуйте ще",
+  "securityBiometricReason": "Автентифікуйтесь для відкриття програми",
+  "settingsTheme": "Тема",
+  "settingsThemeSubtitleSystem": "Відповідно до системних налаштувань",
+  "settingsThemeSubtitleLight": "Світла",
+  "settingsThemeSubtitleDark": "Темна",
+  "settingsThemePickerTitle": "Тема",
+  "settingsThemeOptionSystem": "Системна за замовчуванням",
+  "settingsThemeOptionLight": "Світла",
+  "settingsThemeOptionDark": "Темна",
+  "archivedAccountsTitle": "Архівні рахунки",
+  "archivedAccountsEmptyTitle": "Немає архівних рахунків",
+  "archivedAccountsEmptyBody": "Балансова сума та овердрафт мають бути нульовими. Архівуйте з параметрів рахунку в Огляді.",
+  "categoriesTitle": "Категорії",
+  "newCategoryTitle": "Нова категорія",
+  "categoryNameLabel": "Назва категорії",
+  "deleteCategoryTitle": "Видалити категорію?",
+  "deleteCategoryBody": "\"{category}\" буде видалено зі списку.",
   "@deleteCategoryBody": {
     "placeholders": {
-      "category": {
-        "type": "String"
-      }
+      "category": {"type": "String"}
     }
   },
-  "categoryIncome": "Income",
-  "categoryExpense": "Expense",
-  "categoryAdd": "Add",
-  "searchCurrencies": "Search currencies…",
-  "period1M": "1M",
-  "period3M": "3M",
-  "period6M": "6M",
-  "period1Y": "1Y",
-  "periodAll": "ALL",
-  "categoryLabel": "category",
-  "categoriesLabel": "categories",
-  "transactionSavedMessage": "{type} saved  •  {amount}",
+  "categoryIncome": "Дохід",
+  "categoryExpense": "Витрата",
+  "categoryAdd": "Додати",
+  "searchCurrencies": "Пошук валют…",
+  "period1M": "1М",
+  "period3M": "3М",
+  "period6M": "6М",
+  "period1Y": "1Р",
+  "periodAll": "УСЕ",
+  "categoryLabel": "категорія",
+  "categoriesLabel": "категорії",
+  "transactionSavedMessage": "{type} збережено  •  {amount}",
   "@transactionSavedMessage": {
     "placeholders": {
-      "type": {
-        "type": "String"
-      },
-      "amount": {
-        "type": "String"
-      }
+      "type": {"type": "String"},
+      "amount": {"type": "String"}
     }
   },
-  "tooltipSettings": "Settings",
-  "tooltipAddAccount": "Add account",
-  "tooltipRemoveAccount": "Remove account",
-  "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
-  "groupDescPersonal": "Your own wallets & bank accounts",
-  "groupDescIndividuals": "Family, friends, individuals",
-  "groupDescEntities": "Entities, utilities, organisations",
-  "cannotArchiveTitle": "Cannot archive yet",
-  "cannotArchiveBody": "Archive is only available when the book balance and overdraft limit are both effectively zero.",
-  "cannotArchiveBodyAdjust": "Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.",
-  "archiveAccountTitle": "Archive account?",
-  "archiveWithPlannedBody": "{count, plural, =1{1 planned transaction references this account.} other{{count} planned transactions reference this account.}} Remove them to keep your plan consistent with an archived account.",
+  "tooltipSettings": "Налаштування",
+  "tooltipAddAccount": "Додати рахунок",
+  "tooltipRemoveAccount": "Видалити рахунок",
+  "accountNameTaken": "У вас вже є рахунок з такою назвою та ідентифікатором (активний або архівний). Змініть назву або ідентифікатор.",
+  "groupDescPersonal": "Власні гаманці та банківські рахунки",
+  "groupDescIndividuals": "Сім'я, друзі, фізичні особи",
+  "groupDescEntities": "Організації, комунальні служби, установи",
+  "cannotArchiveTitle": "Поки що не можна архівувати",
+  "cannotArchiveBody": "Архівування доступне лише тоді, коли балансова сума та ліміт овердрафту фактично нульові.",
+  "cannotArchiveBodyAdjust": "Архівування доступне лише тоді, коли балансова сума та ліміт овердрафту фактично нульові. Спочатку відкоригуйте книгу або ліміт.",
+  "archiveAccountTitle": "Архівувати рахунок?",
+  "archiveWithPlannedBody": "{count, plural, =1{1 запланована транзакція посилається на цей рахунок.} other{{count} запланованих транзакцій посилаються на цей рахунок.}} Видаліть їх, щоб план залишався узгодженим з архівним рахунком.",
   "@archiveWithPlannedBody": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      }
+      "count": {"type": "int"}
     }
   },
-  "removeAndArchive": "Remove planned & archive",
-  "archiveBody": "The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.",
-  "archiveAction": "Archive",
-  "archiveInstead": "Archive instead",
-  "cannotDeleteTitle": "Cannot delete account",
-  "cannotDeleteBodyShort": "This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.",
-  "cannotDeleteBodyHistory": "This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.",
-  "cannotDeleteBodySuggestArchive": "This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.",
-  "deleteAccountTitle": "Delete account?",
-  "deleteAccountBodyPermanent": "This account will be removed permanently.",
-  "deleteWithPlannedBody": "{count, plural, =1{1 planned transaction references this account and will also be deleted.} other{{count} planned transactions reference this account and will also be deleted.}}",
+  "removeAndArchive": "Видалити заплановані й архівувати",
+  "archiveBody": "Рахунок буде приховано з Огляду, Історії та Плану. Відновити можна в Налаштуваннях.",
+  "archiveAction": "Архівувати",
+  "archiveInstead": "Архівувати натомість",
+  "cannotDeleteTitle": "Не можна видалити рахунок",
+  "cannotDeleteBodyShort": "Цей рахунок фігурує в Історії. Спочатку видаліть або перепризначте ці транзакції, або архівуйте рахунок, якщо баланс нульовий.",
+  "cannotDeleteBodyHistory": "Цей рахунок фігурує в Історії. Видалення порушить цю історію — спочатку видаліть або перепризначте ці транзакції.",
+  "cannotDeleteBodySuggestArchive": "Цей рахунок фігурує в Історії, тому його не можна видалити. Ви можете архівувати його, якщо балансова сума та овердрафт нульові — він буде прихований зі списків, але історія залишиться.",
+  "deleteAccountTitle": "Видалити рахунок?",
+  "deleteAccountBodyPermanent": "Цей рахунок буде видалено назавжди.",
+  "deleteWithPlannedBody": "{count, plural, =1{1 запланована транзакція посилається на цей рахунок і також буде видалена.} other{{count} запланованих транзакцій посилаються на цей рахунок і також будуть видалені.}}",
   "@deleteWithPlannedBody": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      }
+      "count": {"type": "int"}
     }
   },
-  "deleteAllAndDelete": "Delete all",
-  "editAccountTitle": "Edit Account",
-  "newAccountTitle": "New Account",
-  "labelAccountName": "Account name",
-  "labelAccountIdentifier": "Identifier (optional)",
-  "accountAppearanceSection": "Icon & color",
-  "accountPickIcon": "Choose icon",
-  "accountPickColor": "Choose color",
-  "accountIconSheetTitle": "Account icon",
-  "accountColorSheetTitle": "Account color",
-  "accountUseInitialLetter": "Initial letter",
-  "accountUseDefaultColor": "Match group",
-  "labelRealBalance": "Real balance",
-  "labelOverdraftLimit": "Overdraft / advance limit",
-  "labelCurrency": "Currency",
-  "saveChanges": "Save Changes",
-  "addAccountAction": "Add Account",
-  "removeAccountSheetTitle": "Remove account",
-  "deletePermanently": "Delete permanently",
-  "deletePermanentlySubtitle": "Only possible when this account is not used in Track. Planned items can be removed as part of delete.",
-  "archiveOptionSubtitle": "Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.",
-  "archivedBannerText": "This account is archived. It stays in your data but is hidden from lists and pickers.",
-  "balanceAdjustedTitle": "Balance adjusted in Track",
-  "balanceAdjustedBody": "Real balance was updated from {previous} to {current} {symbol}.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.",
+  "deleteAllAndDelete": "Видалити всі",
+  "editAccountTitle": "Редагувати рахунок",
+  "newAccountTitle": "Новий рахунок",
+  "labelAccountName": "Назва рахунку",
+  "labelAccountIdentifier": "Ідентифікатор (необов'язково)",
+  "accountAppearanceSection": "Значок і колір",
+  "accountPickIcon": "Вибрати значок",
+  "accountPickColor": "Вибрати колір",
+  "accountIconSheetTitle": "Значок рахунку",
+  "accountColorSheetTitle": "Колір рахунку",
+  "accountUseInitialLetter": "Перша літера",
+  "accountUseDefaultColor": "Колір групи",
+  "labelRealBalance": "Реальний баланс",
+  "labelOverdraftLimit": "Ліміт овердрафту / авансу",
+  "labelCurrency": "Валюта",
+  "saveChanges": "Зберегти зміни",
+  "addAccountAction": "Додати рахунок",
+  "removeAccountSheetTitle": "Видалити рахунок",
+  "deletePermanently": "Видалити назавжди",
+  "deletePermanentlySubtitle": "Можливо лише якщо цей рахунок не використовується в Історії. Заплановані елементи можна видалити разом із рахунком.",
+  "archiveOptionSubtitle": "Приховати з Огляду та списків вибору. Відновити будь-коли в Налаштуваннях. Потрібен нульовий баланс та овердрафт.",
+  "archivedBannerText": "Цей рахунок архівовано. Він залишається у ваших даних, але прихований зі списків і списків вибору.",
+  "balanceAdjustedTitle": "Баланс скориговано в Історії",
+  "balanceAdjustedBody": "Реальний баланс оновлено з {previous} до {current} {symbol}.\n\nУ Історії створено транзакцію коригування балансу для збереження узгодженості книги.\n\n\u2022 Реальний баланс відображає фактичну суму на цьому рахунку.\n\u2022 Перевірте Історію для перегляду запису коригування.",
   "@balanceAdjustedBody": {
     "placeholders": {
-      "previous": {
-        "type": "String"
-      },
-      "current": {
-        "type": "String"
-      },
-      "symbol": {
-        "type": "String"
-      }
+      "previous": {"type": "String"},
+      "current": {"type": "String"},
+      "symbol": {"type": "String"}
     }
   },
   "ok": "OK",
-  "categoryBalanceAdjustment": "Balance adjustment",
-  "descriptionBalanceCorrection": "Balance correction",
-  "descriptionOpeningBalance": "Opening balance",
-  "reviewStatsModeStatistics": "Statistics",
-  "reviewStatsModeComparison": "Comparison",
-  "statsUncategorized": "Uncategorized",
-  "statsNoCategories": "No categories in the selected periods for comparison.",
-  "statsNoTransactions": "No transactions",
-  "statsSpendingInCategory": "Spending in this category",
-  "statsIncomeInCategory": "Income in this category",
-  "statsDifference": "Difference (B vs A): ",
-  "statsNoExpensesMonth": "No expenses this month",
-  "statsNoExpensesAll": "No expenses recorded",
-  "statsNoExpensesPeriod": "No expenses in the last {period}",
+  "categoryBalanceAdjustment": "Коригування балансу",
+  "descriptionBalanceCorrection": "Коригування балансу",
+  "descriptionOpeningBalance": "Початковий баланс",
+  "reviewStatsModeStatistics": "Статистика",
+  "reviewStatsModeComparison": "Порівняння",
+  "statsUncategorized": "Без категорії",
+  "statsNoCategories": "Немає категорій у вибраних періодах для порівняння.",
+  "statsNoTransactions": "Немає транзакцій",
+  "statsSpendingInCategory": "Витрати в цій категорії",
+  "statsIncomeInCategory": "Доходи в цій категорії",
+  "statsDifference": "Різниця (B vs A): ",
+  "statsNoExpensesMonth": "Витрат цього місяця немає",
+  "statsNoExpensesAll": "Витрат не зафіксовано",
+  "statsNoExpensesPeriod": "Витрат за останні {period} немає",
   "@statsNoExpensesPeriod": {
     "placeholders": {
-      "period": {
-        "type": "String"
-      }
+      "period": {"type": "String"}
     }
   },
-  "statsTotalSpent": "Total spent",
-  "statsNoExpensesThisPeriod": "No expenses in this period",
-  "statsNoIncomeMonth": "No income this month",
-  "statsNoIncomeAll": "No income recorded",
-  "statsNoIncomePeriod": "No income in the last {period}",
+  "statsTotalSpent": "Загалом витрачено",
+  "statsNoExpensesThisPeriod": "Витрат за цей період немає",
+  "statsNoIncomeMonth": "Доходів цього місяця немає",
+  "statsNoIncomeAll": "Доходів не зафіксовано",
+  "statsNoIncomePeriod": "Доходів за останні {period} немає",
   "@statsNoIncomePeriod": {
     "placeholders": {
-      "period": {
-        "type": "String"
-      }
+      "period": {"type": "String"}
     }
   },
-  "statsTotalReceived": "Total received",
-  "statsNoIncomeThisPeriod": "No income in this period",
-  "catSalary": "Salary",
-  "catFreelance": "Freelance",
-  "catConsulting": "Consulting",
-  "catGift": "Gift",
-  "catRental": "Rental",
-  "catDividends": "Dividends",
-  "catRefund": "Refund",
-  "catBonus": "Bonus",
-  "catInterest": "Interest",
-  "catSideHustle": "Side hustle",
-  "catSaleOfGoods": "Sale of goods",
-  "catOther": "Other",
-  "catGroceries": "Groceries",
-  "catDining": "Dining",
-  "catTransport": "Transport",
-  "catUtilities": "Utilities",
-  "catHousing": "Housing",
-  "catHealthcare": "Healthcare",
-  "catEntertainment": "Entertainment",
-  "catShopping": "Shopping",
-  "catTravel": "Travel",
-  "catEducation": "Education",
-  "catSubscriptions": "Subscriptions",
-  "catInsurance": "Insurance",
-  "catFuel": "Fuel",
-  "catGym": "Gym",
-  "catPets": "Pets",
-  "catKids": "Kids",
-  "catCharity": "Charity",
-  "catCoffee": "Coffee",
-  "catGifts": "Gifts",
-  "semanticsProjectionDate": "Projection date {date}. Double tap to choose date",
+  "statsTotalReceived": "Загалом отримано",
+  "statsNoIncomeThisPeriod": "Доходів за цей період немає",
+  "catSalary": "Зарплата",
+  "catFreelance": "Фриланс",
+  "catConsulting": "Консультації",
+  "catGift": "Подарунок",
+  "catRental": "Оренда",
+  "catDividends": "Дивіденди",
+  "catRefund": "Повернення",
+  "catBonus": "Бонус",
+  "catInterest": "Відсотки",
+  "catSideHustle": "Додатковий заробіток",
+  "catSaleOfGoods": "Продаж товарів",
+  "catOther": "Інше",
+  "catGroceries": "Продукти",
+  "catDining": "Харчування",
+  "catTransport": "Транспорт",
+  "catUtilities": "Комунальні послуги",
+  "catHousing": "Житло",
+  "catHealthcare": "Охорона здоров'я",
+  "catEntertainment": "Розваги",
+  "catShopping": "Шопінг",
+  "catTravel": "Подорожі",
+  "catEducation": "Освіта",
+  "catSubscriptions": "Підписки",
+  "catInsurance": "Страхування",
+  "catFuel": "Паливо",
+  "catGym": "Спортзал",
+  "catPets": "Домашні тварини",
+  "catKids": "Діти",
+  "catCharity": "Благодійність",
+  "catCoffee": "Кава",
+  "catGifts": "Подарунки",
+  "semanticsProjectionDate": "Дата прогнозу {date}. Подвійний дотик для вибору дати",
   "@semanticsProjectionDate": {
     "placeholders": {
-      "date": {
-        "type": "String"
-      }
+      "date": {"type": "String"}
     }
   },
-  "semanticsProjectedBalance": "Projected personal balance {amount}",
+  "semanticsProjectedBalance": "Прогнозований особистий баланс {amount}",
   "@semanticsProjectedBalance": {
     "placeholders": {
-      "amount": {
-        "type": "String"
-      }
+      "amount": {"type": "String"}
     }
   },
-  "statsEmptyTitle": "No transactions yet",
-  "statsEmptySubtitle": "No spending data for the selected range.",
-  "semanticsShowProjections": "Show projected balances by account",
-  "semanticsHideProjections": "Hide projected balances by account",
-  "semanticsDateAllTime": "Date: all time — tap to change mode",
-  "semanticsDateMode": "Date: {mode} — tap to change mode",
+  "statsEmptyTitle": "Транзакцій ще немає",
+  "statsEmptySubtitle": "Немає даних про витрати для вибраного діапазону.",
+  "semanticsShowProjections": "Показати прогнозовані баланси по рахунках",
+  "semanticsHideProjections": "Приховати прогнозовані баланси по рахунках",
+  "semanticsDateAllTime": "Дата: за весь час — торкніться для зміни режиму",
+  "semanticsDateMode": "Дата: {mode} — торкніться для зміни режиму",
   "@semanticsDateMode": {
     "placeholders": {
-      "mode": {
-        "type": "String"
-      }
+      "mode": {"type": "String"}
     }
   },
-  "semanticsDateThisMonth": "Date: this month — tap for month, week, year, or all time",
-  "semanticsTxTypeCycle": "Transaction type: cycle all, income, expense, transfer",
-  "semanticsAccountFilter": "Account filter",
-  "semanticsAlreadyFiltered": "Already filtered to this account",
-  "semanticsCategoryFilter": "Category filter",
-  "semanticsSortToggle": "Sort: toggle newest or oldest first",
-  "semanticsFiltersDisabled": "List filters disabled while viewing a future projection date. Clear projections to use filters.",
-  "semanticsFiltersDisabledNeedAccount": "List filters disabled. Add an account first.",
-  "semanticsFiltersDisabledNeedPlannedTransaction": "List filters disabled. Add a planned transaction first.",
-  "semanticsFiltersDisabledNeedRecordedTransaction": "List filters disabled. Record a transaction first.",
-  "semanticsReviewSectionChipsDisabledNeedAccount": "Section and currency controls disabled. Add an account first.",
-  "semanticsPlanProjectionControlsDisabled": "Projection date and balance breakdown disabled. Add an account and a planned transaction first.",
-  "semanticsReorderAccountHint": "Long press, then drag to reorder within this group",
-  "semanticsChartStyle": "Chart style",
-  "semanticsChartStyleUnavailable": "Chart style (unavailable in comparison mode)",
-  "semanticsPeriod": "Period: {label}",
+  "semanticsDateThisMonth": "Дата: цей місяць — торкніться для вибору місяця, тижня, року або всього часу",
+  "semanticsTxTypeCycle": "Тип транзакції: усі, дохід, витрата, переказ",
+  "semanticsAccountFilter": "Фільтр рахунків",
+  "semanticsAlreadyFiltered": "Вже відфільтровано за цим рахунком",
+  "semanticsCategoryFilter": "Фільтр категорій",
+  "semanticsSortToggle": "Сортування: перемикати від найновіших або найстаріших",
+  "semanticsFiltersDisabled": "Фільтри списку вимкнено під час перегляду майбутньої дати прогнозу. Очистіть прогнози для використання фільтрів.",
+  "semanticsFiltersDisabledNeedAccount": "Фільтри списку вимкнено. Спочатку додайте рахунок.",
+  "semanticsFiltersDisabledNeedPlannedTransaction": "Фільтри списку вимкнено. Спочатку додайте заплановану транзакцію.",
+  "semanticsFiltersDisabledNeedRecordedTransaction": "Фільтри списку вимкнено. Спочатку запишіть транзакцію.",
+  "semanticsReviewSectionChipsDisabledNeedAccount": "Елементи розділу та валюти вимкнено. Спочатку додайте рахунок.",
+  "semanticsPlanProjectionControlsDisabled": "Дата прогнозу та деталізація балансу вимкнені. Спочатку додайте рахунок і заплановану транзакцію.",
+  "semanticsReorderAccountHint": "Утримуйте, потім перетягніть для зміни порядку в цій групі",
+  "semanticsChartStyle": "Стиль діаграми",
+  "semanticsChartStyleUnavailable": "Стиль діаграми (недоступно в режимі порівняння)",
+  "semanticsPeriod": "Період: {label}",
   "@semanticsPeriod": {
     "placeholders": {
-      "label": {
-        "type": "String"
-      }
+      "label": {"type": "String"}
     }
   },
-  "trackSearchHint": "Search description, category, account…",
-  "trackSearchClear": "Clear search",
-  "settingsExchangeRatesTitle": "Exchange rates",
-  "settingsExchangeRatesUpdated": "Last updated: {time}",
+  "trackSearchHint": "Пошук за описом, категорією, рахунком…",
+  "trackSearchClear": "Очистити пошук",
+  "settingsExchangeRatesTitle": "Курси валют",
+  "settingsExchangeRatesUpdated": "Останнє оновлення: {time}",
   "@settingsExchangeRatesUpdated": {
     "placeholders": {
-      "time": {
-        "type": "String"
-      }
+      "time": {"type": "String"}
     }
   },
-  "settingsExchangeRatesNeverUpdated": "Using offline or bundled rates — tap to refresh",
+  "settingsExchangeRatesNeverUpdated": "Використовуються офлайн або вбудовані курси — торкніться для оновлення",
   "settingsExchangeRatesSource": "ECB",
-  "settingsExchangeRatesUpdatedSnack": "Exchange rates updated",
-  "settingsExchangeRatesUpdateFailed": "Could not update exchange rates. Check your connection.",
-  "settingsClearData": "Clear data",
-  "settingsClearDataSubtitle": "Permanently remove selected data",
-  "clearDataTitle": "Clear data",
-  "clearDataTransactions": "Transaction history",
-  "clearDataTransactionsSubtitle": "{count} transactions · account balances reset to zero",
+  "settingsExchangeRatesUpdatedSnack": "Курси валют оновлено",
+  "settingsExchangeRatesUpdateFailed": "Не вдалося оновити курси валют. Перевірте з'єднання.",
+  "settingsClearData": "Очистити дані",
+  "settingsClearDataSubtitle": "Назавжди видалити вибрані дані",
+  "clearDataTitle": "Очистити дані",
+  "clearDataTransactions": "Історія транзакцій",
+  "clearDataTransactionsSubtitle": "{count} транзакцій · баланси рахунків скинуто до нуля",
   "@clearDataTransactionsSubtitle": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      }
+      "count": {"type": "int"}
     }
   },
-  "clearDataPlanned": "Planned transactions",
-  "clearDataPlannedSubtitle": "{count} planned items",
+  "clearDataPlanned": "Заплановані транзакції",
+  "clearDataPlannedSubtitle": "{count} запланованих елементів",
   "@clearDataPlannedSubtitle": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      }
+      "count": {"type": "int"}
     }
   },
-  "clearDataAccounts": "Accounts",
-  "clearDataAccountsSubtitle": "{count} accounts · also clears history and plan",
+  "clearDataAccounts": "Рахунки",
+  "clearDataAccountsSubtitle": "{count} рахунків · також очищає Історію та План",
   "@clearDataAccountsSubtitle": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      }
+      "count": {"type": "int"}
     }
   },
-  "clearDataCategories": "Categories",
-  "clearDataCategoriesSubtitle": "{count} categories · replaced with defaults",
+  "clearDataCategories": "Категорії",
+  "clearDataCategoriesSubtitle": "{count} категорій · замінено стандартними",
   "@clearDataCategoriesSubtitle": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      }
+      "count": {"type": "int"}
     }
   },
-  "clearDataPreferences": "Preferences",
-  "clearDataPreferencesSubtitle": "Reset currency, theme and language to defaults",
-  "clearDataSecurity": "App lock & PIN",
-  "clearDataSecuritySubtitle": "Disable app lock and remove PIN",
-  "clearDataConfirmButton": "Clear selected",
-  "clearDataConfirmTitle": "This cannot be undone",
-  "clearDataConfirmBody": "The selected data will be permanently deleted. Export a backup first if you may need it later.",
-  "clearDataTypeConfirm": "Type DELETE to confirm",
-  "clearDataTypeConfirmError": "Type DELETE exactly to continue",
-  "clearDataPinTitle": "Confirm with PIN",
-  "clearDataPinBody": "Enter your app PIN to authorize this action.",
-  "clearDataPinIncorrect": "Incorrect PIN",
-  "clearDataDone": "Selected data cleared",
-  "autoBackupTitle": "Automatic daily backup",
-  "autoBackupLastAt": "Last backed up {date}",
+  "clearDataPreferences": "Параметри",
+  "clearDataPreferencesSubtitle": "Скинути валюту, тему та мову до стандартних значень",
+  "clearDataSecurity": "Блокування та PIN",
+  "clearDataSecuritySubtitle": "Вимкнути блокування програми та видалити PIN",
+  "clearDataConfirmButton": "Очистити вибране",
+  "clearDataConfirmTitle": "Цю дію не можна скасувати",
+  "clearDataConfirmBody": "Вибрані дані буде назавжди видалено. Спочатку експортуйте резервну копію, якщо вона може знадобитися пізніше.",
+  "clearDataTypeConfirm": "Введіть DELETE для підтвердження",
+  "clearDataTypeConfirmError": "Введіть DELETE, щоб продовжити",
+  "clearDataPinTitle": "Підтвердити PIN-кодом",
+  "clearDataPinBody": "Введіть PIN-код програми для авторизації цієї дії.",
+  "clearDataPinIncorrect": "Невірний PIN-код",
+  "clearDataDone": "Вибрані дані очищено",
+  "autoBackupTitle": "Автоматичне щоденне резервне копіювання",
+  "autoBackupLastAt": "Останнє резервне копіювання {date}",
   "@autoBackupLastAt": {
     "placeholders": {
-      "date": {
-        "type": "String"
-      }
+      "date": {"type": "String"}
     }
   },
-  "autoBackupNeverRun": "No backup yet",
-  "autoBackupShareTitle": "Save to cloud",
-  "autoBackupShareSubtitle": "Upload latest backup to iCloud Drive, Google Drive or any app",
-  "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
-  "autoBackupCloudReminderAction": "Share",
-  "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
+  "autoBackupNeverRun": "Резервної копії ще немає",
+  "autoBackupShareTitle": "Зберегти в хмарі",
+  "autoBackupShareSubtitle": "Завантажити останню резервну копію на iCloud Drive, Google Drive або будь-яку іншу програму",
+  "autoBackupCloudReminder": "Автоматичне резервне копіювання готове — збережіть у хмарі для захисту поза пристроєм",
+  "autoBackupCloudReminderAction": "Поділитися",
+  "persistenceErrorReloaded": "Не вдалося зберегти зміни. Дані перезавантажено зі сховища."
 }

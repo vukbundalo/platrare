@@ -1,46 +1,47 @@
 {
   "@@locale": "hi",
-  "appTitle": "Platrare",
+  "appTitle": "प्लाटरे",
   "@appTitle": {
     "description": "Application title"
   },
-  "navPlan": "Plan",
-  "navTrack": "Track",
-  "navReview": "Review",
-  "cancel": "Cancel",
-  "delete": "Delete",
-  "close": "Close",
-  "add": "Add",
-  "undo": "Undo",
-  "confirm": "Confirm",
-  "restore": "Restore",
-  "heroIn": "In",
-  "heroOut": "Out",
-  "heroNet": "Net",
-  "heroBalance": "Balance",
-  "realBalance": "Real balance",
-  "heroResetButton": "Reset",
-  "filterAll": "All",
-  "filterAllAccounts": "All accounts",
-  "filterAllCategories": "All categories",
-  "txLabelIncome": "INCOME",
-  "txLabelExpense": "EXPENSE",
-  "txLabelInvoice": "INVOICE",
-  "txLabelBill": "BILL",
-  "txLabelAdvance": "ADVANCE",
-  "txLabelSettlement": "SETTLEMENT",
-  "txLabelLoan": "LOAN",
-  "txLabelCollection": "COLLECTION",
-  "txLabelOffset": "OFFSET",
-  "txLabelTransfer": "TRANSFER",
-  "txLabelTransaction": "TRANSACTION",
-  "repeatNone": "No repeat",
-  "repeatDaily": "Daily",
-  "repeatWeekly": "Weekly",
-  "repeatMonthly": "Monthly",
-  "repeatYearly": "Yearly",
-  "repeatEveryLabel": "Every",
-  "repeatEveryDays": "{count, plural, =1{day} other{{count} days}}",
+  "navPlan": "योजना",
+  "navTrack": "रास्ता",
+  "navReview": "समीक्षा",
+  "cancel": "रद्द करना",
+  "delete": "मिटाना",
+  "close": "बंद करना",
+  "add": "जोड़ना",
+  "undo": "पूर्ववत",
+  "confirm": "पुष्टि करना",
+  "restore": "पुनर्स्थापित करना",
+  "heroIn": "में",
+  "heroOut": "बाहर",
+  "heroNet": "जाल",
+  "heroBalance": "संतुलन",
+  "realBalance": "वास्तविक संतुलन",
+  "heroResetButton": "रीसेट करें",
+  "fabScrollToTop": "ऊपर जाएं",
+  "filterAll": "सभी",
+  "filterAllAccounts": "सभी खाते",
+  "filterAllCategories": "सभी श्रेणियां",
+  "txLabelIncome": "आय",
+  "txLabelExpense": "व्यय",
+  "txLabelInvoice": "चालान",
+  "txLabelBill": "बिल",
+  "txLabelAdvance": "अग्रिम",
+  "txLabelSettlement": "निपटान",
+  "txLabelLoan": "ऋृण",
+  "txLabelCollection": "संग्रह",
+  "txLabelOffset": "ओफ़्सेट",
+  "txLabelTransfer": "स्थानांतरण",
+  "txLabelTransaction": "लेन-देन",
+  "repeatNone": "कोई दोहराना नहीं",
+  "repeatDaily": "दैनिक",
+  "repeatWeekly": "साप्ताहिक",
+  "repeatMonthly": "महीने के",
+  "repeatYearly": "सालाना",
+  "repeatEveryLabel": "प्रत्येक",
+  "repeatEveryDays": "{count, plural, =1{दिन} other{{count} दिन}}",
   "@repeatEveryDays": {
     "placeholders": {
       "count": {
@@ -48,7 +49,7 @@
       }
     }
   },
-  "repeatEveryWeeks": "{count, plural, =1{week} other{{count} weeks}}",
+  "repeatEveryWeeks": "{count, plural, =1{सप्ताह} other{{count} सप्ताह}}",
   "@repeatEveryWeeks": {
     "placeholders": {
       "count": {
@@ -56,7 +57,7 @@
       }
     }
   },
-  "repeatEveryMonths": "{count, plural, =1{month} other{{count} months}}",
+  "repeatEveryMonths": "{count, plural, =1{महीना} other{{count} महीने}}",
   "@repeatEveryMonths": {
     "placeholders": {
       "count": {
@@ -64,7 +65,7 @@
       }
     }
   },
-  "repeatEveryYears": "{count, plural, =1{year} other{{count} years}}",
+  "repeatEveryYears": "{count, plural, =1{साल} other{{count} साल}}",
   "@repeatEveryYears": {
     "placeholders": {
       "count": {
@@ -72,10 +73,10 @@
       }
     }
   },
-  "repeatEndLabel": "Ends",
-  "repeatEndNever": "Never",
-  "repeatEndOnDate": "On date",
-  "repeatEndAfterCount": "After {count} times",
+  "repeatEndLabel": "समाप्त होता है",
+  "repeatEndNever": "कभी नहीं",
+  "repeatEndOnDate": "दिनांक पर",
+  "repeatEndAfterCount": "{count} बार के बाद",
   "@repeatEndAfterCount": {
     "placeholders": {
       "count": {
@@ -83,9 +84,9 @@
       }
     }
   },
-  "repeatEndPickDate": "Pick end date",
-  "repeatEndTimes": "times",
-  "repeatSummaryEvery": "Every {count} {unit}",
+  "repeatEndPickDate": "समाप्ति तिथि चुनें",
+  "repeatEndTimes": "टाइम्स",
+  "repeatSummaryEvery": "हर {count} {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
       "count": {
@@ -96,7 +97,7 @@
       }
     }
   },
-  "repeatSummaryUntil": "until {date}",
+  "repeatSummaryUntil": "{date} तक",
   "@repeatSummaryUntil": {
     "placeholders": {
       "date": {
@@ -104,7 +105,7 @@
       }
     }
   },
-  "repeatSummaryTimes": "{count} times",
+  "repeatSummaryTimes": "{count} बार",
   "@repeatSummaryTimes": {
     "placeholders": {
       "count": {
@@ -112,7 +113,7 @@
       }
     }
   },
-  "repeatSummaryTimesRemaining": "{remaining} of {total} remaining",
+  "repeatSummaryTimesRemaining": "{total} में से {remaining} शेष",
   "@repeatSummaryTimesRemaining": {
     "placeholders": {
       "remaining": {
@@ -123,10 +124,10 @@
       }
     }
   },
-  "detailRepeatEvery": "Repeat every",
-  "detailEnds": "Ends",
-  "detailEndsNever": "Never",
-  "detailEndsOnDate": "On {date}",
+  "detailRepeatEvery": "प्रत्येक को दोहराएँ",
+  "detailEnds": "समाप्त होता है",
+  "detailEndsNever": "कभी नहीं",
+  "detailEndsOnDate": "{date} पर",
   "@detailEndsOnDate": {
     "placeholders": {
       "date": {
@@ -134,7 +135,7 @@
       }
     }
   },
-  "detailEndsAfterCount": "After {count} times",
+  "detailEndsAfterCount": "{count} बार के बाद",
   "@detailEndsAfterCount": {
     "placeholders": {
       "count": {
@@ -142,11 +143,11 @@
       }
     }
   },
-  "detailProgress": "Progress",
-  "weekendNoChange": "No change",
-  "weekendFriday": "Move to Friday",
-  "weekendMonday": "Move to Monday",
-  "weekendQuestion": "If the {day} falls on a weekend?",
+  "detailProgress": "प्रगति",
+  "weekendNoChange": "कोई परिवर्तन नहीं होता है",
+  "weekendFriday": "शुक्रवार को जाएँ",
+  "weekendMonday": "सोमवार की ओर बढ़ें",
+  "weekendQuestion": "यदि {day} सप्ताहांत पर पड़ता है?",
   "@weekendQuestion": {
     "placeholders": {
       "day": {
@@ -154,32 +155,32 @@
       }
     }
   },
-  "dateToday": "Today",
-  "dateTomorrow": "Tomorrow",
-  "dateYesterday": "Yesterday",
-  "statsAllTime": "All time",
-  "accountGroupPersonal": "Personal",
-  "accountGroupIndividual": "Individual",
-  "accountGroupEntity": "Entity",
-  "accountSectionIndividuals": "Individuals",
-  "accountSectionEntities": "Entities",
-  "emptyNoTransactionsYet": "No transactions yet",
-  "emptyNoAccountsYet": "No accounts yet",
-  "emptyRecordFirstTransaction": "Tap the button below to record your first transaction.",
-  "emptyAddFirstAccountTx": "Add your first account before recording transactions.",
-  "emptyAddFirstAccountPlan": "Add your first account before planning transactions.",
-  "emptyAddFirstAccountReview": "Add your first account to start tracking your finances.",
-  "emptyAddTransaction": "Add transaction",
-  "emptyAddAccount": "Add account",
-  "reviewEmptyGroupPersonalTitle": "No personal accounts yet",
-  "reviewEmptyGroupPersonalBody": "Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.",
-  "reviewEmptyGroupIndividualsTitle": "No individual accounts yet",
-  "reviewEmptyGroupIndividualsBody": "Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.",
-  "reviewEmptyGroupEntitiesTitle": "No entity accounts yet",
-  "reviewEmptyGroupEntitiesBody": "Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.",
-  "emptyNoTransactionsForFilters": "No transactions for applied filters",
-  "emptyNoTransactionsInHistory": "No transactions in history",
-  "emptyNoTransactionsForMonth": "No transactions for {month}",
+  "dateToday": "आज",
+  "dateTomorrow": "कल",
+  "dateYesterday": "कल",
+  "statsAllTime": "पूरे समय",
+  "accountGroupPersonal": "निजी",
+  "accountGroupIndividual": "व्यक्ति",
+  "accountGroupEntity": "इकाई",
+  "accountSectionIndividuals": "व्यक्तियों",
+  "accountSectionEntities": "इकाइयां,",
+  "emptyNoTransactionsYet": "अभी तक कोई लेन-देन नहीं",
+  "emptyNoAccountsYet": "अभी तक कोई खाता नहीं",
+  "emptyRecordFirstTransaction": "अपना पहला लेनदेन रिकॉर्ड करने के लिए नीचे दिए गए बटन पर टैप करें।",
+  "emptyAddFirstAccountTx": "लेनदेन रिकॉर्ड करने से पहले अपना पहला खाता जोड़ें।",
+  "emptyAddFirstAccountPlan": "लेन-देन की योजना बनाने से पहले अपना पहला खाता जोड़ें।",
+  "emptyAddFirstAccountReview": "अपने वित्त पर नज़र रखने के लिए अपना पहला खाता जोड़ें।",
+  "emptyAddTransaction": "लेन-देन जोड़ें",
+  "emptyAddAccount": "खाता जोड़ें",
+  "reviewEmptyGroupPersonalTitle": "अभी तक कोई व्यक्तिगत खाता नहीं",
+  "reviewEmptyGroupPersonalBody": "व्यक्तिगत खाते आपके अपने बटुए और बैंक खाते हैं। रोजमर्रा की आय और खर्च पर नज़र रखने के लिए एक जोड़ें।",
+  "reviewEmptyGroupIndividualsTitle": "अभी तक कोई व्यक्तिगत खाता नहीं",
+  "reviewEmptyGroupIndividualsBody": "व्यक्तिगत खाते विशिष्ट लोगों-साझा लागत, ऋण, या IOUs के साथ धन को ट्रैक करते हैं। प्रत्येक व्यक्ति के लिए एक खाता जोड़ें जिसके साथ आप समझौता करते हैं।",
+  "reviewEmptyGroupEntitiesTitle": "अभी तक कोई इकाई खाता नहीं है",
+  "reviewEmptyGroupEntitiesBody": "इकाई खाते व्यवसायों, परियोजनाओं या संगठनों के लिए हैं। व्यावसायिक नकदी प्रवाह को अपने व्यक्तिगत वित्त से अलग रखने के लिए उनका उपयोग करें।",
+  "emptyNoTransactionsForFilters": "लागू फ़िल्टर के लिए कोई लेन-देन नहीं",
+  "emptyNoTransactionsInHistory": "इतिहास में कोई लेन-देन नहीं",
+  "emptyNoTransactionsForMonth": "{month} के लिए कोई लेनदेन नहीं",
   "@emptyNoTransactionsForMonth": {
     "placeholders": {
       "month": {
@@ -187,13 +188,13 @@
       }
     }
   },
-  "emptyNoTransactionsForAccount": "No transactions for this account",
-  "trackTransactionDeleted": "Transaction deleted",
-  "trackDeleteTitle": "Delete transaction?",
-  "trackDeleteBody": "This will reverse the account balance changes.",
-  "trackTransaction": "Transaction",
-  "planConfirmTitle": "Confirm transaction?",
-  "planConfirmBodyEarly": "This occurrence is scheduled for {date}. It will be recorded in History with today’s date ({todayDate}). The next occurrence remains on {nextDate}.",
+  "emptyNoTransactionsForAccount": "इस खाते के लिए कोई लेनदेन नहीं",
+  "trackTransactionDeleted": "लेन-देन हटा दिया गया",
+  "trackDeleteTitle": "लेन-देन हटाएँ?",
+  "trackDeleteBody": "इससे खाते की शेष राशि में परिवर्तन उलट जाएगा।",
+  "trackTransaction": "लेन-देन",
+  "planConfirmTitle": "लेनदेन की पुष्टि करें?",
+  "planConfirmBodyEarly": "यह घटना {date} के लिए निर्धारित है। यह आज की तारीख ({todayDate}) के साथ इतिहास में दर्ज हो जाएगा। अगली घटना {nextDate} पर बनी हुई है।",
   "@planConfirmBodyEarly": {
     "placeholders": {
       "date": {
@@ -207,19 +208,19 @@
       }
     }
   },
-  "planConfirmBodyNormal": "This will apply the transaction to your real account balances and move it to History.",
-  "planTransactionConfirmed": "Transaction confirmed and applied",
-  "planTransactionRemoved": "Planned transaction removed",
-  "planRepeatingTitle": "Repeating transaction",
-  "planRepeatingBody": "Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.",
-  "planDeleteAll": "Delete all",
-  "planSkipThisOnly": "Skip this only",
-  "planOccurrenceSkipped": "This occurrence skipped — next one scheduled",
-  "planNothingPlanned": "Nothing planned for now",
-  "planPlanBody": "Plan upcoming transactions.",
-  "planAddPlan": "Add plan",
-  "planNoPlannedForFilters": "No planned transactions for applied filters",
-  "planNoPlannedInMonth": "No planned transactions in {month}",
+  "planConfirmBodyNormal": "यह लेनदेन को आपके वास्तविक खाते की शेष राशि पर लागू करेगा और इसे इतिहास में ले जाएगा।",
+  "planTransactionConfirmed": "लेन-देन की पुष्टि की गई और आवेदन किया गया",
+  "planTransactionRemoved": "नियोजित लेन-देन हटा दिया गया",
+  "planRepeatingTitle": "बार-बार लेन-देन",
+  "planRepeatingBody": "केवल इस तिथि को छोड़ें—श्रृंखला अगली घटना के साथ जारी रहती है—या अपनी योजना से प्रत्येक शेष घटना को हटा दें।",
+  "planDeleteAll": "सभी हटा दो",
+  "planSkipThisOnly": "इसे ही छोड़ दें",
+  "planOccurrenceSkipped": "यह घटना छोड़ दी गई - अगली घटना शेड्यूल की गई",
+  "planNothingPlanned": "फिलहाल कुछ भी योजना नहीं बनाई गई है",
+  "planPlanBody": "आगामी लेनदेन की योजना बनाएं.",
+  "planAddPlan": "योजना जोड़ें",
+  "planNoPlannedForFilters": "लागू फ़िल्टर के लिए कोई नियोजित लेनदेन नहीं",
+  "planNoPlannedInMonth": "{month} में कोई नियोजित लेनदेन नहीं",
   "@planNoPlannedInMonth": {
     "placeholders": {
       "month": {
@@ -227,28 +228,28 @@
       }
     }
   },
-  "planOverdue": "overdue",
-  "planPlannedTransaction": "Planned transaction",
-  "discardTitle": "Discard changes?",
-  "discardBody": "You have unsaved changes. They will be lost if you leave now.",
-  "keepEditing": "Keep editing",
-  "discard": "Discard",
-  "newTransactionTitle": "New Transaction",
-  "editTransactionTitle": "Edit Transaction",
-  "transactionUpdated": "Transaction updated",
-  "sectionAccounts": "Accounts",
-  "labelFrom": "From",
-  "labelTo": "To",
-  "sectionCategory": "Category",
-  "sectionAttachments": "Attachments",
-  "labelNote": "Note",
-  "hintOptionalDescription": "Optional description",
-  "updateTransaction": "Update Transaction",
-  "saveTransaction": "Save Transaction",
-  "selectAccount": "Select account",
-  "selectAccountTitle": "Select Account",
-  "noAccountsAvailable": "No accounts available",
-  "amountReceivedBy": "Amount received by {name} ({currency})",
+  "planOverdue": "अतिदेय",
+  "planPlannedTransaction": "नियोजित लेन-देन",
+  "discardTitle": "परिवर्तनों को निरस्त करें?",
+  "discardBody": "आपके पास सहेजे नहीं गए परिवर्तन हैं. यदि आप अभी चले गए तो वे खो जाएंगे।",
+  "keepEditing": "संपादन करते रहें",
+  "discard": "खारिज करें",
+  "newTransactionTitle": "नया लेन-देन",
+  "editTransactionTitle": "लेन-देन संपादित करें",
+  "transactionUpdated": "लेन-देन अद्यतन किया गया",
+  "sectionAccounts": "हिसाब किताब",
+  "labelFrom": "से",
+  "labelTo": "को",
+  "sectionCategory": "वर्ग",
+  "sectionAttachments": "संलग्नक",
+  "labelNote": "टिप्पणी",
+  "hintOptionalDescription": "वैकल्पिक विवरण",
+  "updateTransaction": "लेन-देन अद्यतन करें",
+  "saveTransaction": "लेन-देन सहेजें",
+  "selectAccount": "खाता चुनें",
+  "selectAccountTitle": "खाता चुनें",
+  "noAccountsAvailable": "कोई खाता उपलब्ध नहीं",
+  "amountReceivedBy": "{name} द्वारा प्राप्त राशि ({currency})",
   "@amountReceivedBy": {
     "placeholders": {
       "name": {
@@ -259,24 +260,24 @@
       }
     }
   },
-  "amountReceivedHelper": "Enter the exact amount the destination account receives. This locks the real exchange rate used.",
-  "attachTakePhoto": "Take photo",
-  "attachTakePhotoSub": "Use camera to capture a receipt",
-  "attachChooseGallery": "Choose from gallery",
-  "attachChooseGallerySub": "Select photos from your library",
-  "attachBrowseFiles": "Browse files",
-  "attachBrowseFilesSub": "Attach PDFs, documents or other files",
-  "attachButton": "Attach",
-  "editPlanTitle": "Edit Plan",
-  "planTransactionTitle": "Plan Transaction",
-  "tapToSelect": "Tap to select",
-  "updatePlan": "Update Plan",
-  "addToPlan": "Add to Plan",
-  "labelRepeat": "Repeat",
-  "selectPlannedDate": "Select planned date",
-  "balancesAsOfToday": "Balances as of today",
-  "projectedBalancesForTomorrow": "Projected balances for tomorrow",
-  "projectedBalancesForDate": "Projected balances for {date}",
+  "amountReceivedHelper": "गंतव्य खाते को प्राप्त होने वाली सटीक राशि दर्ज करें। यह प्रयुक्त वास्तविक विनिमय दर को लॉक कर देता है।",
+  "attachTakePhoto": "फोटो लो",
+  "attachTakePhotoSub": "रसीद कैप्चर करने के लिए कैमरे का उपयोग करें",
+  "attachChooseGallery": "गैलरी से चयन करो",
+  "attachChooseGallerySub": "अपनी लाइब्रेरी से फ़ोटो चुनें",
+  "attachBrowseFiles": "फ़ाइलों को ब्राउज़ करें",
+  "attachBrowseFilesSub": "पीडीएफ़, दस्तावेज़ या अन्य फ़ाइलें संलग्न करें",
+  "attachButton": "संलग्न करना",
+  "editPlanTitle": "योजना संपादित करें",
+  "planTransactionTitle": "लेन-देन की योजना बनाएं",
+  "tapToSelect": "चुनने के लिए टैप करें",
+  "updatePlan": "अद्यतन योजना",
+  "addToPlan": "योजना में जोड़ें",
+  "labelRepeat": "दोहराना",
+  "selectPlannedDate": "नियोजित तिथि चुनें",
+  "balancesAsOfToday": "आज तक शेष",
+  "projectedBalancesForTomorrow": "कल के लिए अनुमानित शेष राशि",
+  "projectedBalancesForDate": "{date} के लिए अनुमानित शेष",
   "@projectedBalancesForDate": {
     "placeholders": {
       "date": {
@@ -284,7 +285,7 @@
       }
     }
   },
-  "destReceivesLabel": "{name} receives ({currency})",
+  "destReceivesLabel": "{name} प्राप्त करता है ({currency})",
   "@destReceivesLabel": {
     "placeholders": {
       "name": {
@@ -295,23 +296,23 @@
       }
     }
   },
-  "destHelper": "Estimated destination amount. Exact rate is locked at confirmation.",
-  "descriptionOptional": "Description (optional)",
-  "detailTransactionTitle": "Transaction",
-  "detailPlannedTitle": "Planned",
-  "detailConfirmTransaction": "Confirm transaction",
-  "detailDate": "Date",
-  "detailFrom": "From",
-  "detailTo": "To",
-  "detailCategory": "Category",
-  "detailNote": "Note",
-  "detailDestinationAmount": "Destination amount",
-  "detailExchangeRate": "Exchange rate",
-  "detailRepeats": "Repeats",
-  "detailDayOfMonth": "Day of month",
-  "detailWeekends": "Weekends",
-  "detailAttachments": "Attachments",
-  "detailFileCount": "{count, plural, =1{1 file} other{{count} files}}",
+  "destHelper": "अनुमानित गंतव्य राशि. पुष्टिकरण पर सटीक दर लॉक कर दी जाती है।",
+  "descriptionOptional": "विवरण (वैकल्पिक)",
+  "detailTransactionTitle": "लेन-देन",
+  "detailPlannedTitle": "की योजना बनाई",
+  "detailConfirmTransaction": "लेन-देन की पुष्टि करें",
+  "detailDate": "तारीख",
+  "detailFrom": "से",
+  "detailTo": "को",
+  "detailCategory": "वर्ग",
+  "detailNote": "टिप्पणी",
+  "detailDestinationAmount": "गंतव्य राशि",
+  "detailExchangeRate": "विनिमय दर",
+  "detailRepeats": "पुनर्प्रसारण",
+  "detailDayOfMonth": "महीने का दिन",
+  "detailWeekends": "सप्ताहांत",
+  "detailAttachments": "संलग्नक",
+  "detailFileCount": "{count, plural, =1{1 फ़ाइल} other{{count} फ़ाइलें}}",
   "@detailFileCount": {
     "placeholders": {
       "count": {
@@ -319,17 +320,17 @@
       }
     }
   },
-  "settingsTitle": "Settings",
-  "settingsSectionDisplay": "Display",
-  "settingsSectionLanguage": "Language",
-  "settingsSectionCategories": "Categories",
-  "settingsSectionAccounts": "Accounts",
-  "settingsSectionPreferences": "Preferences",
-  "settingsSectionManage": "Manage",
-  "settingsBaseCurrency": "Home currency",
-  "settingsSecondaryCurrency": "Secondary currency",
-  "settingsCategories": "Categories",
-  "settingsCategoriesSubtitle": "{incomeCount} income · {expenseCount} expense",
+  "settingsTitle": "सेटिंग्स",
+  "settingsSectionDisplay": "प्रदर्शन",
+  "settingsSectionLanguage": "भाषा",
+  "settingsSectionCategories": "श्रेणियाँ",
+  "settingsSectionAccounts": "हिसाब किताब",
+  "settingsSectionPreferences": "प्राथमिकताएँ",
+  "settingsSectionManage": "प्रबंधित करना",
+  "settingsBaseCurrency": "घरेलू मुद्रा",
+  "settingsSecondaryCurrency": "द्वितीयक मुद्रा",
+  "settingsCategories": "श्रेणियाँ",
+  "settingsCategoriesSubtitle": "{incomeCount} आय · {expenseCount} व्यय",
   "@settingsCategoriesSubtitle": {
     "placeholders": {
       "incomeCount": {
@@ -340,9 +341,9 @@
       }
     }
   },
-  "settingsArchivedAccounts": "Archived accounts",
-  "settingsArchivedAccountsSubtitleZero": "None right now — archive from account edit when balance is clear",
-  "settingsArchivedAccountsSubtitleCount": "{count} hidden from Review and pickers",
+  "settingsArchivedAccounts": "संग्रहीत खाते",
+  "settingsArchivedAccountsSubtitleZero": "अभी कोई नहीं - शेष राशि स्पष्ट होने पर खाते से संग्रह संपादित करें",
+  "settingsArchivedAccountsSubtitleCount": "{count} समीक्षा और पिकर से छिपा हुआ",
   "@settingsArchivedAccountsSubtitleCount": {
     "placeholders": {
       "count": {
@@ -350,48 +351,48 @@
       }
     }
   },
-  "settingsSectionData": "Data",
-  "settingsSectionPrivacy": "About",
-  "settingsPrivacyPolicyTitle": "Privacy policy",
-  "settingsPrivacyPolicySubtitle": "How Platrare handles your data.",
-  "settingsPrivacyFxDisclosure": "Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.",
-  "settingsPrivacyOpenFailed": "Could not load the privacy policy.",
-  "settingsPrivacyRetry": "Try again",
-  "settingsSoftwareVersionTitle": "Software version",
-  "settingsSoftwareVersionSubtitle": "Release, diagnostics, and legal",
-  "aboutScreenTitle": "About",
-  "aboutAppTagline": "Ledger, cashflow, and planning in one workspace.",
-  "aboutDescriptionBody": "Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.",
-  "aboutVersionLabel": "Version",
-  "aboutBuildLabel": "Build",
-  "aboutCopySupportDetails": "Copy support details",
-  "aboutOpenPrivacySubtitle": "Opens the full in-app policy document.",
-  "aboutSupportBundleLocaleLabel": "Locale",
-  "settingsSupportInfoCopied": "Copied to clipboard",
-  "settingsVerifyLedger": "Verify data",
-  "settingsVerifyLedgerSubtitle": "Check that account balances match your transaction history",
-  "settingsDataExportTitle": "Export backup",
-  "settingsDataExportSubtitle": "Save as .zip or encrypted .platrare with all data and attachments",
-  "settingsDataImportTitle": "Restore from backup",
-  "settingsDataImportSubtitle": "Replace current data from a Platrare .zip or .platrare backup",
-  "backupExportDialogTitle": "Protect this backup",
-  "backupExportDialogBody": "A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.",
-  "backupExportPasswordLabel": "Password",
-  "backupExportPasswordConfirmLabel": "Confirm password",
-  "backupExportPasswordMismatch": "Passwords do not match",
-  "backupExportPasswordEmpty": "Enter a matching password, or export without encryption below.",
-  "backupExportPasswordTooShort": "Password must be at least 8 characters.",
-  "backupExportSaveToDevice": "Save to device",
-  "backupExportShareToCloud": "Share (iCloud, Drive…)",
-  "backupExportWithoutEncryption": "Export without encryption",
-  "backupExportSkipWarningTitle": "Export without encryption?",
-  "backupExportSkipWarningBody": "Anyone with access to the file can read your data. Use this only for local copies you control.",
-  "backupExportSkipWarningConfirm": "Export unencrypted",
-  "backupImportPasswordTitle": "Encrypted backup",
-  "backupImportPasswordBody": "Enter the password you used when exporting.",
-  "backupImportPasswordLabel": "Password",
-  "backupImportPreviewTitle": "Backup summary",
-  "backupImportPreviewVersion": "App version: {version}",
+  "settingsSectionData": "डेटा",
+  "settingsSectionPrivacy": "के बारे में",
+  "settingsPrivacyPolicyTitle": "गोपनीयता नीति",
+  "settingsPrivacyPolicySubtitle": "प्लाटारे आपके डेटा को कैसे संभालता है।",
+  "settingsPrivacyFxDisclosure": "विनिमय दरें: ऐप इंटरनेट पर सार्वजनिक मुद्रा दरें प्राप्त करता है। आपके खाते और लेन-देन कभी नहीं भेजे जाते.",
+  "settingsPrivacyOpenFailed": "गोपनीयता नीति लोड नहीं की जा सकी.",
+  "settingsPrivacyRetry": "पुनः प्रयास करें",
+  "settingsSoftwareVersionTitle": "सॉफ़्टवेयर संस्करण",
+  "settingsSoftwareVersionSubtitle": "रिहाई, निदान और कानूनी",
+  "aboutScreenTitle": "के बारे में",
+  "aboutAppTagline": "एक ही कार्यक्षेत्र में खाता बही, नकदी प्रवाह और योजना।",
+  "aboutDescriptionBody": "प्लैटरेरे आपके डिवाइस पर खाते, लेनदेन और योजनाएं रखता है। जब आपको कहीं और प्रतिलिपि की आवश्यकता हो तो एन्क्रिप्टेड बैकअप निर्यात करें। विनिमय दरें केवल सार्वजनिक बाज़ार डेटा का उपयोग करती हैं; आपका खाता-बही अपलोड नहीं है.",
+  "aboutVersionLabel": "संस्करण",
+  "aboutBuildLabel": "निर्माण",
+  "aboutCopySupportDetails": "समर्थन विवरण कॉपी करें",
+  "aboutOpenPrivacySubtitle": "संपूर्ण इन-ऐप नीति दस्तावेज़ खोलता है.",
+  "aboutSupportBundleLocaleLabel": "स्थान",
+  "settingsSupportInfoCopied": "क्लिपबोर्ड पर कॉपी किया गया",
+  "settingsVerifyLedger": "डेटा सत्यापित करें",
+  "settingsVerifyLedgerSubtitle": "जांचें कि खाते की शेष राशि आपके लेनदेन इतिहास से मेल खाती है",
+  "settingsDataExportTitle": "बैकअप निर्यात करें",
+  "settingsDataExportSubtitle": "सभी डेटा और अनुलग्नकों के साथ .zip या एन्क्रिप्टेड .platrare के रूप में सहेजें",
+  "settingsDataImportTitle": "बैकअप से पुनर्स्थापित करें",
+  "settingsDataImportSubtitle": "वर्तमान डेटा को प्लैटरे .zip या .platrare बैकअप से बदलें",
+  "backupExportDialogTitle": "इस बैकअप को सुरक्षित रखें",
+  "backupExportDialogBody": "एक मजबूत पासवर्ड की अनुशंसा की जाती है, खासकर यदि आप फ़ाइल को क्लाउड में संग्रहीत करते हैं। आयात करने के लिए आपको वही पासवर्ड चाहिए.",
+  "backupExportPasswordLabel": "पासवर्ड",
+  "backupExportPasswordConfirmLabel": "पासवर्ड की पुष्टि कीजिये",
+  "backupExportPasswordMismatch": "सांकेतिक शब्द मेल नहीं खाते",
+  "backupExportPasswordEmpty": "एक मेल खाता पासवर्ड दर्ज करें, या नीचे एन्क्रिप्शन के बिना निर्यात करें।",
+  "backupExportPasswordTooShort": "पासवर्ड कम से कम 8 वर्णों का होना चाहिए।",
+  "backupExportSaveToDevice": "डिवाइस में सहेजें",
+  "backupExportShareToCloud": "साझा करें (आईक्लाउड, ड्राइव…)",
+  "backupExportWithoutEncryption": "एन्क्रिप्शन के बिना निर्यात करें",
+  "backupExportSkipWarningTitle": "एन्क्रिप्शन के बिना निर्यात करें?",
+  "backupExportSkipWarningBody": "फ़ाइल तक पहुंच रखने वाला कोई भी व्यक्ति आपका डेटा पढ़ सकता है। इसका उपयोग केवल उन स्थानीय प्रतियों के लिए करें जिन्हें आप नियंत्रित करते हैं।",
+  "backupExportSkipWarningConfirm": "अनएन्क्रिप्टेड निर्यात करें",
+  "backupImportPasswordTitle": "एन्क्रिप्टेड बैकअप",
+  "backupImportPasswordBody": "वह पासवर्ड दर्ज करें जिसका उपयोग आपने निर्यात करते समय किया था।",
+  "backupImportPasswordLabel": "पासवर्ड",
+  "backupImportPreviewTitle": "बैकअप सारांश",
+  "backupImportPreviewVersion": "ऐप संस्करण: {version}",
   "@backupImportPreviewVersion": {
     "placeholders": {
       "version": {
@@ -399,7 +400,7 @@
       }
     }
   },
-  "backupImportPreviewExported": "Exported: {date}",
+  "backupImportPreviewExported": "निर्यातित: {date}",
   "@backupImportPreviewExported": {
     "placeholders": {
       "date": {
@@ -407,7 +408,7 @@
       }
     }
   },
-  "backupImportPreviewCounts": "{accounts} accounts · {transactions} transactions · {planned} planned · {attachments} attachment files · {income} income categories · {expense} expense categories",
+  "backupImportPreviewCounts": "{accounts} खाते · {transactions} लेनदेन · {planned} योजनाबद्ध · {attachments} अनुलग्नक फ़ाइलें · {income} आय श्रेणियां · {expense} व्यय श्रेणियां",
   "@backupImportPreviewCounts": {
     "placeholders": {
       "accounts": {
@@ -430,19 +431,19 @@
       }
     }
   },
-  "backupImportPreviewContinue": "Continue",
-  "settingsBackupWrongPassword": "Wrong password",
-  "settingsBackupChecksumMismatch": "Backup failed integrity check",
-  "settingsBackupCorruptFile": "Invalid or damaged backup file",
-  "settingsBackupUnsupportedVersion": "Backup needs a newer app version",
-  "settingsDataImportConfirmTitle": "Replace current data?",
-  "settingsDataImportConfirmBody": "This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.",
-  "settingsDataImportConfirmAction": "Replace data",
-  "settingsDataImportDone": "Data restored successfully",
-  "settingsDataImportInvalidFile": "This file is not a valid Platrare backup",
-  "settingsDataImportFailed": "Import failed",
-  "settingsDataExportDoneTitle": "Backup exported",
-  "settingsDataExportDoneBody": "Backup saved to:\n{path}",
+  "backupImportPreviewContinue": "जारी रखना",
+  "settingsBackupWrongPassword": "ग़लत पासवर्ड",
+  "settingsBackupChecksumMismatch": "बैकअप अखंडता जांच विफल रही",
+  "settingsBackupCorruptFile": "अमान्य या क्षतिग्रस्त बैकअप फ़ाइल",
+  "settingsBackupUnsupportedVersion": "बैकअप के लिए एक नए ऐप संस्करण की आवश्यकता है",
+  "settingsDataImportConfirmTitle": "वर्तमान डेटा बदलें?",
+  "settingsDataImportConfirmBody": "यह आपके चालू खातों, लेनदेन, नियोजित लेनदेन, श्रेणियों और आयातित अनुलग्नकों को चयनित बैकअप की सामग्री से बदल देगा। इस एक्शन को वापस नहीं किया जा सकता।",
+  "settingsDataImportConfirmAction": "डेटा बदलें",
+  "settingsDataImportDone": "डेटा सफलतापूर्वक पुनर्स्थापित किया गया",
+  "settingsDataImportInvalidFile": "यह फ़ाइल वैध प्लैटरे बैकअप नहीं है",
+  "settingsDataImportFailed": "आयात विफल",
+  "settingsDataExportDoneTitle": "बैकअप निर्यात किया गया",
+  "settingsDataExportDoneBody": "बैकअप यहां सहेजा गया:\n{path}",
   "@settingsDataExportDoneBody": {
     "placeholders": {
       "path": {
@@ -450,12 +451,12 @@
       }
     }
   },
-  "settingsDataOpenExportFile": "Open file",
-  "settingsDataExportFailed": "Export failed",
-  "ledgerVerifyDialogTitle": "Ledger verification",
-  "ledgerVerifyAllMatch": "All accounts match.",
-  "ledgerVerifyMismatchesTitle": "Mismatches",
-  "ledgerVerifyMismatchDetails": "{accountName}\nStored: {stored}\nReplay: {replayed}\nDifference: {diff}",
+  "settingsDataOpenExportFile": "खुली फाइल",
+  "settingsDataExportFailed": "निर्यात विफल",
+  "ledgerVerifyDialogTitle": "बही सत्यापन",
+  "ledgerVerifyAllMatch": "सभी खाते मेल खाते हैं.",
+  "ledgerVerifyMismatchesTitle": "बेमेल",
+  "ledgerVerifyMismatchDetails": "{accountName}\nसंग्रहित: {stored}\nपुनः चलाएँ: {replayed}\nअंतर: {diff}",
   "@ledgerVerifyMismatchDetails": {
     "placeholders": {
       "accountName": {
@@ -472,51 +473,51 @@
       }
     }
   },
-  "settingsLanguage": "App language",
-  "settingsLanguageSubtitleSystem": "Following system settings",
-  "settingsLanguageSubtitleEnglish": "English",
-  "settingsLanguageSubtitleSerbianLatin": "Serbian (Latin)",
-  "settingsLanguagePickerTitle": "App language",
-  "settingsLanguageOptionSystem": "System default",
-  "settingsLanguageOptionEnglish": "English",
-  "settingsLanguageOptionSerbianLatin": "Serbian (Latin)",
-  "settingsSectionAppearance": "Appearance",
-  "settingsSectionSecurity": "Security",
-  "settingsSecurityEnableLock": "Lock app on open",
-  "settingsSecurityEnableLockSubtitle": "Require biometric unlock or PIN when app opens",
-  "settingsSecuritySetPin": "Set PIN",
-  "settingsSecurityChangePin": "Change PIN",
-  "settingsSecurityPinSubtitle": "Use a PIN as fallback if biometric is unavailable",
-  "settingsSecurityRemovePin": "Remove PIN",
-  "securitySetPinTitle": "Set app PIN",
-  "securityPinLabel": "PIN code",
-  "securityConfirmPinLabel": "Confirm PIN code",
-  "securityPinMustBe4Digits": "PIN must have at least 4 digits",
-  "securityPinMismatch": "PIN codes do not match",
-  "securityRemovePinTitle": "Remove PIN?",
-  "securityRemovePinBody": "Biometric unlock can still be used if available.",
-  "securityUnlockTitle": "App locked",
-  "securityUnlockSubtitle": "Unlock with Face ID, fingerprint, or PIN.",
-  "securityUnlockWithPin": "Unlock with PIN",
-  "securityTryBiometric": "Try biometric unlock",
-  "securityPinIncorrect": "Incorrect PIN, try again",
-  "securityBiometricReason": "Authenticate to open your app",
-  "settingsTheme": "Theme",
-  "settingsThemeSubtitleSystem": "Following system settings",
-  "settingsThemeSubtitleLight": "Light",
-  "settingsThemeSubtitleDark": "Dark",
-  "settingsThemePickerTitle": "Theme",
-  "settingsThemeOptionSystem": "System default",
-  "settingsThemeOptionLight": "Light",
-  "settingsThemeOptionDark": "Dark",
-  "archivedAccountsTitle": "Archived accounts",
-  "archivedAccountsEmptyTitle": "No archived accounts",
-  "archivedAccountsEmptyBody": "Book balance and overdraft must be zero. Archive from account options in Review.",
-  "categoriesTitle": "Categories",
-  "newCategoryTitle": "New Category",
-  "categoryNameLabel": "Category name",
-  "deleteCategoryTitle": "Delete category?",
-  "deleteCategoryBody": "\"{category}\" will be removed from the list.",
+  "settingsLanguage": "ऐप भाषा",
+  "settingsLanguageSubtitleSystem": "निम्नलिखित सिस्टम सेटिंग्स",
+  "settingsLanguageSubtitleEnglish": "अंग्रेज़ी",
+  "settingsLanguageSubtitleSerbianLatin": "सर्बियाई (लैटिन)",
+  "settingsLanguagePickerTitle": "ऐप भाषा",
+  "settingsLanguageOptionSystem": "प्रणालीगत चूक",
+  "settingsLanguageOptionEnglish": "अंग्रेज़ी",
+  "settingsLanguageOptionSerbianLatin": "सर्बियाई (लैटिन)",
+  "settingsSectionAppearance": "उपस्थिति",
+  "settingsSectionSecurity": "सुरक्षा",
+  "settingsSecurityEnableLock": "लॉक ऐप खुला",
+  "settingsSecurityEnableLockSubtitle": "ऐप खुलने पर बायोमेट्रिक अनलॉक या पिन की आवश्यकता होगी",
+  "settingsSecuritySetPin": "पिन सेट करें",
+  "settingsSecurityChangePin": "पिन बदलें",
+  "settingsSecurityPinSubtitle": "यदि बायोमेट्रिक अनुपलब्ध है तो फ़ॉलबैक के रूप में पिन का उपयोग करें",
+  "settingsSecurityRemovePin": "पिन निकालें",
+  "securitySetPinTitle": "ऐप पिन सेट करें",
+  "securityPinLabel": "पिन कोड",
+  "securityConfirmPinLabel": "पिन कोड की पुष्टि करें",
+  "securityPinMustBe4Digits": "पिन में कम से कम 4 अंक होने चाहिए",
+  "securityPinMismatch": "पिन कोड मेल नहीं खाते",
+  "securityRemovePinTitle": "पिन निकालें?",
+  "securityRemovePinBody": "यदि उपलब्ध हो तो बायोमेट्रिक अनलॉक का अभी भी उपयोग किया जा सकता है।",
+  "securityUnlockTitle": "ऐप लॉक हो गया",
+  "securityUnlockSubtitle": "फेस आईडी, फिंगरप्रिंट या पिन से अनलॉक करें।",
+  "securityUnlockWithPin": "पिन से अनलॉक करें",
+  "securityTryBiometric": "बायोमेट्रिक अनलॉक का प्रयास करें",
+  "securityPinIncorrect": "ग़लत पिन, पुनः प्रयास करें",
+  "securityBiometricReason": "अपना ऐप खोलने के लिए प्रमाणित करें",
+  "settingsTheme": "विषय",
+  "settingsThemeSubtitleSystem": "निम्नलिखित सिस्टम सेटिंग्स",
+  "settingsThemeSubtitleLight": "रोशनी",
+  "settingsThemeSubtitleDark": "अँधेरा",
+  "settingsThemePickerTitle": "विषय",
+  "settingsThemeOptionSystem": "प्रणालीगत चूक",
+  "settingsThemeOptionLight": "रोशनी",
+  "settingsThemeOptionDark": "अँधेरा",
+  "archivedAccountsTitle": "संग्रहीत खाते",
+  "archivedAccountsEmptyTitle": "कोई संग्रहीत खाते नहीं",
+  "archivedAccountsEmptyBody": "बुक बैलेंस और ओवरड्राफ्ट शून्य होना चाहिए। समीक्षा में खाता विकल्पों में से संग्रहित करें।",
+  "categoriesTitle": "श्रेणियाँ",
+  "newCategoryTitle": "नई श्रेणी",
+  "categoryNameLabel": "श्रेणी नाम",
+  "deleteCategoryTitle": "श्रेणी हटाएँ?",
+  "deleteCategoryBody": "\"{category}\" को सूची से हटा दिया जाएगा।",
   "@deleteCategoryBody": {
     "placeholders": {
       "category": {
@@ -524,18 +525,18 @@
       }
     }
   },
-  "categoryIncome": "Income",
-  "categoryExpense": "Expense",
-  "categoryAdd": "Add",
-  "searchCurrencies": "Search currencies…",
+  "categoryIncome": "आय",
+  "categoryExpense": "व्यय",
+  "categoryAdd": "जोड़ना",
+  "searchCurrencies": "मुद्राएँ खोजें…",
   "period1M": "1M",
-  "period3M": "3M",
-  "period6M": "6M",
-  "period1Y": "1Y",
-  "periodAll": "ALL",
-  "categoryLabel": "category",
-  "categoriesLabel": "categories",
-  "transactionSavedMessage": "{type} saved  •  {amount}",
+  "period3M": "3एम",
+  "period6M": "6",
+  "period1Y": "1 वर्ष",
+  "periodAll": "सभी",
+  "categoryLabel": "वर्ग",
+  "categoriesLabel": "श्रेणियाँ",
+  "transactionSavedMessage": "{type} सहेजा गया • {amount}",
   "@transactionSavedMessage": {
     "placeholders": {
       "type": {
@@ -546,18 +547,18 @@
       }
     }
   },
-  "tooltipSettings": "Settings",
-  "tooltipAddAccount": "Add account",
-  "tooltipRemoveAccount": "Remove account",
-  "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
-  "groupDescPersonal": "Your own wallets & bank accounts",
-  "groupDescIndividuals": "Family, friends, individuals",
-  "groupDescEntities": "Entities, utilities, organisations",
-  "cannotArchiveTitle": "Cannot archive yet",
-  "cannotArchiveBody": "Archive is only available when the book balance and overdraft limit are both effectively zero.",
-  "cannotArchiveBodyAdjust": "Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.",
-  "archiveAccountTitle": "Archive account?",
-  "archiveWithPlannedBody": "{count, plural, =1{1 planned transaction references this account.} other{{count} planned transactions reference this account.}} Remove them to keep your plan consistent with an archived account.",
+  "tooltipSettings": "सेटिंग्स",
+  "tooltipAddAccount": "खाता जोड़ें",
+  "tooltipRemoveAccount": "खाता हटाएँ",
+  "accountNameTaken": "आपके पास पहले से ही इस नाम और पहचानकर्ता (सक्रिय या संग्रहीत) के साथ एक खाता है। नाम या पहचानकर्ता बदलें.",
+  "groupDescPersonal": "आपके अपने बटुए और बैंक खाते",
+  "groupDescIndividuals": "परिवार, दोस्त, व्यक्ति",
+  "groupDescEntities": "संस्थाएँ, उपयोगिताएँ, संगठन",
+  "cannotArchiveTitle": "अभी तक संग्रहित नहीं किया जा सकता",
+  "cannotArchiveBody": "पुरालेख केवल तभी उपलब्ध होता है जब बुक बैलेंस और ओवरड्राफ्ट सीमा दोनों प्रभावी रूप से शून्य हों।",
+  "cannotArchiveBodyAdjust": "पुरालेख केवल तभी उपलब्ध होता है जब बुक बैलेंस और ओवरड्राफ्ट सीमा दोनों प्रभावी रूप से शून्य हों। पहले बहीखाता या सुविधा को समायोजित करें.",
+  "archiveAccountTitle": "पुरालेख खाता?",
+  "archiveWithPlannedBody": "{count, plural, =1{1 नियोजित लेनदेन इस खाते को संदर्भित करता है।} other{{count} नियोजित लेनदेन इस खाते को संदर्भित करते हैं।}} संग्रहीत खाते के साथ अपनी योजना सुसंगत रखने के लिए उन्हें हटाएँ।",
   "@archiveWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -565,17 +566,17 @@
       }
     }
   },
-  "removeAndArchive": "Remove planned & archive",
-  "archiveBody": "The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.",
-  "archiveAction": "Archive",
-  "archiveInstead": "Archive instead",
-  "cannotDeleteTitle": "Cannot delete account",
-  "cannotDeleteBodyShort": "This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.",
-  "cannotDeleteBodyHistory": "This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.",
-  "cannotDeleteBodySuggestArchive": "This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.",
-  "deleteAccountTitle": "Delete account?",
-  "deleteAccountBodyPermanent": "This account will be removed permanently.",
-  "deleteWithPlannedBody": "{count, plural, =1{1 planned transaction references this account and will also be deleted.} other{{count} planned transactions reference this account and will also be deleted.}}",
+  "removeAndArchive": "नियोजित एवं संग्रहित हटाएँ",
+  "archiveBody": "खाता समीक्षा, ट्रैक और योजना चुनने वालों से छिपा रहेगा। आप इसे सेटिंग्स से पुनर्स्थापित कर सकते हैं।",
+  "archiveAction": "पुरालेख",
+  "archiveInstead": "इसके बजाय संग्रहित करें",
+  "cannotDeleteTitle": "खाता हटाया नहीं जा सकता",
+  "cannotDeleteBodyShort": "यह खाता आपके ट्रैक इतिहास में दिखाई देता है. पहले उन लेन-देन को हटाएँ या पुन: असाइन करें, या यदि शेष राशि साफ़ हो गई है तो खाते को संग्रहीत करें।",
+  "cannotDeleteBodyHistory": "यह खाता आपके ट्रैक इतिहास में दिखाई देता है. हटाने से वह इतिहास टूट जाएगा—पहले उन लेन-देन को हटाएँ या पुन: असाइन करें।",
+  "cannotDeleteBodySuggestArchive": "यह खाता आपके ट्रैक इतिहास में दिखाई देता है, इसलिए इसे हटाया नहीं जा सकता। यदि बुक बैलेंस और ओवरड्राफ्ट साफ हो गया है तो आप इसे संग्रहीत कर सकते हैं - यह सूचियों से छिपा रहेगा लेकिन इतिहास बरकरार रहेगा।",
+  "deleteAccountTitle": "खाता हटा दो?",
+  "deleteAccountBodyPermanent": "यह खाता स्थायी रूप से हटा दिया जाएगा.",
+  "deleteWithPlannedBody": "{count, plural, =1{1 नियोजित लेनदेन इस खाते को संदर्भित करता है और हटा दिया जाएगा।} other{{count} नियोजित लेनदेन इस खाते को संदर्भित करते हैं और हटा दिए जाएँगे।}}",
   "@deleteWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -583,30 +584,30 @@
       }
     }
   },
-  "deleteAllAndDelete": "Delete all",
-  "editAccountTitle": "Edit Account",
-  "newAccountTitle": "New Account",
-  "labelAccountName": "Account name",
-  "labelAccountIdentifier": "Identifier (optional)",
-  "accountAppearanceSection": "Icon & color",
-  "accountPickIcon": "Choose icon",
-  "accountPickColor": "Choose color",
-  "accountIconSheetTitle": "Account icon",
-  "accountColorSheetTitle": "Account color",
-  "accountUseInitialLetter": "Initial letter",
-  "accountUseDefaultColor": "Match group",
-  "labelRealBalance": "Real balance",
-  "labelOverdraftLimit": "Overdraft / advance limit",
-  "labelCurrency": "Currency",
-  "saveChanges": "Save Changes",
-  "addAccountAction": "Add Account",
-  "removeAccountSheetTitle": "Remove account",
-  "deletePermanently": "Delete permanently",
-  "deletePermanentlySubtitle": "Only possible when this account is not used in Track. Planned items can be removed as part of delete.",
-  "archiveOptionSubtitle": "Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.",
-  "archivedBannerText": "This account is archived. It stays in your data but is hidden from lists and pickers.",
-  "balanceAdjustedTitle": "Balance adjusted in Track",
-  "balanceAdjustedBody": "Real balance was updated from {previous} to {current} {symbol}.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.",
+  "deleteAllAndDelete": "सभी हटा दो",
+  "editAccountTitle": "खाता संपादित करें",
+  "newAccountTitle": "नया खाता",
+  "labelAccountName": "खाता नाम",
+  "labelAccountIdentifier": "पहचानकर्ता (वैकल्पिक)",
+  "accountAppearanceSection": "चिह्न एवं रंग",
+  "accountPickIcon": "आइकन चुनें",
+  "accountPickColor": "रंग पसंद करो",
+  "accountIconSheetTitle": "खाता चिह्न",
+  "accountColorSheetTitle": "खाते का रंग",
+  "accountUseInitialLetter": "प्रारंभिक पत्र",
+  "accountUseDefaultColor": "मिलान समूह",
+  "labelRealBalance": "वास्तविक संतुलन",
+  "labelOverdraftLimit": "ओवरड्राफ्ट/अग्रिम सीमा",
+  "labelCurrency": "मुद्रा",
+  "saveChanges": "परिवर्तनों को सुरक्षित करें",
+  "addAccountAction": "खाता जोड़ें",
+  "removeAccountSheetTitle": "खाता हटाएँ",
+  "deletePermanently": "स्थायी रूप से हटाएँ",
+  "deletePermanentlySubtitle": "केवल तभी संभव है जब इस खाते का उपयोग ट्रैक में नहीं किया जाता है। नियोजित आइटम को डिलीट के भाग के रूप में हटाया जा सकता है।",
+  "archiveOptionSubtitle": "समीक्षा और चयनकर्ताओं से छिपाएँ। सेटिंग्स से किसी भी समय पुनर्स्थापित करें। शून्य बैलेंस और ओवरड्राफ्ट की आवश्यकता है।",
+  "archivedBannerText": "यह खाता संग्रहीत है. यह आपके डेटा में रहता है लेकिन सूचियों और पिकर से छिपा रहता है।",
+  "balanceAdjustedTitle": "ट्रैक में संतुलन समायोजित किया गया",
+  "balanceAdjustedBody": "वास्तविक शेष को {previous} से {current} {symbol} तक अद्यतन किया गया था।\n\nखाता बही को सुसंगत बनाए रखने के लिए ट्रैक (इतिहास) में एक संतुलन समायोजन लेनदेन बनाया गया था।\n\n• वास्तविक शेष इस खाते में वास्तविक राशि को दर्शाता है।\n• समायोजन प्रविष्टि के लिए इतिहास की जाँच करें।",
   "@balanceAdjustedBody": {
     "placeholders": {
       "previous": {
@@ -620,21 +621,21 @@
       }
     }
   },
-  "ok": "OK",
-  "categoryBalanceAdjustment": "Balance adjustment",
-  "descriptionBalanceCorrection": "Balance correction",
-  "descriptionOpeningBalance": "Opening balance",
-  "reviewStatsModeStatistics": "Statistics",
-  "reviewStatsModeComparison": "Comparison",
-  "statsUncategorized": "Uncategorized",
-  "statsNoCategories": "No categories in the selected periods for comparison.",
-  "statsNoTransactions": "No transactions",
-  "statsSpendingInCategory": "Spending in this category",
-  "statsIncomeInCategory": "Income in this category",
-  "statsDifference": "Difference (B vs A): ",
-  "statsNoExpensesMonth": "No expenses this month",
-  "statsNoExpensesAll": "No expenses recorded",
-  "statsNoExpensesPeriod": "No expenses in the last {period}",
+  "ok": "ठीक है",
+  "categoryBalanceAdjustment": "संतुलन समायोजन",
+  "descriptionBalanceCorrection": "संतुलन सुधार",
+  "descriptionOpeningBalance": "प्रारंभिक जमा",
+  "reviewStatsModeStatistics": "आंकड़े",
+  "reviewStatsModeComparison": "तुलना",
+  "statsUncategorized": "अवर्गीकृत",
+  "statsNoCategories": "तुलना के लिए चयनित अवधियों में कोई श्रेणियां नहीं।",
+  "statsNoTransactions": "कोई लेनदेन नहीं",
+  "statsSpendingInCategory": "इस श्रेणी में खर्च",
+  "statsIncomeInCategory": "इस श्रेणी में आय",
+  "statsDifference": "अंतर (बी बनाम ए):",
+  "statsNoExpensesMonth": "इस महीने कोई खर्च नहीं",
+  "statsNoExpensesAll": "कोई खर्च दर्ज नहीं किया गया",
+  "statsNoExpensesPeriod": "आखिरी में कोई खर्च नहीं {period}",
   "@statsNoExpensesPeriod": {
     "placeholders": {
       "period": {
@@ -642,11 +643,11 @@
       }
     }
   },
-  "statsTotalSpent": "Total spent",
-  "statsNoExpensesThisPeriod": "No expenses in this period",
-  "statsNoIncomeMonth": "No income this month",
-  "statsNoIncomeAll": "No income recorded",
-  "statsNoIncomePeriod": "No income in the last {period}",
+  "statsTotalSpent": "कुल व्यय",
+  "statsNoExpensesThisPeriod": "इस अवधि में कोई खर्च नहीं",
+  "statsNoIncomeMonth": "इस महीने कोई आय नहीं",
+  "statsNoIncomeAll": "कोई आय दर्ज नहीं की गई",
+  "statsNoIncomePeriod": "पिछले {period} में कोई आय नहीं",
   "@statsNoIncomePeriod": {
     "placeholders": {
       "period": {
@@ -654,40 +655,40 @@
       }
     }
   },
-  "statsTotalReceived": "Total received",
-  "statsNoIncomeThisPeriod": "No income in this period",
-  "catSalary": "Salary",
-  "catFreelance": "Freelance",
-  "catConsulting": "Consulting",
-  "catGift": "Gift",
-  "catRental": "Rental",
-  "catDividends": "Dividends",
-  "catRefund": "Refund",
-  "catBonus": "Bonus",
-  "catInterest": "Interest",
-  "catSideHustle": "Side hustle",
-  "catSaleOfGoods": "Sale of goods",
-  "catOther": "Other",
-  "catGroceries": "Groceries",
-  "catDining": "Dining",
-  "catTransport": "Transport",
-  "catUtilities": "Utilities",
-  "catHousing": "Housing",
-  "catHealthcare": "Healthcare",
-  "catEntertainment": "Entertainment",
-  "catShopping": "Shopping",
-  "catTravel": "Travel",
-  "catEducation": "Education",
-  "catSubscriptions": "Subscriptions",
-  "catInsurance": "Insurance",
-  "catFuel": "Fuel",
-  "catGym": "Gym",
-  "catPets": "Pets",
-  "catKids": "Kids",
-  "catCharity": "Charity",
-  "catCoffee": "Coffee",
-  "catGifts": "Gifts",
-  "semanticsProjectionDate": "Projection date {date}. Double tap to choose date",
+  "statsTotalReceived": "कुल प्राप्त हुआ",
+  "statsNoIncomeThisPeriod": "इस अवधि में कोई आय नहीं",
+  "catSalary": "वेतन",
+  "catFreelance": "फ्रीलांस",
+  "catConsulting": "CONSULTING",
+  "catGift": "उपहार",
+  "catRental": "किराये",
+  "catDividends": "लाभांश",
+  "catRefund": "धनवापसी",
+  "catBonus": "बोनस",
+  "catInterest": "दिलचस्पी",
+  "catSideHustle": "पार्श्व ऊधम",
+  "catSaleOfGoods": "माल की बिक्री",
+  "catOther": "अन्य",
+  "catGroceries": "किराने का सामान",
+  "catDining": "भोजन",
+  "catTransport": "परिवहन",
+  "catUtilities": "उपयोगिताओं",
+  "catHousing": "आवास",
+  "catHealthcare": "स्वास्थ्य देखभाल",
+  "catEntertainment": "मनोरंजन",
+  "catShopping": "खरीदारी",
+  "catTravel": "यात्रा",
+  "catEducation": "शिक्षा",
+  "catSubscriptions": "सदस्यता",
+  "catInsurance": "बीमा",
+  "catFuel": "ईंधन",
+  "catGym": "जिम",
+  "catPets": "पालतू जानवर",
+  "catKids": "बच्चे",
+  "catCharity": "दान",
+  "catCoffee": "कॉफी",
+  "catGifts": "उपहार",
+  "semanticsProjectionDate": "प्रक्षेपण तिथि {date}. तारीख चुनने के लिए दो बार टैप करें",
   "@semanticsProjectionDate": {
     "placeholders": {
       "date": {
@@ -695,7 +696,7 @@
       }
     }
   },
-  "semanticsProjectedBalance": "Projected personal balance {amount}",
+  "semanticsProjectedBalance": "अनुमानित व्यक्तिगत संतुलन {amount}",
   "@semanticsProjectedBalance": {
     "placeholders": {
       "amount": {
@@ -703,12 +704,12 @@
       }
     }
   },
-  "statsEmptyTitle": "No transactions yet",
-  "statsEmptySubtitle": "No spending data for the selected range.",
-  "semanticsShowProjections": "Show projected balances by account",
-  "semanticsHideProjections": "Hide projected balances by account",
-  "semanticsDateAllTime": "Date: all time — tap to change mode",
-  "semanticsDateMode": "Date: {mode} — tap to change mode",
+  "statsEmptyTitle": "अभी तक कोई लेन-देन नहीं",
+  "statsEmptySubtitle": "चयनित सीमा के लिए कोई व्यय डेटा नहीं।",
+  "semanticsShowProjections": "खाते के अनुसार अनुमानित शेष दिखाएं",
+  "semanticsHideProjections": "खाते द्वारा अनुमानित शेष छिपाएँ",
+  "semanticsDateAllTime": "दिनांक: हर समय - मोड बदलने के लिए टैप करें",
+  "semanticsDateMode": "दिनांक: {mode} - मोड बदलने के लिए टैप करें",
   "@semanticsDateMode": {
     "placeholders": {
       "mode": {
@@ -716,22 +717,22 @@
       }
     }
   },
-  "semanticsDateThisMonth": "Date: this month — tap for month, week, year, or all time",
-  "semanticsTxTypeCycle": "Transaction type: cycle all, income, expense, transfer",
-  "semanticsAccountFilter": "Account filter",
-  "semanticsAlreadyFiltered": "Already filtered to this account",
-  "semanticsCategoryFilter": "Category filter",
-  "semanticsSortToggle": "Sort: toggle newest or oldest first",
-  "semanticsFiltersDisabled": "List filters disabled while viewing a future projection date. Clear projections to use filters.",
-  "semanticsFiltersDisabledNeedAccount": "List filters disabled. Add an account first.",
-  "semanticsFiltersDisabledNeedPlannedTransaction": "List filters disabled. Add a planned transaction first.",
-  "semanticsFiltersDisabledNeedRecordedTransaction": "List filters disabled. Record a transaction first.",
-  "semanticsReviewSectionChipsDisabledNeedAccount": "Section and currency controls disabled. Add an account first.",
-  "semanticsPlanProjectionControlsDisabled": "Projection date and balance breakdown disabled. Add an account and a planned transaction first.",
-  "semanticsReorderAccountHint": "Long press, then drag to reorder within this group",
-  "semanticsChartStyle": "Chart style",
-  "semanticsChartStyleUnavailable": "Chart style (unavailable in comparison mode)",
-  "semanticsPeriod": "Period: {label}",
+  "semanticsDateThisMonth": "दिनांक: इस महीने - महीने, सप्ताह, वर्ष या सभी समय के लिए टैप करें",
+  "semanticsTxTypeCycle": "लेन-देन का प्रकार: चक्र सभी, आय, व्यय, स्थानांतरण",
+  "semanticsAccountFilter": "खाता फ़िल्टर",
+  "semanticsAlreadyFiltered": "इस खाते पर पहले ही फ़िल्टर कर दिया गया है",
+  "semanticsCategoryFilter": "श्रेणी फ़िल्टर",
+  "semanticsSortToggle": "क्रमबद्ध करें: सबसे पहले नवीनतम या सबसे पुराना टॉगल करें",
+  "semanticsFiltersDisabled": "भविष्य की प्रक्षेपण तिथि देखते समय सूची फ़िल्टर अक्षम कर दिए गए। फ़िल्टर का उपयोग करने के लिए स्पष्ट अनुमान।",
+  "semanticsFiltersDisabledNeedAccount": "सूची फ़िल्टर अक्षम. पहले एक खाता जोड़ें.",
+  "semanticsFiltersDisabledNeedPlannedTransaction": "सूची फ़िल्टर अक्षम. पहले एक नियोजित लेनदेन जोड़ें.",
+  "semanticsFiltersDisabledNeedRecordedTransaction": "सूची फ़िल्टर अक्षम. पहले लेन-देन रिकॉर्ड करें.",
+  "semanticsReviewSectionChipsDisabledNeedAccount": "अनुभाग और मुद्रा नियंत्रण अक्षम किया गया. पहले एक खाता जोड़ें.",
+  "semanticsPlanProjectionControlsDisabled": "प्रक्षेपण तिथि और शेष राशि विच्छेद अक्षम। पहले एक खाता और एक नियोजित लेनदेन जोड़ें।",
+  "semanticsReorderAccountHint": "देर तक दबाएँ, फिर इस समूह में पुनः व्यवस्थित करने के लिए खींचें",
+  "semanticsChartStyle": "चार्ट शैली",
+  "semanticsChartStyleUnavailable": "चार्ट शैली (तुलना मोड में अनुपलब्ध)",
+  "semanticsPeriod": "अवधि: {label}",
   "@semanticsPeriod": {
     "placeholders": {
       "label": {
@@ -739,10 +740,10 @@
       }
     }
   },
-  "trackSearchHint": "Search description, category, account…",
-  "trackSearchClear": "Clear search",
-  "settingsExchangeRatesTitle": "Exchange rates",
-  "settingsExchangeRatesUpdated": "Last updated: {time}",
+  "trackSearchHint": "विवरण, श्रेणी, खाता खोजें...",
+  "trackSearchClear": "स्पष्ट खोज",
+  "settingsExchangeRatesTitle": "विनिमय दरें",
+  "settingsExchangeRatesUpdated": "अंतिम अद्यतन: {time}",
   "@settingsExchangeRatesUpdated": {
     "placeholders": {
       "time": {
@@ -750,15 +751,15 @@
       }
     }
   },
-  "settingsExchangeRatesNeverUpdated": "Using offline or bundled rates — tap to refresh",
-  "settingsExchangeRatesSource": "ECB",
-  "settingsExchangeRatesUpdatedSnack": "Exchange rates updated",
-  "settingsExchangeRatesUpdateFailed": "Could not update exchange rates. Check your connection.",
-  "settingsClearData": "Clear data",
-  "settingsClearDataSubtitle": "Permanently remove selected data",
-  "clearDataTitle": "Clear data",
-  "clearDataTransactions": "Transaction history",
-  "clearDataTransactionsSubtitle": "{count} transactions · account balances reset to zero",
+  "settingsExchangeRatesNeverUpdated": "ऑफ़लाइन या बंडल दरों का उपयोग करना - ताज़ा करने के लिए टैप करें",
+  "settingsExchangeRatesSource": "ईसीबी",
+  "settingsExchangeRatesUpdatedSnack": "विनिमय दरें अद्यतन की गईं",
+  "settingsExchangeRatesUpdateFailed": "विनिमय दरें अपडेट नहीं की जा सकीं. अपना कनेक्शन जांचें.",
+  "settingsClearData": "स्पष्ट डेटा",
+  "settingsClearDataSubtitle": "चयनित डेटा को स्थायी रूप से हटा दें",
+  "clearDataTitle": "स्पष्ट डेटा",
+  "clearDataTransactions": "ट्रांजेक्शन इतिहास",
+  "clearDataTransactionsSubtitle": "{count} लेनदेन · खाता शेष शून्य पर रीसेट हो गया",
   "@clearDataTransactionsSubtitle": {
     "placeholders": {
       "count": {
@@ -766,8 +767,8 @@
       }
     }
   },
-  "clearDataPlanned": "Planned transactions",
-  "clearDataPlannedSubtitle": "{count} planned items",
+  "clearDataPlanned": "नियोजित लेनदेन",
+  "clearDataPlannedSubtitle": "{count} नियोजित आइटम",
   "@clearDataPlannedSubtitle": {
     "placeholders": {
       "count": {
@@ -775,8 +776,8 @@
       }
     }
   },
-  "clearDataAccounts": "Accounts",
-  "clearDataAccountsSubtitle": "{count} accounts · also clears history and plan",
+  "clearDataAccounts": "हिसाब किताब",
+  "clearDataAccountsSubtitle": "{count} खाते · इतिहास और योजना को भी साफ़ करता है",
   "@clearDataAccountsSubtitle": {
     "placeholders": {
       "count": {
@@ -784,8 +785,8 @@
       }
     }
   },
-  "clearDataCategories": "Categories",
-  "clearDataCategoriesSubtitle": "{count} categories · replaced with defaults",
+  "clearDataCategories": "श्रेणियाँ",
+  "clearDataCategoriesSubtitle": "{count} श्रेणियां · डिफ़ॉल्ट के साथ बदल दी गईं",
   "@clearDataCategoriesSubtitle": {
     "placeholders": {
       "count": {
@@ -793,21 +794,21 @@
       }
     }
   },
-  "clearDataPreferences": "Preferences",
-  "clearDataPreferencesSubtitle": "Reset currency, theme and language to defaults",
-  "clearDataSecurity": "App lock & PIN",
-  "clearDataSecuritySubtitle": "Disable app lock and remove PIN",
-  "clearDataConfirmButton": "Clear selected",
-  "clearDataConfirmTitle": "This cannot be undone",
-  "clearDataConfirmBody": "The selected data will be permanently deleted. Export a backup first if you may need it later.",
-  "clearDataTypeConfirm": "Type DELETE to confirm",
-  "clearDataTypeConfirmError": "Type DELETE exactly to continue",
-  "clearDataPinTitle": "Confirm with PIN",
-  "clearDataPinBody": "Enter your app PIN to authorize this action.",
-  "clearDataPinIncorrect": "Incorrect PIN",
-  "clearDataDone": "Selected data cleared",
-  "autoBackupTitle": "Automatic daily backup",
-  "autoBackupLastAt": "Last backed up {date}",
+  "clearDataPreferences": "प्राथमिकताएँ",
+  "clearDataPreferencesSubtitle": "मुद्रा, थीम और भाषा को डिफ़ॉल्ट पर रीसेट करें",
+  "clearDataSecurity": "ऐप लॉक और पिन",
+  "clearDataSecuritySubtitle": "ऐप लॉक अक्षम करें और पिन हटा दें",
+  "clearDataConfirmButton": "चयनित साफ़ करें",
+  "clearDataConfirmTitle": "इसे असंपादित नहीं किया जा सकता है",
+  "clearDataConfirmBody": "चयनित डेटा स्थायी रूप से हटा दिया जाएगा. यदि आपको बाद में इसकी आवश्यकता हो तो पहले बैकअप निर्यात करें।",
+  "clearDataTypeConfirm": "पुष्टि करने के लिए DELETE टाइप करें",
+  "clearDataTypeConfirmError": "जारी रखने के लिए बिल्कुल DELETE टाइप करें",
+  "clearDataPinTitle": "पिन से पुष्टि करें",
+  "clearDataPinBody": "इस कार्रवाई को अधिकृत करने के लिए अपना ऐप पिन दर्ज करें।",
+  "clearDataPinIncorrect": "ग़लत पिन",
+  "clearDataDone": "चयनित डेटा साफ़ किया गया",
+  "autoBackupTitle": "स्वचालित दैनिक बैकअप",
+  "autoBackupLastAt": "अंतिम बैकअप {date}",
   "@autoBackupLastAt": {
     "placeholders": {
       "date": {
@@ -815,10 +816,10 @@
       }
     }
   },
-  "autoBackupNeverRun": "No backup yet",
-  "autoBackupShareTitle": "Save to cloud",
-  "autoBackupShareSubtitle": "Upload latest backup to iCloud Drive, Google Drive or any app",
-  "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
-  "autoBackupCloudReminderAction": "Share",
-  "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
+  "autoBackupNeverRun": "अभी तक कोई बैकअप नहीं है",
+  "autoBackupShareTitle": "क्लाउड में सहेजें",
+  "autoBackupShareSubtitle": "iCloud Drive, Google Drive या किसी ऐप पर नवीनतम बैकअप अपलोड करें",
+  "autoBackupCloudReminder": "ऑटो-बैकअप तैयार - ऑफ-डिवाइस सुरक्षा के लिए इसे क्लाउड पर सहेजें",
+  "autoBackupCloudReminderAction": "शेयर करें",
+  "persistenceErrorReloaded": "परिवर्तन सहेजे नहीं जा सके. डेटा को स्टोरेज से पुनः लोड किया गया था।"
 }

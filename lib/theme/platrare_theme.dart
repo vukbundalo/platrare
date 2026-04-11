@@ -11,15 +11,16 @@ ThemeData buildPlatrareTheme(Brightness brightness) {
     brightness: brightness,
   );
 
-  final cs = baseScheme.copyWith(
-    surfaceTint: Colors.transparent,
-    surface: Color.alphaBlend(
-      baseScheme.primary.withValues(
-        alpha: brightness == Brightness.light ? 0.022 : 0.09,
-      ),
-      baseScheme.surface,
-    ),
-  );
+  // Light: subtle blue lift. Dark: pure Material 3 surface — no blue tint.
+  final cs = brightness == Brightness.light
+      ? baseScheme.copyWith(
+          surfaceTint: Colors.transparent,
+          surface: Color.alphaBlend(
+            baseScheme.primary.withValues(alpha: 0.022),
+            baseScheme.surface,
+          ),
+        )
+      : baseScheme.copyWith(surfaceTint: Colors.transparent);
 
   final base = ThemeData(
     useMaterial3: true,
@@ -44,9 +45,9 @@ ThemeData buildPlatrareTheme(Brightness brightness) {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: BorderSide(
-          color: cs.primary.withValues(
-            alpha: brightness == Brightness.light ? 0.14 : 0.22,
-          ),
+          color: brightness == Brightness.light
+              ? cs.primary.withValues(alpha: 0.14)
+              : cs.outlineVariant.withValues(alpha: 0.40),
         ),
       ),
       margin: EdgeInsets.zero,

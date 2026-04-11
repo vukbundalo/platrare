@@ -9,126 +9,126 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
-  String get appTitle => 'Platrare';
+  String get appTitle => 'プラトラレ';
 
   @override
-  String get navPlan => 'Plan';
+  String get navPlan => 'プラン';
 
   @override
-  String get navTrack => 'Track';
+  String get navTrack => '追跡';
 
   @override
-  String get navReview => 'Review';
+  String get navReview => 'レビュー';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'キャンセル';
 
   @override
-  String get delete => 'Delete';
+  String get delete => '消去';
 
   @override
-  String get close => 'Close';
+  String get close => '近い';
 
   @override
-  String get add => 'Add';
+  String get add => '追加';
 
   @override
-  String get undo => 'Undo';
+  String get undo => '元に戻す';
 
   @override
-  String get confirm => 'Confirm';
+  String get confirm => '確認する';
 
   @override
-  String get restore => 'Restore';
+  String get restore => '復元する';
 
   @override
-  String get heroIn => 'In';
+  String get heroIn => 'で';
 
   @override
-  String get heroOut => 'Out';
+  String get heroOut => '外';
 
   @override
-  String get heroNet => 'Net';
+  String get heroNet => 'ネット';
 
   @override
-  String get heroBalance => 'Balance';
+  String get heroBalance => 'バランス';
 
   @override
-  String get realBalance => 'Real balance';
+  String get realBalance => '実質残高';
 
   @override
-  String get heroResetButton => 'Reset';
-  @override
-  String get fabScrollToTop => 'Back to top';
-
+  String get heroResetButton => 'リセット';
 
   @override
-  String get filterAll => 'All';
+  String get fabScrollToTop => '先頭に戻る';
 
   @override
-  String get filterAllAccounts => 'All accounts';
+  String get filterAll => '全て';
 
   @override
-  String get filterAllCategories => 'All categories';
+  String get filterAllAccounts => 'すべてのアカウント';
 
   @override
-  String get txLabelIncome => 'INCOME';
+  String get filterAllCategories => 'すべてのカテゴリー';
 
   @override
-  String get txLabelExpense => 'EXPENSE';
+  String get txLabelIncome => '所得';
 
   @override
-  String get txLabelInvoice => 'INVOICE';
+  String get txLabelExpense => '費用';
 
   @override
-  String get txLabelBill => 'BILL';
+  String get txLabelInvoice => '請求書';
 
   @override
-  String get txLabelAdvance => 'ADVANCE';
+  String get txLabelBill => '請求書';
 
   @override
-  String get txLabelSettlement => 'SETTLEMENT';
+  String get txLabelAdvance => '前進';
 
   @override
-  String get txLabelLoan => 'LOAN';
+  String get txLabelSettlement => '決済';
 
   @override
-  String get txLabelCollection => 'COLLECTION';
+  String get txLabelLoan => 'ローン';
 
   @override
-  String get txLabelOffset => 'OFFSET';
+  String get txLabelCollection => 'コレクション';
 
   @override
-  String get txLabelTransfer => 'TRANSFER';
+  String get txLabelOffset => 'オフセット';
 
   @override
-  String get txLabelTransaction => 'TRANSACTION';
+  String get txLabelTransfer => '移行';
 
   @override
-  String get repeatNone => 'No repeat';
+  String get txLabelTransaction => '取引';
 
   @override
-  String get repeatDaily => 'Daily';
+  String get repeatNone => 'リピートなし';
 
   @override
-  String get repeatWeekly => 'Weekly';
+  String get repeatDaily => '毎日';
 
   @override
-  String get repeatMonthly => 'Monthly';
+  String get repeatWeekly => '毎週';
 
   @override
-  String get repeatYearly => 'Yearly';
+  String get repeatMonthly => '毎月';
 
   @override
-  String get repeatEveryLabel => 'Every';
+  String get repeatYearly => '毎年';
+
+  @override
+  String get repeatEveryLabel => '毎';
 
   @override
   String repeatEveryDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days',
-      one: 'day',
+      other: '$count 日',
+      one: '日',
     );
     return '$_temp0';
   }
@@ -138,8 +138,8 @@ class AppLocalizationsJa extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count weeks',
-      one: 'week',
+      other: '$count 週間',
+      one: '週間',
     );
     return '$_temp0';
   }
@@ -149,8 +149,8 @@ class AppLocalizationsJa extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months',
-      one: 'month',
+      other: '$count か月',
+      one: 'か月',
     );
     return '$_temp0';
   }
@@ -160,628 +160,609 @@ class AppLocalizationsJa extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years',
-      one: 'year',
+      other: '$count 年',
+      one: '年',
     );
     return '$_temp0';
   }
 
   @override
-  String get repeatEndLabel => 'Ends';
+  String get repeatEndLabel => '終わり';
 
   @override
-  String get repeatEndNever => 'Never';
+  String get repeatEndNever => '一度もない';
 
   @override
-  String get repeatEndOnDate => 'On date';
+  String get repeatEndOnDate => 'デート中';
 
   @override
   String repeatEndAfterCount(int count) {
-    return 'After $count times';
+    return '$count回後';
   }
 
   @override
-  String get repeatEndPickDate => 'Pick end date';
+  String get repeatEndPickDate => '終了日を選択してください';
 
   @override
-  String get repeatEndTimes => 'times';
+  String get repeatEndTimes => '回';
 
   @override
   String repeatSummaryEvery(int count, String unit) {
-    return 'Every $count $unit';
+    return '$count $unit ごと';
   }
 
   @override
   String repeatSummaryUntil(String date) {
-    return 'until $date';
+    return '$dateまで';
   }
 
   @override
   String repeatSummaryTimes(int count) {
-    return '$count times';
+    return '$count 回';
   }
 
   @override
   String repeatSummaryTimesRemaining(int remaining, int total) {
-    return '$remaining of $total remaining';
+    return '$total中$remainingが残っています';
   }
 
   @override
-  String get detailRepeatEvery => 'Repeat every';
+  String get detailRepeatEvery => '毎回繰り返す';
 
   @override
-  String get detailEnds => 'Ends';
+  String get detailEnds => '終わり';
 
   @override
-  String get detailEndsNever => 'Never';
+  String get detailEndsNever => '一度もない';
 
   @override
   String detailEndsOnDate(String date) {
-    return 'On $date';
+    return '$date に';
   }
 
   @override
   String detailEndsAfterCount(int count) {
-    return 'After $count times';
+    return '$count回後';
   }
 
   @override
-  String get detailProgress => 'Progress';
+  String get detailProgress => '進捗';
 
   @override
-  String get weekendNoChange => 'No change';
+  String get weekendNoChange => '変化なし';
 
   @override
-  String get weekendFriday => 'Move to Friday';
+  String get weekendFriday => '金曜日に移動';
 
   @override
-  String get weekendMonday => 'Move to Monday';
+  String get weekendMonday => '月曜日に移動';
 
   @override
   String weekendQuestion(String day) {
-    return 'If the $day falls on a weekend?';
+    return '$day が週末の場合は?';
   }
 
   @override
-  String get dateToday => 'Today';
+  String get dateToday => '今日';
 
   @override
-  String get dateTomorrow => 'Tomorrow';
+  String get dateTomorrow => '明日';
 
   @override
-  String get dateYesterday => 'Yesterday';
+  String get dateYesterday => '昨日';
 
   @override
-  String get statsAllTime => 'All time';
+  String get statsAllTime => 'ずっと';
 
   @override
-  String get accountGroupPersonal => 'Personal';
+  String get accountGroupPersonal => '個人的';
 
   @override
-  String get accountGroupIndividual => 'Individual';
+  String get accountGroupIndividual => '個人';
 
   @override
-  String get accountGroupEntity => 'Entity';
+  String get accountGroupEntity => '実在物';
 
   @override
-  String get accountSectionIndividuals => 'Individuals';
+  String get accountSectionIndividuals => '個人';
 
   @override
-  String get accountSectionEntities => 'Entities';
+  String get accountSectionEntities => 'エンティティ';
 
   @override
-  String get emptyNoTransactionsYet => 'No transactions yet';
+  String get emptyNoTransactionsYet => 'まだ取引はありません';
 
   @override
-  String get emptyNoAccountsYet => 'No accounts yet';
+  String get emptyNoAccountsYet => 'まだアカウントがありません';
 
   @override
-  String get emptyRecordFirstTransaction =>
-      'Tap the button below to record your first transaction.';
+  String get emptyRecordFirstTransaction => '下のボタンをタップして、最初の取引を記録します。';
 
   @override
-  String get emptyAddFirstAccountTx =>
-      'Add your first account before recording transactions.';
+  String get emptyAddFirstAccountTx => '取引を記録する前に、最初のアカウントを追加してください。';
 
   @override
-  String get emptyAddFirstAccountPlan =>
-      'Add your first account before planning transactions.';
+  String get emptyAddFirstAccountPlan => '取引を計画する前に、最初のアカウントを追加してください。';
 
   @override
-  String get emptyAddFirstAccountReview =>
-      'Add your first account to start tracking your finances.';
+  String get emptyAddFirstAccountReview => '最初のアカウントを追加して、財務状況の追跡を開始します。';
 
   @override
-  String get emptyAddTransaction => 'Add transaction';
+  String get emptyAddTransaction => 'トランザクションの追加';
 
   @override
-  String get emptyAddAccount => 'Add account';
+  String get emptyAddAccount => 'アカウントを追加';
 
   @override
-  String get reviewEmptyGroupPersonalTitle => 'No personal accounts yet';
+  String get reviewEmptyGroupPersonalTitle => '個人アカウントはまだありません';
 
   @override
   String get reviewEmptyGroupPersonalBody =>
-      'Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.';
+      '個人アカウントとは、あなた自身の財布や銀行口座のことです。毎日の収入と支出を追跡するには、1 つ追加します。';
 
   @override
-  String get reviewEmptyGroupIndividualsTitle => 'No individual accounts yet';
+  String get reviewEmptyGroupIndividualsTitle => '個人アカウントはまだありません';
 
   @override
   String get reviewEmptyGroupIndividualsBody =>
-      'Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.';
+      '個々のアカウントは、共有費用、ローン、借用書など、特定の人々とのお金を追跡します。決済する相手ごとにアカウントを追加します。';
 
   @override
-  String get reviewEmptyGroupEntitiesTitle => 'No entity accounts yet';
+  String get reviewEmptyGroupEntitiesTitle => 'まだエンティティアカウントがありません';
 
   @override
   String get reviewEmptyGroupEntitiesBody =>
-      'Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.';
+      'エンティティ アカウントは、ビジネス、プロジェクト、または組織用です。これらを使用して、ビジネスのキャッシュフローを個人の財務から切り離して管理します。';
 
   @override
-  String get emptyNoTransactionsForFilters =>
-      'No transactions for applied filters';
+  String get emptyNoTransactionsForFilters => '適用されたフィルターに対するトランザクションはありません';
 
   @override
-  String get emptyNoTransactionsInHistory => 'No transactions in history';
+  String get emptyNoTransactionsInHistory => '履歴に取引はありません';
 
   @override
   String emptyNoTransactionsForMonth(String month) {
-    return 'No transactions for $month';
+    return '$month の取引はありません';
   }
 
   @override
-  String get emptyNoTransactionsForAccount =>
-      'No transactions for this account';
+  String get emptyNoTransactionsForAccount => 'このアカウントでは取引はありません';
 
   @override
-  String get trackTransactionDeleted => 'Transaction deleted';
+  String get trackTransactionDeleted => 'トランザクションが削除されました';
 
   @override
-  String get trackDeleteTitle => 'Delete transaction?';
+  String get trackDeleteTitle => 'トランザクションを削除しますか?';
 
   @override
-  String get trackDeleteBody =>
-      'This will reverse the account balance changes.';
+  String get trackDeleteBody => 'これにより、アカウント残高の変更が取り消されます。';
 
   @override
-  String get trackTransaction => 'Transaction';
+  String get trackTransaction => '取引';
 
   @override
-  String get planConfirmTitle => 'Confirm transaction?';
+  String get planConfirmTitle => '取引を確認しますか?';
 
   @override
   String planConfirmBodyEarly(String date, String todayDate, String nextDate) {
-    return 'This occurrence is scheduled for $date. It will be recorded in History with today’s date ($todayDate). The next occurrence remains on $nextDate.';
+    return 'このイベントは $date に予定されています。今日の日付 ($todayDate) とともに履歴に​​記録されます。次の発生は $nextDate に残ります。';
   }
 
   @override
-  String get planConfirmBodyNormal =>
-      'This will apply the transaction to your real account balances and move it to History.';
+  String get planConfirmBodyNormal => 'これにより、トランザクションが実際の口座残高に適用され、履歴に移動されます。';
 
   @override
-  String get planTransactionConfirmed => 'Transaction confirmed and applied';
+  String get planTransactionConfirmed => 'トランザクションが確認され、適用されました';
 
   @override
-  String get planTransactionRemoved => 'Planned transaction removed';
+  String get planTransactionRemoved => '計画されたトランザクションが削除されました';
 
   @override
-  String get planRepeatingTitle => 'Repeating transaction';
+  String get planRepeatingTitle => '繰り返し取引';
 
   @override
   String get planRepeatingBody =>
-      'Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.';
+      'この日付のみをスキップするか、シリーズは次の日付に続きます。または、残りの日付をすべて計画から削除します。';
 
   @override
-  String get planDeleteAll => 'Delete all';
+  String get planDeleteAll => 'すべて削除';
 
   @override
-  String get planSkipThisOnly => 'Skip this only';
+  String get planSkipThisOnly => 'これだけはスキップしてください';
 
   @override
-  String get planOccurrenceSkipped =>
-      'This occurrence skipped — next one scheduled';
+  String get planOccurrenceSkipped => 'このイベントはスキップされました - 次のイベントが予定されています';
 
   @override
-  String get planNothingPlanned => 'Nothing planned for now';
+  String get planNothingPlanned => '今のところ何も予定はありません';
 
   @override
-  String get planPlanBody => 'Plan upcoming transactions.';
+  String get planPlanBody => '今後の取引を計画します。';
 
   @override
-  String get planAddPlan => 'Add plan';
+  String get planAddPlan => 'プランの追加';
 
   @override
-  String get planNoPlannedForFilters =>
-      'No planned transactions for applied filters';
+  String get planNoPlannedForFilters => '適用されたフィルターに対して計画されたトランザクションはありません';
 
   @override
   String planNoPlannedInMonth(String month) {
-    return 'No planned transactions in $month';
+    return '$month には予定されている取引はありません';
   }
 
   @override
-  String get planOverdue => 'overdue';
+  String get planOverdue => '期限を過ぎた';
 
   @override
-  String get planPlannedTransaction => 'Planned transaction';
+  String get planPlannedTransaction => '予定されている取引';
 
   @override
-  String get discardTitle => 'Discard changes?';
+  String get discardTitle => '変更を破棄しますか?';
 
   @override
-  String get discardBody =>
-      'You have unsaved changes. They will be lost if you leave now.';
+  String get discardBody => '未保存の変更があります。今出発するとそれらは失われてしまいます。';
 
   @override
-  String get keepEditing => 'Keep editing';
+  String get keepEditing => '編集を続ける';
 
   @override
-  String get discard => 'Discard';
+  String get discard => '破棄';
 
   @override
-  String get newTransactionTitle => 'New Transaction';
+  String get newTransactionTitle => '新しいトランザクション';
 
   @override
-  String get editTransactionTitle => 'Edit Transaction';
+  String get editTransactionTitle => 'トランザクションの編集';
 
   @override
-  String get transactionUpdated => 'Transaction updated';
+  String get transactionUpdated => 'トランザクションが更新されました';
 
   @override
-  String get sectionAccounts => 'Accounts';
+  String get sectionAccounts => 'アカウント';
 
   @override
-  String get labelFrom => 'From';
+  String get labelFrom => 'から';
 
   @override
-  String get labelTo => 'To';
+  String get labelTo => 'に';
 
   @override
-  String get sectionCategory => 'Category';
+  String get sectionCategory => 'カテゴリ';
 
   @override
-  String get sectionAttachments => 'Attachments';
+  String get sectionAttachments => '添付ファイル';
 
   @override
-  String get labelNote => 'Note';
+  String get labelNote => '注記';
 
   @override
-  String get hintOptionalDescription => 'Optional description';
+  String get hintOptionalDescription => 'オプションの説明';
 
   @override
-  String get updateTransaction => 'Update Transaction';
+  String get updateTransaction => 'トランザクションの更新';
 
   @override
-  String get saveTransaction => 'Save Transaction';
+  String get saveTransaction => 'トランザクションの保存';
 
   @override
-  String get selectAccount => 'Select account';
+  String get selectAccount => 'アカウントの選択';
 
   @override
-  String get selectAccountTitle => 'Select Account';
+  String get selectAccountTitle => 'アカウントの選択';
 
   @override
-  String get noAccountsAvailable => 'No accounts available';
+  String get noAccountsAvailable => '利用可能なアカウントがありません';
 
   @override
   String amountReceivedBy(String name, String currency) {
-    return 'Amount received by $name ($currency)';
+    return '$name ($currency) までに受け取った金額';
   }
 
   @override
   String get amountReceivedHelper =>
-      'Enter the exact amount the destination account receives. This locks the real exchange rate used.';
+      '宛先アカウントが受け取る正確な金額を入力します。これにより、使用される実際の為替レートがロックされます。';
 
   @override
-  String get attachTakePhoto => 'Take photo';
+  String get attachTakePhoto => '写真を撮る';
 
   @override
-  String get attachTakePhotoSub => 'Use camera to capture a receipt';
+  String get attachTakePhotoSub => 'カメラを使用してレシートを撮影する';
 
   @override
-  String get attachChooseGallery => 'Choose from gallery';
+  String get attachChooseGallery => 'ギャラリーから選ぶ';
 
   @override
-  String get attachChooseGallerySub => 'Select photos from your library';
+  String get attachChooseGallerySub => 'ライブラリから写真を選択してください';
 
   @override
-  String get attachBrowseFiles => 'Browse files';
+  String get attachBrowseFiles => 'ファイルを参照する';
 
   @override
-  String get attachBrowseFilesSub => 'Attach PDFs, documents or other files';
+  String get attachBrowseFilesSub => 'PDF、ドキュメント、またはその他のファイルを添付する';
 
   @override
-  String get attachButton => 'Attach';
+  String get attachButton => '添付する';
 
   @override
-  String get editPlanTitle => 'Edit Plan';
+  String get editPlanTitle => '計画の編集';
 
   @override
-  String get planTransactionTitle => 'Plan Transaction';
+  String get planTransactionTitle => '計画トランザクション';
 
   @override
-  String get tapToSelect => 'Tap to select';
+  String get tapToSelect => 'タップして選択します';
 
   @override
-  String get updatePlan => 'Update Plan';
+  String get updatePlan => '計画を更新する';
 
   @override
-  String get addToPlan => 'Add to Plan';
+  String get addToPlan => 'プランに追加';
 
   @override
-  String get labelRepeat => 'Repeat';
+  String get labelRepeat => '繰り返す';
 
   @override
-  String get selectPlannedDate => 'Select planned date';
+  String get selectPlannedDate => '予定日を選択してください';
 
   @override
-  String get balancesAsOfToday => 'Balances as of today';
+  String get balancesAsOfToday => '本日時点の残高';
 
   @override
-  String get projectedBalancesForTomorrow => 'Projected balances for tomorrow';
+  String get projectedBalancesForTomorrow => '明日の予想残高';
 
   @override
   String projectedBalancesForDate(String date) {
-    return 'Projected balances for $date';
+    return '$date の予想残高';
   }
 
   @override
   String destReceivesLabel(String name, String currency) {
-    return '$name receives ($currency)';
+    return '$name が ($currency) を受信します';
   }
 
   @override
-  String get destHelper =>
-      'Estimated destination amount. Exact rate is locked at confirmation.';
+  String get destHelper => '推定目的地金額。正確なレートは確認時にロックされます。';
 
   @override
-  String get descriptionOptional => 'Description (optional)';
+  String get descriptionOptional => '説明 (オプション)';
 
   @override
-  String get detailTransactionTitle => 'Transaction';
+  String get detailTransactionTitle => '取引';
 
   @override
-  String get detailPlannedTitle => 'Planned';
+  String get detailPlannedTitle => '計画済み';
 
   @override
-  String get detailConfirmTransaction => 'Confirm transaction';
+  String get detailConfirmTransaction => '取引の確認';
 
   @override
-  String get detailDate => 'Date';
+  String get detailDate => '日付';
 
   @override
-  String get detailFrom => 'From';
+  String get detailFrom => 'から';
 
   @override
-  String get detailTo => 'To';
+  String get detailTo => 'に';
 
   @override
-  String get detailCategory => 'Category';
+  String get detailCategory => 'カテゴリ';
 
   @override
-  String get detailNote => 'Note';
+  String get detailNote => '注記';
 
   @override
-  String get detailDestinationAmount => 'Destination amount';
+  String get detailDestinationAmount => '宛先金額';
 
   @override
-  String get detailExchangeRate => 'Exchange rate';
+  String get detailExchangeRate => '為替レート';
 
   @override
-  String get detailRepeats => 'Repeats';
+  String get detailRepeats => '繰り返し';
 
   @override
-  String get detailDayOfMonth => 'Day of month';
+  String get detailDayOfMonth => '月の日';
 
   @override
-  String get detailWeekends => 'Weekends';
+  String get detailWeekends => '週末';
 
   @override
-  String get detailAttachments => 'Attachments';
+  String get detailAttachments => '添付ファイル';
 
   @override
   String detailFileCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count ファイル',
+      one: '1 ファイル',
     );
     return '$_temp0';
   }
 
   @override
-  String get settingsTitle => 'Settings';
+  String get settingsTitle => '設定';
 
   @override
-  String get settingsSectionDisplay => 'Display';
+  String get settingsSectionDisplay => '画面';
 
   @override
-  String get settingsSectionLanguage => 'Language';
+  String get settingsSectionLanguage => '言語';
 
   @override
-  String get settingsSectionCategories => 'Categories';
+  String get settingsSectionCategories => 'カテゴリー';
 
   @override
-  String get settingsSectionAccounts => 'Accounts';
+  String get settingsSectionAccounts => 'アカウント';
 
   @override
-  String get settingsSectionPreferences => 'Preferences';
+  String get settingsSectionPreferences => '設定';
 
   @override
-  String get settingsSectionManage => 'Manage';
+  String get settingsSectionManage => '管理';
 
   @override
-  String get settingsBaseCurrency => 'Home currency';
+  String get settingsBaseCurrency => '自国通貨';
 
   @override
-  String get settingsSecondaryCurrency => 'Secondary currency';
+  String get settingsSecondaryCurrency => '二次通貨';
 
   @override
-  String get settingsCategories => 'Categories';
+  String get settingsCategories => 'カテゴリー';
 
   @override
   String settingsCategoriesSubtitle(int incomeCount, int expenseCount) {
-    return '$incomeCount income · $expenseCount expense';
+    return '$incomeCount 収入 · $expenseCount 支出';
   }
 
   @override
-  String get settingsArchivedAccounts => 'Archived accounts';
+  String get settingsArchivedAccounts => 'アーカイブされたアカウント';
 
   @override
   String get settingsArchivedAccountsSubtitleZero =>
-      'None right now — archive from account edit when balance is clear';
+      '現在はありません — 残高が明確になったらアカウント編集からアーカイブします';
 
   @override
   String settingsArchivedAccountsSubtitleCount(int count) {
-    return '$count hidden from Review and pickers';
+    return '$count レビューとピッカーから非表示に';
   }
 
   @override
-  String get settingsSectionData => 'Data';
+  String get settingsSectionData => 'データ';
 
   @override
-  String get settingsSectionPrivacy => 'About';
+  String get settingsSectionPrivacy => 'について';
 
   @override
-  String get settingsPrivacyPolicyTitle => 'Privacy policy';
+  String get settingsPrivacyPolicyTitle => 'プライバシーポリシー';
 
   @override
-  String get settingsPrivacyPolicySubtitle => 'How Platrare handles your data.';
+  String get settingsPrivacyPolicySubtitle => 'Platrare によるデータの処理方法。';
 
   @override
   String get settingsPrivacyFxDisclosure =>
-      'Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.';
+      '為替レート: アプリはインターネット経由で公的通貨レートを取得します。あなたのアカウントとトランザクションは決して送信されません。';
 
   @override
-  String get settingsPrivacyOpenFailed => 'Could not load the privacy policy.';
+  String get settingsPrivacyOpenFailed => 'プライバシー ポリシーを読み込めませんでした。';
 
   @override
-  String get settingsPrivacyRetry => 'Try again';
+  String get settingsPrivacyRetry => 'もう一度やり直してください';
 
   @override
-  String get settingsSoftwareVersionTitle => 'Software version';
+  String get settingsSoftwareVersionTitle => 'ソフトウェアバージョン';
 
   @override
-  String get settingsSoftwareVersionSubtitle =>
-      'Release, diagnostics, and legal';
+  String get settingsSoftwareVersionSubtitle => 'リリース、診断、法的事項';
 
   @override
-  String get aboutScreenTitle => 'About';
+  String get aboutScreenTitle => 'について';
 
   @override
-  String get aboutAppTagline =>
-      'Ledger, cashflow, and planning in one workspace.';
+  String get aboutAppTagline => '元帳、キャッシュフロー、計画を 1 つのワークスペースで実行できます。';
 
   @override
   String get aboutDescriptionBody =>
-      'Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.';
+      'Platrare はアカウント、トランザクション、プランをデバイス上に保存します。別の場所にコピーが必要な場合は、暗号化されたバックアップをエクスポートします。為替レートは公開市場データのみを使用します。台帳がアップロードされていません。';
 
   @override
-  String get aboutVersionLabel => 'Version';
+  String get aboutVersionLabel => 'バージョン';
 
   @override
-  String get aboutBuildLabel => 'Build';
+  String get aboutBuildLabel => '建てる';
 
   @override
-  String get aboutCopySupportDetails => 'Copy support details';
+  String get aboutCopySupportDetails => 'サポートの詳細をコピーする';
 
   @override
-  String get aboutOpenPrivacySubtitle =>
-      'Opens the full in-app policy document.';
+  String get aboutOpenPrivacySubtitle => '完全なアプリ内ポリシー文書を開きます。';
 
   @override
-  String get aboutSupportBundleLocaleLabel => 'Locale';
+  String get aboutSupportBundleLocaleLabel => 'ロケール';
 
   @override
-  String get settingsSupportInfoCopied => 'Copied to clipboard';
+  String get settingsSupportInfoCopied => 'クリップボードにコピーされました';
 
   @override
-  String get settingsVerifyLedger => 'Verify data';
+  String get settingsVerifyLedger => 'データの検証';
 
   @override
-  String get settingsVerifyLedgerSubtitle =>
-      'Check that account balances match your transaction history';
+  String get settingsVerifyLedgerSubtitle => '口座残高が取引履歴と一致していることを確認してください';
 
   @override
-  String get settingsDataExportTitle => 'Export backup';
+  String get settingsDataExportTitle => 'バックアップのエクスポート';
 
   @override
   String get settingsDataExportSubtitle =>
-      'Save as .zip or encrypted .platrare with all data and attachments';
+      'すべてのデータと添付ファイルを含む .zip または暗号化された .platrare として保存します';
 
   @override
-  String get settingsDataImportTitle => 'Restore from backup';
+  String get settingsDataImportTitle => 'バックアップから復元する';
 
   @override
   String get settingsDataImportSubtitle =>
-      'Replace current data from a Platrare .zip or .platrare backup';
+      'Platrare .zip または .platrare バックアップから現在のデータを置き換えます';
 
   @override
-  String get backupExportDialogTitle => 'Protect this backup';
+  String get backupExportDialogTitle => 'このバックアップを保護する';
 
   @override
   String get backupExportDialogBody =>
-      'A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.';
+      '特にファイルをクラウドに保存する場合は、強力なパスワードを使用することをお勧めします。インポートするには同じパスワードが必要です。';
 
   @override
-  String get backupExportPasswordLabel => 'Password';
+  String get backupExportPasswordLabel => 'パスワード';
 
   @override
-  String get backupExportPasswordConfirmLabel => 'Confirm password';
+  String get backupExportPasswordConfirmLabel => 'パスワードを認証する';
 
   @override
-  String get backupExportPasswordMismatch => 'Passwords do not match';
+  String get backupExportPasswordMismatch => 'パスワードが一致しません';
 
   @override
-  String get backupExportPasswordEmpty =>
-      'Enter a matching password, or export without encryption below.';
+  String get backupExportPasswordEmpty => '一致するパスワードを入力するか、以下に暗号化せずにエクスポートします。';
 
   @override
-  String get backupExportPasswordTooShort =>
-      'Password must be at least 8 characters.';
+  String get backupExportPasswordTooShort => 'パスワードは 8 文字以上である必要があります。';
 
   @override
-  String get backupExportSaveToDevice => 'Save to device';
+  String get backupExportSaveToDevice => 'デバイスに保存';
 
   @override
-  String get backupExportShareToCloud => 'Share (iCloud, Drive…)';
+  String get backupExportShareToCloud => '共有 (iCloud、ドライブなど)';
 
   @override
-  String get backupExportWithoutEncryption => 'Export without encryption';
+  String get backupExportWithoutEncryption => '暗号化せずにエクスポートする';
 
   @override
-  String get backupExportSkipWarningTitle => 'Export without encryption?';
+  String get backupExportSkipWarningTitle => '暗号化せずにエクスポートしますか?';
 
   @override
   String get backupExportSkipWarningBody =>
-      'Anyone with access to the file can read your data. Use this only for local copies you control.';
+      'ファイルにアクセスできる人は誰でもデータを読み取ることができます。これは、あなたが管理するローカル コピーに対してのみ使用してください。';
 
   @override
-  String get backupExportSkipWarningConfirm => 'Export unencrypted';
+  String get backupExportSkipWarningConfirm => '暗号化せずにエクスポートする';
 
   @override
-  String get backupImportPasswordTitle => 'Encrypted backup';
+  String get backupImportPasswordTitle => '暗号化されたバックアップ';
 
   @override
-  String get backupImportPasswordBody =>
-      'Enter the password you used when exporting.';
+  String get backupImportPasswordBody => 'エクスポート時に使用したパスワードを入力します。';
 
   @override
-  String get backupImportPasswordLabel => 'Password';
+  String get backupImportPasswordLabel => 'パスワード';
 
   @override
-  String get backupImportPreviewTitle => 'Backup summary';
+  String get backupImportPreviewTitle => 'バックアップの概要';
 
   @override
   String backupImportPreviewVersion(String version) {
-    return 'App version: $version';
+    return 'アプリのバージョン: $version';
   }
 
   @override
   String backupImportPreviewExported(String date) {
-    return 'Exported: $date';
+    return 'エクスポート済み: $date';
   }
 
   @override
@@ -793,67 +774,66 @@ class AppLocalizationsJa extends AppLocalizations {
     int income,
     int expense,
   ) {
-    return '$accounts accounts · $transactions transactions · $planned planned · $attachments attachment files · $income income categories · $expense expense categories';
+    return '$accounts アカウント · $transactions トランザクション · $planned 計画済み · $attachments 添付ファイル · $income 収入カテゴリ · $expense 支出カテゴリ';
   }
 
   @override
-  String get backupImportPreviewContinue => 'Continue';
+  String get backupImportPreviewContinue => '続く';
 
   @override
-  String get settingsBackupWrongPassword => 'Wrong password';
+  String get settingsBackupWrongPassword => 'パスワードが間違っています';
 
   @override
-  String get settingsBackupChecksumMismatch => 'Backup failed integrity check';
+  String get settingsBackupChecksumMismatch => 'バックアップの整合性チェックに失敗しました';
 
   @override
-  String get settingsBackupCorruptFile => 'Invalid or damaged backup file';
+  String get settingsBackupCorruptFile => 'バックアップファイルが無効または破損しています';
 
   @override
-  String get settingsBackupUnsupportedVersion =>
-      'Backup needs a newer app version';
+  String get settingsBackupUnsupportedVersion => 'バックアップには新しいアプリバージョンが必要です';
 
   @override
-  String get settingsDataImportConfirmTitle => 'Replace current data?';
+  String get settingsDataImportConfirmTitle => '現在のデータを置き換えますか?';
 
   @override
   String get settingsDataImportConfirmBody =>
-      'This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.';
+      'これにより、現在のアカウント、トランザクション、計画されたトランザクション、カテゴリ、およびインポートされた添付ファイルが、選択したバックアップの内容に置き換えられます。この操作は元に戻すことができません。';
 
   @override
-  String get settingsDataImportConfirmAction => 'Replace data';
+  String get settingsDataImportConfirmAction => 'データを置き換える';
 
   @override
-  String get settingsDataImportDone => 'Data restored successfully';
+  String get settingsDataImportDone => 'データは正常に復元されました';
 
   @override
   String get settingsDataImportInvalidFile =>
-      'This file is not a valid Platrare backup';
+      'このファイルは有効な Platrare バックアップではありません';
 
   @override
-  String get settingsDataImportFailed => 'Import failed';
+  String get settingsDataImportFailed => 'インポートに失敗しました';
 
   @override
-  String get settingsDataExportDoneTitle => 'Backup exported';
+  String get settingsDataExportDoneTitle => 'バックアップがエクスポートされました';
 
   @override
   String settingsDataExportDoneBody(String path) {
-    return 'Backup saved to:\n$path';
+    return 'バックアップの保存場所:\n$path';
   }
 
   @override
-  String get settingsDataOpenExportFile => 'Open file';
+  String get settingsDataOpenExportFile => 'ファイルを開く';
 
   @override
-  String get settingsDataExportFailed => 'Export failed';
+  String get settingsDataExportFailed => 'エクスポートに失敗しました';
 
   @override
-  String get ledgerVerifyDialogTitle => 'Ledger verification';
+  String get ledgerVerifyDialogTitle => '台帳検証';
 
   @override
-  String get ledgerVerifyAllMatch => 'All accounts match.';
+  String get ledgerVerifyAllMatch => 'すべてのアカウントが一致します。';
 
   @override
-  String get ledgerVerifyMismatchesTitle => 'Mismatches';
+  String get ledgerVerifyMismatchesTitle => '不一致';
 
   @override
   String ledgerVerifyMismatchDetails(
@@ -862,162 +842,160 @@ class AppLocalizationsJa extends AppLocalizations {
     String replayed,
     String diff,
   ) {
-    return '$accountName\nStored: $stored\nReplay: $replayed\nDifference: $diff';
+    return '$accountName\n保存場所: $stored\nリプレイ: $replayed\n違い: $diff';
   }
 
   @override
-  String get settingsLanguage => 'App language';
+  String get settingsLanguage => 'アプリ言語';
 
   @override
-  String get settingsLanguageSubtitleSystem => 'Following system settings';
+  String get settingsLanguageSubtitleSystem => '以下のシステム設定';
 
   @override
-  String get settingsLanguageSubtitleEnglish => 'English';
+  String get settingsLanguageSubtitleEnglish => '英語';
 
   @override
-  String get settingsLanguageSubtitleSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageSubtitleSerbianLatin => 'セルビア語 (ラテン語)';
 
   @override
-  String get settingsLanguagePickerTitle => 'App language';
+  String get settingsLanguagePickerTitle => 'アプリ言語';
 
   @override
-  String get settingsLanguageOptionSystem => 'System default';
+  String get settingsLanguageOptionSystem => 'システムのデフォルト';
 
   @override
-  String get settingsLanguageOptionEnglish => 'English';
+  String get settingsLanguageOptionEnglish => '英語';
 
   @override
-  String get settingsLanguageOptionSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageOptionSerbianLatin => 'セルビア語 (ラテン語)';
 
   @override
-  String get settingsSectionAppearance => 'Appearance';
+  String get settingsSectionAppearance => '外観';
 
   @override
-  String get settingsSectionSecurity => 'Security';
+  String get settingsSectionSecurity => '安全';
 
   @override
-  String get settingsSecurityEnableLock => 'Lock app on open';
+  String get settingsSecurityEnableLock => '開いたときにアプリをロックする';
 
   @override
   String get settingsSecurityEnableLockSubtitle =>
-      'Require biometric unlock or PIN when app opens';
+      'アプリを開くときに生体認証によるロック解除または PIN を要求する';
 
   @override
-  String get settingsSecuritySetPin => 'Set PIN';
+  String get settingsSecuritySetPin => '暗証番号を設定する';
 
   @override
-  String get settingsSecurityChangePin => 'Change PIN';
+  String get settingsSecurityChangePin => 'PINの変更';
 
   @override
   String get settingsSecurityPinSubtitle =>
-      'Use a PIN as fallback if biometric is unavailable';
+      '生体認証が利用できない場合は、フォールバックとして PIN を使用する';
 
   @override
-  String get settingsSecurityRemovePin => 'Remove PIN';
+  String get settingsSecurityRemovePin => 'PIN を削除する';
 
   @override
-  String get securitySetPinTitle => 'Set app PIN';
+  String get securitySetPinTitle => 'アプリのPINを設定する';
 
   @override
-  String get securityPinLabel => 'PIN code';
+  String get securityPinLabel => 'PINコード';
 
   @override
-  String get securityConfirmPinLabel => 'Confirm PIN code';
+  String get securityConfirmPinLabel => 'PINコードを確認する';
 
   @override
-  String get securityPinMustBe4Digits => 'PIN must have at least 4 digits';
+  String get securityPinMustBe4Digits => 'PIN は 4 桁以上である必要があります';
 
   @override
-  String get securityPinMismatch => 'PIN codes do not match';
+  String get securityPinMismatch => 'PINコードが一致しません';
 
   @override
-  String get securityRemovePinTitle => 'Remove PIN?';
+  String get securityRemovePinTitle => 'PIN を削除しますか?';
 
   @override
-  String get securityRemovePinBody =>
-      'Biometric unlock can still be used if available.';
+  String get securityRemovePinBody => '利用可能な場合は、生体認証によるロック解除も引き続き使用できます。';
 
   @override
-  String get securityUnlockTitle => 'App locked';
+  String get securityUnlockTitle => 'アプリがロックされています';
 
   @override
-  String get securityUnlockSubtitle =>
-      'Unlock with Face ID, fingerprint, or PIN.';
+  String get securityUnlockSubtitle => 'Face ID、指紋、または PIN でロックを解除します。';
 
   @override
-  String get securityUnlockWithPin => 'Unlock with PIN';
+  String get securityUnlockWithPin => 'PINでロックを解除する';
 
   @override
-  String get securityTryBiometric => 'Try biometric unlock';
+  String get securityTryBiometric => '生体認証によるロック解除を試す';
 
   @override
-  String get securityPinIncorrect => 'Incorrect PIN, try again';
+  String get securityPinIncorrect => 'PIN が間違っています。もう一度お試しください';
 
   @override
-  String get securityBiometricReason => 'Authenticate to open your app';
+  String get securityBiometricReason => '認証してアプリを開く';
 
   @override
-  String get settingsTheme => 'Theme';
+  String get settingsTheme => 'テーマ';
 
   @override
-  String get settingsThemeSubtitleSystem => 'Following system settings';
+  String get settingsThemeSubtitleSystem => '以下のシステム設定';
 
   @override
-  String get settingsThemeSubtitleLight => 'Light';
+  String get settingsThemeSubtitleLight => 'ライト';
 
   @override
-  String get settingsThemeSubtitleDark => 'Dark';
+  String get settingsThemeSubtitleDark => '暗い';
 
   @override
-  String get settingsThemePickerTitle => 'Theme';
+  String get settingsThemePickerTitle => 'テーマ';
 
   @override
-  String get settingsThemeOptionSystem => 'System default';
+  String get settingsThemeOptionSystem => 'システムのデフォルト';
 
   @override
-  String get settingsThemeOptionLight => 'Light';
+  String get settingsThemeOptionLight => 'ライト';
 
   @override
-  String get settingsThemeOptionDark => 'Dark';
+  String get settingsThemeOptionDark => '暗い';
 
   @override
-  String get archivedAccountsTitle => 'Archived accounts';
+  String get archivedAccountsTitle => 'アーカイブされたアカウント';
 
   @override
-  String get archivedAccountsEmptyTitle => 'No archived accounts';
+  String get archivedAccountsEmptyTitle => 'アーカイブされたアカウントはありません';
 
   @override
   String get archivedAccountsEmptyBody =>
-      'Book balance and overdraft must be zero. Archive from account options in Review.';
+      '帳簿残高と当座貸越はゼロでなければなりません。レビューのアカウントからアーカイブするオプション。';
 
   @override
-  String get categoriesTitle => 'Categories';
+  String get categoriesTitle => 'カテゴリー';
 
   @override
-  String get newCategoryTitle => 'New Category';
+  String get newCategoryTitle => '新しいカテゴリー';
 
   @override
-  String get categoryNameLabel => 'Category name';
+  String get categoryNameLabel => 'カテゴリ名';
 
   @override
-  String get deleteCategoryTitle => 'Delete category?';
+  String get deleteCategoryTitle => 'カテゴリを削除しますか?';
 
   @override
   String deleteCategoryBody(String category) {
-    return '\"$category\" will be removed from the list.';
+    return '「$category」はリストから削除されます。';
   }
 
   @override
-  String get categoryIncome => 'Income';
+  String get categoryIncome => '所得';
 
   @override
-  String get categoryExpense => 'Expense';
+  String get categoryExpense => '費用';
 
   @override
-  String get categoryAdd => 'Add';
+  String get categoryAdd => '追加';
 
   @override
-  String get searchCurrencies => 'Search currencies…';
+  String get searchCurrencies => '通貨を検索…';
 
   @override
   String get period1M => '1M';
@@ -1029,584 +1007,572 @@ class AppLocalizationsJa extends AppLocalizations {
   String get period6M => '6M';
 
   @override
-  String get period1Y => '1Y';
+  String get period1Y => '1年';
 
   @override
-  String get periodAll => 'ALL';
+  String get periodAll => '全て';
 
   @override
-  String get categoryLabel => 'category';
+  String get categoryLabel => 'カテゴリ';
 
   @override
-  String get categoriesLabel => 'categories';
+  String get categoriesLabel => 'カテゴリ';
 
   @override
   String transactionSavedMessage(String type, String amount) {
-    return '$type saved  •  $amount';
+    return '$type 保存しました • $amount';
   }
 
   @override
-  String get tooltipSettings => 'Settings';
+  String get tooltipSettings => '設定';
 
   @override
-  String get tooltipAddAccount => 'Add account';
+  String get tooltipAddAccount => 'アカウントを追加';
 
   @override
-  String get tooltipRemoveAccount => 'Remove account';
+  String get tooltipRemoveAccount => 'アカウントを削除する';
 
   @override
   String get accountNameTaken =>
-      'You already have an account with this name and identifier (active or archived). Change the name or identifier.';
+      'この名前と識別子のアカウント (アクティブまたはアーカイブ済み) がすでにあります。名前または識別子を変更します。';
 
   @override
-  String get groupDescPersonal => 'Your own wallets & bank accounts';
+  String get groupDescPersonal => '自分の財布と銀行口座';
 
   @override
-  String get groupDescIndividuals => 'Family, friends, individuals';
+  String get groupDescIndividuals => '家族、友人、個人';
 
   @override
-  String get groupDescEntities => 'Entities, utilities, organisations';
+  String get groupDescEntities => 'エンティティ、公益事業者、組織';
 
   @override
-  String get cannotArchiveTitle => 'Cannot archive yet';
+  String get cannotArchiveTitle => 'まだアーカイブできません';
 
   @override
-  String get cannotArchiveBody =>
-      'Archive is only available when the book balance and overdraft limit are both effectively zero.';
+  String get cannotArchiveBody => 'アーカイブは、帳簿残高と当座貸越限度額が両方とも実質的にゼロの場合にのみ使用できます。';
 
   @override
   String get cannotArchiveBodyAdjust =>
-      'Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.';
+      'アーカイブは、帳簿残高と当座貸越限度額が両方とも実質的にゼロの場合にのみ使用できます。まず台帳または施設を調整します。';
 
   @override
-  String get archiveAccountTitle => 'Archive account?';
+  String get archiveAccountTitle => 'アーカイブアカウント?';
 
   @override
   String archiveWithPlannedBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count planned transactions reference this account.',
-      one: '1 planned transaction references this account.',
+      other: '$count 件の予定取引がこの口座を参照しています。',
+      one: '1 件の予定取引がこの口座を参照しています。',
     );
-    return '$_temp0 Remove them to keep your plan consistent with an archived account.';
+    return '$_temp0 アーカイブされた口座と計画の整合性を保つために削除してください。';
   }
 
   @override
-  String get removeAndArchive => 'Remove planned & archive';
+  String get removeAndArchive => '計画を削除してアーカイブする';
 
   @override
-  String get archiveBody =>
-      'The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.';
+  String get archiveBody => 'アカウントはレビュー、追跡、および計画ピッカーから非表示になります。設定から復元できます。';
 
   @override
-  String get archiveAction => 'Archive';
+  String get archiveAction => 'アーカイブ';
 
   @override
-  String get archiveInstead => 'Archive instead';
+  String get archiveInstead => '代わりにアーカイブする';
 
   @override
-  String get cannotDeleteTitle => 'Cannot delete account';
+  String get cannotDeleteTitle => 'アカウントを削除できません';
 
   @override
   String get cannotDeleteBodyShort =>
-      'This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.';
+      'このアカウントはトラック履歴に表示されます。まずそれらのトランザクションを削除または再割り当てするか、残高がクリアされている場合はアカウントをアーカイブします。';
 
   @override
   String get cannotDeleteBodyHistory =>
-      'This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.';
+      'このアカウントはトラック履歴に表示されます。削除すると履歴が壊れます。最初にそれらのトランザクションを削除するか再割り当てしてください。';
 
   @override
   String get cannotDeleteBodySuggestArchive =>
-      'This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.';
+      'このアカウントはトラック履歴に表示されるため、削除できません。帳簿残高と当座貸越が解消された場合は、代わりにアーカイブすることができます。リストには表示されませんが、履歴はそのまま残ります。';
 
   @override
-  String get deleteAccountTitle => 'Delete account?';
+  String get deleteAccountTitle => 'アカウントを削除しますか?';
 
   @override
-  String get deleteAccountBodyPermanent =>
-      'This account will be removed permanently.';
+  String get deleteAccountBodyPermanent => 'このアカウントは完全に削除されます。';
 
   @override
   String deleteWithPlannedBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          '$count planned transactions reference this account and will also be deleted.',
-      one:
-          '1 planned transaction references this account and will also be deleted.',
+      other: '$count 件の予定取引がこの口座を参照しており、削除されます。',
+      one: '1 件の予定取引がこの口座を参照しており、削除されます。',
     );
     return '$_temp0';
   }
 
   @override
-  String get deleteAllAndDelete => 'Delete all';
+  String get deleteAllAndDelete => 'すべて削除';
 
   @override
-  String get editAccountTitle => 'Edit Account';
+  String get editAccountTitle => 'アカウントの編集';
 
   @override
-  String get newAccountTitle => 'New Account';
+  String get newAccountTitle => '新しいアカウント';
 
   @override
-  String get labelAccountName => 'Account name';
+  String get labelAccountName => 'アカウント名';
 
   @override
-  String get labelAccountIdentifier => 'Identifier (optional)';
+  String get labelAccountIdentifier => '識別子 (オプション)';
 
   @override
-  String get accountAppearanceSection => 'Icon & color';
+  String get accountAppearanceSection => 'アイコンと色';
 
   @override
-  String get accountPickIcon => 'Choose icon';
+  String get accountPickIcon => 'アイコンを選択';
 
   @override
-  String get accountPickColor => 'Choose color';
+  String get accountPickColor => '色を選択してください';
 
   @override
-  String get accountIconSheetTitle => 'Account icon';
+  String get accountIconSheetTitle => 'アカウントアイコン';
 
   @override
-  String get accountColorSheetTitle => 'Account color';
+  String get accountColorSheetTitle => 'アカウントの色';
 
   @override
-  String get accountUseInitialLetter => 'Initial letter';
+  String get accountUseInitialLetter => '頭文字';
 
   @override
-  String get accountUseDefaultColor => 'Match group';
+  String get accountUseDefaultColor => 'マッチグループ';
 
   @override
-  String get labelRealBalance => 'Real balance';
+  String get labelRealBalance => '実質残高';
 
   @override
-  String get labelOverdraftLimit => 'Overdraft / advance limit';
+  String get labelOverdraftLimit => '当座貸越/前払い限度額';
 
   @override
-  String get labelCurrency => 'Currency';
+  String get labelCurrency => '通貨';
 
   @override
-  String get saveChanges => 'Save Changes';
+  String get saveChanges => '変更を保存';
 
   @override
-  String get addAccountAction => 'Add Account';
+  String get addAccountAction => 'アカウントの追加';
 
   @override
-  String get removeAccountSheetTitle => 'Remove account';
+  String get removeAccountSheetTitle => 'アカウントを削除する';
 
   @override
-  String get deletePermanently => 'Delete permanently';
+  String get deletePermanently => '完全に削除';
 
   @override
   String get deletePermanentlySubtitle =>
-      'Only possible when this account is not used in Track. Planned items can be removed as part of delete.';
+      'このアカウントが Track で使用されていない場合にのみ可能です。計画されたアイテムは、削除の一部として削除できます。';
 
   @override
   String get archiveOptionSubtitle =>
-      'Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.';
+      'レビューやピッカーから非表示にします。設定からいつでも復元できます。ゼロ残高と当座貸越が必要です。';
 
   @override
   String get archivedBannerText =>
-      'This account is archived. It stays in your data but is hidden from lists and pickers.';
+      'このアカウントはアーカイブされています。データには残りますが、リストやピッカーには表示されません。';
 
   @override
-  String get balanceAdjustedTitle => 'Balance adjusted in Track';
+  String get balanceAdjustedTitle => 'Trackでバランス調整';
 
   @override
   String balanceAdjustedBody(String previous, String current, String symbol) {
-    return 'Real balance was updated from $previous to $current $symbol.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.';
+    return '実質残高が $previous から $current $symbol に更新されました。\n\n元帳の一貫性を保つために、残高調整トランザクションが追跡 (履歴) に作成されました。\n\n• 実際の残高は、このアカウントの実際の金額を反映します。\n• 調整エントリの履歴を確認します。';
   }
 
   @override
-  String get ok => 'OK';
+  String get ok => 'わかりました';
 
   @override
-  String get categoryBalanceAdjustment => 'Balance adjustment';
+  String get categoryBalanceAdjustment => 'バランス調整';
 
   @override
-  String get descriptionBalanceCorrection => 'Balance correction';
+  String get descriptionBalanceCorrection => 'バランス補正';
 
   @override
-  String get descriptionOpeningBalance => 'Opening balance';
+  String get descriptionOpeningBalance => '期首残高';
 
   @override
-  String get reviewStatsModeStatistics => 'Statistics';
+  String get reviewStatsModeStatistics => '統計';
 
   @override
-  String get reviewStatsModeComparison => 'Comparison';
+  String get reviewStatsModeComparison => '比較';
 
   @override
-  String get statsUncategorized => 'Uncategorized';
+  String get statsUncategorized => '未分類';
 
   @override
-  String get statsNoCategories =>
-      'No categories in the selected periods for comparison.';
+  String get statsNoCategories => '選択した期間には比較対象のカテゴリがありません。';
 
   @override
-  String get statsNoTransactions => 'No transactions';
+  String get statsNoTransactions => '取引なし';
 
   @override
-  String get statsSpendingInCategory => 'Spending in this category';
+  String get statsSpendingInCategory => 'このカテゴリーでの支出';
 
   @override
-  String get statsIncomeInCategory => 'Income in this category';
+  String get statsIncomeInCategory => 'このカテゴリーの収入';
 
   @override
-  String get statsDifference => 'Difference (B vs A): ';
+  String get statsDifference => '違い (B 対 A):';
 
   @override
-  String get statsNoExpensesMonth => 'No expenses this month';
+  String get statsNoExpensesMonth => '今月は出費なし';
 
   @override
-  String get statsNoExpensesAll => 'No expenses recorded';
+  String get statsNoExpensesAll => '経費は記録されていません';
 
   @override
   String statsNoExpensesPeriod(String period) {
-    return 'No expenses in the last $period';
+    return '最後 $period には経費はかかりません';
   }
 
   @override
-  String get statsTotalSpent => 'Total spent';
+  String get statsTotalSpent => '支出総額';
 
   @override
-  String get statsNoExpensesThisPeriod => 'No expenses in this period';
+  String get statsNoExpensesThisPeriod => 'この期間は経費はかかりません';
 
   @override
-  String get statsNoIncomeMonth => 'No income this month';
+  String get statsNoIncomeMonth => '今月は収入がない';
 
   @override
-  String get statsNoIncomeAll => 'No income recorded';
+  String get statsNoIncomeAll => '収入は記録されていない';
 
   @override
   String statsNoIncomePeriod(String period) {
-    return 'No income in the last $period';
+    return '最後 $period は収入なし';
   }
 
   @override
-  String get statsTotalReceived => 'Total received';
+  String get statsTotalReceived => '受け取った合計';
 
   @override
-  String get statsNoIncomeThisPeriod => 'No income in this period';
+  String get statsNoIncomeThisPeriod => 'この期間は収入がない';
 
   @override
-  String get catSalary => 'Salary';
+  String get catSalary => '給料';
 
   @override
-  String get catFreelance => 'Freelance';
+  String get catFreelance => 'フリーランス';
 
   @override
-  String get catConsulting => 'Consulting';
+  String get catConsulting => 'コンサルティング';
 
   @override
-  String get catGift => 'Gift';
+  String get catGift => '贈り物';
 
   @override
-  String get catRental => 'Rental';
+  String get catRental => 'レンタル';
 
   @override
-  String get catDividends => 'Dividends';
+  String get catDividends => '配当金';
 
   @override
-  String get catRefund => 'Refund';
+  String get catRefund => '返金';
 
   @override
-  String get catBonus => 'Bonus';
+  String get catBonus => 'ボーナス';
 
   @override
-  String get catInterest => 'Interest';
+  String get catInterest => '興味';
 
   @override
-  String get catSideHustle => 'Side hustle';
+  String get catSideHustle => 'サイドハッスル';
 
   @override
-  String get catSaleOfGoods => 'Sale of goods';
+  String get catSaleOfGoods => 'グッズの販売';
 
   @override
-  String get catOther => 'Other';
+  String get catOther => '他の';
 
   @override
-  String get catGroceries => 'Groceries';
+  String get catGroceries => '食料品';
 
   @override
-  String get catDining => 'Dining';
+  String get catDining => 'ダイニング';
 
   @override
-  String get catTransport => 'Transport';
+  String get catTransport => '輸送';
 
   @override
-  String get catUtilities => 'Utilities';
+  String get catUtilities => '公共事業';
 
   @override
-  String get catHousing => 'Housing';
+  String get catHousing => 'ハウジング';
 
   @override
-  String get catHealthcare => 'Healthcare';
+  String get catHealthcare => '健康管理';
 
   @override
-  String get catEntertainment => 'Entertainment';
+  String get catEntertainment => 'エンターテインメント';
 
   @override
-  String get catShopping => 'Shopping';
+  String get catShopping => '買い物';
 
   @override
-  String get catTravel => 'Travel';
+  String get catTravel => '旅行';
 
   @override
-  String get catEducation => 'Education';
+  String get catEducation => '教育';
 
   @override
-  String get catSubscriptions => 'Subscriptions';
+  String get catSubscriptions => '定期購入';
 
   @override
-  String get catInsurance => 'Insurance';
+  String get catInsurance => '保険';
 
   @override
-  String get catFuel => 'Fuel';
+  String get catFuel => '燃料';
 
   @override
-  String get catGym => 'Gym';
+  String get catGym => 'ジム';
 
   @override
-  String get catPets => 'Pets';
+  String get catPets => 'ペット';
 
   @override
-  String get catKids => 'Kids';
+  String get catKids => 'キッズ';
 
   @override
-  String get catCharity => 'Charity';
+  String get catCharity => 'チャリティー';
 
   @override
-  String get catCoffee => 'Coffee';
+  String get catCoffee => 'コーヒー';
 
   @override
-  String get catGifts => 'Gifts';
+  String get catGifts => 'ギフト';
 
   @override
   String semanticsProjectionDate(String date) {
-    return 'Projection date $date. Double tap to choose date';
+    return '予測日 $date。ダブルタップして日付を選択します';
   }
 
   @override
   String semanticsProjectedBalance(String amount) {
-    return 'Projected personal balance $amount';
+    return '予測される個人残高 $amount';
   }
 
   @override
-  String get statsEmptyTitle => 'No transactions yet';
+  String get statsEmptyTitle => 'まだ取引はありません';
 
   @override
-  String get statsEmptySubtitle => 'No spending data for the selected range.';
+  String get statsEmptySubtitle => '選択した範囲には支出データがありません。';
 
   @override
-  String get semanticsShowProjections => 'Show projected balances by account';
+  String get semanticsShowProjections => '口座ごとに予想残高を表示';
 
   @override
-  String get semanticsHideProjections => 'Hide projected balances by account';
+  String get semanticsHideProjections => '口座ごとの予想残高を非表示にする';
 
   @override
-  String get semanticsDateAllTime => 'Date: all time — tap to change mode';
+  String get semanticsDateAllTime => '日付: 常時 — タップしてモードを変更します';
 
   @override
   String semanticsDateMode(String mode) {
-    return 'Date: $mode — tap to change mode';
+    return '日付: $mode — タップしてモードを変更します';
   }
 
   @override
-  String get semanticsDateThisMonth =>
-      'Date: this month — tap for month, week, year, or all time';
+  String get semanticsDateThisMonth => '日付: 今月 — 月、週、年、またはすべての期間をタップします';
 
   @override
-  String get semanticsTxTypeCycle =>
-      'Transaction type: cycle all, income, expense, transfer';
+  String get semanticsTxTypeCycle => '取引タイプ：サイクルオール、収入、支出、振替';
 
   @override
-  String get semanticsAccountFilter => 'Account filter';
+  String get semanticsAccountFilter => 'アカウントフィルター';
 
   @override
-  String get semanticsAlreadyFiltered => 'Already filtered to this account';
+  String get semanticsAlreadyFiltered => 'すでにこのアカウントにフィルタリングされています';
 
   @override
-  String get semanticsCategoryFilter => 'Category filter';
+  String get semanticsCategoryFilter => 'カテゴリフィルター';
 
   @override
-  String get semanticsSortToggle => 'Sort: toggle newest or oldest first';
+  String get semanticsSortToggle => '並べ替え: 新しい順または古い順を切り替えます';
 
   @override
   String get semanticsFiltersDisabled =>
-      'List filters disabled while viewing a future projection date. Clear projections to use filters.';
+      '将来の予測日を表示しているときにリスト フィルターが無効になります。フィルターを使用するには投影をクリアします。';
 
   @override
   String get semanticsFiltersDisabledNeedAccount =>
-      'List filters disabled. Add an account first.';
+      'リストフィルターが無効になっています。まずアカウントを追加します。';
 
   @override
   String get semanticsFiltersDisabledNeedPlannedTransaction =>
-      'List filters disabled. Add a planned transaction first.';
+      'リストフィルターが無効になっています。まず計画されたトランザクションを追加します。';
 
   @override
   String get semanticsFiltersDisabledNeedRecordedTransaction =>
-      'List filters disabled. Record a transaction first.';
+      'リストフィルターが無効になっています。まずトランザクションを記録します。';
 
   @override
   String get semanticsReviewSectionChipsDisabledNeedAccount =>
-      'Section and currency controls disabled. Add an account first.';
+      'セクションと通貨の管理が無効になっています。まずアカウントを追加します。';
 
   @override
   String get semanticsPlanProjectionControlsDisabled =>
-      'Projection date and balance breakdown disabled. Add an account and a planned transaction first.';
+      '予測日と残高の内訳は無効になっています。まずアカウントと計画されたトランザクションを追加します。';
 
   @override
-  String get semanticsReorderAccountHint =>
-      'Long press, then drag to reorder within this group';
+  String get semanticsReorderAccountHint => '長押ししてからドラッグし、このグループ内で順序を変更します';
 
   @override
-  String get semanticsChartStyle => 'Chart style';
+  String get semanticsChartStyle => 'グラフのスタイル';
 
   @override
-  String get semanticsChartStyleUnavailable =>
-      'Chart style (unavailable in comparison mode)';
+  String get semanticsChartStyleUnavailable => 'グラフのスタイル (比較モードでは使用できません)';
 
   @override
   String semanticsPeriod(String label) {
-    return 'Period: $label';
+    return '期間: $label';
   }
 
   @override
-  String get trackSearchHint => 'Search description, category, account…';
+  String get trackSearchHint => '説明、カテゴリ、アカウントを検索…';
 
   @override
-  String get trackSearchClear => 'Clear search';
+  String get trackSearchClear => '検索をクリア';
 
   @override
-  String get settingsExchangeRatesTitle => 'Exchange rates';
+  String get settingsExchangeRatesTitle => '為替レート';
 
   @override
   String settingsExchangeRatesUpdated(String time) {
-    return 'Last updated: $time';
+    return '最終更新日: $time';
   }
 
   @override
   String get settingsExchangeRatesNeverUpdated =>
-      'Using offline or bundled rates — tap to refresh';
+      'オフライン料金またはバンドル料金の使用 — タップして更新';
 
   @override
   String get settingsExchangeRatesSource => 'ECB';
 
   @override
-  String get settingsExchangeRatesUpdatedSnack => 'Exchange rates updated';
+  String get settingsExchangeRatesUpdatedSnack => '為替レートが更新されました';
 
   @override
   String get settingsExchangeRatesUpdateFailed =>
-      'Could not update exchange rates. Check your connection.';
+      '為替レートを更新できませんでした。接続を確認してください。';
 
   @override
-  String get settingsClearData => 'Clear data';
+  String get settingsClearData => 'データのクリア';
 
   @override
-  String get settingsClearDataSubtitle => 'Permanently remove selected data';
+  String get settingsClearDataSubtitle => '選択したデータを完全に削除します';
 
   @override
-  String get clearDataTitle => 'Clear data';
+  String get clearDataTitle => 'データのクリア';
 
   @override
-  String get clearDataTransactions => 'Transaction history';
+  String get clearDataTransactions => '取引履歴';
 
   @override
   String clearDataTransactionsSubtitle(int count) {
-    return '$count transactions · account balances reset to zero';
+    return '$count 取引 · 口座残高がゼロにリセット';
   }
 
   @override
-  String get clearDataPlanned => 'Planned transactions';
+  String get clearDataPlanned => '計画的な取引';
 
   @override
   String clearDataPlannedSubtitle(int count) {
-    return '$count planned items';
+    return '$count予定アイテム';
   }
 
   @override
-  String get clearDataAccounts => 'Accounts';
+  String get clearDataAccounts => 'アカウント';
 
   @override
   String clearDataAccountsSubtitle(int count) {
-    return '$count accounts · also clears history and plan';
+    return '$count アカウント · 履歴とプランもクリアします';
   }
 
   @override
-  String get clearDataCategories => 'Categories';
+  String get clearDataCategories => 'カテゴリー';
 
   @override
   String clearDataCategoriesSubtitle(int count) {
-    return '$count categories · replaced with defaults';
+    return '$count カテゴリ · デフォルトに置き換えられました';
   }
 
   @override
-  String get clearDataPreferences => 'Preferences';
+  String get clearDataPreferences => '設定';
 
   @override
-  String get clearDataPreferencesSubtitle =>
-      'Reset currency, theme and language to defaults';
+  String get clearDataPreferencesSubtitle => '通貨、テーマ、言語をデフォルトにリセットする';
 
   @override
-  String get clearDataSecurity => 'App lock & PIN';
+  String get clearDataSecurity => 'アプリロックとPIN';
 
   @override
-  String get clearDataSecuritySubtitle => 'Disable app lock and remove PIN';
+  String get clearDataSecuritySubtitle => 'アプリロックを無効にしてPINを削除する';
 
   @override
-  String get clearDataConfirmButton => 'Clear selected';
+  String get clearDataConfirmButton => '選択をクリア';
 
   @override
-  String get clearDataConfirmTitle => 'This cannot be undone';
+  String get clearDataConfirmTitle => 'これは元に戻すことはできません';
 
   @override
   String get clearDataConfirmBody =>
-      'The selected data will be permanently deleted. Export a backup first if you may need it later.';
+      '選択したデータは完全に削除されます。後で必要になる可能性がある場合は、最初にバックアップをエクスポートしてください。';
 
   @override
-  String get clearDataTypeConfirm => 'Type DELETE to confirm';
+  String get clearDataTypeConfirm => '「DELETE」と入力して確認します';
 
   @override
-  String get clearDataTypeConfirmError => 'Type DELETE exactly to continue';
+  String get clearDataTypeConfirmError => '続行するには DELETE を正確に入力してください';
 
   @override
-  String get clearDataPinTitle => 'Confirm with PIN';
+  String get clearDataPinTitle => 'PINで確認';
 
   @override
-  String get clearDataPinBody => 'Enter your app PIN to authorize this action.';
+  String get clearDataPinBody => 'このアクションを承認するには、アプリの PIN を入力してください。';
 
   @override
-  String get clearDataPinIncorrect => 'Incorrect PIN';
+  String get clearDataPinIncorrect => '間違ったPIN';
 
   @override
-  String get clearDataDone => 'Selected data cleared';
+  String get clearDataDone => '選択したデータがクリアされました';
 
   @override
-  String get autoBackupTitle => 'Automatic daily backup';
+  String get autoBackupTitle => '毎日の自動バックアップ';
 
   @override
   String autoBackupLastAt(String date) {
-    return 'Last backed up $date';
+    return '最後にバックアップしたのは $date';
   }
 
   @override
-  String get autoBackupNeverRun => 'No backup yet';
+  String get autoBackupNeverRun => 'まだバックアップがありません';
 
   @override
-  String get autoBackupShareTitle => 'Save to cloud';
+  String get autoBackupShareTitle => 'クラウドに保存';
 
   @override
   String get autoBackupShareSubtitle =>
-      'Upload latest backup to iCloud Drive, Google Drive or any app';
+      '最新のバックアップを iCloud Drive、Google Drive、または任意のアプリにアップロード';
 
   @override
   String get autoBackupCloudReminder =>
-      'Auto-backup ready — save it to cloud for off-device protection';
+      '自動バックアップの準備ができています - オフデバイス保護のためにクラウドに保存します';
 
   @override
-  String get autoBackupCloudReminderAction => 'Share';
+  String get autoBackupCloudReminderAction => '共有';
 
   @override
-  String get persistenceErrorReloaded =>
-      'Couldn’t save changes. Data was reloaded from storage.';
+  String get persistenceErrorReloaded => '変更を保存できませんでした。データがストレージから再ロードされました。';
 }

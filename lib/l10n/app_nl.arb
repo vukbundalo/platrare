@@ -5,27 +5,28 @@
     "description": "Application title"
   },
   "navPlan": "Plan",
-  "navTrack": "Track",
-  "navReview": "Review",
-  "cancel": "Cancel",
-  "delete": "Delete",
-  "close": "Close",
-  "add": "Add",
-  "undo": "Undo",
-  "confirm": "Confirm",
-  "restore": "Restore",
+  "navTrack": "Spoor",
+  "navReview": "Beoordeling",
+  "cancel": "Annuleren",
+  "delete": "Verwijderen",
+  "close": "Dichtbij",
+  "add": "Toevoegen",
+  "undo": "Ongedaan maken",
+  "confirm": "Bevestigen",
+  "restore": "Herstellen",
   "heroIn": "In",
-  "heroOut": "Out",
-  "heroNet": "Net",
-  "heroBalance": "Balance",
-  "realBalance": "Real balance",
-  "heroResetButton": "Reset",
-  "filterAll": "All",
-  "filterAllAccounts": "All accounts",
-  "filterAllCategories": "All categories",
-  "txLabelIncome": "INCOME",
-  "txLabelExpense": "EXPENSE",
-  "txLabelInvoice": "INVOICE",
+  "heroOut": "Uit",
+  "heroNet": "Netto",
+  "heroBalance": "Evenwicht",
+  "realBalance": "Echt evenwicht",
+  "heroResetButton": "Opnieuw instellen",
+  "fabScrollToTop": "Terug naar boven",
+  "filterAll": "Alle",
+  "filterAllAccounts": "Alle rekeningen",
+  "filterAllCategories": "Alle categorieën",
+  "txLabelIncome": "INKOMEN",
+  "txLabelExpense": "KOSTEN",
+  "txLabelInvoice": "FACTUUR",
   "txLabelBill": "BILL",
   "txLabelAdvance": "ADVANCE",
   "txLabelSettlement": "SETTLEMENT",
@@ -40,7 +41,7 @@
   "repeatMonthly": "Monthly",
   "repeatYearly": "Yearly",
   "repeatEveryLabel": "Every",
-  "repeatEveryDays": "{count, plural, =1{day} other{{count} days}}",
+  "repeatEveryDays": "{count, plural, =1{dag} other{{count} dagen}}",
   "@repeatEveryDays": {
     "placeholders": {
       "count": {
@@ -48,7 +49,7 @@
       }
     }
   },
-  "repeatEveryWeeks": "{count, plural, =1{week} other{{count} weeks}}",
+  "repeatEveryWeeks": "{count, plural, =1{week} other{{count} weken}}",
   "@repeatEveryWeeks": {
     "placeholders": {
       "count": {
@@ -56,7 +57,7 @@
       }
     }
   },
-  "repeatEveryMonths": "{count, plural, =1{month} other{{count} months}}",
+  "repeatEveryMonths": "{count, plural, =1{maand} other{{count} maanden}}",
   "@repeatEveryMonths": {
     "placeholders": {
       "count": {
@@ -64,7 +65,7 @@
       }
     }
   },
-  "repeatEveryYears": "{count, plural, =1{year} other{{count} years}}",
+  "repeatEveryYears": "{count, plural, =1{jaar} other{{count} jaar}}",
   "@repeatEveryYears": {
     "placeholders": {
       "count": {
@@ -192,8 +193,8 @@
   "trackDeleteTitle": "Delete transaction?",
   "trackDeleteBody": "This will reverse the account balance changes.",
   "trackTransaction": "Transaction",
-  "planConfirmTitle": "Confirm transaction?",
-  "planConfirmBodyEarly": "This occurrence is scheduled for {date}. It will be recorded in History with today’s date ({todayDate}). The next occurrence remains on {nextDate}.",
+  "planConfirmTitle": "Transactie bevestigen?",
+  "planConfirmBodyEarly": "Deze gebeurtenis is gepland voor {date}. Het wordt opgenomen in de Geschiedenis met de datum van vandaag ({todayDate}). Het volgende exemplaar blijft op {nextDate} staan.",
   "@planConfirmBodyEarly": {
     "placeholders": {
       "date": {
@@ -207,19 +208,19 @@
       }
     }
   },
-  "planConfirmBodyNormal": "This will apply the transaction to your real account balances and move it to History.",
-  "planTransactionConfirmed": "Transaction confirmed and applied",
-  "planTransactionRemoved": "Planned transaction removed",
-  "planRepeatingTitle": "Repeating transaction",
-  "planRepeatingBody": "Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.",
-  "planDeleteAll": "Delete all",
-  "planSkipThisOnly": "Skip this only",
-  "planOccurrenceSkipped": "This occurrence skipped — next one scheduled",
-  "planNothingPlanned": "Nothing planned for now",
-  "planPlanBody": "Plan upcoming transactions.",
-  "planAddPlan": "Add plan",
-  "planNoPlannedForFilters": "No planned transactions for applied filters",
-  "planNoPlannedInMonth": "No planned transactions in {month}",
+  "planConfirmBodyNormal": "Hierdoor wordt de transactie toegepast op uw echte rekeningsaldi en wordt deze naar Geschiedenis verplaatst.",
+  "planTransactionConfirmed": "Transactie bevestigd en toegepast",
+  "planTransactionRemoved": "Geplande transactie verwijderd",
+  "planRepeatingTitle": "Herhaalde transactie",
+  "planRepeatingBody": "Sla alleen deze datum over (de serie gaat verder met de volgende gebeurtenis) of verwijder elke resterende gebeurtenis uit uw plan.",
+  "planDeleteAll": "Alles verwijderen",
+  "planSkipThisOnly": "Sla dit alleen over",
+  "planOccurrenceSkipped": "Deze gebeurtenis is overgeslagen; de volgende is gepland",
+  "planNothingPlanned": "Voorlopig niets gepland",
+  "planPlanBody": "Plan komende transacties.",
+  "planAddPlan": "Abonnement toevoegen",
+  "planNoPlannedForFilters": "Geen geplande transacties voor toegepaste filters",
+  "planNoPlannedInMonth": "Geen geplande transacties in {month}",
   "@planNoPlannedInMonth": {
     "placeholders": {
       "month": {
@@ -227,28 +228,28 @@
       }
     }
   },
-  "planOverdue": "overdue",
-  "planPlannedTransaction": "Planned transaction",
-  "discardTitle": "Discard changes?",
-  "discardBody": "You have unsaved changes. They will be lost if you leave now.",
-  "keepEditing": "Keep editing",
-  "discard": "Discard",
-  "newTransactionTitle": "New Transaction",
-  "editTransactionTitle": "Edit Transaction",
-  "transactionUpdated": "Transaction updated",
-  "sectionAccounts": "Accounts",
-  "labelFrom": "From",
-  "labelTo": "To",
-  "sectionCategory": "Category",
-  "sectionAttachments": "Attachments",
-  "labelNote": "Note",
-  "hintOptionalDescription": "Optional description",
-  "updateTransaction": "Update Transaction",
-  "saveTransaction": "Save Transaction",
-  "selectAccount": "Select account",
-  "selectAccountTitle": "Select Account",
-  "noAccountsAvailable": "No accounts available",
-  "amountReceivedBy": "Amount received by {name} ({currency})",
+  "planOverdue": "verlopen",
+  "planPlannedTransaction": "Geplande transactie",
+  "discardTitle": "Wijzigingen weggooien?",
+  "discardBody": "U heeft niet-opgeslagen wijzigingen. Als je nu weggaat, gaan ze verloren.",
+  "keepEditing": "Blijf bewerken",
+  "discard": "Verwijderen",
+  "newTransactionTitle": "Nieuwe transactie",
+  "editTransactionTitle": "Transactie bewerken",
+  "transactionUpdated": "Transactie bijgewerkt",
+  "sectionAccounts": "Rekeningen",
+  "labelFrom": "Van",
+  "labelTo": "Naar",
+  "sectionCategory": "Categorie",
+  "sectionAttachments": "Bijlagen",
+  "labelNote": "Opmerking",
+  "hintOptionalDescription": "Optionele beschrijving",
+  "updateTransaction": "Transactie bijwerken",
+  "saveTransaction": "Transactie opslaan",
+  "selectAccount": "Selecteer rekening",
+  "selectAccountTitle": "Selecteer Account",
+  "noAccountsAvailable": "Geen accounts beschikbaar",
+  "amountReceivedBy": "Bedrag ontvangen door {name} ({currency})",
   "@amountReceivedBy": {
     "placeholders": {
       "name": {
@@ -259,24 +260,24 @@
       }
     }
   },
-  "amountReceivedHelper": "Enter the exact amount the destination account receives. This locks the real exchange rate used.",
-  "attachTakePhoto": "Take photo",
-  "attachTakePhotoSub": "Use camera to capture a receipt",
-  "attachChooseGallery": "Choose from gallery",
-  "attachChooseGallerySub": "Select photos from your library",
-  "attachBrowseFiles": "Browse files",
-  "attachBrowseFilesSub": "Attach PDFs, documents or other files",
-  "attachButton": "Attach",
-  "editPlanTitle": "Edit Plan",
-  "planTransactionTitle": "Plan Transaction",
-  "tapToSelect": "Tap to select",
-  "updatePlan": "Update Plan",
-  "addToPlan": "Add to Plan",
-  "labelRepeat": "Repeat",
-  "selectPlannedDate": "Select planned date",
-  "balancesAsOfToday": "Balances as of today",
-  "projectedBalancesForTomorrow": "Projected balances for tomorrow",
-  "projectedBalancesForDate": "Projected balances for {date}",
+  "amountReceivedHelper": "Voer het exacte bedrag in dat de bestemmingsrekening ontvangt. Hierdoor wordt de gebruikte reële wisselkoers vergrendeld.",
+  "attachTakePhoto": "Maak een foto",
+  "attachTakePhotoSub": "Gebruik de camera om een ​​bon vast te leggen",
+  "attachChooseGallery": "Kies uit galerij",
+  "attachChooseGallerySub": "Selecteer foto's uit uw bibliotheek",
+  "attachBrowseFiles": "Blader door bestanden",
+  "attachBrowseFilesSub": "Voeg PDF's, documenten of andere bestanden toe",
+  "attachButton": "Bijvoegen",
+  "editPlanTitle": "Plan bewerken",
+  "planTransactionTitle": "Plantransactie",
+  "tapToSelect": "Tik om te selecteren",
+  "updatePlan": "Plan bijwerken",
+  "addToPlan": "Toevoegen aan abonnement",
+  "labelRepeat": "Herhalen",
+  "selectPlannedDate": "Selecteer geplande datum",
+  "balancesAsOfToday": "Saldo's vanaf vandaag",
+  "projectedBalancesForTomorrow": "Geprojecteerde saldi voor morgen",
+  "projectedBalancesForDate": "Geprojecteerde saldi voor {date}",
   "@projectedBalancesForDate": {
     "placeholders": {
       "date": {
@@ -284,7 +285,7 @@
       }
     }
   },
-  "destReceivesLabel": "{name} receives ({currency})",
+  "destReceivesLabel": "{name} ontvangt ({currency})",
   "@destReceivesLabel": {
     "placeholders": {
       "name": {
@@ -295,23 +296,23 @@
       }
     }
   },
-  "destHelper": "Estimated destination amount. Exact rate is locked at confirmation.",
-  "descriptionOptional": "Description (optional)",
-  "detailTransactionTitle": "Transaction",
-  "detailPlannedTitle": "Planned",
-  "detailConfirmTransaction": "Confirm transaction",
-  "detailDate": "Date",
-  "detailFrom": "From",
-  "detailTo": "To",
-  "detailCategory": "Category",
-  "detailNote": "Note",
-  "detailDestinationAmount": "Destination amount",
-  "detailExchangeRate": "Exchange rate",
-  "detailRepeats": "Repeats",
-  "detailDayOfMonth": "Day of month",
-  "detailWeekends": "Weekends",
-  "detailAttachments": "Attachments",
-  "detailFileCount": "{count, plural, =1{1 file} other{{count} files}}",
+  "destHelper": "Geschatte bestemmingsbedrag. Het exacte tarief wordt vergrendeld bij bevestiging.",
+  "descriptionOptional": "Beschrijving (optioneel)",
+  "detailTransactionTitle": "Transactie",
+  "detailPlannedTitle": "Gepland",
+  "detailConfirmTransaction": "Transactie bevestigen",
+  "detailDate": "Datum",
+  "detailFrom": "Van",
+  "detailTo": "Naar",
+  "detailCategory": "Categorie",
+  "detailNote": "Opmerking",
+  "detailDestinationAmount": "Bestemmingsbedrag",
+  "detailExchangeRate": "Wisselkoers",
+  "detailRepeats": "Herhalingen",
+  "detailDayOfMonth": "Dag van de maand",
+  "detailWeekends": "Weekenden",
+  "detailAttachments": "Bijlagen",
+  "detailFileCount": "{count, plural, =1{1 bestand} other{{count} bestanden}}",
   "@detailFileCount": {
     "placeholders": {
       "count": {
@@ -319,17 +320,17 @@
       }
     }
   },
-  "settingsTitle": "Settings",
-  "settingsSectionDisplay": "Display",
-  "settingsSectionLanguage": "Language",
-  "settingsSectionCategories": "Categories",
-  "settingsSectionAccounts": "Accounts",
-  "settingsSectionPreferences": "Preferences",
-  "settingsSectionManage": "Manage",
-  "settingsBaseCurrency": "Home currency",
-  "settingsSecondaryCurrency": "Secondary currency",
-  "settingsCategories": "Categories",
-  "settingsCategoriesSubtitle": "{incomeCount} income · {expenseCount} expense",
+  "settingsTitle": "Instellingen",
+  "settingsSectionDisplay": "Weergave",
+  "settingsSectionLanguage": "Taal",
+  "settingsSectionCategories": "Categorieën",
+  "settingsSectionAccounts": "Rekeningen",
+  "settingsSectionPreferences": "Voorkeuren",
+  "settingsSectionManage": "Beheren",
+  "settingsBaseCurrency": "Eigen valuta",
+  "settingsSecondaryCurrency": "Secundaire valuta",
+  "settingsCategories": "Categorieën",
+  "settingsCategoriesSubtitle": "{incomeCount} inkomsten · {expenseCount} uitgaven",
   "@settingsCategoriesSubtitle": {
     "placeholders": {
       "incomeCount": {
@@ -340,9 +341,9 @@
       }
     }
   },
-  "settingsArchivedAccounts": "Archived accounts",
-  "settingsArchivedAccountsSubtitleZero": "None right now — archive from account edit when balance is clear",
-  "settingsArchivedAccountsSubtitleCount": "{count} hidden from Review and pickers",
+  "settingsArchivedAccounts": "Gearchiveerde accounts",
+  "settingsArchivedAccountsSubtitleZero": "Momenteel geen. Archief van accountbewerking wanneer het saldo duidelijk is",
+  "settingsArchivedAccountsSubtitleCount": "{count} verborgen voor beoordeling en kiezers",
   "@settingsArchivedAccountsSubtitleCount": {
     "placeholders": {
       "count": {
@@ -350,48 +351,48 @@
       }
     }
   },
-  "settingsSectionData": "Data",
-  "settingsSectionPrivacy": "About",
-  "settingsPrivacyPolicyTitle": "Privacy policy",
-  "settingsPrivacyPolicySubtitle": "How Platrare handles your data.",
-  "settingsPrivacyFxDisclosure": "Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.",
-  "settingsPrivacyOpenFailed": "Could not load the privacy policy.",
-  "settingsPrivacyRetry": "Try again",
-  "settingsSoftwareVersionTitle": "Software version",
-  "settingsSoftwareVersionSubtitle": "Release, diagnostics, and legal",
-  "aboutScreenTitle": "About",
-  "aboutAppTagline": "Ledger, cashflow, and planning in one workspace.",
-  "aboutDescriptionBody": "Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.",
-  "aboutVersionLabel": "Version",
-  "aboutBuildLabel": "Build",
-  "aboutCopySupportDetails": "Copy support details",
-  "aboutOpenPrivacySubtitle": "Opens the full in-app policy document.",
-  "aboutSupportBundleLocaleLabel": "Locale",
-  "settingsSupportInfoCopied": "Copied to clipboard",
-  "settingsVerifyLedger": "Verify data",
-  "settingsVerifyLedgerSubtitle": "Check that account balances match your transaction history",
-  "settingsDataExportTitle": "Export backup",
-  "settingsDataExportSubtitle": "Save as .zip or encrypted .platrare with all data and attachments",
-  "settingsDataImportTitle": "Restore from backup",
-  "settingsDataImportSubtitle": "Replace current data from a Platrare .zip or .platrare backup",
-  "backupExportDialogTitle": "Protect this backup",
-  "backupExportDialogBody": "A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.",
-  "backupExportPasswordLabel": "Password",
-  "backupExportPasswordConfirmLabel": "Confirm password",
-  "backupExportPasswordMismatch": "Passwords do not match",
-  "backupExportPasswordEmpty": "Enter a matching password, or export without encryption below.",
-  "backupExportPasswordTooShort": "Password must be at least 8 characters.",
-  "backupExportSaveToDevice": "Save to device",
-  "backupExportShareToCloud": "Share (iCloud, Drive…)",
-  "backupExportWithoutEncryption": "Export without encryption",
-  "backupExportSkipWarningTitle": "Export without encryption?",
-  "backupExportSkipWarningBody": "Anyone with access to the file can read your data. Use this only for local copies you control.",
-  "backupExportSkipWarningConfirm": "Export unencrypted",
-  "backupImportPasswordTitle": "Encrypted backup",
-  "backupImportPasswordBody": "Enter the password you used when exporting.",
-  "backupImportPasswordLabel": "Password",
-  "backupImportPreviewTitle": "Backup summary",
-  "backupImportPreviewVersion": "App version: {version}",
+  "settingsSectionData": "Gegevens",
+  "settingsSectionPrivacy": "Over",
+  "settingsPrivacyPolicyTitle": "Privacybeleid",
+  "settingsPrivacyPolicySubtitle": "Hoe Platrare met uw gegevens omgaat.",
+  "settingsPrivacyFxDisclosure": "Wisselkoersen: de app haalt openbare valutakoersen op via internet. Uw rekeningen en transacties worden nooit verzonden.",
+  "settingsPrivacyOpenFailed": "Kan het privacybeleid niet laden.",
+  "settingsPrivacyRetry": "Probeer het opnieuw",
+  "settingsSoftwareVersionTitle": "Softwareversie",
+  "settingsSoftwareVersionSubtitle": "Vrijgave, diagnostiek en juridisch",
+  "aboutScreenTitle": "Over",
+  "aboutAppTagline": "Grootboek, cashflow en planning in één werkruimte.",
+  "aboutDescriptionBody": "Platrare bewaart accounts, transacties en plannen op uw apparaat. Exporteer gecodeerde back-ups wanneer u ergens anders een kopie nodig heeft. Wisselkoersen maken uitsluitend gebruik van openbare marktgegevens; uw grootboek is niet geüpload.",
+  "aboutVersionLabel": "Versie",
+  "aboutBuildLabel": "Bouwen",
+  "aboutCopySupportDetails": "Kopieer ondersteuningsgegevens",
+  "aboutOpenPrivacySubtitle": "Opent het volledige in-app-beleidsdocument.",
+  "aboutSupportBundleLocaleLabel": "Lokaal",
+  "settingsSupportInfoCopied": "Gekopieerd naar klembord",
+  "settingsVerifyLedger": "Gegevens verifiëren",
+  "settingsVerifyLedgerSubtitle": "Controleer of het rekeningsaldo overeenkomt met uw transactiegeschiedenis",
+  "settingsDataExportTitle": "Back-up exporteren",
+  "settingsDataExportSubtitle": "Opslaan als .zip of gecodeerd .platrare met alle gegevens en bijlagen",
+  "settingsDataImportTitle": "Herstellen vanaf back-up",
+  "settingsDataImportSubtitle": "Vervang huidige gegevens van een Platrare .zip- of .platrare-back-up",
+  "backupExportDialogTitle": "Bescherm deze back-up",
+  "backupExportDialogBody": "Een sterk wachtwoord is aan te raden, zeker als je het bestand in de cloud opslaat. Voor het importeren heeft u hetzelfde wachtwoord nodig.",
+  "backupExportPasswordLabel": "Wachtwoord",
+  "backupExportPasswordConfirmLabel": "Bevestig wachtwoord",
+  "backupExportPasswordMismatch": "Wachtwoorden komen niet overeen",
+  "backupExportPasswordEmpty": "Voer een bijbehorend wachtwoord in, of exporteer hieronder zonder encryptie.",
+  "backupExportPasswordTooShort": "Wachtwoord moet minimaal 8 tekens lang zijn.",
+  "backupExportSaveToDevice": "Opslaan op apparaat",
+  "backupExportShareToCloud": "Delen (iCloud, Drive...)",
+  "backupExportWithoutEncryption": "Exporteren zonder encryptie",
+  "backupExportSkipWarningTitle": "Exporteren zonder encryptie?",
+  "backupExportSkipWarningBody": "Iedereen met toegang tot het bestand kan uw gegevens lezen. Gebruik dit alleen voor lokale kopieën die u beheert.",
+  "backupExportSkipWarningConfirm": "Onversleuteld exporteren",
+  "backupImportPasswordTitle": "Gecodeerde back-up",
+  "backupImportPasswordBody": "Voer het wachtwoord in dat u bij het exporteren hebt gebruikt.",
+  "backupImportPasswordLabel": "Wachtwoord",
+  "backupImportPreviewTitle": "Back-upoverzicht",
+  "backupImportPreviewVersion": "App-versie: {version}",
   "@backupImportPreviewVersion": {
     "placeholders": {
       "version": {
@@ -399,7 +400,7 @@
       }
     }
   },
-  "backupImportPreviewExported": "Exported: {date}",
+  "backupImportPreviewExported": "Geëxporteerd: {date}",
   "@backupImportPreviewExported": {
     "placeholders": {
       "date": {
@@ -407,7 +408,7 @@
       }
     }
   },
-  "backupImportPreviewCounts": "{accounts} accounts · {transactions} transactions · {planned} planned · {attachments} attachment files · {income} income categories · {expense} expense categories",
+  "backupImportPreviewCounts": "{accounts} rekeningen · {transactions} transacties · {planned} gepland · {attachments} bijlagebestanden · {income} inkomenscategorieën · {expense} onkostencategorieën",
   "@backupImportPreviewCounts": {
     "placeholders": {
       "accounts": {
@@ -430,19 +431,19 @@
       }
     }
   },
-  "backupImportPreviewContinue": "Continue",
-  "settingsBackupWrongPassword": "Wrong password",
-  "settingsBackupChecksumMismatch": "Backup failed integrity check",
-  "settingsBackupCorruptFile": "Invalid or damaged backup file",
-  "settingsBackupUnsupportedVersion": "Backup needs a newer app version",
-  "settingsDataImportConfirmTitle": "Replace current data?",
-  "settingsDataImportConfirmBody": "This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.",
-  "settingsDataImportConfirmAction": "Replace data",
-  "settingsDataImportDone": "Data restored successfully",
-  "settingsDataImportInvalidFile": "This file is not a valid Platrare backup",
-  "settingsDataImportFailed": "Import failed",
-  "settingsDataExportDoneTitle": "Backup exported",
-  "settingsDataExportDoneBody": "Backup saved to:\n{path}",
+  "backupImportPreviewContinue": "Doorgaan",
+  "settingsBackupWrongPassword": "Verkeerd wachtwoord",
+  "settingsBackupChecksumMismatch": "Back-up mislukte integriteitscontrole",
+  "settingsBackupCorruptFile": "Ongeldig of beschadigd back-upbestand",
+  "settingsBackupUnsupportedVersion": "Back-up heeft een nieuwere app-versie nodig",
+  "settingsDataImportConfirmTitle": "Huidige gegevens vervangen?",
+  "settingsDataImportConfirmBody": "Hiermee worden uw huidige rekeningen, transacties, geplande transacties, categorieën en geïmporteerde bijlagen vervangen door de inhoud van de geselecteerde back-up. Deze actie kan niet ongedaan worden gemaakt.",
+  "settingsDataImportConfirmAction": "Gegevens vervangen",
+  "settingsDataImportDone": "Gegevens hersteld",
+  "settingsDataImportInvalidFile": "Dit bestand is geen geldige Platrare-back-up",
+  "settingsDataImportFailed": "Importeren is mislukt",
+  "settingsDataExportDoneTitle": "Back-up geëxporteerd",
+  "settingsDataExportDoneBody": "Back-up opgeslagen op:\n{path}",
   "@settingsDataExportDoneBody": {
     "placeholders": {
       "path": {
@@ -450,12 +451,12 @@
       }
     }
   },
-  "settingsDataOpenExportFile": "Open file",
-  "settingsDataExportFailed": "Export failed",
-  "ledgerVerifyDialogTitle": "Ledger verification",
-  "ledgerVerifyAllMatch": "All accounts match.",
+  "settingsDataOpenExportFile": "Bestand openen",
+  "settingsDataExportFailed": "Exporteren is mislukt",
+  "ledgerVerifyDialogTitle": "Grootboekverificatie",
+  "ledgerVerifyAllMatch": "Alle accounts komen overeen.",
   "ledgerVerifyMismatchesTitle": "Mismatches",
-  "ledgerVerifyMismatchDetails": "{accountName}\nStored: {stored}\nReplay: {replayed}\nDifference: {diff}",
+  "ledgerVerifyMismatchDetails": "{accountName}\nOpgeslagen: {stored}\nHerhaling: {replayed}\nVerschil: {diff}",
   "@ledgerVerifyMismatchDetails": {
     "placeholders": {
       "accountName": {
@@ -472,51 +473,51 @@
       }
     }
   },
-  "settingsLanguage": "App language",
-  "settingsLanguageSubtitleSystem": "Following system settings",
-  "settingsLanguageSubtitleEnglish": "English",
-  "settingsLanguageSubtitleSerbianLatin": "Serbian (Latin)",
-  "settingsLanguagePickerTitle": "App language",
-  "settingsLanguageOptionSystem": "System default",
-  "settingsLanguageOptionEnglish": "English",
-  "settingsLanguageOptionSerbianLatin": "Serbian (Latin)",
-  "settingsSectionAppearance": "Appearance",
-  "settingsSectionSecurity": "Security",
-  "settingsSecurityEnableLock": "Lock app on open",
-  "settingsSecurityEnableLockSubtitle": "Require biometric unlock or PIN when app opens",
-  "settingsSecuritySetPin": "Set PIN",
-  "settingsSecurityChangePin": "Change PIN",
-  "settingsSecurityPinSubtitle": "Use a PIN as fallback if biometric is unavailable",
-  "settingsSecurityRemovePin": "Remove PIN",
-  "securitySetPinTitle": "Set app PIN",
-  "securityPinLabel": "PIN code",
-  "securityConfirmPinLabel": "Confirm PIN code",
-  "securityPinMustBe4Digits": "PIN must have at least 4 digits",
-  "securityPinMismatch": "PIN codes do not match",
-  "securityRemovePinTitle": "Remove PIN?",
-  "securityRemovePinBody": "Biometric unlock can still be used if available.",
-  "securityUnlockTitle": "App locked",
-  "securityUnlockSubtitle": "Unlock with Face ID, fingerprint, or PIN.",
-  "securityUnlockWithPin": "Unlock with PIN",
-  "securityTryBiometric": "Try biometric unlock",
-  "securityPinIncorrect": "Incorrect PIN, try again",
-  "securityBiometricReason": "Authenticate to open your app",
-  "settingsTheme": "Theme",
-  "settingsThemeSubtitleSystem": "Following system settings",
-  "settingsThemeSubtitleLight": "Light",
-  "settingsThemeSubtitleDark": "Dark",
-  "settingsThemePickerTitle": "Theme",
-  "settingsThemeOptionSystem": "System default",
-  "settingsThemeOptionLight": "Light",
-  "settingsThemeOptionDark": "Dark",
-  "archivedAccountsTitle": "Archived accounts",
-  "archivedAccountsEmptyTitle": "No archived accounts",
-  "archivedAccountsEmptyBody": "Book balance and overdraft must be zero. Archive from account options in Review.",
-  "categoriesTitle": "Categories",
-  "newCategoryTitle": "New Category",
-  "categoryNameLabel": "Category name",
-  "deleteCategoryTitle": "Delete category?",
-  "deleteCategoryBody": "\"{category}\" will be removed from the list.",
+  "settingsLanguage": "App-taal",
+  "settingsLanguageSubtitleSystem": "Systeeminstellingen volgen",
+  "settingsLanguageSubtitleEnglish": "Engels",
+  "settingsLanguageSubtitleSerbianLatin": "Servisch (Latijn)",
+  "settingsLanguagePickerTitle": "App-taal",
+  "settingsLanguageOptionSystem": "Systeemstandaard",
+  "settingsLanguageOptionEnglish": "Engels",
+  "settingsLanguageOptionSerbianLatin": "Servisch (Latijn)",
+  "settingsSectionAppearance": "Verschijning",
+  "settingsSectionSecurity": "Beveiliging",
+  "settingsSecurityEnableLock": "App vergrendelen bij openen",
+  "settingsSecurityEnableLockSubtitle": "Biometrische ontgrendeling of pincode vereisen wanneer de app wordt geopend",
+  "settingsSecuritySetPin": "Pincode instellen",
+  "settingsSecurityChangePin": "Wijzig pincode",
+  "settingsSecurityPinSubtitle": "Gebruik een pincode als reserve als biometrie niet beschikbaar is",
+  "settingsSecurityRemovePin": "Pincode verwijderen",
+  "securitySetPinTitle": "App-pincode instellen",
+  "securityPinLabel": "Pincode",
+  "securityConfirmPinLabel": "Bevestig de pincode",
+  "securityPinMustBe4Digits": "De pincode moet minimaal 4 cijfers bevatten",
+  "securityPinMismatch": "Pincodes komen niet overeen",
+  "securityRemovePinTitle": "Pincode verwijderen?",
+  "securityRemovePinBody": "Biometrische ontgrendeling kan nog steeds worden gebruikt, indien beschikbaar.",
+  "securityUnlockTitle": "App vergrendeld",
+  "securityUnlockSubtitle": "Ontgrendel met Face ID, vingerafdruk of pincode.",
+  "securityUnlockWithPin": "Ontgrendel met pincode",
+  "securityTryBiometric": "Probeer biometrische ontgrendeling",
+  "securityPinIncorrect": "Onjuiste pincode, probeer het opnieuw",
+  "securityBiometricReason": "Verifieer om uw app te openen",
+  "settingsTheme": "Thema",
+  "settingsThemeSubtitleSystem": "Systeeminstellingen volgen",
+  "settingsThemeSubtitleLight": "Licht",
+  "settingsThemeSubtitleDark": "Donker",
+  "settingsThemePickerTitle": "Thema",
+  "settingsThemeOptionSystem": "Systeemstandaard",
+  "settingsThemeOptionLight": "Licht",
+  "settingsThemeOptionDark": "Donker",
+  "archivedAccountsTitle": "Gearchiveerde accounts",
+  "archivedAccountsEmptyTitle": "Geen gearchiveerde accounts",
+  "archivedAccountsEmptyBody": "Boeksaldo en rood staan ​​moeten nul zijn. Archiveer vanuit accountopties in Review.",
+  "categoriesTitle": "Categorieën",
+  "newCategoryTitle": "Nieuwe categorie",
+  "categoryNameLabel": "Categorienaam",
+  "deleteCategoryTitle": "Categorie verwijderen?",
+  "deleteCategoryBody": "\"{category}\" wordt uit de lijst verwijderd.",
   "@deleteCategoryBody": {
     "placeholders": {
       "category": {
@@ -524,18 +525,18 @@
       }
     }
   },
-  "categoryIncome": "Income",
-  "categoryExpense": "Expense",
-  "categoryAdd": "Add",
-  "searchCurrencies": "Search currencies…",
+  "categoryIncome": "Inkomen",
+  "categoryExpense": "Kosten",
+  "categoryAdd": "Toevoegen",
+  "searchCurrencies": "Valuta zoeken...",
   "period1M": "1M",
   "period3M": "3M",
   "period6M": "6M",
-  "period1Y": "1Y",
-  "periodAll": "ALL",
-  "categoryLabel": "category",
-  "categoriesLabel": "categories",
-  "transactionSavedMessage": "{type} saved  •  {amount}",
+  "period1Y": "1J",
+  "periodAll": "ALLE",
+  "categoryLabel": "categorie",
+  "categoriesLabel": "categorieën",
+  "transactionSavedMessage": "{type} opgeslagen • {amount}",
   "@transactionSavedMessage": {
     "placeholders": {
       "type": {
@@ -546,18 +547,18 @@
       }
     }
   },
-  "tooltipSettings": "Settings",
-  "tooltipAddAccount": "Add account",
-  "tooltipRemoveAccount": "Remove account",
-  "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
-  "groupDescPersonal": "Your own wallets & bank accounts",
-  "groupDescIndividuals": "Family, friends, individuals",
-  "groupDescEntities": "Entities, utilities, organisations",
-  "cannotArchiveTitle": "Cannot archive yet",
-  "cannotArchiveBody": "Archive is only available when the book balance and overdraft limit are both effectively zero.",
-  "cannotArchiveBodyAdjust": "Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.",
-  "archiveAccountTitle": "Archive account?",
-  "archiveWithPlannedBody": "{count, plural, =1{1 planned transaction references this account.} other{{count} planned transactions reference this account.}} Remove them to keep your plan consistent with an archived account.",
+  "tooltipSettings": "Instellingen",
+  "tooltipAddAccount": "Account toevoegen",
+  "tooltipRemoveAccount": "Account verwijderen",
+  "accountNameTaken": "U heeft al een account met deze naam en identificatie (actief of gearchiveerd). Wijzig de naam of identificatie.",
+  "groupDescPersonal": "Uw eigen portemonnee en bankrekeningen",
+  "groupDescIndividuals": "Familie, vrienden, individuen",
+  "groupDescEntities": "Entiteiten, nutsbedrijven, organisaties",
+  "cannotArchiveTitle": "Kan nog niet archiveren",
+  "cannotArchiveBody": "Archief is alleen beschikbaar als zowel het boeksaldo als de roodstandlimiet feitelijk nul zijn.",
+  "cannotArchiveBodyAdjust": "Archief is alleen beschikbaar als zowel het boeksaldo als de roodstandlimiet feitelijk nul zijn. Pas eerst het grootboek of de faciliteit aan.",
+  "archiveAccountTitle": "Account archiveren?",
+  "archiveWithPlannedBody": "{count, plural, =1{1 geplande transactie verwijst naar deze rekening.} other{{count} geplande transacties verwijzen naar deze rekening.}} Verwijder ze om je plan consistent te houden met een gearchiveerde rekening.",
   "@archiveWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -565,17 +566,17 @@
       }
     }
   },
-  "removeAndArchive": "Remove planned & archive",
-  "archiveBody": "The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.",
-  "archiveAction": "Archive",
-  "archiveInstead": "Archive instead",
-  "cannotDeleteTitle": "Cannot delete account",
-  "cannotDeleteBodyShort": "This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.",
-  "cannotDeleteBodyHistory": "This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.",
-  "cannotDeleteBodySuggestArchive": "This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.",
-  "deleteAccountTitle": "Delete account?",
-  "deleteAccountBodyPermanent": "This account will be removed permanently.",
-  "deleteWithPlannedBody": "{count, plural, =1{1 planned transaction references this account and will also be deleted.} other{{count} planned transactions reference this account and will also be deleted.}}",
+  "removeAndArchive": "Gepland verwijderen en archiveren",
+  "archiveBody": "Het account wordt verborgen voor de kiezers Review, Track en Plan. Je kunt het herstellen via Instellingen.",
+  "archiveAction": "Archief",
+  "archiveInstead": "Archiveer in plaats daarvan",
+  "cannotDeleteTitle": "Kan account niet verwijderen",
+  "cannotDeleteBodyShort": "Dit account verschijnt in je trackgeschiedenis. Verwijder deze transacties eerst of wijs deze opnieuw toe, of archiveer de rekening als het saldo is vereffend.",
+  "cannotDeleteBodyHistory": "Dit account verschijnt in je trackgeschiedenis. Verwijderen zou die geschiedenis doorbreken; verwijder eerst die transacties of wijs ze opnieuw toe.",
+  "cannotDeleteBodySuggestArchive": "Dit account verschijnt in je trackgeschiedenis en kan dus niet worden verwijderd. U kunt het in plaats daarvan archiveren als het boeksaldo en het rood staan ​​zijn gewist. Het wordt verborgen in lijsten, maar de geschiedenis blijft intact.",
+  "deleteAccountTitle": "Account verwijderen?",
+  "deleteAccountBodyPermanent": "Dit account wordt definitief verwijderd.",
+  "deleteWithPlannedBody": "{count, plural, =1{1 geplande transactie verwijst naar deze rekening en wordt ook verwijderd.} other{{count} geplande transacties verwijzen naar deze rekening en worden ook verwijderd.}}",
   "@deleteWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -583,30 +584,30 @@
       }
     }
   },
-  "deleteAllAndDelete": "Delete all",
-  "editAccountTitle": "Edit Account",
-  "newAccountTitle": "New Account",
-  "labelAccountName": "Account name",
-  "labelAccountIdentifier": "Identifier (optional)",
-  "accountAppearanceSection": "Icon & color",
-  "accountPickIcon": "Choose icon",
-  "accountPickColor": "Choose color",
-  "accountIconSheetTitle": "Account icon",
-  "accountColorSheetTitle": "Account color",
-  "accountUseInitialLetter": "Initial letter",
-  "accountUseDefaultColor": "Match group",
-  "labelRealBalance": "Real balance",
-  "labelOverdraftLimit": "Overdraft / advance limit",
-  "labelCurrency": "Currency",
-  "saveChanges": "Save Changes",
-  "addAccountAction": "Add Account",
-  "removeAccountSheetTitle": "Remove account",
-  "deletePermanently": "Delete permanently",
-  "deletePermanentlySubtitle": "Only possible when this account is not used in Track. Planned items can be removed as part of delete.",
-  "archiveOptionSubtitle": "Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.",
-  "archivedBannerText": "This account is archived. It stays in your data but is hidden from lists and pickers.",
-  "balanceAdjustedTitle": "Balance adjusted in Track",
-  "balanceAdjustedBody": "Real balance was updated from {previous} to {current} {symbol}.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.",
+  "deleteAllAndDelete": "Alles verwijderen",
+  "editAccountTitle": "Account bewerken",
+  "newAccountTitle": "Nieuw account",
+  "labelAccountName": "Accountnaam",
+  "labelAccountIdentifier": "Identificatie (optioneel)",
+  "accountAppearanceSection": "Icoon & kleur",
+  "accountPickIcon": "Kies icoon",
+  "accountPickColor": "Kies kleur",
+  "accountIconSheetTitle": "Accountpictogram",
+  "accountColorSheetTitle": "Accountkleur",
+  "accountUseInitialLetter": "Eerste brief",
+  "accountUseDefaultColor": "Match groep",
+  "labelRealBalance": "Echt evenwicht",
+  "labelOverdraftLimit": "Rekening-courantkrediet/voorschotlimiet",
+  "labelCurrency": "Munteenheid",
+  "saveChanges": "Wijzigingen opslaan",
+  "addAccountAction": "Account toevoegen",
+  "removeAccountSheetTitle": "Account verwijderen",
+  "deletePermanently": "Permanent verwijderen",
+  "deletePermanentlySubtitle": "Alleen mogelijk als dit account niet in Track wordt gebruikt. Geplande artikelen kunnen worden verwijderd als onderdeel van het verwijderen.",
+  "archiveOptionSubtitle": "Verbergen voor beoordeling en pickers. Herstel op elk gewenst moment via Instellingen. Vereist een nulsaldo en rood staan.",
+  "archivedBannerText": "Dit account is gearchiveerd. Het blijft in uw gegevens, maar is verborgen in lijsten en kiezers.",
+  "balanceAdjustedTitle": "Balans aangepast in Track",
+  "balanceAdjustedBody": "Het werkelijke saldo is bijgewerkt van {previous} naar {current} {symbol}.\n\nEr is een saldoaanpassingstransactie aangemaakt in Track (Geschiedenis) om het grootboek consistent te houden.\n\n• Het werkelijke saldo weerspiegelt het werkelijke bedrag op deze rekening.\n• Controleer Geschiedenis voor de correctie-invoer.",
   "@balanceAdjustedBody": {
     "placeholders": {
       "previous": {
@@ -621,20 +622,20 @@
     }
   },
   "ok": "OK",
-  "categoryBalanceAdjustment": "Balance adjustment",
-  "descriptionBalanceCorrection": "Balance correction",
-  "descriptionOpeningBalance": "Opening balance",
-  "reviewStatsModeStatistics": "Statistics",
-  "reviewStatsModeComparison": "Comparison",
-  "statsUncategorized": "Uncategorized",
-  "statsNoCategories": "No categories in the selected periods for comparison.",
-  "statsNoTransactions": "No transactions",
-  "statsSpendingInCategory": "Spending in this category",
-  "statsIncomeInCategory": "Income in this category",
-  "statsDifference": "Difference (B vs A): ",
-  "statsNoExpensesMonth": "No expenses this month",
-  "statsNoExpensesAll": "No expenses recorded",
-  "statsNoExpensesPeriod": "No expenses in the last {period}",
+  "categoryBalanceAdjustment": "Balansaanpassing",
+  "descriptionBalanceCorrection": "Saldo correctie",
+  "descriptionOpeningBalance": "Openingssaldo",
+  "reviewStatsModeStatistics": "Statistieken",
+  "reviewStatsModeComparison": "Vergelijking",
+  "statsUncategorized": "Niet gecategoriseerd",
+  "statsNoCategories": "Geen categorieën in de geselecteerde periodes ter vergelijking.",
+  "statsNoTransactions": "Geen transacties",
+  "statsSpendingInCategory": "Uitgaven in deze categorie",
+  "statsIncomeInCategory": "Inkomen in deze categorie",
+  "statsDifference": "Verschil (B versus A):",
+  "statsNoExpensesMonth": "Geen uitgaven deze maand",
+  "statsNoExpensesAll": "Geen kosten geregistreerd",
+  "statsNoExpensesPeriod": "Geen uitgaven in de afgelopen {period}",
   "@statsNoExpensesPeriod": {
     "placeholders": {
       "period": {
@@ -642,11 +643,11 @@
       }
     }
   },
-  "statsTotalSpent": "Total spent",
-  "statsNoExpensesThisPeriod": "No expenses in this period",
-  "statsNoIncomeMonth": "No income this month",
-  "statsNoIncomeAll": "No income recorded",
-  "statsNoIncomePeriod": "No income in the last {period}",
+  "statsTotalSpent": "Totaal uitgegeven",
+  "statsNoExpensesThisPeriod": "Geen kosten in deze periode",
+  "statsNoIncomeMonth": "Geen inkomsten deze maand",
+  "statsNoIncomeAll": "Geen inkomen geregistreerd",
+  "statsNoIncomePeriod": "Geen inkomsten in de afgelopen {period}",
   "@statsNoIncomePeriod": {
     "placeholders": {
       "period": {
@@ -654,40 +655,40 @@
       }
     }
   },
-  "statsTotalReceived": "Total received",
-  "statsNoIncomeThisPeriod": "No income in this period",
-  "catSalary": "Salary",
-  "catFreelance": "Freelance",
-  "catConsulting": "Consulting",
-  "catGift": "Gift",
-  "catRental": "Rental",
-  "catDividends": "Dividends",
-  "catRefund": "Refund",
+  "statsTotalReceived": "Totaal ontvangen",
+  "statsNoIncomeThisPeriod": "Geen inkomsten in deze periode",
+  "catSalary": "Salaris",
+  "catFreelance": "Freelancer",
+  "catConsulting": "Advies",
+  "catGift": "Geschenk",
+  "catRental": "Verhuur",
+  "catDividends": "Dividenden",
+  "catRefund": "Terugbetaling",
   "catBonus": "Bonus",
-  "catInterest": "Interest",
-  "catSideHustle": "Side hustle",
-  "catSaleOfGoods": "Sale of goods",
-  "catOther": "Other",
-  "catGroceries": "Groceries",
-  "catDining": "Dining",
-  "catTransport": "Transport",
-  "catUtilities": "Utilities",
-  "catHousing": "Housing",
-  "catHealthcare": "Healthcare",
-  "catEntertainment": "Entertainment",
-  "catShopping": "Shopping",
-  "catTravel": "Travel",
-  "catEducation": "Education",
-  "catSubscriptions": "Subscriptions",
-  "catInsurance": "Insurance",
-  "catFuel": "Fuel",
-  "catGym": "Gym",
-  "catPets": "Pets",
-  "catKids": "Kids",
-  "catCharity": "Charity",
-  "catCoffee": "Coffee",
-  "catGifts": "Gifts",
-  "semanticsProjectionDate": "Projection date {date}. Double tap to choose date",
+  "catInterest": "Interesse",
+  "catSideHustle": "Zij drukte",
+  "catSaleOfGoods": "Verkoop van goederen",
+  "catOther": "Ander",
+  "catGroceries": "Boodschappen",
+  "catDining": "Dineren",
+  "catTransport": "Vervoer",
+  "catUtilities": "Nutsvoorzieningen",
+  "catHousing": "Huisvesting",
+  "catHealthcare": "Gezondheidszorg",
+  "catEntertainment": "Amusement",
+  "catShopping": "Winkelen",
+  "catTravel": "Reis",
+  "catEducation": "Onderwijs",
+  "catSubscriptions": "Abonnementen",
+  "catInsurance": "Verzekering",
+  "catFuel": "Brandstof",
+  "catGym": "Sportschool",
+  "catPets": "Huisdieren",
+  "catKids": "Kinderen",
+  "catCharity": "Goed doel",
+  "catCoffee": "Koffie",
+  "catGifts": "Geschenken",
+  "semanticsProjectionDate": "Projectiedatum {date}. Dubbeltik om een ​​datum te kiezen",
   "@semanticsProjectionDate": {
     "placeholders": {
       "date": {
@@ -695,7 +696,7 @@
       }
     }
   },
-  "semanticsProjectedBalance": "Projected personal balance {amount}",
+  "semanticsProjectedBalance": "Geprojecteerd persoonlijk saldo {amount}",
   "@semanticsProjectedBalance": {
     "placeholders": {
       "amount": {
@@ -703,12 +704,12 @@
       }
     }
   },
-  "statsEmptyTitle": "No transactions yet",
-  "statsEmptySubtitle": "No spending data for the selected range.",
-  "semanticsShowProjections": "Show projected balances by account",
-  "semanticsHideProjections": "Hide projected balances by account",
-  "semanticsDateAllTime": "Date: all time — tap to change mode",
-  "semanticsDateMode": "Date: {mode} — tap to change mode",
+  "statsEmptyTitle": "Nog geen transacties",
+  "statsEmptySubtitle": "Geen bestedingsgegevens voor het geselecteerde bereik.",
+  "semanticsShowProjections": "Toon geprojecteerde saldi per rekening",
+  "semanticsHideProjections": "Verberg geprojecteerde saldi per rekening",
+  "semanticsDateAllTime": "Datum: altijd — tik om de modus te wijzigen",
+  "semanticsDateMode": "Datum: {mode} — tik om de modus te wijzigen",
   "@semanticsDateMode": {
     "placeholders": {
       "mode": {
@@ -716,22 +717,22 @@
       }
     }
   },
-  "semanticsDateThisMonth": "Date: this month — tap for month, week, year, or all time",
-  "semanticsTxTypeCycle": "Transaction type: cycle all, income, expense, transfer",
-  "semanticsAccountFilter": "Account filter",
-  "semanticsAlreadyFiltered": "Already filtered to this account",
-  "semanticsCategoryFilter": "Category filter",
-  "semanticsSortToggle": "Sort: toggle newest or oldest first",
-  "semanticsFiltersDisabled": "List filters disabled while viewing a future projection date. Clear projections to use filters.",
-  "semanticsFiltersDisabledNeedAccount": "List filters disabled. Add an account first.",
-  "semanticsFiltersDisabledNeedPlannedTransaction": "List filters disabled. Add a planned transaction first.",
-  "semanticsFiltersDisabledNeedRecordedTransaction": "List filters disabled. Record a transaction first.",
-  "semanticsReviewSectionChipsDisabledNeedAccount": "Section and currency controls disabled. Add an account first.",
-  "semanticsPlanProjectionControlsDisabled": "Projection date and balance breakdown disabled. Add an account and a planned transaction first.",
-  "semanticsReorderAccountHint": "Long press, then drag to reorder within this group",
-  "semanticsChartStyle": "Chart style",
-  "semanticsChartStyleUnavailable": "Chart style (unavailable in comparison mode)",
-  "semanticsPeriod": "Period: {label}",
+  "semanticsDateThisMonth": "Datum: deze maand: tik voor maand, week, jaar of altijd",
+  "semanticsTxTypeCycle": "Transactietype: alles doorlopen, inkomsten, uitgaven, overdracht",
+  "semanticsAccountFilter": "Accountfilter",
+  "semanticsAlreadyFiltered": "Al gefilterd op dit account",
+  "semanticsCategoryFilter": "Categoriefilter",
+  "semanticsSortToggle": "Sorteren: schakel nieuwste of oudste eerst",
+  "semanticsFiltersDisabled": "Lijstfilters uitgeschakeld tijdens het bekijken van een toekomstige projectiedatum. Duidelijke projecties om filters te gebruiken.",
+  "semanticsFiltersDisabledNeedAccount": "Lijstfilters uitgeschakeld. Voeg eerst een account toe.",
+  "semanticsFiltersDisabledNeedPlannedTransaction": "Lijstfilters uitgeschakeld. Voeg eerst een geplande transactie toe.",
+  "semanticsFiltersDisabledNeedRecordedTransaction": "Lijstfilters uitgeschakeld. Registreer eerst een transactie.",
+  "semanticsReviewSectionChipsDisabledNeedAccount": "Sectie- en valutabediening uitgeschakeld. Voeg eerst een account toe.",
+  "semanticsPlanProjectionControlsDisabled": "Projectiedatum en uitsplitsing van het saldo zijn uitgeschakeld. Voeg eerst een account en een geplande transactie toe.",
+  "semanticsReorderAccountHint": "Houd ingedrukt en sleep vervolgens om de volgorde binnen deze groep te wijzigen",
+  "semanticsChartStyle": "Grafiekstijl",
+  "semanticsChartStyleUnavailable": "Diagramstijl (niet beschikbaar in vergelijkingsmodus)",
+  "semanticsPeriod": "Periode: {label}",
   "@semanticsPeriod": {
     "placeholders": {
       "label": {
@@ -739,10 +740,10 @@
       }
     }
   },
-  "trackSearchHint": "Search description, category, account…",
-  "trackSearchClear": "Clear search",
-  "settingsExchangeRatesTitle": "Exchange rates",
-  "settingsExchangeRatesUpdated": "Last updated: {time}",
+  "trackSearchHint": "Zoek beschrijving, categorie, account…",
+  "trackSearchClear": "Duidelijke zoekopdracht",
+  "settingsExchangeRatesTitle": "Wisselkoersen",
+  "settingsExchangeRatesUpdated": "Laatst bijgewerkt: {time}",
   "@settingsExchangeRatesUpdated": {
     "placeholders": {
       "time": {
@@ -750,15 +751,15 @@
       }
     }
   },
-  "settingsExchangeRatesNeverUpdated": "Using offline or bundled rates — tap to refresh",
+  "settingsExchangeRatesNeverUpdated": "Gebruik offline of gebundelde tarieven: tik om te vernieuwen",
   "settingsExchangeRatesSource": "ECB",
-  "settingsExchangeRatesUpdatedSnack": "Exchange rates updated",
-  "settingsExchangeRatesUpdateFailed": "Could not update exchange rates. Check your connection.",
-  "settingsClearData": "Clear data",
-  "settingsClearDataSubtitle": "Permanently remove selected data",
-  "clearDataTitle": "Clear data",
-  "clearDataTransactions": "Transaction history",
-  "clearDataTransactionsSubtitle": "{count} transactions · account balances reset to zero",
+  "settingsExchangeRatesUpdatedSnack": "Wisselkoersen bijgewerkt",
+  "settingsExchangeRatesUpdateFailed": "Kan de wisselkoersen niet bijwerken. Controleer uw verbinding.",
+  "settingsClearData": "Gegevens wissen",
+  "settingsClearDataSubtitle": "Verwijder geselecteerde gegevens definitief",
+  "clearDataTitle": "Gegevens wissen",
+  "clearDataTransactions": "Transactiegeschiedenis",
+  "clearDataTransactionsSubtitle": "{count} transacties · rekeningsaldi worden gereset naar nul",
   "@clearDataTransactionsSubtitle": {
     "placeholders": {
       "count": {
@@ -766,8 +767,8 @@
       }
     }
   },
-  "clearDataPlanned": "Planned transactions",
-  "clearDataPlannedSubtitle": "{count} planned items",
+  "clearDataPlanned": "Geplande transacties",
+  "clearDataPlannedSubtitle": "{count} geplande artikelen",
   "@clearDataPlannedSubtitle": {
     "placeholders": {
       "count": {
@@ -775,8 +776,8 @@
       }
     }
   },
-  "clearDataAccounts": "Accounts",
-  "clearDataAccountsSubtitle": "{count} accounts · also clears history and plan",
+  "clearDataAccounts": "Rekeningen",
+  "clearDataAccountsSubtitle": "{count} accounts · wist ook de geschiedenis en het plan",
   "@clearDataAccountsSubtitle": {
     "placeholders": {
       "count": {
@@ -784,8 +785,8 @@
       }
     }
   },
-  "clearDataCategories": "Categories",
-  "clearDataCategoriesSubtitle": "{count} categories · replaced with defaults",
+  "clearDataCategories": "Categorieën",
+  "clearDataCategoriesSubtitle": "{count} categorieën · vervangen door standaardwaarden",
   "@clearDataCategoriesSubtitle": {
     "placeholders": {
       "count": {
@@ -793,21 +794,21 @@
       }
     }
   },
-  "clearDataPreferences": "Preferences",
-  "clearDataPreferencesSubtitle": "Reset currency, theme and language to defaults",
-  "clearDataSecurity": "App lock & PIN",
-  "clearDataSecuritySubtitle": "Disable app lock and remove PIN",
-  "clearDataConfirmButton": "Clear selected",
-  "clearDataConfirmTitle": "This cannot be undone",
-  "clearDataConfirmBody": "The selected data will be permanently deleted. Export a backup first if you may need it later.",
-  "clearDataTypeConfirm": "Type DELETE to confirm",
-  "clearDataTypeConfirmError": "Type DELETE exactly to continue",
-  "clearDataPinTitle": "Confirm with PIN",
-  "clearDataPinBody": "Enter your app PIN to authorize this action.",
-  "clearDataPinIncorrect": "Incorrect PIN",
-  "clearDataDone": "Selected data cleared",
-  "autoBackupTitle": "Automatic daily backup",
-  "autoBackupLastAt": "Last backed up {date}",
+  "clearDataPreferences": "Voorkeuren",
+  "clearDataPreferencesSubtitle": "Reset valuta, thema en taal naar de standaardwaarden",
+  "clearDataSecurity": "App-vergrendeling en pincode",
+  "clearDataSecuritySubtitle": "Schakel app-vergrendeling uit en verwijder de pincode",
+  "clearDataConfirmButton": "Wis geselecteerd",
+  "clearDataConfirmTitle": "Dit kan niet ongedaan worden gemaakt",
+  "clearDataConfirmBody": "De geselecteerde gegevens worden permanent verwijderd. Exporteer eerst een back-up als u deze later nodig heeft.",
+  "clearDataTypeConfirm": "Typ DELETE om te bevestigen",
+  "clearDataTypeConfirmError": "Typ DELETE precies om door te gaan",
+  "clearDataPinTitle": "Bevestig met pincode",
+  "clearDataPinBody": "Voer uw app-pincode in om deze actie te autoriseren.",
+  "clearDataPinIncorrect": "Onjuiste pincode",
+  "clearDataDone": "Geselecteerde gegevens gewist",
+  "autoBackupTitle": "Automatische dagelijkse back-up",
+  "autoBackupLastAt": "Laatste back-up {date}",
   "@autoBackupLastAt": {
     "placeholders": {
       "date": {
@@ -815,10 +816,10 @@
       }
     }
   },
-  "autoBackupNeverRun": "No backup yet",
-  "autoBackupShareTitle": "Save to cloud",
-  "autoBackupShareSubtitle": "Upload latest backup to iCloud Drive, Google Drive or any app",
-  "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
-  "autoBackupCloudReminderAction": "Share",
-  "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
+  "autoBackupNeverRun": "Nog geen back-up",
+  "autoBackupShareTitle": "Opslaan in de cloud",
+  "autoBackupShareSubtitle": "Upload de nieuwste back-up naar iCloud Drive, Google Drive of een andere app",
+  "autoBackupCloudReminder": "Klaar voor automatische back-up: sla het op in de cloud voor bescherming buiten het apparaat",
+  "autoBackupCloudReminderAction": "Delen",
+  "persistenceErrorReloaded": "Kan wijzigingen niet opslaan. Gegevens zijn opnieuw geladen uit de opslag."
 }

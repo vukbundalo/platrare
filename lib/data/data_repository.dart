@@ -174,6 +174,53 @@ class DataRepository {
     }
   }
 
+  // --- Selective clear -------------------------------------------------------
+
+  /// Permanently clears the selected data categories.
+  ///
+  /// If [accounts] is true, transactions and planned are always cleared too
+  /// (they cannot exist meaningfully without their account references).
+  static Future<void> clearSelectiveData({
+    bool transactions = false,
+    bool planned = false,
+    bool accounts = false,
+    bool categories = false,
+  }) async {
+    if (accounts) {
+      await _db.deleteAllLedgerData();
+      data.transactions.clear();
+      data.plannedTransactions.clear();
+      data.accounts.clear();
+    } else {
+      if (transactions) {
+        await _db.deleteAllTransactions();
+        await _db.zeroAllAccountBalances();
+        for (final a in data.accounts) {
+          a.balance = 0;
+        }
+        data.transactions.clear();
+      }
+      if (planned) {
+        await _db.deleteAllPlanned();
+        data.plannedTransactions.clear();
+      }
+    }
+
+    if (categories) {
+      await _db.resetCategoriesToDefaults();
+      final rows = await _db.loadCategoryRows();
+      data.incomeCategories.clear();
+      data.expenseCategories.clear();
+      for (final c in rows) {
+        if (c.kind == 'income') {
+          data.incomeCategories.add(c.name);
+        } else {
+          data.expenseCategories.add(c.name);
+        }
+      }
+    }
+  }
+
   static Future<void> removeCategory(String name, {required bool income}) async {
     final kind = income ? 'income' : 'expense';
     await _db.deleteCategoryByNameAndKind(name, kind);

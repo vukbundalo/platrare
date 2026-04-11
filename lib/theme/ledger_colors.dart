@@ -31,15 +31,21 @@ class LedgerColors extends ThemeExtension<LedgerColors> {
   final Color pending;
   final Color warning;
 
-  /// Gain/loss hues: deep emerald / brick red (institutional, not neon).
+  /// Gain/loss hues — light mode: deep emerald / brick red (institutional).
   static const Color kPositive = Color(0xFF047857);
   static const Color kNegative = Color(0xFFB91C1C);
 
+  /// Gain/loss hues — dark mode: bright enough to read on near-black surfaces.
+  static const Color kPositiveDark = Color(0xFF34D399); // emerald-400
+  static const Color kNegativeDark = Color(0xFFF87171); // red-400
+
   /// Pending: amber — awaiting confirmation or settlement.
   static const Color kPending = Color(0xFFB45309);
+  static const Color kPendingDark = Color(0xFFFBBF24); // amber-400
 
   /// Warning: softer amber — advisory, not error severity.
   static const Color kWarning = Color(0xFFD97706);
+  static const Color kWarningDark = Color(0xFFFCD34D); // amber-300
 
   /// Harmonized categorical colors for donuts / charts (scheme-anchored).
   static List<Color> chartPalette(ColorScheme scheme) {
@@ -61,6 +67,7 @@ class LedgerColors extends ThemeExtension<LedgerColors> {
   }
 
   factory LedgerColors.harmonized(ColorScheme scheme) {
+    final isDark = scheme.brightness == Brightness.dark;
     final billTint = Color.lerp(
       scheme.tertiary,
       const Color(0xFFC2410C),
@@ -72,15 +79,15 @@ class LedgerColors extends ThemeExtension<LedgerColors> {
       0.35,
     )!;
     return LedgerColors(
-      positive: kPositive,
-      negative: kNegative,
+      positive: isDark ? kPositiveDark : kPositive,
+      negative: isDark ? kNegativeDark : kNegative,
       transfer: scheme.primary,
       advance: scheme.tertiary,
       loan: scheme.secondary,
       invoice: invoiceTint,
       bill: billTint,
-      pending: kPending,
-      warning: kWarning,
+      pending: isDark ? kPendingDark : kPending,
+      warning: isDark ? kWarningDark : kWarning,
     );
   }
 

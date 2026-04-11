@@ -4,43 +4,44 @@
   "@appTitle": {
     "description": "Application title"
   },
-  "navPlan": "Plan",
-  "navTrack": "Track",
-  "navReview": "Review",
-  "cancel": "Cancel",
-  "delete": "Delete",
-  "close": "Close",
-  "add": "Add",
-  "undo": "Undo",
-  "confirm": "Confirm",
-  "restore": "Restore",
+  "navPlan": "Piano",
+  "navTrack": "Traccia",
+  "navReview": "Revisione",
+  "cancel": "Cancellare",
+  "delete": "Eliminare",
+  "close": "Vicino",
+  "add": "Aggiungere",
+  "undo": "Disfare",
+  "confirm": "Confermare",
+  "restore": "Ripristinare",
   "heroIn": "In",
-  "heroOut": "Out",
-  "heroNet": "Net",
-  "heroBalance": "Balance",
-  "realBalance": "Real balance",
+  "heroOut": "Fuori",
+  "heroNet": "Netto",
+  "heroBalance": "Bilancia",
+  "realBalance": "Equilibrio reale",
   "heroResetButton": "Reset",
-  "filterAll": "All",
-  "filterAllAccounts": "All accounts",
-  "filterAllCategories": "All categories",
-  "txLabelIncome": "INCOME",
-  "txLabelExpense": "EXPENSE",
-  "txLabelInvoice": "INVOICE",
-  "txLabelBill": "BILL",
-  "txLabelAdvance": "ADVANCE",
-  "txLabelSettlement": "SETTLEMENT",
-  "txLabelLoan": "LOAN",
-  "txLabelCollection": "COLLECTION",
+  "fabScrollToTop": "Torna su",
+  "filterAll": "Tutto",
+  "filterAllAccounts": "Tutti i conti",
+  "filterAllCategories": "Tutte le categorie",
+  "txLabelIncome": "REDDITO",
+  "txLabelExpense": "SPESE",
+  "txLabelInvoice": "FATTURA",
+  "txLabelBill": "CONTO",
+  "txLabelAdvance": "ANTICIPO",
+  "txLabelSettlement": "INSEDIAMENTO",
+  "txLabelLoan": "PRESTITO",
+  "txLabelCollection": "COLLEZIONE",
   "txLabelOffset": "OFFSET",
-  "txLabelTransfer": "TRANSFER",
-  "txLabelTransaction": "TRANSACTION",
-  "repeatNone": "No repeat",
-  "repeatDaily": "Daily",
-  "repeatWeekly": "Weekly",
-  "repeatMonthly": "Monthly",
-  "repeatYearly": "Yearly",
-  "repeatEveryLabel": "Every",
-  "repeatEveryDays": "{count, plural, =1{day} other{{count} days}}",
+  "txLabelTransfer": "TRASFERIRE",
+  "txLabelTransaction": "TRANSAZIONE",
+  "repeatNone": "Nessuna ripetizione",
+  "repeatDaily": "Quotidiano",
+  "repeatWeekly": "Settimanale",
+  "repeatMonthly": "Mensile",
+  "repeatYearly": "Annuale",
+  "repeatEveryLabel": "Ogni",
+  "repeatEveryDays": "{count, plural, =1{giorno} other{{count} giorni}}",
   "@repeatEveryDays": {
     "placeholders": {
       "count": {
@@ -48,7 +49,7 @@
       }
     }
   },
-  "repeatEveryWeeks": "{count, plural, =1{week} other{{count} weeks}}",
+  "repeatEveryWeeks": "{count, plural, =1{settimana} other{{count} settimane}}",
   "@repeatEveryWeeks": {
     "placeholders": {
       "count": {
@@ -56,7 +57,7 @@
       }
     }
   },
-  "repeatEveryMonths": "{count, plural, =1{month} other{{count} months}}",
+  "repeatEveryMonths": "{count, plural, =1{mese} other{{count} mesi}}",
   "@repeatEveryMonths": {
     "placeholders": {
       "count": {
@@ -64,7 +65,7 @@
       }
     }
   },
-  "repeatEveryYears": "{count, plural, =1{year} other{{count} years}}",
+  "repeatEveryYears": "{count, plural, =1{anno} other{{count} anni}}",
   "@repeatEveryYears": {
     "placeholders": {
       "count": {
@@ -72,10 +73,10 @@
       }
     }
   },
-  "repeatEndLabel": "Ends",
-  "repeatEndNever": "Never",
-  "repeatEndOnDate": "On date",
-  "repeatEndAfterCount": "After {count} times",
+  "repeatEndLabel": "Finisce",
+  "repeatEndNever": "Mai",
+  "repeatEndOnDate": "In data",
+  "repeatEndAfterCount": "Dopo {count} volte",
   "@repeatEndAfterCount": {
     "placeholders": {
       "count": {
@@ -83,9 +84,9 @@
       }
     }
   },
-  "repeatEndPickDate": "Pick end date",
-  "repeatEndTimes": "times",
-  "repeatSummaryEvery": "Every {count} {unit}",
+  "repeatEndPickDate": "Scegli la data di fine",
+  "repeatEndTimes": "volte",
+  "repeatSummaryEvery": "Ogni {count} {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
       "count": {
@@ -96,7 +97,7 @@
       }
     }
   },
-  "repeatSummaryUntil": "until {date}",
+  "repeatSummaryUntil": "fino al {date}",
   "@repeatSummaryUntil": {
     "placeholders": {
       "date": {
@@ -104,7 +105,7 @@
       }
     }
   },
-  "repeatSummaryTimes": "{count} times",
+  "repeatSummaryTimes": "{count} volte",
   "@repeatSummaryTimes": {
     "placeholders": {
       "count": {
@@ -112,7 +113,7 @@
       }
     }
   },
-  "repeatSummaryTimesRemaining": "{remaining} of {total} remaining",
+  "repeatSummaryTimesRemaining": "{remaining} di {total} rimanenti",
   "@repeatSummaryTimesRemaining": {
     "placeholders": {
       "remaining": {
@@ -123,10 +124,10 @@
       }
     }
   },
-  "detailRepeatEvery": "Repeat every",
-  "detailEnds": "Ends",
-  "detailEndsNever": "Never",
-  "detailEndsOnDate": "On {date}",
+  "detailRepeatEvery": "Ripeti ogni",
+  "detailEnds": "Finisce",
+  "detailEndsNever": "Mai",
+  "detailEndsOnDate": "Il {date}",
   "@detailEndsOnDate": {
     "placeholders": {
       "date": {
@@ -134,7 +135,7 @@
       }
     }
   },
-  "detailEndsAfterCount": "After {count} times",
+  "detailEndsAfterCount": "Dopo {count} volte",
   "@detailEndsAfterCount": {
     "placeholders": {
       "count": {
@@ -142,11 +143,11 @@
       }
     }
   },
-  "detailProgress": "Progress",
-  "weekendNoChange": "No change",
-  "weekendFriday": "Move to Friday",
-  "weekendMonday": "Move to Monday",
-  "weekendQuestion": "If the {day} falls on a weekend?",
+  "detailProgress": "Progressi",
+  "weekendNoChange": "Nessun cambiamento",
+  "weekendFriday": "Spostarsi a venerdì",
+  "weekendMonday": "Passare a lunedì",
+  "weekendQuestion": "Se il {day} cade in un fine settimana?",
   "@weekendQuestion": {
     "placeholders": {
       "day": {
@@ -154,32 +155,32 @@
       }
     }
   },
-  "dateToday": "Today",
-  "dateTomorrow": "Tomorrow",
-  "dateYesterday": "Yesterday",
-  "statsAllTime": "All time",
-  "accountGroupPersonal": "Personal",
-  "accountGroupIndividual": "Individual",
-  "accountGroupEntity": "Entity",
-  "accountSectionIndividuals": "Individuals",
-  "accountSectionEntities": "Entities",
-  "emptyNoTransactionsYet": "No transactions yet",
-  "emptyNoAccountsYet": "No accounts yet",
-  "emptyRecordFirstTransaction": "Tap the button below to record your first transaction.",
-  "emptyAddFirstAccountTx": "Add your first account before recording transactions.",
-  "emptyAddFirstAccountPlan": "Add your first account before planning transactions.",
-  "emptyAddFirstAccountReview": "Add your first account to start tracking your finances.",
-  "emptyAddTransaction": "Add transaction",
-  "emptyAddAccount": "Add account",
-  "reviewEmptyGroupPersonalTitle": "No personal accounts yet",
-  "reviewEmptyGroupPersonalBody": "Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.",
-  "reviewEmptyGroupIndividualsTitle": "No individual accounts yet",
-  "reviewEmptyGroupIndividualsBody": "Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.",
-  "reviewEmptyGroupEntitiesTitle": "No entity accounts yet",
-  "reviewEmptyGroupEntitiesBody": "Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.",
-  "emptyNoTransactionsForFilters": "No transactions for applied filters",
-  "emptyNoTransactionsInHistory": "No transactions in history",
-  "emptyNoTransactionsForMonth": "No transactions for {month}",
+  "dateToday": "Oggi",
+  "dateTomorrow": "Domani",
+  "dateYesterday": "Ieri",
+  "statsAllTime": "Tutto il tempo",
+  "accountGroupPersonal": "Personale",
+  "accountGroupIndividual": "Individuale",
+  "accountGroupEntity": "Entità",
+  "accountSectionIndividuals": "Individui",
+  "accountSectionEntities": "Entità",
+  "emptyNoTransactionsYet": "Nessuna transazione ancora",
+  "emptyNoAccountsYet": "Nessun account ancora",
+  "emptyRecordFirstTransaction": "Tocca il pulsante qui sotto per registrare la tua prima transazione.",
+  "emptyAddFirstAccountTx": "Aggiungi il tuo primo account prima di registrare le transazioni.",
+  "emptyAddFirstAccountPlan": "Aggiungi il tuo primo account prima di pianificare le transazioni.",
+  "emptyAddFirstAccountReview": "Aggiungi il tuo primo account per iniziare a monitorare le tue finanze.",
+  "emptyAddTransaction": "Aggiungi transazione",
+  "emptyAddAccount": "Aggiungi account",
+  "reviewEmptyGroupPersonalTitle": "Nessun account personale ancora",
+  "reviewEmptyGroupPersonalBody": "I conti personali sono i tuoi portafogli e conti bancari. Aggiungine uno per tenere traccia delle entrate e delle spese quotidiane.",
+  "reviewEmptyGroupIndividualsTitle": "Nessun account individuale ancora",
+  "reviewEmptyGroupIndividualsBody": "I conti individuali tengono traccia del denaro con persone specifiche: costi condivisi, prestiti o pagherò. Aggiungi un account per ogni persona con cui stabilisci.",
+  "reviewEmptyGroupEntitiesTitle": "Nessun account di entità ancora",
+  "reviewEmptyGroupEntitiesBody": "I conti entità sono per aziende, progetti o organizzazioni. Usali per mantenere il flusso di cassa aziendale separato dalle tue finanze personali.",
+  "emptyNoTransactionsForFilters": "Nessuna transazione per i filtri applicati",
+  "emptyNoTransactionsInHistory": "Nessuna transazione nella cronologia",
+  "emptyNoTransactionsForMonth": "Nessuna transazione per {month}",
   "@emptyNoTransactionsForMonth": {
     "placeholders": {
       "month": {
@@ -187,13 +188,13 @@
       }
     }
   },
-  "emptyNoTransactionsForAccount": "No transactions for this account",
-  "trackTransactionDeleted": "Transaction deleted",
-  "trackDeleteTitle": "Delete transaction?",
-  "trackDeleteBody": "This will reverse the account balance changes.",
-  "trackTransaction": "Transaction",
-  "planConfirmTitle": "Confirm transaction?",
-  "planConfirmBodyEarly": "This occurrence is scheduled for {date}. It will be recorded in History with today’s date ({todayDate}). The next occurrence remains on {nextDate}.",
+  "emptyNoTransactionsForAccount": "Nessuna transazione per questo conto",
+  "trackTransactionDeleted": "Transazione eliminata",
+  "trackDeleteTitle": "Eliminare la transazione?",
+  "trackDeleteBody": "Ciò annullerà le modifiche al saldo del conto.",
+  "trackTransaction": "Transazione",
+  "planConfirmTitle": "Confermi la transazione?",
+  "planConfirmBodyEarly": "Questo evento è previsto per {date}. Verrà registrato nella Cronologia con la data odierna ({todayDate}). L'occorrenza successiva rimane su {nextDate}.",
   "@planConfirmBodyEarly": {
     "placeholders": {
       "date": {
@@ -207,19 +208,19 @@
       }
     }
   },
-  "planConfirmBodyNormal": "This will apply the transaction to your real account balances and move it to History.",
-  "planTransactionConfirmed": "Transaction confirmed and applied",
-  "planTransactionRemoved": "Planned transaction removed",
-  "planRepeatingTitle": "Repeating transaction",
-  "planRepeatingBody": "Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.",
-  "planDeleteAll": "Delete all",
-  "planSkipThisOnly": "Skip this only",
-  "planOccurrenceSkipped": "This occurrence skipped — next one scheduled",
-  "planNothingPlanned": "Nothing planned for now",
-  "planPlanBody": "Plan upcoming transactions.",
-  "planAddPlan": "Add plan",
-  "planNoPlannedForFilters": "No planned transactions for applied filters",
-  "planNoPlannedInMonth": "No planned transactions in {month}",
+  "planConfirmBodyNormal": "Ciò applicherà la transazione ai saldi del tuo conto reale e la sposterà nella Cronologia.",
+  "planTransactionConfirmed": "Transazione confermata e applicata",
+  "planTransactionRemoved": "Transazione pianificata rimossa",
+  "planRepeatingTitle": "Transazione ripetuta",
+  "planRepeatingBody": "Salta solo questa data (la serie continua con l'evento successivo) oppure elimina ogni evento rimanente dal tuo piano.",
+  "planDeleteAll": "Elimina tutto",
+  "planSkipThisOnly": "Salta solo questo",
+  "planOccurrenceSkipped": "Questo evento è stato saltato: il prossimo è programmato",
+  "planNothingPlanned": "Niente di previsto per ora",
+  "planPlanBody": "Pianifica le prossime transazioni.",
+  "planAddPlan": "Aggiungi piano",
+  "planNoPlannedForFilters": "Nessuna transazione pianificata per i filtri applicati",
+  "planNoPlannedInMonth": "Nessuna transazione pianificata in {month}",
   "@planNoPlannedInMonth": {
     "placeholders": {
       "month": {
@@ -227,28 +228,28 @@
       }
     }
   },
-  "planOverdue": "overdue",
-  "planPlannedTransaction": "Planned transaction",
-  "discardTitle": "Discard changes?",
-  "discardBody": "You have unsaved changes. They will be lost if you leave now.",
-  "keepEditing": "Keep editing",
-  "discard": "Discard",
-  "newTransactionTitle": "New Transaction",
-  "editTransactionTitle": "Edit Transaction",
-  "transactionUpdated": "Transaction updated",
-  "sectionAccounts": "Accounts",
-  "labelFrom": "From",
-  "labelTo": "To",
-  "sectionCategory": "Category",
-  "sectionAttachments": "Attachments",
-  "labelNote": "Note",
-  "hintOptionalDescription": "Optional description",
-  "updateTransaction": "Update Transaction",
-  "saveTransaction": "Save Transaction",
-  "selectAccount": "Select account",
-  "selectAccountTitle": "Select Account",
-  "noAccountsAvailable": "No accounts available",
-  "amountReceivedBy": "Amount received by {name} ({currency})",
+  "planOverdue": "in ritardo",
+  "planPlannedTransaction": "Transazione pianificata",
+  "discardTitle": "Eliminare le modifiche?",
+  "discardBody": "Sono presenti modifiche non salvate. Andranno perduti se te ne vai adesso.",
+  "keepEditing": "Continua a modificare",
+  "discard": "Scarta",
+  "newTransactionTitle": "Nuova transazione",
+  "editTransactionTitle": "Modifica transazione",
+  "transactionUpdated": "Transazione aggiornata",
+  "sectionAccounts": "Conti",
+  "labelFrom": "Da",
+  "labelTo": "A",
+  "sectionCategory": "Categoria",
+  "sectionAttachments": "Allegati",
+  "labelNote": "Nota",
+  "hintOptionalDescription": "Descrizione facoltativa",
+  "updateTransaction": "Aggiorna transazione",
+  "saveTransaction": "Salva transazione",
+  "selectAccount": "Seleziona conto",
+  "selectAccountTitle": "Seleziona Conto",
+  "noAccountsAvailable": "Nessun account disponibile",
+  "amountReceivedBy": "Importo ricevuto da {name} ({currency})",
   "@amountReceivedBy": {
     "placeholders": {
       "name": {
@@ -259,24 +260,24 @@
       }
     }
   },
-  "amountReceivedHelper": "Enter the exact amount the destination account receives. This locks the real exchange rate used.",
-  "attachTakePhoto": "Take photo",
-  "attachTakePhotoSub": "Use camera to capture a receipt",
-  "attachChooseGallery": "Choose from gallery",
-  "attachChooseGallerySub": "Select photos from your library",
-  "attachBrowseFiles": "Browse files",
-  "attachBrowseFilesSub": "Attach PDFs, documents or other files",
-  "attachButton": "Attach",
-  "editPlanTitle": "Edit Plan",
-  "planTransactionTitle": "Plan Transaction",
-  "tapToSelect": "Tap to select",
-  "updatePlan": "Update Plan",
-  "addToPlan": "Add to Plan",
-  "labelRepeat": "Repeat",
-  "selectPlannedDate": "Select planned date",
-  "balancesAsOfToday": "Balances as of today",
-  "projectedBalancesForTomorrow": "Projected balances for tomorrow",
-  "projectedBalancesForDate": "Projected balances for {date}",
+  "amountReceivedHelper": "Inserisci l'importo esatto ricevuto dall'account di destinazione. Ciò blocca il tasso di cambio reale utilizzato.",
+  "attachTakePhoto": "Scatta una foto",
+  "attachTakePhotoSub": "Utilizza la fotocamera per acquisire una ricevuta",
+  "attachChooseGallery": "Scegli dalla galleria",
+  "attachChooseGallerySub": "Seleziona le foto dalla tua libreria",
+  "attachBrowseFiles": "Sfoglia i file",
+  "attachBrowseFilesSub": "Allega PDF, documenti o altri file",
+  "attachButton": "Allegare",
+  "editPlanTitle": "Modifica piano",
+  "planTransactionTitle": "Pianificare la transazione",
+  "tapToSelect": "Tocca per selezionare",
+  "updatePlan": "Aggiorna piano",
+  "addToPlan": "Aggiungi al piano",
+  "labelRepeat": "Ripetere",
+  "selectPlannedDate": "Seleziona la data pianificata",
+  "balancesAsOfToday": "Saldi ad oggi",
+  "projectedBalancesForTomorrow": "Saldi previsti per domani",
+  "projectedBalancesForDate": "Saldi previsti per {date}",
   "@projectedBalancesForDate": {
     "placeholders": {
       "date": {
@@ -284,7 +285,7 @@
       }
     }
   },
-  "destReceivesLabel": "{name} receives ({currency})",
+  "destReceivesLabel": "{name} riceve ({currency})",
   "@destReceivesLabel": {
     "placeholders": {
       "name": {
@@ -295,23 +296,23 @@
       }
     }
   },
-  "destHelper": "Estimated destination amount. Exact rate is locked at confirmation.",
-  "descriptionOptional": "Description (optional)",
-  "detailTransactionTitle": "Transaction",
-  "detailPlannedTitle": "Planned",
-  "detailConfirmTransaction": "Confirm transaction",
-  "detailDate": "Date",
-  "detailFrom": "From",
-  "detailTo": "To",
-  "detailCategory": "Category",
-  "detailNote": "Note",
-  "detailDestinationAmount": "Destination amount",
-  "detailExchangeRate": "Exchange rate",
-  "detailRepeats": "Repeats",
-  "detailDayOfMonth": "Day of month",
-  "detailWeekends": "Weekends",
-  "detailAttachments": "Attachments",
-  "detailFileCount": "{count, plural, =1{1 file} other{{count} files}}",
+  "destHelper": "Importo di destinazione stimato. La tariffa esatta è bloccata alla conferma.",
+  "descriptionOptional": "Descrizione (facoltativa)",
+  "detailTransactionTitle": "Transazione",
+  "detailPlannedTitle": "Pianificato",
+  "detailConfirmTransaction": "Conferma la transazione",
+  "detailDate": "Data",
+  "detailFrom": "Da",
+  "detailTo": "A",
+  "detailCategory": "Categoria",
+  "detailNote": "Nota",
+  "detailDestinationAmount": "Importo di destinazione",
+  "detailExchangeRate": "Tasso di cambio",
+  "detailRepeats": "Si ripete",
+  "detailDayOfMonth": "Giorno del mese",
+  "detailWeekends": "Fine settimana",
+  "detailAttachments": "Allegati",
+  "detailFileCount": "{count, plural, =1{1 file} other{{count} file}}",
   "@detailFileCount": {
     "placeholders": {
       "count": {
@@ -319,17 +320,17 @@
       }
     }
   },
-  "settingsTitle": "Settings",
+  "settingsTitle": "Impostazioni",
   "settingsSectionDisplay": "Display",
-  "settingsSectionLanguage": "Language",
-  "settingsSectionCategories": "Categories",
-  "settingsSectionAccounts": "Accounts",
-  "settingsSectionPreferences": "Preferences",
-  "settingsSectionManage": "Manage",
-  "settingsBaseCurrency": "Home currency",
-  "settingsSecondaryCurrency": "Secondary currency",
-  "settingsCategories": "Categories",
-  "settingsCategoriesSubtitle": "{incomeCount} income · {expenseCount} expense",
+  "settingsSectionLanguage": "Lingua",
+  "settingsSectionCategories": "Categorie",
+  "settingsSectionAccounts": "Conti",
+  "settingsSectionPreferences": "Preferenze",
+  "settingsSectionManage": "Maneggio",
+  "settingsBaseCurrency": "Valuta domestica",
+  "settingsSecondaryCurrency": "Valuta secondaria",
+  "settingsCategories": "Categorie",
+  "settingsCategoriesSubtitle": "{incomeCount} entrate · {expenseCount} spese",
   "@settingsCategoriesSubtitle": {
     "placeholders": {
       "incomeCount": {
@@ -340,9 +341,9 @@
       }
     }
   },
-  "settingsArchivedAccounts": "Archived accounts",
-  "settingsArchivedAccountsSubtitleZero": "None right now — archive from account edit when balance is clear",
-  "settingsArchivedAccountsSubtitleCount": "{count} hidden from Review and pickers",
+  "settingsArchivedAccounts": "Conti archiviati",
+  "settingsArchivedAccountsSubtitleZero": "Nessuno al momento: archivia dalla modifica dell'account quando il saldo è azzerato",
+  "settingsArchivedAccountsSubtitleCount": "{count} nascosto da Revisione e selezionatori",
   "@settingsArchivedAccountsSubtitleCount": {
     "placeholders": {
       "count": {
@@ -350,48 +351,48 @@
       }
     }
   },
-  "settingsSectionData": "Data",
-  "settingsSectionPrivacy": "About",
-  "settingsPrivacyPolicyTitle": "Privacy policy",
-  "settingsPrivacyPolicySubtitle": "How Platrare handles your data.",
-  "settingsPrivacyFxDisclosure": "Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.",
-  "settingsPrivacyOpenFailed": "Could not load the privacy policy.",
-  "settingsPrivacyRetry": "Try again",
-  "settingsSoftwareVersionTitle": "Software version",
-  "settingsSoftwareVersionSubtitle": "Release, diagnostics, and legal",
-  "aboutScreenTitle": "About",
-  "aboutAppTagline": "Ledger, cashflow, and planning in one workspace.",
-  "aboutDescriptionBody": "Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.",
-  "aboutVersionLabel": "Version",
-  "aboutBuildLabel": "Build",
-  "aboutCopySupportDetails": "Copy support details",
-  "aboutOpenPrivacySubtitle": "Opens the full in-app policy document.",
+  "settingsSectionData": "Dati",
+  "settingsSectionPrivacy": "Di",
+  "settingsPrivacyPolicyTitle": "Politica sulla riservatezza",
+  "settingsPrivacyPolicySubtitle": "Come Platrare gestisce i tuoi dati.",
+  "settingsPrivacyFxDisclosure": "Tassi di cambio: l'app recupera i tassi di valuta pubblici su Internet. I tuoi conti e le tue transazioni non vengono mai inviati.",
+  "settingsPrivacyOpenFailed": "Impossibile caricare l'informativa sulla privacy.",
+  "settingsPrivacyRetry": "Riprova",
+  "settingsSoftwareVersionTitle": "Versione del software",
+  "settingsSoftwareVersionSubtitle": "Rilascio, diagnostica e legale",
+  "aboutScreenTitle": "Di",
+  "aboutAppTagline": "Registro, flusso di cassa e pianificazione in un unico spazio di lavoro.",
+  "aboutDescriptionBody": "Platrare mantiene conti, transazioni e piani sul tuo dispositivo. Esporta backup crittografati quando ne hai bisogno di una copia altrove. I tassi di cambio utilizzano solo i dati del mercato pubblico; il tuo registro non è stato caricato.",
+  "aboutVersionLabel": "Versione",
+  "aboutBuildLabel": "Costruire",
+  "aboutCopySupportDetails": "Copia i dettagli del supporto",
+  "aboutOpenPrivacySubtitle": "Apre il documento completo sulle norme in-app.",
   "aboutSupportBundleLocaleLabel": "Locale",
-  "settingsSupportInfoCopied": "Copied to clipboard",
-  "settingsVerifyLedger": "Verify data",
-  "settingsVerifyLedgerSubtitle": "Check that account balances match your transaction history",
-  "settingsDataExportTitle": "Export backup",
-  "settingsDataExportSubtitle": "Save as .zip or encrypted .platrare with all data and attachments",
-  "settingsDataImportTitle": "Restore from backup",
-  "settingsDataImportSubtitle": "Replace current data from a Platrare .zip or .platrare backup",
-  "backupExportDialogTitle": "Protect this backup",
-  "backupExportDialogBody": "A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.",
+  "settingsSupportInfoCopied": "Copiato negli appunti",
+  "settingsVerifyLedger": "Verifica i dati",
+  "settingsVerifyLedgerSubtitle": "Controlla che i saldi del conto corrispondano alla cronologia delle transazioni",
+  "settingsDataExportTitle": "Esporta backup",
+  "settingsDataExportSubtitle": "Salva come .zip o .platrare crittografato con tutti i dati e gli allegati",
+  "settingsDataImportTitle": "Ripristina dal backup",
+  "settingsDataImportSubtitle": "Sostituisci i dati correnti da un backup Platrare .zip o .platrare",
+  "backupExportDialogTitle": "Proteggi questo backup",
+  "backupExportDialogBody": "Si consiglia una password complessa, soprattutto se archivi il file nel cloud. Per l'importazione è necessaria la stessa password.",
   "backupExportPasswordLabel": "Password",
-  "backupExportPasswordConfirmLabel": "Confirm password",
-  "backupExportPasswordMismatch": "Passwords do not match",
-  "backupExportPasswordEmpty": "Enter a matching password, or export without encryption below.",
-  "backupExportPasswordTooShort": "Password must be at least 8 characters.",
-  "backupExportSaveToDevice": "Save to device",
-  "backupExportShareToCloud": "Share (iCloud, Drive…)",
-  "backupExportWithoutEncryption": "Export without encryption",
-  "backupExportSkipWarningTitle": "Export without encryption?",
-  "backupExportSkipWarningBody": "Anyone with access to the file can read your data. Use this only for local copies you control.",
-  "backupExportSkipWarningConfirm": "Export unencrypted",
-  "backupImportPasswordTitle": "Encrypted backup",
-  "backupImportPasswordBody": "Enter the password you used when exporting.",
+  "backupExportPasswordConfirmLabel": "Conferma password",
+  "backupExportPasswordMismatch": "Le password non corrispondono",
+  "backupExportPasswordEmpty": "Inserisci una password corrispondente o esporta senza crittografia di seguito.",
+  "backupExportPasswordTooShort": "La password deve contenere almeno 8 caratteri.",
+  "backupExportSaveToDevice": "Salva sul dispositivo",
+  "backupExportShareToCloud": "Condividi (iCloud, Drive...)",
+  "backupExportWithoutEncryption": "Esporta senza crittografia",
+  "backupExportSkipWarningTitle": "Esportare senza crittografia?",
+  "backupExportSkipWarningBody": "Chiunque abbia accesso al file può leggere i tuoi dati. Utilizzalo solo per le copie locali che controlli.",
+  "backupExportSkipWarningConfirm": "Esporta in chiaro",
+  "backupImportPasswordTitle": "Backup crittografato",
+  "backupImportPasswordBody": "Inserisci la password che hai utilizzato durante l'esportazione.",
   "backupImportPasswordLabel": "Password",
-  "backupImportPreviewTitle": "Backup summary",
-  "backupImportPreviewVersion": "App version: {version}",
+  "backupImportPreviewTitle": "Riepilogo del backup",
+  "backupImportPreviewVersion": "Versione dell'app: {version}",
   "@backupImportPreviewVersion": {
     "placeholders": {
       "version": {
@@ -399,7 +400,7 @@
       }
     }
   },
-  "backupImportPreviewExported": "Exported: {date}",
+  "backupImportPreviewExported": "Esportato: {date}",
   "@backupImportPreviewExported": {
     "placeholders": {
       "date": {
@@ -407,7 +408,7 @@
       }
     }
   },
-  "backupImportPreviewCounts": "{accounts} accounts · {transactions} transactions · {planned} planned · {attachments} attachment files · {income} income categories · {expense} expense categories",
+  "backupImportPreviewCounts": "{accounts} conti · {transactions} movimenti · {planned} pianificati · {attachments} file allegati · {income} categorie di entrate · {expense} categorie di spese",
   "@backupImportPreviewCounts": {
     "placeholders": {
       "accounts": {
@@ -430,19 +431,19 @@
       }
     }
   },
-  "backupImportPreviewContinue": "Continue",
-  "settingsBackupWrongPassword": "Wrong password",
-  "settingsBackupChecksumMismatch": "Backup failed integrity check",
-  "settingsBackupCorruptFile": "Invalid or damaged backup file",
-  "settingsBackupUnsupportedVersion": "Backup needs a newer app version",
-  "settingsDataImportConfirmTitle": "Replace current data?",
-  "settingsDataImportConfirmBody": "This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.",
-  "settingsDataImportConfirmAction": "Replace data",
-  "settingsDataImportDone": "Data restored successfully",
-  "settingsDataImportInvalidFile": "This file is not a valid Platrare backup",
-  "settingsDataImportFailed": "Import failed",
-  "settingsDataExportDoneTitle": "Backup exported",
-  "settingsDataExportDoneBody": "Backup saved to:\n{path}",
+  "backupImportPreviewContinue": "Continuare",
+  "settingsBackupWrongPassword": "Password errata",
+  "settingsBackupChecksumMismatch": "Controllo dell'integrità del backup non riuscito",
+  "settingsBackupCorruptFile": "File di backup non valido o danneggiato",
+  "settingsBackupUnsupportedVersion": "Il backup richiede una versione più recente dell'app",
+  "settingsDataImportConfirmTitle": "Sostituire i dati attuali?",
+  "settingsDataImportConfirmBody": "Ciò sostituirà i tuoi conti correnti, transazioni, transazioni pianificate, categorie e allegati importati con il contenuto del backup selezionato. Questa azione non può essere annullata.",
+  "settingsDataImportConfirmAction": "Sostituisci i dati",
+  "settingsDataImportDone": "Dati ripristinati con successo",
+  "settingsDataImportInvalidFile": "Questo file non è un backup Platrare valido",
+  "settingsDataImportFailed": "Importazione non riuscita",
+  "settingsDataExportDoneTitle": "Backup esportato",
+  "settingsDataExportDoneBody": "Backup salvato in:\n{path}",
   "@settingsDataExportDoneBody": {
     "placeholders": {
       "path": {
@@ -450,12 +451,12 @@
       }
     }
   },
-  "settingsDataOpenExportFile": "Open file",
-  "settingsDataExportFailed": "Export failed",
-  "ledgerVerifyDialogTitle": "Ledger verification",
-  "ledgerVerifyAllMatch": "All accounts match.",
-  "ledgerVerifyMismatchesTitle": "Mismatches",
-  "ledgerVerifyMismatchDetails": "{accountName}\nStored: {stored}\nReplay: {replayed}\nDifference: {diff}",
+  "settingsDataOpenExportFile": "Apri file",
+  "settingsDataExportFailed": "Esportazione non riuscita",
+  "ledgerVerifyDialogTitle": "Verifica del registro",
+  "ledgerVerifyAllMatch": "Tutti gli account corrispondono.",
+  "ledgerVerifyMismatchesTitle": "Mancate corrispondenze",
+  "ledgerVerifyMismatchDetails": "{accountName}\nMemorizzato: {stored}\nRiproduzione: {replayed}\nDifferenza: {diff}",
   "@ledgerVerifyMismatchDetails": {
     "placeholders": {
       "accountName": {
@@ -472,51 +473,51 @@
       }
     }
   },
-  "settingsLanguage": "App language",
-  "settingsLanguageSubtitleSystem": "Following system settings",
-  "settingsLanguageSubtitleEnglish": "English",
-  "settingsLanguageSubtitleSerbianLatin": "Serbian (Latin)",
-  "settingsLanguagePickerTitle": "App language",
-  "settingsLanguageOptionSystem": "System default",
-  "settingsLanguageOptionEnglish": "English",
-  "settingsLanguageOptionSerbianLatin": "Serbian (Latin)",
-  "settingsSectionAppearance": "Appearance",
-  "settingsSectionSecurity": "Security",
-  "settingsSecurityEnableLock": "Lock app on open",
-  "settingsSecurityEnableLockSubtitle": "Require biometric unlock or PIN when app opens",
-  "settingsSecuritySetPin": "Set PIN",
-  "settingsSecurityChangePin": "Change PIN",
-  "settingsSecurityPinSubtitle": "Use a PIN as fallback if biometric is unavailable",
-  "settingsSecurityRemovePin": "Remove PIN",
-  "securitySetPinTitle": "Set app PIN",
-  "securityPinLabel": "PIN code",
-  "securityConfirmPinLabel": "Confirm PIN code",
-  "securityPinMustBe4Digits": "PIN must have at least 4 digits",
-  "securityPinMismatch": "PIN codes do not match",
-  "securityRemovePinTitle": "Remove PIN?",
-  "securityRemovePinBody": "Biometric unlock can still be used if available.",
-  "securityUnlockTitle": "App locked",
-  "securityUnlockSubtitle": "Unlock with Face ID, fingerprint, or PIN.",
-  "securityUnlockWithPin": "Unlock with PIN",
-  "securityTryBiometric": "Try biometric unlock",
-  "securityPinIncorrect": "Incorrect PIN, try again",
-  "securityBiometricReason": "Authenticate to open your app",
-  "settingsTheme": "Theme",
-  "settingsThemeSubtitleSystem": "Following system settings",
-  "settingsThemeSubtitleLight": "Light",
-  "settingsThemeSubtitleDark": "Dark",
-  "settingsThemePickerTitle": "Theme",
-  "settingsThemeOptionSystem": "System default",
-  "settingsThemeOptionLight": "Light",
-  "settingsThemeOptionDark": "Dark",
-  "archivedAccountsTitle": "Archived accounts",
-  "archivedAccountsEmptyTitle": "No archived accounts",
-  "archivedAccountsEmptyBody": "Book balance and overdraft must be zero. Archive from account options in Review.",
-  "categoriesTitle": "Categories",
-  "newCategoryTitle": "New Category",
-  "categoryNameLabel": "Category name",
-  "deleteCategoryTitle": "Delete category?",
-  "deleteCategoryBody": "\"{category}\" will be removed from the list.",
+  "settingsLanguage": "Lingua dell'app",
+  "settingsLanguageSubtitleSystem": "Seguendo le impostazioni di sistema",
+  "settingsLanguageSubtitleEnglish": "Inglese",
+  "settingsLanguageSubtitleSerbianLatin": "Serbo (latino)",
+  "settingsLanguagePickerTitle": "Lingua dell'app",
+  "settingsLanguageOptionSystem": "Predefinito del sistema",
+  "settingsLanguageOptionEnglish": "Inglese",
+  "settingsLanguageOptionSerbianLatin": "Serbo (latino)",
+  "settingsSectionAppearance": "Aspetto",
+  "settingsSectionSecurity": "Sicurezza",
+  "settingsSecurityEnableLock": "Blocca l'app aperta",
+  "settingsSecurityEnableLockSubtitle": "Richiedi lo sblocco biometrico o il PIN all'apertura dell'app",
+  "settingsSecuritySetPin": "Imposta il PIN",
+  "settingsSecurityChangePin": "Cambia PIN",
+  "settingsSecurityPinSubtitle": "Utilizza un PIN come riserva se i dati biometrici non sono disponibili",
+  "settingsSecurityRemovePin": "Rimuovi PIN",
+  "securitySetPinTitle": "Imposta il PIN dell'app",
+  "securityPinLabel": "Codice PIN",
+  "securityConfirmPinLabel": "Conferma il codice PIN",
+  "securityPinMustBe4Digits": "Il PIN deve contenere almeno 4 cifre",
+  "securityPinMismatch": "I codici PIN non corrispondono",
+  "securityRemovePinTitle": "Rimuovere il PIN?",
+  "securityRemovePinBody": "Lo sblocco biometrico può ancora essere utilizzato, se disponibile.",
+  "securityUnlockTitle": "Applicazione bloccata",
+  "securityUnlockSubtitle": "Sblocca con Face ID, impronta digitale o PIN.",
+  "securityUnlockWithPin": "Sblocca con PIN",
+  "securityTryBiometric": "Prova lo sblocco biometrico",
+  "securityPinIncorrect": "PIN errato, riprova",
+  "securityBiometricReason": "Autenticati per aprire la tua app",
+  "settingsTheme": "Tema",
+  "settingsThemeSubtitleSystem": "Seguendo le impostazioni di sistema",
+  "settingsThemeSubtitleLight": "Leggero",
+  "settingsThemeSubtitleDark": "Buio",
+  "settingsThemePickerTitle": "Tema",
+  "settingsThemeOptionSystem": "Predefinito del sistema",
+  "settingsThemeOptionLight": "Leggero",
+  "settingsThemeOptionDark": "Buio",
+  "archivedAccountsTitle": "Conti archiviati",
+  "archivedAccountsEmptyTitle": "Nessun account archiviato",
+  "archivedAccountsEmptyBody": "Il saldo contabile e lo scoperto devono essere pari a zero. Archivia dalle opzioni dell'account in Revisione.",
+  "categoriesTitle": "Categorie",
+  "newCategoryTitle": "Nuova categoria",
+  "categoryNameLabel": "Nome della categoria",
+  "deleteCategoryTitle": "Eliminare la categoria?",
+  "deleteCategoryBody": "\"{category}\" verrà rimosso dall'elenco.",
   "@deleteCategoryBody": {
     "placeholders": {
       "category": {
@@ -524,18 +525,18 @@
       }
     }
   },
-  "categoryIncome": "Income",
-  "categoryExpense": "Expense",
-  "categoryAdd": "Add",
-  "searchCurrencies": "Search currencies…",
+  "categoryIncome": "Reddito",
+  "categoryExpense": "Spese",
+  "categoryAdd": "Aggiungere",
+  "searchCurrencies": "Cerca valute…",
   "period1M": "1M",
   "period3M": "3M",
   "period6M": "6M",
-  "period1Y": "1Y",
-  "periodAll": "ALL",
-  "categoryLabel": "category",
-  "categoriesLabel": "categories",
-  "transactionSavedMessage": "{type} saved  •  {amount}",
+  "period1Y": "1 anno",
+  "periodAll": "TUTTO",
+  "categoryLabel": "categoria",
+  "categoriesLabel": "categorie",
+  "transactionSavedMessage": "{type} salvato • {amount}",
   "@transactionSavedMessage": {
     "placeholders": {
       "type": {
@@ -546,18 +547,18 @@
       }
     }
   },
-  "tooltipSettings": "Settings",
-  "tooltipAddAccount": "Add account",
-  "tooltipRemoveAccount": "Remove account",
-  "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
-  "groupDescPersonal": "Your own wallets & bank accounts",
-  "groupDescIndividuals": "Family, friends, individuals",
-  "groupDescEntities": "Entities, utilities, organisations",
-  "cannotArchiveTitle": "Cannot archive yet",
-  "cannotArchiveBody": "Archive is only available when the book balance and overdraft limit are both effectively zero.",
-  "cannotArchiveBodyAdjust": "Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.",
-  "archiveAccountTitle": "Archive account?",
-  "archiveWithPlannedBody": "{count, plural, =1{1 planned transaction references this account.} other{{count} planned transactions reference this account.}} Remove them to keep your plan consistent with an archived account.",
+  "tooltipSettings": "Impostazioni",
+  "tooltipAddAccount": "Aggiungi account",
+  "tooltipRemoveAccount": "Rimuovi conto",
+  "accountNameTaken": "Hai già un account con questo nome e identificatore (attivo o archiviato). Modificare il nome o l'identificatore.",
+  "groupDescPersonal": "I tuoi portafogli e conti bancari",
+  "groupDescIndividuals": "Famiglia, amici, individui",
+  "groupDescEntities": "Enti, servizi pubblici, organizzazioni",
+  "cannotArchiveTitle": "Impossibile ancora archiviare",
+  "cannotArchiveBody": "L'archivio è disponibile solo quando il saldo contabile e il limite di scoperto sono entrambi effettivamente pari a zero.",
+  "cannotArchiveBodyAdjust": "L'archivio è disponibile solo quando il saldo contabile e il limite di scoperto sono entrambi effettivamente pari a zero. Regola prima il registro o la struttura.",
+  "archiveAccountTitle": "Account di archivio?",
+  "archiveWithPlannedBody": "{count, plural, =1{1 transazione pianificata fa riferimento a questo conto.} other{{count} transazioni pianificate fanno riferimento a questo conto.}} Rimuovile per mantenere il piano coerente con un conto archiviato.",
   "@archiveWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -565,17 +566,17 @@
       }
     }
   },
-  "removeAndArchive": "Remove planned & archive",
-  "archiveBody": "The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.",
-  "archiveAction": "Archive",
-  "archiveInstead": "Archive instead",
-  "cannotDeleteTitle": "Cannot delete account",
-  "cannotDeleteBodyShort": "This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.",
-  "cannotDeleteBodyHistory": "This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.",
-  "cannotDeleteBodySuggestArchive": "This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.",
-  "deleteAccountTitle": "Delete account?",
-  "deleteAccountBodyPermanent": "This account will be removed permanently.",
-  "deleteWithPlannedBody": "{count, plural, =1{1 planned transaction references this account and will also be deleted.} other{{count} planned transactions reference this account and will also be deleted.}}",
+  "removeAndArchive": "Rimuovi pianificato e archivia",
+  "archiveBody": "L'account verrà nascosto dai selettori Revisione, Traccia e Piano. Puoi ripristinarlo da Impostazioni.",
+  "archiveAction": "Archivio",
+  "archiveInstead": "Archivio invece",
+  "cannotDeleteTitle": "Impossibile eliminare l'account",
+  "cannotDeleteBodyShort": "Questo account viene visualizzato nella cronologia delle tracce. Rimuovi o riassegna prima tali transazioni oppure archivia il conto se il saldo viene cancellato.",
+  "cannotDeleteBodyHistory": "Questo account viene visualizzato nella cronologia delle tracce. L'eliminazione interromperebbe quella cronologia: rimuovere o riassegnare prima quelle transazioni.",
+  "cannotDeleteBodySuggestArchive": "Questo account viene visualizzato nella cronologia delle tracce, quindi non può essere eliminato. Puoi invece archiviarlo se il saldo contabile e lo scoperto vengono cancellati: verrà nascosto dagli elenchi ma la cronologia rimarrà intatta.",
+  "deleteAccountTitle": "Eliminare l'account?",
+  "deleteAccountBodyPermanent": "Questo account verrà rimosso definitivamente.",
+  "deleteWithPlannedBody": "{count, plural, =1{1 transazione pianificata fa riferimento a questo conto e verrà eliminata.} other{{count} transazioni pianificate fanno riferimento a questo conto e verranno eliminate.}}",
   "@deleteWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -583,30 +584,30 @@
       }
     }
   },
-  "deleteAllAndDelete": "Delete all",
-  "editAccountTitle": "Edit Account",
-  "newAccountTitle": "New Account",
-  "labelAccountName": "Account name",
-  "labelAccountIdentifier": "Identifier (optional)",
-  "accountAppearanceSection": "Icon & color",
-  "accountPickIcon": "Choose icon",
-  "accountPickColor": "Choose color",
-  "accountIconSheetTitle": "Account icon",
-  "accountColorSheetTitle": "Account color",
-  "accountUseInitialLetter": "Initial letter",
-  "accountUseDefaultColor": "Match group",
-  "labelRealBalance": "Real balance",
-  "labelOverdraftLimit": "Overdraft / advance limit",
-  "labelCurrency": "Currency",
-  "saveChanges": "Save Changes",
-  "addAccountAction": "Add Account",
-  "removeAccountSheetTitle": "Remove account",
-  "deletePermanently": "Delete permanently",
-  "deletePermanentlySubtitle": "Only possible when this account is not used in Track. Planned items can be removed as part of delete.",
-  "archiveOptionSubtitle": "Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.",
-  "archivedBannerText": "This account is archived. It stays in your data but is hidden from lists and pickers.",
-  "balanceAdjustedTitle": "Balance adjusted in Track",
-  "balanceAdjustedBody": "Real balance was updated from {previous} to {current} {symbol}.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.",
+  "deleteAllAndDelete": "Elimina tutto",
+  "editAccountTitle": "Modifica account",
+  "newAccountTitle": "Nuovo conto",
+  "labelAccountName": "Nome utente",
+  "labelAccountIdentifier": "Identificatore (facoltativo)",
+  "accountAppearanceSection": "Icona e colore",
+  "accountPickIcon": "Scegli l'icona",
+  "accountPickColor": "Scegli il colore",
+  "accountIconSheetTitle": "Icona dell'account",
+  "accountColorSheetTitle": "Colore del conto",
+  "accountUseInitialLetter": "Lettera iniziale",
+  "accountUseDefaultColor": "Gruppo di partite",
+  "labelRealBalance": "Equilibrio reale",
+  "labelOverdraftLimit": "Limite di scoperto/anticipo",
+  "labelCurrency": "Valuta",
+  "saveChanges": "Salva modifiche",
+  "addAccountAction": "Aggiungi account",
+  "removeAccountSheetTitle": "Rimuovi conto",
+  "deletePermanently": "Elimina definitivamente",
+  "deletePermanentlySubtitle": "Possibile solo quando questo account non viene utilizzato in Traccia. Gli elementi pianificati possono essere rimossi come parte dell'eliminazione.",
+  "archiveOptionSubtitle": "Nascondi da revisione e selezionatori. Ripristina in qualsiasi momento dalle Impostazioni. Richiede saldo zero e scoperto.",
+  "archivedBannerText": "Questo account è archiviato. Rimane nei tuoi dati ma è nascosto da elenchi e selettori.",
+  "balanceAdjustedTitle": "Bilanciamento regolato in Traccia",
+  "balanceAdjustedBody": "Il saldo reale è stato aggiornato da {previous} a {current} {symbol}.\n\nUna transazione di rettifica del saldo è stata creata in Traccia (storia) per mantenere coerente la contabilità generale.\n\n• Il saldo reale riflette l'importo effettivo in questo conto.\n• Controllare la cronologia per la voce di rettifica.",
   "@balanceAdjustedBody": {
     "placeholders": {
       "previous": {
@@ -621,20 +622,20 @@
     }
   },
   "ok": "OK",
-  "categoryBalanceAdjustment": "Balance adjustment",
-  "descriptionBalanceCorrection": "Balance correction",
-  "descriptionOpeningBalance": "Opening balance",
-  "reviewStatsModeStatistics": "Statistics",
-  "reviewStatsModeComparison": "Comparison",
-  "statsUncategorized": "Uncategorized",
-  "statsNoCategories": "No categories in the selected periods for comparison.",
-  "statsNoTransactions": "No transactions",
-  "statsSpendingInCategory": "Spending in this category",
-  "statsIncomeInCategory": "Income in this category",
-  "statsDifference": "Difference (B vs A): ",
-  "statsNoExpensesMonth": "No expenses this month",
-  "statsNoExpensesAll": "No expenses recorded",
-  "statsNoExpensesPeriod": "No expenses in the last {period}",
+  "categoryBalanceAdjustment": "Regolazione dell'equilibrio",
+  "descriptionBalanceCorrection": "Correzione dell'equilibrio",
+  "descriptionOpeningBalance": "Saldo di apertura",
+  "reviewStatsModeStatistics": "Statistiche",
+  "reviewStatsModeComparison": "Confronto",
+  "statsUncategorized": "Senza categoria",
+  "statsNoCategories": "Nessuna categoria nei periodi selezionati per il confronto.",
+  "statsNoTransactions": "Nessuna transazione",
+  "statsSpendingInCategory": "Spesa in questa categoria",
+  "statsIncomeInCategory": "Reddito in questa categoria",
+  "statsDifference": "Differenza (B vs A):",
+  "statsNoExpensesMonth": "Nessuna spesa questo mese",
+  "statsNoExpensesAll": "Nessuna spesa registrata",
+  "statsNoExpensesPeriod": "Nessuna spesa nell'ultimo {period}",
   "@statsNoExpensesPeriod": {
     "placeholders": {
       "period": {
@@ -642,11 +643,11 @@
       }
     }
   },
-  "statsTotalSpent": "Total spent",
-  "statsNoExpensesThisPeriod": "No expenses in this period",
-  "statsNoIncomeMonth": "No income this month",
-  "statsNoIncomeAll": "No income recorded",
-  "statsNoIncomePeriod": "No income in the last {period}",
+  "statsTotalSpent": "Totale speso",
+  "statsNoExpensesThisPeriod": "Nessuna spesa in questo periodo",
+  "statsNoIncomeMonth": "Nessun reddito questo mese",
+  "statsNoIncomeAll": "Nessun reddito registrato",
+  "statsNoIncomePeriod": "Nessun reddito nell'ultimo {period}",
   "@statsNoIncomePeriod": {
     "placeholders": {
       "period": {
@@ -654,40 +655,40 @@
       }
     }
   },
-  "statsTotalReceived": "Total received",
-  "statsNoIncomeThisPeriod": "No income in this period",
-  "catSalary": "Salary",
-  "catFreelance": "Freelance",
-  "catConsulting": "Consulting",
-  "catGift": "Gift",
-  "catRental": "Rental",
-  "catDividends": "Dividends",
-  "catRefund": "Refund",
+  "statsTotalReceived": "Totale ricevuto",
+  "statsNoIncomeThisPeriod": "Nessun reddito in questo periodo",
+  "catSalary": "Stipendio",
+  "catFreelance": "Libero professionista",
+  "catConsulting": "Consulenza",
+  "catGift": "Regalo",
+  "catRental": "Noleggio",
+  "catDividends": "Dividendi",
+  "catRefund": "Rimborso",
   "catBonus": "Bonus",
-  "catInterest": "Interest",
-  "catSideHustle": "Side hustle",
-  "catSaleOfGoods": "Sale of goods",
-  "catOther": "Other",
-  "catGroceries": "Groceries",
-  "catDining": "Dining",
-  "catTransport": "Transport",
-  "catUtilities": "Utilities",
-  "catHousing": "Housing",
-  "catHealthcare": "Healthcare",
-  "catEntertainment": "Entertainment",
+  "catInterest": "Interesse",
+  "catSideHustle": "Trambusto laterale",
+  "catSaleOfGoods": "Vendita di merci",
+  "catOther": "Altro",
+  "catGroceries": "Generi alimentari",
+  "catDining": "Pranzo",
+  "catTransport": "Trasporto",
+  "catUtilities": "Utilità",
+  "catHousing": "Alloggiamento",
+  "catHealthcare": "Assistenza sanitaria",
+  "catEntertainment": "Divertimento",
   "catShopping": "Shopping",
-  "catTravel": "Travel",
-  "catEducation": "Education",
-  "catSubscriptions": "Subscriptions",
-  "catInsurance": "Insurance",
-  "catFuel": "Fuel",
-  "catGym": "Gym",
-  "catPets": "Pets",
-  "catKids": "Kids",
-  "catCharity": "Charity",
-  "catCoffee": "Coffee",
-  "catGifts": "Gifts",
-  "semanticsProjectionDate": "Projection date {date}. Double tap to choose date",
+  "catTravel": "Viaggio",
+  "catEducation": "Istruzione",
+  "catSubscriptions": "Abbonamenti",
+  "catInsurance": "Assicurazione",
+  "catFuel": "Carburante",
+  "catGym": "Palestra",
+  "catPets": "Animali domestici",
+  "catKids": "Bambini",
+  "catCharity": "Beneficenza",
+  "catCoffee": "Caffè",
+  "catGifts": "Regali",
+  "semanticsProjectionDate": "Data di proiezione {date}. Tocca due volte per scegliere la data",
   "@semanticsProjectionDate": {
     "placeholders": {
       "date": {
@@ -695,7 +696,7 @@
       }
     }
   },
-  "semanticsProjectedBalance": "Projected personal balance {amount}",
+  "semanticsProjectedBalance": "Saldo personale previsto {amount}",
   "@semanticsProjectedBalance": {
     "placeholders": {
       "amount": {
@@ -703,12 +704,12 @@
       }
     }
   },
-  "statsEmptyTitle": "No transactions yet",
-  "statsEmptySubtitle": "No spending data for the selected range.",
-  "semanticsShowProjections": "Show projected balances by account",
-  "semanticsHideProjections": "Hide projected balances by account",
-  "semanticsDateAllTime": "Date: all time — tap to change mode",
-  "semanticsDateMode": "Date: {mode} — tap to change mode",
+  "statsEmptyTitle": "Nessuna transazione ancora",
+  "statsEmptySubtitle": "Nessun dato di spesa per l'intervallo selezionato.",
+  "semanticsShowProjections": "Mostra i saldi previsti per conto",
+  "semanticsHideProjections": "Nascondi i saldi previsti per conto",
+  "semanticsDateAllTime": "Data: sempre: tocca per cambiare modalità",
+  "semanticsDateMode": "Data: {mode}: tocca per cambiare modalità",
   "@semanticsDateMode": {
     "placeholders": {
       "mode": {
@@ -716,22 +717,22 @@
       }
     }
   },
-  "semanticsDateThisMonth": "Date: this month — tap for month, week, year, or all time",
-  "semanticsTxTypeCycle": "Transaction type: cycle all, income, expense, transfer",
-  "semanticsAccountFilter": "Account filter",
-  "semanticsAlreadyFiltered": "Already filtered to this account",
-  "semanticsCategoryFilter": "Category filter",
-  "semanticsSortToggle": "Sort: toggle newest or oldest first",
-  "semanticsFiltersDisabled": "List filters disabled while viewing a future projection date. Clear projections to use filters.",
-  "semanticsFiltersDisabledNeedAccount": "List filters disabled. Add an account first.",
-  "semanticsFiltersDisabledNeedPlannedTransaction": "List filters disabled. Add a planned transaction first.",
-  "semanticsFiltersDisabledNeedRecordedTransaction": "List filters disabled. Record a transaction first.",
-  "semanticsReviewSectionChipsDisabledNeedAccount": "Section and currency controls disabled. Add an account first.",
-  "semanticsPlanProjectionControlsDisabled": "Projection date and balance breakdown disabled. Add an account and a planned transaction first.",
-  "semanticsReorderAccountHint": "Long press, then drag to reorder within this group",
-  "semanticsChartStyle": "Chart style",
-  "semanticsChartStyleUnavailable": "Chart style (unavailable in comparison mode)",
-  "semanticsPeriod": "Period: {label}",
+  "semanticsDateThisMonth": "Data: questo mese: tocca per mese, settimana, anno o tutto il tempo",
+  "semanticsTxTypeCycle": "Tipo di transazione: ciclo tutto, entrate, spese, trasferimento",
+  "semanticsAccountFilter": "Filtro dell'account",
+  "semanticsAlreadyFiltered": "Già filtrato per questo account",
+  "semanticsCategoryFilter": "Filtro categoria",
+  "semanticsSortToggle": "Ordina: alterna prima il più recente o il più vecchio",
+  "semanticsFiltersDisabled": "Filtri elenco disabilitati durante la visualizzazione di una data di proiezione futura. Cancella proiezioni per utilizzare i filtri.",
+  "semanticsFiltersDisabledNeedAccount": "Filtri elenco disabilitati. Aggiungi prima un account.",
+  "semanticsFiltersDisabledNeedPlannedTransaction": "Filtri elenco disabilitati. Aggiungi prima una transazione pianificata.",
+  "semanticsFiltersDisabledNeedRecordedTransaction": "Filtri elenco disabilitati. Registra prima una transazione.",
+  "semanticsReviewSectionChipsDisabledNeedAccount": "Controlli di sezione e valuta disabilitati. Aggiungi prima un account.",
+  "semanticsPlanProjectionControlsDisabled": "Data di proiezione e ripartizione del saldo disabilitati. Aggiungi prima un account e una transazione pianificata.",
+  "semanticsReorderAccountHint": "Premi a lungo, quindi trascina per riordinare all'interno di questo gruppo",
+  "semanticsChartStyle": "Stile grafico",
+  "semanticsChartStyleUnavailable": "Stile grafico (non disponibile in modalità confronto)",
+  "semanticsPeriod": "Periodo: {label}",
   "@semanticsPeriod": {
     "placeholders": {
       "label": {
@@ -739,10 +740,10 @@
       }
     }
   },
-  "trackSearchHint": "Search description, category, account…",
-  "trackSearchClear": "Clear search",
-  "settingsExchangeRatesTitle": "Exchange rates",
-  "settingsExchangeRatesUpdated": "Last updated: {time}",
+  "trackSearchHint": "Descrizione della ricerca, categoria, account...",
+  "trackSearchClear": "Cancella ricerca",
+  "settingsExchangeRatesTitle": "Tassi di cambio",
+  "settingsExchangeRatesUpdated": "Ultimo aggiornamento: {time}",
   "@settingsExchangeRatesUpdated": {
     "placeholders": {
       "time": {
@@ -750,15 +751,15 @@
       }
     }
   },
-  "settingsExchangeRatesNeverUpdated": "Using offline or bundled rates — tap to refresh",
-  "settingsExchangeRatesSource": "ECB",
-  "settingsExchangeRatesUpdatedSnack": "Exchange rates updated",
-  "settingsExchangeRatesUpdateFailed": "Could not update exchange rates. Check your connection.",
-  "settingsClearData": "Clear data",
-  "settingsClearDataSubtitle": "Permanently remove selected data",
-  "clearDataTitle": "Clear data",
-  "clearDataTransactions": "Transaction history",
-  "clearDataTransactionsSubtitle": "{count} transactions · account balances reset to zero",
+  "settingsExchangeRatesNeverUpdated": "Utilizzo di tariffe offline o in bundle: tocca per aggiornare",
+  "settingsExchangeRatesSource": "BCE",
+  "settingsExchangeRatesUpdatedSnack": "Tassi di cambio aggiornati",
+  "settingsExchangeRatesUpdateFailed": "Impossibile aggiornare i tassi di cambio. Controlla la tua connessione.",
+  "settingsClearData": "Cancella dati",
+  "settingsClearDataSubtitle": "Rimuovi permanentemente i dati selezionati",
+  "clearDataTitle": "Cancella dati",
+  "clearDataTransactions": "Cronologia delle transazioni",
+  "clearDataTransactionsSubtitle": "Transazioni {count} · saldi dei conti azzerati",
   "@clearDataTransactionsSubtitle": {
     "placeholders": {
       "count": {
@@ -766,8 +767,8 @@
       }
     }
   },
-  "clearDataPlanned": "Planned transactions",
-  "clearDataPlannedSubtitle": "{count} planned items",
+  "clearDataPlanned": "Transazioni pianificate",
+  "clearDataPlannedSubtitle": "{count} articoli pianificati",
   "@clearDataPlannedSubtitle": {
     "placeholders": {
       "count": {
@@ -775,8 +776,8 @@
       }
     }
   },
-  "clearDataAccounts": "Accounts",
-  "clearDataAccountsSubtitle": "{count} accounts · also clears history and plan",
+  "clearDataAccounts": "Conti",
+  "clearDataAccountsSubtitle": "Account {count} · cancella anche la cronologia e il piano",
   "@clearDataAccountsSubtitle": {
     "placeholders": {
       "count": {
@@ -784,8 +785,8 @@
       }
     }
   },
-  "clearDataCategories": "Categories",
-  "clearDataCategoriesSubtitle": "{count} categories · replaced with defaults",
+  "clearDataCategories": "Categorie",
+  "clearDataCategoriesSubtitle": "Categorie {count} · sostituite con valori predefiniti",
   "@clearDataCategoriesSubtitle": {
     "placeholders": {
       "count": {
@@ -793,21 +794,21 @@
       }
     }
   },
-  "clearDataPreferences": "Preferences",
-  "clearDataPreferencesSubtitle": "Reset currency, theme and language to defaults",
-  "clearDataSecurity": "App lock & PIN",
-  "clearDataSecuritySubtitle": "Disable app lock and remove PIN",
-  "clearDataConfirmButton": "Clear selected",
-  "clearDataConfirmTitle": "This cannot be undone",
-  "clearDataConfirmBody": "The selected data will be permanently deleted. Export a backup first if you may need it later.",
-  "clearDataTypeConfirm": "Type DELETE to confirm",
-  "clearDataTypeConfirmError": "Type DELETE exactly to continue",
-  "clearDataPinTitle": "Confirm with PIN",
-  "clearDataPinBody": "Enter your app PIN to authorize this action.",
-  "clearDataPinIncorrect": "Incorrect PIN",
-  "clearDataDone": "Selected data cleared",
-  "autoBackupTitle": "Automatic daily backup",
-  "autoBackupLastAt": "Last backed up {date}",
+  "clearDataPreferences": "Preferenze",
+  "clearDataPreferencesSubtitle": "Ripristina valuta, tema e lingua ai valori predefiniti",
+  "clearDataSecurity": "Blocco e PIN dell'app",
+  "clearDataSecuritySubtitle": "Disattiva il blocco dell'app e rimuovi il PIN",
+  "clearDataConfirmButton": "Cancella selezionato",
+  "clearDataConfirmTitle": "Questa operazione non può essere annullata",
+  "clearDataConfirmBody": "I dati selezionati verranno eliminati definitivamente. Esporta prima un backup se potresti averne bisogno in seguito.",
+  "clearDataTypeConfirm": "Digita DELETE per confermare",
+  "clearDataTypeConfirmError": "Digita DELETE esattamente per continuare",
+  "clearDataPinTitle": "Conferma con PIN",
+  "clearDataPinBody": "Inserisci il PIN dell'app per autorizzare questa azione.",
+  "clearDataPinIncorrect": "PIN errato",
+  "clearDataDone": "Dati selezionati cancellati",
+  "autoBackupTitle": "Backup giornaliero automatico",
+  "autoBackupLastAt": "Ultimo backup {date}",
   "@autoBackupLastAt": {
     "placeholders": {
       "date": {
@@ -815,10 +816,10 @@
       }
     }
   },
-  "autoBackupNeverRun": "No backup yet",
-  "autoBackupShareTitle": "Save to cloud",
-  "autoBackupShareSubtitle": "Upload latest backup to iCloud Drive, Google Drive or any app",
-  "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
-  "autoBackupCloudReminderAction": "Share",
-  "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
+  "autoBackupNeverRun": "Nessun backup ancora",
+  "autoBackupShareTitle": "Salva nel cloud",
+  "autoBackupShareSubtitle": "Carica l'ultimo backup su iCloud Drive, Google Drive o qualsiasi app",
+  "autoBackupCloudReminder": "Predisposizione per il backup automatico: salvalo nel cloud per la protezione esterna al dispositivo",
+  "autoBackupCloudReminderAction": "Condividi",
+  "persistenceErrorReloaded": "Impossibile salvare le modifiche. I dati sono stati ricaricati dalla memoria."
 }

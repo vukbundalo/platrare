@@ -12,123 +12,123 @@ class AppLocalizationsTr extends AppLocalizations {
   String get appTitle => 'Platrare';
 
   @override
-  String get navPlan => 'Plan';
+  String get navPlan => 'Planı';
 
   @override
-  String get navTrack => 'Track';
+  String get navTrack => 'İzlemek';
 
   @override
-  String get navReview => 'Review';
+  String get navReview => 'Gözden geçirmek';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'İptal etmek';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Silmek';
 
   @override
-  String get close => 'Close';
+  String get close => 'Kapalı';
 
   @override
-  String get add => 'Add';
+  String get add => 'Eklemek';
 
   @override
-  String get undo => 'Undo';
+  String get undo => 'Geri al';
 
   @override
-  String get confirm => 'Confirm';
+  String get confirm => 'Onaylamak';
 
   @override
-  String get restore => 'Restore';
+  String get restore => 'Eski haline getirmek';
 
   @override
-  String get heroIn => 'In';
+  String get heroIn => 'İçinde';
 
   @override
-  String get heroOut => 'Out';
+  String get heroOut => 'Dışarı';
 
   @override
-  String get heroNet => 'Net';
+  String get heroNet => 'Açık';
 
   @override
-  String get heroBalance => 'Balance';
+  String get heroBalance => 'Denge';
 
   @override
-  String get realBalance => 'Real balance';
+  String get realBalance => 'Gerçek denge';
 
   @override
-  String get heroResetButton => 'Reset';
-  @override
-  String get fabScrollToTop => 'Back to top';
-
+  String get heroResetButton => 'Sıfırla';
 
   @override
-  String get filterAll => 'All';
+  String get fabScrollToTop => 'Başa dön';
 
   @override
-  String get filterAllAccounts => 'All accounts';
+  String get filterAll => 'Tüm';
 
   @override
-  String get filterAllCategories => 'All categories';
+  String get filterAllAccounts => 'Tüm hesaplar';
 
   @override
-  String get txLabelIncome => 'INCOME';
+  String get filterAllCategories => 'Tüm kategoriler';
 
   @override
-  String get txLabelExpense => 'EXPENSE';
+  String get txLabelIncome => 'GELİR';
 
   @override
-  String get txLabelInvoice => 'INVOICE';
+  String get txLabelExpense => 'GİDER';
 
   @override
-  String get txLabelBill => 'BILL';
+  String get txLabelInvoice => 'FATURA';
 
   @override
-  String get txLabelAdvance => 'ADVANCE';
+  String get txLabelBill => 'FATURA';
 
   @override
-  String get txLabelSettlement => 'SETTLEMENT';
+  String get txLabelAdvance => 'İLERLEMEK';
 
   @override
-  String get txLabelLoan => 'LOAN';
+  String get txLabelSettlement => 'YERLEŞİM';
 
   @override
-  String get txLabelCollection => 'COLLECTION';
+  String get txLabelLoan => 'BORÇ';
 
   @override
-  String get txLabelOffset => 'OFFSET';
+  String get txLabelCollection => 'KOLEKSİYON';
 
   @override
-  String get txLabelTransfer => 'TRANSFER';
+  String get txLabelOffset => 'TELAFİ ETMEK';
 
   @override
-  String get txLabelTransaction => 'TRANSACTION';
+  String get txLabelTransfer => 'AKTARIM';
 
   @override
-  String get repeatNone => 'No repeat';
+  String get txLabelTransaction => 'İŞLEM';
 
   @override
-  String get repeatDaily => 'Daily';
+  String get repeatNone => 'Tekrar yok';
 
   @override
-  String get repeatWeekly => 'Weekly';
+  String get repeatDaily => 'Günlük';
 
   @override
-  String get repeatMonthly => 'Monthly';
+  String get repeatWeekly => 'Haftalık';
 
   @override
-  String get repeatYearly => 'Yearly';
+  String get repeatMonthly => 'Aylık';
 
   @override
-  String get repeatEveryLabel => 'Every';
+  String get repeatYearly => 'Yıllık';
+
+  @override
+  String get repeatEveryLabel => 'Her';
 
   @override
   String repeatEveryDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days',
-      one: 'day',
+      other: '$count gün',
+      one: 'gün',
     );
     return '$_temp0';
   }
@@ -138,8 +138,8 @@ class AppLocalizationsTr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count weeks',
-      one: 'week',
+      other: '$count hafta',
+      one: 'hafta',
     );
     return '$_temp0';
   }
@@ -149,8 +149,8 @@ class AppLocalizationsTr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months',
-      one: 'month',
+      other: '$count ay',
+      one: 'ay',
     );
     return '$_temp0';
   }
@@ -160,628 +160,630 @@ class AppLocalizationsTr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years',
-      one: 'year',
+      other: '$count yıl',
+      one: 'yıl',
     );
     return '$_temp0';
   }
 
   @override
-  String get repeatEndLabel => 'Ends';
+  String get repeatEndLabel => 'biter';
 
   @override
-  String get repeatEndNever => 'Never';
+  String get repeatEndNever => 'Asla';
 
   @override
-  String get repeatEndOnDate => 'On date';
+  String get repeatEndOnDate => 'Tarihte';
 
   @override
   String repeatEndAfterCount(int count) {
-    return 'After $count times';
+    return '$count kereden sonra';
   }
 
   @override
-  String get repeatEndPickDate => 'Pick end date';
+  String get repeatEndPickDate => 'Bitiş tarihini seç';
 
   @override
-  String get repeatEndTimes => 'times';
+  String get repeatEndTimes => 'kez';
 
   @override
   String repeatSummaryEvery(int count, String unit) {
-    return 'Every $count $unit';
+    return 'Her $count $unit';
   }
 
   @override
   String repeatSummaryUntil(String date) {
-    return 'until $date';
+    return '$date tarihine kadar';
   }
 
   @override
   String repeatSummaryTimes(int count) {
-    return '$count times';
+    return '$count kez';
   }
 
   @override
   String repeatSummaryTimesRemaining(int remaining, int total) {
-    return '$remaining of $total remaining';
+    return '$remaining / $total kaldı';
   }
 
   @override
-  String get detailRepeatEvery => 'Repeat every';
+  String get detailRepeatEvery => 'Her birini tekrarla';
 
   @override
-  String get detailEnds => 'Ends';
+  String get detailEnds => 'biter';
 
   @override
-  String get detailEndsNever => 'Never';
+  String get detailEndsNever => 'Asla';
 
   @override
   String detailEndsOnDate(String date) {
-    return 'On $date';
+    return '$date tarihinde';
   }
 
   @override
   String detailEndsAfterCount(int count) {
-    return 'After $count times';
+    return '$count kereden sonra';
   }
 
   @override
-  String get detailProgress => 'Progress';
+  String get detailProgress => 'İlerlemek';
 
   @override
-  String get weekendNoChange => 'No change';
+  String get weekendNoChange => 'Değişiklik yok';
 
   @override
-  String get weekendFriday => 'Move to Friday';
+  String get weekendFriday => 'Cuma gününe taşın';
 
   @override
-  String get weekendMonday => 'Move to Monday';
+  String get weekendMonday => 'Pazartesi\'ye taşın';
 
   @override
   String weekendQuestion(String day) {
-    return 'If the $day falls on a weekend?';
+    return '$day hafta sonuna düşerse?';
   }
 
   @override
-  String get dateToday => 'Today';
+  String get dateToday => 'Bugün';
 
   @override
-  String get dateTomorrow => 'Tomorrow';
+  String get dateTomorrow => 'Yarın';
 
   @override
-  String get dateYesterday => 'Yesterday';
+  String get dateYesterday => 'Dün';
 
   @override
-  String get statsAllTime => 'All time';
+  String get statsAllTime => 'Tüm zamanlar';
 
   @override
-  String get accountGroupPersonal => 'Personal';
+  String get accountGroupPersonal => 'Kişisel';
 
   @override
-  String get accountGroupIndividual => 'Individual';
+  String get accountGroupIndividual => 'Bireysel';
 
   @override
-  String get accountGroupEntity => 'Entity';
+  String get accountGroupEntity => 'Varlık';
 
   @override
-  String get accountSectionIndividuals => 'Individuals';
+  String get accountSectionIndividuals => 'Bireyler';
 
   @override
-  String get accountSectionEntities => 'Entities';
+  String get accountSectionEntities => 'Varlıklar';
 
   @override
-  String get emptyNoTransactionsYet => 'No transactions yet';
+  String get emptyNoTransactionsYet => 'Henüz işlem yok';
 
   @override
-  String get emptyNoAccountsYet => 'No accounts yet';
+  String get emptyNoAccountsYet => 'Henüz hesap yok';
 
   @override
   String get emptyRecordFirstTransaction =>
-      'Tap the button below to record your first transaction.';
+      'İlk işleminizi kaydetmek için aşağıdaki düğmeye dokunun.';
 
   @override
   String get emptyAddFirstAccountTx =>
-      'Add your first account before recording transactions.';
+      'İşlemleri kaydetmeden önce ilk hesabınızı ekleyin.';
 
   @override
   String get emptyAddFirstAccountPlan =>
-      'Add your first account before planning transactions.';
+      'İşlemleri planlamadan önce ilk hesabınızı ekleyin.';
 
   @override
   String get emptyAddFirstAccountReview =>
-      'Add your first account to start tracking your finances.';
+      'Mali durumunuzu izlemeye başlamak için ilk hesabınızı ekleyin.';
 
   @override
-  String get emptyAddTransaction => 'Add transaction';
+  String get emptyAddTransaction => 'İşlem ekle';
 
   @override
-  String get emptyAddAccount => 'Add account';
+  String get emptyAddAccount => 'Hesap ekle';
 
   @override
-  String get reviewEmptyGroupPersonalTitle => 'No personal accounts yet';
+  String get reviewEmptyGroupPersonalTitle => 'Henüz kişisel hesap yok';
 
   @override
   String get reviewEmptyGroupPersonalBody =>
-      'Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.';
+      'Kişisel hesaplar, kendi cüzdanlarınız ve banka hesaplarınızdır. Günlük gelir ve harcamaları takip etmek için bir tane ekleyin.';
 
   @override
-  String get reviewEmptyGroupIndividualsTitle => 'No individual accounts yet';
+  String get reviewEmptyGroupIndividualsTitle => 'Henüz bireysel hesap yok';
 
   @override
   String get reviewEmptyGroupIndividualsBody =>
-      'Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.';
+      'Bireysel hesaplar parayı belirli kişilerle (paylaşılan maliyetler, krediler veya borç senetleri) takip eder. Anlaştığınız her kişi için bir hesap ekleyin.';
 
   @override
-  String get reviewEmptyGroupEntitiesTitle => 'No entity accounts yet';
+  String get reviewEmptyGroupEntitiesTitle => 'Henüz varlık hesabı yok';
 
   @override
   String get reviewEmptyGroupEntitiesBody =>
-      'Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.';
+      'Varlık hesapları işletmeler, projeler veya kuruluşlar içindir. İşletmenizin nakit akışını kişisel finansmanınızdan ayrı tutmak için bunları kullanın.';
 
   @override
   String get emptyNoTransactionsForFilters =>
-      'No transactions for applied filters';
+      'Uygulanan filtreler için işlem yok';
 
   @override
-  String get emptyNoTransactionsInHistory => 'No transactions in history';
+  String get emptyNoTransactionsInHistory => 'Geçmişte işlem yok';
 
   @override
   String emptyNoTransactionsForMonth(String month) {
-    return 'No transactions for $month';
+    return '$month için işlem yok';
   }
 
   @override
-  String get emptyNoTransactionsForAccount =>
-      'No transactions for this account';
+  String get emptyNoTransactionsForAccount => 'Bu hesapta işlem yok';
 
   @override
-  String get trackTransactionDeleted => 'Transaction deleted';
+  String get trackTransactionDeleted => 'İşlem silindi';
 
   @override
-  String get trackDeleteTitle => 'Delete transaction?';
+  String get trackDeleteTitle => 'İşlem silinsin mi?';
 
   @override
   String get trackDeleteBody =>
-      'This will reverse the account balance changes.';
+      'Bu, hesap bakiyesindeki değişiklikleri tersine çevirecektir.';
 
   @override
-  String get trackTransaction => 'Transaction';
+  String get trackTransaction => 'İşlem';
 
   @override
-  String get planConfirmTitle => 'Confirm transaction?';
+  String get planConfirmTitle => 'İşlem onaylansın mı?';
 
   @override
   String planConfirmBodyEarly(String date, String todayDate, String nextDate) {
-    return 'This occurrence is scheduled for $date. It will be recorded in History with today’s date ($todayDate). The next occurrence remains on $nextDate.';
+    return 'Bu olay $date için planlandı. Tarihe bugünün tarihiyle ($todayDate) kaydedilecek. Bir sonraki olay $nextDate\'de kalıyor.';
   }
 
   @override
   String get planConfirmBodyNormal =>
-      'This will apply the transaction to your real account balances and move it to History.';
+      'Bu, işlemi gerçek hesap bakiyelerinize uygulayacak ve Geçmiş\'e taşıyacaktır.';
 
   @override
-  String get planTransactionConfirmed => 'Transaction confirmed and applied';
+  String get planTransactionConfirmed => 'İşlem onaylandı ve uygulandı';
 
   @override
-  String get planTransactionRemoved => 'Planned transaction removed';
+  String get planTransactionRemoved => 'Planlanan işlem kaldırıldı';
 
   @override
-  String get planRepeatingTitle => 'Repeating transaction';
+  String get planRepeatingTitle => 'Tekrarlanan işlem';
 
   @override
   String get planRepeatingBody =>
-      'Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.';
+      'Yalnızca bu tarihi atlayın; dizi bir sonraki olayla devam eder veya kalan her olayı planınızdan silin.';
 
   @override
-  String get planDeleteAll => 'Delete all';
+  String get planDeleteAll => 'Tümünü sil';
 
   @override
-  String get planSkipThisOnly => 'Skip this only';
+  String get planSkipThisOnly => 'Yalnızca bunu atla';
 
   @override
   String get planOccurrenceSkipped =>
-      'This occurrence skipped — next one scheduled';
+      'Bu olay atlandı; bir sonraki olay planlandı';
 
   @override
-  String get planNothingPlanned => 'Nothing planned for now';
+  String get planNothingPlanned => 'Şimdilik planlanmış bir şey yok';
 
   @override
-  String get planPlanBody => 'Plan upcoming transactions.';
+  String get planPlanBody => 'Yaklaşan işlemleri planlayın.';
 
   @override
-  String get planAddPlan => 'Add plan';
+  String get planAddPlan => 'Plan ekle';
 
   @override
   String get planNoPlannedForFilters =>
-      'No planned transactions for applied filters';
+      'Uygulanan filtreler için planlanmış işlem yok';
 
   @override
   String planNoPlannedInMonth(String month) {
-    return 'No planned transactions in $month';
+    return '$month\'da planlanmış işlem yok';
   }
 
   @override
-  String get planOverdue => 'overdue';
+  String get planOverdue => 'vadesi geçmiş';
 
   @override
-  String get planPlannedTransaction => 'Planned transaction';
+  String get planPlannedTransaction => 'Planlanan işlem';
 
   @override
-  String get discardTitle => 'Discard changes?';
+  String get discardTitle => 'Değişiklikler silinsin mi?';
 
   @override
   String get discardBody =>
-      'You have unsaved changes. They will be lost if you leave now.';
+      'Kaydedilmemiş değişiklikleriniz var. Şimdi gidersen kaybolurlar.';
 
   @override
-  String get keepEditing => 'Keep editing';
+  String get keepEditing => 'Düzenlemeye devam et';
 
   @override
-  String get discard => 'Discard';
+  String get discard => 'Vazgeç';
 
   @override
-  String get newTransactionTitle => 'New Transaction';
+  String get newTransactionTitle => 'Yeni İşlem';
 
   @override
-  String get editTransactionTitle => 'Edit Transaction';
+  String get editTransactionTitle => 'İşlemi Düzenle';
 
   @override
-  String get transactionUpdated => 'Transaction updated';
+  String get transactionUpdated => 'İşlem güncellendi';
 
   @override
-  String get sectionAccounts => 'Accounts';
+  String get sectionAccounts => 'Hesaplar';
 
   @override
-  String get labelFrom => 'From';
+  String get labelFrom => 'İtibaren';
 
   @override
-  String get labelTo => 'To';
+  String get labelTo => 'İle';
 
   @override
-  String get sectionCategory => 'Category';
+  String get sectionCategory => 'Kategori';
 
   @override
-  String get sectionAttachments => 'Attachments';
+  String get sectionAttachments => 'Ekler';
 
   @override
-  String get labelNote => 'Note';
+  String get labelNote => 'Not';
 
   @override
-  String get hintOptionalDescription => 'Optional description';
+  String get hintOptionalDescription => 'İsteğe bağlı açıklama';
 
   @override
-  String get updateTransaction => 'Update Transaction';
+  String get updateTransaction => 'İşlemi Güncelle';
 
   @override
-  String get saveTransaction => 'Save Transaction';
+  String get saveTransaction => 'İşlemi Kaydet';
 
   @override
-  String get selectAccount => 'Select account';
+  String get selectAccount => 'Hesap seçin';
 
   @override
-  String get selectAccountTitle => 'Select Account';
+  String get selectAccountTitle => 'Hesap Seçin';
 
   @override
-  String get noAccountsAvailable => 'No accounts available';
+  String get noAccountsAvailable => 'Kullanılabilir hesap yok';
 
   @override
   String amountReceivedBy(String name, String currency) {
-    return 'Amount received by $name ($currency)';
+    return '$name ($currency) tarafından alınan tutar';
   }
 
   @override
   String get amountReceivedHelper =>
-      'Enter the exact amount the destination account receives. This locks the real exchange rate used.';
+      'Hedef hesabın alacağı tam tutarı girin. Bu, kullanılan reel döviz kurunu kilitler.';
 
   @override
-  String get attachTakePhoto => 'Take photo';
+  String get attachTakePhoto => 'Fotoğraf çek';
 
   @override
-  String get attachTakePhotoSub => 'Use camera to capture a receipt';
+  String get attachTakePhotoSub => 'Makbuz yakalamak için kamerayı kullanın';
 
   @override
-  String get attachChooseGallery => 'Choose from gallery';
+  String get attachChooseGallery => 'Galeriden seç';
 
   @override
-  String get attachChooseGallerySub => 'Select photos from your library';
+  String get attachChooseGallerySub => 'Kitaplığınızdan fotoğraf seçin';
 
   @override
-  String get attachBrowseFiles => 'Browse files';
+  String get attachBrowseFiles => 'Dosyalara göz atın';
 
   @override
-  String get attachBrowseFilesSub => 'Attach PDFs, documents or other files';
+  String get attachBrowseFilesSub =>
+      'PDF\'leri, belgeleri veya diğer dosyaları ekleyin';
 
   @override
-  String get attachButton => 'Attach';
+  String get attachButton => 'Eklemek';
 
   @override
-  String get editPlanTitle => 'Edit Plan';
+  String get editPlanTitle => 'Planı Düzenle';
 
   @override
-  String get planTransactionTitle => 'Plan Transaction';
+  String get planTransactionTitle => 'İşlemi Planla';
 
   @override
-  String get tapToSelect => 'Tap to select';
+  String get tapToSelect => 'Seçmek için dokunun';
 
   @override
-  String get updatePlan => 'Update Plan';
+  String get updatePlan => 'Planı Güncelle';
 
   @override
-  String get addToPlan => 'Add to Plan';
+  String get addToPlan => 'Plana Ekle';
 
   @override
-  String get labelRepeat => 'Repeat';
+  String get labelRepeat => 'Tekrarlamak';
 
   @override
-  String get selectPlannedDate => 'Select planned date';
+  String get selectPlannedDate => 'Planlanan tarihi seçin';
 
   @override
-  String get balancesAsOfToday => 'Balances as of today';
+  String get balancesAsOfToday => 'Bugün itibariyle bakiyeler';
 
   @override
-  String get projectedBalancesForTomorrow => 'Projected balances for tomorrow';
+  String get projectedBalancesForTomorrow => 'Yarın için öngörülen bakiyeler';
 
   @override
   String projectedBalancesForDate(String date) {
-    return 'Projected balances for $date';
+    return '$date için tahmini bakiyeler';
   }
 
   @override
   String destReceivesLabel(String name, String currency) {
-    return '$name receives ($currency)';
+    return '$name alır ($currency)';
   }
 
   @override
   String get destHelper =>
-      'Estimated destination amount. Exact rate is locked at confirmation.';
+      'Tahmini hedef miktarı. Kesin oran onay sırasında kilitlenir.';
 
   @override
-  String get descriptionOptional => 'Description (optional)';
+  String get descriptionOptional => 'Açıklama (isteğe bağlı)';
 
   @override
-  String get detailTransactionTitle => 'Transaction';
+  String get detailTransactionTitle => 'İşlem';
 
   @override
-  String get detailPlannedTitle => 'Planned';
+  String get detailPlannedTitle => 'Planlanan';
 
   @override
-  String get detailConfirmTransaction => 'Confirm transaction';
+  String get detailConfirmTransaction => 'İşlemi onayla';
 
   @override
-  String get detailDate => 'Date';
+  String get detailDate => 'Tarih';
 
   @override
-  String get detailFrom => 'From';
+  String get detailFrom => 'İtibaren';
 
   @override
-  String get detailTo => 'To';
+  String get detailTo => 'İle';
 
   @override
-  String get detailCategory => 'Category';
+  String get detailCategory => 'Kategori';
 
   @override
-  String get detailNote => 'Note';
+  String get detailNote => 'Not';
 
   @override
-  String get detailDestinationAmount => 'Destination amount';
+  String get detailDestinationAmount => 'Hedef tutarı';
 
   @override
-  String get detailExchangeRate => 'Exchange rate';
+  String get detailExchangeRate => 'Döviz kuru';
 
   @override
-  String get detailRepeats => 'Repeats';
+  String get detailRepeats => 'Tekrarlar';
 
   @override
-  String get detailDayOfMonth => 'Day of month';
+  String get detailDayOfMonth => 'Ayın günü';
 
   @override
-  String get detailWeekends => 'Weekends';
+  String get detailWeekends => 'Hafta sonları';
 
   @override
-  String get detailAttachments => 'Attachments';
+  String get detailAttachments => 'Ekler';
 
   @override
   String detailFileCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count dosya',
+      one: '1 dosya',
     );
     return '$_temp0';
   }
 
   @override
-  String get settingsTitle => 'Settings';
+  String get settingsTitle => 'Ayarlar';
 
   @override
-  String get settingsSectionDisplay => 'Display';
+  String get settingsSectionDisplay => 'Görüntülemek';
 
   @override
-  String get settingsSectionLanguage => 'Language';
+  String get settingsSectionLanguage => 'Dil';
 
   @override
-  String get settingsSectionCategories => 'Categories';
+  String get settingsSectionCategories => 'Kategoriler';
 
   @override
-  String get settingsSectionAccounts => 'Accounts';
+  String get settingsSectionAccounts => 'Hesaplar';
 
   @override
-  String get settingsSectionPreferences => 'Preferences';
+  String get settingsSectionPreferences => 'Tercihler';
 
   @override
-  String get settingsSectionManage => 'Manage';
+  String get settingsSectionManage => 'Üstesinden gelmek';
 
   @override
-  String get settingsBaseCurrency => 'Home currency';
+  String get settingsBaseCurrency => 'Ev para birimi';
 
   @override
-  String get settingsSecondaryCurrency => 'Secondary currency';
+  String get settingsSecondaryCurrency => 'İkincil para birimi';
 
   @override
-  String get settingsCategories => 'Categories';
+  String get settingsCategories => 'Kategoriler';
 
   @override
   String settingsCategoriesSubtitle(int incomeCount, int expenseCount) {
-    return '$incomeCount income · $expenseCount expense';
+    return '$incomeCount gelir · $expenseCount gider';
   }
 
   @override
-  String get settingsArchivedAccounts => 'Archived accounts';
+  String get settingsArchivedAccounts => 'Arşivlenmiş hesaplar';
 
   @override
   String get settingsArchivedAccountsSubtitleZero =>
-      'None right now — archive from account edit when balance is clear';
+      'Şu anda yok — bakiye temizlendiğinde hesap düzenlemeden arşivle';
 
   @override
   String settingsArchivedAccountsSubtitleCount(int count) {
-    return '$count hidden from Review and pickers';
+    return '$count İnceleme ve seçicilerden gizlendi';
   }
 
   @override
-  String get settingsSectionData => 'Data';
+  String get settingsSectionData => 'Veri';
 
   @override
-  String get settingsSectionPrivacy => 'About';
+  String get settingsSectionPrivacy => 'Hakkında';
 
   @override
-  String get settingsPrivacyPolicyTitle => 'Privacy policy';
+  String get settingsPrivacyPolicyTitle => 'Gizlilik politikası';
 
   @override
-  String get settingsPrivacyPolicySubtitle => 'How Platrare handles your data.';
+  String get settingsPrivacyPolicySubtitle =>
+      'Platrare verilerinizi nasıl işler?';
 
   @override
   String get settingsPrivacyFxDisclosure =>
-      'Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.';
+      'Döviz kurları: Uygulama, internet üzerinden genel döviz kurlarını getirir. Hesaplarınız ve işlemleriniz asla gönderilmez.';
 
   @override
-  String get settingsPrivacyOpenFailed => 'Could not load the privacy policy.';
+  String get settingsPrivacyOpenFailed => 'Gizlilik politikası yüklenemedi.';
 
   @override
-  String get settingsPrivacyRetry => 'Try again';
+  String get settingsPrivacyRetry => 'Tekrar deneyin';
 
   @override
-  String get settingsSoftwareVersionTitle => 'Software version';
+  String get settingsSoftwareVersionTitle => 'Yazılım sürümü';
 
   @override
-  String get settingsSoftwareVersionSubtitle =>
-      'Release, diagnostics, and legal';
+  String get settingsSoftwareVersionSubtitle => 'Sürüm, teşhis ve yasal';
 
   @override
-  String get aboutScreenTitle => 'About';
+  String get aboutScreenTitle => 'Hakkında';
 
   @override
   String get aboutAppTagline =>
-      'Ledger, cashflow, and planning in one workspace.';
+      'Tek bir çalışma alanında defter, nakit akışı ve planlama.';
 
   @override
   String get aboutDescriptionBody =>
-      'Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.';
+      'Platrare hesapları, işlemleri ve planları cihazınızda tutar. Başka bir yerde bir kopyaya ihtiyaç duyduğunuzda şifrelenmiş yedekleri dışa aktarın. Döviz kurları yalnızca kamuya açık piyasa verilerini kullanır; defteriniz yüklenmedi.';
 
   @override
-  String get aboutVersionLabel => 'Version';
+  String get aboutVersionLabel => 'Sürüm';
 
   @override
-  String get aboutBuildLabel => 'Build';
+  String get aboutBuildLabel => 'İnşa etmek';
 
   @override
-  String get aboutCopySupportDetails => 'Copy support details';
+  String get aboutCopySupportDetails => 'Destek ayrıntılarını kopyala';
 
   @override
   String get aboutOpenPrivacySubtitle =>
-      'Opens the full in-app policy document.';
+      'Tam uygulama içi politika belgesini açar.';
 
   @override
-  String get aboutSupportBundleLocaleLabel => 'Locale';
+  String get aboutSupportBundleLocaleLabel => 'Yerel ayar';
 
   @override
-  String get settingsSupportInfoCopied => 'Copied to clipboard';
+  String get settingsSupportInfoCopied => 'Panoya kopyalandı';
 
   @override
-  String get settingsVerifyLedger => 'Verify data';
+  String get settingsVerifyLedger => 'Verileri doğrulayın';
 
   @override
   String get settingsVerifyLedgerSubtitle =>
-      'Check that account balances match your transaction history';
+      'Hesap bakiyelerinin işlem geçmişinizle eşleşip eşleşmediğini kontrol edin';
 
   @override
-  String get settingsDataExportTitle => 'Export backup';
+  String get settingsDataExportTitle => 'Yedeği dışa aktar';
 
   @override
   String get settingsDataExportSubtitle =>
-      'Save as .zip or encrypted .platrare with all data and attachments';
+      'Tüm veriler ve eklerle birlikte .zip veya şifrelenmiş .platrare olarak kaydedin';
 
   @override
-  String get settingsDataImportTitle => 'Restore from backup';
+  String get settingsDataImportTitle => 'Yedeklemeden geri yükle';
 
   @override
   String get settingsDataImportSubtitle =>
-      'Replace current data from a Platrare .zip or .platrare backup';
+      'Platrare .zip veya .platrare yedeklemesindeki mevcut verileri değiştirin';
 
   @override
-  String get backupExportDialogTitle => 'Protect this backup';
+  String get backupExportDialogTitle => 'Bu yedeği koruyun';
 
   @override
   String get backupExportDialogBody =>
-      'A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.';
+      'Özellikle dosyayı bulutta saklıyorsanız güçlü bir parola önerilir. İçe aktarmak için aynı şifreye ihtiyacınız var.';
 
   @override
-  String get backupExportPasswordLabel => 'Password';
+  String get backupExportPasswordLabel => 'Şifre';
 
   @override
-  String get backupExportPasswordConfirmLabel => 'Confirm password';
+  String get backupExportPasswordConfirmLabel => 'Şifreyi onayla';
 
   @override
-  String get backupExportPasswordMismatch => 'Passwords do not match';
+  String get backupExportPasswordMismatch => 'Şifreler eşleşmiyor';
 
   @override
   String get backupExportPasswordEmpty =>
-      'Enter a matching password, or export without encryption below.';
+      'Eşleşen bir şifre girin veya aşağıya şifreleme olmadan aktarın.';
 
   @override
   String get backupExportPasswordTooShort =>
-      'Password must be at least 8 characters.';
+      'Şifre en az 8 karakter olmalıdır.';
 
   @override
-  String get backupExportSaveToDevice => 'Save to device';
+  String get backupExportSaveToDevice => 'Cihaza kaydet';
 
   @override
-  String get backupExportShareToCloud => 'Share (iCloud, Drive…)';
+  String get backupExportShareToCloud => 'Paylaş (iCloud, Drive…)';
 
   @override
-  String get backupExportWithoutEncryption => 'Export without encryption';
+  String get backupExportWithoutEncryption => 'Şifreleme olmadan dışa aktar';
 
   @override
-  String get backupExportSkipWarningTitle => 'Export without encryption?';
+  String get backupExportSkipWarningTitle =>
+      'Şifreleme olmadan dışa aktarılsın mı?';
 
   @override
   String get backupExportSkipWarningBody =>
-      'Anyone with access to the file can read your data. Use this only for local copies you control.';
+      'Dosyaya erişimi olan herkes verilerinizi okuyabilir. Bunu yalnızca kontrol ettiğiniz yerel kopyalar için kullanın.';
 
   @override
-  String get backupExportSkipWarningConfirm => 'Export unencrypted';
+  String get backupExportSkipWarningConfirm =>
+      'Şifrelenmemiş olarak dışa aktar';
 
   @override
-  String get backupImportPasswordTitle => 'Encrypted backup';
+  String get backupImportPasswordTitle => 'Şifreli yedekleme';
 
   @override
   String get backupImportPasswordBody =>
-      'Enter the password you used when exporting.';
+      'Dışa aktarırken kullandığınız şifreyi girin.';
 
   @override
-  String get backupImportPasswordLabel => 'Password';
+  String get backupImportPasswordLabel => 'Şifre';
 
   @override
-  String get backupImportPreviewTitle => 'Backup summary';
+  String get backupImportPreviewTitle => 'Yedekleme özeti';
 
   @override
   String backupImportPreviewVersion(String version) {
-    return 'App version: $version';
+    return 'Uygulama sürümü: $version';
   }
 
   @override
   String backupImportPreviewExported(String date) {
-    return 'Exported: $date';
+    return 'Dışa aktarılan: $date';
   }
 
   @override
@@ -793,67 +795,70 @@ class AppLocalizationsTr extends AppLocalizations {
     int income,
     int expense,
   ) {
-    return '$accounts accounts · $transactions transactions · $planned planned · $attachments attachment files · $income income categories · $expense expense categories';
+    return '$accounts hesaplar · $transactions işlemler · $planned planlanan · $attachments ek dosyaları · $income gelir kategorileri · $expense gider kategorileri';
   }
 
   @override
-  String get backupImportPreviewContinue => 'Continue';
+  String get backupImportPreviewContinue => 'Devam etmek';
 
   @override
-  String get settingsBackupWrongPassword => 'Wrong password';
+  String get settingsBackupWrongPassword => 'Yanlış şifre';
 
   @override
-  String get settingsBackupChecksumMismatch => 'Backup failed integrity check';
+  String get settingsBackupChecksumMismatch =>
+      'Yedekleme başarısız oldu bütünlük kontrolü';
 
   @override
-  String get settingsBackupCorruptFile => 'Invalid or damaged backup file';
+  String get settingsBackupCorruptFile =>
+      'Geçersiz veya hasarlı yedekleme dosyası';
 
   @override
   String get settingsBackupUnsupportedVersion =>
-      'Backup needs a newer app version';
+      'Yedeklemenin daha yeni bir uygulama sürümüne ihtiyacı var';
 
   @override
-  String get settingsDataImportConfirmTitle => 'Replace current data?';
+  String get settingsDataImportConfirmTitle =>
+      'Mevcut veriler değiştirilsin mi?';
 
   @override
   String get settingsDataImportConfirmBody =>
-      'This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.';
+      'Bu, mevcut hesaplarınızı, işlemlerinizi, planlı işlemlerinizi, kategorilerinizi ve içe aktarılan eklerinizi seçilen yedeklemenin içeriğiyle değiştirecektir. Bu eylem geri alınamaz.';
 
   @override
-  String get settingsDataImportConfirmAction => 'Replace data';
+  String get settingsDataImportConfirmAction => 'Verileri değiştir';
 
   @override
-  String get settingsDataImportDone => 'Data restored successfully';
+  String get settingsDataImportDone => 'Veriler başarıyla geri yüklendi';
 
   @override
   String get settingsDataImportInvalidFile =>
-      'This file is not a valid Platrare backup';
+      'Bu dosya geçerli bir Platrare yedeği değil';
 
   @override
-  String get settingsDataImportFailed => 'Import failed';
+  String get settingsDataImportFailed => 'İçe aktarma başarısız oldu';
 
   @override
-  String get settingsDataExportDoneTitle => 'Backup exported';
+  String get settingsDataExportDoneTitle => 'Yedekleme dışa aktarıldı';
 
   @override
   String settingsDataExportDoneBody(String path) {
-    return 'Backup saved to:\n$path';
+    return 'Yedekleme şuraya kaydedildi:\n$path';
   }
 
   @override
-  String get settingsDataOpenExportFile => 'Open file';
+  String get settingsDataOpenExportFile => 'Dosyayı aç';
 
   @override
-  String get settingsDataExportFailed => 'Export failed';
+  String get settingsDataExportFailed => 'Dışa aktarma başarısız oldu';
 
   @override
-  String get ledgerVerifyDialogTitle => 'Ledger verification';
+  String get ledgerVerifyDialogTitle => 'Defter doğrulama';
 
   @override
-  String get ledgerVerifyAllMatch => 'All accounts match.';
+  String get ledgerVerifyAllMatch => 'Tüm hesaplar eşleşiyor.';
 
   @override
-  String get ledgerVerifyMismatchesTitle => 'Mismatches';
+  String get ledgerVerifyMismatchesTitle => 'Uyuşmazlıklar';
 
   @override
   String ledgerVerifyMismatchDetails(
@@ -862,751 +867,757 @@ class AppLocalizationsTr extends AppLocalizations {
     String replayed,
     String diff,
   ) {
-    return '$accountName\nStored: $stored\nReplay: $replayed\nDifference: $diff';
+    return '$accountName\nSaklanan: $stored\nTekrar: $replayed\nFark: $diff';
   }
 
   @override
-  String get settingsLanguage => 'App language';
+  String get settingsLanguage => 'Uygulama dili';
 
   @override
-  String get settingsLanguageSubtitleSystem => 'Following system settings';
+  String get settingsLanguageSubtitleSystem => 'Sistem ayarlarını takip etmek';
 
   @override
-  String get settingsLanguageSubtitleEnglish => 'English';
+  String get settingsLanguageSubtitleEnglish => 'İngilizce';
 
   @override
-  String get settingsLanguageSubtitleSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageSubtitleSerbianLatin => 'Sırpça (Latince)';
 
   @override
-  String get settingsLanguagePickerTitle => 'App language';
+  String get settingsLanguagePickerTitle => 'Uygulama dili';
 
   @override
-  String get settingsLanguageOptionSystem => 'System default';
+  String get settingsLanguageOptionSystem => 'Sistem varsayılanı';
 
   @override
-  String get settingsLanguageOptionEnglish => 'English';
+  String get settingsLanguageOptionEnglish => 'İngilizce';
 
   @override
-  String get settingsLanguageOptionSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageOptionSerbianLatin => 'Sırpça (Latince)';
 
   @override
-  String get settingsSectionAppearance => 'Appearance';
+  String get settingsSectionAppearance => 'Dış görünüş';
 
   @override
-  String get settingsSectionSecurity => 'Security';
+  String get settingsSectionSecurity => 'Güvenlik';
 
   @override
-  String get settingsSecurityEnableLock => 'Lock app on open';
+  String get settingsSecurityEnableLock => 'Uygulamayı açıkken kilitle';
 
   @override
   String get settingsSecurityEnableLockSubtitle =>
-      'Require biometric unlock or PIN when app opens';
+      'Uygulama açıldığında biyometrik kilit açma veya PIN iste';
 
   @override
-  String get settingsSecuritySetPin => 'Set PIN';
+  String get settingsSecuritySetPin => 'PIN\'i ayarla';
 
   @override
-  String get settingsSecurityChangePin => 'Change PIN';
+  String get settingsSecurityChangePin => 'PIN\'i değiştir';
 
   @override
   String get settingsSecurityPinSubtitle =>
-      'Use a PIN as fallback if biometric is unavailable';
+      'Biyometri kullanılamıyorsa yedek olarak PIN kullanın';
 
   @override
-  String get settingsSecurityRemovePin => 'Remove PIN';
+  String get settingsSecurityRemovePin => 'PIN\'i kaldır';
 
   @override
-  String get securitySetPinTitle => 'Set app PIN';
+  String get securitySetPinTitle => 'Uygulama PIN\'ini ayarla';
 
   @override
-  String get securityPinLabel => 'PIN code';
+  String get securityPinLabel => 'PIN kodu';
 
   @override
-  String get securityConfirmPinLabel => 'Confirm PIN code';
+  String get securityConfirmPinLabel => 'PIN kodunu onaylayın';
 
   @override
-  String get securityPinMustBe4Digits => 'PIN must have at least 4 digits';
+  String get securityPinMustBe4Digits => 'PIN en az 4 haneli olmalıdır';
 
   @override
-  String get securityPinMismatch => 'PIN codes do not match';
+  String get securityPinMismatch => 'PIN kodları eşleşmiyor';
 
   @override
-  String get securityRemovePinTitle => 'Remove PIN?';
+  String get securityRemovePinTitle => 'PIN kaldırılsın mı?';
 
   @override
   String get securityRemovePinBody =>
-      'Biometric unlock can still be used if available.';
+      'Varsa biyometrik kilit açma hâlâ kullanılabilir.';
 
   @override
-  String get securityUnlockTitle => 'App locked';
+  String get securityUnlockTitle => 'Uygulama kilitlendi';
 
   @override
   String get securityUnlockSubtitle =>
-      'Unlock with Face ID, fingerprint, or PIN.';
+      'Face ID, parmak izi veya PIN ile kilidi açın.';
 
   @override
-  String get securityUnlockWithPin => 'Unlock with PIN';
+  String get securityUnlockWithPin => 'PIN ile kilidi aç';
 
   @override
-  String get securityTryBiometric => 'Try biometric unlock';
+  String get securityTryBiometric => 'Biyometrik kilit açmayı deneyin';
 
   @override
-  String get securityPinIncorrect => 'Incorrect PIN, try again';
+  String get securityPinIncorrect => 'Yanlış PIN, tekrar deneyin';
 
   @override
-  String get securityBiometricReason => 'Authenticate to open your app';
+  String get securityBiometricReason =>
+      'Uygulamanızı açmak için kimlik doğrulaması yapın';
 
   @override
-  String get settingsTheme => 'Theme';
+  String get settingsTheme => 'Tema';
 
   @override
-  String get settingsThemeSubtitleSystem => 'Following system settings';
+  String get settingsThemeSubtitleSystem => 'Sistem ayarlarını takip etmek';
 
   @override
-  String get settingsThemeSubtitleLight => 'Light';
+  String get settingsThemeSubtitleLight => 'Işık';
 
   @override
-  String get settingsThemeSubtitleDark => 'Dark';
+  String get settingsThemeSubtitleDark => 'Karanlık';
 
   @override
-  String get settingsThemePickerTitle => 'Theme';
+  String get settingsThemePickerTitle => 'Tema';
 
   @override
-  String get settingsThemeOptionSystem => 'System default';
+  String get settingsThemeOptionSystem => 'Sistem varsayılanı';
 
   @override
-  String get settingsThemeOptionLight => 'Light';
+  String get settingsThemeOptionLight => 'Işık';
 
   @override
-  String get settingsThemeOptionDark => 'Dark';
+  String get settingsThemeOptionDark => 'Karanlık';
 
   @override
-  String get archivedAccountsTitle => 'Archived accounts';
+  String get archivedAccountsTitle => 'Arşivlenmiş hesaplar';
 
   @override
-  String get archivedAccountsEmptyTitle => 'No archived accounts';
+  String get archivedAccountsEmptyTitle => 'Arşivlenmiş hesap yok';
 
   @override
   String get archivedAccountsEmptyBody =>
-      'Book balance and overdraft must be zero. Archive from account options in Review.';
+      'Defter bakiyesi ve kredili mevduat sıfır olmalıdır. İnceleme\'deki hesap seçeneklerinden arşivleyin.';
 
   @override
-  String get categoriesTitle => 'Categories';
+  String get categoriesTitle => 'Kategoriler';
 
   @override
-  String get newCategoryTitle => 'New Category';
+  String get newCategoryTitle => 'Yeni Kategori';
 
   @override
-  String get categoryNameLabel => 'Category name';
+  String get categoryNameLabel => 'Kategori adı';
 
   @override
-  String get deleteCategoryTitle => 'Delete category?';
+  String get deleteCategoryTitle => 'Kategori silinsin mi?';
 
   @override
   String deleteCategoryBody(String category) {
-    return '\"$category\" will be removed from the list.';
+    return '\"$category\" listeden kaldırılacaktır.';
   }
 
   @override
-  String get categoryIncome => 'Income';
+  String get categoryIncome => 'Gelir';
 
   @override
-  String get categoryExpense => 'Expense';
+  String get categoryExpense => 'Gider';
 
   @override
-  String get categoryAdd => 'Add';
+  String get categoryAdd => 'Eklemek';
 
   @override
-  String get searchCurrencies => 'Search currencies…';
+  String get searchCurrencies => 'Para birimlerini arayın…';
 
   @override
-  String get period1M => '1M';
+  String get period1M => '1 milyon';
 
   @override
-  String get period3M => '3M';
+  String get period3M => '3 milyon';
 
   @override
-  String get period6M => '6M';
+  String get period6M => '6 milyon';
 
   @override
   String get period1Y => '1Y';
 
   @override
-  String get periodAll => 'ALL';
+  String get periodAll => 'TÜM';
 
   @override
-  String get categoryLabel => 'category';
+  String get categoryLabel => 'kategori';
 
   @override
-  String get categoriesLabel => 'categories';
+  String get categoriesLabel => 'kategoriler';
 
   @override
   String transactionSavedMessage(String type, String amount) {
-    return '$type saved  •  $amount';
+    return '$type kaydedildi • $amount';
   }
 
   @override
-  String get tooltipSettings => 'Settings';
+  String get tooltipSettings => 'Ayarlar';
 
   @override
-  String get tooltipAddAccount => 'Add account';
+  String get tooltipAddAccount => 'Hesap ekle';
 
   @override
-  String get tooltipRemoveAccount => 'Remove account';
+  String get tooltipRemoveAccount => 'Hesabı kaldır';
 
   @override
   String get accountNameTaken =>
-      'You already have an account with this name and identifier (active or archived). Change the name or identifier.';
+      'Bu ada ve tanımlayıcıya (etkin veya arşivlenmiş) sahip bir hesabınız zaten var. Adı veya tanımlayıcıyı değiştirin.';
 
   @override
-  String get groupDescPersonal => 'Your own wallets & bank accounts';
+  String get groupDescPersonal => 'Kendi cüzdanlarınız ve banka hesaplarınız';
 
   @override
-  String get groupDescIndividuals => 'Family, friends, individuals';
+  String get groupDescIndividuals => 'Aile, arkadaşlar, bireyler';
 
   @override
-  String get groupDescEntities => 'Entities, utilities, organisations';
+  String get groupDescEntities => 'Varlıklar, kamu hizmetleri, kuruluşlar';
 
   @override
-  String get cannotArchiveTitle => 'Cannot archive yet';
+  String get cannotArchiveTitle => 'Henüz arşivlenemiyor';
 
   @override
   String get cannotArchiveBody =>
-      'Archive is only available when the book balance and overdraft limit are both effectively zero.';
+      'Arşiv yalnızca defter bakiyesi ve kredili mevduat limitinin her ikisi de fiilen sıfır olduğunda kullanılabilir.';
 
   @override
   String get cannotArchiveBodyAdjust =>
-      'Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.';
+      'Arşiv yalnızca defter bakiyesi ve kredili mevduat limitinin her ikisi de fiilen sıfır olduğunda kullanılabilir. Önce defteri veya tesisi ayarlayın.';
 
   @override
-  String get archiveAccountTitle => 'Archive account?';
+  String get archiveAccountTitle => 'Hesabı arşivle?';
 
   @override
   String archiveWithPlannedBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count planned transactions reference this account.',
-      one: '1 planned transaction references this account.',
+      other: '$count planlanan işlem bu hesaba referans veriyor.',
+      one: '1 planlanan işlem bu hesaba referans veriyor.',
     );
-    return '$_temp0 Remove them to keep your plan consistent with an archived account.';
+    return '$_temp0 Arşivlenmiş bir hesapla planınızın tutarlı kalması için bunları kaldırın.';
   }
 
   @override
-  String get removeAndArchive => 'Remove planned & archive';
+  String get removeAndArchive => 'Planlananı kaldır ve arşivle';
 
   @override
   String get archiveBody =>
-      'The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.';
+      'Hesap İnceleme, Takip ve Plan seçicilerden gizlenecektir. Ayarlar\'dan geri yükleyebilirsiniz.';
 
   @override
-  String get archiveAction => 'Archive';
+  String get archiveAction => 'Arşiv';
 
   @override
-  String get archiveInstead => 'Archive instead';
+  String get archiveInstead => 'Bunun yerine arşivle';
 
   @override
-  String get cannotDeleteTitle => 'Cannot delete account';
+  String get cannotDeleteTitle => 'Hesap silinemiyor';
 
   @override
   String get cannotDeleteBodyShort =>
-      'This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.';
+      'Bu hesap Takip geçmişinizde görünür. Önce bu işlemleri kaldırın veya yeniden atayın ya da bakiye temizlendiyse hesabı arşivleyin.';
 
   @override
   String get cannotDeleteBodyHistory =>
-      'This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.';
+      'Bu hesap Takip geçmişinizde görünür. Silmek, bu geçmişi bozacaktır; önce bu işlemleri kaldırın veya yeniden atayın.';
 
   @override
   String get cannotDeleteBodySuggestArchive =>
-      'This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.';
+      'Bu hesap Takip geçmişinizde göründüğünden silinemez. Bunun yerine, defter bakiyesi ve kredili mevduat silinirse arşivleyebilirsiniz; listelerde gizlenir ancak geçmiş bozulmadan kalır.';
 
   @override
-  String get deleteAccountTitle => 'Delete account?';
+  String get deleteAccountTitle => 'Hesap silinsin mi?';
 
   @override
   String get deleteAccountBodyPermanent =>
-      'This account will be removed permanently.';
+      'Bu hesap kalıcı olarak kaldırılacaktır.';
 
   @override
   String deleteWithPlannedBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          '$count planned transactions reference this account and will also be deleted.',
-      one:
-          '1 planned transaction references this account and will also be deleted.',
+      other: '$count planlanan işlem bu hesaba referans veriyor ve silinecek.',
+      one: '1 planlanan işlem bu hesaba referans veriyor ve silinecek.',
     );
     return '$_temp0';
   }
 
   @override
-  String get deleteAllAndDelete => 'Delete all';
+  String get deleteAllAndDelete => 'Tümünü sil';
 
   @override
-  String get editAccountTitle => 'Edit Account';
+  String get editAccountTitle => 'Hesabı Düzenle';
 
   @override
-  String get newAccountTitle => 'New Account';
+  String get newAccountTitle => 'Yeni Hesap';
 
   @override
-  String get labelAccountName => 'Account name';
+  String get labelAccountName => 'Hesap adı';
 
   @override
-  String get labelAccountIdentifier => 'Identifier (optional)';
+  String get labelAccountIdentifier => 'Tanımlayıcı (isteğe bağlı)';
 
   @override
-  String get accountAppearanceSection => 'Icon & color';
+  String get accountAppearanceSection => 'Simge ve renk';
 
   @override
-  String get accountPickIcon => 'Choose icon';
+  String get accountPickIcon => 'Simge seç';
 
   @override
-  String get accountPickColor => 'Choose color';
+  String get accountPickColor => 'Renk seç';
 
   @override
-  String get accountIconSheetTitle => 'Account icon';
+  String get accountIconSheetTitle => 'Hesap simgesi';
 
   @override
-  String get accountColorSheetTitle => 'Account color';
+  String get accountColorSheetTitle => 'Hesap rengi';
 
   @override
-  String get accountUseInitialLetter => 'Initial letter';
+  String get accountUseInitialLetter => 'İlk harf';
 
   @override
-  String get accountUseDefaultColor => 'Match group';
+  String get accountUseDefaultColor => 'Maç grubu';
 
   @override
-  String get labelRealBalance => 'Real balance';
+  String get labelRealBalance => 'Gerçek denge';
 
   @override
-  String get labelOverdraftLimit => 'Overdraft / advance limit';
+  String get labelOverdraftLimit => 'Kredili mevduat / avans limiti';
 
   @override
-  String get labelCurrency => 'Currency';
+  String get labelCurrency => 'Para birimi';
 
   @override
-  String get saveChanges => 'Save Changes';
+  String get saveChanges => 'Değişiklikleri Kaydet';
 
   @override
-  String get addAccountAction => 'Add Account';
+  String get addAccountAction => 'Hesap Ekle';
 
   @override
-  String get removeAccountSheetTitle => 'Remove account';
+  String get removeAccountSheetTitle => 'Hesabı kaldır';
 
   @override
-  String get deletePermanently => 'Delete permanently';
+  String get deletePermanently => 'Kalıcı olarak sil';
 
   @override
   String get deletePermanentlySubtitle =>
-      'Only possible when this account is not used in Track. Planned items can be removed as part of delete.';
+      'Yalnızca bu hesap Track\'te kullanılmadığında mümkündür. Planlanan öğeler, silme işleminin bir parçası olarak kaldırılabilir.';
 
   @override
   String get archiveOptionSubtitle =>
-      'Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.';
+      'İncelemeden ve seçicilerden gizle. İstediğiniz zaman Ayarlar\'dan geri yükleyin. Sıfır bakiye ve kredili mevduat gerektirir.';
 
   @override
   String get archivedBannerText =>
-      'This account is archived. It stays in your data but is hidden from lists and pickers.';
+      'Bu hesap arşivlendi. Verilerinizde kalır ancak listelerden ve seçicilerden gizlenir.';
 
   @override
-  String get balanceAdjustedTitle => 'Balance adjusted in Track';
+  String get balanceAdjustedTitle => 'Parçada denge ayarlandı';
 
   @override
   String balanceAdjustedBody(String previous, String current, String symbol) {
-    return 'Real balance was updated from $previous to $current $symbol.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.';
+    return 'Gerçek bakiye $previous\'den $current $symbol\'ye güncellendi.\n\nDefterin tutarlı kalması için Takip (Geçmiş)\'te bir bakiye düzeltme işlemi oluşturuldu.\n\n• Gerçek bakiye bu hesaptaki gerçek tutarı yansıtır.\n• Ayar girişi için Geçmişi kontrol edin.';
   }
 
   @override
-  String get ok => 'OK';
+  String get ok => 'TAMAM';
 
   @override
-  String get categoryBalanceAdjustment => 'Balance adjustment';
+  String get categoryBalanceAdjustment => 'Denge ayarı';
 
   @override
-  String get descriptionBalanceCorrection => 'Balance correction';
+  String get descriptionBalanceCorrection => 'Denge düzeltmesi';
 
   @override
-  String get descriptionOpeningBalance => 'Opening balance';
+  String get descriptionOpeningBalance => 'Açılış bakiyesi';
 
   @override
-  String get reviewStatsModeStatistics => 'Statistics';
+  String get reviewStatsModeStatistics => 'İstatistikler';
 
   @override
-  String get reviewStatsModeComparison => 'Comparison';
+  String get reviewStatsModeComparison => 'Karşılaştırmak';
 
   @override
-  String get statsUncategorized => 'Uncategorized';
+  String get statsUncategorized => 'Kategorize edilmemiş';
 
   @override
   String get statsNoCategories =>
-      'No categories in the selected periods for comparison.';
+      'Seçilen dönemlerde karşılaştırma için kategori yok.';
 
   @override
-  String get statsNoTransactions => 'No transactions';
+  String get statsNoTransactions => 'İşlem yok';
 
   @override
-  String get statsSpendingInCategory => 'Spending in this category';
+  String get statsSpendingInCategory => 'Bu kategorideki harcamalar';
 
   @override
-  String get statsIncomeInCategory => 'Income in this category';
+  String get statsIncomeInCategory => 'Bu kategorideki gelir';
 
   @override
-  String get statsDifference => 'Difference (B vs A): ';
+  String get statsDifference => 'Fark (B ve A):';
 
   @override
-  String get statsNoExpensesMonth => 'No expenses this month';
+  String get statsNoExpensesMonth => 'Bu ay masraf yok';
 
   @override
-  String get statsNoExpensesAll => 'No expenses recorded';
+  String get statsNoExpensesAll => 'Hiçbir harcama kaydedilmedi';
 
   @override
   String statsNoExpensesPeriod(String period) {
-    return 'No expenses in the last $period';
+    return 'Son dönemde masraf yok $period';
   }
 
   @override
-  String get statsTotalSpent => 'Total spent';
+  String get statsTotalSpent => 'Toplam harcanan';
 
   @override
-  String get statsNoExpensesThisPeriod => 'No expenses in this period';
+  String get statsNoExpensesThisPeriod => 'Bu dönemde masraf yok';
 
   @override
-  String get statsNoIncomeMonth => 'No income this month';
+  String get statsNoIncomeMonth => 'Bu ay gelir yok';
 
   @override
-  String get statsNoIncomeAll => 'No income recorded';
+  String get statsNoIncomeAll => 'Gelir kaydedilmedi';
 
   @override
   String statsNoIncomePeriod(String period) {
-    return 'No income in the last $period';
+    return 'Son dönemde gelir yok $period';
   }
 
   @override
-  String get statsTotalReceived => 'Total received';
+  String get statsTotalReceived => 'Toplam alınan';
 
   @override
-  String get statsNoIncomeThisPeriod => 'No income in this period';
+  String get statsNoIncomeThisPeriod => 'Bu dönemde gelir yok';
 
   @override
-  String get catSalary => 'Salary';
+  String get catSalary => 'Maaş';
 
   @override
-  String get catFreelance => 'Freelance';
+  String get catFreelance => 'Serbest çalışan';
 
   @override
-  String get catConsulting => 'Consulting';
+  String get catConsulting => 'Danışmanlık';
 
   @override
-  String get catGift => 'Gift';
+  String get catGift => 'Hediye';
 
   @override
-  String get catRental => 'Rental';
+  String get catRental => 'Kiralık';
 
   @override
-  String get catDividends => 'Dividends';
+  String get catDividends => 'Temettüler';
 
   @override
-  String get catRefund => 'Refund';
+  String get catRefund => 'Geri ödemek';
 
   @override
   String get catBonus => 'Bonus';
 
   @override
-  String get catInterest => 'Interest';
+  String get catInterest => 'Faiz';
 
   @override
-  String get catSideHustle => 'Side hustle';
+  String get catSideHustle => 'Yan koşuşturma';
 
   @override
-  String get catSaleOfGoods => 'Sale of goods';
+  String get catSaleOfGoods => 'Mal satışı';
 
   @override
-  String get catOther => 'Other';
+  String get catOther => 'Diğer';
 
   @override
-  String get catGroceries => 'Groceries';
+  String get catGroceries => 'Bakkaliye';
 
   @override
-  String get catDining => 'Dining';
+  String get catDining => 'Yemek';
 
   @override
-  String get catTransport => 'Transport';
+  String get catTransport => 'Taşıma';
 
   @override
-  String get catUtilities => 'Utilities';
+  String get catUtilities => 'Yardımcı programlar';
 
   @override
-  String get catHousing => 'Housing';
+  String get catHousing => 'Konut';
 
   @override
-  String get catHealthcare => 'Healthcare';
+  String get catHealthcare => 'Sağlık hizmeti';
 
   @override
-  String get catEntertainment => 'Entertainment';
+  String get catEntertainment => 'Eğlence';
 
   @override
-  String get catShopping => 'Shopping';
+  String get catShopping => 'Alışveriş';
 
   @override
-  String get catTravel => 'Travel';
+  String get catTravel => 'Seyahat';
 
   @override
-  String get catEducation => 'Education';
+  String get catEducation => 'Eğitim';
 
   @override
-  String get catSubscriptions => 'Subscriptions';
+  String get catSubscriptions => 'Abonelikler';
 
   @override
-  String get catInsurance => 'Insurance';
+  String get catInsurance => 'Sigorta';
 
   @override
-  String get catFuel => 'Fuel';
+  String get catFuel => 'Yakıt';
 
   @override
-  String get catGym => 'Gym';
+  String get catGym => 'Spor salonu';
 
   @override
-  String get catPets => 'Pets';
+  String get catPets => 'Evcil hayvanlar';
 
   @override
-  String get catKids => 'Kids';
+  String get catKids => 'Çocuklar';
 
   @override
-  String get catCharity => 'Charity';
+  String get catCharity => 'Hayır kurumu';
 
   @override
-  String get catCoffee => 'Coffee';
+  String get catCoffee => 'Kahve';
 
   @override
-  String get catGifts => 'Gifts';
+  String get catGifts => 'Hediyeler';
 
   @override
   String semanticsProjectionDate(String date) {
-    return 'Projection date $date. Double tap to choose date';
+    return 'Projeksiyon tarihi $date. Tarihi seçmek için iki kez dokunun';
   }
 
   @override
   String semanticsProjectedBalance(String amount) {
-    return 'Projected personal balance $amount';
+    return 'Tahmini kişisel denge $amount';
   }
 
   @override
-  String get statsEmptyTitle => 'No transactions yet';
+  String get statsEmptyTitle => 'Henüz işlem yok';
 
   @override
-  String get statsEmptySubtitle => 'No spending data for the selected range.';
+  String get statsEmptySubtitle => 'Seçilen aralık için harcama verisi yok.';
 
   @override
-  String get semanticsShowProjections => 'Show projected balances by account';
+  String get semanticsShowProjections =>
+      'Tahmini bakiyeleri hesaba göre göster';
 
   @override
-  String get semanticsHideProjections => 'Hide projected balances by account';
+  String get semanticsHideProjections => 'Tahmini bakiyeleri hesaba göre gizle';
 
   @override
-  String get semanticsDateAllTime => 'Date: all time — tap to change mode';
+  String get semanticsDateAllTime =>
+      'Tarih: tüm zamanlar — modu değiştirmek için dokunun';
 
   @override
   String semanticsDateMode(String mode) {
-    return 'Date: $mode — tap to change mode';
+    return 'Tarih: $mode — modu değiştirmek için dokunun';
   }
 
   @override
   String get semanticsDateThisMonth =>
-      'Date: this month — tap for month, week, year, or all time';
+      'Tarih: bu ay — ay, hafta, yıl veya tüm zamanlar için dokunun';
 
   @override
   String get semanticsTxTypeCycle =>
-      'Transaction type: cycle all, income, expense, transfer';
+      'İşlem türü: tümünü çevir, gelir, gider, transfer';
 
   @override
-  String get semanticsAccountFilter => 'Account filter';
+  String get semanticsAccountFilter => 'Hesap filtresi';
 
   @override
-  String get semanticsAlreadyFiltered => 'Already filtered to this account';
+  String get semanticsAlreadyFiltered => 'Bu hesaba zaten filtre uygulandı';
 
   @override
-  String get semanticsCategoryFilter => 'Category filter';
+  String get semanticsCategoryFilter => 'Kategori filtresi';
 
   @override
-  String get semanticsSortToggle => 'Sort: toggle newest or oldest first';
+  String get semanticsSortToggle =>
+      'Sırala: önce en yeniye veya en eskiye geçiş yap';
 
   @override
   String get semanticsFiltersDisabled =>
-      'List filters disabled while viewing a future projection date. Clear projections to use filters.';
+      'Gelecekteki bir projeksiyon tarihini görüntülerken liste filtreleri devre dışı bırakıldı. Filtreleri kullanmak için projeksiyonları temizleyin.';
 
   @override
   String get semanticsFiltersDisabledNeedAccount =>
-      'List filters disabled. Add an account first.';
+      'Liste filtreleri devre dışı bırakıldı. Önce bir hesap ekleyin.';
 
   @override
   String get semanticsFiltersDisabledNeedPlannedTransaction =>
-      'List filters disabled. Add a planned transaction first.';
+      'Liste filtreleri devre dışı bırakıldı. Önce planlı bir işlem ekleyin.';
 
   @override
   String get semanticsFiltersDisabledNeedRecordedTransaction =>
-      'List filters disabled. Record a transaction first.';
+      'Liste filtreleri devre dışı bırakıldı. Önce bir işlemi kaydedin.';
 
   @override
   String get semanticsReviewSectionChipsDisabledNeedAccount =>
-      'Section and currency controls disabled. Add an account first.';
+      'Bölüm ve para birimi kontrolleri devre dışı bırakıldı. Önce bir hesap ekleyin.';
 
   @override
   String get semanticsPlanProjectionControlsDisabled =>
-      'Projection date and balance breakdown disabled. Add an account and a planned transaction first.';
+      'Projeksiyon tarihi ve bakiye dökümü devre dışı bırakıldı. Önce bir hesap ve planlı bir işlem ekleyin.';
 
   @override
   String get semanticsReorderAccountHint =>
-      'Long press, then drag to reorder within this group';
+      'Bu grup içinde yeniden sıralamak için uzun basın, ardından sürükleyin';
 
   @override
-  String get semanticsChartStyle => 'Chart style';
+  String get semanticsChartStyle => 'Grafik stili';
 
   @override
   String get semanticsChartStyleUnavailable =>
-      'Chart style (unavailable in comparison mode)';
+      'Grafik stili (karşılaştırma modunda kullanılamaz)';
 
   @override
   String semanticsPeriod(String label) {
-    return 'Period: $label';
+    return 'Dönem: $label';
   }
 
   @override
-  String get trackSearchHint => 'Search description, category, account…';
+  String get trackSearchHint => 'Arama açıklaması, kategori, hesap…';
 
   @override
-  String get trackSearchClear => 'Clear search';
+  String get trackSearchClear => 'Aramayı temizle';
 
   @override
-  String get settingsExchangeRatesTitle => 'Exchange rates';
+  String get settingsExchangeRatesTitle => 'Döviz kurları';
 
   @override
   String settingsExchangeRatesUpdated(String time) {
-    return 'Last updated: $time';
+    return 'Son güncelleme: $time';
   }
 
   @override
   String get settingsExchangeRatesNeverUpdated =>
-      'Using offline or bundled rates — tap to refresh';
+      'Çevrimdışı veya paket fiyatları kullanılıyor; yenilemek için dokunun';
 
   @override
   String get settingsExchangeRatesSource => 'ECB';
 
   @override
-  String get settingsExchangeRatesUpdatedSnack => 'Exchange rates updated';
+  String get settingsExchangeRatesUpdatedSnack => 'Döviz kurları güncellendi';
 
   @override
   String get settingsExchangeRatesUpdateFailed =>
-      'Could not update exchange rates. Check your connection.';
+      'Döviz kurları güncellenemedi. Bağlantınızı kontrol edin.';
 
   @override
-  String get settingsClearData => 'Clear data';
+  String get settingsClearData => 'Verileri temizle';
 
   @override
-  String get settingsClearDataSubtitle => 'Permanently remove selected data';
+  String get settingsClearDataSubtitle =>
+      'Seçilen verileri kalıcı olarak kaldır';
 
   @override
-  String get clearDataTitle => 'Clear data';
+  String get clearDataTitle => 'Verileri temizle';
 
   @override
-  String get clearDataTransactions => 'Transaction history';
+  String get clearDataTransactions => 'İşlem geçmişi';
 
   @override
   String clearDataTransactionsSubtitle(int count) {
-    return '$count transactions · account balances reset to zero';
+    return '$count işlemler · hesap bakiyeleri sıfıra sıfırlandı';
   }
 
   @override
-  String get clearDataPlanned => 'Planned transactions';
+  String get clearDataPlanned => 'Planlanan işlemler';
 
   @override
   String clearDataPlannedSubtitle(int count) {
-    return '$count planned items';
+    return '$count planlanan öğeler';
   }
 
   @override
-  String get clearDataAccounts => 'Accounts';
+  String get clearDataAccounts => 'Hesaplar';
 
   @override
   String clearDataAccountsSubtitle(int count) {
-    return '$count accounts · also clears history and plan';
+    return '$count hesaplar · aynı zamanda geçmişi ve planı da temizler';
   }
 
   @override
-  String get clearDataCategories => 'Categories';
+  String get clearDataCategories => 'Kategoriler';
 
   @override
   String clearDataCategoriesSubtitle(int count) {
-    return '$count categories · replaced with defaults';
+    return '$count kategoriler · varsayılanlarla değiştirildi';
   }
 
   @override
-  String get clearDataPreferences => 'Preferences';
+  String get clearDataPreferences => 'Tercihler';
 
   @override
   String get clearDataPreferencesSubtitle =>
-      'Reset currency, theme and language to defaults';
+      'Para birimini, temayı ve dili varsayılanlara sıfırlayın';
 
   @override
-  String get clearDataSecurity => 'App lock & PIN';
+  String get clearDataSecurity => 'Uygulama kilidi ve PIN';
 
   @override
-  String get clearDataSecuritySubtitle => 'Disable app lock and remove PIN';
+  String get clearDataSecuritySubtitle =>
+      'Uygulama kilidini devre dışı bırakın ve PIN\'i kaldırın';
 
   @override
-  String get clearDataConfirmButton => 'Clear selected';
+  String get clearDataConfirmButton => 'Seçileni temizle';
 
   @override
-  String get clearDataConfirmTitle => 'This cannot be undone';
+  String get clearDataConfirmTitle => 'Bu geri alınamaz';
 
   @override
   String get clearDataConfirmBody =>
-      'The selected data will be permanently deleted. Export a backup first if you may need it later.';
+      'Seçilen veriler kalıcı olarak silinecek. Daha sonra ihtiyacınız olursa önce bir yedeği dışa aktarın.';
 
   @override
-  String get clearDataTypeConfirm => 'Type DELETE to confirm';
+  String get clearDataTypeConfirm => 'Onaylamak için DELETE yazın';
 
   @override
-  String get clearDataTypeConfirmError => 'Type DELETE exactly to continue';
+  String get clearDataTypeConfirmError =>
+      'Devam etmek için tam olarak DELETE yazın';
 
   @override
-  String get clearDataPinTitle => 'Confirm with PIN';
+  String get clearDataPinTitle => 'PIN ile onayla';
 
   @override
-  String get clearDataPinBody => 'Enter your app PIN to authorize this action.';
+  String get clearDataPinBody =>
+      'Bu işlemi yetkilendirmek için uygulama PIN\'inizi girin.';
 
   @override
-  String get clearDataPinIncorrect => 'Incorrect PIN';
+  String get clearDataPinIncorrect => 'Yanlış PIN';
 
   @override
-  String get clearDataDone => 'Selected data cleared';
+  String get clearDataDone => 'Seçilen veriler temizlendi';
 
   @override
-  String get autoBackupTitle => 'Automatic daily backup';
+  String get autoBackupTitle => 'Otomatik günlük yedekleme';
 
   @override
   String autoBackupLastAt(String date) {
-    return 'Last backed up $date';
+    return 'Son yedekleme $date';
   }
 
   @override
-  String get autoBackupNeverRun => 'No backup yet';
+  String get autoBackupNeverRun => 'Henüz yedekleme yok';
 
   @override
-  String get autoBackupShareTitle => 'Save to cloud';
+  String get autoBackupShareTitle => 'Buluta kaydet';
 
   @override
   String get autoBackupShareSubtitle =>
-      'Upload latest backup to iCloud Drive, Google Drive or any app';
+      'En son yedeklemeyi iCloud Drive\'a, Google Drive\'a veya herhangi bir uygulamaya yükleyin';
 
   @override
   String get autoBackupCloudReminder =>
-      'Auto-backup ready — save it to cloud for off-device protection';
+      'Otomatik yedeklemeye hazır; cihaz dışı koruma için buluta kaydedin';
 
   @override
-  String get autoBackupCloudReminderAction => 'Share';
+  String get autoBackupCloudReminderAction => 'Paylaş';
 
   @override
   String get persistenceErrorReloaded =>
-      'Couldn’t save changes. Data was reloaded from storage.';
+      'Değişiklikler kaydedilemedi. Veriler depolama alanından yeniden yüklendi.';
 }

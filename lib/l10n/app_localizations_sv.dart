@@ -12,123 +12,123 @@ class AppLocalizationsSv extends AppLocalizations {
   String get appTitle => 'Platrare';
 
   @override
-  String get navPlan => 'Plan';
+  String get navPlan => 'Planera';
 
   @override
-  String get navTrack => 'Track';
+  String get navTrack => 'Spåra';
 
   @override
-  String get navReview => 'Review';
+  String get navReview => 'Recension';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Avboka';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Radera';
 
   @override
-  String get close => 'Close';
+  String get close => 'Nära';
 
   @override
-  String get add => 'Add';
+  String get add => 'Tillägga';
 
   @override
-  String get undo => 'Undo';
+  String get undo => 'Ångra';
 
   @override
-  String get confirm => 'Confirm';
+  String get confirm => 'Bekräfta';
 
   @override
-  String get restore => 'Restore';
+  String get restore => 'Återställa';
 
   @override
-  String get heroIn => 'In';
+  String get heroIn => 'I';
 
   @override
-  String get heroOut => 'Out';
+  String get heroOut => 'Ut';
 
   @override
-  String get heroNet => 'Net';
+  String get heroNet => 'Netto';
 
   @override
-  String get heroBalance => 'Balance';
+  String get heroBalance => 'Balans';
 
   @override
-  String get realBalance => 'Real balance';
+  String get realBalance => 'Riktig balans';
 
   @override
-  String get heroResetButton => 'Reset';
-  @override
-  String get fabScrollToTop => 'Back to top';
-
+  String get heroResetButton => 'Återställa';
 
   @override
-  String get filterAll => 'All';
+  String get fabScrollToTop => 'Till toppen';
 
   @override
-  String get filterAllAccounts => 'All accounts';
+  String get filterAll => 'Alla';
 
   @override
-  String get filterAllCategories => 'All categories';
+  String get filterAllAccounts => 'Alla konton';
 
   @override
-  String get txLabelIncome => 'INCOME';
+  String get filterAllCategories => 'Alla kategorier';
 
   @override
-  String get txLabelExpense => 'EXPENSE';
+  String get txLabelIncome => 'INKOMST';
 
   @override
-  String get txLabelInvoice => 'INVOICE';
+  String get txLabelExpense => 'BEKOSTNAD';
 
   @override
-  String get txLabelBill => 'BILL';
+  String get txLabelInvoice => 'FAKTURA';
 
   @override
-  String get txLabelAdvance => 'ADVANCE';
+  String get txLabelBill => 'FAKTURERA';
 
   @override
-  String get txLabelSettlement => 'SETTLEMENT';
+  String get txLabelAdvance => 'FÖRSKOTT';
 
   @override
-  String get txLabelLoan => 'LOAN';
+  String get txLabelSettlement => 'LÖSNING';
 
   @override
-  String get txLabelCollection => 'COLLECTION';
+  String get txLabelLoan => 'LÅN';
+
+  @override
+  String get txLabelCollection => 'SAMLING';
 
   @override
   String get txLabelOffset => 'OFFSET';
 
   @override
-  String get txLabelTransfer => 'TRANSFER';
+  String get txLabelTransfer => 'ÖVERFÖRA';
 
   @override
-  String get txLabelTransaction => 'TRANSACTION';
+  String get txLabelTransaction => 'TRANSAKTION';
 
   @override
-  String get repeatNone => 'No repeat';
+  String get repeatNone => 'Ingen upprepning';
 
   @override
-  String get repeatDaily => 'Daily';
+  String get repeatDaily => 'Dagligen';
 
   @override
-  String get repeatWeekly => 'Weekly';
+  String get repeatWeekly => 'Varje vecka';
 
   @override
-  String get repeatMonthly => 'Monthly';
+  String get repeatMonthly => 'Månatlig';
 
   @override
-  String get repeatYearly => 'Yearly';
+  String get repeatYearly => 'Årlig';
 
   @override
-  String get repeatEveryLabel => 'Every';
+  String get repeatEveryLabel => 'Varje';
 
   @override
   String repeatEveryDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days',
-      one: 'day',
+      other: '$count dagar',
+      one: 'dag',
     );
     return '$_temp0';
   }
@@ -138,8 +138,8 @@ class AppLocalizationsSv extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count weeks',
-      one: 'week',
+      other: '$count veckor',
+      one: 'vecka',
     );
     return '$_temp0';
   }
@@ -149,8 +149,8 @@ class AppLocalizationsSv extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months',
-      one: 'month',
+      other: '$count månader',
+      one: 'månad',
     );
     return '$_temp0';
   }
@@ -160,628 +160,631 @@ class AppLocalizationsSv extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years',
-      one: 'year',
+      other: '$count år',
+      one: 'år',
     );
     return '$_temp0';
   }
 
   @override
-  String get repeatEndLabel => 'Ends';
+  String get repeatEndLabel => 'Slutar';
 
   @override
-  String get repeatEndNever => 'Never';
+  String get repeatEndNever => 'Aldrig';
 
   @override
-  String get repeatEndOnDate => 'On date';
+  String get repeatEndOnDate => 'På dejt';
 
   @override
   String repeatEndAfterCount(int count) {
-    return 'After $count times';
+    return 'Efter $count gånger';
   }
 
   @override
-  String get repeatEndPickDate => 'Pick end date';
+  String get repeatEndPickDate => 'Välj slutdatum';
 
   @override
-  String get repeatEndTimes => 'times';
+  String get repeatEndTimes => 'gånger';
 
   @override
   String repeatSummaryEvery(int count, String unit) {
-    return 'Every $count $unit';
+    return 'Varje $count $unit';
   }
 
   @override
   String repeatSummaryUntil(String date) {
-    return 'until $date';
+    return 'tills $date';
   }
 
   @override
   String repeatSummaryTimes(int count) {
-    return '$count times';
+    return '$count gånger';
   }
 
   @override
   String repeatSummaryTimesRemaining(int remaining, int total) {
-    return '$remaining of $total remaining';
+    return '$remaining av $total kvar';
   }
 
   @override
-  String get detailRepeatEvery => 'Repeat every';
+  String get detailRepeatEvery => 'Upprepa varje';
 
   @override
-  String get detailEnds => 'Ends';
+  String get detailEnds => 'Slutar';
 
   @override
-  String get detailEndsNever => 'Never';
+  String get detailEndsNever => 'Aldrig';
 
   @override
   String detailEndsOnDate(String date) {
-    return 'On $date';
+    return 'På $date';
   }
 
   @override
   String detailEndsAfterCount(int count) {
-    return 'After $count times';
+    return 'Efter $count gånger';
   }
 
   @override
-  String get detailProgress => 'Progress';
+  String get detailProgress => 'Framsteg';
 
   @override
-  String get weekendNoChange => 'No change';
+  String get weekendNoChange => 'Ingen förändring';
 
   @override
-  String get weekendFriday => 'Move to Friday';
+  String get weekendFriday => 'Flytta till fredag';
 
   @override
-  String get weekendMonday => 'Move to Monday';
+  String get weekendMonday => 'Flytta till måndag';
 
   @override
   String weekendQuestion(String day) {
-    return 'If the $day falls on a weekend?';
+    return 'Om $day infaller på en helg?';
   }
 
   @override
-  String get dateToday => 'Today';
+  String get dateToday => 'I dag';
 
   @override
-  String get dateTomorrow => 'Tomorrow';
+  String get dateTomorrow => 'I morgon';
 
   @override
-  String get dateYesterday => 'Yesterday';
+  String get dateYesterday => 'I går';
 
   @override
-  String get statsAllTime => 'All time';
+  String get statsAllTime => 'Hela tiden';
 
   @override
-  String get accountGroupPersonal => 'Personal';
+  String get accountGroupPersonal => 'Personlig';
 
   @override
-  String get accountGroupIndividual => 'Individual';
+  String get accountGroupIndividual => 'Enskild';
 
   @override
-  String get accountGroupEntity => 'Entity';
+  String get accountGroupEntity => 'Enhet';
 
   @override
-  String get accountSectionIndividuals => 'Individuals';
+  String get accountSectionIndividuals => 'Individer';
 
   @override
-  String get accountSectionEntities => 'Entities';
+  String get accountSectionEntities => 'Entiteter';
 
   @override
-  String get emptyNoTransactionsYet => 'No transactions yet';
+  String get emptyNoTransactionsYet => 'Inga transaktioner ännu';
 
   @override
-  String get emptyNoAccountsYet => 'No accounts yet';
+  String get emptyNoAccountsYet => 'Inga konton ännu';
 
   @override
   String get emptyRecordFirstTransaction =>
-      'Tap the button below to record your first transaction.';
+      'Tryck på knappen nedan för att spela in din första transaktion.';
 
   @override
   String get emptyAddFirstAccountTx =>
-      'Add your first account before recording transactions.';
+      'Lägg till ditt första konto innan du registrerar transaktioner.';
 
   @override
   String get emptyAddFirstAccountPlan =>
-      'Add your first account before planning transactions.';
+      'Lägg till ditt första konto innan du planerar transaktioner.';
 
   @override
   String get emptyAddFirstAccountReview =>
-      'Add your first account to start tracking your finances.';
+      'Lägg till ditt första konto för att börja spåra din ekonomi.';
 
   @override
-  String get emptyAddTransaction => 'Add transaction';
+  String get emptyAddTransaction => 'Lägg till transaktion';
 
   @override
-  String get emptyAddAccount => 'Add account';
+  String get emptyAddAccount => 'Lägg till konto';
 
   @override
-  String get reviewEmptyGroupPersonalTitle => 'No personal accounts yet';
+  String get reviewEmptyGroupPersonalTitle => 'Inga personliga konton ännu';
 
   @override
   String get reviewEmptyGroupPersonalBody =>
-      'Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.';
+      'Personliga konton är dina egna plånböcker och bankkonton. Lägg till en för att spåra dagliga inkomster och utgifter.';
 
   @override
-  String get reviewEmptyGroupIndividualsTitle => 'No individual accounts yet';
+  String get reviewEmptyGroupIndividualsTitle => 'Inga enskilda konton ännu';
 
   @override
   String get reviewEmptyGroupIndividualsBody =>
-      'Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.';
+      'Individuella konton spårar pengar med specifika personer – delade kostnader, lån eller IOU. Lägg till ett konto för varje person du gör upp med.';
 
   @override
-  String get reviewEmptyGroupEntitiesTitle => 'No entity accounts yet';
+  String get reviewEmptyGroupEntitiesTitle => 'Inga enhetskonton ännu';
 
   @override
   String get reviewEmptyGroupEntitiesBody =>
-      'Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.';
+      'Enhetskonton är för företag, projekt eller organisationer. Använd dem för att hålla företagets kassaflöde åtskilt från din privatekonomi.';
 
   @override
   String get emptyNoTransactionsForFilters =>
-      'No transactions for applied filters';
+      'Inga transaktioner för tillämpade filter';
 
   @override
-  String get emptyNoTransactionsInHistory => 'No transactions in history';
+  String get emptyNoTransactionsInHistory => 'Inga transaktioner i historien';
 
   @override
   String emptyNoTransactionsForMonth(String month) {
-    return 'No transactions for $month';
+    return 'Inga transaktioner för $month';
   }
 
   @override
   String get emptyNoTransactionsForAccount =>
-      'No transactions for this account';
+      'Inga transaktioner för detta konto';
 
   @override
-  String get trackTransactionDeleted => 'Transaction deleted';
+  String get trackTransactionDeleted => 'Transaktionen raderad';
 
   @override
-  String get trackDeleteTitle => 'Delete transaction?';
+  String get trackDeleteTitle => 'Ta bort transaktion?';
 
   @override
   String get trackDeleteBody =>
-      'This will reverse the account balance changes.';
+      'Detta kommer att återställa ändringarna i kontosaldot.';
 
   @override
-  String get trackTransaction => 'Transaction';
+  String get trackTransaction => 'Transaktion';
 
   @override
-  String get planConfirmTitle => 'Confirm transaction?';
+  String get planConfirmTitle => 'Bekräfta transaktionen?';
 
   @override
   String planConfirmBodyEarly(String date, String todayDate, String nextDate) {
-    return 'This occurrence is scheduled for $date. It will be recorded in History with today’s date ($todayDate). The next occurrence remains on $nextDate.';
+    return 'Denna händelse är planerad till $date. Det kommer att registreras i historiken med dagens datum ($todayDate). Nästa händelse finns kvar på $nextDate.';
   }
 
   @override
   String get planConfirmBodyNormal =>
-      'This will apply the transaction to your real account balances and move it to History.';
+      'Detta kommer att tillämpa transaktionen på dina riktiga kontosaldon och flytta den till Historik.';
 
   @override
-  String get planTransactionConfirmed => 'Transaction confirmed and applied';
+  String get planTransactionConfirmed =>
+      'Transaktionen bekräftad och tillämpad';
 
   @override
-  String get planTransactionRemoved => 'Planned transaction removed';
+  String get planTransactionRemoved => 'Planerad transaktion har tagits bort';
 
   @override
-  String get planRepeatingTitle => 'Repeating transaction';
+  String get planRepeatingTitle => 'Upprepad transaktion';
 
   @override
   String get planRepeatingBody =>
-      'Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.';
+      'Hoppa bara över detta datum – serien fortsätter med nästa förekomst – eller ta bort alla återstående förekomster från din plan.';
 
   @override
-  String get planDeleteAll => 'Delete all';
+  String get planDeleteAll => 'Ta bort alla';
 
   @override
-  String get planSkipThisOnly => 'Skip this only';
+  String get planSkipThisOnly => 'Hoppa bara över detta';
 
   @override
   String get planOccurrenceSkipped =>
-      'This occurrence skipped — next one scheduled';
+      'Den här händelsen hoppade över — nästa schemalagd';
 
   @override
-  String get planNothingPlanned => 'Nothing planned for now';
+  String get planNothingPlanned => 'Inget planerat just nu';
 
   @override
-  String get planPlanBody => 'Plan upcoming transactions.';
+  String get planPlanBody => 'Planera kommande transaktioner.';
 
   @override
-  String get planAddPlan => 'Add plan';
+  String get planAddPlan => 'Lägg till plan';
 
   @override
   String get planNoPlannedForFilters =>
-      'No planned transactions for applied filters';
+      'Inga planerade transaktioner för tillämpade filter';
 
   @override
   String planNoPlannedInMonth(String month) {
-    return 'No planned transactions in $month';
+    return 'Inga planerade transaktioner i $month';
   }
 
   @override
-  String get planOverdue => 'overdue';
+  String get planOverdue => 'försenad';
 
   @override
-  String get planPlannedTransaction => 'Planned transaction';
+  String get planPlannedTransaction => 'Planerad transaktion';
 
   @override
-  String get discardTitle => 'Discard changes?';
+  String get discardTitle => 'Vill du ignorera ändringar?';
 
   @override
   String get discardBody =>
-      'You have unsaved changes. They will be lost if you leave now.';
+      'Du har osparade ändringar. De kommer att gå förlorade om du går nu.';
 
   @override
-  String get keepEditing => 'Keep editing';
+  String get keepEditing => 'Fortsätt redigera';
 
   @override
-  String get discard => 'Discard';
+  String get discard => 'Kassera';
 
   @override
-  String get newTransactionTitle => 'New Transaction';
+  String get newTransactionTitle => 'Ny transaktion';
 
   @override
-  String get editTransactionTitle => 'Edit Transaction';
+  String get editTransactionTitle => 'Redigera transaktion';
 
   @override
-  String get transactionUpdated => 'Transaction updated';
+  String get transactionUpdated => 'Transaktionen uppdaterad';
 
   @override
-  String get sectionAccounts => 'Accounts';
+  String get sectionAccounts => 'konton';
 
   @override
-  String get labelFrom => 'From';
+  String get labelFrom => 'Från';
 
   @override
-  String get labelTo => 'To';
+  String get labelTo => 'Till';
 
   @override
-  String get sectionCategory => 'Category';
+  String get sectionCategory => 'Kategori';
 
   @override
-  String get sectionAttachments => 'Attachments';
+  String get sectionAttachments => 'Bilagor';
 
   @override
-  String get labelNote => 'Note';
+  String get labelNote => 'Notera';
 
   @override
-  String get hintOptionalDescription => 'Optional description';
+  String get hintOptionalDescription => 'Valfri beskrivning';
 
   @override
-  String get updateTransaction => 'Update Transaction';
+  String get updateTransaction => 'Uppdatera transaktion';
 
   @override
-  String get saveTransaction => 'Save Transaction';
+  String get saveTransaction => 'Spara transaktion';
 
   @override
-  String get selectAccount => 'Select account';
+  String get selectAccount => 'Välj konto';
 
   @override
-  String get selectAccountTitle => 'Select Account';
+  String get selectAccountTitle => 'Välj Konto';
 
   @override
-  String get noAccountsAvailable => 'No accounts available';
+  String get noAccountsAvailable => 'Inga konton tillgängliga';
 
   @override
   String amountReceivedBy(String name, String currency) {
-    return 'Amount received by $name ($currency)';
+    return 'Belopp mottaget av $name ($currency)';
   }
 
   @override
   String get amountReceivedHelper =>
-      'Enter the exact amount the destination account receives. This locks the real exchange rate used.';
+      'Ange det exakta belopp som destinationskontot tar emot. Detta låser den använda reala växelkursen.';
 
   @override
-  String get attachTakePhoto => 'Take photo';
+  String get attachTakePhoto => 'Ta foto';
 
   @override
-  String get attachTakePhotoSub => 'Use camera to capture a receipt';
+  String get attachTakePhotoSub => 'Använd kameran för att fånga ett kvitto';
 
   @override
-  String get attachChooseGallery => 'Choose from gallery';
+  String get attachChooseGallery => 'Välj från galleri';
 
   @override
-  String get attachChooseGallerySub => 'Select photos from your library';
+  String get attachChooseGallerySub => 'Välj foton från ditt bibliotek';
 
   @override
-  String get attachBrowseFiles => 'Browse files';
+  String get attachBrowseFiles => 'Bläddra bland filer';
 
   @override
-  String get attachBrowseFilesSub => 'Attach PDFs, documents or other files';
+  String get attachBrowseFilesSub =>
+      'Bifoga PDF-filer, dokument eller andra filer';
 
   @override
-  String get attachButton => 'Attach';
+  String get attachButton => 'Bifoga';
 
   @override
-  String get editPlanTitle => 'Edit Plan';
+  String get editPlanTitle => 'Redigera plan';
 
   @override
-  String get planTransactionTitle => 'Plan Transaction';
+  String get planTransactionTitle => 'Planera transaktion';
 
   @override
-  String get tapToSelect => 'Tap to select';
+  String get tapToSelect => 'Tryck för att välja';
 
   @override
-  String get updatePlan => 'Update Plan';
+  String get updatePlan => 'Uppdatera plan';
 
   @override
-  String get addToPlan => 'Add to Plan';
+  String get addToPlan => 'Lägg till i plan';
 
   @override
-  String get labelRepeat => 'Repeat';
+  String get labelRepeat => 'Upprepa';
 
   @override
-  String get selectPlannedDate => 'Select planned date';
+  String get selectPlannedDate => 'Välj planerat datum';
 
   @override
-  String get balancesAsOfToday => 'Balances as of today';
+  String get balancesAsOfToday => 'Saldon från idag';
 
   @override
-  String get projectedBalancesForTomorrow => 'Projected balances for tomorrow';
+  String get projectedBalancesForTomorrow => 'Beräknade saldon för morgondagen';
 
   @override
   String projectedBalancesForDate(String date) {
-    return 'Projected balances for $date';
+    return 'Prognostiserade saldon för $date';
   }
 
   @override
   String destReceivesLabel(String name, String currency) {
-    return '$name receives ($currency)';
+    return '$name tar emot ($currency)';
   }
 
   @override
   String get destHelper =>
-      'Estimated destination amount. Exact rate is locked at confirmation.';
+      'Beräknat destinationsbelopp. Exakt kurs låses vid bekräftelse.';
 
   @override
-  String get descriptionOptional => 'Description (optional)';
+  String get descriptionOptional => 'Beskrivning (valfritt)';
 
   @override
-  String get detailTransactionTitle => 'Transaction';
+  String get detailTransactionTitle => 'Transaktion';
 
   @override
-  String get detailPlannedTitle => 'Planned';
+  String get detailPlannedTitle => 'Planerad';
 
   @override
-  String get detailConfirmTransaction => 'Confirm transaction';
+  String get detailConfirmTransaction => 'Bekräfta transaktionen';
 
   @override
-  String get detailDate => 'Date';
+  String get detailDate => 'Datum';
 
   @override
-  String get detailFrom => 'From';
+  String get detailFrom => 'Från';
 
   @override
-  String get detailTo => 'To';
+  String get detailTo => 'Till';
 
   @override
-  String get detailCategory => 'Category';
+  String get detailCategory => 'Kategori';
 
   @override
-  String get detailNote => 'Note';
+  String get detailNote => 'Notera';
 
   @override
-  String get detailDestinationAmount => 'Destination amount';
+  String get detailDestinationAmount => 'Destinationsbelopp';
 
   @override
-  String get detailExchangeRate => 'Exchange rate';
+  String get detailExchangeRate => 'Växelkurs';
 
   @override
-  String get detailRepeats => 'Repeats';
+  String get detailRepeats => 'Upprepas';
 
   @override
-  String get detailDayOfMonth => 'Day of month';
+  String get detailDayOfMonth => 'Dag i månaden';
 
   @override
-  String get detailWeekends => 'Weekends';
+  String get detailWeekends => 'Helger';
 
   @override
-  String get detailAttachments => 'Attachments';
+  String get detailAttachments => 'Bilagor';
 
   @override
   String detailFileCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count filer',
+      one: '1 fil',
     );
     return '$_temp0';
   }
 
   @override
-  String get settingsTitle => 'Settings';
+  String get settingsTitle => 'Inställningar';
 
   @override
-  String get settingsSectionDisplay => 'Display';
+  String get settingsSectionDisplay => 'Visa';
 
   @override
-  String get settingsSectionLanguage => 'Language';
+  String get settingsSectionLanguage => 'Språk';
 
   @override
-  String get settingsSectionCategories => 'Categories';
+  String get settingsSectionCategories => 'Kategorier';
 
   @override
-  String get settingsSectionAccounts => 'Accounts';
+  String get settingsSectionAccounts => 'konton';
 
   @override
-  String get settingsSectionPreferences => 'Preferences';
+  String get settingsSectionPreferences => 'Inställningar';
 
   @override
-  String get settingsSectionManage => 'Manage';
+  String get settingsSectionManage => 'Hantera';
 
   @override
-  String get settingsBaseCurrency => 'Home currency';
+  String get settingsBaseCurrency => 'Hemvaluta';
 
   @override
-  String get settingsSecondaryCurrency => 'Secondary currency';
+  String get settingsSecondaryCurrency => 'Sekundär valuta';
 
   @override
-  String get settingsCategories => 'Categories';
+  String get settingsCategories => 'Kategorier';
 
   @override
   String settingsCategoriesSubtitle(int incomeCount, int expenseCount) {
-    return '$incomeCount income · $expenseCount expense';
+    return '$incomeCount inkomst · $expenseCount kostnad';
   }
 
   @override
-  String get settingsArchivedAccounts => 'Archived accounts';
+  String get settingsArchivedAccounts => 'Arkiverade konton';
 
   @override
   String get settingsArchivedAccountsSubtitleZero =>
-      'None right now — archive from account edit when balance is clear';
+      'Inga just nu – arkivera från kontoredigering när saldot är klart';
 
   @override
   String settingsArchivedAccountsSubtitleCount(int count) {
-    return '$count hidden from Review and pickers';
+    return '$count dold från granskning och väljare';
   }
 
   @override
   String get settingsSectionData => 'Data';
 
   @override
-  String get settingsSectionPrivacy => 'About';
+  String get settingsSectionPrivacy => 'Om';
 
   @override
-  String get settingsPrivacyPolicyTitle => 'Privacy policy';
+  String get settingsPrivacyPolicyTitle => 'Integritetspolicy';
 
   @override
-  String get settingsPrivacyPolicySubtitle => 'How Platrare handles your data.';
+  String get settingsPrivacyPolicySubtitle => 'Hur Platrare hanterar din data.';
 
   @override
   String get settingsPrivacyFxDisclosure =>
-      'Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.';
+      'Växelkurser: appen hämtar offentliga valutakurser över internet. Dina konton och transaktioner skickas aldrig.';
 
   @override
-  String get settingsPrivacyOpenFailed => 'Could not load the privacy policy.';
+  String get settingsPrivacyOpenFailed =>
+      'Det gick inte att ladda sekretesspolicyn.';
 
   @override
-  String get settingsPrivacyRetry => 'Try again';
+  String get settingsPrivacyRetry => 'Försök igen';
 
   @override
-  String get settingsSoftwareVersionTitle => 'Software version';
+  String get settingsSoftwareVersionTitle => 'Programvaruversion';
 
   @override
   String get settingsSoftwareVersionSubtitle =>
-      'Release, diagnostics, and legal';
+      'Release, diagnostik och juridiska';
 
   @override
-  String get aboutScreenTitle => 'About';
+  String get aboutScreenTitle => 'Om';
 
   @override
   String get aboutAppTagline =>
-      'Ledger, cashflow, and planning in one workspace.';
+      'Reskontra, kassaflöde och planering i en arbetsyta.';
 
   @override
   String get aboutDescriptionBody =>
-      'Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.';
+      'Platrare håller konton, transaktioner och planer på din enhet. Exportera krypterade säkerhetskopior när du behöver en kopia någon annanstans. Valutakurser använder endast offentlig marknadsdata; din reskontra laddas inte upp.';
 
   @override
   String get aboutVersionLabel => 'Version';
 
   @override
-  String get aboutBuildLabel => 'Build';
+  String get aboutBuildLabel => 'Bygga';
 
   @override
-  String get aboutCopySupportDetails => 'Copy support details';
+  String get aboutCopySupportDetails => 'Kopiera supportinformation';
 
   @override
   String get aboutOpenPrivacySubtitle =>
-      'Opens the full in-app policy document.';
+      'Öppnar hela policydokumentet i appen.';
 
   @override
-  String get aboutSupportBundleLocaleLabel => 'Locale';
+  String get aboutSupportBundleLocaleLabel => 'Plats';
 
   @override
-  String get settingsSupportInfoCopied => 'Copied to clipboard';
+  String get settingsSupportInfoCopied => 'Kopierade till urklipp';
 
   @override
-  String get settingsVerifyLedger => 'Verify data';
+  String get settingsVerifyLedger => 'Verifiera data';
 
   @override
   String get settingsVerifyLedgerSubtitle =>
-      'Check that account balances match your transaction history';
+      'Kontrollera att kontosaldon matchar din transaktionshistorik';
 
   @override
-  String get settingsDataExportTitle => 'Export backup';
+  String get settingsDataExportTitle => 'Exportera säkerhetskopia';
 
   @override
   String get settingsDataExportSubtitle =>
-      'Save as .zip or encrypted .platrare with all data and attachments';
+      'Spara som .zip eller krypterad .platrare med all data och bilagor';
 
   @override
-  String get settingsDataImportTitle => 'Restore from backup';
+  String get settingsDataImportTitle => 'Återställ från säkerhetskopia';
 
   @override
   String get settingsDataImportSubtitle =>
-      'Replace current data from a Platrare .zip or .platrare backup';
+      'Ersätt aktuell data från en Platrare .zip eller .platrare backup';
 
   @override
-  String get backupExportDialogTitle => 'Protect this backup';
+  String get backupExportDialogTitle => 'Skydda denna säkerhetskopia';
 
   @override
   String get backupExportDialogBody =>
-      'A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.';
+      'Ett starkt lösenord rekommenderas, särskilt om du lagrar filen i molnet. Du behöver samma lösenord för att importera.';
 
   @override
-  String get backupExportPasswordLabel => 'Password';
+  String get backupExportPasswordLabel => 'Lösenord';
 
   @override
-  String get backupExportPasswordConfirmLabel => 'Confirm password';
+  String get backupExportPasswordConfirmLabel => 'Bekräfta lösenord';
 
   @override
-  String get backupExportPasswordMismatch => 'Passwords do not match';
+  String get backupExportPasswordMismatch => 'Lösenord stämmer inte överens';
 
   @override
   String get backupExportPasswordEmpty =>
-      'Enter a matching password, or export without encryption below.';
+      'Ange ett matchande lösenord eller exportera utan kryptering nedan.';
 
   @override
   String get backupExportPasswordTooShort =>
-      'Password must be at least 8 characters.';
+      'Lösenordet måste vara minst 8 tecken.';
 
   @override
-  String get backupExportSaveToDevice => 'Save to device';
+  String get backupExportSaveToDevice => 'Spara på enheten';
 
   @override
-  String get backupExportShareToCloud => 'Share (iCloud, Drive…)';
+  String get backupExportShareToCloud => 'Dela (iCloud, Drive...)';
 
   @override
-  String get backupExportWithoutEncryption => 'Export without encryption';
+  String get backupExportWithoutEncryption => 'Exportera utan kryptering';
 
   @override
-  String get backupExportSkipWarningTitle => 'Export without encryption?';
+  String get backupExportSkipWarningTitle => 'Exportera utan kryptering?';
 
   @override
   String get backupExportSkipWarningBody =>
-      'Anyone with access to the file can read your data. Use this only for local copies you control.';
+      'Alla som har tillgång till filen kan läsa dina data. Använd detta endast för lokala kopior som du kontrollerar.';
 
   @override
-  String get backupExportSkipWarningConfirm => 'Export unencrypted';
+  String get backupExportSkipWarningConfirm => 'Exportera okrypterad';
 
   @override
-  String get backupImportPasswordTitle => 'Encrypted backup';
+  String get backupImportPasswordTitle => 'Krypterad backup';
 
   @override
   String get backupImportPasswordBody =>
-      'Enter the password you used when exporting.';
+      'Ange lösenordet du använde när du exporterade.';
 
   @override
-  String get backupImportPasswordLabel => 'Password';
+  String get backupImportPasswordLabel => 'Lösenord';
 
   @override
-  String get backupImportPreviewTitle => 'Backup summary';
+  String get backupImportPreviewTitle => 'Säkerhetskopieringssammanfattning';
 
   @override
   String backupImportPreviewVersion(String version) {
-    return 'App version: $version';
+    return 'Appversion: $version';
   }
 
   @override
   String backupImportPreviewExported(String date) {
-    return 'Exported: $date';
+    return 'Exporterat: $date';
   }
 
   @override
@@ -793,67 +796,68 @@ class AppLocalizationsSv extends AppLocalizations {
     int income,
     int expense,
   ) {
-    return '$accounts accounts · $transactions transactions · $planned planned · $attachments attachment files · $income income categories · $expense expense categories';
+    return '$accounts konton · $transactions transaktioner · $planned planerade · $attachments bifogade filer · $income inkomstkategorier · $expense utgiftskategorier';
   }
 
   @override
-  String get backupImportPreviewContinue => 'Continue';
+  String get backupImportPreviewContinue => 'Fortsätta';
 
   @override
-  String get settingsBackupWrongPassword => 'Wrong password';
+  String get settingsBackupWrongPassword => 'Fel lösenord';
 
   @override
-  String get settingsBackupChecksumMismatch => 'Backup failed integrity check';
+  String get settingsBackupChecksumMismatch =>
+      'Säkerhetskopieringen misslyckades integritetskontrollen';
 
   @override
-  String get settingsBackupCorruptFile => 'Invalid or damaged backup file';
+  String get settingsBackupCorruptFile => 'Ogiltig eller skadad säkerhetskopia';
 
   @override
   String get settingsBackupUnsupportedVersion =>
-      'Backup needs a newer app version';
+      'Säkerhetskopiering kräver en nyare appversion';
 
   @override
-  String get settingsDataImportConfirmTitle => 'Replace current data?';
+  String get settingsDataImportConfirmTitle => 'Ersätta nuvarande data?';
 
   @override
   String get settingsDataImportConfirmBody =>
-      'This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.';
+      'Detta kommer att ersätta dina nuvarande konton, transaktioner, planerade transaktioner, kategorier och importerade bilagor med innehållet i den valda säkerhetskopian. Denna åtgärd kan inte ångras.';
 
   @override
-  String get settingsDataImportConfirmAction => 'Replace data';
+  String get settingsDataImportConfirmAction => 'Byt ut data';
 
   @override
-  String get settingsDataImportDone => 'Data restored successfully';
+  String get settingsDataImportDone => 'Data har återställts';
 
   @override
   String get settingsDataImportInvalidFile =>
-      'This file is not a valid Platrare backup';
+      'Den här filen är inte en giltig Platrare-säkerhetskopia';
 
   @override
-  String get settingsDataImportFailed => 'Import failed';
+  String get settingsDataImportFailed => 'Importen misslyckades';
 
   @override
-  String get settingsDataExportDoneTitle => 'Backup exported';
+  String get settingsDataExportDoneTitle => 'Backup exporterad';
 
   @override
   String settingsDataExportDoneBody(String path) {
-    return 'Backup saved to:\n$path';
+    return 'Säkerhetskopieringen har sparats till:\n$path';
   }
 
   @override
-  String get settingsDataOpenExportFile => 'Open file';
+  String get settingsDataOpenExportFile => 'Öppna filen';
 
   @override
-  String get settingsDataExportFailed => 'Export failed';
+  String get settingsDataExportFailed => 'Exporten misslyckades';
 
   @override
-  String get ledgerVerifyDialogTitle => 'Ledger verification';
+  String get ledgerVerifyDialogTitle => 'Ledger verifiering';
 
   @override
-  String get ledgerVerifyAllMatch => 'All accounts match.';
+  String get ledgerVerifyAllMatch => 'Alla konton matchar.';
 
   @override
-  String get ledgerVerifyMismatchesTitle => 'Mismatches';
+  String get ledgerVerifyMismatchesTitle => 'Felmatchningar';
 
   @override
   String ledgerVerifyMismatchDetails(
@@ -862,162 +866,163 @@ class AppLocalizationsSv extends AppLocalizations {
     String replayed,
     String diff,
   ) {
-    return '$accountName\nStored: $stored\nReplay: $replayed\nDifference: $diff';
+    return '$accountName\nLagrat: $stored\nRepris: $replayed\nSkillnad: $diff';
   }
 
   @override
-  String get settingsLanguage => 'App language';
+  String get settingsLanguage => 'Appens språk';
 
   @override
-  String get settingsLanguageSubtitleSystem => 'Following system settings';
+  String get settingsLanguageSubtitleSystem => 'Följande systeminställningar';
 
   @override
-  String get settingsLanguageSubtitleEnglish => 'English';
+  String get settingsLanguageSubtitleEnglish => 'engelska';
 
   @override
-  String get settingsLanguageSubtitleSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageSubtitleSerbianLatin => 'serbiska (latin)';
 
   @override
-  String get settingsLanguagePickerTitle => 'App language';
+  String get settingsLanguagePickerTitle => 'Appens språk';
 
   @override
-  String get settingsLanguageOptionSystem => 'System default';
+  String get settingsLanguageOptionSystem => 'Systemstandard';
 
   @override
-  String get settingsLanguageOptionEnglish => 'English';
+  String get settingsLanguageOptionEnglish => 'engelska';
 
   @override
-  String get settingsLanguageOptionSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageOptionSerbianLatin => 'serbiska (latin)';
 
   @override
-  String get settingsSectionAppearance => 'Appearance';
+  String get settingsSectionAppearance => 'Utseende';
 
   @override
-  String get settingsSectionSecurity => 'Security';
+  String get settingsSectionSecurity => 'Säkerhet';
 
   @override
-  String get settingsSecurityEnableLock => 'Lock app on open';
+  String get settingsSecurityEnableLock => 'Lås appen på öppen';
 
   @override
   String get settingsSecurityEnableLockSubtitle =>
-      'Require biometric unlock or PIN when app opens';
+      'Kräv biometrisk upplåsning eller PIN-kod när appen öppnas';
 
   @override
-  String get settingsSecuritySetPin => 'Set PIN';
+  String get settingsSecuritySetPin => 'Ställ in PIN-kod';
 
   @override
-  String get settingsSecurityChangePin => 'Change PIN';
+  String get settingsSecurityChangePin => 'Ändra PIN-kod';
 
   @override
   String get settingsSecurityPinSubtitle =>
-      'Use a PIN as fallback if biometric is unavailable';
+      'Använd en PIN-kod som reserv om biometrisk inte är tillgänglig';
 
   @override
-  String get settingsSecurityRemovePin => 'Remove PIN';
+  String get settingsSecurityRemovePin => 'Ta bort PIN-koden';
 
   @override
-  String get securitySetPinTitle => 'Set app PIN';
+  String get securitySetPinTitle => 'Ställ in app-PIN';
 
   @override
-  String get securityPinLabel => 'PIN code';
+  String get securityPinLabel => 'PIN-kod';
 
   @override
-  String get securityConfirmPinLabel => 'Confirm PIN code';
+  String get securityConfirmPinLabel => 'Bekräfta PIN-koden';
 
   @override
-  String get securityPinMustBe4Digits => 'PIN must have at least 4 digits';
+  String get securityPinMustBe4Digits =>
+      'PIN-koden måste ha minst fyra siffror';
 
   @override
-  String get securityPinMismatch => 'PIN codes do not match';
+  String get securityPinMismatch => 'PIN-koderna stämmer inte överens';
 
   @override
-  String get securityRemovePinTitle => 'Remove PIN?';
+  String get securityRemovePinTitle => 'Vill du ta bort PIN-koden?';
 
   @override
   String get securityRemovePinBody =>
-      'Biometric unlock can still be used if available.';
+      'Biometrisk upplåsning kan fortfarande användas om tillgängligt.';
 
   @override
-  String get securityUnlockTitle => 'App locked';
+  String get securityUnlockTitle => 'App låst';
 
   @override
   String get securityUnlockSubtitle =>
-      'Unlock with Face ID, fingerprint, or PIN.';
+      'Lås upp med Face ID, fingeravtryck eller PIN-kod.';
 
   @override
-  String get securityUnlockWithPin => 'Unlock with PIN';
+  String get securityUnlockWithPin => 'Lås upp med PIN';
 
   @override
-  String get securityTryBiometric => 'Try biometric unlock';
+  String get securityTryBiometric => 'Prova biometrisk upplåsning';
 
   @override
-  String get securityPinIncorrect => 'Incorrect PIN, try again';
+  String get securityPinIncorrect => 'Fel PIN-kod, försök igen';
 
   @override
-  String get securityBiometricReason => 'Authenticate to open your app';
+  String get securityBiometricReason => 'Autentisera för att öppna din app';
 
   @override
-  String get settingsTheme => 'Theme';
+  String get settingsTheme => 'Tema';
 
   @override
-  String get settingsThemeSubtitleSystem => 'Following system settings';
+  String get settingsThemeSubtitleSystem => 'Följande systeminställningar';
 
   @override
-  String get settingsThemeSubtitleLight => 'Light';
+  String get settingsThemeSubtitleLight => 'Ljus';
 
   @override
-  String get settingsThemeSubtitleDark => 'Dark';
+  String get settingsThemeSubtitleDark => 'Mörk';
 
   @override
-  String get settingsThemePickerTitle => 'Theme';
+  String get settingsThemePickerTitle => 'Tema';
 
   @override
-  String get settingsThemeOptionSystem => 'System default';
+  String get settingsThemeOptionSystem => 'Systemstandard';
 
   @override
-  String get settingsThemeOptionLight => 'Light';
+  String get settingsThemeOptionLight => 'Ljus';
 
   @override
-  String get settingsThemeOptionDark => 'Dark';
+  String get settingsThemeOptionDark => 'Mörk';
 
   @override
-  String get archivedAccountsTitle => 'Archived accounts';
+  String get archivedAccountsTitle => 'Arkiverade konton';
 
   @override
-  String get archivedAccountsEmptyTitle => 'No archived accounts';
+  String get archivedAccountsEmptyTitle => 'Inga arkiverade konton';
 
   @override
   String get archivedAccountsEmptyBody =>
-      'Book balance and overdraft must be zero. Archive from account options in Review.';
+      'Bokfört saldo och övertrassering måste vara noll. Arkivera från kontoalternativ i Granska.';
 
   @override
-  String get categoriesTitle => 'Categories';
+  String get categoriesTitle => 'Kategorier';
 
   @override
-  String get newCategoryTitle => 'New Category';
+  String get newCategoryTitle => 'Ny kategori';
 
   @override
-  String get categoryNameLabel => 'Category name';
+  String get categoryNameLabel => 'Kategorinamn';
 
   @override
-  String get deleteCategoryTitle => 'Delete category?';
+  String get deleteCategoryTitle => 'Ta bort kategori?';
 
   @override
   String deleteCategoryBody(String category) {
-    return '\"$category\" will be removed from the list.';
+    return '\"$category\" kommer att tas bort från listan.';
   }
 
   @override
-  String get categoryIncome => 'Income';
+  String get categoryIncome => 'Inkomst';
 
   @override
-  String get categoryExpense => 'Expense';
+  String get categoryExpense => 'Bekostnad';
 
   @override
-  String get categoryAdd => 'Add';
+  String get categoryAdd => 'Tillägga';
 
   @override
-  String get searchCurrencies => 'Search currencies…';
+  String get searchCurrencies => 'Sök valutor...';
 
   @override
   String get period1M => '1M';
@@ -1032,100 +1037,100 @@ class AppLocalizationsSv extends AppLocalizations {
   String get period1Y => '1Y';
 
   @override
-  String get periodAll => 'ALL';
+  String get periodAll => 'ALLA';
 
   @override
-  String get categoryLabel => 'category';
+  String get categoryLabel => 'kategori';
 
   @override
-  String get categoriesLabel => 'categories';
+  String get categoriesLabel => 'kategorier';
 
   @override
   String transactionSavedMessage(String type, String amount) {
-    return '$type saved  •  $amount';
+    return '$type sparad • $amount';
   }
 
   @override
-  String get tooltipSettings => 'Settings';
+  String get tooltipSettings => 'Inställningar';
 
   @override
-  String get tooltipAddAccount => 'Add account';
+  String get tooltipAddAccount => 'Lägg till konto';
 
   @override
-  String get tooltipRemoveAccount => 'Remove account';
+  String get tooltipRemoveAccount => 'Ta bort konto';
 
   @override
   String get accountNameTaken =>
-      'You already have an account with this name and identifier (active or archived). Change the name or identifier.';
+      'Du har redan ett konto med detta namn och identifierare (aktivt eller arkiverat). Ändra namn eller identifierare.';
 
   @override
-  String get groupDescPersonal => 'Your own wallets & bank accounts';
+  String get groupDescPersonal => 'Dina egna plånböcker och bankkonton';
 
   @override
-  String get groupDescIndividuals => 'Family, friends, individuals';
+  String get groupDescIndividuals => 'Familj, vänner, individer';
 
   @override
-  String get groupDescEntities => 'Entities, utilities, organisations';
+  String get groupDescEntities => 'Enheter, verktyg, organisationer';
 
   @override
-  String get cannotArchiveTitle => 'Cannot archive yet';
+  String get cannotArchiveTitle => 'Kan inte arkivera ännu';
 
   @override
   String get cannotArchiveBody =>
-      'Archive is only available when the book balance and overdraft limit are both effectively zero.';
+      'Arkiv är endast tillgängligt när boksaldot och övertrasseringsgränsen båda är noll.';
 
   @override
   String get cannotArchiveBodyAdjust =>
-      'Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.';
+      'Arkiv är endast tillgängligt när boksaldot och övertrasseringsgränsen båda är noll. Justera huvudboken eller anläggningen först.';
 
   @override
-  String get archiveAccountTitle => 'Archive account?';
+  String get archiveAccountTitle => 'Arkivera konto?';
 
   @override
   String archiveWithPlannedBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count planned transactions reference this account.',
-      one: '1 planned transaction references this account.',
+      other: '$count planerade transaktioner refererar till detta konto.',
+      one: '1 planerad transaktion refererar till detta konto.',
     );
-    return '$_temp0 Remove them to keep your plan consistent with an archived account.';
+    return '$_temp0 Ta bort dem för att hålla planen konsekvent med ett arkiverat konto.';
   }
 
   @override
-  String get removeAndArchive => 'Remove planned & archive';
+  String get removeAndArchive => 'Ta bort planerat & arkivera';
 
   @override
   String get archiveBody =>
-      'The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.';
+      'Kontot kommer att döljas från gransknings-, spårnings- och planväljare. Du kan återställa det från Inställningar.';
 
   @override
-  String get archiveAction => 'Archive';
+  String get archiveAction => 'Arkiv';
 
   @override
-  String get archiveInstead => 'Archive instead';
+  String get archiveInstead => 'Arkivera istället';
 
   @override
-  String get cannotDeleteTitle => 'Cannot delete account';
+  String get cannotDeleteTitle => 'Kan inte ta bort konto';
 
   @override
   String get cannotDeleteBodyShort =>
-      'This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.';
+      'Det här kontot visas i din spårhistorik. Ta bort eller tilldela om dessa transaktioner först, eller arkivera kontot om saldot har rensats.';
 
   @override
   String get cannotDeleteBodyHistory =>
-      'This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.';
+      'Det här kontot visas i din spårhistorik. Att ta bort skulle bryta den historiken – ta bort eller tilldela om transaktionerna först.';
 
   @override
   String get cannotDeleteBodySuggestArchive =>
-      'This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.';
+      'Det här kontot visas i din spårhistorik, så det kan inte raderas. Du kan arkivera det istället om boksaldot och övertrasseringen rensas – det kommer att döljas från listor men historiken förblir intakt.';
 
   @override
-  String get deleteAccountTitle => 'Delete account?';
+  String get deleteAccountTitle => 'Ta bort konto?';
 
   @override
   String get deleteAccountBodyPermanent =>
-      'This account will be removed permanently.';
+      'Detta konto kommer att tas bort permanent.';
 
   @override
   String deleteWithPlannedBody(int count) {
@@ -1133,338 +1138,342 @@ class AppLocalizationsSv extends AppLocalizations {
       count,
       locale: localeName,
       other:
-          '$count planned transactions reference this account and will also be deleted.',
+          '$count planerade transaktioner refererar till detta konto och tas också bort.',
       one:
-          '1 planned transaction references this account and will also be deleted.',
+          '1 planerad transaktion refererar till detta konto och tas också bort.',
     );
     return '$_temp0';
   }
 
   @override
-  String get deleteAllAndDelete => 'Delete all';
+  String get deleteAllAndDelete => 'Ta bort alla';
 
   @override
-  String get editAccountTitle => 'Edit Account';
+  String get editAccountTitle => 'Redigera konto';
 
   @override
-  String get newAccountTitle => 'New Account';
+  String get newAccountTitle => 'Nytt konto';
 
   @override
-  String get labelAccountName => 'Account name';
+  String get labelAccountName => 'Kontonamn';
 
   @override
-  String get labelAccountIdentifier => 'Identifier (optional)';
+  String get labelAccountIdentifier => 'Identifierare (valfritt)';
 
   @override
-  String get accountAppearanceSection => 'Icon & color';
+  String get accountAppearanceSection => 'Ikon och färg';
 
   @override
-  String get accountPickIcon => 'Choose icon';
+  String get accountPickIcon => 'Välj ikon';
 
   @override
-  String get accountPickColor => 'Choose color';
+  String get accountPickColor => 'Välj färg';
 
   @override
-  String get accountIconSheetTitle => 'Account icon';
+  String get accountIconSheetTitle => 'Kontoikon';
 
   @override
-  String get accountColorSheetTitle => 'Account color';
+  String get accountColorSheetTitle => 'Kontofärg';
 
   @override
-  String get accountUseInitialLetter => 'Initial letter';
+  String get accountUseInitialLetter => 'Inledande brev';
 
   @override
-  String get accountUseDefaultColor => 'Match group';
+  String get accountUseDefaultColor => 'Matchgrupp';
 
   @override
-  String get labelRealBalance => 'Real balance';
+  String get labelRealBalance => 'Riktig balans';
 
   @override
-  String get labelOverdraftLimit => 'Overdraft / advance limit';
+  String get labelOverdraftLimit => 'Övertrassering/förskottsgräns';
 
   @override
-  String get labelCurrency => 'Currency';
+  String get labelCurrency => 'Valuta';
 
   @override
-  String get saveChanges => 'Save Changes';
+  String get saveChanges => 'Spara ändringar';
 
   @override
-  String get addAccountAction => 'Add Account';
+  String get addAccountAction => 'Lägg till konto';
 
   @override
-  String get removeAccountSheetTitle => 'Remove account';
+  String get removeAccountSheetTitle => 'Ta bort konto';
 
   @override
-  String get deletePermanently => 'Delete permanently';
+  String get deletePermanently => 'Ta bort permanent';
 
   @override
   String get deletePermanentlySubtitle =>
-      'Only possible when this account is not used in Track. Planned items can be removed as part of delete.';
+      'Endast möjligt när detta konto inte används i Track. Planerade objekt kan tas bort som en del av radering.';
 
   @override
   String get archiveOptionSubtitle =>
-      'Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.';
+      'Dölj från granskning och väljare. Återställ när som helst från Inställningar. Kräver nollsaldo och övertrassering.';
 
   @override
   String get archivedBannerText =>
-      'This account is archived. It stays in your data but is hidden from lists and pickers.';
+      'Detta konto är arkiverat. Det finns kvar i din data men döljs från listor och väljare.';
 
   @override
-  String get balanceAdjustedTitle => 'Balance adjusted in Track';
+  String get balanceAdjustedTitle => 'Balans justerad i Track';
 
   @override
   String balanceAdjustedBody(String previous, String current, String symbol) {
-    return 'Real balance was updated from $previous to $current $symbol.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.';
+    return 'Verkligt saldo uppdaterades från $previous till $current $symbol.\n\nEn saldojusteringstransaktion skapades i Track (Historik) för att hålla redovisningen konsekvent.\n\n• Verkligt saldo återspeglar det faktiska beloppet på detta konto.\n• Kontrollera Historik för justeringsposten.';
   }
 
   @override
   String get ok => 'OK';
 
   @override
-  String get categoryBalanceAdjustment => 'Balance adjustment';
+  String get categoryBalanceAdjustment => 'Balansjustering';
 
   @override
-  String get descriptionBalanceCorrection => 'Balance correction';
+  String get descriptionBalanceCorrection => 'Balanskorrigering';
 
   @override
-  String get descriptionOpeningBalance => 'Opening balance';
+  String get descriptionOpeningBalance => 'Ingående balans';
 
   @override
-  String get reviewStatsModeStatistics => 'Statistics';
+  String get reviewStatsModeStatistics => 'Statistik';
 
   @override
-  String get reviewStatsModeComparison => 'Comparison';
+  String get reviewStatsModeComparison => 'Jämförelse';
 
   @override
-  String get statsUncategorized => 'Uncategorized';
+  String get statsUncategorized => 'Okategoriserad';
 
   @override
   String get statsNoCategories =>
-      'No categories in the selected periods for comparison.';
+      'Inga kategorier i de valda perioderna för jämförelse.';
 
   @override
-  String get statsNoTransactions => 'No transactions';
+  String get statsNoTransactions => 'Inga transaktioner';
 
   @override
-  String get statsSpendingInCategory => 'Spending in this category';
+  String get statsSpendingInCategory => 'Utgifter i denna kategori';
 
   @override
-  String get statsIncomeInCategory => 'Income in this category';
+  String get statsIncomeInCategory => 'Inkomst i denna kategori';
 
   @override
-  String get statsDifference => 'Difference (B vs A): ';
+  String get statsDifference => 'Skillnad (B vs A):';
 
   @override
-  String get statsNoExpensesMonth => 'No expenses this month';
+  String get statsNoExpensesMonth => 'Inga utgifter denna månad';
 
   @override
-  String get statsNoExpensesAll => 'No expenses recorded';
+  String get statsNoExpensesAll => 'Inga utgifter registrerade';
 
   @override
   String statsNoExpensesPeriod(String period) {
-    return 'No expenses in the last $period';
+    return 'Inga utgifter under de senaste $period';
   }
 
   @override
-  String get statsTotalSpent => 'Total spent';
+  String get statsTotalSpent => 'Totalt spenderat';
 
   @override
-  String get statsNoExpensesThisPeriod => 'No expenses in this period';
+  String get statsNoExpensesThisPeriod => 'Inga kostnader under denna period';
 
   @override
-  String get statsNoIncomeMonth => 'No income this month';
+  String get statsNoIncomeMonth => 'Ingen inkomst denna månad';
 
   @override
-  String get statsNoIncomeAll => 'No income recorded';
+  String get statsNoIncomeAll => 'Inga registrerade inkomster';
 
   @override
   String statsNoIncomePeriod(String period) {
-    return 'No income in the last $period';
+    return 'Ingen inkomst under den senaste $period';
   }
 
   @override
-  String get statsTotalReceived => 'Total received';
+  String get statsTotalReceived => 'Totalt mottaget';
 
   @override
-  String get statsNoIncomeThisPeriod => 'No income in this period';
+  String get statsNoIncomeThisPeriod => 'Ingen inkomst under denna period';
 
   @override
-  String get catSalary => 'Salary';
+  String get catSalary => 'Lön';
 
   @override
-  String get catFreelance => 'Freelance';
+  String get catFreelance => 'Frilans';
 
   @override
-  String get catConsulting => 'Consulting';
+  String get catConsulting => 'Konsultverksamhet';
 
   @override
-  String get catGift => 'Gift';
+  String get catGift => 'Gåva';
 
   @override
-  String get catRental => 'Rental';
+  String get catRental => 'Uthyrning';
 
   @override
-  String get catDividends => 'Dividends';
+  String get catDividends => 'Utdelningar';
 
   @override
-  String get catRefund => 'Refund';
+  String get catRefund => 'Återbetalning';
 
   @override
   String get catBonus => 'Bonus';
 
   @override
-  String get catInterest => 'Interest';
+  String get catInterest => 'Intressera';
 
   @override
-  String get catSideHustle => 'Side hustle';
+  String get catSideHustle => 'Sido jäkt';
 
   @override
-  String get catSaleOfGoods => 'Sale of goods';
+  String get catSaleOfGoods => 'Försäljning av varor';
 
   @override
-  String get catOther => 'Other';
+  String get catOther => 'Andra';
 
   @override
-  String get catGroceries => 'Groceries';
+  String get catGroceries => 'Specerier';
 
   @override
-  String get catDining => 'Dining';
+  String get catDining => 'Matsal';
 
   @override
   String get catTransport => 'Transport';
 
   @override
-  String get catUtilities => 'Utilities';
+  String get catUtilities => 'Verktyg';
 
   @override
-  String get catHousing => 'Housing';
+  String get catHousing => 'Hus';
 
   @override
-  String get catHealthcare => 'Healthcare';
+  String get catHealthcare => 'Sjukvård';
 
   @override
-  String get catEntertainment => 'Entertainment';
+  String get catEntertainment => 'Underhållning';
 
   @override
   String get catShopping => 'Shopping';
 
   @override
-  String get catTravel => 'Travel';
+  String get catTravel => 'Resa';
 
   @override
-  String get catEducation => 'Education';
+  String get catEducation => 'Utbildning';
 
   @override
-  String get catSubscriptions => 'Subscriptions';
+  String get catSubscriptions => 'Prenumerationer';
 
   @override
-  String get catInsurance => 'Insurance';
+  String get catInsurance => 'Försäkring';
 
   @override
-  String get catFuel => 'Fuel';
+  String get catFuel => 'Bränsle';
 
   @override
   String get catGym => 'Gym';
 
   @override
-  String get catPets => 'Pets';
+  String get catPets => 'Husdjur';
 
   @override
-  String get catKids => 'Kids';
+  String get catKids => 'Barn';
 
   @override
-  String get catCharity => 'Charity';
+  String get catCharity => 'Välgörenhet';
 
   @override
-  String get catCoffee => 'Coffee';
+  String get catCoffee => 'Kaffe';
 
   @override
-  String get catGifts => 'Gifts';
+  String get catGifts => 'Gåvor';
 
   @override
   String semanticsProjectionDate(String date) {
-    return 'Projection date $date. Double tap to choose date';
+    return 'Projekteringsdatum $date. Dubbeltryck för att välja datum';
   }
 
   @override
   String semanticsProjectedBalance(String amount) {
-    return 'Projected personal balance $amount';
+    return 'Beräknad personlig balans $amount';
   }
 
   @override
-  String get statsEmptyTitle => 'No transactions yet';
+  String get statsEmptyTitle => 'Inga transaktioner ännu';
 
   @override
-  String get statsEmptySubtitle => 'No spending data for the selected range.';
+  String get statsEmptySubtitle =>
+      'Ingen utgiftsdata för det valda intervallet.';
 
   @override
-  String get semanticsShowProjections => 'Show projected balances by account';
+  String get semanticsShowProjections =>
+      'Visa prognostiserade saldon per konto';
 
   @override
-  String get semanticsHideProjections => 'Hide projected balances by account';
+  String get semanticsHideProjections => 'Dölj beräknade saldon per konto';
 
   @override
-  String get semanticsDateAllTime => 'Date: all time — tap to change mode';
+  String get semanticsDateAllTime =>
+      'Datum: hela tiden — tryck för att ändra läge';
 
   @override
   String semanticsDateMode(String mode) {
-    return 'Date: $mode — tap to change mode';
+    return 'Datum: $mode — tryck för att ändra läge';
   }
 
   @override
   String get semanticsDateThisMonth =>
-      'Date: this month — tap for month, week, year, or all time';
+      'Datum: denna månad – tryck för månad, vecka, år eller hela tiden';
 
   @override
   String get semanticsTxTypeCycle =>
-      'Transaction type: cycle all, income, expense, transfer';
+      'Transaktionstyp: cykla alla, inkomst, kostnad, överföring';
 
   @override
-  String get semanticsAccountFilter => 'Account filter';
+  String get semanticsAccountFilter => 'Kontofilter';
 
   @override
-  String get semanticsAlreadyFiltered => 'Already filtered to this account';
+  String get semanticsAlreadyFiltered => 'Redan filtrerad till det här kontot';
 
   @override
-  String get semanticsCategoryFilter => 'Category filter';
+  String get semanticsCategoryFilter => 'Kategorifilter';
 
   @override
-  String get semanticsSortToggle => 'Sort: toggle newest or oldest first';
+  String get semanticsSortToggle =>
+      'Sortera: växla mellan nyaste eller äldsta först';
 
   @override
   String get semanticsFiltersDisabled =>
-      'List filters disabled while viewing a future projection date. Clear projections to use filters.';
+      'Listfilter inaktiverade när du tittar på ett framtida projektionsdatum. Rensa projektioner för att använda filter.';
 
   @override
   String get semanticsFiltersDisabledNeedAccount =>
-      'List filters disabled. Add an account first.';
+      'Listfilter inaktiverade. Lägg till ett konto först.';
 
   @override
   String get semanticsFiltersDisabledNeedPlannedTransaction =>
-      'List filters disabled. Add a planned transaction first.';
+      'Listfilter inaktiverade. Lägg till en planerad transaktion först.';
 
   @override
   String get semanticsFiltersDisabledNeedRecordedTransaction =>
-      'List filters disabled. Record a transaction first.';
+      'Listfilter inaktiverade. Spela in en transaktion först.';
 
   @override
   String get semanticsReviewSectionChipsDisabledNeedAccount =>
-      'Section and currency controls disabled. Add an account first.';
+      'Sektions- och valutakontroller inaktiverade. Lägg till ett konto först.';
 
   @override
   String get semanticsPlanProjectionControlsDisabled =>
-      'Projection date and balance breakdown disabled. Add an account and a planned transaction first.';
+      'Prognosdatum och balansfördelning inaktiverade. Lägg till ett konto och en planerad transaktion först.';
 
   @override
   String get semanticsReorderAccountHint =>
-      'Long press, then drag to reorder within this group';
+      'Tryck länge och dra sedan för att ändra ordningen inom den här gruppen';
 
   @override
-  String get semanticsChartStyle => 'Chart style';
+  String get semanticsChartStyle => 'Diagramstil';
 
   @override
   String get semanticsChartStyleUnavailable =>
-      'Chart style (unavailable in comparison mode)';
+      'Diagramstil (inte tillgänglig i jämförelseläge)';
 
   @override
   String semanticsPeriod(String label) {
@@ -1472,141 +1481,144 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
-  String get trackSearchHint => 'Search description, category, account…';
+  String get trackSearchHint => 'Sök beskrivning, kategori, konto...';
 
   @override
-  String get trackSearchClear => 'Clear search';
+  String get trackSearchClear => 'Rensa sökning';
 
   @override
-  String get settingsExchangeRatesTitle => 'Exchange rates';
+  String get settingsExchangeRatesTitle => 'Växelkurser';
 
   @override
   String settingsExchangeRatesUpdated(String time) {
-    return 'Last updated: $time';
+    return 'Senast uppdaterad: $time';
   }
 
   @override
   String get settingsExchangeRatesNeverUpdated =>
-      'Using offline or bundled rates — tap to refresh';
+      'Använda offline- eller paketpriser – tryck för att uppdatera';
 
   @override
   String get settingsExchangeRatesSource => 'ECB';
 
   @override
-  String get settingsExchangeRatesUpdatedSnack => 'Exchange rates updated';
+  String get settingsExchangeRatesUpdatedSnack => 'Växelkurser uppdaterade';
 
   @override
   String get settingsExchangeRatesUpdateFailed =>
-      'Could not update exchange rates. Check your connection.';
+      'Det gick inte att uppdatera växelkurserna. Kontrollera din anslutning.';
 
   @override
-  String get settingsClearData => 'Clear data';
+  String get settingsClearData => 'Rensa data';
 
   @override
-  String get settingsClearDataSubtitle => 'Permanently remove selected data';
+  String get settingsClearDataSubtitle => 'Ta bort markerade data permanent';
 
   @override
-  String get clearDataTitle => 'Clear data';
+  String get clearDataTitle => 'Rensa data';
 
   @override
-  String get clearDataTransactions => 'Transaction history';
+  String get clearDataTransactions => 'Transaktionshistorik';
 
   @override
   String clearDataTransactionsSubtitle(int count) {
-    return '$count transactions · account balances reset to zero';
+    return '$count transaktioner · kontosaldon nollställs';
   }
 
   @override
-  String get clearDataPlanned => 'Planned transactions';
+  String get clearDataPlanned => 'Planerade transaktioner';
 
   @override
   String clearDataPlannedSubtitle(int count) {
-    return '$count planned items';
+    return '$count planerade objekt';
   }
 
   @override
-  String get clearDataAccounts => 'Accounts';
+  String get clearDataAccounts => 'konton';
 
   @override
   String clearDataAccountsSubtitle(int count) {
-    return '$count accounts · also clears history and plan';
+    return '$count konton · rensar också historik och plan';
   }
 
   @override
-  String get clearDataCategories => 'Categories';
+  String get clearDataCategories => 'Kategorier';
 
   @override
   String clearDataCategoriesSubtitle(int count) {
-    return '$count categories · replaced with defaults';
+    return '$count kategorier · ersatt med standardvärden';
   }
 
   @override
-  String get clearDataPreferences => 'Preferences';
+  String get clearDataPreferences => 'Inställningar';
 
   @override
   String get clearDataPreferencesSubtitle =>
-      'Reset currency, theme and language to defaults';
+      'Återställ valuta, tema och språk till standardinställningarna';
 
   @override
-  String get clearDataSecurity => 'App lock & PIN';
+  String get clearDataSecurity => 'Applås & PIN-kod';
 
   @override
-  String get clearDataSecuritySubtitle => 'Disable app lock and remove PIN';
+  String get clearDataSecuritySubtitle =>
+      'Inaktivera applås och ta bort PIN-kod';
 
   @override
-  String get clearDataConfirmButton => 'Clear selected';
+  String get clearDataConfirmButton => 'Rensa markerat';
 
   @override
-  String get clearDataConfirmTitle => 'This cannot be undone';
+  String get clearDataConfirmTitle => 'Detta kan inte ångras';
 
   @override
   String get clearDataConfirmBody =>
-      'The selected data will be permanently deleted. Export a backup first if you may need it later.';
+      'Den valda informationen kommer att raderas permanent. Exportera en säkerhetskopia först om du kan behöva den senare.';
 
   @override
-  String get clearDataTypeConfirm => 'Type DELETE to confirm';
+  String get clearDataTypeConfirm => 'Skriv DELETE för att bekräfta';
 
   @override
-  String get clearDataTypeConfirmError => 'Type DELETE exactly to continue';
+  String get clearDataTypeConfirmError =>
+      'Skriv DELETE exakt för att fortsätta';
 
   @override
-  String get clearDataPinTitle => 'Confirm with PIN';
+  String get clearDataPinTitle => 'Bekräfta med PIN';
 
   @override
-  String get clearDataPinBody => 'Enter your app PIN to authorize this action.';
+  String get clearDataPinBody =>
+      'Ange din app-PIN för att godkänna denna åtgärd.';
 
   @override
-  String get clearDataPinIncorrect => 'Incorrect PIN';
+  String get clearDataPinIncorrect => 'Felaktig PIN-kod';
 
   @override
-  String get clearDataDone => 'Selected data cleared';
+  String get clearDataDone => 'Valda data raderade';
 
   @override
-  String get autoBackupTitle => 'Automatic daily backup';
+  String get autoBackupTitle => 'Automatisk daglig säkerhetskopiering';
 
   @override
   String autoBackupLastAt(String date) {
-    return 'Last backed up $date';
+    return 'Senast säkerhetskopierades $date';
   }
 
   @override
-  String get autoBackupNeverRun => 'No backup yet';
+  String get autoBackupNeverRun => 'Ingen backup ännu';
 
   @override
-  String get autoBackupShareTitle => 'Save to cloud';
+  String get autoBackupShareTitle => 'Spara till molnet';
 
   @override
   String get autoBackupShareSubtitle =>
-      'Upload latest backup to iCloud Drive, Google Drive or any app';
+      'Ladda upp senaste säkerhetskopian till iCloud Drive, Google Drive eller valfri app';
 
   @override
   String get autoBackupCloudReminder =>
-      'Auto-backup ready — save it to cloud for off-device protection';
+      'Klar för automatisk säkerhetskopiering – spara den i molnet för skydd utanför enheten';
 
   @override
-  String get autoBackupCloudReminderAction => 'Share';
+  String get autoBackupCloudReminderAction => 'Dela';
 
   @override
   String get persistenceErrorReloaded =>
-      'Couldn’t save changes. Data was reloaded from storage.';
+      'Det gick inte att spara ändringarna. Data laddades om från lagringen.';
 }

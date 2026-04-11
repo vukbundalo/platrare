@@ -546,6 +546,47 @@ class PlatrareDatabase extends _$PlatrareDatabase {
         .go();
   }
 
+  // ─── Bulk-clear helpers ──────────────────────────────────────────────────
+
+  /// Deletes all transaction rows. Callers must reset account balances.
+  Future<void> deleteAllTransactions() => delete(dbTransactions).go();
+
+  /// Deletes all planned-transaction rows.
+  Future<void> deleteAllPlanned() => delete(dbPlannedTransactions).go();
+
+  /// Zeros all account balances in a single UPDATE.
+  Future<void> zeroAllAccountBalances() async {
+    final now = DateTime.now();
+    await (update(dbAccounts)).write(
+      DbAccountsCompanion(
+        balance: const Value(0.0),
+        updatedAt: Value(now),
+      ),
+    );
+  }
+
+  /// Deletes accounts, transactions, and planned in one atomic commit.
+  Future<void> deleteAllLedgerData() async {
+    await transaction(() async {
+      await delete(dbTransactions).go();
+      await delete(dbPlannedTransactions).go();
+      await delete(dbAccounts).go();
+    });
+  }
+
+  /// Clears all categories then re-seeds with defaults.
+  Future<void> resetCategoriesToDefaults() async {
+    await delete(dbCategories).go();
+    await _ensureSeedCategories();
+  }
+
+  /// Returns all category rows ordered by [sortOrder].
+  Future<List<CategoryRow>> loadCategoryRows() {
+    return (select(dbCategories)
+          ..orderBy([(t) => OrderingTerm(expression: t.sortOrder)]))
+        .get();
+  }
+
   /// Replaces all persisted app data in a single transaction.
   Future<void> replaceAllData({
     required List<Account> accounts,

@@ -1,46 +1,47 @@
 {
   "@@locale": "ko",
-  "appTitle": "Platrare",
+  "appTitle": "플라트라레",
   "@appTitle": {
     "description": "Application title"
   },
-  "navPlan": "Plan",
-  "navTrack": "Track",
-  "navReview": "Review",
-  "cancel": "Cancel",
-  "delete": "Delete",
-  "close": "Close",
-  "add": "Add",
-  "undo": "Undo",
-  "confirm": "Confirm",
-  "restore": "Restore",
-  "heroIn": "In",
-  "heroOut": "Out",
-  "heroNet": "Net",
-  "heroBalance": "Balance",
-  "realBalance": "Real balance",
-  "heroResetButton": "Reset",
-  "filterAll": "All",
-  "filterAllAccounts": "All accounts",
-  "filterAllCategories": "All categories",
-  "txLabelIncome": "INCOME",
-  "txLabelExpense": "EXPENSE",
-  "txLabelInvoice": "INVOICE",
-  "txLabelBill": "BILL",
-  "txLabelAdvance": "ADVANCE",
-  "txLabelSettlement": "SETTLEMENT",
-  "txLabelLoan": "LOAN",
-  "txLabelCollection": "COLLECTION",
-  "txLabelOffset": "OFFSET",
-  "txLabelTransfer": "TRANSFER",
-  "txLabelTransaction": "TRANSACTION",
-  "repeatNone": "No repeat",
-  "repeatDaily": "Daily",
-  "repeatWeekly": "Weekly",
-  "repeatMonthly": "Monthly",
-  "repeatYearly": "Yearly",
-  "repeatEveryLabel": "Every",
-  "repeatEveryDays": "{count, plural, =1{day} other{{count} days}}",
+  "navPlan": "계획",
+  "navTrack": "길",
+  "navReview": "검토",
+  "cancel": "취소",
+  "delete": "삭제",
+  "close": "닫다",
+  "add": "추가하다",
+  "undo": "끄르다",
+  "confirm": "확인하다",
+  "restore": "복원하다",
+  "heroIn": "~ 안에",
+  "heroOut": "밖으로",
+  "heroNet": "그물",
+  "heroBalance": "균형",
+  "realBalance": "실제 균형",
+  "heroResetButton": "다시 놓기",
+  "fabScrollToTop": "맨 위로",
+  "filterAll": "모두",
+  "filterAllAccounts": "모든 계정",
+  "filterAllCategories": "모든 카테고리",
+  "txLabelIncome": "소득",
+  "txLabelExpense": "비용",
+  "txLabelInvoice": "송장",
+  "txLabelBill": "청구서",
+  "txLabelAdvance": "전진",
+  "txLabelSettlement": "합의",
+  "txLabelLoan": "대출",
+  "txLabelCollection": "수집",
+  "txLabelOffset": "오프셋",
+  "txLabelTransfer": "옮기다",
+  "txLabelTransaction": "거래",
+  "repeatNone": "반복 없음",
+  "repeatDaily": "일일",
+  "repeatWeekly": "주간",
+  "repeatMonthly": "월간 간행물",
+  "repeatYearly": "매년",
+  "repeatEveryLabel": "모든",
+  "repeatEveryDays": "{count, plural, =1{일} other{{count} 일}}",
   "@repeatEveryDays": {
     "placeholders": {
       "count": {
@@ -48,7 +49,7 @@
       }
     }
   },
-  "repeatEveryWeeks": "{count, plural, =1{week} other{{count} weeks}}",
+  "repeatEveryWeeks": "{count, plural, =1{주} other{{count} 주}}",
   "@repeatEveryWeeks": {
     "placeholders": {
       "count": {
@@ -56,7 +57,7 @@
       }
     }
   },
-  "repeatEveryMonths": "{count, plural, =1{month} other{{count} months}}",
+  "repeatEveryMonths": "{count, plural, =1{개월} other{{count} 개월}}",
   "@repeatEveryMonths": {
     "placeholders": {
       "count": {
@@ -64,7 +65,7 @@
       }
     }
   },
-  "repeatEveryYears": "{count, plural, =1{year} other{{count} years}}",
+  "repeatEveryYears": "{count, plural, =1{년} other{{count} 년}}",
   "@repeatEveryYears": {
     "placeholders": {
       "count": {
@@ -72,10 +73,10 @@
       }
     }
   },
-  "repeatEndLabel": "Ends",
-  "repeatEndNever": "Never",
-  "repeatEndOnDate": "On date",
-  "repeatEndAfterCount": "After {count} times",
+  "repeatEndLabel": "종료",
+  "repeatEndNever": "절대",
+  "repeatEndOnDate": "날짜에",
+  "repeatEndAfterCount": "{count}회 후",
   "@repeatEndAfterCount": {
     "placeholders": {
       "count": {
@@ -83,9 +84,9 @@
       }
     }
   },
-  "repeatEndPickDate": "Pick end date",
-  "repeatEndTimes": "times",
-  "repeatSummaryEvery": "Every {count} {unit}",
+  "repeatEndPickDate": "종료일 선택",
+  "repeatEndTimes": "타임스",
+  "repeatSummaryEvery": "{count} {unit}마다",
   "@repeatSummaryEvery": {
     "placeholders": {
       "count": {
@@ -96,7 +97,7 @@
       }
     }
   },
-  "repeatSummaryUntil": "until {date}",
+  "repeatSummaryUntil": "{date}까지",
   "@repeatSummaryUntil": {
     "placeholders": {
       "date": {
@@ -104,7 +105,7 @@
       }
     }
   },
-  "repeatSummaryTimes": "{count} times",
+  "repeatSummaryTimes": "{count}회",
   "@repeatSummaryTimes": {
     "placeholders": {
       "count": {
@@ -112,7 +113,7 @@
       }
     }
   },
-  "repeatSummaryTimesRemaining": "{remaining} of {total} remaining",
+  "repeatSummaryTimesRemaining": "{remaining}/{total} 남음",
   "@repeatSummaryTimesRemaining": {
     "placeholders": {
       "remaining": {
@@ -123,10 +124,10 @@
       }
     }
   },
-  "detailRepeatEvery": "Repeat every",
-  "detailEnds": "Ends",
-  "detailEndsNever": "Never",
-  "detailEndsOnDate": "On {date}",
+  "detailRepeatEvery": "반복 간격",
+  "detailEnds": "종료",
+  "detailEndsNever": "절대",
+  "detailEndsOnDate": "{date}에",
   "@detailEndsOnDate": {
     "placeholders": {
       "date": {
@@ -134,7 +135,7 @@
       }
     }
   },
-  "detailEndsAfterCount": "After {count} times",
+  "detailEndsAfterCount": "{count}회 후",
   "@detailEndsAfterCount": {
     "placeholders": {
       "count": {
@@ -142,11 +143,11 @@
       }
     }
   },
-  "detailProgress": "Progress",
-  "weekendNoChange": "No change",
-  "weekendFriday": "Move to Friday",
-  "weekendMonday": "Move to Monday",
-  "weekendQuestion": "If the {day} falls on a weekend?",
+  "detailProgress": "진전",
+  "weekendNoChange": "변화 없음",
+  "weekendFriday": "금요일로 이동",
+  "weekendMonday": "월요일로 이동",
+  "weekendQuestion": "{day}가 주말에 해당한다면?",
   "@weekendQuestion": {
     "placeholders": {
       "day": {
@@ -154,32 +155,32 @@
       }
     }
   },
-  "dateToday": "Today",
-  "dateTomorrow": "Tomorrow",
-  "dateYesterday": "Yesterday",
-  "statsAllTime": "All time",
-  "accountGroupPersonal": "Personal",
-  "accountGroupIndividual": "Individual",
-  "accountGroupEntity": "Entity",
-  "accountSectionIndividuals": "Individuals",
-  "accountSectionEntities": "Entities",
-  "emptyNoTransactionsYet": "No transactions yet",
-  "emptyNoAccountsYet": "No accounts yet",
-  "emptyRecordFirstTransaction": "Tap the button below to record your first transaction.",
-  "emptyAddFirstAccountTx": "Add your first account before recording transactions.",
-  "emptyAddFirstAccountPlan": "Add your first account before planning transactions.",
-  "emptyAddFirstAccountReview": "Add your first account to start tracking your finances.",
-  "emptyAddTransaction": "Add transaction",
-  "emptyAddAccount": "Add account",
-  "reviewEmptyGroupPersonalTitle": "No personal accounts yet",
-  "reviewEmptyGroupPersonalBody": "Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.",
-  "reviewEmptyGroupIndividualsTitle": "No individual accounts yet",
-  "reviewEmptyGroupIndividualsBody": "Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.",
-  "reviewEmptyGroupEntitiesTitle": "No entity accounts yet",
-  "reviewEmptyGroupEntitiesBody": "Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.",
-  "emptyNoTransactionsForFilters": "No transactions for applied filters",
-  "emptyNoTransactionsInHistory": "No transactions in history",
-  "emptyNoTransactionsForMonth": "No transactions for {month}",
+  "dateToday": "오늘",
+  "dateTomorrow": "내일",
+  "dateYesterday": "어제",
+  "statsAllTime": "모든 시간",
+  "accountGroupPersonal": "개인의",
+  "accountGroupIndividual": "개인",
+  "accountGroupEntity": "실재",
+  "accountSectionIndividuals": "개인",
+  "accountSectionEntities": "엔터티",
+  "emptyNoTransactionsYet": "아직 거래가 없습니다.",
+  "emptyNoAccountsYet": "아직 계정이 없습니다",
+  "emptyRecordFirstTransaction": "첫 번째 거래를 기록하려면 아래 버튼을 누르세요.",
+  "emptyAddFirstAccountTx": "거래를 기록하기 전에 첫 번째 계정을 추가하세요.",
+  "emptyAddFirstAccountPlan": "거래를 계획하기 전에 첫 번째 계정을 추가하세요.",
+  "emptyAddFirstAccountReview": "재정 추적을 시작하려면 첫 번째 계정을 추가하세요.",
+  "emptyAddTransaction": "거래 추가",
+  "emptyAddAccount": "계정 추가",
+  "reviewEmptyGroupPersonalTitle": "아직 개인 계정이 없습니다.",
+  "reviewEmptyGroupPersonalBody": "개인계좌는 본인의 지갑이자 은행계좌입니다. 일일 수입과 지출을 추적하려면 하나를 추가하세요.",
+  "reviewEmptyGroupIndividualsTitle": "아직 개인 계정이 없습니다.",
+  "reviewEmptyGroupIndividualsBody": "개인 계정은 비용 공유, 대출, IOU 등 특정 사람들과의 자금을 추적합니다. 합의한 각 사람에 대한 계정을 추가하십시오.",
+  "reviewEmptyGroupEntitiesTitle": "아직 법인 계정이 없습니다.",
+  "reviewEmptyGroupEntitiesBody": "엔터티 계정은 비즈니스, 프로젝트 또는 조직을 위한 것입니다. 이를 사용하여 비즈니스 현금 흐름을 개인 재정과 별도로 유지하십시오.",
+  "emptyNoTransactionsForFilters": "적용된 필터에 대한 거래가 없습니다.",
+  "emptyNoTransactionsInHistory": "내역에 거래가 없습니다.",
+  "emptyNoTransactionsForMonth": "{month}에 대한 거래가 없습니다.",
   "@emptyNoTransactionsForMonth": {
     "placeholders": {
       "month": {
@@ -187,13 +188,13 @@
       }
     }
   },
-  "emptyNoTransactionsForAccount": "No transactions for this account",
-  "trackTransactionDeleted": "Transaction deleted",
-  "trackDeleteTitle": "Delete transaction?",
-  "trackDeleteBody": "This will reverse the account balance changes.",
-  "trackTransaction": "Transaction",
-  "planConfirmTitle": "Confirm transaction?",
-  "planConfirmBodyEarly": "This occurrence is scheduled for {date}. It will be recorded in History with today’s date ({todayDate}). The next occurrence remains on {nextDate}.",
+  "emptyNoTransactionsForAccount": "이 계정에 거래가 없습니다.",
+  "trackTransactionDeleted": "거래가 삭제되었습니다.",
+  "trackDeleteTitle": "거래를 삭제하시겠습니까?",
+  "trackDeleteBody": "이렇게 하면 계정 잔액 변경 사항이 취소됩니다.",
+  "trackTransaction": "거래",
+  "planConfirmTitle": "거래를 확인하시겠습니까?",
+  "planConfirmBodyEarly": "이 사건은 {date}에 예정되어 있습니다. 오늘 날짜({todayDate})로 히스토리에 기록됩니다. 다음 발생은 {nextDate}에 남아 있습니다.",
   "@planConfirmBodyEarly": {
     "placeholders": {
       "date": {
@@ -207,19 +208,19 @@
       }
     }
   },
-  "planConfirmBodyNormal": "This will apply the transaction to your real account balances and move it to History.",
-  "planTransactionConfirmed": "Transaction confirmed and applied",
-  "planTransactionRemoved": "Planned transaction removed",
-  "planRepeatingTitle": "Repeating transaction",
-  "planRepeatingBody": "Skip only this date—the series continues with the next occurrence—or delete every remaining occurrence from your plan.",
-  "planDeleteAll": "Delete all",
-  "planSkipThisOnly": "Skip this only",
-  "planOccurrenceSkipped": "This occurrence skipped — next one scheduled",
-  "planNothingPlanned": "Nothing planned for now",
-  "planPlanBody": "Plan upcoming transactions.",
-  "planAddPlan": "Add plan",
-  "planNoPlannedForFilters": "No planned transactions for applied filters",
-  "planNoPlannedInMonth": "No planned transactions in {month}",
+  "planConfirmBodyNormal": "그러면 거래가 실제 계좌 잔액에 적용되어 내역으로 이동됩니다.",
+  "planTransactionConfirmed": "거래 확인 및 적용",
+  "planTransactionRemoved": "계획된 거래가 삭제되었습니다.",
+  "planRepeatingTitle": "반복 거래",
+  "planRepeatingBody": "이 날짜만 건너뛰거나 다음 항목으로 시리즈가 계속되거나 계획에서 나머지 항목을 모두 삭제하세요.",
+  "planDeleteAll": "모두 삭제",
+  "planSkipThisOnly": "이것만 건너뛰기",
+  "planOccurrenceSkipped": "이 항목을 건너뛰었습니다. 다음 항목이 예정되어 있습니다.",
+  "planNothingPlanned": "지금은 계획된 것이 없습니다.",
+  "planPlanBody": "다가오는 거래를 계획하십시오.",
+  "planAddPlan": "계획 추가",
+  "planNoPlannedForFilters": "적용된 필터에 대해 계획된 거래가 없습니다.",
+  "planNoPlannedInMonth": "{month}에는 계획된 거래가 없습니다.",
   "@planNoPlannedInMonth": {
     "placeholders": {
       "month": {
@@ -227,28 +228,28 @@
       }
     }
   },
-  "planOverdue": "overdue",
-  "planPlannedTransaction": "Planned transaction",
-  "discardTitle": "Discard changes?",
-  "discardBody": "You have unsaved changes. They will be lost if you leave now.",
-  "keepEditing": "Keep editing",
-  "discard": "Discard",
-  "newTransactionTitle": "New Transaction",
-  "editTransactionTitle": "Edit Transaction",
-  "transactionUpdated": "Transaction updated",
-  "sectionAccounts": "Accounts",
-  "labelFrom": "From",
-  "labelTo": "To",
-  "sectionCategory": "Category",
-  "sectionAttachments": "Attachments",
-  "labelNote": "Note",
-  "hintOptionalDescription": "Optional description",
-  "updateTransaction": "Update Transaction",
-  "saveTransaction": "Save Transaction",
-  "selectAccount": "Select account",
-  "selectAccountTitle": "Select Account",
-  "noAccountsAvailable": "No accounts available",
-  "amountReceivedBy": "Amount received by {name} ({currency})",
+  "planOverdue": "기한이 지난",
+  "planPlannedTransaction": "계획된 거래",
+  "discardTitle": "변경사항을 취소하시겠습니까?",
+  "discardBody": "저장되지 않은 변경사항이 있습니다. 지금 떠나면 그것들은 사라질 것입니다.",
+  "keepEditing": "계속 수정하세요",
+  "discard": "취소",
+  "newTransactionTitle": "새로운 거래",
+  "editTransactionTitle": "거래 편집",
+  "transactionUpdated": "거래가 업데이트되었습니다.",
+  "sectionAccounts": "계정",
+  "labelFrom": "에서",
+  "labelTo": "에게",
+  "sectionCategory": "범주",
+  "sectionAttachments": "첨부파일",
+  "labelNote": "메모",
+  "hintOptionalDescription": "선택적 설명",
+  "updateTransaction": "거래 업데이트",
+  "saveTransaction": "거래 저장",
+  "selectAccount": "계정 선택",
+  "selectAccountTitle": "계정 선택",
+  "noAccountsAvailable": "사용 가능한 계정이 없습니다.",
+  "amountReceivedBy": "{name}({currency})님이 받은 금액",
   "@amountReceivedBy": {
     "placeholders": {
       "name": {
@@ -259,24 +260,24 @@
       }
     }
   },
-  "amountReceivedHelper": "Enter the exact amount the destination account receives. This locks the real exchange rate used.",
-  "attachTakePhoto": "Take photo",
-  "attachTakePhotoSub": "Use camera to capture a receipt",
-  "attachChooseGallery": "Choose from gallery",
-  "attachChooseGallerySub": "Select photos from your library",
-  "attachBrowseFiles": "Browse files",
-  "attachBrowseFilesSub": "Attach PDFs, documents or other files",
-  "attachButton": "Attach",
-  "editPlanTitle": "Edit Plan",
-  "planTransactionTitle": "Plan Transaction",
-  "tapToSelect": "Tap to select",
-  "updatePlan": "Update Plan",
-  "addToPlan": "Add to Plan",
-  "labelRepeat": "Repeat",
-  "selectPlannedDate": "Select planned date",
-  "balancesAsOfToday": "Balances as of today",
-  "projectedBalancesForTomorrow": "Projected balances for tomorrow",
-  "projectedBalancesForDate": "Projected balances for {date}",
+  "amountReceivedHelper": "대상 계정이 받는 정확한 금액을 입력하세요. 이렇게 하면 사용된 실제 환율이 잠깁니다.",
+  "attachTakePhoto": "사진 찍기",
+  "attachTakePhotoSub": "카메라를 사용하여 영수증 캡처",
+  "attachChooseGallery": "갤러리에서 선택",
+  "attachChooseGallerySub": "라이브러리에서 사진을 선택하세요.",
+  "attachBrowseFiles": "파일 찾아보기",
+  "attachBrowseFilesSub": "PDF, 문서 또는 기타 파일 첨부",
+  "attachButton": "붙이다",
+  "editPlanTitle": "계획 편집",
+  "planTransactionTitle": "계획 거래",
+  "tapToSelect": "선택하려면 탭하세요.",
+  "updatePlan": "업데이트 계획",
+  "addToPlan": "계획에 추가",
+  "labelRepeat": "반복하다",
+  "selectPlannedDate": "예정일 선택",
+  "balancesAsOfToday": "오늘 기준 잔액",
+  "projectedBalancesForTomorrow": "내일 예상 잔액",
+  "projectedBalancesForDate": "{date}의 예상 잔액",
   "@projectedBalancesForDate": {
     "placeholders": {
       "date": {
@@ -284,7 +285,7 @@
       }
     }
   },
-  "destReceivesLabel": "{name} receives ({currency})",
+  "destReceivesLabel": "{name} 수신({currency})",
   "@destReceivesLabel": {
     "placeholders": {
       "name": {
@@ -295,23 +296,23 @@
       }
     }
   },
-  "destHelper": "Estimated destination amount. Exact rate is locked at confirmation.",
-  "descriptionOptional": "Description (optional)",
-  "detailTransactionTitle": "Transaction",
-  "detailPlannedTitle": "Planned",
-  "detailConfirmTransaction": "Confirm transaction",
-  "detailDate": "Date",
-  "detailFrom": "From",
-  "detailTo": "To",
-  "detailCategory": "Category",
-  "detailNote": "Note",
-  "detailDestinationAmount": "Destination amount",
-  "detailExchangeRate": "Exchange rate",
-  "detailRepeats": "Repeats",
-  "detailDayOfMonth": "Day of month",
-  "detailWeekends": "Weekends",
-  "detailAttachments": "Attachments",
-  "detailFileCount": "{count, plural, =1{1 file} other{{count} files}}",
+  "destHelper": "예상 목적지 금액. 정확한 환율은 확인 시 고정됩니다.",
+  "descriptionOptional": "설명(선택사항)",
+  "detailTransactionTitle": "거래",
+  "detailPlannedTitle": "예정",
+  "detailConfirmTransaction": "거래 확인",
+  "detailDate": "날짜",
+  "detailFrom": "에서",
+  "detailTo": "에게",
+  "detailCategory": "범주",
+  "detailNote": "메모",
+  "detailDestinationAmount": "목적지 금액",
+  "detailExchangeRate": "환율",
+  "detailRepeats": "반복",
+  "detailDayOfMonth": "날짜",
+  "detailWeekends": "주말",
+  "detailAttachments": "첨부파일",
+  "detailFileCount": "{count, plural, =1{1개 파일} other{{count}개 파일}}",
   "@detailFileCount": {
     "placeholders": {
       "count": {
@@ -319,17 +320,17 @@
       }
     }
   },
-  "settingsTitle": "Settings",
-  "settingsSectionDisplay": "Display",
-  "settingsSectionLanguage": "Language",
-  "settingsSectionCategories": "Categories",
-  "settingsSectionAccounts": "Accounts",
-  "settingsSectionPreferences": "Preferences",
-  "settingsSectionManage": "Manage",
-  "settingsBaseCurrency": "Home currency",
-  "settingsSecondaryCurrency": "Secondary currency",
-  "settingsCategories": "Categories",
-  "settingsCategoriesSubtitle": "{incomeCount} income · {expenseCount} expense",
+  "settingsTitle": "설정",
+  "settingsSectionDisplay": "표시하다",
+  "settingsSectionLanguage": "언어",
+  "settingsSectionCategories": "카테고리",
+  "settingsSectionAccounts": "계정",
+  "settingsSectionPreferences": "환경설정",
+  "settingsSectionManage": "관리하다",
+  "settingsBaseCurrency": "자국 통화",
+  "settingsSecondaryCurrency": "보조 통화",
+  "settingsCategories": "카테고리",
+  "settingsCategoriesSubtitle": "{incomeCount} 수입 · {expenseCount} 지출",
   "@settingsCategoriesSubtitle": {
     "placeholders": {
       "incomeCount": {
@@ -340,9 +341,9 @@
       }
     }
   },
-  "settingsArchivedAccounts": "Archived accounts",
-  "settingsArchivedAccountsSubtitleZero": "None right now — archive from account edit when balance is clear",
-  "settingsArchivedAccountsSubtitleCount": "{count} hidden from Review and pickers",
+  "settingsArchivedAccounts": "보관된 계정",
+  "settingsArchivedAccountsSubtitleZero": "현재는 없음 — 잔액이 정상화되면 계정 수정에서 보관처리됩니다.",
+  "settingsArchivedAccountsSubtitleCount": "{count} 리뷰 및 선택기에서 숨겨짐",
   "@settingsArchivedAccountsSubtitleCount": {
     "placeholders": {
       "count": {
@@ -350,48 +351,48 @@
       }
     }
   },
-  "settingsSectionData": "Data",
-  "settingsSectionPrivacy": "About",
-  "settingsPrivacyPolicyTitle": "Privacy policy",
-  "settingsPrivacyPolicySubtitle": "How Platrare handles your data.",
-  "settingsPrivacyFxDisclosure": "Exchange rates: the app fetches public currency rates over the internet. Your accounts and transactions are never sent.",
-  "settingsPrivacyOpenFailed": "Could not load the privacy policy.",
-  "settingsPrivacyRetry": "Try again",
-  "settingsSoftwareVersionTitle": "Software version",
-  "settingsSoftwareVersionSubtitle": "Release, diagnostics, and legal",
-  "aboutScreenTitle": "About",
-  "aboutAppTagline": "Ledger, cashflow, and planning in one workspace.",
-  "aboutDescriptionBody": "Platrare keeps accounts, transactions, and plans on your device. Export encrypted backups when you need a copy elsewhere. Exchange rates use public market data only; your ledger is not uploaded.",
-  "aboutVersionLabel": "Version",
-  "aboutBuildLabel": "Build",
-  "aboutCopySupportDetails": "Copy support details",
-  "aboutOpenPrivacySubtitle": "Opens the full in-app policy document.",
-  "aboutSupportBundleLocaleLabel": "Locale",
-  "settingsSupportInfoCopied": "Copied to clipboard",
-  "settingsVerifyLedger": "Verify data",
-  "settingsVerifyLedgerSubtitle": "Check that account balances match your transaction history",
-  "settingsDataExportTitle": "Export backup",
-  "settingsDataExportSubtitle": "Save as .zip or encrypted .platrare with all data and attachments",
-  "settingsDataImportTitle": "Restore from backup",
-  "settingsDataImportSubtitle": "Replace current data from a Platrare .zip or .platrare backup",
-  "backupExportDialogTitle": "Protect this backup",
-  "backupExportDialogBody": "A strong password is recommended, especially if you store the file in the cloud. You need the same password to import.",
-  "backupExportPasswordLabel": "Password",
-  "backupExportPasswordConfirmLabel": "Confirm password",
-  "backupExportPasswordMismatch": "Passwords do not match",
-  "backupExportPasswordEmpty": "Enter a matching password, or export without encryption below.",
-  "backupExportPasswordTooShort": "Password must be at least 8 characters.",
-  "backupExportSaveToDevice": "Save to device",
-  "backupExportShareToCloud": "Share (iCloud, Drive…)",
-  "backupExportWithoutEncryption": "Export without encryption",
-  "backupExportSkipWarningTitle": "Export without encryption?",
-  "backupExportSkipWarningBody": "Anyone with access to the file can read your data. Use this only for local copies you control.",
-  "backupExportSkipWarningConfirm": "Export unencrypted",
-  "backupImportPasswordTitle": "Encrypted backup",
-  "backupImportPasswordBody": "Enter the password you used when exporting.",
-  "backupImportPasswordLabel": "Password",
-  "backupImportPreviewTitle": "Backup summary",
-  "backupImportPreviewVersion": "App version: {version}",
+  "settingsSectionData": "데이터",
+  "settingsSectionPrivacy": "에 대한",
+  "settingsPrivacyPolicyTitle": "개인 정보 보호 정책",
+  "settingsPrivacyPolicySubtitle": "Platrare가 귀하의 데이터를 처리하는 방법.",
+  "settingsPrivacyFxDisclosure": "환율: 앱은 인터넷을 통해 공개 환율을 가져옵니다. 귀하의 계정과 거래는 전송되지 않습니다.",
+  "settingsPrivacyOpenFailed": "개인정보취급방침을 로드할 수 없습니다.",
+  "settingsPrivacyRetry": "다시 시도하세요",
+  "settingsSoftwareVersionTitle": "소프트웨어 버전",
+  "settingsSoftwareVersionSubtitle": "릴리스, 진단 및 법률",
+  "aboutScreenTitle": "에 대한",
+  "aboutAppTagline": "하나의 작업 공간에서 원장, 현금 흐름 및 계획을 관리하세요.",
+  "aboutDescriptionBody": "Platrare는 귀하의 장치에 계정, 거래 및 계획을 보관합니다. 다른 곳에 복사본이 필요할 때 암호화된 백업을 내보냅니다. 환율은 공개 시장 데이터만 사용합니다. 귀하의 원장이 업로드되지 않았습니다.",
+  "aboutVersionLabel": "버전",
+  "aboutBuildLabel": "짓다",
+  "aboutCopySupportDetails": "지원 세부정보 복사",
+  "aboutOpenPrivacySubtitle": "전체 인앱 정책 문서를 엽니다.",
+  "aboutSupportBundleLocaleLabel": "장소",
+  "settingsSupportInfoCopied": "클립보드에 복사됨",
+  "settingsVerifyLedger": "데이터 확인",
+  "settingsVerifyLedgerSubtitle": "계좌 잔액이 거래 내역과 일치하는지 확인하세요.",
+  "settingsDataExportTitle": "백업 내보내기",
+  "settingsDataExportSubtitle": "모든 데이터 및 첨부 파일과 함께 .zip 또는 암호화된 .platrare로 저장",
+  "settingsDataImportTitle": "백업에서 복원",
+  "settingsDataImportSubtitle": "Platrare .zip 또는 .platrare 백업에서 현재 데이터 교체",
+  "backupExportDialogTitle": "이 백업을 보호하세요",
+  "backupExportDialogBody": "특히 파일을 클라우드에 저장하는 경우 강력한 비밀번호를 사용하는 것이 좋습니다. 가져오려면 동일한 비밀번호가 필요합니다.",
+  "backupExportPasswordLabel": "비밀번호",
+  "backupExportPasswordConfirmLabel": "비밀번호 확인",
+  "backupExportPasswordMismatch": "비밀번호가 일치하지 않습니다.",
+  "backupExportPasswordEmpty": "일치하는 비밀번호를 입력하거나 아래에서 암호화하지 않고 내보내세요.",
+  "backupExportPasswordTooShort": "비밀번호는 8자 이상이어야 합니다.",
+  "backupExportSaveToDevice": "장치에 저장",
+  "backupExportShareToCloud": "공유(iCloud, 드라이브…)",
+  "backupExportWithoutEncryption": "암호화하지 않고 내보내기",
+  "backupExportSkipWarningTitle": "암호화하지 않고 내보내시겠습니까?",
+  "backupExportSkipWarningBody": "파일에 액세스할 수 있는 사람은 누구나 귀하의 데이터를 읽을 수 있습니다. 귀하가 제어하는 ​​로컬 복사본에만 이 옵션을 사용하십시오.",
+  "backupExportSkipWarningConfirm": "암호화되지 않은 상태로 내보내기",
+  "backupImportPasswordTitle": "암호화된 백업",
+  "backupImportPasswordBody": "내보낼 때 사용한 비밀번호를 입력하세요.",
+  "backupImportPasswordLabel": "비밀번호",
+  "backupImportPreviewTitle": "백업 요약",
+  "backupImportPreviewVersion": "앱 버전: {version}",
   "@backupImportPreviewVersion": {
     "placeholders": {
       "version": {
@@ -399,7 +400,7 @@
       }
     }
   },
-  "backupImportPreviewExported": "Exported: {date}",
+  "backupImportPreviewExported": "내보낸 날짜: {date}",
   "@backupImportPreviewExported": {
     "placeholders": {
       "date": {
@@ -407,7 +408,7 @@
       }
     }
   },
-  "backupImportPreviewCounts": "{accounts} accounts · {transactions} transactions · {planned} planned · {attachments} attachment files · {income} income categories · {expense} expense categories",
+  "backupImportPreviewCounts": "{accounts} 계정 · {transactions} 거래 · {planned} 계획됨 · {attachments} 첨부 파일 · {income} 소득 범주 · {expense} 비용 범주",
   "@backupImportPreviewCounts": {
     "placeholders": {
       "accounts": {
@@ -430,19 +431,19 @@
       }
     }
   },
-  "backupImportPreviewContinue": "Continue",
-  "settingsBackupWrongPassword": "Wrong password",
-  "settingsBackupChecksumMismatch": "Backup failed integrity check",
-  "settingsBackupCorruptFile": "Invalid or damaged backup file",
-  "settingsBackupUnsupportedVersion": "Backup needs a newer app version",
-  "settingsDataImportConfirmTitle": "Replace current data?",
-  "settingsDataImportConfirmBody": "This will replace your current accounts, transactions, planned transactions, categories, and imported attachments with the contents of the selected backup. This action cannot be undone.",
-  "settingsDataImportConfirmAction": "Replace data",
-  "settingsDataImportDone": "Data restored successfully",
-  "settingsDataImportInvalidFile": "This file is not a valid Platrare backup",
-  "settingsDataImportFailed": "Import failed",
-  "settingsDataExportDoneTitle": "Backup exported",
-  "settingsDataExportDoneBody": "Backup saved to:\n{path}",
+  "backupImportPreviewContinue": "계속하다",
+  "settingsBackupWrongPassword": "잘못된 비밀번호",
+  "settingsBackupChecksumMismatch": "백업 무결성 검사 실패",
+  "settingsBackupCorruptFile": "유효하지 않거나 손상된 백업 파일",
+  "settingsBackupUnsupportedVersion": "백업에는 최신 앱 버전이 필요합니다.",
+  "settingsDataImportConfirmTitle": "현재 데이터를 바꾸시겠습니까?",
+  "settingsDataImportConfirmBody": "그러면 현재 계정, 거래, 계획된 거래, 카테고리 및 가져온 첨부 파일이 선택한 백업의 내용으로 대체됩니다. 이 작업은 취소할 수 없습니다.",
+  "settingsDataImportConfirmAction": "데이터 교체",
+  "settingsDataImportDone": "데이터가 성공적으로 복원되었습니다.",
+  "settingsDataImportInvalidFile": "이 파일은 유효한 Platrare 백업이 아닙니다.",
+  "settingsDataImportFailed": "가져오기 실패",
+  "settingsDataExportDoneTitle": "백업을 내보냈습니다.",
+  "settingsDataExportDoneBody": "백업 저장 위치:\n{path}",
   "@settingsDataExportDoneBody": {
     "placeholders": {
       "path": {
@@ -450,12 +451,12 @@
       }
     }
   },
-  "settingsDataOpenExportFile": "Open file",
-  "settingsDataExportFailed": "Export failed",
-  "ledgerVerifyDialogTitle": "Ledger verification",
-  "ledgerVerifyAllMatch": "All accounts match.",
-  "ledgerVerifyMismatchesTitle": "Mismatches",
-  "ledgerVerifyMismatchDetails": "{accountName}\nStored: {stored}\nReplay: {replayed}\nDifference: {diff}",
+  "settingsDataOpenExportFile": "파일 열기",
+  "settingsDataExportFailed": "내보내기 실패",
+  "ledgerVerifyDialogTitle": "원장 검증",
+  "ledgerVerifyAllMatch": "모든 계정이 일치합니다.",
+  "ledgerVerifyMismatchesTitle": "불일치",
+  "ledgerVerifyMismatchDetails": "{accountName}\n저장됨: {stored}\n재생: {replayed}\n차이점: {diff}",
   "@ledgerVerifyMismatchDetails": {
     "placeholders": {
       "accountName": {
@@ -472,51 +473,51 @@
       }
     }
   },
-  "settingsLanguage": "App language",
-  "settingsLanguageSubtitleSystem": "Following system settings",
-  "settingsLanguageSubtitleEnglish": "English",
-  "settingsLanguageSubtitleSerbianLatin": "Serbian (Latin)",
-  "settingsLanguagePickerTitle": "App language",
-  "settingsLanguageOptionSystem": "System default",
-  "settingsLanguageOptionEnglish": "English",
-  "settingsLanguageOptionSerbianLatin": "Serbian (Latin)",
-  "settingsSectionAppearance": "Appearance",
-  "settingsSectionSecurity": "Security",
-  "settingsSecurityEnableLock": "Lock app on open",
-  "settingsSecurityEnableLockSubtitle": "Require biometric unlock or PIN when app opens",
-  "settingsSecuritySetPin": "Set PIN",
-  "settingsSecurityChangePin": "Change PIN",
-  "settingsSecurityPinSubtitle": "Use a PIN as fallback if biometric is unavailable",
-  "settingsSecurityRemovePin": "Remove PIN",
-  "securitySetPinTitle": "Set app PIN",
-  "securityPinLabel": "PIN code",
-  "securityConfirmPinLabel": "Confirm PIN code",
-  "securityPinMustBe4Digits": "PIN must have at least 4 digits",
-  "securityPinMismatch": "PIN codes do not match",
-  "securityRemovePinTitle": "Remove PIN?",
-  "securityRemovePinBody": "Biometric unlock can still be used if available.",
-  "securityUnlockTitle": "App locked",
-  "securityUnlockSubtitle": "Unlock with Face ID, fingerprint, or PIN.",
-  "securityUnlockWithPin": "Unlock with PIN",
-  "securityTryBiometric": "Try biometric unlock",
-  "securityPinIncorrect": "Incorrect PIN, try again",
-  "securityBiometricReason": "Authenticate to open your app",
-  "settingsTheme": "Theme",
-  "settingsThemeSubtitleSystem": "Following system settings",
-  "settingsThemeSubtitleLight": "Light",
-  "settingsThemeSubtitleDark": "Dark",
-  "settingsThemePickerTitle": "Theme",
-  "settingsThemeOptionSystem": "System default",
-  "settingsThemeOptionLight": "Light",
-  "settingsThemeOptionDark": "Dark",
-  "archivedAccountsTitle": "Archived accounts",
-  "archivedAccountsEmptyTitle": "No archived accounts",
-  "archivedAccountsEmptyBody": "Book balance and overdraft must be zero. Archive from account options in Review.",
-  "categoriesTitle": "Categories",
-  "newCategoryTitle": "New Category",
-  "categoryNameLabel": "Category name",
-  "deleteCategoryTitle": "Delete category?",
-  "deleteCategoryBody": "\"{category}\" will be removed from the list.",
+  "settingsLanguage": "앱 언어",
+  "settingsLanguageSubtitleSystem": "다음 시스템 설정",
+  "settingsLanguageSubtitleEnglish": "영어",
+  "settingsLanguageSubtitleSerbianLatin": "세르비아어(라틴어)",
+  "settingsLanguagePickerTitle": "앱 언어",
+  "settingsLanguageOptionSystem": "시스템 기본값",
+  "settingsLanguageOptionEnglish": "영어",
+  "settingsLanguageOptionSerbianLatin": "세르비아어(라틴어)",
+  "settingsSectionAppearance": "모습",
+  "settingsSectionSecurity": "보안",
+  "settingsSecurityEnableLock": "열 때 앱 잠금",
+  "settingsSecurityEnableLockSubtitle": "앱이 열릴 때 생체 인식 잠금 해제 또는 PIN 요구",
+  "settingsSecuritySetPin": "PIN 설정",
+  "settingsSecurityChangePin": "PIN 변경",
+  "settingsSecurityPinSubtitle": "생체 인식을 사용할 수 없는 경우 대체 수단으로 PIN을 사용하세요.",
+  "settingsSecurityRemovePin": "PIN 삭제",
+  "securitySetPinTitle": "앱 PIN 설정",
+  "securityPinLabel": "핀코드",
+  "securityConfirmPinLabel": "PIN 코드 확인",
+  "securityPinMustBe4Digits": "PIN은 4자리 이상이어야 합니다.",
+  "securityPinMismatch": "PIN 코드가 일치하지 않습니다.",
+  "securityRemovePinTitle": "PIN을 삭제하시겠습니까?",
+  "securityRemovePinBody": "가능한 경우 생체 인식 잠금 해제를 계속 사용할 수 있습니다.",
+  "securityUnlockTitle": "앱이 잠겼습니다.",
+  "securityUnlockSubtitle": "Face ID, 지문 또는 PIN으로 잠금을 해제하세요.",
+  "securityUnlockWithPin": "PIN으로 잠금 해제",
+  "securityTryBiometric": "생체 인식 잠금 해제를 사용해 보세요",
+  "securityPinIncorrect": "PIN이 잘못되었습니다. 다시 시도해 주세요.",
+  "securityBiometricReason": "앱을 열려면 인증하세요.",
+  "settingsTheme": "주제",
+  "settingsThemeSubtitleSystem": "다음 시스템 설정",
+  "settingsThemeSubtitleLight": "빛",
+  "settingsThemeSubtitleDark": "어두운",
+  "settingsThemePickerTitle": "주제",
+  "settingsThemeOptionSystem": "시스템 기본값",
+  "settingsThemeOptionLight": "빛",
+  "settingsThemeOptionDark": "어두운",
+  "archivedAccountsTitle": "보관된 계정",
+  "archivedAccountsEmptyTitle": "보관된 계정 없음",
+  "archivedAccountsEmptyBody": "장부 잔액과 당좌 대월은 0이어야 합니다. 검토의 계정 옵션에서 보관하세요.",
+  "categoriesTitle": "카테고리",
+  "newCategoryTitle": "새 카테고리",
+  "categoryNameLabel": "카테고리 이름",
+  "deleteCategoryTitle": "카테고리를 삭제하시겠습니까?",
+  "deleteCategoryBody": "'{category}'이 목록에서 제거됩니다.",
   "@deleteCategoryBody": {
     "placeholders": {
       "category": {
@@ -524,18 +525,18 @@
       }
     }
   },
-  "categoryIncome": "Income",
-  "categoryExpense": "Expense",
-  "categoryAdd": "Add",
-  "searchCurrencies": "Search currencies…",
-  "period1M": "1M",
+  "categoryIncome": "소득",
+  "categoryExpense": "비용",
+  "categoryAdd": "추가하다",
+  "searchCurrencies": "통화 검색…",
+  "period1M": "100만",
   "period3M": "3M",
   "period6M": "6M",
-  "period1Y": "1Y",
-  "periodAll": "ALL",
-  "categoryLabel": "category",
-  "categoriesLabel": "categories",
-  "transactionSavedMessage": "{type} saved  •  {amount}",
+  "period1Y": "1년",
+  "periodAll": "모두",
+  "categoryLabel": "범주",
+  "categoriesLabel": "카테고리",
+  "transactionSavedMessage": "{type} 저장됨 • {amount}",
   "@transactionSavedMessage": {
     "placeholders": {
       "type": {
@@ -546,18 +547,18 @@
       }
     }
   },
-  "tooltipSettings": "Settings",
-  "tooltipAddAccount": "Add account",
-  "tooltipRemoveAccount": "Remove account",
-  "accountNameTaken": "You already have an account with this name and identifier (active or archived). Change the name or identifier.",
-  "groupDescPersonal": "Your own wallets & bank accounts",
-  "groupDescIndividuals": "Family, friends, individuals",
-  "groupDescEntities": "Entities, utilities, organisations",
-  "cannotArchiveTitle": "Cannot archive yet",
-  "cannotArchiveBody": "Archive is only available when the book balance and overdraft limit are both effectively zero.",
-  "cannotArchiveBodyAdjust": "Archive is only available when the book balance and overdraft limit are both effectively zero. Adjust the ledger or facility first.",
-  "archiveAccountTitle": "Archive account?",
-  "archiveWithPlannedBody": "{count, plural, =1{1 planned transaction references this account.} other{{count} planned transactions reference this account.}} Remove them to keep your plan consistent with an archived account.",
+  "tooltipSettings": "설정",
+  "tooltipAddAccount": "계정 추가",
+  "tooltipRemoveAccount": "계정 삭제",
+  "accountNameTaken": "이 이름과 식별자(활성 또는 보관됨)를 가진 계정이 이미 있습니다. 이름이나 식별자를 변경하세요.",
+  "groupDescPersonal": "나만의 지갑과 은행 계좌",
+  "groupDescIndividuals": "가족, 친구, 개인",
+  "groupDescEntities": "법인, 유틸리티, 조직",
+  "cannotArchiveTitle": "아직 보관할 수 없습니다.",
+  "cannotArchiveBody": "보관은 장부 잔액과 당좌 대월 한도가 모두 사실상 0인 경우에만 사용할 수 있습니다.",
+  "cannotArchiveBodyAdjust": "보관은 장부 잔액과 당좌 대월 한도가 모두 사실상 0인 경우에만 사용할 수 있습니다. 원장이나 시설을 먼저 조정하세요.",
+  "archiveAccountTitle": "계정을 보관하시겠습니까?",
+  "archiveWithPlannedBody": "{count, plural, =1{예정 거래 1건이 이 계정을 참조합니다.} other{{count}건이 이 계정을 참조하는 예정 거래가 더 있습니다.}} 보관된 계정과 계획의 일관성을 유지하려면 삭제하세요.",
   "@archiveWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -565,17 +566,17 @@
       }
     }
   },
-  "removeAndArchive": "Remove planned & archive",
-  "archiveBody": "The account will be hidden from Review, Track, and Plan pickers. You can restore it from Settings.",
-  "archiveAction": "Archive",
-  "archiveInstead": "Archive instead",
-  "cannotDeleteTitle": "Cannot delete account",
-  "cannotDeleteBodyShort": "This account appears in your Track history. Remove or reassign those transactions first, or archive the account if the balance is cleared.",
-  "cannotDeleteBodyHistory": "This account appears in your Track history. Deleting would break that history—remove or reassign those transactions first.",
-  "cannotDeleteBodySuggestArchive": "This account appears in your Track history, so it cannot be deleted. You can archive it instead if the book balance and overdraft are cleared—it will be hidden from lists but history stays intact.",
-  "deleteAccountTitle": "Delete account?",
-  "deleteAccountBodyPermanent": "This account will be removed permanently.",
-  "deleteWithPlannedBody": "{count, plural, =1{1 planned transaction references this account and will also be deleted.} other{{count} planned transactions reference this account and will also be deleted.}}",
+  "removeAndArchive": "계획된 아카이브 및 아카이브 제거",
+  "archiveBody": "검토, 추적 및 계획 선택기에서 계정이 숨겨집니다. 설정에서 복원할 수 있습니다.",
+  "archiveAction": "보관소",
+  "archiveInstead": "대신 보관처리",
+  "cannotDeleteTitle": "계정을 삭제할 수 없습니다",
+  "cannotDeleteBodyShort": "이 계정은 귀하의 운동기록에 나타납니다. 해당 거래를 먼저 제거하거나 재할당하거나, 잔액이 삭제된 경우 계정을 보관하세요.",
+  "cannotDeleteBodyHistory": "이 계정은 귀하의 운동기록에 나타납니다. 삭제하면 해당 기록이 손상됩니다. 먼저 해당 거래를 제거하거나 재할당하세요.",
+  "cannotDeleteBodySuggestArchive": "이 계정은 운동기록에 나타나므로 삭제할 수 없습니다. 장부 잔액과 당좌 대월이 삭제된 경우 대신 보관할 수 있습니다. 목록에서는 숨겨지지만 내역은 그대로 유지됩니다.",
+  "deleteAccountTitle": "계정을 삭제하시겠습니까?",
+  "deleteAccountBodyPermanent": "이 계정은 영구적으로 제거됩니다.",
+  "deleteWithPlannedBody": "{count, plural, =1{예정 거래 1건이 이 계정을 참조하며 삭제됩니다.} other{{count}건의 예정 거래가 이 계정을 참조하며 삭제됩니다.}}",
   "@deleteWithPlannedBody": {
     "placeholders": {
       "count": {
@@ -583,30 +584,30 @@
       }
     }
   },
-  "deleteAllAndDelete": "Delete all",
-  "editAccountTitle": "Edit Account",
-  "newAccountTitle": "New Account",
-  "labelAccountName": "Account name",
-  "labelAccountIdentifier": "Identifier (optional)",
-  "accountAppearanceSection": "Icon & color",
-  "accountPickIcon": "Choose icon",
-  "accountPickColor": "Choose color",
-  "accountIconSheetTitle": "Account icon",
-  "accountColorSheetTitle": "Account color",
-  "accountUseInitialLetter": "Initial letter",
-  "accountUseDefaultColor": "Match group",
-  "labelRealBalance": "Real balance",
-  "labelOverdraftLimit": "Overdraft / advance limit",
-  "labelCurrency": "Currency",
-  "saveChanges": "Save Changes",
-  "addAccountAction": "Add Account",
-  "removeAccountSheetTitle": "Remove account",
-  "deletePermanently": "Delete permanently",
-  "deletePermanentlySubtitle": "Only possible when this account is not used in Track. Planned items can be removed as part of delete.",
-  "archiveOptionSubtitle": "Hide from Review and pickers. Restore anytime from Settings. Requires zero balance and overdraft.",
-  "archivedBannerText": "This account is archived. It stays in your data but is hidden from lists and pickers.",
-  "balanceAdjustedTitle": "Balance adjusted in Track",
-  "balanceAdjustedBody": "Real balance was updated from {previous} to {current} {symbol}.\n\nA balance adjustment transaction was created in Track (History) to keep the ledger consistent.\n\n• Real balance reflects the actual amount in this account.\n• Check History for the adjustment entry.",
+  "deleteAllAndDelete": "모두 삭제",
+  "editAccountTitle": "계정 편집",
+  "newAccountTitle": "새 계정",
+  "labelAccountName": "계정 이름",
+  "labelAccountIdentifier": "식별자(선택사항)",
+  "accountAppearanceSection": "아이콘 및 색상",
+  "accountPickIcon": "아이콘 선택",
+  "accountPickColor": "색상을 선택하세요",
+  "accountIconSheetTitle": "계정 아이콘",
+  "accountColorSheetTitle": "계정 색상",
+  "accountUseInitialLetter": "첫 글자",
+  "accountUseDefaultColor": "경기 그룹",
+  "labelRealBalance": "실제 균형",
+  "labelOverdraftLimit": "당좌 대월 / 대출 한도",
+  "labelCurrency": "통화",
+  "saveChanges": "변경 사항 저장",
+  "addAccountAction": "계정 추가",
+  "removeAccountSheetTitle": "계정 삭제",
+  "deletePermanently": "영구 삭제",
+  "deletePermanentlySubtitle": "이 계정이 추적에서 사용되지 않는 경우에만 가능합니다. 계획된 항목은 삭제의 일부로 제거될 수 있습니다.",
+  "archiveOptionSubtitle": "검토 및 선택기에서 숨깁니다. 언제든지 설정에서 복원하세요. 제로 잔액과 당좌 대월이 필요합니다.",
+  "archivedBannerText": "이 계정은 보관되었습니다. 이는 데이터에 유지되지만 목록 및 선택기에서는 숨겨집니다.",
+  "balanceAdjustedTitle": "트랙에서 밸런스 조정됨",
+  "balanceAdjustedBody": "실제 잔액이 {previous}에서 {current} {symbol}로 업데이트되었습니다.\n\n원장의 일관성을 유지하기 위해 추적(내역)에 잔액 조정 거래가 생성되었습니다.\n\n• 실제 잔액은 이 계좌의 실제 금액을 반영합니다.\n• 조정 항목에 대한 기록을 확인합니다.",
   "@balanceAdjustedBody": {
     "placeholders": {
       "previous": {
@@ -620,21 +621,21 @@
       }
     }
   },
-  "ok": "OK",
-  "categoryBalanceAdjustment": "Balance adjustment",
-  "descriptionBalanceCorrection": "Balance correction",
-  "descriptionOpeningBalance": "Opening balance",
-  "reviewStatsModeStatistics": "Statistics",
-  "reviewStatsModeComparison": "Comparison",
-  "statsUncategorized": "Uncategorized",
-  "statsNoCategories": "No categories in the selected periods for comparison.",
-  "statsNoTransactions": "No transactions",
-  "statsSpendingInCategory": "Spending in this category",
-  "statsIncomeInCategory": "Income in this category",
-  "statsDifference": "Difference (B vs A): ",
-  "statsNoExpensesMonth": "No expenses this month",
-  "statsNoExpensesAll": "No expenses recorded",
-  "statsNoExpensesPeriod": "No expenses in the last {period}",
+  "ok": "좋아요",
+  "categoryBalanceAdjustment": "밸런스 조정",
+  "descriptionBalanceCorrection": "밸런스 수정",
+  "descriptionOpeningBalance": "기초 잔액",
+  "reviewStatsModeStatistics": "통계",
+  "reviewStatsModeComparison": "비교",
+  "statsUncategorized": "분류되지 않음",
+  "statsNoCategories": "선택한 기간에는 비교를 위해 카테고리가 없습니다.",
+  "statsNoTransactions": "거래 없음",
+  "statsSpendingInCategory": "이 카테고리의 지출",
+  "statsIncomeInCategory": "이 카테고리의 소득",
+  "statsDifference": "차이점(B 대 A):",
+  "statsNoExpensesMonth": "이번 달에는 지출이 없습니다",
+  "statsNoExpensesAll": "기록된 비용이 없습니다.",
+  "statsNoExpensesPeriod": "지난번에는 비용이 발생하지 않았습니다 {period}",
   "@statsNoExpensesPeriod": {
     "placeholders": {
       "period": {
@@ -642,11 +643,11 @@
       }
     }
   },
-  "statsTotalSpent": "Total spent",
-  "statsNoExpensesThisPeriod": "No expenses in this period",
-  "statsNoIncomeMonth": "No income this month",
-  "statsNoIncomeAll": "No income recorded",
-  "statsNoIncomePeriod": "No income in the last {period}",
+  "statsTotalSpent": "총 지출액",
+  "statsNoExpensesThisPeriod": "이 기간에는 비용이 발생하지 않습니다.",
+  "statsNoIncomeMonth": "이번 달에는 수입이 없습니다",
+  "statsNoIncomeAll": "소득이 기록되지 않았습니다.",
+  "statsNoIncomePeriod": "최근 수입이 없습니다 {period}",
   "@statsNoIncomePeriod": {
     "placeholders": {
       "period": {
@@ -654,40 +655,40 @@
       }
     }
   },
-  "statsTotalReceived": "Total received",
-  "statsNoIncomeThisPeriod": "No income in this period",
-  "catSalary": "Salary",
-  "catFreelance": "Freelance",
-  "catConsulting": "Consulting",
-  "catGift": "Gift",
-  "catRental": "Rental",
-  "catDividends": "Dividends",
-  "catRefund": "Refund",
-  "catBonus": "Bonus",
-  "catInterest": "Interest",
-  "catSideHustle": "Side hustle",
-  "catSaleOfGoods": "Sale of goods",
-  "catOther": "Other",
-  "catGroceries": "Groceries",
-  "catDining": "Dining",
-  "catTransport": "Transport",
-  "catUtilities": "Utilities",
-  "catHousing": "Housing",
-  "catHealthcare": "Healthcare",
-  "catEntertainment": "Entertainment",
-  "catShopping": "Shopping",
-  "catTravel": "Travel",
-  "catEducation": "Education",
-  "catSubscriptions": "Subscriptions",
-  "catInsurance": "Insurance",
-  "catFuel": "Fuel",
-  "catGym": "Gym",
-  "catPets": "Pets",
-  "catKids": "Kids",
-  "catCharity": "Charity",
-  "catCoffee": "Coffee",
-  "catGifts": "Gifts",
-  "semanticsProjectionDate": "Projection date {date}. Double tap to choose date",
+  "statsTotalReceived": "총 수령액",
+  "statsNoIncomeThisPeriod": "이 기간에는 수입이 없습니다.",
+  "catSalary": "샐러리",
+  "catFreelance": "프리랜서",
+  "catConsulting": "컨설팅",
+  "catGift": "선물",
+  "catRental": "렌탈",
+  "catDividends": "배당금",
+  "catRefund": "환불하다",
+  "catBonus": "보너스",
+  "catInterest": "관심",
+  "catSideHustle": "부업",
+  "catSaleOfGoods": "상품 판매",
+  "catOther": "다른",
+  "catGroceries": "식료 잡화류",
+  "catDining": "다이닝",
+  "catTransport": "수송",
+  "catUtilities": "유용",
+  "catHousing": "주택",
+  "catHealthcare": "헬스케어",
+  "catEntertainment": "오락",
+  "catShopping": "쇼핑",
+  "catTravel": "여행하다",
+  "catEducation": "교육",
+  "catSubscriptions": "구독",
+  "catInsurance": "보험",
+  "catFuel": "연료",
+  "catGym": "체육관",
+  "catPets": "애완동물",
+  "catKids": "어린이",
+  "catCharity": "자선 단체",
+  "catCoffee": "커피",
+  "catGifts": "선물",
+  "semanticsProjectionDate": "투사일 {date}. 날짜를 선택하려면 두 번 탭하세요.",
   "@semanticsProjectionDate": {
     "placeholders": {
       "date": {
@@ -695,7 +696,7 @@
       }
     }
   },
-  "semanticsProjectedBalance": "Projected personal balance {amount}",
+  "semanticsProjectedBalance": "예상 개인 잔액 {amount}",
   "@semanticsProjectedBalance": {
     "placeholders": {
       "amount": {
@@ -703,12 +704,12 @@
       }
     }
   },
-  "statsEmptyTitle": "No transactions yet",
-  "statsEmptySubtitle": "No spending data for the selected range.",
-  "semanticsShowProjections": "Show projected balances by account",
-  "semanticsHideProjections": "Hide projected balances by account",
-  "semanticsDateAllTime": "Date: all time — tap to change mode",
-  "semanticsDateMode": "Date: {mode} — tap to change mode",
+  "statsEmptyTitle": "아직 거래가 없습니다.",
+  "statsEmptySubtitle": "선택한 범위에 대한 지출 데이터가 없습니다.",
+  "semanticsShowProjections": "계정별 예상 잔액 표시",
+  "semanticsHideProjections": "계정별 예상 잔액 숨기기",
+  "semanticsDateAllTime": "날짜: 항상 — 모드를 변경하려면 탭하세요.",
+  "semanticsDateMode": "날짜: {mode} — 탭하여 모드 변경",
   "@semanticsDateMode": {
     "placeholders": {
       "mode": {
@@ -716,22 +717,22 @@
       }
     }
   },
-  "semanticsDateThisMonth": "Date: this month — tap for month, week, year, or all time",
-  "semanticsTxTypeCycle": "Transaction type: cycle all, income, expense, transfer",
-  "semanticsAccountFilter": "Account filter",
-  "semanticsAlreadyFiltered": "Already filtered to this account",
-  "semanticsCategoryFilter": "Category filter",
-  "semanticsSortToggle": "Sort: toggle newest or oldest first",
-  "semanticsFiltersDisabled": "List filters disabled while viewing a future projection date. Clear projections to use filters.",
-  "semanticsFiltersDisabledNeedAccount": "List filters disabled. Add an account first.",
-  "semanticsFiltersDisabledNeedPlannedTransaction": "List filters disabled. Add a planned transaction first.",
-  "semanticsFiltersDisabledNeedRecordedTransaction": "List filters disabled. Record a transaction first.",
-  "semanticsReviewSectionChipsDisabledNeedAccount": "Section and currency controls disabled. Add an account first.",
-  "semanticsPlanProjectionControlsDisabled": "Projection date and balance breakdown disabled. Add an account and a planned transaction first.",
-  "semanticsReorderAccountHint": "Long press, then drag to reorder within this group",
-  "semanticsChartStyle": "Chart style",
-  "semanticsChartStyleUnavailable": "Chart style (unavailable in comparison mode)",
-  "semanticsPeriod": "Period: {label}",
+  "semanticsDateThisMonth": "날짜: 이번 달 — 탭하여 월, 주, 연도 또는 전체 기간을 확인하세요.",
+  "semanticsTxTypeCycle": "거래형태 : 순환전체, 수입, 지출, 이체",
+  "semanticsAccountFilter": "계정 필터",
+  "semanticsAlreadyFiltered": "이 계정으로 이미 필터링되었습니다.",
+  "semanticsCategoryFilter": "카테고리 필터",
+  "semanticsSortToggle": "정렬: 최신 항목 또는 오래된 항목부터 전환",
+  "semanticsFiltersDisabled": "미래의 예상 날짜를 보는 동안 목록 필터가 비활성화되었습니다. 필터를 사용하려면 투영을 지우세요.",
+  "semanticsFiltersDisabledNeedAccount": "목록 필터가 비활성화되었습니다. 먼저 계정을 추가하세요.",
+  "semanticsFiltersDisabledNeedPlannedTransaction": "목록 필터가 비활성화되었습니다. 먼저 계획된 거래를 추가하세요.",
+  "semanticsFiltersDisabledNeedRecordedTransaction": "목록 필터가 비활성화되었습니다. 먼저 거래를 기록하세요.",
+  "semanticsReviewSectionChipsDisabledNeedAccount": "섹션 및 통화 제어가 비활성화되었습니다. 먼저 계정을 추가하세요.",
+  "semanticsPlanProjectionControlsDisabled": "예상 날짜 및 잔액 분석이 비활성화되었습니다. 먼저 계정과 계획된 거래를 추가하세요.",
+  "semanticsReorderAccountHint": "이 그룹 내에서 순서를 변경하려면 길게 누른 다음 드래그하세요.",
+  "semanticsChartStyle": "차트 스타일",
+  "semanticsChartStyleUnavailable": "차트 스타일(비교 모드에서는 사용할 수 없음)",
+  "semanticsPeriod": "기간: {label}",
   "@semanticsPeriod": {
     "placeholders": {
       "label": {
@@ -739,10 +740,10 @@
       }
     }
   },
-  "trackSearchHint": "Search description, category, account…",
-  "trackSearchClear": "Clear search",
-  "settingsExchangeRatesTitle": "Exchange rates",
-  "settingsExchangeRatesUpdated": "Last updated: {time}",
+  "trackSearchHint": "검색 설명, 카테고리, 계정…",
+  "trackSearchClear": "검색 지우기",
+  "settingsExchangeRatesTitle": "환율",
+  "settingsExchangeRatesUpdated": "최종 업데이트: {time}",
   "@settingsExchangeRatesUpdated": {
     "placeholders": {
       "time": {
@@ -750,15 +751,15 @@
       }
     }
   },
-  "settingsExchangeRatesNeverUpdated": "Using offline or bundled rates — tap to refresh",
+  "settingsExchangeRatesNeverUpdated": "오프라인 또는 묶음 요금 사용 - 새로고침하려면 탭하세요.",
   "settingsExchangeRatesSource": "ECB",
-  "settingsExchangeRatesUpdatedSnack": "Exchange rates updated",
-  "settingsExchangeRatesUpdateFailed": "Could not update exchange rates. Check your connection.",
-  "settingsClearData": "Clear data",
-  "settingsClearDataSubtitle": "Permanently remove selected data",
-  "clearDataTitle": "Clear data",
-  "clearDataTransactions": "Transaction history",
-  "clearDataTransactionsSubtitle": "{count} transactions · account balances reset to zero",
+  "settingsExchangeRatesUpdatedSnack": "환율이 업데이트되었습니다.",
+  "settingsExchangeRatesUpdateFailed": "환율을 업데이트할 수 없습니다. 연결을 확인하세요.",
+  "settingsClearData": "데이터 지우기",
+  "settingsClearDataSubtitle": "선택한 데이터를 영구적으로 제거",
+  "clearDataTitle": "데이터 지우기",
+  "clearDataTransactions": "거래 내역",
+  "clearDataTransactionsSubtitle": "{count} 거래 · 계정 잔액이 0으로 재설정됨",
   "@clearDataTransactionsSubtitle": {
     "placeholders": {
       "count": {
@@ -766,8 +767,8 @@
       }
     }
   },
-  "clearDataPlanned": "Planned transactions",
-  "clearDataPlannedSubtitle": "{count} planned items",
+  "clearDataPlanned": "계획된 거래",
+  "clearDataPlannedSubtitle": "{count} 예정상품",
   "@clearDataPlannedSubtitle": {
     "placeholders": {
       "count": {
@@ -775,8 +776,8 @@
       }
     }
   },
-  "clearDataAccounts": "Accounts",
-  "clearDataAccountsSubtitle": "{count} accounts · also clears history and plan",
+  "clearDataAccounts": "계정",
+  "clearDataAccountsSubtitle": "{count} 계정 · 기록 및 계획도 삭제",
   "@clearDataAccountsSubtitle": {
     "placeholders": {
       "count": {
@@ -784,8 +785,8 @@
       }
     }
   },
-  "clearDataCategories": "Categories",
-  "clearDataCategoriesSubtitle": "{count} categories · replaced with defaults",
+  "clearDataCategories": "카테고리",
+  "clearDataCategoriesSubtitle": "{count} 카테고리 · 기본값으로 대체됨",
   "@clearDataCategoriesSubtitle": {
     "placeholders": {
       "count": {
@@ -793,21 +794,21 @@
       }
     }
   },
-  "clearDataPreferences": "Preferences",
-  "clearDataPreferencesSubtitle": "Reset currency, theme and language to defaults",
-  "clearDataSecurity": "App lock & PIN",
-  "clearDataSecuritySubtitle": "Disable app lock and remove PIN",
-  "clearDataConfirmButton": "Clear selected",
-  "clearDataConfirmTitle": "This cannot be undone",
-  "clearDataConfirmBody": "The selected data will be permanently deleted. Export a backup first if you may need it later.",
-  "clearDataTypeConfirm": "Type DELETE to confirm",
-  "clearDataTypeConfirmError": "Type DELETE exactly to continue",
-  "clearDataPinTitle": "Confirm with PIN",
-  "clearDataPinBody": "Enter your app PIN to authorize this action.",
-  "clearDataPinIncorrect": "Incorrect PIN",
-  "clearDataDone": "Selected data cleared",
-  "autoBackupTitle": "Automatic daily backup",
-  "autoBackupLastAt": "Last backed up {date}",
+  "clearDataPreferences": "환경설정",
+  "clearDataPreferencesSubtitle": "통화, 테마, 언어를 기본값으로 재설정",
+  "clearDataSecurity": "앱 잠금 및 PIN",
+  "clearDataSecuritySubtitle": "앱 잠금을 비활성화하고 PIN을 제거합니다.",
+  "clearDataConfirmButton": "선택 항목 지우기",
+  "clearDataConfirmTitle": "이 작업은 취소할 수 없습니다.",
+  "clearDataConfirmBody": "선택한 데이터가 영구적으로 삭제됩니다. 나중에 필요할 경우 먼저 백업을 내보내십시오.",
+  "clearDataTypeConfirm": "확인하려면 DELETE를 입력하세요.",
+  "clearDataTypeConfirmError": "계속하려면 DELETE를 정확히 입력하세요.",
+  "clearDataPinTitle": "PIN으로 확인",
+  "clearDataPinBody": "이 작업을 승인하려면 앱 PIN을 입력하세요.",
+  "clearDataPinIncorrect": "잘못된 PIN",
+  "clearDataDone": "선택한 데이터가 삭제되었습니다.",
+  "autoBackupTitle": "매일 자동 백업",
+  "autoBackupLastAt": "마지막 백업 {date}",
   "@autoBackupLastAt": {
     "placeholders": {
       "date": {
@@ -815,10 +816,10 @@
       }
     }
   },
-  "autoBackupNeverRun": "No backup yet",
-  "autoBackupShareTitle": "Save to cloud",
-  "autoBackupShareSubtitle": "Upload latest backup to iCloud Drive, Google Drive or any app",
-  "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
-  "autoBackupCloudReminderAction": "Share",
-  "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
+  "autoBackupNeverRun": "아직 백업이 없습니다",
+  "autoBackupShareTitle": "클라우드에 저장",
+  "autoBackupShareSubtitle": "iCloud Drive, Google Drive 또는 모든 앱에 최신 백업 업로드",
+  "autoBackupCloudReminder": "자동 백업 준비 - 기기 외부 보호를 위해 클라우드에 저장",
+  "autoBackupCloudReminderAction": "공유",
+  "persistenceErrorReloaded": "변경사항을 저장할 수 없습니다. 데이터가 저장소에서 다시 로드되었습니다."
 }

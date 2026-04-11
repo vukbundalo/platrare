@@ -5,10 +5,15 @@ import '../theme/platrare_surfaces.dart';
 /// Shared metrics for Track / Plan / Review hero cards so top cards align in size
 /// and the vertical divider sits on the same horizontal split.
 abstract final class AppHeroConstants {
-  /// [SliverAppBar.expandedHeight] for Plan / Track / Review and account history.
+  /// [SliverAppBar.expandedHeight] for account history (still uses collapsing style).
   static const double mainSliverAppBarExpandedHeight = 210;
 
-  /// [FlexibleSpaceBar.background] padding around the hero card.
+  /// Height of the pinned hero [SliverPersistentHeader] on Track / Plan / Review.
+  /// Equals the old expanded area minus the toolbar height so cards appear identical.
+  static const double heroHeaderExtent = mainSliverAppBarExpandedHeight - kToolbarHeight;
+
+  /// Padding around the hero card (used by both the old FlexibleSpaceBar path
+  /// and the new [HeroPinnedDelegate]).
   static const EdgeInsets mainFlexibleSpaceHeroOuterPadding =
       EdgeInsets.fromLTRB(16, 0, 16, 12);
 
@@ -47,6 +52,54 @@ abstract final class AppHeroChrome {
           alpha: brightness == Brightness.dark ? 0.52 : 0.64,
         ),
       );
+}
+
+/// [SliverPersistentHeaderDelegate] that pins the hero card at a fixed height.
+///
+/// The card is bottom-aligned to mirror the previous [FlexibleSpaceBar] layout
+/// where the hero always sat at the bottom of the expanded area. A subtle
+/// bottom shadow appears once content has scrolled underneath.
+class HeroPinnedDelegate extends SliverPersistentHeaderDelegate {
+  const HeroPinnedDelegate({required this.child});
+  final Widget child;
+
+  @override
+  double get minExtent => AppHeroConstants.heroHeaderExtent;
+
+  @override
+  double get maxExtent => AppHeroConstants.heroHeaderExtent;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    final cs = Theme.of(context).colorScheme;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        boxShadow: overlapsContent
+            ? [
+                BoxShadow(
+                  color: cs.shadow.withValues(alpha: 0.10),
+                  blurRadius: 8,
+                  offset: const Offset(0, 3),
+                ),
+              ]
+            : const [],
+      ),
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: AppHeroConstants.mainFlexibleSpaceHeroOuterPadding,
+          child: child,
+        ),
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(HeroPinnedDelegate old) => true;
 }
 
 /// Filter icons in hero cards: [AppHeroChrome] backgrounds are primary-tinted

@@ -51,12 +51,11 @@ class FxService {
           await http.get(v2).timeout(const Duration(seconds: 10));
 
       Map<String, double>? apiRates;
-      DateTime? updatedAt;
 
       if (response.statusCode == 200) {
         final decoded = jsonDecode(response.body);
         if (decoded is List<dynamic>) {
-          apiRates = parseFrankfurterV2(decoded, outDataAsOf: (d) => updatedAt = d);
+          apiRates = parseFrankfurterV2(decoded, outDataAsOf: (_) {});
         }
       }
 
@@ -74,8 +73,6 @@ class FxService {
         final body = jsonDecode(legacyRes.body) as Map<String, dynamic>;
         apiRates = (body['rates'] as Map<String, dynamic>)
             .map((k, v) => MapEntry(k, (v as num).toDouble()));
-        updatedAt = DateTime.tryParse(body['date'] as String? ?? '')
-            ?.toUtc();
       }
 
       if (apiRates.isEmpty) {
@@ -83,7 +80,7 @@ class FxService {
         return;
       }
 
-      final now = updatedAt ?? DateTime.now().toUtc();
+      final now = DateTime.now().toUtc();
       _applyApiRates(apiRates);
       _lastUpdated = now;
 
@@ -159,6 +156,13 @@ class FxService {
     } catch (e) {
       debugPrint('[FxService] Cache save failed: $e');
     }
+  }
+
+  /// Clears the on-disk rate cache and resets the last-updated timestamp.
+  Future<void> clearCache() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_cacheKey);
+    _lastUpdated = null;
   }
 
   // ---------------------------------------------------------------------------
