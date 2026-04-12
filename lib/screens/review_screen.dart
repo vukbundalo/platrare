@@ -280,6 +280,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
     _scheduleReviewScrollToTopFabSync();
   }
 
+  /// PageView can lag [_activeSection] during [animateToPage]; use [page] when attached.
+  int _reviewVisiblePageIndex() {
+    if (_sectionPageController.hasClients) {
+      final p = _sectionPageController.page;
+      if (p != null) {
+        return p.round().clamp(0, _kReviewSections.length - 1);
+      }
+    }
+    return _sectionPageIndex(_activeSection);
+  }
+
   void _onReviewScrollPositionChanged() {
     if (!mounted) return;
     final hasAccounts = activeAccounts(data.accounts).isNotEmpty;
@@ -290,13 +301,32 @@ class _ReviewScreenState extends State<ReviewScreen> {
             _kReviewScrollToTopFabThreshold;
       }
     } else {
-      final i = _sectionPageIndex(_activeSection);
+      final i = _reviewVisiblePageIndex();
       if (i < _reviewPageScrollControllers.length) {
         final c = _reviewPageScrollControllers[i];
         show = c.hasClients &&
             c.offset > _kReviewScrollToTopFabThreshold;
       }
     }
+    if (show != _showReviewScrollToTopFab) {
+      setState(() => _showReviewScrollToTopFab = show);
+    }
+  }
+
+  void _maybeUpdateReviewScrollToTopFabFromNotification(Notification n) {
+    if (!mounted) return;
+    if (activeAccounts(data.accounts).isEmpty) return;
+    ScrollMetrics? metrics;
+    if (n is ScrollNotification) {
+      if (n.metrics.axis != Axis.vertical) return;
+      metrics = n.metrics;
+    } else if (n is ScrollMetricsNotification) {
+      if (n.metrics.axis != Axis.vertical) return;
+      metrics = n.metrics;
+    } else {
+      return;
+    }
+    final show = metrics.pixels > _kReviewScrollToTopFabThreshold;
     if (show != _showReviewScrollToTopFab) {
       setState(() => _showReviewScrollToTopFab = show);
     }
@@ -319,7 +349,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
       );
       return;
     }
-    final i = _sectionPageIndex(_activeSection);
+    final i = _reviewVisiblePageIndex();
     final c = _reviewPageScrollControllers[i];
     if (!c.hasClients) return;
     c.animateTo(
@@ -1207,6 +1237,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   child: NotificationListener<Notification>(
                     onNotification: (notification) {
                       _handleReviewNotificationForHeroShadow(notification);
+                      _maybeUpdateReviewScrollToTopFabFromNotification(
+                          notification);
                       return false;
                     },
                     child: PageView.builder(
