@@ -138,7 +138,7 @@ Future<List<String>> pickNewAttachmentPaths(BuildContext context) async {
       final imgs = await ImagePicker().pickMultiImage();
       return imgs.map((e) => e.path).toList();
     case AttachmentPickSource.files:
-      final result = await FilePicker.platform.pickFiles(
+      final result = await FilePicker.pickFiles(
         allowMultiple: true,
         type: FileType.any,
       );

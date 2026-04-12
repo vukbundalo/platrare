@@ -36,7 +36,9 @@ dependencies:
   uuid: ^4.5.1
   intl: ^0.20.2
   shared_preferences: ^2.5.3
-  file_picker: ^8.1.7
+  # 11.x includes the iOS FileUtils → FilePickerUtils rename (miguelpruivo/flutter_file_picker#1921).
+  # Older file_picker collided with OSAnalytics.private FileUtils → duplicate class + EXC_BAD_ACCESS on device.
+  file_picker: ^11.0.2
   open_filex: ^4.6.0
   image_picker: ^1.1.2
   http: ^1.3.0

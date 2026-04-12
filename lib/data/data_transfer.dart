@@ -120,7 +120,7 @@ class DataTransfer {
         encrypt ? null : const <String>['zip'];
 
     if (Platform.isAndroid || Platform.isIOS) {
-      return FilePicker.platform.saveFile(
+      return FilePicker.saveFile(
         dialogTitle: 'Export backup',
         fileName: name,
         type: saveType,
@@ -129,7 +129,7 @@ class DataTransfer {
       );
     }
 
-    final path = await FilePicker.platform.saveFile(
+    final path = await FilePicker.saveFile(
       dialogTitle: 'Export backup',
       fileName: name,
       type: saveType,
@@ -282,7 +282,7 @@ class DataTransfer {
   /// disabled in the document picker. [prepareImport] still accepts only
   /// valid ZIP or `PLTR` encrypted payloads.
   static Future<Uint8List?> pickBackupFileBytes() async {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFiles(
       allowMultiple: false,
       type: FileType.any,
       withData: true,
