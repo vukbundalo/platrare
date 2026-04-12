@@ -116,6 +116,40 @@ DateTime _halfYearStartContaining(DateTime d) =>
   return _boundsHalfYearContaining(y, h == 1 ? 1 : 7);
 }
 
+/// Compare-mode data for Review statistics (built lazily with the stats page).
+class _ReviewCompareRows {
+  final List<String> compareExpenseCategoryKeys;
+  final List<String> compareIncomeCategoryKeys;
+  final String? effectiveCompareExpenseCategory;
+  final String? effectiveCompareIncomeCategory;
+  final List<MapEntry<String, ({double total, int count})>> compareExpenseA;
+  final List<MapEntry<String, ({double total, int count})>> compareExpenseB;
+  final List<MapEntry<String, ({double total, int count})>> compareIncomeA;
+  final List<MapEntry<String, ({double total, int count})>> compareIncomeB;
+
+  const _ReviewCompareRows._({
+    required this.compareExpenseCategoryKeys,
+    required this.compareIncomeCategoryKeys,
+    required this.effectiveCompareExpenseCategory,
+    required this.effectiveCompareIncomeCategory,
+    required this.compareExpenseA,
+    required this.compareExpenseB,
+    required this.compareIncomeA,
+    required this.compareIncomeB,
+  });
+
+  static const _ReviewCompareRows empty = _ReviewCompareRows._(
+    compareExpenseCategoryKeys: [],
+    compareIncomeCategoryKeys: [],
+    effectiveCompareExpenseCategory: null,
+    effectiveCompareIncomeCategory: null,
+    compareExpenseA: [],
+    compareExpenseB: [],
+    compareIncomeA: [],
+    compareIncomeB: [],
+  );
+}
+
 class ReviewScreen extends StatefulWidget {
   final VoidCallback? onChanged;
   const ReviewScreen({super.key, this.onChanged});
@@ -145,6 +179,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
   String? _compareCategoryExpense;
   String? _compareCategoryIncome;
 
+  static const List<String> _kReviewSections = [
+    'personal',
+    'individuals',
+    'entities',
+    'statistics',
+  ];
+
+  late final PageController _sectionPageController;
+
   @override
   void initState() {
     super.initState();
@@ -153,6 +196,48 @@ class _ReviewScreenState extends State<ReviewScreen> {
     _compareMonthA = now.month == 1
         ? DateTime(now.year - 1, 12, 1)
         : DateTime(now.year, now.month - 1, 1);
+    _sectionPageController = PageController(
+      initialPage: _kReviewSections.indexOf(_activeSection).clamp(0, 3),
+    );
+  }
+
+  @override
+  void dispose() {
+    _sectionPageController.dispose();
+    super.dispose();
+  }
+
+  int _sectionPageIndex(String section) {
+    final i = _kReviewSections.indexOf(section);
+    return i < 0 ? 0 : i;
+  }
+
+  void _onReviewSectionPageChanged(int index) {
+    if (index < 0 || index >= _kReviewSections.length) return;
+    final section = _kReviewSections[index];
+    setState(() {
+      _activeSection = section;
+      if (section == 'statistics' && _activeStats == null) {
+        _activeStats = 'expense';
+      }
+    });
+  }
+
+  void _selectReviewSection(String section) {
+    final i = _sectionPageIndex(section);
+    setState(() {
+      _activeSection = section;
+      if (section == 'statistics' && _activeStats == null) {
+        _activeStats = 'expense';
+      }
+    });
+    if (_sectionPageController.hasClients) {
+      _sectionPageController.animateToPage(
+        i,
+        duration: const Duration(milliseconds: 280),
+        curve: Curves.easeOutCubic,
+      );
+    }
   }
 
   DateTime get _compareEarliestMonth {
@@ -436,6 +521,285 @@ class _ReviewScreenState extends State<ReviewScreen> {
     }
   }
 
+  _ReviewCompareRows _reviewCompareRows() {
+    if (!_compareMode || data.transactions.isEmpty) {
+      return _ReviewCompareRows.empty;
+    }
+    final ba = _compareBounds(_compareMonthA);
+    final bb = _compareBounds(_compareMonthB);
+    final ma = _categorySpendingInRange(ba.start, ba.end);
+    final mb = _categorySpendingInRange(bb.start, bb.end);
+    final mLife = _categorySpendingInRange(null, null);
+    final compareExpenseCategoryKeys =
+        _orderedCategoryKeysForCompare(ma, mb, mLife);
+    final effectiveCompareExpenseCategory = _pickCompareCategoryKey(
+        compareExpenseCategoryKeys, _compareCategoryExpense);
+
+    final ia = _categoryIncomeInRange(ba.start, ba.end);
+    final ib = _categoryIncomeInRange(bb.start, bb.end);
+    final iLife = _categoryIncomeInRange(null, null);
+    final compareIncomeCategoryKeys =
+        _orderedCategoryKeysForCompare(ia, ib, iLife);
+    final effectiveCompareIncomeCategory = _pickCompareCategoryKey(
+        compareIncomeCategoryKeys, _compareCategoryIncome);
+
+    final sk = effectiveCompareExpenseCategory;
+    final compareExpenseA = sk != null
+        ? <MapEntry<String, ({double total, int count})>>[
+            MapEntry(sk, ma[sk] ?? (total: 0.0, count: 0)),
+          ]
+        : <MapEntry<String, ({double total, int count})>>[];
+    final compareExpenseB = sk != null
+        ? <MapEntry<String, ({double total, int count})>>[
+            MapEntry(sk, mb[sk] ?? (total: 0.0, count: 0)),
+          ]
+        : <MapEntry<String, ({double total, int count})>>[];
+
+    final ik = effectiveCompareIncomeCategory;
+    final compareIncomeA = ik != null
+        ? <MapEntry<String, ({double total, int count})>>[
+            MapEntry(ik, ia[ik] ?? (total: 0.0, count: 0)),
+          ]
+        : <MapEntry<String, ({double total, int count})>>[];
+    final compareIncomeB = ik != null
+        ? <MapEntry<String, ({double total, int count})>>[
+            MapEntry(ik, ib[ik] ?? (total: 0.0, count: 0)),
+          ]
+        : <MapEntry<String, ({double total, int count})>>[];
+
+    return _ReviewCompareRows._(
+      compareExpenseCategoryKeys: compareExpenseCategoryKeys,
+      compareIncomeCategoryKeys: compareIncomeCategoryKeys,
+      effectiveCompareExpenseCategory: effectiveCompareExpenseCategory,
+      effectiveCompareIncomeCategory: effectiveCompareIncomeCategory,
+      compareExpenseA: compareExpenseA,
+      compareExpenseB: compareExpenseB,
+      compareIncomeA: compareIncomeA,
+      compareIncomeB: compareIncomeB,
+    );
+  }
+
+  List<Widget> _reviewAccountSectionSlivers(
+    BuildContext context,
+    AccountGroup group,
+    List<Account> accounts,
+  ) {
+    if (accounts.isNotEmpty) {
+      return [
+        SliverToBoxAdapter(
+          child: _SectionLabel(l10nAccountSectionTitle(context, group)),
+        ),
+        SliverReorderableList(
+          itemCount: accounts.length,
+          onReorder: (oldIndex, newIndex) =>
+              _onReorderAccounts(accounts, oldIndex, newIndex),
+          itemBuilder: (context, index) {
+            final a = accounts[index];
+            return _AccountCard(
+              key: ValueKey(a.id),
+              account: a,
+              displayCurrency: _displayCurrency,
+              onTap: () => _openAccountTransactions(a),
+              reorderListIndex: index,
+            );
+          },
+        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 4)),
+      ];
+    }
+    return [
+      SliverFillRemaining(
+        hasScrollBody: false,
+        child: _EmptyAccountGroupHint(
+          group: group,
+          onAdd: _addAccount,
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> _reviewStatisticsSlivers(BuildContext context, ColorScheme cs) {
+    final statsTab = _activeStats ?? 'expense';
+    final cmp = _reviewCompareRows();
+    final compareExpenseA = cmp.compareExpenseA;
+    final compareExpenseB = cmp.compareExpenseB;
+    final compareIncomeA = cmp.compareIncomeA;
+    final compareIncomeB = cmp.compareIncomeB;
+    final effectiveCompareExpenseCategory = cmp.effectiveCompareExpenseCategory;
+    final effectiveCompareIncomeCategory = cmp.effectiveCompareIncomeCategory;
+
+    return [
+      SliverPadding(
+        padding: const EdgeInsets.only(bottom: 40),
+        sliver: SliverList(
+          delegate: SliverChildListDelegate([
+            if (data.transactions.isEmpty) const ReviewStatsEmptyState(),
+            if (data.transactions.isNotEmpty) ...[
+              _StatsHeader(
+                activeStats: statsTab,
+                onSelectStats: (s) => setState(() {
+                  _activeStats = s;
+                }),
+                periodLabel: _periodLabel(context),
+                spendingMonths: _spendingMonths,
+                dateRangeLabel: _dateRangeLabel(context),
+                onCyclePeriod: _cyclePeriod,
+                canNavigateForward: _dateOffset > 0,
+                onNavigateBack: _navigateBack,
+                onNavigateForward: _navigateForward,
+                vizMode: _vizMode,
+                onCycleViz: _cycleViz,
+                compareMode: _compareMode,
+                onToggleCompare: () => setState(() {
+                  if (_compareMode) {
+                    _compareMode = false;
+                  } else {
+                    _compareMode = true;
+                    if (_spendingMonths == 0) {
+                      _spendingMonths = 1;
+                    }
+                  }
+                }),
+                compareCategoryKeys: _compareMode
+                    ? (statsTab == 'expense'
+                        ? cmp.compareExpenseCategoryKeys
+                        : cmp.compareIncomeCategoryKeys)
+                    : const [],
+                compareSelectedCategory: _compareMode
+                    ? (statsTab == 'expense'
+                        ? effectiveCompareExpenseCategory
+                        : effectiveCompareIncomeCategory)
+                    : null,
+                onCompareCategoryChanged: _compareMode
+                    ? (String v) => setState(() {
+                          if (statsTab == 'expense') {
+                            _compareCategoryExpense = v;
+                          } else {
+                            _compareCategoryIncome = v;
+                          }
+                        })
+                    : null,
+              ),
+              if (statsTab == 'expense' &&
+                  _compareMode &&
+                  effectiveCompareExpenseCategory != null &&
+                  compareExpenseA.isNotEmpty &&
+                  compareExpenseB.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, left: 16, right: 16),
+                  child: _CompareCategoryAmountsPanel(
+                    colorScheme: cs,
+                    categoryName: effectiveCompareExpenseCategory,
+                    semanticLabelA:
+                        _compareRangeLabel(context, _compareMonthA),
+                    semanticLabelB:
+                        _compareRangeLabel(context, _compareMonthB),
+                    dateRangeLabelA: _compareMiniNavRangeLabel(
+                        context, _compareMonthA),
+                    dateRangeLabelB: _compareMiniNavRangeLabel(
+                        context, _compareMonthB),
+                    canBackA: _compareCanNavigateBackFor(_compareMonthA),
+                    canForwardA:
+                        _compareCanNavigateForwardFor(_compareMonthA),
+                    canBackB: _compareCanNavigateBackFor(_compareMonthB),
+                    canForwardB:
+                        _compareCanNavigateForwardFor(_compareMonthB),
+                    onBackA: _compareNavigateBackA,
+                    onForwardA: _compareNavigateForwardA,
+                    onBackB: _compareNavigateBackB,
+                    onForwardB: _compareNavigateForwardB,
+                    amountABase: compareExpenseA.first.value.total,
+                    amountBBase: compareExpenseB.first.value.total,
+                    countA: compareExpenseA.first.value.count,
+                    countB: compareExpenseB.first.value.count,
+                    displayCurrency: _displayCurrency,
+                    isExpense: true,
+                  ),
+                ),
+              if (statsTab == 'expense' && !_compareMode)
+                _SpendingBody(
+                  spending: _categorySpending,
+                  periodLabel: _periodLabel(context),
+                  spendingMonths: _spendingMonths,
+                  vizMode: _vizMode,
+                  displayCurrency: _displayCurrency,
+                ),
+              if (statsTab == 'income' &&
+                  _compareMode &&
+                  effectiveCompareIncomeCategory != null &&
+                  compareIncomeA.isNotEmpty &&
+                  compareIncomeB.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, left: 16, right: 16),
+                  child: _CompareCategoryAmountsPanel(
+                    colorScheme: cs,
+                    categoryName: effectiveCompareIncomeCategory,
+                    semanticLabelA:
+                        _compareRangeLabel(context, _compareMonthA),
+                    semanticLabelB:
+                        _compareRangeLabel(context, _compareMonthB),
+                    dateRangeLabelA: _compareMiniNavRangeLabel(
+                        context, _compareMonthA),
+                    dateRangeLabelB: _compareMiniNavRangeLabel(
+                        context, _compareMonthB),
+                    canBackA: _compareCanNavigateBackFor(_compareMonthA),
+                    canForwardA:
+                        _compareCanNavigateForwardFor(_compareMonthA),
+                    canBackB: _compareCanNavigateBackFor(_compareMonthB),
+                    canForwardB:
+                        _compareCanNavigateForwardFor(_compareMonthB),
+                    onBackA: _compareNavigateBackA,
+                    onForwardA: _compareNavigateForwardA,
+                    onBackB: _compareNavigateBackB,
+                    onForwardB: _compareNavigateForwardB,
+                    amountABase: compareIncomeA.first.value.total,
+                    amountBBase: compareIncomeB.first.value.total,
+                    countA: compareIncomeA.first.value.count,
+                    countB: compareIncomeB.first.value.count,
+                    displayCurrency: _displayCurrency,
+                    isExpense: false,
+                  ),
+                ),
+              if (statsTab == 'income' && !_compareMode)
+                _IncomeBody(
+                  income: _categoryIncome,
+                  periodLabel: _periodLabel(context),
+                  spendingMonths: _spendingMonths,
+                  vizMode: _vizMode,
+                  displayCurrency: _displayCurrency,
+                ),
+            ],
+          ]),
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> _reviewSectionPageSlivers(
+    BuildContext context,
+    ColorScheme cs,
+    String section,
+    List<Account> personal,
+    List<Account> individuals,
+    List<Account> entities,
+  ) {
+    switch (section) {
+      case 'personal':
+        return _reviewAccountSectionSlivers(
+            context, AccountGroup.personal, personal);
+      case 'individuals':
+        return _reviewAccountSectionSlivers(
+            context, AccountGroup.individuals, individuals);
+      case 'entities':
+        return _reviewAccountSectionSlivers(
+            context, AccountGroup.entities, entities);
+      case 'statistics':
+        return _reviewStatisticsSlivers(context, cs);
+      default:
+        return const [SliverToBoxAdapter(child: SizedBox.shrink())];
+    }
+  }
+
   // ── Computed values ────────────────────────────────────────────────────────
 
   // Rule 5: multiply CURRENT native balances by CURRENT live rates.
@@ -538,71 +902,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
     final entities = visibleAccounts
         .where((a) => a.group == AccountGroup.entities)
         .toList();
-    // Spent vs received: always one selected; fallback avoids empty body if unset.
-    final statsTab = _activeStats ?? 'expense';
-
-    List<MapEntry<String, ({double total, int count})>>? compareExpenseRowsA;
-    List<MapEntry<String, ({double total, int count})>>? compareExpenseRowsB;
-    List<MapEntry<String, ({double total, int count})>>? compareIncomeRowsA;
-    List<MapEntry<String, ({double total, int count})>>? compareIncomeRowsB;
-
-    var compareExpenseCategoryKeys = const <String>[];
-    var compareIncomeCategoryKeys = const <String>[];
-    String? effectiveCompareExpenseCategory;
-    String? effectiveCompareIncomeCategory;
-
-    if (_activeSection == 'statistics' &&
-        _compareMode &&
-        data.transactions.isNotEmpty) {
-      final ba = _compareBounds(_compareMonthA);
-      final bb = _compareBounds(_compareMonthB);
-      final ma = _categorySpendingInRange(ba.start, ba.end);
-      final mb = _categorySpendingInRange(bb.start, bb.end);
-      final mLife = _categorySpendingInRange(null, null);
-      compareExpenseCategoryKeys =
-          _orderedCategoryKeysForCompare(ma, mb, mLife);
-      effectiveCompareExpenseCategory = _pickCompareCategoryKey(
-          compareExpenseCategoryKeys, _compareCategoryExpense);
-
-      final ia = _categoryIncomeInRange(ba.start, ba.end);
-      final ib = _categoryIncomeInRange(bb.start, bb.end);
-      final iLife = _categoryIncomeInRange(null, null);
-      compareIncomeCategoryKeys =
-          _orderedCategoryKeysForCompare(ia, ib, iLife);
-      effectiveCompareIncomeCategory = _pickCompareCategoryKey(
-          compareIncomeCategoryKeys, _compareCategoryIncome);
-
-      final sk = effectiveCompareExpenseCategory;
-      if (sk != null) {
-        compareExpenseRowsA = [
-          MapEntry(sk, ma[sk] ?? (total: 0.0, count: 0)),
-        ];
-        compareExpenseRowsB = [
-          MapEntry(sk, mb[sk] ?? (total: 0.0, count: 0)),
-        ];
-      } else {
-        compareExpenseRowsA = [];
-        compareExpenseRowsB = [];
-      }
-
-      final ik = effectiveCompareIncomeCategory;
-      if (ik != null) {
-        compareIncomeRowsA = [
-          MapEntry(ik, ia[ik] ?? (total: 0.0, count: 0)),
-        ];
-        compareIncomeRowsB = [
-          MapEntry(ik, ib[ik] ?? (total: 0.0, count: 0)),
-        ];
-      } else {
-        compareIncomeRowsA = [];
-        compareIncomeRowsB = [];
-      }
-    }
-
-    final compareExpenseA = compareExpenseRowsA;
-    final compareExpenseB = compareExpenseRowsB;
-    final compareIncomeA = compareIncomeRowsA;
-    final compareIncomeB = compareIncomeRowsB;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -623,332 +922,174 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   tooltip: l10n.tooltipAddAccount,
                   child: const Icon(Icons.add_rounded),
                 ),
-      body: CustomScrollView(
-        slivers: [
-          // ── App bar with net worth ────────────────────────────────────────
-          SliverAppBar(
-            pinned: true,
-            backgroundColor: Colors.transparent,
-            surfaceTintColor: Colors.transparent,
-            scrolledUnderElevation: 0,
-            title: Text(l10n.navReview),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.settings_outlined),
-                tooltip: l10n.tooltipSettings,
-                onPressed: () async {
-                  final prevSecondary = settings.secondaryCurrency;
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const SettingsScreen()),
-                  );
-                  if (mounted) {
-                    setState(() {
-                      if (_displayCurrency == prevSecondary) {
-                        _displayCurrency = settings.secondaryCurrency;
-                      }
-                      final validCurrencies = [settings.secondaryCurrency, settings.baseCurrency];
-                      if (!validCurrencies.contains(_displayCurrency)) {
-                        _displayCurrency = settings.baseCurrency;
-                      }
-                    });
-                    // Rebuild Track and Plan screens too so their
-                    // base-currency totals/symbols update immediately.
-                    widget.onChanged?.call();
-                  }
-                },
-              ),
-            ],
-          ),
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: HeroPinnedDelegate(
-              child: _NetWorthHero(
-                personal: _personalTotal,
-                net: _netTotal,
-                displayCurrency: _displayCurrency,
-                sectionChipsEnabled: visibleAccounts.isNotEmpty,
-                activeSection: _activeSection,
-                onSelectSection: (s) => setState(() {
-                  _activeSection = s;
-                  if (s == 'statistics' && _activeStats == null) {
-                    _activeStats = 'expense';
-                  }
-                }),
-                onToggleCurrency: () => setState(() {
-                  _displayCurrency =
-                      _displayCurrency == settings.baseCurrency
-                          ? settings.secondaryCurrency
-                          : settings.baseCurrency;
-                }),
-              ),
-            ),
-          ),
-
-          if (visibleAccounts.isEmpty)
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: _EmptyAccountsHint(onAdd: _addAccount),
-            )
-          else ...[
-            if (_activeSection == 'personal' && personal.isNotEmpty) ...[
-              SliverToBoxAdapter(
-                child: _SectionLabel(
-                    l10nAccountSectionTitle(context, AccountGroup.personal)),
-              ),
-              SliverReorderableList(
-                itemCount: personal.length,
-                onReorder: (oldIndex, newIndex) => _onReorderAccounts(
-                  personal,
-                  oldIndex,
-                  newIndex,
-                ),
-                itemBuilder: (context, index) {
-                  final a = personal[index];
-                  return _AccountCard(
-                    key: ValueKey(a.id),
-                    account: a,
-                    displayCurrency: _displayCurrency,
-                    onTap: () => _openAccountTransactions(a),
-                    reorderListIndex: index,
-                  );
-                },
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 4)),
-            ],
-            if (_activeSection == 'personal' && personal.isEmpty)
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: _EmptyAccountGroupHint(
-                  group: AccountGroup.personal,
-                  onAdd: _addAccount,
-                ),
-              ),
-            if (_activeSection == 'individuals' && individuals.isNotEmpty) ...[
-              SliverToBoxAdapter(
-                child: _SectionLabel(l10nAccountSectionTitle(
-                    context, AccountGroup.individuals)),
-              ),
-              SliverReorderableList(
-                itemCount: individuals.length,
-                onReorder: (oldIndex, newIndex) => _onReorderAccounts(
-                  individuals,
-                  oldIndex,
-                  newIndex,
-                ),
-                itemBuilder: (context, index) {
-                  final a = individuals[index];
-                  return _AccountCard(
-                    key: ValueKey(a.id),
-                    account: a,
-                    displayCurrency: _displayCurrency,
-                    onTap: () => _openAccountTransactions(a),
-                    reorderListIndex: index,
-                  );
-                },
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 4)),
-            ],
-            if (_activeSection == 'individuals' && individuals.isEmpty)
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: _EmptyAccountGroupHint(
-                  group: AccountGroup.individuals,
-                  onAdd: _addAccount,
-                ),
-              ),
-            if (_activeSection == 'entities' && entities.isNotEmpty) ...[
-              SliverToBoxAdapter(
-                child: _SectionLabel(
-                    l10nAccountSectionTitle(context, AccountGroup.entities)),
-              ),
-              SliverReorderableList(
-                itemCount: entities.length,
-                onReorder: (oldIndex, newIndex) => _onReorderAccounts(
-                  entities,
-                  oldIndex,
-                  newIndex,
-                ),
-                itemBuilder: (context, index) {
-                  final a = entities[index];
-                  return _AccountCard(
-                    key: ValueKey(a.id),
-                    account: a,
-                    displayCurrency: _displayCurrency,
-                    onTap: () => _openAccountTransactions(a),
-                    reorderListIndex: index,
-                  );
-                },
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 4)),
-            ],
-            if (_activeSection == 'entities' && entities.isEmpty)
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: _EmptyAccountGroupHint(
-                  group: AccountGroup.entities,
-                  onAdd: _addAccount,
-                ),
-              ),
-            SliverPadding(
-              padding: const EdgeInsets.only(bottom: 40),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  // ── Statistics ────────────────────────────────────────────
-                  if (_activeSection == 'statistics' && data.transactions.isEmpty) ...[
-                    const ReviewStatsEmptyState(),
-                  ],
-                  if (_activeSection == 'statistics' && data.transactions.isNotEmpty) ...[
-                    _StatsHeader(
-                      activeStats: statsTab,
-                      onSelectStats: (s) => setState(() {
-                        // Always keep exactly one of expense/income selected.
-                        _activeStats = s;
-                      }),
-                      periodLabel: _periodLabel(context),
-                      spendingMonths: _spendingMonths,
-                      dateRangeLabel: _dateRangeLabel(context),
-                      onCyclePeriod: _cyclePeriod,
-                      canNavigateForward: _dateOffset > 0,
-                      onNavigateBack: _navigateBack,
-                      onNavigateForward: _navigateForward,
-                      vizMode: _vizMode,
-                      onCycleViz: _cycleViz,
-                      compareMode: _compareMode,
-                      onToggleCompare: () => setState(() {
-                        if (_compareMode) {
-                          _compareMode = false;
-                        } else {
-                          _compareMode = true;
-                          if (_spendingMonths == 0) {
-                            _spendingMonths = 1;
-                          }
+      body: visibleAccounts.isEmpty
+          ? CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  pinned: true,
+                  backgroundColor: Colors.transparent,
+                  surfaceTintColor: Colors.transparent,
+                  scrolledUnderElevation: 0,
+                  title: Text(l10n.navReview),
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.settings_outlined),
+                      tooltip: l10n.tooltipSettings,
+                      onPressed: () async {
+                        final prevSecondary = settings.secondaryCurrency;
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const SettingsScreen()),
+                        );
+                        if (mounted) {
+                          setState(() {
+                            if (_displayCurrency == prevSecondary) {
+                              _displayCurrency = settings.secondaryCurrency;
+                            }
+                            final validCurrencies = [
+                              settings.secondaryCurrency,
+                              settings.baseCurrency
+                            ];
+                            if (!validCurrencies.contains(_displayCurrency)) {
+                              _displayCurrency = settings.baseCurrency;
+                            }
+                          });
+                          widget.onChanged?.call();
                         }
-                      }),
-                      compareCategoryKeys: _compareMode
-                          ? (statsTab == 'expense'
-                              ? compareExpenseCategoryKeys
-                              : compareIncomeCategoryKeys)
-                          : const [],
-                      compareSelectedCategory: _compareMode
-                          ? (statsTab == 'expense'
-                              ? effectiveCompareExpenseCategory
-                              : effectiveCompareIncomeCategory)
-                          : null,
-                      onCompareCategoryChanged: _compareMode
-                          ? (String v) => setState(() {
-                                if (statsTab == 'expense') {
-                                  _compareCategoryExpense = v;
-                                } else {
-                                  _compareCategoryIncome = v;
-                                }
-                              })
-                          : null,
+                      },
                     ),
-                    if (statsTab == 'expense' &&
-                        _compareMode &&
-                        effectiveCompareExpenseCategory != null &&
-                        compareExpenseA != null &&
-                        compareExpenseA.isNotEmpty &&
-                        compareExpenseB != null &&
-                        compareExpenseB.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10, left: 16, right: 16),
-                        child: _CompareCategoryAmountsPanel(
-                          colorScheme: cs,
-                          categoryName: effectiveCompareExpenseCategory,
-                          semanticLabelA:
-                              _compareRangeLabel(context, _compareMonthA),
-                          semanticLabelB:
-                              _compareRangeLabel(context, _compareMonthB),
-                          dateRangeLabelA:
-                              _compareMiniNavRangeLabel(
-                                  context, _compareMonthA),
-                          dateRangeLabelB:
-                              _compareMiniNavRangeLabel(
-                                  context, _compareMonthB),
-                          canBackA: _compareCanNavigateBackFor(_compareMonthA),
-                          canForwardA:
-                              _compareCanNavigateForwardFor(_compareMonthA),
-                          canBackB: _compareCanNavigateBackFor(_compareMonthB),
-                          canForwardB:
-                              _compareCanNavigateForwardFor(_compareMonthB),
-                          onBackA: _compareNavigateBackA,
-                          onForwardA: _compareNavigateForwardA,
-                          onBackB: _compareNavigateBackB,
-                          onForwardB: _compareNavigateForwardB,
-                          amountABase: compareExpenseA.first.value.total,
-                          amountBBase: compareExpenseB.first.value.total,
-                          countA: compareExpenseA.first.value.count,
-                          countB: compareExpenseB.first.value.count,
-                          displayCurrency: _displayCurrency,
-                          isExpense: true,
-                        ),
-                      ),
-                    if (statsTab == 'expense' && !_compareMode)
-                      _SpendingBody(
-                        spending: _categorySpending,
-                        periodLabel: _periodLabel(context),
-                        spendingMonths: _spendingMonths,
-                        vizMode: _vizMode,
-                        displayCurrency: _displayCurrency,
-                      ),
-                    if (statsTab == 'income' &&
-                        _compareMode &&
-                        effectiveCompareIncomeCategory != null &&
-                        compareIncomeA != null &&
-                        compareIncomeA.isNotEmpty &&
-                        compareIncomeB != null &&
-                        compareIncomeB.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10, left: 16, right: 16),
-                        child: _CompareCategoryAmountsPanel(
-                          colorScheme: cs,
-                          categoryName: effectiveCompareIncomeCategory,
-                          semanticLabelA:
-                              _compareRangeLabel(context, _compareMonthA),
-                          semanticLabelB:
-                              _compareRangeLabel(context, _compareMonthB),
-                          dateRangeLabelA:
-                              _compareMiniNavRangeLabel(
-                                  context, _compareMonthA),
-                          dateRangeLabelB:
-                              _compareMiniNavRangeLabel(
-                                  context, _compareMonthB),
-                          canBackA: _compareCanNavigateBackFor(_compareMonthA),
-                          canForwardA:
-                              _compareCanNavigateForwardFor(_compareMonthA),
-                          canBackB: _compareCanNavigateBackFor(_compareMonthB),
-                          canForwardB:
-                              _compareCanNavigateForwardFor(_compareMonthB),
-                          onBackA: _compareNavigateBackA,
-                          onForwardA: _compareNavigateForwardA,
-                          onBackB: _compareNavigateBackB,
-                          onForwardB: _compareNavigateForwardB,
-                          amountABase: compareIncomeA.first.value.total,
-                          amountBBase: compareIncomeB.first.value.total,
-                          countA: compareIncomeA.first.value.count,
-                          countB: compareIncomeB.first.value.count,
-                          displayCurrency: _displayCurrency,
-                          isExpense: false,
-                        ),
-                      ),
-                    if (statsTab == 'income' && !_compareMode)
-                      _IncomeBody(
-                        income: _categoryIncome,
-                        periodLabel: _periodLabel(context),
-                        spendingMonths: _spendingMonths,
-                        vizMode: _vizMode,
-                        displayCurrency: _displayCurrency,
-                      ),
                   ],
-                ]),
+                ),
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: HeroPinnedDelegate(
+                    child: _NetWorthHero(
+                      personal: _personalTotal,
+                      net: _netTotal,
+                      displayCurrency: _displayCurrency,
+                      sectionChipsEnabled: false,
+                      activeSection: _activeSection,
+                      onSelectSection: _selectReviewSection,
+                      onToggleCurrency: () => setState(() {
+                        _displayCurrency =
+                            _displayCurrency == settings.baseCurrency
+                                ? settings.secondaryCurrency
+                                : settings.baseCurrency;
+                      }),
+                    ),
+                  ),
+                ),
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: _EmptyAccountsHint(onAdd: _addAccount),
+                ),
+              ],
+            )
+          : NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  SliverOverlapAbsorber(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context),
+                    sliver: SliverMainAxisGroup(
+                      slivers: [
+                        SliverAppBar(
+                          pinned: true,
+                          backgroundColor: Colors.transparent,
+                          surfaceTintColor: Colors.transparent,
+                          scrolledUnderElevation: 0,
+                          title: Text(l10n.navReview),
+                          actions: [
+                            IconButton(
+                              icon: const Icon(Icons.settings_outlined),
+                              tooltip: l10n.tooltipSettings,
+                              onPressed: () async {
+                                final prevSecondary =
+                                    settings.secondaryCurrency;
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) =>
+                                          const SettingsScreen()),
+                                );
+                                if (mounted) {
+                                  setState(() {
+                                    if (_displayCurrency == prevSecondary) {
+                                      _displayCurrency =
+                                          settings.secondaryCurrency;
+                                    }
+                                    final validCurrencies = [
+                                      settings.secondaryCurrency,
+                                      settings.baseCurrency
+                                    ];
+                                    if (!validCurrencies
+                                        .contains(_displayCurrency)) {
+                                      _displayCurrency = settings.baseCurrency;
+                                    }
+                                  });
+                                  widget.onChanged?.call();
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                        SliverPersistentHeader(
+                          pinned: true,
+                          delegate: HeroPinnedDelegate(
+                            child: _NetWorthHero(
+                              personal: _personalTotal,
+                              net: _netTotal,
+                              displayCurrency: _displayCurrency,
+                              sectionChipsEnabled: true,
+                              activeSection: _activeSection,
+                              onSelectSection: _selectReviewSection,
+                              onToggleCurrency: () => setState(() {
+                                _displayCurrency =
+                                    _displayCurrency == settings.baseCurrency
+                                        ? settings.secondaryCurrency
+                                        : settings.baseCurrency;
+                              }),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ];
+              },
+              body: PageView.builder(
+                controller: _sectionPageController,
+                onPageChanged: _onReviewSectionPageChanged,
+                itemCount: _kReviewSections.length,
+                itemBuilder: (context, index) {
+                  final section = _kReviewSections[index];
+                  return Builder(
+                    builder: (context) {
+                      return CustomScrollView(
+                        key: PageStorageKey<String>('review_section_$section'),
+                        slivers: [
+                          SliverOverlapInjector(
+                            handle:
+                                NestedScrollView.sliverOverlapAbsorberHandleFor(
+                                    context),
+                          ),
+                          ..._reviewSectionPageSlivers(
+                            context,
+                            cs,
+                            section,
+                            personal,
+                            individuals,
+                            entities,
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
               ),
             ),
-          ],
-        ],
-      ),
     );
   }
 }
