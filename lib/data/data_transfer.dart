@@ -192,10 +192,13 @@ class DataTransfer {
 
     final mimeType = encrypt ? 'application/octet-stream' : 'application/zip';
     debugPrint('[Backup:Export] Opening share sheet — mime: $mimeType');
-    await Share.shareXFiles(
-      [XFile(tmpFile.path, mimeType: mimeType, name: name)],
-      subject: name,
-      sharePositionOrigin: sharePositionOrigin,
+    await SharePlus.instance.share(
+      ShareParams(
+        files: [XFile(tmpFile.path, mimeType: mimeType, name: name)],
+        subject: name,
+        title: name,
+        sharePositionOrigin: sharePositionOrigin,
+      ),
     );
     debugPrint('[Backup:Export] Share sheet dismissed');
   }
