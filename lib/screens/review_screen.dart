@@ -989,72 +989,71 @@ class _ReviewScreenState extends State<ReviewScreen> {
           : NestedScrollView(
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
+                // Do not wrap these in [SliverMainAxisGroup]: pinned slivers
+                // inside that group pin only within the group's scroll extent, so
+                // the hero scrolls away with content. Separate header slivers
+                // match Track/Plan (single CustomScrollView) pinning behavior.
                 return [
                   SliverOverlapAbsorber(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                         context),
-                    sliver: SliverMainAxisGroup(
-                      slivers: [
-                        SliverAppBar(
-                          pinned: true,
-                          backgroundColor: Colors.transparent,
-                          surfaceTintColor: Colors.transparent,
-                          scrolledUnderElevation: 0,
-                          title: Text(l10n.navReview),
-                          actions: [
-                            IconButton(
-                              icon: const Icon(Icons.settings_outlined),
-                              tooltip: l10n.tooltipSettings,
-                              onPressed: () async {
-                                final prevSecondary =
-                                    settings.secondaryCurrency;
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) =>
-                                          const SettingsScreen()),
-                                );
-                                if (mounted) {
-                                  setState(() {
-                                    if (_displayCurrency == prevSecondary) {
-                                      _displayCurrency =
-                                          settings.secondaryCurrency;
-                                    }
-                                    final validCurrencies = [
-                                      settings.secondaryCurrency,
-                                      settings.baseCurrency
-                                    ];
-                                    if (!validCurrencies
-                                        .contains(_displayCurrency)) {
-                                      _displayCurrency = settings.baseCurrency;
-                                    }
-                                  });
-                                  widget.onChanged?.call();
+                    sliver: SliverAppBar(
+                      pinned: true,
+                      backgroundColor: Colors.transparent,
+                      surfaceTintColor: Colors.transparent,
+                      scrolledUnderElevation: 0,
+                      forceElevated: innerBoxIsScrolled,
+                      title: Text(l10n.navReview),
+                      actions: [
+                        IconButton(
+                          icon: const Icon(Icons.settings_outlined),
+                          tooltip: l10n.tooltipSettings,
+                          onPressed: () async {
+                            final prevSecondary = settings.secondaryCurrency;
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const SettingsScreen()),
+                            );
+                            if (mounted) {
+                              setState(() {
+                                if (_displayCurrency == prevSecondary) {
+                                  _displayCurrency =
+                                      settings.secondaryCurrency;
                                 }
-                              },
-                            ),
-                          ],
-                        ),
-                        SliverPersistentHeader(
-                          pinned: true,
-                          delegate: HeroPinnedDelegate(
-                            child: _NetWorthHero(
-                              personal: _personalTotal,
-                              net: _netTotal,
-                              displayCurrency: _displayCurrency,
-                              sectionChipsEnabled: true,
-                              activeSection: _activeSection,
-                              onSelectSection: _selectReviewSection,
-                              onToggleCurrency: () => setState(() {
-                                _displayCurrency =
-                                    _displayCurrency == settings.baseCurrency
-                                        ? settings.secondaryCurrency
-                                        : settings.baseCurrency;
-                              }),
-                            ),
-                          ),
+                                final validCurrencies = [
+                                  settings.secondaryCurrency,
+                                  settings.baseCurrency
+                                ];
+                                if (!validCurrencies
+                                    .contains(_displayCurrency)) {
+                                  _displayCurrency = settings.baseCurrency;
+                                }
+                              });
+                              widget.onChanged?.call();
+                            }
+                          },
                         ),
                       ],
+                    ),
+                  ),
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: HeroPinnedDelegate(
+                      child: _NetWorthHero(
+                        personal: _personalTotal,
+                        net: _netTotal,
+                        displayCurrency: _displayCurrency,
+                        sectionChipsEnabled: true,
+                        activeSection: _activeSection,
+                        onSelectSection: _selectReviewSection,
+                        onToggleCurrency: () => setState(() {
+                          _displayCurrency =
+                              _displayCurrency == settings.baseCurrency
+                                  ? settings.secondaryCurrency
+                                  : settings.baseCurrency;
+                        }),
+                      ),
                     ),
                   ),
                 ];
