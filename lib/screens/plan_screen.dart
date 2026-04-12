@@ -298,6 +298,7 @@ class _PlanScreenState extends State<PlanScreen> {
   void _planFabReset() {
     if (_isFutureProjection) {
       _clearProjectionToToday();
+      _scheduleSyncPlanScrollToTopFab();
       return;
     }
     setState(() {
@@ -315,6 +316,15 @@ class _PlanScreenState extends State<PlanScreen> {
         _planSearchQuery = '';
         _planSearchController.clear();
       }
+    });
+    _scheduleSyncPlanScrollToTopFab();
+  }
+
+  /// After list height / scroll extent changes without a user scroll (e.g. reset
+  /// filters), [ScrollController] listeners may not run; recompute FAB visibility.
+  void _scheduleSyncPlanScrollToTopFab() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _syncPlanScrollToTopFab();
     });
   }
 
@@ -383,10 +393,21 @@ class _PlanScreenState extends State<PlanScreen> {
 
   void _onPlanScrollControllerChanged() {
     _onPlanScrollLoadMoreDays();
-    if (!_planScrollController.hasClients) return;
-    final show =
-        _planScrollController.offset > _kPlanScrollToTopFabThreshold;
-    if (show != _showPlanScrollToTopFab && mounted) {
+    _syncPlanScrollToTopFab();
+  }
+
+  void _syncPlanScrollToTopFab() {
+    if (!mounted) return;
+    if (!_planScrollController.hasClients) {
+      if (_showPlanScrollToTopFab) {
+        setState(() => _showPlanScrollToTopFab = false);
+      }
+      return;
+    }
+    final pos = _planScrollController.position;
+    if (!pos.hasPixels) return;
+    final show = pos.pixels > _kPlanScrollToTopFabThreshold;
+    if (show != _showPlanScrollToTopFab) {
       setState(() => _showPlanScrollToTopFab = show);
     }
   }
@@ -949,9 +970,16 @@ class _PlanScreenState extends State<PlanScreen> {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: CustomScrollView(
-        controller: _planScrollController,
-        slivers: [
+      body: NotificationListener<ScrollMetricsNotification>(
+        onNotification: (ScrollMetricsNotification n) {
+          if (n.metrics.axis == Axis.vertical) {
+            _scheduleSyncPlanScrollToTopFab();
+          }
+          return false;
+        },
+        child: CustomScrollView(
+          controller: _planScrollController,
+          slivers: [
           SliverAppBar(
             pinned: true,
             backgroundColor: Colors.transparent,
@@ -1179,6 +1207,7 @@ class _PlanScreenState extends State<PlanScreen> {
               (_isFutureProjection || _detailExpanded))
             const SliverToBoxAdapter(child: SizedBox(height: 88)),
         ],
+        ),
       ),
       floatingActionButton: fab,
     );
