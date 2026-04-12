@@ -1172,7 +1172,9 @@ class _PlanScreenState extends State<PlanScreen> {
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 4)),
             ],
-            const SliverToBoxAdapter(child: SizedBox(height: 8)),
+            SliverToBoxAdapter(
+              child: SizedBox(height: stackedFabScrollBottomInset(context)),
+            ),
           ],
           if (!_isFutureProjection && !_detailExpanded)
             if (displayPlanned.isEmpty)
@@ -1203,9 +1205,6 @@ class _PlanScreenState extends State<PlanScreen> {
                 onEdit: _edit,
                 onTap: _openPlannedDetail,
               ),
-          if (planHeroInteractive &&
-              (_isFutureProjection || _detailExpanded))
-            const SliverToBoxAdapter(child: SizedBox(height: 88)),
         ],
         ),
       ),
@@ -1725,7 +1724,7 @@ class _PlanTimeline extends StatelessWidget {
     final grouped = bundle.grouped;
 
     return SliverPadding(
-      padding: const EdgeInsets.only(bottom: 100),
+      padding: EdgeInsets.only(bottom: stackedFabScrollBottomInset(context)),
       sliver: SliverList.builder(
         itemCount: n,
         itemBuilder: (ctx, i) {

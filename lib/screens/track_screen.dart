@@ -959,7 +959,9 @@ class _TrackScreenState extends State<TrackScreen> {
             ),
           ),
 
-          const SliverToBoxAdapter(child: SizedBox(height: 80)),
+          SliverToBoxAdapter(
+            child: SizedBox(height: stackedFabScrollBottomInset(context)),
+          ),
         ],
       ],
     );

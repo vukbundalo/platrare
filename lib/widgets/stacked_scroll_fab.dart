@@ -1,5 +1,19 @@
 import 'package:flutter/material.dart';
 
+/// Bottom space for scroll views whose [Scaffold] shows a floating action button
+/// (e.g. [StackedScrollFab] with scroll-to-top + main FAB) so the last item is
+/// not covered when scrolled to the end.
+double stackedFabScrollBottomInset(BuildContext context) {
+  final safe = MediaQuery.paddingOf(context).bottom;
+  // Scaffold FAB margin + stacked column (small 40 + gap + regular 56) + clearance.
+  const margin = 16.0;
+  const smallFab = 40.0;
+  const gap = 12.0;
+  const mainFab = 56.0;
+  const clearance = 12.0;
+  return margin + smallFab + gap + mainFab + margin + clearance + safe;
+}
+
 /// Stacks a small “scroll to top” [FloatingActionButton.small] above [mainFab]
 /// when [showScrollToTop] is true. Use distinct [scrollHeroTag] per screen.
 ///

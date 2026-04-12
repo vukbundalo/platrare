@@ -14,6 +14,7 @@ import '../utils/fx.dart' as fx;
 import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
 import '../widgets/app_hero_layout.dart';
+import '../widgets/stacked_scroll_fab.dart';
 import '../widgets/track_plan_filter_ui.dart';
 import 'new_transaction_screen.dart';
 import 'review/account_form_widgets.dart' show AccountFormScreen;
@@ -547,7 +548,9 @@ class _AccountTransactionsScreenState
                 childCount: visibleDayCount,
               ),
             ),
-            const SliverToBoxAdapter(child: SizedBox(height: 80)),
+            SliverToBoxAdapter(
+              child: SizedBox(height: stackedFabScrollBottomInset(context)),
+            ),
           ],
         ],
       ),
