@@ -1040,6 +1040,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   SliverPersistentHeader(
                     pinned: true,
                     delegate: HeroPinnedDelegate(
+                      showOverlapShadow: false,
                       child: _NetWorthHero(
                         personal: _personalTotal,
                         net: _netTotal,

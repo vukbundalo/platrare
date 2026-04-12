@@ -59,9 +59,17 @@ abstract final class AppHeroChrome {
 /// The card is bottom-aligned to mirror the previous [FlexibleSpaceBar] layout
 /// where the hero always sat at the bottom of the expanded area. A subtle
 /// bottom shadow appears once content has scrolled underneath.
+///
+/// [showOverlapShadow]: when false, the bottom shadow is never drawn. Use this
+/// for [NestedScrollView] headers where [overlapsContent] stays true because of
+/// [SliverOverlapInjector] even when nothing has visibly scrolled under the hero.
 class HeroPinnedDelegate extends SliverPersistentHeaderDelegate {
-  const HeroPinnedDelegate({required this.child});
+  const HeroPinnedDelegate({
+    required this.child,
+    this.showOverlapShadow = true,
+  });
   final Widget child;
+  final bool showOverlapShadow;
 
   @override
   double get minExtent => AppHeroConstants.heroHeaderExtent;
@@ -76,9 +84,11 @@ class HeroPinnedDelegate extends SliverPersistentHeaderDelegate {
     bool overlapsContent,
   ) {
     final cs = Theme.of(context).colorScheme;
+    final drawOverlapShadow =
+        showOverlapShadow && overlapsContent;
     return DecoratedBox(
       decoration: BoxDecoration(
-        boxShadow: overlapsContent
+        boxShadow: drawOverlapShadow
             ? [
                 BoxShadow(
                   color: cs.shadow.withValues(alpha: 0.10),
@@ -99,7 +109,8 @@ class HeroPinnedDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  bool shouldRebuild(HeroPinnedDelegate old) => true;
+  bool shouldRebuild(HeroPinnedDelegate old) =>
+      old.child != child || old.showOverlapShadow != showOverlapShadow;
 }
 
 /// Filter icons in hero cards: [AppHeroChrome] backgrounds are primary-tinted
