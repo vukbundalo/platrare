@@ -188,6 +188,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   late final PageController _sectionPageController;
 
+  /// Drives hero bottom shadow under [NestedScrollView] (real scroll offset).
+  final ValueNotifier<bool> _reviewHeroOverlapShadow = ValueNotifier(false);
+
+  late final List<GlobalKey> _reviewSectionScrollProbeKeys =
+      List<GlobalKey>.generate(_kReviewSections.length, (_) => GlobalKey());
+
+  static const double _kReviewHeroOverlapShadowPixels = 1.0;
+
   @override
   void initState() {
     super.initState();
@@ -199,10 +207,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
     _sectionPageController = PageController(
       initialPage: _kReviewSections.indexOf(_activeSection).clamp(0, 3),
     );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _scheduleReviewHeroOverlapShadowSyncForPage(
+          _sectionPageIndex(_activeSection));
+    });
   }
 
   @override
   void dispose() {
+    _reviewHeroOverlapShadow.dispose();
     _sectionPageController.dispose();
     super.dispose();
   }
@@ -221,6 +235,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
         _activeStats = 'expense';
       }
     });
+    _scheduleReviewHeroOverlapShadowSyncForPage(index);
   }
 
   void _selectReviewSection(String section) {
@@ -238,6 +253,53 @@ class _ReviewScreenState extends State<ReviewScreen> {
         curve: Curves.easeOutCubic,
       );
     }
+    _scheduleReviewHeroOverlapShadowSyncForPage(i);
+  }
+
+  void _setReviewHeroOverlapShadow(bool value) {
+    if (_reviewHeroOverlapShadow.value != value) {
+      _reviewHeroOverlapShadow.value = value;
+    }
+  }
+
+  /// Vertical scroll from section [PageView] pages only (not outer header).
+  void _handleReviewNotificationForHeroShadow(Notification n) {
+    if (n is ScrollNotification) {
+      _applyReviewShadowFromScrollContext(
+        n.context,
+        n.metrics.axis,
+        n.metrics.pixels,
+      );
+    } else if (n is ScrollMetricsNotification) {
+      _applyReviewShadowFromScrollContext(
+        n.context,
+        n.metrics.axis,
+        n.metrics.pixels,
+      );
+    }
+  }
+
+  void _applyReviewShadowFromScrollContext(
+    BuildContext? ctx,
+    Axis axis,
+    double pixels,
+  ) {
+    if (ctx == null || axis != Axis.vertical) return;
+    if (ctx.findAncestorWidgetOfExactType<PageView>() == null) return;
+    _setReviewHeroOverlapShadow(pixels > _kReviewHeroOverlapShadowPixels);
+  }
+
+  void _scheduleReviewHeroOverlapShadowSyncForPage(int index) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (index < 0 || index >= _reviewSectionScrollProbeKeys.length) return;
+      final probeCtx = _reviewSectionScrollProbeKeys[index].currentContext;
+      if (probeCtx == null) return;
+      final position = Scrollable.maybeOf(probeCtx)?.position;
+      if (position == null || position.axis != Axis.vertical) return;
+      _setReviewHeroOverlapShadow(
+          position.pixels > _kReviewHeroOverlapShadowPixels);
+    });
   }
 
   DateTime get _compareEarliestMonth {
@@ -1040,7 +1102,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   SliverPersistentHeader(
                     pinned: true,
                     delegate: HeroPinnedDelegate(
-                      showOverlapShadow: false,
+                      overlapShadowListenable: _reviewHeroOverlapShadow,
                       child: _NetWorthHero(
                         personal: _personalTotal,
                         net: _netTotal,
@@ -1059,35 +1121,46 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   ),
                 ];
               },
-              body: PageView.builder(
-                controller: _sectionPageController,
-                onPageChanged: _onReviewSectionPageChanged,
-                itemCount: _kReviewSections.length,
-                itemBuilder: (context, index) {
-                  final section = _kReviewSections[index];
-                  return Builder(
-                    builder: (context) {
-                      return CustomScrollView(
-                        key: PageStorageKey<String>('review_section_$section'),
-                        slivers: [
-                          SliverOverlapInjector(
-                            handle:
-                                NestedScrollView.sliverOverlapAbsorberHandleFor(
-                                    context),
-                          ),
-                          ..._reviewSectionPageSlivers(
-                            context,
-                            cs,
-                            section,
-                            personal,
-                            individuals,
-                            entities,
-                          ),
-                        ],
-                      );
-                    },
-                  );
+              body: NotificationListener<Notification>(
+                onNotification: (notification) {
+                  _handleReviewNotificationForHeroShadow(notification);
+                  return false;
                 },
+                child: PageView.builder(
+                  controller: _sectionPageController,
+                  onPageChanged: _onReviewSectionPageChanged,
+                  itemCount: _kReviewSections.length,
+                  itemBuilder: (context, index) {
+                    final section = _kReviewSections[index];
+                    return Builder(
+                      builder: (context) {
+                        return CustomScrollView(
+                          key: PageStorageKey<String>('review_section_$section'),
+                          slivers: [
+                            SliverOverlapInjector(
+                              handle: NestedScrollView
+                                  .sliverOverlapAbsorberHandleFor(context),
+                            ),
+                            SliverToBoxAdapter(
+                              child: KeyedSubtree(
+                                key: _reviewSectionScrollProbeKeys[index],
+                                child: const SizedBox.shrink(),
+                              ),
+                            ),
+                            ..._reviewSectionPageSlivers(
+                              context,
+                              cs,
+                              section,
+                              personal,
+                              individuals,
+                              entities,
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
             ),
     );

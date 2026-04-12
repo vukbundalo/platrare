@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/platrare_surfaces.dart';
@@ -60,16 +61,19 @@ abstract final class AppHeroChrome {
 /// where the hero always sat at the bottom of the expanded area. A subtle
 /// bottom shadow appears once content has scrolled underneath.
 ///
-/// [showOverlapShadow]: when false, the bottom shadow is never drawn. Use this
-/// for [NestedScrollView] headers where [overlapsContent] stays true because of
-/// [SliverOverlapInjector] even when nothing has visibly scrolled under the hero.
+/// By default the shadow follows [overlapsContent] (Track / Plan). For
+/// [NestedScrollView] + [SliverOverlapInjector], that flag is often stuck true;
+/// pass [overlapShadowListenable] so the parent can drive shadow from the real
+/// inner scroll offset (e.g. Review screen).
 class HeroPinnedDelegate extends SliverPersistentHeaderDelegate {
   const HeroPinnedDelegate({
     required this.child,
     this.showOverlapShadow = true,
+    this.overlapShadowListenable,
   });
   final Widget child;
   final bool showOverlapShadow;
+  final ValueListenable<bool>? overlapShadowListenable;
 
   @override
   double get minExtent => AppHeroConstants.heroHeaderExtent;
@@ -84,33 +88,45 @@ class HeroPinnedDelegate extends SliverPersistentHeaderDelegate {
     bool overlapsContent,
   ) {
     final cs = Theme.of(context).colorScheme;
-    final drawOverlapShadow =
-        showOverlapShadow && overlapsContent;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        boxShadow: drawOverlapShadow
-            ? [
-                BoxShadow(
-                  color: cs.shadow.withValues(alpha: 0.10),
-                  blurRadius: 8,
-                  offset: const Offset(0, 3),
-                ),
-              ]
-            : const [],
-      ),
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Padding(
-          padding: AppHeroConstants.mainFlexibleSpaceHeroOuterPadding,
-          child: child,
+
+    Widget decorated(bool drawOverlapShadow) {
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          boxShadow: showOverlapShadow && drawOverlapShadow
+              ? [
+                  BoxShadow(
+                    color: cs.shadow.withValues(alpha: 0.10),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ]
+              : const [],
         ),
-      ),
-    );
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: AppHeroConstants.mainFlexibleSpaceHeroOuterPadding,
+            child: child,
+          ),
+        ),
+      );
+    }
+
+    final listenable = overlapShadowListenable;
+    if (listenable != null) {
+      return ListenableBuilder(
+        listenable: listenable,
+        builder: (context, _) => decorated(listenable.value),
+      );
+    }
+    return decorated(overlapsContent);
   }
 
   @override
   bool shouldRebuild(HeroPinnedDelegate old) =>
-      old.child != child || old.showOverlapShadow != showOverlapShadow;
+      old.child != child ||
+      old.showOverlapShadow != showOverlapShadow ||
+      old.overlapShadowListenable != overlapShadowListenable;
 }
 
 /// Filter icons in hero cards: [AppHeroChrome] backgrounds are primary-tinted
