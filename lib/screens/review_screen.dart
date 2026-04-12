@@ -1048,125 +1048,144 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 ),
               ],
             )
-          : NestedScrollView(
-              // Match Track/Plan: avoid rubber-band scrolling when content fits.
-              // NestedScrollView + iOS bouncing otherwise feels like extra vertical
-              // scroll even though maxScrollExtent is 0 for short lists.
-              physics: const ClampingScrollPhysics(),
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                // Do not wrap these in [SliverMainAxisGroup]: pinned slivers
-                // inside that group pin only within the group's scroll extent, so
-                // the hero scrolls away with content. Separate header slivers
-                // match Track/Plan (single CustomScrollView) pinning behavior.
-                return [
-                  SliverOverlapAbsorber(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        context),
-                    sliver: SliverAppBar(
-                      pinned: true,
-                      backgroundColor: Colors.transparent,
-                      surfaceTintColor: Colors.transparent,
-                      scrolledUnderElevation: 0,
-                      forceElevated: innerBoxIsScrolled,
-                      title: Text(l10n.navReview),
-                      actions: [
-                        IconButton(
-                          icon: const Icon(Icons.settings_outlined),
-                          tooltip: l10n.tooltipSettings,
-                          onPressed: () async {
-                            final prevSecondary = settings.secondaryCurrency;
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const SettingsScreen()),
-                            );
-                            if (mounted) {
-                              setState(() {
-                                if (_displayCurrency == prevSecondary) {
-                                  _displayCurrency =
-                                      settings.secondaryCurrency;
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Fixed chrome (no NestedScrollView / overlap injector): those
+                // inject a scrollExtent equal to the absorbed toolbar overlap, so
+                // users could always drag by ~that height even when lists fit.
+                ValueListenableBuilder<bool>(
+                  valueListenable: _reviewHeroOverlapShadow,
+                  builder: (context, contentScrolledUnder, _) {
+                    final headerCs = Theme.of(context).colorScheme;
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AppBar(
+                          backgroundColor: Colors.transparent,
+                          surfaceTintColor: Colors.transparent,
+                          scrolledUnderElevation: 0,
+                          elevation: 0,
+                          forceMaterialTransparency: true,
+                          title: Text(l10n.navReview),
+                          actions: [
+                            IconButton(
+                              icon: const Icon(Icons.settings_outlined),
+                              tooltip: l10n.tooltipSettings,
+                              onPressed: () async {
+                                final prevSecondary =
+                                    settings.secondaryCurrency;
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) =>
+                                          const SettingsScreen()),
+                                );
+                                if (mounted) {
+                                  setState(() {
+                                    if (_displayCurrency == prevSecondary) {
+                                      _displayCurrency =
+                                          settings.secondaryCurrency;
+                                    }
+                                    final validCurrencies = [
+                                      settings.secondaryCurrency,
+                                      settings.baseCurrency
+                                    ];
+                                    if (!validCurrencies
+                                        .contains(_displayCurrency)) {
+                                      _displayCurrency = settings.baseCurrency;
+                                    }
+                                  });
+                                  widget.onChanged?.call();
                                 }
-                                final validCurrencies = [
-                                  settings.secondaryCurrency,
-                                  settings.baseCurrency
-                                ];
-                                if (!validCurrencies
-                                    .contains(_displayCurrency)) {
-                                  _displayCurrency = settings.baseCurrency;
-                                }
-                              });
-                              widget.onChanged?.call();
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  SliverPersistentHeader(
-                    pinned: true,
-                    delegate: HeroPinnedDelegate(
-                      overlapShadowListenable: _reviewHeroOverlapShadow,
-                      child: _NetWorthHero(
-                        personal: _personalTotal,
-                        net: _netTotal,
-                        displayCurrency: _displayCurrency,
-                        sectionChipsEnabled: true,
-                        activeSection: _activeSection,
-                        onSelectSection: _selectReviewSection,
-                        onToggleCurrency: () => setState(() {
-                          _displayCurrency =
-                              _displayCurrency == settings.baseCurrency
-                                  ? settings.secondaryCurrency
-                                  : settings.baseCurrency;
-                        }),
-                      ),
-                    ),
-                  ),
-                ];
-              },
-              body: NotificationListener<Notification>(
-                onNotification: (notification) {
-                  _handleReviewNotificationForHeroShadow(notification);
-                  return false;
-                },
-                child: PageView.builder(
-                  controller: _sectionPageController,
-                  onPageChanged: _onReviewSectionPageChanged,
-                  itemCount: _kReviewSections.length,
-                  itemBuilder: (context, index) {
-                    final section = _kReviewSections[index];
-                    return Builder(
-                      builder: (context) {
-                        return CustomScrollView(
-                          key: PageStorageKey<String>('review_section_$section'),
-                          physics: const ClampingScrollPhysics(),
-                          slivers: [
-                            SliverOverlapInjector(
-                              handle: NestedScrollView
-                                  .sliverOverlapAbsorberHandleFor(context),
-                            ),
-                            SliverToBoxAdapter(
-                              child: KeyedSubtree(
-                                key: _reviewSectionScrollProbeKeys[index],
-                                child: const SizedBox.shrink(),
-                              ),
-                            ),
-                            ..._reviewSectionPageSlivers(
-                              context,
-                              cs,
-                              section,
-                              personal,
-                              individuals,
-                              entities,
+                              },
                             ),
                           ],
-                        );
-                      },
+                        ),
+                        SizedBox(
+                          height: AppHeroConstants.heroHeaderExtent,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              boxShadow: contentScrolledUnder
+                                  ? [
+                                      BoxShadow(
+                                        color: headerCs.shadow
+                                            .withValues(alpha: 0.10),
+                                        blurRadius: 8,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ]
+                                  : const [],
+                            ),
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                padding: AppHeroConstants
+                                    .mainFlexibleSpaceHeroOuterPadding,
+                                child: _NetWorthHero(
+                                  personal: _personalTotal,
+                                  net: _netTotal,
+                                  displayCurrency: _displayCurrency,
+                                  sectionChipsEnabled: true,
+                                  activeSection: _activeSection,
+                                  onSelectSection: _selectReviewSection,
+                                  onToggleCurrency: () => setState(() {
+                                    _displayCurrency =
+                                        _displayCurrency ==
+                                                settings.baseCurrency
+                                            ? settings.secondaryCurrency
+                                            : settings.baseCurrency;
+                                  }),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
-              ),
+                Expanded(
+                  child: NotificationListener<Notification>(
+                    onNotification: (notification) {
+                      _handleReviewNotificationForHeroShadow(notification);
+                      return false;
+                    },
+                    child: PageView.builder(
+                      controller: _sectionPageController,
+                      onPageChanged: _onReviewSectionPageChanged,
+                      itemCount: _kReviewSections.length,
+                      itemBuilder: (context, index) {
+                        final section = _kReviewSections[index];
+                        return Builder(
+                          builder: (context) {
+                            return CustomScrollView(
+                              key: PageStorageKey<String>(
+                                  'review_section_$section'),
+                              slivers: [
+                                SliverToBoxAdapter(
+                                  child: KeyedSubtree(
+                                    key: _reviewSectionScrollProbeKeys[index],
+                                    child: const SizedBox.shrink(),
+                                  ),
+                                ),
+                                ..._reviewSectionPageSlivers(
+                                  context,
+                                  cs,
+                                  section,
+                                  personal,
+                                  individuals,
+                                  entities,
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
     );
   }
