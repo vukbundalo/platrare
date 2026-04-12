@@ -7,6 +7,7 @@ import 'data/currency_prefs.dart';
 import 'data/local/platrare_database.dart';
 import 'data/fx_service.dart';
 import 'data/locale_prefs.dart';
+import 'data/navigation_prefs.dart';
 import 'data/security_prefs.dart';
 import 'data/theme_prefs.dart';
 import 'l10n/app_localizations.dart' show AppLocalizations;
@@ -40,10 +41,11 @@ Future<void> main() async {
     debugPrint('[FX Test] ${fx.runFxLogicTest()}');
     return true;
   }());
+  final initialMainTabIndex = await loadLastMainTabIndex();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
-  runApp(const PlatrareApp());
+  runApp(PlatrareApp(initialMainTabIndex: initialMainTabIndex));
 }
 
 Future<void> _initDateFormattingForLocales() async {
@@ -67,7 +69,10 @@ Future<void> _initDateFormattingForLocales() async {
 }
 
 class PlatrareApp extends StatelessWidget {
-  const PlatrareApp({super.key});
+  const PlatrareApp({super.key, this.initialMainTabIndex = 0});
+
+  /// Restored from [loadLastMainTabIndex] before [runApp].
+  final int initialMainTabIndex;
 
   /// Match [deviceLocale] to a supported locale, or null if no match.
   static Locale? _tryMatchLocale(
@@ -150,7 +155,9 @@ class PlatrareApp extends StatelessWidget {
                 }
                 return _resolveLocale(null, supported);
               },
-              home: const AppLockGate(child: HomePage()),
+              home: AppLockGate(
+                child: HomePage(initialTabIndex: initialMainTabIndex),
+              ),
             );
           },
         );
@@ -161,19 +168,23 @@ class PlatrareApp extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, this.initialTabIndex = 0});
+
+  /// 0 = Plan, 1 = Track, 2 = Review (from [loadLastMainTabIndex] on cold start).
+  final int initialTabIndex;
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
-  /// 0 = Plan, 1 = Track, 2 = Review — default Plan on cold start.
-  int _currentIndex = 0;
+  /// 0 = Plan, 1 = Track, 2 = Review.
+  late int _currentIndex;
 
   @override
   void initState() {
     super.initState();
+    _currentIndex = widget.initialTabIndex.clamp(0, 2);
     WidgetsBinding.instance.addObserver(this);
     // Run backup check on cold start (data is already loaded).
     _runAutoBackup();
@@ -189,6 +200,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       _runAutoBackup();
+    } else if (state == AppLifecycleState.paused) {
+      saveLastMainTabIndex(_currentIndex);
     }
   }
 
@@ -225,7 +238,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         ),
         child: NavigationBar(
           selectedIndex: _currentIndex,
-          onDestinationSelected: (i) => setState(() => _currentIndex = i),
+          onDestinationSelected: (i) {
+            setState(() => _currentIndex = i);
+            saveLastMainTabIndex(i);
+          },
           destinations: [
             NavigationDestination(
               icon: const Icon(Icons.event_note_outlined),

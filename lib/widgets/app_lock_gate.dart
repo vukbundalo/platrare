@@ -129,10 +129,29 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    if (_isUnlocked || !appSecurityEnabled.value) {
-      return widget.child;
-    }
+    return ValueListenableBuilder<bool>(
+      valueListenable: appSecurityEnabled,
+      builder: (context, securityEnabled, _) {
+        final showLock = securityEnabled && !_isUnlocked;
+        return Stack(
+          fit: StackFit.expand,
+          clipBehavior: Clip.none,
+          children: [
+            AbsorbPointer(
+              absorbing: showLock,
+              child: ExcludeSemantics(
+                excluding: showLock,
+                child: widget.child,
+              ),
+            ),
+            if (showLock) Positioned.fill(child: _buildLockLayer(context)),
+          ],
+        );
+      },
+    );
+  }
 
+  Widget _buildLockLayer(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final brightness = Theme.of(context).brightness;
