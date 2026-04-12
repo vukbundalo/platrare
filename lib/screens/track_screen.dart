@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
+import '../data/balance_privacy_prefs.dart';
 import '../data/data_repository.dart';
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
@@ -1012,85 +1013,128 @@ class _TrackHero extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
     final brightness = Theme.of(context).brightness;
     final lc = context.ledgerColors;
+    final l10n = AppLocalizations.of(context);
     final sym = fx.currencySymbol(settings.baseCurrency);
+    final inStr = '+${totalIn.toStringAsFixed(2)} $sym';
+    final outStr = '-${totalOut.toStringAsFixed(2)} $sym';
+    final inStyle = TextStyle(
+      fontSize: AppHeroConstants.primaryAmountFontSize,
+      fontWeight: FontWeight.w800,
+      color: lc.positive,
+      letterSpacing: -1,
+    );
+    final outStyle = TextStyle(
+      fontSize: AppHeroConstants.secondaryAmountFontSize,
+      fontWeight: FontWeight.w700,
+      color: lc.negative,
+      letterSpacing: -0.5,
+    );
 
-    return Container(
-      padding: AppHeroConstants.cardPadding,
-      decoration: AppHeroChrome.cardDecoration(cs, brightness),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          HeroTwoColumnMetricsRow(
-            dividerColor: AppHeroChrome.metricsDividerColor(cs, brightness),
-            leftColumn: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  AppLocalizations.of(context).heroIn,
-                  style: TextStyle(
-                    fontSize: AppHeroConstants.labelFontSize,
-                    color: cs.onSurfaceVariant,
-                    fontWeight: FontWeight.w500,
+    return ListenableBuilder(
+      listenable: balancePrivacyListenable,
+      builder: (context, _) {
+        final showAmounts = heroBalancesVisible;
+        final inDisplay = showAmounts ? inStr : kHeroBalanceMasked;
+        final outDisplay = showAmounts ? outStr : kHeroBalanceMasked;
+        final inStyleEff = showAmounts
+            ? inStyle
+            : heroPrivacyMaskedAmountStyle(inStyle, cs, brightness);
+        final outStyleEff = showAmounts
+            ? outStyle
+            : heroPrivacyMaskedAmountStyle(outStyle, cs, brightness);
+
+        return Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              padding: AppHeroConstants.cardPadding,
+              decoration: AppHeroChrome.cardDecoration(cs, brightness),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  HeroTwoColumnMetricsRow(
+                    dividerColor:
+                        AppHeroChrome.metricsDividerColor(cs, brightness),
+                    leftColumn: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          l10n.heroIn,
+                          style: TextStyle(
+                            fontSize: AppHeroConstants.labelFontSize,
+                            color: cs.onSurfaceVariant,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(
+                            height: AppHeroConstants.labelToAmountGap),
+                        Semantics(
+                          label: showAmounts
+                              ? '${l10n.heroIn} $inStr'
+                              : l10n.semanticsHeroBalanceHidden,
+                          child: HeroFittedAmount(
+                            text: inDisplay,
+                            style: inStyleEff,
+                          ),
+                        ),
+                      ],
+                    ),
+                    rightColumn: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          l10n.heroOut,
+                          style: TextStyle(
+                            fontSize: AppHeroConstants.secondaryLabelFontSize,
+                            color: cs.onSurfaceVariant,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(
+                            height: AppHeroConstants.labelToAmountGap),
+                        Semantics(
+                          label: showAmounts
+                              ? '${l10n.heroOut} $outStr'
+                              : l10n.semanticsHeroBalanceHidden,
+                          child: HeroFittedAmount(
+                            text: outDisplay,
+                            style: outStyleEff,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: AppHeroConstants.labelToAmountGap),
-                HeroFittedAmount(
-                  text: '+${totalIn.toStringAsFixed(2)} $sym',
-                  style: TextStyle(
-                    fontSize: AppHeroConstants.primaryAmountFontSize,
-                    fontWeight: FontWeight.w800,
-                    color: lc.positive,
-                    letterSpacing: -1,
+                  const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
+                  TrackPlanFilterChipRow(
+                    accountPanelOpen: accountPanelOpen,
+                    categoryPanelOpen: categoryPanelOpen,
+                    onToggleAccountPanel: onToggleAccountPanel,
+                    onToggleCategoryPanel: onToggleCategoryPanel,
+                    typeFilter: typeFilter,
+                    onCycleType: onCycleType,
+                    dateModeLetter: dateModeLetter,
+                    dateFilterActive: dateFilterActive,
+                    onCycleDate: onCycleDate,
+                    accountFilter: accountFilter,
+                    categoryFilter: categoryFilter,
+                    newestFirst: newestFirst,
+                    onToggleSort: onToggleSort,
+                    enabled: filterChipsEnabled,
+                    disabledSemanticsLabel: filterChipsDisabledSemantics,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            rightColumn: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  AppLocalizations.of(context).heroOut,
-                  style: TextStyle(
-                    fontSize: AppHeroConstants.secondaryLabelFontSize,
-                    color: cs.onSurfaceVariant,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: AppHeroConstants.labelToAmountGap),
-                HeroFittedAmount(
-                  text: '-${totalOut.toStringAsFixed(2)} $sym',
-                  style: TextStyle(
-                    fontSize: AppHeroConstants.secondaryAmountFontSize,
-                    fontWeight: FontWeight.w700,
-                    color: lc.negative,
-                    letterSpacing: -0.5,
-                  ),
-                ),
-              ],
+            const PositionedDirectional(
+              top: 2,
+              end: 2,
+              child: HeroBalancePrivacyToggleButton(),
             ),
-          ),
-          const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
-          TrackPlanFilterChipRow(
-            accountPanelOpen: accountPanelOpen,
-            categoryPanelOpen: categoryPanelOpen,
-            onToggleAccountPanel: onToggleAccountPanel,
-            onToggleCategoryPanel: onToggleCategoryPanel,
-            typeFilter: typeFilter,
-            onCycleType: onCycleType,
-            dateModeLetter: dateModeLetter,
-            dateFilterActive: dateFilterActive,
-            onCycleDate: onCycleDate,
-            accountFilter: accountFilter,
-            categoryFilter: categoryFilter,
-            newestFirst: newestFirst,
-            onToggleSort: onToggleSort,
-            enabled: filterChipsEnabled,
-            disabledSemanticsLabel: filterChipsDisabledSemantics,
-          ),
-        ],
-      ),
+          ],
+        );
+      },
     );
   }
 }

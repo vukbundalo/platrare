@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
+import '../data/balance_privacy_prefs.dart';
 import '../data/data_repository.dart';
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
@@ -1295,103 +1296,142 @@ class _ProjectionHero extends StatelessWidget {
             ),
           );
 
-    return Container(
-      padding: AppHeroConstants.cardPadding,
-      decoration: AppHeroChrome.cardDecoration(cs, brightness),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          HeroTwoColumnMetricsRow(
-            dividerColor: AppHeroChrome.metricsDividerColor(cs, brightness),
-            leftColumn: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                projectionDateControl,
-                const SizedBox(height: AppHeroConstants.labelToAmountGap),
-                if (isFutureSnapshot)
-                  Semantics(
-                    label: l10n.semanticsProjectedBalance(personalStr),
-                    child: Opacity(
-                      opacity: projectionHeroInteractive ? 1 : 0.5,
-                      child: HeroFittedAmount(
-                        text: personalStr,
-                        style: personalAmountStyle,
-                      ),
+    return ListenableBuilder(
+      listenable: balancePrivacyListenable,
+      builder: (context, _) {
+        final showAmounts = heroBalancesVisible;
+        final personalDisplay =
+            showAmounts ? personalStr : kHeroBalanceMasked;
+        final netDisplay = showAmounts ? netStr : kHeroBalanceMasked;
+        final personalStyle = showAmounts
+            ? personalAmountStyle
+            : heroPrivacyMaskedAmountStyle(
+                personalAmountStyle, cs, brightness);
+        final netStyle = showAmounts
+            ? netAmountStyle
+            : heroPrivacyMaskedAmountStyle(netAmountStyle, cs, brightness);
+
+        return Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              padding: AppHeroConstants.cardPadding,
+              decoration: AppHeroChrome.cardDecoration(cs, brightness),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  HeroTwoColumnMetricsRow(
+                    dividerColor:
+                        AppHeroChrome.metricsDividerColor(cs, brightness),
+                    leftColumn: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        projectionDateControl,
+                        const SizedBox(
+                            height: AppHeroConstants.labelToAmountGap),
+                        if (isFutureSnapshot)
+                          Semantics(
+                            label: showAmounts
+                                ? l10n.semanticsProjectedBalance(personalStr)
+                                : l10n.semanticsHeroBalanceHidden,
+                            child: Opacity(
+                              opacity: projectionHeroInteractive ? 1 : 0.5,
+                              child: HeroFittedAmount(
+                                text: personalDisplay,
+                                style: personalStyle,
+                              ),
+                            ),
+                          )
+                        else if (projectionHeroInteractive)
+                          Semantics(
+                            label: showAmounts
+                                ? (detailExpanded
+                                    ? l10n.semanticsHideProjections
+                                    : l10n.semanticsShowProjections)
+                                : l10n.semanticsHeroBalanceHidden,
+                            button: true,
+                            child: InkWell(
+                              onTap: onTapBalance,
+                              borderRadius: BorderRadius.circular(8),
+                              child: HeroFittedAmount(
+                                text: personalDisplay,
+                                style: personalStyle,
+                              ),
+                            ),
+                          )
+                        else
+                          Semantics(
+                            enabled: false,
+                            label: l10n.semanticsPlanProjectionControlsDisabled,
+                            child: Opacity(
+                              opacity: 0.5,
+                              child: ExcludeSemantics(
+                                child: HeroFittedAmount(
+                                  text: personalDisplay,
+                                  style: personalStyle,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
-                  )
-                else if (projectionHeroInteractive)
-                  Semantics(
-                    label: detailExpanded
-                        ? l10n.semanticsHideProjections
-                        : l10n.semanticsShowProjections,
-                    button: true,
-                    child: InkWell(
-                      onTap: onTapBalance,
-                      borderRadius: BorderRadius.circular(8),
-                      child: HeroFittedAmount(
-                        text: personalStr,
-                        style: personalAmountStyle,
-                      ),
-                    ),
-                  )
-                else
-                  Semantics(
-                    enabled: false,
-                    label: l10n.semanticsPlanProjectionControlsDisabled,
-                    child: Opacity(
-                      opacity: 0.5,
-                      child: ExcludeSemantics(
-                        child: HeroFittedAmount(
-                          text: personalStr,
-                          style: personalAmountStyle,
+                    rightColumn: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context).heroNet,
+                          style: TextStyle(
+                            fontSize: AppHeroConstants.secondaryLabelFontSize,
+                            color: cs.onSurfaceVariant,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
+                        const SizedBox(
+                            height: AppHeroConstants.labelToAmountGap),
+                        Semantics(
+                          label: showAmounts
+                              ? '${l10n.heroNet} $netStr'
+                              : l10n.semanticsHeroBalanceHidden,
+                          child: HeroFittedAmount(
+                            text: netDisplay,
+                            style: netStyle,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-              ],
-            ),
-            rightColumn: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  AppLocalizations.of(context).heroNet,
-                  style: TextStyle(
-                    fontSize: AppHeroConstants.secondaryLabelFontSize,
-                    color: cs.onSurfaceVariant,
-                    fontWeight: FontWeight.w500,
+                  const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
+                  TrackPlanFilterChipRow(
+                    accountPanelOpen: accountPanelOpen,
+                    categoryPanelOpen: categoryPanelOpen,
+                    onToggleAccountPanel: onToggleAccountPanel,
+                    onToggleCategoryPanel: onToggleCategoryPanel,
+                    typeFilter: typeFilter,
+                    onCycleType: onCycleType,
+                    dateModeLetter: dateModeLetter,
+                    dateFilterActive: dateFilterActive,
+                    onCycleDate: onCycleDate,
+                    accountFilter: accountFilter,
+                    categoryFilter: categoryFilter,
+                    newestFirst: newestFirst,
+                    onToggleSort: onToggleSort,
+                    invertSortChipActive: true,
+                    enabled: filterChipsEnabled,
+                    disabledSemanticsLabel: filterChipsDisabledSemantics,
                   ),
-                ),
-                const SizedBox(height: AppHeroConstants.labelToAmountGap),
-                HeroFittedAmount(
-                  text: netStr,
-                  style: netAmountStyle,
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
-          TrackPlanFilterChipRow(
-            accountPanelOpen: accountPanelOpen,
-            categoryPanelOpen: categoryPanelOpen,
-            onToggleAccountPanel: onToggleAccountPanel,
-            onToggleCategoryPanel: onToggleCategoryPanel,
-            typeFilter: typeFilter,
-            onCycleType: onCycleType,
-            dateModeLetter: dateModeLetter,
-            dateFilterActive: dateFilterActive,
-            onCycleDate: onCycleDate,
-            accountFilter: accountFilter,
-            categoryFilter: categoryFilter,
-            newestFirst: newestFirst,
-            onToggleSort: onToggleSort,
-            invertSortChipActive: true,
-            enabled: filterChipsEnabled,
-            disabledSemanticsLabel: filterChipsDisabledSemantics,
-          ),
-        ],
-      ),
+            const PositionedDirectional(
+              top: 2,
+              end: 2,
+              child: HeroBalancePrivacyToggleButton(),
+            ),
+          ],
+        );
+      },
     );
   }
 }

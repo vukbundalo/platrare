@@ -57,6 +57,22 @@ class AppLocalizationsIt extends AppLocalizations {
   String get realBalance => 'Equilibrio reale';
 
   @override
+  String get settingsHideHeroBalancesTitle => 'Hide balances in summary cards';
+
+  @override
+  String get settingsHideHeroBalancesSubtitle =>
+      'When on, amounts on Plan, Track, and Review stay masked until you tap the eye icon on each tab. When off, balances are always visible.';
+
+  @override
+  String get heroBalancesShow => 'Show balances';
+
+  @override
+  String get heroBalancesHide => 'Hide balances';
+
+  @override
+  String get semanticsHeroBalanceHidden => 'Balance hidden for privacy';
+
+  @override
   String get heroResetButton => 'Reset';
 
   @override

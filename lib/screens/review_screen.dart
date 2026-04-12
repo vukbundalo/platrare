@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
+import '../data/balance_privacy_prefs.dart';
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../l10n/app_localizations.dart';
@@ -1416,6 +1417,9 @@ class _NetWorthHero extends StatelessWidget {
     final brightness = Theme.of(context).brightness;
     final sym = fx.currencySymbol(displayCurrency);
     final isSecondary = displayCurrency == settings.secondaryCurrency;
+    final balanceStr =
+        '${formatBalanceAmount(displayPersonal)} $sym';
+    final netStr = '${formatBalanceAmount(displayNet)} $sym';
 
     Widget chip({required IconData icon, required bool active, required VoidCallback onTap, Widget? child}) {
       return GestureDetector(
@@ -1438,117 +1442,163 @@ class _NetWorthHero extends StatelessWidget {
       );
     }
 
-    return Container(
-      padding: AppHeroConstants.cardPadding,
-      decoration: AppHeroChrome.cardDecoration(cs, brightness),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          HeroTwoColumnMetricsRow(
-            dividerColor: AppHeroChrome.metricsDividerColor(cs, brightness),
-            leftColumn: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  l10n.heroBalance,
-                  style: TextStyle(
-                    fontSize: AppHeroConstants.labelFontSize,
-                    color: cs.onSurfaceVariant,
-                    fontWeight: FontWeight.w500,
+    final balanceStyle = TextStyle(
+      fontSize: AppHeroConstants.primaryAmountFontSize,
+      fontWeight: FontWeight.w800,
+      color: balanceColor,
+      letterSpacing: -1,
+    );
+    final netAmountStyle = TextStyle(
+      fontSize: AppHeroConstants.secondaryAmountFontSize,
+      fontWeight: FontWeight.w700,
+      color: netColor,
+      letterSpacing: -0.5,
+    );
+
+    return ListenableBuilder(
+      listenable: balancePrivacyListenable,
+      builder: (context, _) {
+        final showAmounts = heroBalancesVisible;
+        final balDisplay = showAmounts ? balanceStr : kHeroBalanceMasked;
+        final netDisplay = showAmounts ? netStr : kHeroBalanceMasked;
+        final balStyle = showAmounts
+            ? balanceStyle
+            : heroPrivacyMaskedAmountStyle(
+                balanceStyle, cs, brightness);
+        final netStyleEff = showAmounts
+            ? netAmountStyle
+            : heroPrivacyMaskedAmountStyle(
+                netAmountStyle, cs, brightness);
+
+        return Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              padding: AppHeroConstants.cardPadding,
+              decoration: AppHeroChrome.cardDecoration(cs, brightness),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  HeroTwoColumnMetricsRow(
+                    dividerColor:
+                        AppHeroChrome.metricsDividerColor(cs, brightness),
+                    leftColumn: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          l10n.heroBalance,
+                          style: TextStyle(
+                            fontSize: AppHeroConstants.labelFontSize,
+                            color: cs.onSurfaceVariant,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(
+                            height: AppHeroConstants.labelToAmountGap),
+                        Semantics(
+                          label: showAmounts
+                              ? '${l10n.heroBalance} $balanceStr'
+                              : l10n.semanticsHeroBalanceHidden,
+                          child: HeroFittedAmount(
+                            text: balDisplay,
+                            style: balStyle,
+                          ),
+                        ),
+                      ],
+                    ),
+                    rightColumn: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          l10n.heroNet,
+                          style: TextStyle(
+                            fontSize:
+                                AppHeroConstants.secondaryLabelFontSize,
+                            color: cs.onSurfaceVariant,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(
+                            height: AppHeroConstants.labelToAmountGap),
+                        Semantics(
+                          label: showAmounts
+                              ? '${l10n.heroNet} $netStr'
+                              : l10n.semanticsHeroBalanceHidden,
+                          child: HeroFittedAmount(
+                            text: netDisplay,
+                            style: netStyleEff,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: AppHeroConstants.labelToAmountGap),
-                HeroFittedAmount(
-                  text:
-                      '${formatBalanceAmount(displayPersonal)} $sym',
-                  style: TextStyle(
-                    fontSize: AppHeroConstants.primaryAmountFontSize,
-                    fontWeight: FontWeight.w800,
-                    color: balanceColor,
-                    letterSpacing: -1,
-                  ),
-                ),
-              ],
+                  const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
+                  Builder(builder: (context) {
+                    final chipRow = Row(
+                      children: [
+                        Expanded(
+                            child: chip(
+                                icon: Icons.person_outline_rounded,
+                                active: activeSection == 'personal',
+                                onTap: () =>
+                                    onSelectSection('personal'))),
+                        const SizedBox(width: 6),
+                        Expanded(
+                            child: chip(
+                                icon: Icons.people_outline_rounded,
+                                active: activeSection == 'individuals',
+                                onTap: () =>
+                                    onSelectSection('individuals'))),
+                        const SizedBox(width: 6),
+                        Expanded(
+                            child: chip(
+                                icon: Icons.business_outlined,
+                                active: activeSection == 'entities',
+                                onTap: () =>
+                                    onSelectSection('entities'))),
+                        const SizedBox(width: 6),
+                        Expanded(
+                            child: chip(
+                                icon: Icons.bar_chart_rounded,
+                                active: activeSection == 'statistics',
+                                onTap: () =>
+                                    onSelectSection('statistics'))),
+                        const SizedBox(width: 6),
+                        Expanded(
+                            child: chip(
+                                icon: Icons.currency_exchange_rounded,
+                                active: isSecondary,
+                                onTap: onToggleCurrency)),
+                      ],
+                    );
+                    if (!sectionChipsEnabled) {
+                      return Semantics(
+                        enabled: false,
+                        label: l10n
+                            .semanticsReviewSectionChipsDisabledNeedAccount,
+                        child: Opacity(
+                          opacity: 0.5,
+                          child: IgnorePointer(
+                            child: ExcludeSemantics(child: chipRow),
+                          ),
+                        ),
+                      );
+                    }
+                    return chipRow;
+                  }),
+                ],
+              ),
             ),
-            rightColumn: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  l10n.heroNet,
-                  style: TextStyle(
-                    fontSize: AppHeroConstants.secondaryLabelFontSize,
-                    color: cs.onSurfaceVariant,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: AppHeroConstants.labelToAmountGap),
-                HeroFittedAmount(
-                  text:
-                      '${formatBalanceAmount(displayNet)} $sym',
-                  style: TextStyle(
-                    fontSize: AppHeroConstants.secondaryAmountFontSize,
-                    fontWeight: FontWeight.w700,
-                    color: netColor,
-                    letterSpacing: -0.5,
-                  ),
-                ),
-              ],
+            const PositionedDirectional(
+              top: 2,
+              end: 2,
+              child: HeroBalancePrivacyToggleButton(),
             ),
-          ),
-          const SizedBox(height: AppHeroConstants.chipGapBelowMetrics),
-          // 4 section chips (mutually exclusive) + currency (independent)
-          Builder(builder: (context) {
-            final chipRow = Row(
-              children: [
-                Expanded(
-                    child: chip(
-                        icon: Icons.person_outline_rounded,
-                        active: activeSection == 'personal',
-                        onTap: () => onSelectSection('personal'))),
-                const SizedBox(width: 6),
-                Expanded(
-                    child: chip(
-                        icon: Icons.people_outline_rounded,
-                        active: activeSection == 'individuals',
-                        onTap: () => onSelectSection('individuals'))),
-                const SizedBox(width: 6),
-                Expanded(
-                    child: chip(
-                        icon: Icons.business_outlined,
-                        active: activeSection == 'entities',
-                        onTap: () => onSelectSection('entities'))),
-                const SizedBox(width: 6),
-                Expanded(
-                    child: chip(
-                        icon: Icons.bar_chart_rounded,
-                        active: activeSection == 'statistics',
-                        onTap: () => onSelectSection('statistics'))),
-                const SizedBox(width: 6),
-                Expanded(
-                    child: chip(
-                        icon: Icons.currency_exchange_rounded,
-                        active: isSecondary,
-                        onTap: onToggleCurrency)),
-              ],
-            );
-            if (!sectionChipsEnabled) {
-              return Semantics(
-                enabled: false,
-                label: l10n.semanticsReviewSectionChipsDisabledNeedAccount,
-                child: Opacity(
-                  opacity: 0.5,
-                  child: IgnorePointer(
-                    child: ExcludeSemantics(child: chipRow),
-                  ),
-                ),
-              );
-            }
-            return chipRow;
-          }),
-        ],
-      ),
+          ],
+        );
+      },
     );
   }
 }

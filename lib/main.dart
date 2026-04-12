@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'data/auto_backup_service.dart';
+import 'data/balance_privacy_prefs.dart';
 import 'data/currency_prefs.dart';
 import 'data/local/platrare_database.dart';
 import 'data/fx_service.dart';
@@ -22,7 +23,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PlatrareDatabase.openPlatrareDatabase();
   await PlatrareDatabase.instance.loadIntoMemory();
-  await Future.wait([initAppLocale(), initAppTheme(), initSecurityPrefs()]);
+  await Future.wait([
+    initAppLocale(),
+    initAppTheme(),
+    initSecurityPrefs(),
+    initBalancePrivacyPrefs(),
+  ]);
   await loadCurrencyPreferences();
   await _initDateFormattingForLocales();
   await FxService.instance.init();

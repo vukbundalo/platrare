@@ -3,6 +3,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import '../data/app_data.dart' as data;
 import '../theme/ledger_colors.dart';
 import '../data/auto_backup_service.dart';
+import '../data/balance_privacy_prefs.dart';
 import '../data/data_repository.dart';
 import '../data/data_transfer.dart';
 import '../data/ledger_verify.dart';
@@ -822,6 +823,45 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onTap: () => _openLanguagePicker(context, l10n),
               );
             },
+          ),
+          const SizedBox(height: 8),
+          Card(
+            margin: EdgeInsets.zero,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              child: ValueListenableBuilder<bool>(
+                valueListenable: balancePrivacyHideByDefault,
+                builder: (context, hide, _) {
+                  return SwitchListTile.adaptive(
+                    contentPadding: EdgeInsets.zero,
+                    secondary: Icon(
+                      Icons.visibility_off_outlined,
+                      size: 20,
+                      color: cs.primary,
+                    ),
+                    title: Text(
+                      l10n.settingsHideHeroBalancesTitle,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                    subtitle: Text(
+                      l10n.settingsHideHeroBalancesSubtitle,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: cs.onSurfaceVariant,
+                      ),
+                    ),
+                    value: hide,
+                    onChanged: (v) async {
+                      await setBalancePrivacyHideByDefault(v);
+                      if (mounted) setState(() {});
+                    },
+                  );
+                },
+              ),
+            ),
           ),
           const SizedBox(height: 24),
           // ── 3. Data ──────────────────────────────────────

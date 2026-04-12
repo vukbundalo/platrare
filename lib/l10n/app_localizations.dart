@@ -234,6 +234,36 @@ abstract class AppLocalizations {
   /// **'Real balance'**
   String get realBalance;
 
+  /// No description provided for @settingsHideHeroBalancesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide balances in summary cards'**
+  String get settingsHideHeroBalancesTitle;
+
+  /// No description provided for @settingsHideHeroBalancesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When on, amounts on Plan, Track, and Review stay masked until you tap the eye icon on each tab. When off, balances are always visible.'**
+  String get settingsHideHeroBalancesSubtitle;
+
+  /// No description provided for @heroBalancesShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show balances'**
+  String get heroBalancesShow;
+
+  /// No description provided for @heroBalancesHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide balances'**
+  String get heroBalancesHide;
+
+  /// No description provided for @semanticsHeroBalanceHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance hidden for privacy'**
+  String get semanticsHeroBalanceHidden;
+
   /// No description provided for @heroResetButton.
   ///
   /// In en, this message translates to:

@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../data/balance_privacy_prefs.dart';
+import '../l10n/app_localizations.dart';
 import '../theme/platrare_surfaces.dart';
 
 /// Shared metrics for Track / Plan / Review hero cards so top cards align in size
@@ -174,6 +176,60 @@ abstract final class HeroFilterChipStyle {
   /// Icon / label on hero filter pills.
   static Color foreground(ColorScheme cs, {required bool selected}) =>
       selected ? cs.primary : cs.onSurface.withValues(alpha: 0.72);
+}
+
+/// Masked figure shown in Plan / Track / Review hero cards when privacy is on.
+const String kHeroBalanceMasked = '••••••';
+
+/// Eye control for hero cards; empty when “always show balances” is enabled in Settings.
+class HeroBalancePrivacyToggleButton extends StatelessWidget {
+  const HeroBalancePrivacyToggleButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return ListenableBuilder(
+      listenable: balancePrivacyListenable,
+      builder: (context, _) {
+        if (!balancePrivacyHideByDefault.value) {
+          return const SizedBox.shrink();
+        }
+        final revealed = heroBalancesTemporarilyRevealed.value;
+        return Semantics(
+          button: true,
+          label: revealed ? l10n.heroBalancesHide : l10n.heroBalancesShow,
+          child: IconButton(
+            visualDensity: VisualDensity.compact,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minWidth: 34, minHeight: 30),
+            iconSize: 19,
+            style: IconButton.styleFrom(
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            icon: Icon(
+              revealed
+                  ? Icons.visibility_rounded
+                  : Icons.visibility_off_outlined,
+            ),
+            tooltip: revealed ? l10n.heroBalancesHide : l10n.heroBalancesShow,
+            onPressed: toggleHeroBalancesRevealed,
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// Style for masked amounts: same weight, subdued color.
+TextStyle heroPrivacyMaskedAmountStyle(
+  TextStyle base,
+  ColorScheme cs,
+  Brightness brightness,
+) {
+  return base.copyWith(
+    color: cs.onSurface.withValues(alpha: brightness == Brightness.dark ? 0.42 : 0.38),
+    letterSpacing: 0.5,
+  );
 }
 
 /// Two-column metrics row: [flex 3 | divider | flex 2], same on all main tabs.
