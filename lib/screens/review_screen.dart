@@ -302,6 +302,13 @@ class _ReviewScreenState extends State<ReviewScreen> {
     });
   }
 
+  /// Matches [AppBar] + hero [SizedBox] height so lists align under the overlay header.
+  double _reviewUnderHeaderScrollPadding(BuildContext context) {
+    return MediaQuery.paddingOf(context).top +
+        kToolbarHeight +
+        AppHeroConstants.heroHeaderExtent;
+  }
+
   DateTime get _compareEarliestMonth {
     final e = _earliestTxDate;
     if (e == null) return DateTime(DateTime.now().year - 5, 1, 1);
@@ -1048,104 +1055,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 ),
               ],
             )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+          : Stack(
+              clipBehavior: Clip.none,
+              fit: StackFit.expand,
               children: [
-                // Fixed chrome (no NestedScrollView / overlap injector): those
-                // inject a scrollExtent equal to the absorbed toolbar overlap, so
-                // users could always drag by ~that height even when lists fit.
-                ValueListenableBuilder<bool>(
-                  valueListenable: _reviewHeroOverlapShadow,
-                  builder: (context, contentScrolledUnder, _) {
-                    final headerCs = Theme.of(context).colorScheme;
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        AppBar(
-                          backgroundColor: Colors.transparent,
-                          surfaceTintColor: Colors.transparent,
-                          scrolledUnderElevation: 0,
-                          elevation: 0,
-                          forceMaterialTransparency: true,
-                          title: Text(l10n.navReview),
-                          actions: [
-                            IconButton(
-                              icon: const Icon(Icons.settings_outlined),
-                              tooltip: l10n.tooltipSettings,
-                              onPressed: () async {
-                                final prevSecondary =
-                                    settings.secondaryCurrency;
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) =>
-                                          const SettingsScreen()),
-                                );
-                                if (mounted) {
-                                  setState(() {
-                                    if (_displayCurrency == prevSecondary) {
-                                      _displayCurrency =
-                                          settings.secondaryCurrency;
-                                    }
-                                    final validCurrencies = [
-                                      settings.secondaryCurrency,
-                                      settings.baseCurrency
-                                    ];
-                                    if (!validCurrencies
-                                        .contains(_displayCurrency)) {
-                                      _displayCurrency = settings.baseCurrency;
-                                    }
-                                  });
-                                  widget.onChanged?.call();
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: AppHeroConstants.heroHeaderExtent,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              boxShadow: contentScrolledUnder
-                                  ? [
-                                      BoxShadow(
-                                        color: headerCs.shadow
-                                            .withValues(alpha: 0.10),
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 3),
-                                      ),
-                                    ]
-                                  : const [],
-                            ),
-                            child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Padding(
-                                padding: AppHeroConstants
-                                    .mainFlexibleSpaceHeroOuterPadding,
-                                child: _NetWorthHero(
-                                  personal: _personalTotal,
-                                  net: _netTotal,
-                                  displayCurrency: _displayCurrency,
-                                  sectionChipsEnabled: true,
-                                  activeSection: _activeSection,
-                                  onSelectSection: _selectReviewSection,
-                                  onToggleCurrency: () => setState(() {
-                                    _displayCurrency =
-                                        _displayCurrency ==
-                                                settings.baseCurrency
-                                            ? settings.secondaryCurrency
-                                            : settings.baseCurrency;
-                                  }),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                Expanded(
+                // PageView paints first so the hero shadow (stacked above) blends
+                // over scrolling content like Track/Plan slivers. A Column layout
+                // painted the PageView on top and hid the soft shadow tail.
+                Positioned.fill(
                   child: NotificationListener<Notification>(
                     onNotification: (notification) {
                       _handleReviewNotificationForHeroShadow(notification);
@@ -1157,12 +1074,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       itemCount: _kReviewSections.length,
                       itemBuilder: (context, index) {
                         final section = _kReviewSections[index];
+                        final topPad =
+                            _reviewUnderHeaderScrollPadding(context);
                         return Builder(
                           builder: (context) {
                             return CustomScrollView(
                               key: PageStorageKey<String>(
                                   'review_section_$section'),
                               slivers: [
+                                SliverToBoxAdapter(
+                                    child: SizedBox(height: topPad)),
                                 SliverToBoxAdapter(
                                   child: KeyedSubtree(
                                     key: _reviewSectionScrollProbeKeys[index],
@@ -1183,6 +1104,98 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         );
                       },
                     ),
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: ValueListenableBuilder<bool>(
+                    valueListenable: _reviewHeroOverlapShadow,
+                    builder: (context, contentScrolledUnder, _) {
+                      final headerCs = Theme.of(context).colorScheme;
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AppBar(
+                            backgroundColor: Colors.transparent,
+                            surfaceTintColor: Colors.transparent,
+                            scrolledUnderElevation: 0,
+                            elevation: 0,
+                            forceMaterialTransparency: true,
+                            title: Text(l10n.navReview),
+                            actions: [
+                              IconButton(
+                                icon: const Icon(Icons.settings_outlined),
+                                tooltip: l10n.tooltipSettings,
+                                onPressed: () async {
+                                  final prevSecondary =
+                                      settings.secondaryCurrency;
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            const SettingsScreen()),
+                                  );
+                                  if (mounted) {
+                                    setState(() {
+                                      if (_displayCurrency == prevSecondary) {
+                                        _displayCurrency =
+                                            settings.secondaryCurrency;
+                                      }
+                                      final validCurrencies = [
+                                        settings.secondaryCurrency,
+                                        settings.baseCurrency
+                                      ];
+                                      if (!validCurrencies
+                                          .contains(_displayCurrency)) {
+                                        _displayCurrency =
+                                            settings.baseCurrency;
+                                      }
+                                    });
+                                    widget.onChanged?.call();
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: AppHeroConstants.heroHeaderExtent,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                boxShadow: contentScrolledUnder
+                                    ? AppHeroChrome.overlapScrollUnderShadows(
+                                        headerCs)
+                                    : const [],
+                              ),
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Padding(
+                                  padding: AppHeroConstants
+                                      .mainFlexibleSpaceHeroOuterPadding,
+                                  child: _NetWorthHero(
+                                    personal: _personalTotal,
+                                    net: _netTotal,
+                                    displayCurrency: _displayCurrency,
+                                    sectionChipsEnabled: true,
+                                    activeSection: _activeSection,
+                                    onSelectSection: _selectReviewSection,
+                                    onToggleCurrency: () => setState(() {
+                                      _displayCurrency =
+                                          _displayCurrency ==
+                                                  settings.baseCurrency
+                                              ? settings.secondaryCurrency
+                                              : settings.baseCurrency;
+                                    }),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ],

@@ -44,6 +44,16 @@ abstract final class AppHeroChrome {
   static BoxDecoration cardDecoration(ColorScheme cs, Brightness brightness) =>
       PlatrareSurfaces.heroSummaryCard(cs, brightness);
 
+  /// Bottom edge shadow when list content scrolls under the pinned hero
+  /// (Track / Plan / Review).
+  static List<BoxShadow> overlapScrollUnderShadows(ColorScheme cs) => [
+        BoxShadow(
+          color: cs.shadow.withValues(alpha: 0.10),
+          blurRadius: 8,
+          offset: const Offset(0, 3),
+        ),
+      ];
+
   static Color metricsDividerColor(ColorScheme cs, Brightness brightness) =>
       Color.alphaBlend(
         cs.primary.withValues(
@@ -92,14 +102,9 @@ class HeroPinnedDelegate extends SliverPersistentHeaderDelegate {
     Widget decorated(bool drawOverlapShadow) {
       return DecoratedBox(
         decoration: BoxDecoration(
+          color: Colors.transparent,
           boxShadow: showOverlapShadow && drawOverlapShadow
-              ? [
-                  BoxShadow(
-                    color: cs.shadow.withValues(alpha: 0.10),
-                    blurRadius: 8,
-                    offset: const Offset(0, 3),
-                  ),
-                ]
+              ? AppHeroChrome.overlapScrollUnderShadows(cs)
               : const [],
         ),
         child: Align(
