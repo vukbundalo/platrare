@@ -492,6 +492,36 @@ class _ReviewScreenState extends State<ReviewScreen> {
   void _navigateBack() => setState(() => _dateOffset++);
   void _navigateForward() => setState(() { if (_dateOffset > 0) _dateOffset--; });
 
+  /// Statistics tab: show reset FAB only after the user changes chips (period,
+  /// viz, compare, income vs expense, date nav, or hero currency).
+  bool get _reviewStatisticsHasNonDefaultChoices {
+    if (_activeSection != 'statistics') return false;
+    return _compareMode ||
+        _vizMode != 0 ||
+        _spendingMonths != 1 ||
+        _dateOffset != 0 ||
+        (_activeStats ?? 'expense') != 'expense' ||
+        _displayCurrency != settings.baseCurrency;
+  }
+
+  void _reviewFabResetStatistics() {
+    final now = DateTime.now();
+    setState(() {
+      _compareMode = false;
+      _vizMode = 0;
+      _spendingMonths = 1;
+      _dateOffset = 0;
+      _activeStats = 'expense';
+      _compareCategoryExpense = null;
+      _compareCategoryIncome = null;
+      _displayCurrency = settings.baseCurrency;
+      _compareMonthB = DateTime(now.year, now.month, 1);
+      _compareMonthA = now.month == 1
+          ? DateTime(now.year - 1, 12, 1)
+          : DateTime(now.year, now.month - 1, 1);
+    });
+  }
+
   // The active date window (start inclusive, end exclusive). null = no filter.
   ({DateTime? start, DateTime? end}) get _dateRange {
     if (_spendingMonths == 0) return (start: null, end: null);
@@ -976,21 +1006,31 @@ class _ReviewScreenState extends State<ReviewScreen> {
       backgroundColor: Colors.transparent,
       floatingActionButton: visibleAccounts.isEmpty
           ? null
-          : _displayCurrency != settings.baseCurrency
-              ? FloatingActionButton.extended(
-                  heroTag: 'review_fab',
-                  onPressed: () => setState(
-                      () => _displayCurrency = settings.baseCurrency),
-                  tooltip: l10n.heroResetButton,
-                  icon: const Icon(Icons.restart_alt_rounded),
-                  label: Text(l10n.heroResetButton),
-                )
-              : FloatingActionButton(
-                  heroTag: 'review_fab',
-                  onPressed: _addAccount,
-                  tooltip: l10n.tooltipAddAccount,
-                  child: const Icon(Icons.add_rounded),
-                ),
+          : _activeSection == 'statistics'
+              ? (_reviewStatisticsHasNonDefaultChoices
+                  ? FloatingActionButton.extended(
+                      heroTag: 'review_fab',
+                      onPressed: _reviewFabResetStatistics,
+                      tooltip: l10n.heroResetButton,
+                      icon: const Icon(Icons.restart_alt_rounded),
+                      label: Text(l10n.heroResetButton),
+                    )
+                  : null)
+              : _displayCurrency != settings.baseCurrency
+                  ? FloatingActionButton.extended(
+                      heroTag: 'review_fab',
+                      onPressed: () => setState(
+                          () => _displayCurrency = settings.baseCurrency),
+                      tooltip: l10n.heroResetButton,
+                      icon: const Icon(Icons.restart_alt_rounded),
+                      label: Text(l10n.heroResetButton),
+                    )
+                  : FloatingActionButton(
+                      heroTag: 'review_fab',
+                      onPressed: _addAccount,
+                      tooltip: l10n.tooltipAddAccount,
+                      child: const Icon(Icons.add_rounded),
+                    ),
       body: visibleAccounts.isEmpty
           ? CustomScrollView(
               slivers: [
