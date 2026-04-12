@@ -1049,6 +1049,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
               ],
             )
           : NestedScrollView(
+              // Match Track/Plan: avoid rubber-band scrolling when content fits.
+              // NestedScrollView + iOS bouncing otherwise feels like extra vertical
+              // scroll even though maxScrollExtent is 0 for short lists.
+              physics: const ClampingScrollPhysics(),
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
                 // Do not wrap these in [SliverMainAxisGroup]: pinned slivers
@@ -1136,6 +1140,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       builder: (context) {
                         return CustomScrollView(
                           key: PageStorageKey<String>('review_section_$section'),
+                          physics: const ClampingScrollPhysics(),
                           slivers: [
                             SliverOverlapInjector(
                               handle: NestedScrollView
