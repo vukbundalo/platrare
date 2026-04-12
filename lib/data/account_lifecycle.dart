@@ -95,5 +95,11 @@ bool accountReferencedInPlanned(Account a, List<PlannedTransaction> planned) {
   return false;
 }
 
-bool canArchiveAccount(Account a) =>
-    _nearZero(a.balance) && _nearZero(a.overdraftLimit);
+bool canArchiveAccount(Account a) {
+  if (!_nearZero(a.balance)) return false;
+  // Overdraft applies only to personal accounts; ignore stored limit for others.
+  if (a.group == AccountGroup.personal) {
+    return _nearZero(a.overdraftLimit);
+  }
+  return true;
+}

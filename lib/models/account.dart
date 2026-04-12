@@ -63,7 +63,8 @@ class Account {
   /// for separate currencies.
   String currencyCode;
 
-  /// Bank overdraft / salary-advance facility in this account's currency.
+  /// Bank overdraft / salary-advance facility in this account's currency
+  /// (**personal accounts only**; individuals/entities ignore this field in UI).
   /// [balance] is the **book** position (negative = you owe the bank).
   /// Spending headroom ≈ [balance] + [overdraftLimit] (e.g. balance -6800,
   /// limit 13600 → 6800 still available). When 0, there is no facility.
@@ -97,7 +98,8 @@ class Account {
        group = group ?? AccountGroup.personal,
        createdAt = createdAt ?? DateTime.now();
 
-  bool get hasOverdraftFacility => overdraftLimit > 0;
+  bool get hasOverdraftFacility =>
+      group == AccountGroup.personal && overdraftLimit > 0;
 
   /// Amount still usable for spending with an active overdraft/advance line.
   /// Below zero means over the agreed facility.

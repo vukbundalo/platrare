@@ -669,6 +669,10 @@ Future<void> _showBalanceCorrectionDialog(
   );
 }
 
+/// Overdraft / advance limit applies only to personal accounts.
+bool _accountGroupAllowsOverdraft(AccountGroup g) =>
+    g == AccountGroup.personal;
+
 class AccountFormSheet extends StatefulWidget {
   final Account? account;
   const AccountFormSheet({super.key, this.account});
@@ -694,6 +698,10 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
     return (double.tryParse(t.replaceAll(',', '.')) ?? 0).clamp(0.0, 1e15);
   }
 
+  /// Value that would be persisted (zero when group ≠ personal).
+  double _effectiveOverdraftLimitForForm() =>
+      _accountGroupAllowsOverdraft(_group) ? _parseOverdraftLimit() : 0.0;
+
   @override
   void initState() {
     super.initState();
@@ -707,12 +715,14 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
           ? widget.account!.balance.toStringAsFixed(2)
           : '',
     );
+    _group = widget.account?.group ?? AccountGroup.personal;
     _overdraftController = TextEditingController(
-      text: widget.account != null && widget.account!.overdraftLimit > 0
+      text: widget.account != null &&
+              widget.account!.overdraftLimit > 0 &&
+              _accountGroupAllowsOverdraft(_group)
           ? widget.account!.overdraftLimit.toStringAsFixed(2)
           : '',
     );
-    _group = widget.account?.group ?? AccountGroup.personal;
     _currencyCode = widget.account?.currencyCode ?? settings.baseCurrency;
     _iconCodePoint = widget.account?.iconCodePoint ?? 0;
     _colorArgb = widget.account?.colorArgb;
@@ -760,14 +770,16 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
           _balanceController.text.trim() !=
               widget.account!.balance.toStringAsFixed(2) ||
           _group != widget.account!.group ||
-          _parseOverdraftLimit() != widget.account!.overdraftLimit ||
+          _effectiveOverdraftLimitForForm() !=
+              widget.account!.overdraftLimit ||
           _currencyCode != widget.account!.currencyCode ||
           _iconCodePoint != widget.account!.iconCodePoint ||
           _colorArgb != widget.account!.colorArgb;
     }
     return _nameController.text.trim().isNotEmpty ||
         _balanceController.text.trim().isNotEmpty ||
-        _parseOverdraftLimit() > 0 ||
+        (_accountGroupAllowsOverdraft(_group) &&
+            _parseOverdraftLimit() > 0) ||
         _currencyCode != settings.baseCurrency ||
         _group != AccountGroup.personal ||
         instNorm.isNotEmpty ||
@@ -849,7 +861,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
     final balance = double.tryParse(
             _balanceController.text.trim().replaceAll(',', '.')) ??
         0.0;
-    final overdraft = _parseOverdraftLimit();
+    final overdraft = _effectiveOverdraftLimitForForm();
     if (widget.account != null) {
       final acc = widget.account!;
       final previousBook = acc.balance;
@@ -1185,8 +1197,15 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                   ),
                 ],
                 selected: {_group},
-                onSelectionChanged: (s) =>
-                    setState(() => _group = s.first),
+                onSelectionChanged: (s) {
+                  final ng = s.first;
+                  setState(() {
+                    _group = ng;
+                    if (!_accountGroupAllowsOverdraft(ng)) {
+                      _overdraftController.clear();
+                    }
+                  });
+                },
               ),
               const SizedBox(height: 6),
               Text(
@@ -1242,16 +1261,18 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                   suffixText: ' ${fx.currencySymbol(_currencyCode)}',
                 ),
               ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: _overdraftController,
-                keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true, signed: false),
-                decoration: InputDecoration(
-                  labelText: l10n.labelOverdraftLimit,
-                  suffixText: ' ${fx.currencySymbol(_currencyCode)}',
+              if (_accountGroupAllowsOverdraft(_group)) ...[
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _overdraftController,
+                  keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true, signed: false),
+                  decoration: InputDecoration(
+                    labelText: l10n.labelOverdraftLimit,
+                    suffixText: ' ${fx.currencySymbol(_currencyCode)}',
+                  ),
                 ),
-              ),
+              ],
               const SizedBox(height: 20),
               FilledButton(
                 onPressed: () => _save(),
@@ -1329,6 +1350,9 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
     return (double.tryParse(t.replaceAll(',', '.')) ?? 0).clamp(0.0, 1e15);
   }
 
+  double _effectiveOverdraftLimitForForm() =>
+      _accountGroupAllowsOverdraft(_group) ? _parseOverdraftLimit() : 0.0;
+
   @override
   void initState() {
     super.initState();
@@ -1342,12 +1366,16 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
           ? widget.existing!.balance.toStringAsFixed(2)
           : '',
     );
+    _group = widget.existing?.group ??
+        widget.initialGroup ??
+        AccountGroup.personal;
     _overdraftController = TextEditingController(
-      text: widget.existing != null && widget.existing!.overdraftLimit > 0
+      text: widget.existing != null &&
+              widget.existing!.overdraftLimit > 0 &&
+              _accountGroupAllowsOverdraft(_group)
           ? widget.existing!.overdraftLimit.toStringAsFixed(2)
           : '',
     );
-    _group = widget.existing?.group ?? widget.initialGroup ?? AccountGroup.personal;
     _currencyCode =
         widget.existing?.currencyCode ?? settings.baseCurrency;
     _iconCodePoint = widget.existing?.iconCodePoint ?? 0;
@@ -1405,14 +1433,16 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
           _balanceController.text.trim() !=
               widget.existing!.balance.toStringAsFixed(2) ||
           _group != widget.existing!.group ||
-          _parseOverdraftLimit() != widget.existing!.overdraftLimit ||
+          _effectiveOverdraftLimitForForm() !=
+              widget.existing!.overdraftLimit ||
           _iconCodePoint != widget.existing!.iconCodePoint ||
           _colorArgb != widget.existing!.colorArgb;
     }
     final defaultGroup = widget.initialGroup ?? AccountGroup.personal;
     return _nameController.text.trim().isNotEmpty ||
         _balanceController.text.trim().isNotEmpty ||
-        _parseOverdraftLimit() > 0 ||
+        (_accountGroupAllowsOverdraft(_group) &&
+            _parseOverdraftLimit() > 0) ||
         _currencyCode != settings.baseCurrency ||
         _group != defaultGroup ||
         instNorm.isNotEmpty ||
@@ -1478,7 +1508,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
     final balance =
         double.tryParse(_balanceController.text.trim().replaceAll(',', '.')) ??
             0.0;
-    final overdraft = _parseOverdraftLimit();
+    final overdraft = _effectiveOverdraftLimitForForm();
     if (_isEdit) {
       final acc = widget.existing!;
       final previousBook = acc.balance;
@@ -1931,8 +1961,15 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                         ),
                       ],
                       selected: {_group},
-                      onSelectionChanged: (s) =>
-                          setState(() => _group = s.first),
+                      onSelectionChanged: (s) {
+                        final ng = s.first;
+                        setState(() {
+                          _group = ng;
+                          if (!_accountGroupAllowsOverdraft(ng)) {
+                            _overdraftController.clear();
+                          }
+                        });
+                      },
                     ),
                     const SizedBox(height: 6),
                     Text(
@@ -1984,18 +2021,20 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                       ),
                       onChanged: (_) => setState(() {}),
                     ),
-                    const SizedBox(height: 12),
-                    TextField(
-                      controller: _overdraftController,
-                      keyboardType: const TextInputType.numberWithOptions(
-                          decimal: true, signed: false),
-                      decoration: InputDecoration(
-                        labelText: l10n.labelOverdraftLimit,
-                        suffixText:
-                            '  ${fx.currencySymbol(_currencyCode)}',
+                    if (_accountGroupAllowsOverdraft(_group)) ...[
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: _overdraftController,
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true, signed: false),
+                        decoration: InputDecoration(
+                          labelText: l10n.labelOverdraftLimit,
+                          suffixText:
+                              '  ${fx.currencySymbol(_currencyCode)}',
+                        ),
+                        onChanged: (_) => setState(() {}),
                       ),
-                      onChanged: (_) => setState(() {}),
-                    ),
+                    ],
                   ],
                 ),
               ),
