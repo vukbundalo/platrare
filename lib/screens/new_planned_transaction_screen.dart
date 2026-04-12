@@ -17,7 +17,13 @@ import '../utils/projections.dart' as proj;
 
 class NewPlannedTransactionScreen extends StatefulWidget {
   final PlannedTransaction? existing;
-  const NewPlannedTransactionScreen({super.key, this.existing});
+  /// When creating (not editing), pre-fill schedule date from Plan’s visible period.
+  final DateTime? defaultDateForNew;
+  const NewPlannedTransactionScreen({
+    super.key,
+    this.existing,
+    this.defaultDateForNew,
+  });
 
   @override
   State<NewPlannedTransactionScreen> createState() =>
@@ -153,6 +159,8 @@ class _NewPlannedTransactionScreenState
         _date = e.date;
       }
       _attachments = List.from(e.attachments);
+    } else if (widget.defaultDateForNew != null) {
+      _date = DateUtils.dateOnly(widget.defaultDateForNew!);
     }
   }
 

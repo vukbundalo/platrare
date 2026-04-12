@@ -211,6 +211,21 @@ class _PlanScreenState extends State<PlanScreen> {
     return (start, end);
   }
 
+  /// Default date when opening “new planned” from the list’s visible period.
+  DateTime? get _defaultDateForNewPlanned {
+    if (_isFutureProjection || _detailExpanded) return null;
+    final (start, end) = _dateFilter != null && _dateFilter != 'all'
+        ? _dateRange
+        : _currentMonthRange;
+    final s = DateUtils.dateOnly(start);
+    final lastInclusive =
+        DateUtils.dateOnly(end.subtract(const Duration(days: 1)));
+    var d = DateUtils.dateOnly(_dateAnchor);
+    if (d.isBefore(s)) d = s;
+    if (d.isAfter(lastInclusive)) d = lastInclusive;
+    return d;
+  }
+
   (DateTime, DateTime) get _dateRange {
     final a = _dateAnchor;
     return switch (_dateFilter) {
@@ -731,7 +746,11 @@ class _PlanScreenState extends State<PlanScreen> {
   Future<void> _addPlanned() async {
     final result = await Navigator.push<PlannedTransaction>(
       context,
-      MaterialPageRoute(builder: (_) => const NewPlannedTransactionScreen()),
+      MaterialPageRoute(
+        builder: (_) => NewPlannedTransactionScreen(
+          defaultDateForNew: _defaultDateForNewPlanned,
+        ),
+      ),
     );
     if (result != null) {
       if (!mounted) return;
@@ -819,7 +838,10 @@ class _PlanScreenState extends State<PlanScreen> {
     final hasPlanned = data.plannedTransactions.isNotEmpty;
     final planChipsEnabled =
         !_isFutureProjection && hasAccounts && hasPlanned;
-    if (!planChipsEnabled &&
+    // Clear stale filters only when Plan chips cannot work (no accounts or no
+    // planned txs). Do not clear when chips are hidden because the user is in
+    // future projection — that would drop date navigation and feel like a reset.
+    if ((!hasAccounts || !hasPlanned) &&
         (_accountStripOpen ||
             _categoryStripOpen ||
             _hasActiveFilter)) {
@@ -888,20 +910,29 @@ class _PlanScreenState extends State<PlanScreen> {
           _expandedPlanProjectionDay != null ||
           _accountStripOpen ||
           _categoryStripOpen;
-      if (showPlanResetFab) {
-        fab = FloatingActionButton.extended(
-          heroTag: 'plan_fab',
-          onPressed: _planFabReset,
-          tooltip: l10n.heroResetButton,
-          icon: const Icon(Icons.restart_alt_rounded),
-          label: Text(l10n.heroResetButton),
-        );
-      } else if (displayPlanned.isNotEmpty) {
-        fab = FloatingActionButton(
-          heroTag: 'plan_fab',
+      final showPlanAddFab =
+          displayPlanned.isNotEmpty || showPlanResetFab;
+      if (showPlanAddFab) {
+        final addFab = FloatingActionButton(
+          heroTag: 'plan_fab_add',
           onPressed: _addPlanned,
           child: const Icon(Icons.add_rounded),
         );
+        fab = showPlanResetFab
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FloatingActionButton.small(
+                    heroTag: 'plan_fab_reset',
+                    onPressed: _planFabReset,
+                    tooltip: l10n.heroResetButton,
+                    child: const Icon(Icons.restart_alt_rounded),
+                  ),
+                  const SizedBox(width: 12),
+                  addFab,
+                ],
+              )
+            : addFab;
       }
     }
     final mainFab = fab;

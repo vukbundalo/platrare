@@ -588,15 +588,25 @@ class _TrackScreenState extends State<TrackScreen> {
               scrollToTopTooltip: l10n.fabScrollToTop,
               scrollHeroTag: 'track_scroll_top',
               mainFab: showTrackResetFab
-                  ? FloatingActionButton.extended(
-                      heroTag: 'track_fab',
-                      onPressed: _trackFabReset,
-                      tooltip: l10n.heroResetButton,
-                      icon: const Icon(Icons.restart_alt_rounded),
-                      label: Text(l10n.heroResetButton),
+                  ? Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        FloatingActionButton.small(
+                          heroTag: 'track_fab_reset',
+                          onPressed: _trackFabReset,
+                          tooltip: l10n.heroResetButton,
+                          child: const Icon(Icons.restart_alt_rounded),
+                        ),
+                        const SizedBox(width: 12),
+                        FloatingActionButton(
+                          heroTag: 'track_fab_add',
+                          onPressed: _openNewTransaction,
+                          child: const Icon(Icons.add_rounded),
+                        ),
+                      ],
                     )
                   : FloatingActionButton(
-                      heroTag: 'track_fab',
+                      heroTag: 'track_fab_add',
                       onPressed: _openNewTransaction,
                       child: const Icon(Icons.add_rounded),
                     ),
