@@ -21,6 +21,9 @@ import 'widgets/app_lock_gate.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   await PlatrareDatabase.openPlatrareDatabase();
   await PlatrareDatabase.instance.loadIntoMemory();
   await Future.wait([
