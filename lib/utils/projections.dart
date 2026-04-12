@@ -6,6 +6,8 @@ import '../models/account.dart';
 import '../models/planned_transaction.dart';
 import 'fx.dart' as fx;
 
+DateTime _dateOnly(DateTime d) => DateTime(d.year, d.month, d.day);
+
 /// Returns historical native balances for every account at end-of-day on
 /// [date] by taking current real balances and reversing all transactions
 /// that occurred strictly after [date].
@@ -49,11 +51,28 @@ Map<String, double> projectBalances(DateTime date) {
     if (pt.nativeAmount == null) continue;
 
     // Walk every occurrence of this planned transaction up to dayEnd.
+    //
+    // Do not use [shouldSpawnNextOccurrence] here: it is defined for “spawn the
+    // next row after a confirm” and only looks at [repeatConfirmedCount], which
+    // never increases during this simulation. That made capped series
+    // (repeatEndAfter) iterate until dayEnd as if they were infinite — freezing
+    // the UI when the projection date is far out (e.g. months ahead).
     DateTime occurrence = DateUtils.dateOnly(pt.date);
+    var appliedHere = 0;
+    var guard = 0;
+    const maxOccurrencesPerPlanned = 50000;
+
     while (true) {
+      if (++guard > maxOccurrencesPerPlanned) break;
+
       final occEnd = DateTime(
           occurrence.year, occurrence.month, occurrence.day, 23, 59, 59);
       if (occEnd.isAfter(dayEnd)) break;
+
+      if (pt.repeatEndAfter != null &&
+          pt.repeatConfirmedCount + appliedHere >= pt.repeatEndAfter!) {
+        break;
+      }
 
       if (pt.fromAccount != null) {
         balances[pt.fromAccount!.id] =
@@ -67,10 +86,22 @@ Map<String, double> projectBalances(DateTime date) {
         balances[pt.toAccount!.id] =
             (balances[pt.toAccount!.id] ?? 0) + credit;
       }
+      appliedHere++;
 
       if (pt.repeatInterval == RepeatInterval.none) break;
+
       final next = nextPlannedEffectiveDate(pt, occurrence);
-      if (!shouldSpawnNextOccurrence(pt, next)) break;
+      if (!next.isAfter(occurrence)) break;
+
+      if (pt.repeatEndDate != null &&
+          _dateOnly(next).isAfter(_dateOnly(pt.repeatEndDate!))) {
+        break;
+      }
+      if (pt.repeatEndAfter != null &&
+          pt.repeatConfirmedCount + appliedHere >= pt.repeatEndAfter!) {
+        break;
+      }
+
       occurrence = next;
     }
   }
