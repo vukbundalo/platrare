@@ -16,6 +16,7 @@ import 'review/account_form_widgets.dart';
 import 'settings_screen.dart';
 import '../widgets/app_hero_layout.dart';
 import '../widgets/review_stats_empty_state.dart';
+import '../widgets/stacked_scroll_fab.dart';
 
 export 'review/account_form_widgets.dart'
     show AccountFormSheet, AccountFormScreen;
@@ -188,6 +189,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   late final PageController _sectionPageController;
 
+  static const double _kReviewScrollToTopFabThreshold = 280;
+
+  late final List<ScrollController> _reviewPageScrollControllers;
+  final ScrollController _reviewEmptyScrollController = ScrollController();
+  bool _showReviewScrollToTopFab = false;
+
   /// Drives hero bottom shadow under [NestedScrollView] (real scroll offset).
   final ValueNotifier<bool> _reviewHeroOverlapShadow = ValueNotifier(false);
 
@@ -207,6 +214,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
     _sectionPageController = PageController(
       initialPage: _kReviewSections.indexOf(_activeSection).clamp(0, 3),
     );
+    _reviewPageScrollControllers = List.generate(
+      _kReviewSections.length,
+      (_) {
+        final c = ScrollController();
+        c.addListener(_onReviewScrollPositionChanged);
+        return c;
+      },
+    );
+    _reviewEmptyScrollController.addListener(_onReviewScrollPositionChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       _scheduleReviewHeroOverlapShadowSyncForPage(
@@ -216,6 +232,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   @override
   void dispose() {
+    for (final c in _reviewPageScrollControllers) {
+      c.removeListener(_onReviewScrollPositionChanged);
+      c.dispose();
+    }
+    _reviewEmptyScrollController.removeListener(_onReviewScrollPositionChanged);
+    _reviewEmptyScrollController.dispose();
     _reviewHeroOverlapShadow.dispose();
     _sectionPageController.dispose();
     super.dispose();
@@ -236,6 +258,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
       }
     });
     _scheduleReviewHeroOverlapShadowSyncForPage(index);
+    _scheduleReviewScrollToTopFabSync();
   }
 
   void _selectReviewSection(String section) {
@@ -254,6 +277,56 @@ class _ReviewScreenState extends State<ReviewScreen> {
       );
     }
     _scheduleReviewHeroOverlapShadowSyncForPage(i);
+    _scheduleReviewScrollToTopFabSync();
+  }
+
+  void _onReviewScrollPositionChanged() {
+    if (!mounted) return;
+    final hasAccounts = activeAccounts(data.accounts).isNotEmpty;
+    bool show = false;
+    if (!hasAccounts) {
+      if (_reviewEmptyScrollController.hasClients) {
+        show = _reviewEmptyScrollController.offset >
+            _kReviewScrollToTopFabThreshold;
+      }
+    } else {
+      final i = _sectionPageIndex(_activeSection);
+      if (i < _reviewPageScrollControllers.length) {
+        final c = _reviewPageScrollControllers[i];
+        show = c.hasClients &&
+            c.offset > _kReviewScrollToTopFabThreshold;
+      }
+    }
+    if (show != _showReviewScrollToTopFab) {
+      setState(() => _showReviewScrollToTopFab = show);
+    }
+  }
+
+  void _scheduleReviewScrollToTopFabSync() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _onReviewScrollPositionChanged();
+    });
+  }
+
+  void _scrollReviewToTop() {
+    if (activeAccounts(data.accounts).isEmpty) {
+      final c = _reviewEmptyScrollController;
+      if (!c.hasClients) return;
+      c.animateTo(
+        0,
+        duration: const Duration(milliseconds: 380),
+        curve: Curves.easeOutCubic,
+      );
+      return;
+    }
+    final i = _sectionPageIndex(_activeSection);
+    final c = _reviewPageScrollControllers[i];
+    if (!c.hasClients) return;
+    c.animateTo(
+      0,
+      duration: const Duration(milliseconds: 380),
+      curve: Curves.easeOutCubic,
+    );
   }
 
   void _setReviewHeroOverlapShadow(bool value) {
@@ -987,6 +1060,58 @@ class _ReviewScreenState extends State<ReviewScreen> {
     return _categorySpendingInRange(range.start, range.end);
   }
 
+  Widget? _reviewFloatingActionButton(
+      AppLocalizations l10n, bool hasVisibleAccounts) {
+    if (!hasVisibleAccounts) {
+      if (!_showReviewScrollToTopFab) return null;
+      return FloatingActionButton.small(
+        heroTag: 'review_scroll_top',
+        onPressed: _scrollReviewToTop,
+        tooltip: l10n.fabScrollToTop,
+        child: const Icon(Icons.vertical_align_top_rounded),
+      );
+    }
+
+    Widget? mainFab;
+    if (_activeSection == 'statistics') {
+      if (_reviewStatisticsHasNonDefaultChoices) {
+        mainFab = FloatingActionButton.extended(
+          heroTag: 'review_fab',
+          onPressed: _reviewFabResetStatistics,
+          tooltip: l10n.heroResetButton,
+          icon: const Icon(Icons.restart_alt_rounded),
+          label: Text(l10n.heroResetButton),
+        );
+      }
+    } else if (_displayCurrency != settings.baseCurrency) {
+      mainFab = FloatingActionButton.extended(
+        heroTag: 'review_fab',
+        onPressed: () =>
+            setState(() => _displayCurrency = settings.baseCurrency),
+        tooltip: l10n.heroResetButton,
+        icon: const Icon(Icons.restart_alt_rounded),
+        label: Text(l10n.heroResetButton),
+      );
+    } else {
+      mainFab = FloatingActionButton(
+        heroTag: 'review_fab',
+        onPressed: _addAccount,
+        tooltip: l10n.tooltipAddAccount,
+        child: const Icon(Icons.add_rounded),
+      );
+    }
+
+    if (mainFab == null && !_showReviewScrollToTopFab) return null;
+
+    return StackedScrollFab(
+      showScrollToTop: _showReviewScrollToTopFab,
+      onScrollToTop: _scrollReviewToTop,
+      scrollToTopTooltip: l10n.fabScrollToTop,
+      scrollHeroTag: 'review_scroll_top',
+      mainFab: mainFab,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
@@ -1004,35 +1129,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      floatingActionButton: visibleAccounts.isEmpty
-          ? null
-          : _activeSection == 'statistics'
-              ? (_reviewStatisticsHasNonDefaultChoices
-                  ? FloatingActionButton.extended(
-                      heroTag: 'review_fab',
-                      onPressed: _reviewFabResetStatistics,
-                      tooltip: l10n.heroResetButton,
-                      icon: const Icon(Icons.restart_alt_rounded),
-                      label: Text(l10n.heroResetButton),
-                    )
-                  : null)
-              : _displayCurrency != settings.baseCurrency
-                  ? FloatingActionButton.extended(
-                      heroTag: 'review_fab',
-                      onPressed: () => setState(
-                          () => _displayCurrency = settings.baseCurrency),
-                      tooltip: l10n.heroResetButton,
-                      icon: const Icon(Icons.restart_alt_rounded),
-                      label: Text(l10n.heroResetButton),
-                    )
-                  : FloatingActionButton(
-                      heroTag: 'review_fab',
-                      onPressed: _addAccount,
-                      tooltip: l10n.tooltipAddAccount,
-                      child: const Icon(Icons.add_rounded),
-                    ),
+      floatingActionButton: _reviewFloatingActionButton(
+          l10n, visibleAccounts.isNotEmpty),
       body: visibleAccounts.isEmpty
           ? CustomScrollView(
+              controller: _reviewEmptyScrollController,
               slivers: [
                 SliverAppBar(
                   pinned: true,
@@ -1121,6 +1222,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             return CustomScrollView(
                               key: PageStorageKey<String>(
                                   'review_section_$section'),
+                              controller:
+                                  _reviewPageScrollControllers[index],
                               slivers: [
                                 SliverToBoxAdapter(
                                     child: SizedBox(height: topPad)),
