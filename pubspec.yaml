@@ -54,6 +54,13 @@ dependencies:
   google_fonts: ^8.0.2
   share_plus: ^10.1.4
 
+# path_provider_foundation 2.6.0+ uses package:objective_c (native assets / FFI).
+# That flow can bundle an iOS-device slice only, breaking iOS Simulator (DOBJC_initializeApi /
+# objective_c.framework load errors). Stay on the Pigeon plugin implementation until upstream
+# stabilizes. See flutter/flutter#178915.
+dependency_overrides:
+  path_provider_foundation: 2.4.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
