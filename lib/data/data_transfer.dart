@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui' show Rect;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 
 import 'package:archive/archive.dart';
 import 'package:file_picker/file_picker.dart';
@@ -74,10 +74,6 @@ class BackupImportPrepared {
 
 class DataTransfer {
   DataTransfer._();
-
-  /// Keep in sync with `MethodChannelShare.channel` in share_plus_platform_interface.
-  static const MethodChannel _sharePlusChannel =
-      MethodChannel('dev.fluttercommunity.plus/share');
 
   static String defaultExportFileName({required bool encrypt}) {
     final stamp = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
@@ -196,33 +192,14 @@ class DataTransfer {
 
     final mimeType = encrypt ? 'application/octet-stream' : 'application/zip';
     debugPrint('[Backup:Export] Opening share sheet — mime: $mimeType');
-    // iOS (share_plus): the unified native handler validates `text` before it
-    // handles `paths`, and file-only shares must not send an empty `text` key.
-    // Use a minimal map (paths, mimeTypes, subject, optional origin) matching the
-    // legacy `shareFiles` payload so the sheet opens reliably on iPhone.
-    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
-      final shareArgs = <String, dynamic>{
-        'paths': <String>[tmpFile.path],
-        'mimeTypes': <String>[mimeType],
-        'subject': name,
-      };
-      final o = sharePositionOrigin;
-      if (o != null) {
-        shareArgs['originX'] = o.left;
-        shareArgs['originY'] = o.top;
-        shareArgs['originWidth'] = o.width;
-        shareArgs['originHeight'] = o.height;
-      }
-      await _sharePlusChannel.invokeMethod<String>('share', shareArgs);
-    } else {
-      await SharePlus.instance.share(
-        ShareParams(
-          files: [XFile(tmpFile.path, mimeType: mimeType, name: name)],
-          subject: name,
-          sharePositionOrigin: sharePositionOrigin,
-        ),
-      );
-    }
+    // share_plus 12+ routes file shares through a unified iOS `share` method that
+    // has regressed for file-only exports on some OS builds; stay on 10.x and
+    // the dedicated `shareFiles` channel (see pubspec).
+    await Share.shareXFiles(
+      [XFile(tmpFile.path, mimeType: mimeType, name: name)],
+      subject: name,
+      sharePositionOrigin: sharePositionOrigin,
+    );
     debugPrint('[Backup:Export] Share sheet dismissed');
   }
 
