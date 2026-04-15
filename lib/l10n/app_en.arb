@@ -599,6 +599,8 @@
   "statsEmptySubtitle": "No spending data for the selected range.",
   "semanticsShowProjections": "Show projected balances by account",
   "semanticsHideProjections": "Hide projected balances by account",
+  "semanticsShowDayBalanceBreakdown": "Show account balances for this day",
+  "semanticsHideDayBalanceBreakdown": "Hide account balances for this day",
   "semanticsDateAllTime": "Date: all time \u2014 tap to change mode",
   "semanticsDateMode": "Date: {mode} \u2014 tap to change mode",
   "@semanticsDateMode": {

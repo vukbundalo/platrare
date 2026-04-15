@@ -1427,6 +1427,14 @@ class AppLocalizationsHi extends AppLocalizations {
   String get semanticsHideProjections => 'खाते द्वारा अनुमानित शेष छिपाएँ';
 
   @override
+  String get semanticsShowDayBalanceBreakdown =>
+      'Show account balances for this day';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown =>
+      'Hide account balances for this day';
+
+  @override
   String get semanticsDateAllTime =>
       'दिनांक: हर समय - मोड बदलने के लिए टैप करें';
 

@@ -562,3 +562,54 @@ class TrackPlanFilterStrip extends StatelessWidget {
     );
   }
 }
+
+/// Placed below a day-group card so rows keep full width; toggles projection/history panels.
+class TrackPlanDayDetailExpandBar extends StatelessWidget {
+  const TrackPlanDayDetailExpandBar({
+    super.key,
+    required this.expanded,
+    required this.onTap,
+    required this.semanticsLabelExpanded,
+    required this.semanticsLabelCollapsed,
+  });
+
+  final bool expanded;
+  final VoidCallback onTap;
+  final String semanticsLabelExpanded;
+  final String semanticsLabelCollapsed;
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 2, 16, 0),
+      child: Material(
+        color: Colors.transparent,
+        child: Semantics(
+          label: expanded ? semanticsLabelExpanded : semanticsLabelCollapsed,
+          button: true,
+          expanded: expanded,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(12),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    expanded
+                        ? Icons.keyboard_arrow_up_rounded
+                        : Icons.keyboard_arrow_down_rounded,
+                    size: 28,
+                    color: cs.onSurfaceVariant.withValues(alpha: 0.65),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

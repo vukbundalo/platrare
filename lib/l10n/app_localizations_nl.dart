@@ -1433,6 +1433,14 @@ class AppLocalizationsNl extends AppLocalizations {
       'Verberg geprojecteerde saldi per rekening';
 
   @override
+  String get semanticsShowDayBalanceBreakdown =>
+      'Show account balances for this day';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown =>
+      'Hide account balances for this day';
+
+  @override
   String get semanticsDateAllTime =>
       'Datum: altijd — tik om de modus te wijzigen';
 

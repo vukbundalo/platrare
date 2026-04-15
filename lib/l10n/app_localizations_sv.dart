@@ -1431,6 +1431,14 @@ class AppLocalizationsSv extends AppLocalizations {
   String get semanticsHideProjections => 'Dölj beräknade saldon per konto';
 
   @override
+  String get semanticsShowDayBalanceBreakdown =>
+      'Show account balances for this day';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown =>
+      'Hide account balances for this day';
+
+  @override
   String get semanticsDateAllTime =>
       'Datum: hela tiden — tryck för att ändra läge';
 

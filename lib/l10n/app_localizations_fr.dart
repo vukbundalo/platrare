@@ -1444,6 +1444,14 @@ class AppLocalizationsFr extends AppLocalizations {
       'Masquer les soldes projetés par compte';
 
   @override
+  String get semanticsShowDayBalanceBreakdown =>
+      'Show account balances for this day';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown =>
+      'Hide account balances for this day';
+
+  @override
   String get semanticsDateAllTime =>
       'Date : depuis le début — appuyer pour changer de mode';
 

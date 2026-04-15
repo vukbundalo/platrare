@@ -1395,6 +1395,14 @@ class AppLocalizationsJa extends AppLocalizations {
   String get semanticsHideProjections => '口座ごとの予想残高を非表示にする';
 
   @override
+  String get semanticsShowDayBalanceBreakdown =>
+      'Show account balances for this day';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown =>
+      'Hide account balances for this day';
+
+  @override
   String get semanticsDateAllTime => '日付: 常時 — タップしてモードを変更します';
 
   @override

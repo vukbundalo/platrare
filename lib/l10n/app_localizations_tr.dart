@@ -1429,6 +1429,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get semanticsHideProjections => 'Tahmini bakiyeleri hesaba göre gizle';
 
   @override
+  String get semanticsShowDayBalanceBreakdown =>
+      'Show account balances for this day';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown =>
+      'Hide account balances for this day';
+
+  @override
   String get semanticsDateAllTime =>
       'Tarih: tüm zamanlar — modu değiştirmek için dokunun';
 

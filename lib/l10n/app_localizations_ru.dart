@@ -1439,6 +1439,14 @@ class AppLocalizationsRu extends AppLocalizations {
       'Скрыть прогнозируемые остатки по счетам';
 
   @override
+  String get semanticsShowDayBalanceBreakdown =>
+      'Show account balances for this day';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown =>
+      'Hide account balances for this day';
+
+  @override
   String get semanticsDateAllTime =>
       'Дата: все время — нажмите, чтобы изменить режим';
 

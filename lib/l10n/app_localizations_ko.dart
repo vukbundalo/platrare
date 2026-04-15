@@ -1396,6 +1396,14 @@ class AppLocalizationsKo extends AppLocalizations {
   String get semanticsHideProjections => '계정별 예상 잔액 숨기기';
 
   @override
+  String get semanticsShowDayBalanceBreakdown =>
+      'Show account balances for this day';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown =>
+      'Hide account balances for this day';
+
+  @override
   String get semanticsDateAllTime => '날짜: 항상 — 모드를 변경하려면 탭하세요.';
 
   @override

@@ -1435,6 +1435,14 @@ class AppLocalizationsSr extends AppLocalizations {
   String get semanticsHideProjections => 'Sakrij projektovana stanja po računu';
 
   @override
+  String get semanticsShowDayBalanceBreakdown =>
+      'Show account balances for this day';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown =>
+      'Hide account balances for this day';
+
+  @override
   String get semanticsDateAllTime =>
       'Datum: celo vreme — dodirnite za promenu režima';
 

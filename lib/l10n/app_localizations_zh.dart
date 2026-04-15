@@ -1423,6 +1423,14 @@ class AppLocalizationsZh extends AppLocalizations {
   String get semanticsHideProjections => 'Hide projected balances by account';
 
   @override
+  String get semanticsShowDayBalanceBreakdown =>
+      'Show account balances for this day';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown =>
+      'Hide account balances for this day';
+
+  @override
   String get semanticsDateAllTime => 'Date: all time — tap to change mode';
 
   @override

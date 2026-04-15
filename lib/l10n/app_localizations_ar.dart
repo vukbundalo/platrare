@@ -1423,6 +1423,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get semanticsHideProjections => 'إخفاء الأرصدة المتوقعة حسب الحساب';
 
   @override
+  String get semanticsShowDayBalanceBreakdown =>
+      'Show account balances for this day';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown =>
+      'Hide account balances for this day';
+
+  @override
   String get semanticsDateAllTime => 'التاريخ: طوال الوقت — انقر لتغيير الوضع';
 
   @override

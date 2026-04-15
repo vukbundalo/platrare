@@ -1853,42 +1853,43 @@ class _DayGroup extends StatelessWidget {
                           pt: pt,
                           onTap: () => onTap(pt),
                           onLongPress: () => onEdit(pt),
-                          showProjection: idx == planned.length - 1
-                              ? projectionExpanded
-                              : false,
-                          onToggleProjection: idx == planned.length - 1
-                              ? onToggleLastProjection
-                              : null,
                         ),
                       ],
                     ),
                   );
                 }),
-
-                // Projection panel
-                if (projectionExpanded) ...[
-                  Divider(
-                      height: 0.5,
-                      color: cs.outlineVariant.withValues(alpha: 0.4)),
-                  _ProjectionPanel(
-                    projectedBalances: projectedBalances,
-                    personal: personal,
-                    individuals: individuals,
-                    entities: entities,
-                    gainIds: {
-                      for (final pt in planned)
-                        if (pt.toAccount != null) pt.toAccount!.id,
-                    },
-                    loseIds: {
-                      for (final pt in planned)
-                        if (pt.fromAccount != null) pt.fromAccount!.id,
-                    },
-                  ),
-                ],
               ],
             ),
           ),
         ),
+        if (planned.isNotEmpty) ...[
+          TrackPlanDayDetailExpandBar(
+            expanded: projectionExpanded,
+            onTap: onToggleLastProjection,
+            semanticsLabelExpanded:
+                AppLocalizations.of(context).semanticsHideProjections,
+            semanticsLabelCollapsed:
+                AppLocalizations.of(context).semanticsShowProjections,
+          ),
+          if (projectionExpanded)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+              child: _ProjectionPanel(
+                projectedBalances: projectedBalances,
+                personal: personal,
+                individuals: individuals,
+                entities: entities,
+                gainIds: {
+                  for (final pt in planned)
+                    if (pt.toAccount != null) pt.toAccount!.id,
+                },
+                loseIds: {
+                  for (final pt in planned)
+                    if (pt.fromAccount != null) pt.fromAccount!.id,
+                },
+              ),
+            ),
+        ],
       ],
     );
   }
@@ -2110,15 +2111,11 @@ class _PlannedTile extends StatelessWidget {
   final PlannedTransaction pt;
   final VoidCallback onTap;
   final VoidCallback onLongPress;
-  final bool showProjection;
-  final VoidCallback? onToggleProjection;
 
   const _PlannedTile({
     required this.pt,
     required this.onTap,
     required this.onLongPress,
-    this.showProjection = false,
-    this.onToggleProjection,
   });
 
   TxType get _type =>
@@ -2246,49 +2243,13 @@ class _PlannedTile extends StatelessWidget {
           const SizedBox(width: 8),
 
           if (pt.nativeAmount != null)
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: Text(
-                txAmountDisplay(
-                    _type, pt.nativeAmount!, pt.currencyCode ?? 'BAM'),
-                style: TextStyle(
-                  color: _typeColor(context),
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          if (onToggleProjection != null)
-            SizedBox(
-              width: 48,
-              height: 48,
-              child: GestureDetector(
-                onTap: onToggleProjection,
-                behavior: HitTestBehavior.opaque,
-                child: Center(
-                  child: Icon(
-                    showProjection
-                        ? Icons.keyboard_arrow_up_rounded
-                        : Icons.keyboard_arrow_down_rounded,
-                    size: 22,
-                    color: cs.onSurfaceVariant.withValues(alpha: 0.55),
-                  ),
-                ),
-              ),
-            )
-          else
-            SizedBox(
-              width: 48,
-              height: 48,
-              child: Center(
-                child: Container(
-                  width: 4,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: cs.onSurfaceVariant.withValues(alpha: 0.22),
-                    shape: BoxShape.circle,
-                  ),
-                ),
+            Text(
+              txAmountDisplay(
+                  _type, pt.nativeAmount!, pt.currencyCode ?? 'BAM'),
+              style: TextStyle(
+                color: _typeColor(context),
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
               ),
             ),
         ],

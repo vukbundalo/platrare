@@ -1441,6 +1441,14 @@ class AppLocalizationsDe extends AppLocalizations {
       'Verstecken Sie die prognostizierten Salden nach Konto';
 
   @override
+  String get semanticsShowDayBalanceBreakdown =>
+      'Show account balances for this day';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown =>
+      'Hide account balances for this day';
+
+  @override
   String get semanticsDateAllTime =>
       'Datum: Gesamtzeit – tippen Sie, um den Modus zu ändern';
 

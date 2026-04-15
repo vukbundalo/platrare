@@ -2622,6 +2622,18 @@ abstract class AppLocalizations {
   /// **'Hide projected balances by account'**
   String get semanticsHideProjections;
 
+  /// No description provided for @semanticsShowDayBalanceBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Show account balances for this day'**
+  String get semanticsShowDayBalanceBreakdown;
+
+  /// No description provided for @semanticsHideDayBalanceBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide account balances for this day'**
+  String get semanticsHideDayBalanceBreakdown;
+
   /// No description provided for @semanticsDateAllTime.
   ///
   /// In en, this message translates to:

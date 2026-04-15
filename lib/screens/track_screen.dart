@@ -1214,7 +1214,6 @@ class _DaySection extends StatelessWidget {
               children: [
                 ...transactions.asMap().entries.map((entry) {
                   final idx = entry.key;
-                  final isLast = idx == transactions.length - 1;
                   return Column(
                     children: [
                       if (idx > 0)
@@ -1228,28 +1227,33 @@ class _DaySection extends StatelessWidget {
                         onRefresh: onRefresh,
                         onEdit: onEdit,
                         onTap: onTap,
-                        showHistory: isLast && historyOpen,
-                        onToggleHistory: isLast
-                            ? () => onToggleHistoryDay(dOnly)
-                            : null,
                       ),
                     ],
                   );
                 }),
-                if (historyOpen) ...[
-                  Divider(
-                      height: 0.5,
-                      color: cs.outlineVariant.withValues(alpha: 0.4)),
-                  _HistoryPanel(
-                    balances: historicalBals,
-                    gainIds: gainIds,
-                    loseIds: loseIds,
-                  ),
-                ],
               ],
             ),
           ),
         ),
+        if (transactions.isNotEmpty) ...[
+          TrackPlanDayDetailExpandBar(
+            expanded: historyOpen,
+            onTap: () => onToggleHistoryDay(dOnly),
+            semanticsLabelExpanded:
+                AppLocalizations.of(context).semanticsHideDayBalanceBreakdown,
+            semanticsLabelCollapsed:
+                AppLocalizations.of(context).semanticsShowDayBalanceBreakdown,
+          ),
+          if (historyOpen)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+              child: _HistoryPanel(
+                balances: historicalBals,
+                gainIds: gainIds,
+                loseIds: loseIds,
+              ),
+            ),
+        ],
       ],
     );
   }
@@ -1262,16 +1266,12 @@ class _TransactionTile extends StatelessWidget {
   final VoidCallback onRefresh;
   final void Function(Transaction) onEdit;
   final void Function(Transaction) onTap;
-  final bool showHistory;
-  final VoidCallback? onToggleHistory;
 
   const _TransactionTile({
     required this.transaction,
     required this.onRefresh,
     required this.onEdit,
     required this.onTap,
-    this.showHistory = false,
-    this.onToggleHistory,
   });
 
   /// Stored type takes priority; fall back to live classification for old data.
@@ -1480,51 +1480,12 @@ class _TransactionTile extends StatelessWidget {
             ),
             if (transaction.nativeAmount != null) ...[
               const SizedBox(width: 8),
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Text(_amountDisplay(),
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: _amountColor(context))),
-              ),
+              Text(_amountDisplay(),
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: _amountColor(context))),
             ],
-            if (onToggleHistory != null)
-              SizedBox(
-                width: 48,
-                height: 48,
-                child: GestureDetector(
-                  onTap: onToggleHistory,
-                  behavior: HitTestBehavior.opaque,
-                  child: Center(
-                    child: Icon(
-                      showHistory
-                          ? Icons.keyboard_arrow_up_rounded
-                          : Icons.keyboard_arrow_down_rounded,
-                      size: 22,
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurfaceVariant
-                          .withValues(alpha: 0.55),
-                    ),
-                  ),
-                ),
-              )
-            else
-              SizedBox(
-                width: 48,
-                height: 48,
-                child: Center(
-                  child: Container(
-                    width: 4,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: cs.onSurfaceVariant.withValues(alpha: 0.22),
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-              ),
           ],
         ),
         ),
