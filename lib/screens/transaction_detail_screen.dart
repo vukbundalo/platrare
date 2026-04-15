@@ -192,6 +192,11 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
   bool get _canConfirm => true;
 
   void _confirmDeletePlanned(BuildContext context) {
+    if (pt.repeatInterval != RepeatInterval.none) {
+      Navigator.pop(context);
+      onDelete!();
+      return;
+    }
     final l10n = AppLocalizations.of(context);
     showDialog(
       context: context,
