@@ -441,17 +441,19 @@ class _NewPlannedTransactionScreenState
                                 onChanged: (_) => setState(() {}),
                               ),
                             ),
-                            const SizedBox(width: 8),
-                            Text(
-                                fx.currencySymbol(
-                                  _fromAccount?.currencyCode ??
-                                      _toAccount?.currencyCode ??
-                                      settings.baseCurrency,
-                                ),
-                                style: TextStyle(
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.w700,
-                                    color: color.withValues(alpha: 0.6))),
+                            if (_fromAccount != null || _toAccount != null) ...[
+                              const SizedBox(width: 8),
+                              Text(
+                                  fx.currencySymbol(
+                                    _fromAccount?.currencyCode ??
+                                        _toAccount?.currencyCode ??
+                                        settings.baseCurrency,
+                                  ),
+                                  style: TextStyle(
+                                      fontSize: 32,
+                                      fontWeight: FontWeight.w700,
+                                      color: color.withValues(alpha: 0.6))),
+                            ],
                           ],
                         ),
                       ],
@@ -613,10 +615,13 @@ class _NewPlannedTransactionScreenState
           _SaveBar(
             canSave: _canSave,
             amount: _parsedAmount,
-            currencySymbol: fx.currencySymbol(
-              _fromAccount?.currencyCode ??
-              _toAccount?.currencyCode ?? settings.baseCurrency,
-            ),
+            currencySymbol: (_fromAccount != null || _toAccount != null)
+                ? fx.currencySymbol(
+                    _fromAccount?.currencyCode ??
+                        _toAccount?.currencyCode ??
+                        settings.baseCurrency,
+                  )
+                : '',
             dateLabel: _dateLabel(context),
             isEdit: _isEdit,
             onSave: _save,
@@ -783,7 +788,8 @@ class _SaveBar extends StatelessWidget {
                       size: 14, color: cs.primary),
                   const SizedBox(width: 6),
                   Text(
-                    '${amount!.toStringAsFixed(2)} $currencySymbol · $dateLabel',
+                    '${amount!.toStringAsFixed(2)}'
+                    '${currencySymbol.isNotEmpty ? ' $currencySymbol' : ''} · $dateLabel',
                     style: TextStyle(
                         color: cs.primary,
                         fontWeight: FontWeight.w700,

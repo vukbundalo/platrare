@@ -442,19 +442,21 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                                 onChanged: (_) => setState(() {}),
                               ),
                             ),
-                            const SizedBox(width: 6),
-                            Text(
-                              fx.currencySymbol(
-                                _fromAccount?.currencyCode ??
-                                    _toAccount?.currencyCode ??
-                                    settings.baseCurrency,
+                            if (_fromAccount != null || _toAccount != null) ...[
+                              const SizedBox(width: 6),
+                              Text(
+                                fx.currencySymbol(
+                                  _fromAccount?.currencyCode ??
+                                      _toAccount?.currencyCode ??
+                                      settings.baseCurrency,
+                                ),
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w700,
+                                  color: tc.withValues(alpha: 0.6),
+                                ),
                               ),
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.w700,
-                                color: tc.withValues(alpha: 0.6),
-                              ),
-                            ),
+                            ],
                           ],
                         ),
                       ],
@@ -571,10 +573,13 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
           _SaveBar(
             color: tc,
             amount: _parsedAmount,
-            currencySymbol: fx.currencySymbol(
-              _fromAccount?.currencyCode ??
-              _toAccount?.currencyCode ?? settings.baseCurrency,
-            ),
+            currencySymbol: (_fromAccount != null || _toAccount != null)
+                ? fx.currencySymbol(
+                    _fromAccount?.currencyCode ??
+                        _toAccount?.currencyCode ??
+                        settings.baseCurrency,
+                  )
+                : '',
             enabled: _canSave,
             isEdit: _isEdit,
             onSave: () => _save(),
@@ -649,7 +654,8 @@ class _SaveBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
-                  '${amount!.toStringAsFixed(2)} $currencySymbol',
+                  '${amount!.toStringAsFixed(2)}'
+                  '${currencySymbol.isNotEmpty ? ' $currencySymbol' : ''}',
                   style: const TextStyle(
                       fontSize: 13, fontWeight: FontWeight.w600),
                 ),
