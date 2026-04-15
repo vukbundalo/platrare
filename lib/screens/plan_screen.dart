@@ -919,8 +919,11 @@ class _PlanScreenState extends State<PlanScreen> {
           _expandedPlanProjectionDay != null ||
           _accountStripOpen ||
           _categoryStripOpen;
+      // Show add when this view has rows, or “reset” strip is relevant, or any
+      // planned tx exists globally (e.g. August items hidden by default April
+      // month filter — user still needs + for April).
       final showPlanAddFab =
-          displayPlanned.isNotEmpty || showPlanResetFab;
+          displayPlanned.isNotEmpty || showPlanResetFab || hasPlanned;
       if (showPlanAddFab) {
         final addFab = FloatingActionButton(
           heroTag: 'plan_fab_add',
