@@ -1213,6 +1213,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get accountColorSheetTitle => 'खाते का रंग';
 
   @override
+  String get searchAccountIcons => 'Search icons by name…';
+
+  @override
+  String get accountIconSearchNoMatches => 'No icons match that search.';
+
+  @override
   String get accountUseInitialLetter => 'प्रारंभिक पत्र';
 
   @override

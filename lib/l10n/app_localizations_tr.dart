@@ -1214,6 +1214,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get accountColorSheetTitle => 'Hesap rengi';
 
   @override
+  String get searchAccountIcons => 'Search icons by name…';
+
+  @override
+  String get accountIconSearchNoMatches => 'No icons match that search.';
+
+  @override
   String get accountUseInitialLetter => 'İlk harf';
 
   @override

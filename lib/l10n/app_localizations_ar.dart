@@ -1210,6 +1210,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get accountColorSheetTitle => 'لون الحساب';
 
   @override
+  String get searchAccountIcons => 'Search icons by name…';
+
+  @override
+  String get accountIconSearchNoMatches => 'No icons match that search.';
+
+  @override
   String get accountUseInitialLetter => 'الرسالة الأولية';
 
   @override

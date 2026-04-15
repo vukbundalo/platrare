@@ -1219,6 +1219,12 @@ class AppLocalizationsSr extends AppLocalizations {
   String get accountColorSheetTitle => 'Boja računa';
 
   @override
+  String get searchAccountIcons => 'Search icons by name…';
+
+  @override
+  String get accountIconSearchNoMatches => 'No icons match that search.';
+
+  @override
   String get accountUseInitialLetter => 'Inicijal';
 
   @override

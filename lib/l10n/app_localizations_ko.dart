@@ -1183,6 +1183,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get accountColorSheetTitle => '계정 색상';
 
   @override
+  String get searchAccountIcons => 'Search icons by name…';
+
+  @override
+  String get accountIconSearchNoMatches => 'No icons match that search.';
+
+  @override
   String get accountUseInitialLetter => '첫 글자';
 
   @override

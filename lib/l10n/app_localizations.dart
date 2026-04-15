@@ -2220,6 +2220,18 @@ abstract class AppLocalizations {
   /// **'Account color'**
   String get accountColorSheetTitle;
 
+  /// No description provided for @searchAccountIcons.
+  ///
+  /// In en, this message translates to:
+  /// **'Search icons by name…'**
+  String get searchAccountIcons;
+
+  /// No description provided for @accountIconSearchNoMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'No icons match that search.'**
+  String get accountIconSearchNoMatches;
+
   /// No description provided for @accountUseInitialLetter.
   ///
   /// In en, this message translates to:

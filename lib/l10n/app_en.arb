@@ -499,6 +499,8 @@
   "accountPickColor": "Choose color",
   "accountIconSheetTitle": "Account icon",
   "accountColorSheetTitle": "Account color",
+  "searchAccountIcons": "Search icons by name…",
+  "accountIconSearchNoMatches": "No icons match that search.",
   "accountUseInitialLetter": "Initial letter",
   "accountUseDefaultColor": "Match group",
   "labelRealBalance": "Real balance",

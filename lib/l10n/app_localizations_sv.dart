@@ -1215,6 +1215,12 @@ class AppLocalizationsSv extends AppLocalizations {
   String get accountColorSheetTitle => 'Kontofärg';
 
   @override
+  String get searchAccountIcons => 'Search icons by name…';
+
+  @override
+  String get accountIconSearchNoMatches => 'No icons match that search.';
+
+  @override
   String get accountUseInitialLetter => 'Inledande brev';
 
   @override
