@@ -67,7 +67,6 @@ class _PlanScreenState extends State<PlanScreen> {
   bool _newestFirst = false;
   bool _accountStripOpen = false;
   bool _categoryStripOpen = false;
-  bool _detailExpanded = false;
   /// Calendar day whose last planned row has per-day projection panel expanded.
   DateTime? _expandedPlanProjectionDay;
 
@@ -214,7 +213,7 @@ class _PlanScreenState extends State<PlanScreen> {
 
   /// Default date when opening “new planned” from the list’s visible period.
   DateTime? get _defaultDateForNewPlanned {
-    if (_isFutureProjection || _detailExpanded) return null;
+    if (_isFutureProjection) return null;
     final (start, end) = _dateFilter != null && _dateFilter != 'all'
         ? _dateRange
         : _currentMonthRange;
@@ -303,7 +302,6 @@ class _PlanScreenState extends State<PlanScreen> {
     }
     setState(() {
       _expandedPlanProjectionDay = null;
-      _detailExpanded = false;
       _accountStripOpen = false;
       _categoryStripOpen = false;
       if (_hasActiveFilter) {
@@ -879,16 +877,6 @@ class _PlanScreenState extends State<PlanScreen> {
                 ? l10n.semanticsFiltersDisabledNeedPlannedTransaction
                 : l10n.semanticsFiltersDisabled;
     final planHeroInteractive = hasAccounts && hasPlanned;
-    if (!planHeroInteractive && _detailExpanded) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          setState(() {
-            _detailExpanded = false;
-            _expandedPlanProjectionDay = null;
-          });
-        }
-      });
-    }
     if (!planHeroInteractive && _isFutureProjection) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
@@ -928,7 +916,6 @@ class _PlanScreenState extends State<PlanScreen> {
     if (activeAccounts(data.accounts).isNotEmpty) {
       final showPlanResetFab = _isFutureProjection ||
           _hasActiveFilter ||
-          _detailExpanded ||
           _expandedPlanProjectionDay != null ||
           _accountStripOpen ||
           _categoryStripOpen;
@@ -1009,14 +996,10 @@ class _PlanScreenState extends State<PlanScreen> {
                 personal: snapshotPersonal,
                 net: snapshotNet,
                 snapshotDate: _snapshotDate,
-                isFutureSnapshot: _isFutureProjection,
-                detailExpanded: _detailExpanded,
                 projectionHeroInteractive: planHeroInteractive,
                 filterChipsEnabled: planChipsEnabled,
                 filterChipsDisabledSemantics: planFilterDisabledSemantics,
                 onPickSnapshotDate: _pickSnapshotDate,
-                onTapBalance: () =>
-                    setState(() => _detailExpanded = !_detailExpanded),
                 accountPanelOpen: _accountStripOpen,
                 categoryPanelOpen: _categoryStripOpen,
                 onToggleAccountPanel: _toggleAccountStrip,
@@ -1068,9 +1051,7 @@ class _PlanScreenState extends State<PlanScreen> {
                 ),
               ),
             ),
-          if (planChipsEnabled &&
-              !_isFutureProjection &&
-              !_detailExpanded)
+          if (planChipsEnabled && !_isFutureProjection)
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
@@ -1095,8 +1076,7 @@ class _PlanScreenState extends State<PlanScreen> {
               ),
             ),
 
-          if (planHeroInteractive &&
-              (_isFutureProjection || _detailExpanded)) ...[
+          if (planHeroInteractive && _isFutureProjection) ...[
             if (projPersonal.isNotEmpty) ...[
               SliverToBoxAdapter(
                 child: _PlanProjectionSectionLabel(
@@ -1176,7 +1156,7 @@ class _PlanScreenState extends State<PlanScreen> {
               child: SizedBox(height: stackedFabScrollBottomInset(context)),
             ),
           ],
-          if (!_isFutureProjection && !_detailExpanded)
+          if (!_isFutureProjection)
             if (displayPlanned.isEmpty)
               SliverFillRemaining(
                 hasScrollBody: false,
@@ -1217,16 +1197,12 @@ class _ProjectionHero extends StatelessWidget {
   final double personal;
   final double net;
   final DateTime snapshotDate;
-  /// Future snapshot: balances-only mode below; amount is not tappable.
-  final bool isFutureSnapshot;
-  final bool detailExpanded;
-  /// Date picker and personal-balance expand/collapse (non-future) require setup.
+  /// Date picker requires accounts + planned rows.
   final bool projectionHeroInteractive;
   /// Hero chips stay visible; when false they are dimmed and non-interactive.
   final bool filterChipsEnabled;
   final String filterChipsDisabledSemantics;
   final VoidCallback onPickSnapshotDate;
-  final VoidCallback onTapBalance;
   final bool accountPanelOpen;
   final bool categoryPanelOpen;
   final VoidCallback onToggleAccountPanel;
@@ -1245,13 +1221,10 @@ class _ProjectionHero extends StatelessWidget {
     required this.personal,
     required this.net,
     required this.snapshotDate,
-    required this.isFutureSnapshot,
-    required this.detailExpanded,
     required this.projectionHeroInteractive,
     required this.filterChipsEnabled,
     required this.filterChipsDisabledSemantics,
     required this.onPickSnapshotDate,
-    required this.onTapBalance,
     required this.accountPanelOpen,
     required this.categoryPanelOpen,
     required this.onToggleAccountPanel,
@@ -1358,34 +1331,14 @@ class _ProjectionHero extends StatelessWidget {
                         projectionDateControl,
                         const SizedBox(
                             height: AppHeroConstants.labelToAmountGap),
-                        if (isFutureSnapshot)
+                        if (projectionHeroInteractive)
                           Semantics(
                             label: showAmounts
                                 ? l10n.semanticsProjectedBalance(personalStr)
                                 : l10n.semanticsHeroBalanceHidden,
-                            child: Opacity(
-                              opacity: projectionHeroInteractive ? 1 : 0.5,
-                              child: HeroFittedAmount(
-                                text: personalDisplay,
-                                style: personalStyle,
-                              ),
-                            ),
-                          )
-                        else if (projectionHeroInteractive)
-                          Semantics(
-                            label: showAmounts
-                                ? (detailExpanded
-                                    ? l10n.semanticsHideProjections
-                                    : l10n.semanticsShowProjections)
-                                : l10n.semanticsHeroBalanceHidden,
-                            button: true,
-                            child: InkWell(
-                              onTap: onTapBalance,
-                              borderRadius: BorderRadius.circular(8),
-                              child: HeroFittedAmount(
-                                text: personalDisplay,
-                                style: personalStyle,
-                              ),
+                            child: HeroFittedAmount(
+                              text: personalDisplay,
+                              style: personalStyle,
                             ),
                           )
                         else
