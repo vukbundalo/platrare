@@ -346,7 +346,46 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // ── Amount ────────────────────────────────────────────
+                  // ── Accounts ─────────────────────────────────────────
+                  _SectionLabel(AppLocalizations.of(context).sectionAccounts),
+                  const SizedBox(height: 8),
+
+                  _AccountTile(
+                    label: AppLocalizations.of(context).labelFrom,
+                    account: _fromAccount,
+                    accentColor: context.ledgerColors.negative,
+                    icon: Icons.arrow_upward_rounded,
+                    onTap: () async {
+                      final a = await _pickAccount(exclude: _toAccount);
+                      if (a != null && mounted) {
+                        setState(() => _fromAccount = a);
+                      }
+                    },
+                    onClear: _fromAccount != null
+                        ? () => setState(() => _fromAccount = null)
+                        : null,
+                  ),
+                  const SizedBox(height: 8),
+
+                  _AccountTile(
+                    label: AppLocalizations.of(context).labelTo,
+                    account: _toAccount,
+                    accentColor: context.ledgerColors.positive,
+                    icon: Icons.arrow_downward_rounded,
+                    onTap: () async {
+                      final a = await _pickAccount(exclude: _fromAccount);
+                      if (a != null && mounted) {
+                        setState(() => _toAccount = a);
+                      }
+                    },
+                    onClear: _toAccount != null
+                        ? () => setState(() => _toAccount = null)
+                        : null,
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // ── Amount (currency: from if set, else to, else base) ─
                   Container(
                     padding: const EdgeInsets.fromLTRB(20, 14, 20, 10),
                     decoration: BoxDecoration(
@@ -397,7 +436,9 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                                   filled: false,
                                   contentPadding: EdgeInsets.zero,
                                 ),
-                                autofocus: !_isEdit,
+                                autofocus: !_isEdit &&
+                                    (_fromAccount != null ||
+                                        _toAccount != null),
                                 onChanged: (_) => setState(() {}),
                               ),
                             ),
@@ -405,7 +446,8 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                             Text(
                               fx.currencySymbol(
                                 _fromAccount?.currencyCode ??
-                                _toAccount?.currencyCode ?? settings.baseCurrency,
+                                    _toAccount?.currencyCode ??
+                                    settings.baseCurrency,
                               ),
                               style: TextStyle(
                                 fontSize: 30,
@@ -417,45 +459,6 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                         ),
                       ],
                     ),
-                  ),
-
-                  const SizedBox(height: 24),
-
-                  // ── Accounts ─────────────────────────────────────────
-                  _SectionLabel(AppLocalizations.of(context).sectionAccounts),
-                  const SizedBox(height: 8),
-
-                  _AccountTile(
-                    label: AppLocalizations.of(context).labelFrom,
-                    account: _fromAccount,
-                    accentColor: context.ledgerColors.negative,
-                    icon: Icons.arrow_upward_rounded,
-                    onTap: () async {
-                      final a = await _pickAccount(exclude: _toAccount);
-                      if (a != null && mounted) {
-                        setState(() => _fromAccount = a);
-                      }
-                    },
-                    onClear: _fromAccount != null
-                        ? () => setState(() => _fromAccount = null)
-                        : null,
-                  ),
-                  const SizedBox(height: 8),
-
-                  _AccountTile(
-                    label: AppLocalizations.of(context).labelTo,
-                    account: _toAccount,
-                    accentColor: context.ledgerColors.positive,
-                    icon: Icons.arrow_downward_rounded,
-                    onTap: () async {
-                      final a = await _pickAccount(exclude: _fromAccount);
-                      if (a != null && mounted) {
-                        setState(() => _toAccount = a);
-                      }
-                    },
-                    onClear: _toAccount != null
-                        ? () => setState(() => _toAccount = null)
-                        : null,
                   ),
 
                   // ── Category ──────────────────────────────────────────

@@ -355,75 +355,6 @@ class _NewPlannedTransactionScreenState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Amount field (hero)
-                  Container(
-                    decoration: AppHeroChrome.cardDecoration(
-                      cs,
-                      Theme.of(context).brightness,
-                    ),
-                    padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          _txLabelText(context),
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700,
-                            color: color,
-                            letterSpacing: 1.0,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                controller: _amountController,
-                                keyboardType:
-                                    const TextInputType.numberWithOptions(
-                                        decimal: true),
-                                autofocus: true,
-                                style: TextStyle(
-                                  fontSize: 36,
-                                  fontWeight: FontWeight.w800,
-                                  color: color,
-                                  letterSpacing: -1,
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: '0.00',
-                                  hintStyle: TextStyle(
-                                    color: color.withValues(alpha: 0.3),
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                  border: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  filled: false,
-                                  contentPadding: EdgeInsets.zero,
-                                ),
-                                onChanged: (_) => setState(() {}),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                                fx.currencySymbol(
-                                  _fromAccount?.currencyCode ??
-                                  _toAccount?.currencyCode ?? settings.baseCurrency,
-                                ),
-                                style: TextStyle(
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.w700,
-                                    color: color.withValues(alpha: 0.6))),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-
                   // From account
                   _AccountPickerTile(
                     label: AppLocalizations.of(context).labelFrom,
@@ -453,6 +384,78 @@ class _NewPlannedTransactionScreenState
                     onClear: _toAccount != null
                         ? () => setState(() => _toAccount = null)
                         : null,
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Amount field (hero; currency: from if set, else to)
+                  Container(
+                    decoration: AppHeroChrome.cardDecoration(
+                      cs,
+                      Theme.of(context).brightness,
+                    ),
+                    padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _txLabelText(context),
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: color,
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: _amountController,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
+                                autofocus: !_isEdit &&
+                                    (_fromAccount != null ||
+                                        _toAccount != null),
+                                style: TextStyle(
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.w800,
+                                  color: color,
+                                  letterSpacing: -1,
+                                ),
+                                decoration: InputDecoration(
+                                  hintText: '0.00',
+                                  hintStyle: TextStyle(
+                                    color: color.withValues(alpha: 0.3),
+                                    fontSize: 36,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                  border: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  filled: false,
+                                  contentPadding: EdgeInsets.zero,
+                                ),
+                                onChanged: (_) => setState(() {}),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                                fx.currencySymbol(
+                                  _fromAccount?.currencyCode ??
+                                      _toAccount?.currencyCode ??
+                                      settings.baseCurrency,
+                                ),
+                                style: TextStyle(
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.w700,
+                                    color: color.withValues(alpha: 0.6))),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 16),
 
