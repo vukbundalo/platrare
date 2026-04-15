@@ -11,6 +11,7 @@ import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
 import '../widgets/account_avatar.dart';
 import '../widgets/attachments_editor.dart';
+import '../widgets/stacked_scroll_fab.dart';
 import '../utils/persistence_guard.dart';
 import '../utils/minor_units_amount_formatter.dart';
 import '../theme/ledger_colors.dart';
@@ -247,8 +248,10 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
     final titleLabel = '${rawLabel[0]}${rawLabel.substring(1).toLowerCase()}';
 
     if (mounted) {
+      final messenger = ScaffoldMessenger.of(context);
+      final snackMargin = snackBarFloatingMarginAboveStackedFab(context);
       Navigator.pop(context, true);
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         SnackBar(
           content: Text(_isEdit
               ? AppLocalizations.of(context).transactionUpdated
@@ -257,7 +260,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
           duration: const Duration(seconds: 2),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+          margin: snackMargin,
           backgroundColor: savedColor,
         ),
       );

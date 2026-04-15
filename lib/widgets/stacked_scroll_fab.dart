@@ -14,6 +14,18 @@ double stackedFabScrollBottomInset(BuildContext context) {
   return margin + smallFab + gap + mainFab + margin + clearance + safe;
 }
 
+/// [SnackBar.margin] for [SnackBarBehavior.floating] so the bar clears a
+/// [StackedScrollFab] column (main Track / Plan FABs) instead of covering it.
+EdgeInsets snackBarFloatingMarginAboveStackedFab(BuildContext context) {
+  const horizontal = 16.0;
+  return EdgeInsets.fromLTRB(
+    horizontal,
+    0,
+    horizontal,
+    stackedFabScrollBottomInset(context),
+  );
+}
+
 /// Stacks a small “scroll to top” [FloatingActionButton.small] above [mainFab]
 /// when [showScrollToTop] is true. Use distinct [scrollHeroTag] per screen.
 ///

@@ -589,7 +589,7 @@ class _PlanScreenState extends State<PlanScreen> {
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         duration: const Duration(seconds: 4),
-        margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+        margin: snackBarFloatingMarginAboveStackedFab(context),
       ),
     );
   }
@@ -613,7 +613,7 @@ class _PlanScreenState extends State<PlanScreen> {
         content: Text(AppLocalizations.of(context).planTransactionRemoved),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+        margin: snackBarFloatingMarginAboveStackedFab(context),
         duration: const Duration(seconds: 5),
         persist: false,
         action: SnackBarAction(
@@ -739,7 +739,7 @@ class _PlanScreenState extends State<PlanScreen> {
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12)),
-            margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            margin: snackBarFloatingMarginAboveStackedFab(context),
             duration: const Duration(seconds: 5),
             persist: false,
             action: SnackBarAction(

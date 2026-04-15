@@ -514,7 +514,7 @@ class _TrackScreenState extends State<TrackScreen> {
         behavior: SnackBarBehavior.floating,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+        margin: snackBarFloatingMarginAboveStackedFab(context),
         duration: const Duration(seconds: 5),
         persist: false,
         action: SnackBarAction(
@@ -1354,7 +1354,7 @@ class _TransactionTile extends StatelessWidget {
         behavior: SnackBarBehavior.floating,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+        margin: snackBarFloatingMarginAboveStackedFab(context),
         duration: const Duration(seconds: 5),
         persist: false,
         action: SnackBarAction(

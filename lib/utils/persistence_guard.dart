@@ -6,6 +6,7 @@ import '../data/data_repository.dart';
 import '../data/local/platrare_database.dart';
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
+import '../widgets/stacked_scroll_fab.dart';
 
 /// After [PlatrareDatabase.loadIntoMemory], [Account] instances from before the
 /// reload may be detached from [data.accounts]. Returns the current row or null.
@@ -43,7 +44,7 @@ Future<bool> guardPersist(BuildContext context, Future<void> Function() op) asyn
           content: Text(AppLocalizations.of(context).persistenceErrorReloaded),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+          margin: snackBarFloatingMarginAboveStackedFab(context),
         ),
       );
     }
