@@ -71,10 +71,10 @@ Future<void> setBackupExportReminderEnabled(bool v) async {
   final p = await SharedPreferences.getInstance();
   await p.setBool(_kEnabled, v);
   backupExportReminderEnabled.value = v;
-  if (!v) {
-    backupExportReminderSuppressedUntil.value = 0;
-    await p.setInt(_kSuppressedUntil, 0);
-  }
+  // Clear snooze on any toggle so re-enabling or turning off is never stuck behind
+  // an old reminderSuppressedUntil from a prior session.
+  backupExportReminderSuppressedUntil.value = 0;
+  await p.setInt(_kSuppressedUntil, 0);
   backupExportReminderReevaluate.value++;
 }
 
@@ -84,6 +84,10 @@ Future<void> setBackupExportReminderThreshold(int v) async {
   final p = await SharedPreferences.getInstance();
   await p.setInt(_kThreshold, clamped);
   backupExportReminderThreshold.value = clamped;
+  // Lowering the threshold must not leave an old "Remind later" ceiling blocking
+  // the banner (e.g. suppressedUntil=10 while count=3 and new threshold=2).
+  backupExportReminderSuppressedUntil.value = 0;
+  await p.setInt(_kSuppressedUntil, 0);
   backupExportReminderReevaluate.value++;
 }
 
