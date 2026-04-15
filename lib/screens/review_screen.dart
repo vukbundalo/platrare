@@ -1274,6 +1274,13 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                   individuals,
                                   entities,
                                 ),
+                                if (visibleAccounts.isNotEmpty)
+                                  SliverToBoxAdapter(
+                                    child: SizedBox(
+                                      height: stackedFabScrollBottomInset(
+                                          context),
+                                    ),
+                                  ),
                               ],
                             );
                           },
