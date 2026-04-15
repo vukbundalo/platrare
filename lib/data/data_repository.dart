@@ -3,6 +3,7 @@ import '../models/planned_transaction.dart';
 import '../models/transaction.dart';
 import 'account_lifecycle.dart' show compareAccountsStorageOrder;
 import 'app_data.dart' as data;
+import 'backup_export_reminder_prefs.dart';
 import 'balance_posting.dart';
 import 'local/platrare_database.dart';
 import 'planned_normalize.dart';
@@ -20,6 +21,7 @@ class DataRepository {
     final normalized = TransactionNormalizer.normalize(t);
     await _db.transactionUpsertTransactionAndAccounts(normalized);
     data.transactions.insert(0, normalized);
+    await recordQualifyingTransactionForBackupReminder(normalized);
   }
 
   static Future<void> replaceOrInsertTransaction(
@@ -48,6 +50,7 @@ class DataRepository {
       data.transactions[idx] = normalized;
     } else {
       data.transactions.insert(0, normalized);
+      await recordQualifyingTransactionForBackupReminder(normalized);
     }
   }
 
@@ -216,6 +219,10 @@ class DataRepository {
         await _db.deleteAllPlanned();
         data.plannedTransactions.clear();
       }
+    }
+
+    if (accounts || transactions) {
+      await resetBackupExportReminderState();
     }
 
     if (categories) {

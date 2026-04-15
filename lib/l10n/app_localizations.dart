@@ -3024,6 +3024,60 @@ abstract class AppLocalizations {
   /// **'Share'**
   String get autoBackupCloudReminderAction;
 
+  /// No description provided for @settingsBackupReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup reminder'**
+  String get settingsBackupReminderTitle;
+
+  /// No description provided for @settingsBackupReminderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'In-app banner if you add many transactions without exporting a manual backup.'**
+  String get settingsBackupReminderSubtitle;
+
+  /// No description provided for @settingsBackupReminderThresholdTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction threshold'**
+  String get settingsBackupReminderThresholdTitle;
+
+  /// No description provided for @settingsBackupReminderThresholdSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind after {count} new transactions since your last manual export.'**
+  String settingsBackupReminderThresholdSubtitle(int count);
+
+  /// No description provided for @settingsBackupReminderThresholdInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a whole number from 1 to 500.'**
+  String get settingsBackupReminderThresholdInvalid;
+
+  /// No description provided for @settingsBackupReminderSnoozeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'\"Remind later\" hides the banner until you add {n} more transactions.'**
+  String settingsBackupReminderSnoozeHint(int n);
+
+  /// No description provided for @backupReminderBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export a backup?'**
+  String get backupReminderBannerTitle;
+
+  /// No description provided for @backupReminderBannerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You have added {count} transactions since your last manual export.'**
+  String backupReminderBannerBody(int count);
+
+  /// No description provided for @backupReminderRemindLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind later'**
+  String get backupReminderRemindLater;
+
   /// No description provided for @persistenceErrorReloaded.
   ///
   /// In en, this message translates to:

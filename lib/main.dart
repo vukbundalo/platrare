@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'data/auto_backup_service.dart';
+import 'data/backup_export_reminder_prefs.dart';
 import 'data/balance_privacy_prefs.dart';
 import 'data/currency_prefs.dart';
 import 'data/local/platrare_database.dart';
@@ -12,6 +13,8 @@ import 'data/security_prefs.dart';
 import 'data/theme_prefs.dart';
 import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'l10n/supported_languages.dart';
+import 'utils/manual_backup_export_flow.dart';
+import 'screens/splash_screen.dart';
 import 'screens/track_screen.dart';
 import 'screens/plan_screen.dart';
 import 'screens/review_screen.dart';
@@ -32,6 +35,7 @@ Future<void> main() async {
     initAppTheme(),
     initSecurityPrefs(),
     initBalancePrivacyPrefs(),
+    initBackupExportReminderPrefs(),
   ]);
   await loadCurrencyPreferences();
   await _initDateFormattingForLocales();
@@ -155,9 +159,7 @@ class PlatrareApp extends StatelessWidget {
                 }
                 return _resolveLocale(null, supported);
               },
-              home: AppLockGate(
-                child: HomePage(initialTabIndex: initialMainTabIndex),
-              ),
+              home: _SplashRoot(initialTabIndex: initialMainTabIndex),
             );
           },
         );
@@ -177,23 +179,140 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+// ---------------------------------------------------------------------------
+// Splash root — shows SplashScreen once on cold start, then fades to home
+// ---------------------------------------------------------------------------
+
+class _SplashRoot extends StatefulWidget {
+  const _SplashRoot({required this.initialTabIndex});
+
+  final int initialTabIndex;
+
+  @override
+  State<_SplashRoot> createState() => _SplashRootState();
+}
+
+class _SplashRootState extends State<_SplashRoot> {
+  bool _splashDone = false;
+
+  @override
+  Widget build(BuildContext context) {
+    // Home is always in the tree so it's visible the moment the splash fades
+    // to transparent — no flash between splash exit and home entry.
+    return Stack(
+      children: [
+        AppLockGate(
+          child: HomePage(initialTabIndex: widget.initialTabIndex),
+        ),
+        if (!_splashDone)
+          Positioned.fill(
+            child: SplashScreen(
+              onComplete: () {
+                if (mounted) setState(() => _splashDone = true);
+              },
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   /// 0 = Plan, 1 = Track, 2 = Review.
   late int _currentIndex;
+
+  bool _backupMaterialBannerVisible = false;
+  bool _backupExportFromBannerBusy = false;
 
   @override
   void initState() {
     super.initState();
     _currentIndex = widget.initialTabIndex.clamp(0, 2);
     WidgetsBinding.instance.addObserver(this);
+    backupExportReminderListenable.addListener(_onBackupExportReminderListenable);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _syncBackupExportMaterialBanner();
+    });
     // Run backup check on cold start (data is already loaded).
     _runAutoBackup();
   }
 
   @override
   void dispose() {
+    backupExportReminderListenable.removeListener(_onBackupExportReminderListenable);
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  void _onBackupExportReminderListenable() {
+    if (!mounted) return;
+    _syncBackupExportMaterialBanner();
+  }
+
+  void _syncBackupExportMaterialBanner() {
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    if (messenger == null || !mounted) return;
+
+    final show = shouldShowBackupExportReminderBanner();
+    if (show && !_backupMaterialBannerVisible) {
+      final l10n = AppLocalizations.of(context);
+      final count = backupExportReminderSinceExportCount.value;
+      messenger.clearMaterialBanners();
+      messenger.showMaterialBanner(
+        MaterialBanner(
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                l10n.backupReminderBannerTitle,
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 4),
+              Text(l10n.backupReminderBannerBody(count)),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: _backupExportFromBannerBusy
+                  ? null
+                  : () async {
+                      await remindLaterBackupExportReminder();
+                      if (!mounted) return;
+                      messenger.clearMaterialBanners();
+                      setState(() => _backupMaterialBannerVisible = false);
+                    },
+              child: Text(l10n.backupReminderRemindLater),
+            ),
+            TextButton(
+              onPressed: _backupExportFromBannerBusy
+                  ? null
+                  : () async {
+                      setState(() => _backupExportFromBannerBusy = true);
+                      try {
+                        await runManualBackupExportFlow(
+                          context: context,
+                          l10n: l10n,
+                        );
+                      } finally {
+                        if (mounted) {
+                          setState(() => _backupExportFromBannerBusy = false);
+                          _syncBackupExportMaterialBanner();
+                        }
+                      }
+                    },
+              child: Text(l10n.settingsDataExportTitle),
+            ),
+          ],
+        ),
+      );
+      setState(() => _backupMaterialBannerVisible = true);
+    } else if (!show && _backupMaterialBannerVisible) {
+      messenger.clearMaterialBanners();
+      setState(() => _backupMaterialBannerVisible = false);
+    }
   }
 
   @override

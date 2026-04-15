@@ -701,5 +701,36 @@
   "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
   "autoBackupCloudReminderAction": "Share",
 
+  "settingsBackupReminderTitle": "Backup reminder",
+  "settingsBackupReminderSubtitle": "In-app banner if you add many transactions without exporting a manual backup.",
+  "settingsBackupReminderThresholdTitle": "Transaction threshold",
+  "settingsBackupReminderThresholdSubtitle": "Remind after {count} new transactions since your last manual export.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "Enter a whole number from 1 to 500.",
+  "settingsBackupReminderSnoozeHint": "\"Remind later\" hides the banner until you add {n} more transactions.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "backupReminderBannerTitle": "Export a backup?",
+  "backupReminderBannerBody": "You have added {count} transactions since your last manual export.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backupReminderRemindLater": "Remind later",
+
   "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
 }

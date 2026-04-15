@@ -1670,6 +1670,41 @@ class AppLocalizationsBs extends AppLocalizations {
   String get autoBackupCloudReminderAction => 'Dijeli';
 
   @override
+  String get settingsBackupReminderTitle => 'Backup reminder';
+
+  @override
+  String get settingsBackupReminderSubtitle =>
+      'In-app banner if you add many transactions without exporting a manual backup.';
+
+  @override
+  String get settingsBackupReminderThresholdTitle => 'Transaction threshold';
+
+  @override
+  String settingsBackupReminderThresholdSubtitle(int count) {
+    return 'Remind after $count new transactions since your last manual export.';
+  }
+
+  @override
+  String get settingsBackupReminderThresholdInvalid =>
+      'Enter a whole number from 1 to 500.';
+
+  @override
+  String settingsBackupReminderSnoozeHint(int n) {
+    return '\"Remind later\" hides the banner until you add $n more transactions.';
+  }
+
+  @override
+  String get backupReminderBannerTitle => 'Export a backup?';
+
+  @override
+  String backupReminderBannerBody(int count) {
+    return 'You have added $count transactions since your last manual export.';
+  }
+
+  @override
+  String get backupReminderRemindLater => 'Remind later';
+
+  @override
   String get persistenceErrorReloaded =>
       'Nije moguće sačuvati promjene. Podaci su ponovo učitani iz skladišta.';
 }

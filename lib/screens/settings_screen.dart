@@ -3,6 +3,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import '../data/app_data.dart' as data;
 import '../theme/ledger_colors.dart';
 import '../data/auto_backup_service.dart';
+import '../data/backup_export_reminder_prefs.dart';
 import '../data/balance_privacy_prefs.dart';
 import '../data/data_repository.dart';
 import '../data/data_transfer.dart';
@@ -20,6 +21,7 @@ import '../l10n/app_localizations.dart';
 import '../l10n/supported_languages.dart';
 import '../models/account.dart';
 import '../utils/fx.dart' as fx;
+import '../utils/manual_backup_export_flow.dart';
 import '../utils/persistence_guard.dart';
 import 'app_about_screen.dart';
 import 'privacy_policy_screen.dart';
@@ -37,69 +39,67 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _exportingBackup = false;
 
   Future<void> _exportBackup(AppLocalizations l10n) async {
-    // Capture the share-sheet anchor rect before any async gap (iOS requires
-    // a non-zero sharePositionOrigin for the UIActivityViewController popover).
-    final screenSize = MediaQuery.sizeOf(context);
-    final shareOrigin = Rect.fromCenter(
-      center: Offset(screenSize.width / 2, screenSize.height - 120),
-      width: 200,
-      height: 56,
-    );
-
-    // Step 1: password dialog (returns empty string = no encryption, null = cancelled)
-    final choice = await showDialog<String?>(
-      context: context,
-      builder: (ctx) => _BackupExportPasswordDialog(l10n: l10n),
-    );
-    if (!mounted || choice == null) return;
-
-    // Step 2: if no password chosen, warn the user before proceeding
-    final bool encrypt;
-    final String? password;
-    if (choice.isEmpty) {
-      final ok = await showDialog<bool>(
-            context: context,
-            builder: (ctx) => AlertDialog(
-              title: Text(l10n.backupExportSkipWarningTitle),
-              content: Text(l10n.backupExportSkipWarningBody),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(ctx, false),
-                  child: Text(l10n.cancel),
-                ),
-                FilledButton(
-                  onPressed: () => Navigator.pop(ctx, true),
-                  child: Text(l10n.backupExportSkipWarningConfirm),
-                ),
-              ],
-            ),
-          ) ??
-          false;
-      if (!mounted || !ok) return;
-      encrypt = false;
-      password = null;
-    } else {
-      encrypt = true;
-      password = choice;
-    }
-
-    // Step 3: build + open native share sheet (covers both device save and cloud)
     if (!mounted) return;
     setState(() => _exportingBackup = true);
     try {
-      await DataTransfer.shareBackup(
-        encrypt: encrypt,
-        password: password,
-        sharePositionOrigin: shareOrigin,
-      );
-    } catch (e) {
-      debugPrint('[Export] Failed: $e');
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.settingsDataExportFailed)),
-      );
+      await runManualBackupExportFlow(context: context, l10n: l10n);
     } finally {
       if (mounted) setState(() => _exportingBackup = false);
+    }
+  }
+
+  Future<void> _pickBackupReminderThreshold(AppLocalizations l10n) async {
+    final ctrl = TextEditingController(
+      text: '${backupExportReminderThreshold.value}',
+    );
+    try {
+      final picked = await showDialog<int>(
+        context: context,
+        builder: (ctx) {
+          String? err;
+          return StatefulBuilder(
+            builder: (ctx, setLocal) {
+              return AlertDialog(
+                title: Text(l10n.settingsBackupReminderThresholdTitle),
+                content: TextField(
+                  controller: ctrl,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: l10n.settingsBackupReminderThresholdTitle,
+                    errorText: err,
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx),
+                    child: Text(l10n.cancel),
+                  ),
+                  FilledButton(
+                    onPressed: () {
+                      final v = int.tryParse(ctrl.text.trim());
+                      if (v == null ||
+                          v < kBackupReminderThresholdMin ||
+                          v > kBackupReminderThresholdMax) {
+                        setLocal(() =>
+                            err = l10n.settingsBackupReminderThresholdInvalid);
+                        return;
+                      }
+                      Navigator.pop(ctx, v);
+                    },
+                    child: Text(l10n.confirm),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
+      if (picked != null && mounted) {
+        await setBackupExportReminderThreshold(picked);
+        setState(() {});
+      }
+    } finally {
+      ctrl.dispose();
     }
   }
 
@@ -964,6 +964,81 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
           const SizedBox(height: 8),
+          ListenableBuilder(
+            listenable: backupExportReminderListenable,
+            builder: (context, _) {
+              final enabled = backupExportReminderEnabled.value;
+              final threshold = backupExportReminderThreshold.value;
+              return Card(
+                margin: EdgeInsets.zero,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SwitchListTile.adaptive(
+                        contentPadding: EdgeInsets.zero,
+                        secondary: Icon(
+                          Icons.notification_important_outlined,
+                          size: 20,
+                          color: cs.primary,
+                        ),
+                        title: Text(
+                          l10n.settingsBackupReminderTitle,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
+                        subtitle: Text(
+                          enabled
+                              ? '${l10n.settingsBackupReminderSubtitle}\n${l10n.settingsBackupReminderSnoozeHint(kBackupReminderSnoozeExtraTransactions)}'
+                              : l10n.settingsBackupReminderSubtitle,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: cs.onSurfaceVariant,
+                          ),
+                        ),
+                        value: enabled,
+                        onChanged: (v) async {
+                          await setBackupExportReminderEnabled(v);
+                        },
+                      ),
+                      if (enabled)
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: Icon(
+                            Icons.tag_outlined,
+                            size: 20,
+                            color: cs.primary,
+                          ),
+                          title: Text(
+                            l10n.settingsBackupReminderThresholdTitle,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                            ),
+                          ),
+                          subtitle: Text(
+                            l10n.settingsBackupReminderThresholdSubtitle(
+                              threshold,
+                            ),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: cs.onSurfaceVariant,
+                            ),
+                          ),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: () => _pickBackupReminderThreshold(l10n),
+                        ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 8),
           currencyCard(
             icon: Icons.ios_share_rounded,
             title: l10n.settingsDataExportTitle,
@@ -1192,100 +1267,6 @@ class _BackupImportPasswordDialogState extends State<_BackupImportPasswordDialog
             final v = _controller.text.trim();
             if (v.isEmpty) return;
             Navigator.pop(context, v);
-          },
-          child: Text(l10n.confirm),
-        ),
-      ],
-    );
-  }
-}
-
-class _BackupExportPasswordDialog extends StatefulWidget {
-  const _BackupExportPasswordDialog({required this.l10n});
-  final AppLocalizations l10n;
-
-  @override
-  State<_BackupExportPasswordDialog> createState() =>
-      _BackupExportPasswordDialogState();
-}
-
-class _BackupExportPasswordDialogState extends State<_BackupExportPasswordDialog> {
-  late final TextEditingController _pwd1;
-  late final TextEditingController _pwd2;
-  String? _fieldError;
-
-  @override
-  void initState() {
-    super.initState();
-    _pwd1 = TextEditingController();
-    _pwd2 = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _pwd1.dispose();
-    _pwd2.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = widget.l10n;
-    return AlertDialog(
-      title: Text(l10n.backupExportDialogTitle),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(l10n.backupExportDialogBody),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _pwd1,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: l10n.backupExportPasswordLabel,
-              ),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              controller: _pwd2,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: l10n.backupExportPasswordConfirmLabel,
-                errorText: _fieldError,
-              ),
-            ),
-          ],
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, null),
-          child: Text(l10n.cancel),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context, ''),
-          child: Text(l10n.backupExportWithoutEncryption),
-        ),
-        FilledButton(
-          onPressed: () {
-            final a = _pwd1.text.trim();
-            final b = _pwd2.text.trim();
-            if (a.isEmpty || b.isEmpty) {
-              setState(() => _fieldError = l10n.backupExportPasswordEmpty);
-              return;
-            }
-            if (a.length < 8) {
-              setState(() => _fieldError = l10n.backupExportPasswordTooShort);
-              return;
-            }
-            if (a != b) {
-              setState(() => _fieldError = l10n.backupExportPasswordMismatch);
-              return;
-            }
-            setState(() => _fieldError = null);
-            Navigator.pop(context, a);
           },
           child: Text(l10n.confirm),
         ),

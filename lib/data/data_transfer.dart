@@ -18,6 +18,7 @@ import '../models/planned_transaction.dart';
 import '../models/transaction.dart';
 import 'account_lifecycle.dart' show compareAccountsStorageOrder;
 import 'app_data.dart' as data;
+import 'backup_export_reminder_prefs.dart';
 import 'backup/backup_crypto.dart';
 import 'backup/backup_exceptions.dart';
 import 'backup/backup_format.dart';
@@ -526,6 +527,7 @@ class DataTransfer {
     }
 
     data.accounts.sort(compareAccountsStorageOrder);
+    await resetBackupExportReminderState();
   }
 
   /// Maps absolute on-disk paths → `attachments/NNN_name` (deduplicated).
