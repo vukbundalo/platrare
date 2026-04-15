@@ -26,12 +26,24 @@ class DataRepository {
     Transaction t, {
     required bool isUpdate,
   }) async {
+    final idx = data.transactions.indexWhere((x) => x.id == t.id);
+    final Transaction? prior = (isUpdate && idx >= 0) ? data.transactions[idx] : null;
+
     final normalized = TransactionNormalizer.normalize(
       t,
       isUpdate: isUpdate,
     );
-    await _db.transactionUpsertTransactionAndAccounts(normalized);
-    final idx = data.transactions.indexWhere((x) => x.id == normalized.id);
+
+    final additional = <Account>[];
+    if (prior != null) {
+      if (prior.fromAccount != null) additional.add(prior.fromAccount!);
+      if (prior.toAccount != null) additional.add(prior.toAccount!);
+    }
+
+    await _db.transactionUpsertTransactionAndAccounts(
+      normalized,
+      additionalAccounts: additional,
+    );
     if (idx >= 0) {
       data.transactions[idx] = normalized;
     } else {

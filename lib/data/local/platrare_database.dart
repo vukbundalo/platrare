@@ -465,16 +465,28 @@ class PlatrareDatabase extends _$PlatrareDatabase {
       (delete(dbTransactions)..where((t) => t.id.equals(id))).go();
 
   /// Single SQLite commit: transaction row + affected account rows.
-  Future<void> transactionUpsertTransactionAndAccounts(Transaction t) async {
+  ///
+  /// [additionalAccounts] covers accounts whose balances were adjusted in
+  /// memory but are no longer referenced on [t] (e.g. previous "to" after the
+  /// user retargets a transfer). Without persisting them, SQLite keeps stale
+  /// balances until the next full reload.
+  Future<void> transactionUpsertTransactionAndAccounts(
+    Transaction t, {
+    Iterable<Account> additionalAccounts = const [],
+  }) async {
     await transaction(() async {
       await into(dbTransactions).insertOnConflictUpdate(_transactionCompanion(t));
-      if (t.fromAccount != null) {
-        await into(dbAccounts)
-            .insertOnConflictUpdate(_accountCompanionForPersist(t.fromAccount!));
+      final persistedIds = <String>{};
+      Future<void> persistAccount(Account a) async {
+        if (persistedIds.add(a.id)) {
+          await into(dbAccounts)
+              .insertOnConflictUpdate(_accountCompanionForPersist(a));
+        }
       }
-      if (t.toAccount != null) {
-        await into(dbAccounts)
-            .insertOnConflictUpdate(_accountCompanionForPersist(t.toAccount!));
+      if (t.fromAccount != null) await persistAccount(t.fromAccount!);
+      if (t.toAccount != null) await persistAccount(t.toAccount!);
+      for (final a in additionalAccounts) {
+        await persistAccount(a);
       }
     });
   }
