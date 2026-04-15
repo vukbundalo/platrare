@@ -81,6 +81,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get fabScrollToTop => 'Nach oben';
 
   @override
+  String get fabPickProjectionDate => 'Choose projection date';
+
+  @override
   String get filterAll => 'Alle';
 
   @override

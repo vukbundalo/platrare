@@ -81,6 +81,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get fabScrollToTop => 'Наверх';
 
   @override
+  String get fabPickProjectionDate => 'Choose projection date';
+
+  @override
   String get filterAll => 'Все';
 
   @override

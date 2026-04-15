@@ -930,17 +930,33 @@ class _PlanScreenState extends State<PlanScreen> {
           onPressed: _addPlanned,
           child: const Icon(Icons.add_rounded),
         );
-        fab = showPlanResetFab
+        final projectionDateFab = planHeroInteractive
+            ? FloatingActionButton.small(
+                heroTag: 'plan_fab_projection_date',
+                tooltip: l10n.fabPickProjectionDate,
+                onPressed: _pickSnapshotDate,
+                child: const Icon(Icons.travel_explore_rounded),
+              )
+            : null;
+        final useFabRow =
+            projectionDateFab != null || showPlanResetFab;
+        fab = useFabRow
             ? Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FloatingActionButton.small(
-                    heroTag: 'plan_fab_reset',
-                    onPressed: _planFabReset,
-                    tooltip: l10n.heroResetButton,
-                    child: const Icon(Icons.restart_alt_rounded),
-                  ),
-                  const SizedBox(width: 12),
+                  if (projectionDateFab != null) ...[
+                    projectionDateFab,
+                    const SizedBox(width: 12),
+                  ],
+                  if (showPlanResetFab) ...[
+                    FloatingActionButton.small(
+                      heroTag: 'plan_fab_reset',
+                      onPressed: _planFabReset,
+                      tooltip: l10n.heroResetButton,
+                      child: const Icon(Icons.restart_alt_rounded),
+                    ),
+                    const SizedBox(width: 12),
+                  ],
                   addFab,
                 ],
               )

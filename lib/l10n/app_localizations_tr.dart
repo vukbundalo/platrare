@@ -80,6 +80,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get fabScrollToTop => 'Başa dön';
 
   @override
+  String get fabPickProjectionDate => 'Choose projection date';
+
+  @override
   String get filterAll => 'Tüm';
 
   @override

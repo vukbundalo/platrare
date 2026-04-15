@@ -79,6 +79,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get fabScrollToTop => '맨 위로';
 
   @override
+  String get fabPickProjectionDate => 'Choose projection date';
+
+  @override
   String get filterAll => '모두';
 
   @override

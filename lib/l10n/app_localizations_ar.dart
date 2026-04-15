@@ -79,6 +79,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get fabScrollToTop => 'للأعلى';
 
   @override
+  String get fabPickProjectionDate => 'Choose projection date';
+
+  @override
   String get filterAll => 'الجميع';
 
   @override

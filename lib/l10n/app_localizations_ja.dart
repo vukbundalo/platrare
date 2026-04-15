@@ -79,6 +79,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get fabScrollToTop => '先頭に戻る';
 
   @override
+  String get fabPickProjectionDate => 'Choose projection date';
+
+  @override
   String get filterAll => '全て';
 
   @override

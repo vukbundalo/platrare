@@ -31,6 +31,7 @@
 
   "heroResetButton": "Reset",
   "fabScrollToTop": "Back to top",
+  "fabPickProjectionDate": "Choose projection date",
   "filterAll": "All",
   "filterAllAccounts": "All accounts",
   "filterAllCategories": "All categories",

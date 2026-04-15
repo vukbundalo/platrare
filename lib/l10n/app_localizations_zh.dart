@@ -79,6 +79,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get fabScrollToTop => 'Back to top';
 
   @override
+  String get fabPickProjectionDate => 'Choose projection date';
+
+  @override
   String get filterAll => 'All';
 
   @override

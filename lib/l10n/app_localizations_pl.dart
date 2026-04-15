@@ -80,6 +80,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get fabScrollToTop => 'Na górę';
 
   @override
+  String get fabPickProjectionDate => 'Choose projection date';
+
+  @override
   String get filterAll => 'Wszystko';
 
   @override

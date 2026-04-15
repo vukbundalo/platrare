@@ -81,6 +81,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get fabScrollToTop => 'На початок';
 
   @override
+  String get fabPickProjectionDate => 'Choose projection date';
+
+  @override
   String get filterAll => 'Усі';
 
   @override

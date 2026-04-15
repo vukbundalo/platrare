@@ -276,6 +276,12 @@ abstract class AppLocalizations {
   /// **'Back to top'**
   String get fabScrollToTop;
 
+  /// No description provided for @fabPickProjectionDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose projection date'**
+  String get fabPickProjectionDate;
+
   /// No description provided for @filterAll.
   ///
   /// In en, this message translates to:
