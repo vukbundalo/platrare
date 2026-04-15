@@ -110,6 +110,10 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       _toAccount = e.toAccount;
       _category = e.category;
       _date = e.date;
+      final today = DateUtils.dateOnly(DateTime.now());
+      if (DateUtils.dateOnly(_date).isAfter(today)) {
+        _date = today;
+      }
       _attachments = List.from(e.attachments);
       _amountMinorFormatter.syncFromDisplay(_amountController.text);
       _destinationMinorFormatter.syncFromDisplay(
@@ -261,11 +265,14 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   }
 
   Future<void> _pickDate() async {
+    final today = DateUtils.dateOnly(DateTime.now());
+    var initial = DateUtils.dateOnly(_date);
+    if (initial.isAfter(today)) initial = today;
     final picked = await showDatePicker(
       context: context,
-      initialDate: _date,
+      initialDate: initial,
       firstDate: DateTime(2020),
-      lastDate: DateTime.now().add(const Duration(days: 730)),
+      lastDate: today,
     );
     if (picked != null && mounted) setState(() => _date = picked);
   }
