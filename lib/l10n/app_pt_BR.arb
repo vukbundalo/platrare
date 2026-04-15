@@ -19,6 +19,11 @@
   "heroNet": "Líquido",
   "heroBalance": "Equilíbrio",
   "realBalance": "Equilíbrio real",
+  "settingsHideHeroBalancesTitle": "Ocultar saldos nos cartões de resumo",
+  "settingsHideHeroBalancesSubtitle": "Quando ativado, os valores no Plano, Rastreamento e Revisão ficam mascarados até você tocar no ícone de olho em cada aba. Quando desativado, os saldos ficam sempre visíveis.",
+  "heroBalancesShow": "Mostrar saldos",
+  "heroBalancesHide": "Ocultar saldos",
+  "semanticsHeroBalanceHidden": "Saldo oculto por privacidade",
   "heroResetButton": "Reiniciar",
   "fabScrollToTop": "Back to top",
   "filterAll": "Todos",
@@ -87,12 +92,9 @@
   "repeatEndAfterChoice": "Depois de um número de vezes",
   "repeatEndPickDate": "Escolha a data de término",
   "repeatEndTimes": "vezes",
-  "repeatSummaryEvery": "Cada {count} {unit}",
+  "repeatSummaryEvery": "Cada {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      },
       "unit": {
         "type": "String"
       }

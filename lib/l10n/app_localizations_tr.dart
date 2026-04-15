@@ -57,20 +57,21 @@ class AppLocalizationsTr extends AppLocalizations {
   String get realBalance => 'Gerçek denge';
 
   @override
-  String get settingsHideHeroBalancesTitle => 'Hide balances in summary cards';
+  String get settingsHideHeroBalancesTitle =>
+      'Özet kartlardaki bakiyeleri gizle';
 
   @override
   String get settingsHideHeroBalancesSubtitle =>
-      'When on, amounts on Plan, Track, and Review stay masked until you tap the eye icon on each tab. When off, balances are always visible.';
+      'Açıkken, Plan, Takip ve İnceleme\'deki tutarlar her sekmedeki göz simgesine dokunana kadar maskeli kalır. Kapalıyken, bakiyeler her zaman görünürdür.';
 
   @override
-  String get heroBalancesShow => 'Show balances';
+  String get heroBalancesShow => 'Bakiyeleri göster';
 
   @override
-  String get heroBalancesHide => 'Hide balances';
+  String get heroBalancesHide => 'Bakiyeleri gizle';
 
   @override
-  String get semanticsHeroBalanceHidden => 'Balance hidden for privacy';
+  String get semanticsHeroBalanceHidden => 'Gizlilik için bakiye gizlendi';
 
   @override
   String get heroResetButton => 'Sıfırla';
@@ -206,8 +207,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get repeatEndTimes => 'kez';
 
   @override
-  String repeatSummaryEvery(int count, String unit) {
-    return 'Her $count $unit';
+  String repeatSummaryEvery(String unit) {
+    return 'Her $unit';
   }
 
   @override

@@ -57,20 +57,21 @@ class AppLocalizationsSr extends AppLocalizations {
   String get realBalance => 'Stvarno stanje';
 
   @override
-  String get settingsHideHeroBalancesTitle => 'Hide balances in summary cards';
+  String get settingsHideHeroBalancesTitle =>
+      'Sakrij stanja u karticama sažetka';
 
   @override
   String get settingsHideHeroBalancesSubtitle =>
-      'When on, amounts on Plan, Track, and Review stay masked until you tap the eye icon on each tab. When off, balances are always visible.';
+      'Kada je uključeno, iznosi u Planu, Praćenju i Pregledu ostaju skriveni dok ne dodirnete ikonu oka na svakom tabu. Kada je isključeno, stanja su uvijek vidljiva.';
 
   @override
-  String get heroBalancesShow => 'Show balances';
+  String get heroBalancesShow => 'Prikaži stanja';
 
   @override
-  String get heroBalancesHide => 'Hide balances';
+  String get heroBalancesHide => 'Sakrij stanja';
 
   @override
-  String get semanticsHeroBalanceHidden => 'Balance hidden for privacy';
+  String get semanticsHeroBalanceHidden => 'Stanje skriveno radi privatnosti';
 
   @override
   String get heroResetButton => 'Reset';
@@ -210,8 +211,8 @@ class AppLocalizationsSr extends AppLocalizations {
   String get repeatEndTimes => 'puta';
 
   @override
-  String repeatSummaryEvery(int count, String unit) {
-    return 'Svaki $count $unit';
+  String repeatSummaryEvery(String unit) {
+    return 'Svaki $unit';
   }
 
   @override
@@ -1697,6 +1698,23 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
   String get realBalance => 'Стварно стање';
 
   @override
+  String get settingsHideHeroBalancesTitle =>
+      'Сакриј стања у картицама сажетка';
+
+  @override
+  String get settingsHideHeroBalancesSubtitle =>
+      'Када је укључено, износи у Плану, Праћењу и Прегледу остају скривени dok не додирнете икону ока на сваком табу. Када је искључено, стања су увек видљива.';
+
+  @override
+  String get heroBalancesShow => 'Прикажи стања';
+
+  @override
+  String get heroBalancesHide => 'Сакриј стања';
+
+  @override
+  String get semanticsHeroBalanceHidden => 'Стање скривено ради приватности';
+
+  @override
   String get heroResetButton => 'Ресет';
 
   @override
@@ -1834,8 +1852,8 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
   String get repeatEndTimes => 'пута';
 
   @override
-  String repeatSummaryEvery(int count, String unit) {
-    return 'Сваки $count $unit';
+  String repeatSummaryEvery(String unit) {
+    return 'Сваки $unit';
   }
 
   @override
@@ -3318,6 +3336,23 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   String get realBalance => 'Stvarno stanje';
 
   @override
+  String get settingsHideHeroBalancesTitle =>
+      'Sakrij stanja u karticama sažetka';
+
+  @override
+  String get settingsHideHeroBalancesSubtitle =>
+      'Kada je uključeno, iznosi u Planu, Praćenju i Pregledu ostaju skriveni dok ne dodirnete ikonu oka na svakom tabu. Kada je isključeno, stanja su uvijek vidljiva.';
+
+  @override
+  String get heroBalancesShow => 'Prikaži stanja';
+
+  @override
+  String get heroBalancesHide => 'Sakrij stanja';
+
+  @override
+  String get semanticsHeroBalanceHidden => 'Stanje skriveno radi privatnosti';
+
+  @override
   String get heroResetButton => 'Reset';
 
   @override
@@ -3455,8 +3490,8 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   String get repeatEndTimes => 'puta';
 
   @override
-  String repeatSummaryEvery(int count, String unit) {
-    return 'Svaki $count $unit';
+  String repeatSummaryEvery(String unit) {
+    return 'Svaki $unit';
   }
 
   @override

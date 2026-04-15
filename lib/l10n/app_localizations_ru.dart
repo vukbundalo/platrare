@@ -57,20 +57,22 @@ class AppLocalizationsRu extends AppLocalizations {
   String get realBalance => 'Реальный баланс';
 
   @override
-  String get settingsHideHeroBalancesTitle => 'Hide balances in summary cards';
+  String get settingsHideHeroBalancesTitle =>
+      'Скрыть балансы в сводных карточках';
 
   @override
   String get settingsHideHeroBalancesSubtitle =>
-      'When on, amounts on Plan, Track, and Review stay masked until you tap the eye icon on each tab. When off, balances are always visible.';
+      'При включении суммы в Плане, Отслеживании и Обзоре остаются скрытыми, пока вы не нажмёте на значок глаза на каждой вкладке. При выключении балансы всегда видны.';
 
   @override
-  String get heroBalancesShow => 'Show balances';
+  String get heroBalancesShow => 'Показать балансы';
 
   @override
-  String get heroBalancesHide => 'Hide balances';
+  String get heroBalancesHide => 'Скрыть балансы';
 
   @override
-  String get semanticsHeroBalanceHidden => 'Balance hidden for privacy';
+  String get semanticsHeroBalanceHidden =>
+      'Баланс скрыт для конфиденциальности';
 
   @override
   String get heroResetButton => 'Перезагрузить';
@@ -206,8 +208,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get repeatEndTimes => 'раз';
 
   @override
-  String repeatSummaryEvery(int count, String unit) {
-    return 'Каждые $count $unit';
+  String repeatSummaryEvery(String unit) {
+    return 'Каждые $unit';
   }
 
   @override

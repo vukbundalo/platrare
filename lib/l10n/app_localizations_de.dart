@@ -57,20 +57,22 @@ class AppLocalizationsDe extends AppLocalizations {
   String get realBalance => 'Echtes Gleichgewicht';
 
   @override
-  String get settingsHideHeroBalancesTitle => 'Hide balances in summary cards';
+  String get settingsHideHeroBalancesTitle =>
+      'Guthaben in Übersichtskarten ausblenden';
 
   @override
   String get settingsHideHeroBalancesSubtitle =>
-      'When on, amounts on Plan, Track, and Review stay masked until you tap the eye icon on each tab. When off, balances are always visible.';
+      'Wenn aktiviert, bleiben die Beträge in Planen, Verfolgen und Überprüfen ausgeblendet, bis Sie auf das Augensymbol im jeweiligen Tab tippen. Wenn deaktiviert, sind die Guthaben immer sichtbar.';
 
   @override
-  String get heroBalancesShow => 'Show balances';
+  String get heroBalancesShow => 'Guthaben anzeigen';
 
   @override
-  String get heroBalancesHide => 'Hide balances';
+  String get heroBalancesHide => 'Guthaben ausblenden';
 
   @override
-  String get semanticsHeroBalanceHidden => 'Balance hidden for privacy';
+  String get semanticsHeroBalanceHidden =>
+      'Guthaben aus Datenschutzgründen ausgeblendet';
 
   @override
   String get heroResetButton => 'Zurücksetzen';
@@ -206,8 +208,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get repeatEndTimes => 'mal';
 
   @override
-  String repeatSummaryEvery(int count, String unit) {
-    return 'Jeden $count $unit';
+  String repeatSummaryEvery(String unit) {
+    return 'Jede $unit';
   }
 
   @override

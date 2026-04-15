@@ -72,8 +72,8 @@
   "repeatEndPickDate": "Pick end date",
   "repeatEndTimes": "times",
 
-  "repeatSummaryEvery": "Every {count} {unit}",
-  "@repeatSummaryEvery": { "placeholders": { "count": {"type": "int"}, "unit": {"type": "String"} } },
+  "repeatSummaryEvery": "Every {unit}",
+  "@repeatSummaryEvery": { "placeholders": { "unit": {"type": "String"} } },
   "repeatSummaryUntil": "until {date}",
   "@repeatSummaryUntil": { "placeholders": { "date": {"type": "String"} } },
   "repeatSummaryTimes": "{count} times",

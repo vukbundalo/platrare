@@ -19,6 +19,11 @@
   "heroNet": "Сеть",
   "heroBalance": "Баланс",
   "realBalance": "Реальный баланс",
+  "settingsHideHeroBalancesTitle": "Скрыть балансы в сводных карточках",
+  "settingsHideHeroBalancesSubtitle": "При включении суммы в Плане, Отслеживании и Обзоре остаются скрытыми, пока вы не нажмёте на значок глаза на каждой вкладке. При выключении балансы всегда видны.",
+  "heroBalancesShow": "Показать балансы",
+  "heroBalancesHide": "Скрыть балансы",
+  "semanticsHeroBalanceHidden": "Баланс скрыт для конфиденциальности",
   "heroResetButton": "Перезагрузить",
   "fabScrollToTop": "Наверх",
   "filterAll": "Все",
@@ -87,12 +92,9 @@
   "repeatEndAfterChoice": "После определённого числа раз",
   "repeatEndPickDate": "Выберите дату окончания",
   "repeatEndTimes": "раз",
-  "repeatSummaryEvery": "Каждые {count} {unit}",
+  "repeatSummaryEvery": "Каждые {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      },
       "unit": {
         "type": "String"
       }

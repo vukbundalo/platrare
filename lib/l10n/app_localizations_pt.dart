@@ -57,20 +57,21 @@ class AppLocalizationsPt extends AppLocalizations {
   String get realBalance => 'Real balance';
 
   @override
-  String get settingsHideHeroBalancesTitle => 'Hide balances in summary cards';
+  String get settingsHideHeroBalancesTitle =>
+      'Ocultar saldos nos cartões de resumo';
 
   @override
   String get settingsHideHeroBalancesSubtitle =>
-      'When on, amounts on Plan, Track, and Review stay masked until you tap the eye icon on each tab. When off, balances are always visible.';
+      'Quando ativado, os valores no Plano, Rastreamento e Revisão ficam mascarados até tocar no ícone de olho em cada separador. Quando desativado, os saldos estão sempre visíveis.';
 
   @override
-  String get heroBalancesShow => 'Show balances';
+  String get heroBalancesShow => 'Mostrar saldos';
 
   @override
-  String get heroBalancesHide => 'Hide balances';
+  String get heroBalancesHide => 'Ocultar saldos';
 
   @override
-  String get semanticsHeroBalanceHidden => 'Balance hidden for privacy';
+  String get semanticsHeroBalanceHidden => 'Saldo oculto por privacidade';
 
   @override
   String get heroResetButton => 'Reset';
@@ -206,8 +207,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get repeatEndTimes => 'times';
 
   @override
-  String repeatSummaryEvery(int count, String unit) {
-    return 'Every $count $unit';
+  String repeatSummaryEvery(String unit) {
+    return 'Every $unit';
   }
 
   @override
@@ -1683,6 +1684,23 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get realBalance => 'Equilíbrio real';
 
   @override
+  String get settingsHideHeroBalancesTitle =>
+      'Ocultar saldos nos cartões de resumo';
+
+  @override
+  String get settingsHideHeroBalancesSubtitle =>
+      'Quando ativado, os valores no Plano, Rastreamento e Revisão ficam mascarados até você tocar no ícone de olho em cada aba. Quando desativado, os saldos ficam sempre visíveis.';
+
+  @override
+  String get heroBalancesShow => 'Mostrar saldos';
+
+  @override
+  String get heroBalancesHide => 'Ocultar saldos';
+
+  @override
+  String get semanticsHeroBalanceHidden => 'Saldo oculto por privacidade';
+
+  @override
   String get heroResetButton => 'Reiniciar';
 
   @override
@@ -1816,8 +1834,8 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get repeatEndTimes => 'vezes';
 
   @override
-  String repeatSummaryEvery(int count, String unit) {
-    return 'Cada $count $unit';
+  String repeatSummaryEvery(String unit) {
+    return 'Cada $unit';
   }
 
   @override

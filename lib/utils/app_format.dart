@@ -54,7 +54,7 @@ String l10nRepeatLabel(BuildContext context, RepeatInterval r) {
   };
 }
 
-/// Localized interval-unit word (e.g. "day" / "weeks") for the custom repeat picker.
+/// Localized interval phrase including [count] (e.g. "2 weeks", "day") for summaries.
 String l10nRepeatEveryUnit(BuildContext context, RepeatInterval r, int count) {
   final l = AppLocalizations.of(context);
   return switch (r) {
@@ -64,6 +64,13 @@ String l10nRepeatEveryUnit(BuildContext context, RepeatInterval r, int count) {
     RepeatInterval.monthly => l.repeatEveryMonths(count),
     RepeatInterval.yearly => l.repeatEveryYears(count),
   };
+}
+
+/// Suffix next to the repeat “every N” stepper — the stepper already shows [count],
+/// so this drops a leading Arabic digit run from [l10nRepeatEveryUnit] (e.g. "2 weeks" → "weeks").
+String l10nRepeatPickerSuffix(BuildContext context, RepeatInterval r, int count) {
+  final raw = l10nRepeatEveryUnit(context, r, count);
+  return raw.replaceFirst(RegExp(r'^\d+\s*'), '').trim();
 }
 
 /// Human-readable repeat summary (e.g. "Every 2 weeks, until Jun 15").
@@ -77,7 +84,7 @@ String l10nRepeatSummary(BuildContext context, PlannedTransaction pt) {
   if (pt.repeatEvery == 1) {
     buf.write(l10nRepeatLabel(context, pt.repeatInterval));
   } else {
-    buf.write(l.repeatSummaryEvery(pt.repeatEvery, unit));
+    buf.write(l.repeatSummaryEvery(unit));
   }
   if (pt.repeatEndDate != null) {
     final dateStr = formatAppDate(context, 'MMMd', pt.repeatEndDate!);

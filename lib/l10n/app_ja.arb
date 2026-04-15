@@ -19,6 +19,11 @@
   "heroNet": "ネット",
   "heroBalance": "バランス",
   "realBalance": "実質残高",
+  "settingsHideHeroBalancesTitle": "サマリーカードの残高を非表示にする",
+  "settingsHideHeroBalancesSubtitle": "オンにすると、プラン、追跡、レビューの金額は各タブの目のアイコンをタップするまでマスクされます。オフにすると、残高は常に表示されます。",
+  "heroBalancesShow": "残高を表示",
+  "heroBalancesHide": "残高を非表示",
+  "semanticsHeroBalanceHidden": "プライバシーのため残高は非表示",
   "heroResetButton": "リセット",
   "fabScrollToTop": "先頭に戻る",
   "filterAll": "全て",
@@ -87,12 +92,9 @@
   "repeatEndAfterChoice": "一定回数後",
   "repeatEndPickDate": "終了日を選択してください",
   "repeatEndTimes": "回",
-  "repeatSummaryEvery": "{count} {unit} ごと",
+  "repeatSummaryEvery": "{unit}ごと",
   "@repeatSummaryEvery": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      },
       "unit": {
         "type": "String"
       }

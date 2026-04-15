@@ -19,6 +19,11 @@
   "heroNet": "Netto",
   "heroBalance": "Balans",
   "realBalance": "Riktig balans",
+  "settingsHideHeroBalancesTitle": "Dölj saldon i sammanfattningskort",
+  "settingsHideHeroBalancesSubtitle": "När aktiverat förblir beloppen i Plan, Spåra och Granska dolda tills du trycker på ögonikonet på varje flik. När avaktiverat är saldon alltid synliga.",
+  "heroBalancesShow": "Visa saldon",
+  "heroBalancesHide": "Dölj saldon",
+  "semanticsHeroBalanceHidden": "Saldo dolt för integritetsskydd",
   "heroResetButton": "Återställa",
   "fabScrollToTop": "Till toppen",
   "filterAll": "Alla",
@@ -87,12 +92,9 @@
   "repeatEndAfterChoice": "Efter ett visst antal gånger",
   "repeatEndPickDate": "Välj slutdatum",
   "repeatEndTimes": "gånger",
-  "repeatSummaryEvery": "Varje {count} {unit}",
+  "repeatSummaryEvery": "Varje {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      },
       "unit": {
         "type": "String"
       }

@@ -19,6 +19,11 @@
   "heroNet": "Netto",
   "heroBalance": "Bilancia",
   "realBalance": "Equilibrio reale",
+  "settingsHideHeroBalancesTitle": "Nascondi i saldi nelle schede di riepilogo",
+  "settingsHideHeroBalancesSubtitle": "Quando è attivo, gli importi in Piano, Traccia e Revisione rimangono mascherati finché non tocchi l'icona dell'occhio in ogni scheda. Quando è disattivo, i saldi sono sempre visibili.",
+  "heroBalancesShow": "Mostra saldi",
+  "heroBalancesHide": "Nascondi saldi",
+  "semanticsHeroBalanceHidden": "Saldo nascosto per la privacy",
   "heroResetButton": "Reset",
   "fabScrollToTop": "Torna su",
   "filterAll": "Tutto",
@@ -87,12 +92,9 @@
   "repeatEndAfterChoice": "Dopo un certo numero di volte",
   "repeatEndPickDate": "Scegli la data di fine",
   "repeatEndTimes": "volte",
-  "repeatSummaryEvery": "Ogni {count} {unit}",
+  "repeatSummaryEvery": "Ogni {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      },
       "unit": {
         "type": "String"
       }

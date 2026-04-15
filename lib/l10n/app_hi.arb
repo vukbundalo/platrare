@@ -19,6 +19,11 @@
   "heroNet": "जाल",
   "heroBalance": "संतुलन",
   "realBalance": "वास्तविक संतुलन",
+  "settingsHideHeroBalancesTitle": "सारांश कार्डों में शेष राशि छुपाएं",
+  "settingsHideHeroBalancesSubtitle": "जब चालू हो, तो योजना, ट्रैक और समीक्षा में राशियां छुपी रहती हैं जब तक आप प्रत्येक टैब पर आंख के आइकन को टैप नहीं करते। जब बंद हो, तो शेष राशि हमेशा दिखती हैं।",
+  "heroBalancesShow": "शेष राशि दिखाएं",
+  "heroBalancesHide": "शेष राशि छुपाएं",
+  "semanticsHeroBalanceHidden": "गोपनीयता के लिए शेष राशि छुपी है",
   "heroResetButton": "रीसेट करें",
   "fabScrollToTop": "ऊपर जाएं",
   "filterAll": "सभी",
@@ -87,12 +92,9 @@
   "repeatEndAfterChoice": "कई बार के बाद",
   "repeatEndPickDate": "समाप्ति तिथि चुनें",
   "repeatEndTimes": "टाइम्स",
-  "repeatSummaryEvery": "हर {count} {unit}",
+  "repeatSummaryEvery": "हर {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      },
       "unit": {
         "type": "String"
       }

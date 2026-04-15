@@ -19,6 +19,11 @@
   "heroNet": "Net",
   "heroBalance": "Balance",
   "realBalance": "Real balance",
+  "settingsHideHeroBalancesTitle": "在摘要卡片中隐藏余额",
+  "settingsHideHeroBalancesSubtitle": "开启后，计划、追踪和评审中的金额将保持隐藏，直到您点击每个标签上的眼睛图标。关闭后，余额始终可见。",
+  "heroBalancesShow": "显示余额",
+  "heroBalancesHide": "隐藏余额",
+  "semanticsHeroBalanceHidden": "余额已隐藏以保护隐私",
   "heroResetButton": "Reset",
   "fabScrollToTop": "Back to top",
   "filterAll": "All",
@@ -87,12 +92,9 @@
   "repeatEndAfterChoice": "After a number of times",
   "repeatEndPickDate": "Pick end date",
   "repeatEndTimes": "times",
-  "repeatSummaryEvery": "Every {count} {unit}",
+  "repeatSummaryEvery": "Every {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      },
       "unit": {
         "type": "String"
       }

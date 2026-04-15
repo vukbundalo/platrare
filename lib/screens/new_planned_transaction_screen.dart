@@ -891,7 +891,7 @@ class _EveryNPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
-    final unit = l10nRepeatEveryUnit(context, interval, value);
+    final unit = l10nRepeatPickerSuffix(context, interval, value);
     return Row(
       children: [
         Text(l10n.repeatEveryLabel,

@@ -19,6 +19,11 @@
   "heroNet": "Açık",
   "heroBalance": "Denge",
   "realBalance": "Gerçek denge",
+  "settingsHideHeroBalancesTitle": "Özet kartlardaki bakiyeleri gizle",
+  "settingsHideHeroBalancesSubtitle": "Açıkken, Plan, Takip ve İnceleme'deki tutarlar her sekmedeki göz simgesine dokunana kadar maskeli kalır. Kapalıyken, bakiyeler her zaman görünürdür.",
+  "heroBalancesShow": "Bakiyeleri göster",
+  "heroBalancesHide": "Bakiyeleri gizle",
+  "semanticsHeroBalanceHidden": "Gizlilik için bakiye gizlendi",
   "heroResetButton": "Sıfırla",
   "fabScrollToTop": "Başa dön",
   "filterAll": "Tüm",
@@ -87,12 +92,9 @@
   "repeatEndAfterChoice": "Belirli sayıda tekrar sonrasında",
   "repeatEndPickDate": "Bitiş tarihini seç",
   "repeatEndTimes": "kez",
-  "repeatSummaryEvery": "Her {count} {unit}",
+  "repeatSummaryEvery": "Her {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      },
       "unit": {
         "type": "String"
       }

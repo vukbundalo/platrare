@@ -57,20 +57,20 @@ class AppLocalizationsZh extends AppLocalizations {
   String get realBalance => 'Real balance';
 
   @override
-  String get settingsHideHeroBalancesTitle => 'Hide balances in summary cards';
+  String get settingsHideHeroBalancesTitle => '在摘要卡片中隐藏余额';
 
   @override
   String get settingsHideHeroBalancesSubtitle =>
-      'When on, amounts on Plan, Track, and Review stay masked until you tap the eye icon on each tab. When off, balances are always visible.';
+      '开启后，计划、追踪和评审中的金额将保持隐藏，直到您点击每个标签上的眼睛图标。关闭后，余额始终可见。';
 
   @override
-  String get heroBalancesShow => 'Show balances';
+  String get heroBalancesShow => '显示余额';
 
   @override
-  String get heroBalancesHide => 'Hide balances';
+  String get heroBalancesHide => '隐藏余额';
 
   @override
-  String get semanticsHeroBalanceHidden => 'Balance hidden for privacy';
+  String get semanticsHeroBalanceHidden => '余额已隐藏以保护隐私';
 
   @override
   String get heroResetButton => 'Reset';
@@ -206,8 +206,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get repeatEndTimes => 'times';
 
   @override
-  String repeatSummaryEvery(int count, String unit) {
-    return 'Every $count $unit';
+  String repeatSummaryEvery(String unit) {
+    return 'Every $unit';
   }
 
   @override
@@ -1683,6 +1683,22 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get realBalance => '实际余额';
 
   @override
+  String get settingsHideHeroBalancesTitle => '在摘要卡片中隐藏余额';
+
+  @override
+  String get settingsHideHeroBalancesSubtitle =>
+      '开启后，计划、追踪和评审中的金额将保持隐藏，直到您点击每个标签上的眼睛图标。关闭后，余额始终可见。';
+
+  @override
+  String get heroBalancesShow => '显示余额';
+
+  @override
+  String get heroBalancesHide => '隐藏余额';
+
+  @override
+  String get semanticsHeroBalanceHidden => '余额已隐藏以保护隐私';
+
+  @override
   String get heroResetButton => '重置';
 
   @override
@@ -1816,8 +1832,8 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get repeatEndTimes => '次';
 
   @override
-  String repeatSummaryEvery(int count, String unit) {
-    return '每$count$unit';
+  String repeatSummaryEvery(String unit) {
+    return '每$unit';
   }
 
   @override

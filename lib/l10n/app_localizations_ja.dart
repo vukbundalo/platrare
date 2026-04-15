@@ -57,20 +57,20 @@ class AppLocalizationsJa extends AppLocalizations {
   String get realBalance => '実質残高';
 
   @override
-  String get settingsHideHeroBalancesTitle => 'Hide balances in summary cards';
+  String get settingsHideHeroBalancesTitle => 'サマリーカードの残高を非表示にする';
 
   @override
   String get settingsHideHeroBalancesSubtitle =>
-      'When on, amounts on Plan, Track, and Review stay masked until you tap the eye icon on each tab. When off, balances are always visible.';
+      'オンにすると、プラン、追跡、レビューの金額は各タブの目のアイコンをタップするまでマスクされます。オフにすると、残高は常に表示されます。';
 
   @override
-  String get heroBalancesShow => 'Show balances';
+  String get heroBalancesShow => '残高を表示';
 
   @override
-  String get heroBalancesHide => 'Hide balances';
+  String get heroBalancesHide => '残高を非表示';
 
   @override
-  String get semanticsHeroBalanceHidden => 'Balance hidden for privacy';
+  String get semanticsHeroBalanceHidden => 'プライバシーのため残高は非表示';
 
   @override
   String get heroResetButton => 'リセット';
@@ -206,8 +206,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get repeatEndTimes => '回';
 
   @override
-  String repeatSummaryEvery(int count, String unit) {
-    return '$count $unit ごと';
+  String repeatSummaryEvery(String unit) {
+    return '$unitごと';
   }
 
   @override

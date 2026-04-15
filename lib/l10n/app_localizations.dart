@@ -465,8 +465,8 @@ abstract class AppLocalizations {
   /// No description provided for @repeatSummaryEvery.
   ///
   /// In en, this message translates to:
-  /// **'Every {count} {unit}'**
-  String repeatSummaryEvery(int count, String unit);
+  /// **'Every {unit}'**
+  String repeatSummaryEvery(String unit);
 
   /// No description provided for @repeatSummaryUntil.
   ///

@@ -19,6 +19,11 @@
   "heroNet": "شبكة",
   "heroBalance": "توازن",
   "realBalance": "التوازن الحقيقي",
+  "settingsHideHeroBalancesTitle": "إخفاء الأرصدة في بطاقات الملخص",
+  "settingsHideHeroBalancesSubtitle": "عند التفعيل، تبقى المبالغ في الخطة والتتبع والمراجعة مخفية حتى تضغط على أيقونة العين في كل تبويب. عند الإيقاف، تكون الأرصدة مرئية دائماً.",
+  "heroBalancesShow": "إظهار الأرصدة",
+  "heroBalancesHide": "إخفاء الأرصدة",
+  "semanticsHeroBalanceHidden": "الرصيد مخفي للخصوصية",
   "heroResetButton": "إعادة ضبط",
   "fabScrollToTop": "للأعلى",
   "filterAll": "الجميع",
@@ -87,12 +92,9 @@
   "repeatEndAfterChoice": "بعد عدد من المرات",
   "repeatEndPickDate": "اختر تاريخ الانتهاء",
   "repeatEndTimes": "مرات",
-  "repeatSummaryEvery": "كل {count} {unit}",
+  "repeatSummaryEvery": "كل {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      },
       "unit": {
         "type": "String"
       }

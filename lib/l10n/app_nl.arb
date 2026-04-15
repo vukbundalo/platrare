@@ -19,6 +19,11 @@
   "heroNet": "Netto",
   "heroBalance": "Evenwicht",
   "realBalance": "Echt evenwicht",
+  "settingsHideHeroBalancesTitle": "Saldi verbergen in overzichtskaarten",
+  "settingsHideHeroBalancesSubtitle": "Wanneer ingeschakeld, blijven de bedragen in Plan, Bijhouden en Overzicht gemaskeerd totdat u op het oogpictogram op elk tabblad tikt. Wanneer uitgeschakeld, zijn saldi altijd zichtbaar.",
+  "heroBalancesShow": "Saldi weergeven",
+  "heroBalancesHide": "Saldi verbergen",
+  "semanticsHeroBalanceHidden": "Saldo verborgen voor privacy",
   "heroResetButton": "Opnieuw instellen",
   "fabScrollToTop": "Terug naar boven",
   "filterAll": "Alle",
@@ -87,12 +92,9 @@
   "repeatEndAfterChoice": "Na een aantal keer",
   "repeatEndPickDate": "Pick end date",
   "repeatEndTimes": "times",
-  "repeatSummaryEvery": "Every {count} {unit}",
+  "repeatSummaryEvery": "Every {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      },
       "unit": {
         "type": "String"
       }

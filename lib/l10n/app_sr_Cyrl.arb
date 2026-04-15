@@ -16,6 +16,11 @@
   "heroNet": "Нето",
   "heroBalance": "Стање",
   "realBalance": "Стварно стање",
+  "settingsHideHeroBalancesTitle": "Сакриј стања у картицама сажетка",
+  "settingsHideHeroBalancesSubtitle": "Када је укључено, износи у Плану, Праћењу и Прегледу остају скривени dok не додирнете икону ока на сваком табу. Када је искључено, стања су увек видљива.",
+  "heroBalancesShow": "Прикажи стања",
+  "heroBalancesHide": "Сакриј стања",
+  "semanticsHeroBalanceHidden": "Стање скривено ради приватности",
   "heroResetButton": "Ресет",
   "fabScrollToTop": "На врх",
   "filterAll": "Све",
@@ -49,8 +54,14 @@
   "repeatEndAfterChoice": "После одређеног броја пута",
   "repeatEndPickDate": "Изаберите крајњи датум",
   "repeatEndTimes": "пута",
-  "repeatSummaryEvery": "Сваки {count} {unit}",
-  "repeatSummaryUntil": "до {date}",
+  "repeatSummaryEvery": "Сваки {unit}",
+  "@repeatSummaryEvery": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },  "repeatSummaryUntil": "до {date}",
   "repeatSummaryTimes": "{count} пута",
   "repeatSummaryTimesRemaining": "{remaining} од {total} преостало",
   "detailRepeatEvery": "Понавља се сваки",

@@ -19,6 +19,11 @@
   "heroNet": "Internet",
   "heroBalance": "Balansować",
   "realBalance": "Prawdziwa równowaga",
+  "settingsHideHeroBalancesTitle": "Ukryj salda w kartach podsumowania",
+  "settingsHideHeroBalancesSubtitle": "Gdy włączone, kwoty w Planie, Śledzeniu i Przeglądzie pozostają zamaskowane, dopóki nie naciśniesz ikony oka na każdej karcie. Gdy wyłączone, salda są zawsze widoczne.",
+  "heroBalancesShow": "Pokaż salda",
+  "heroBalancesHide": "Ukryj salda",
+  "semanticsHeroBalanceHidden": "Saldo ukryte dla prywatności",
   "heroResetButton": "Nastawić",
   "fabScrollToTop": "Na górę",
   "filterAll": "Wszystko",
@@ -87,12 +92,9 @@
   "repeatEndAfterChoice": "Po określonej liczbie razy",
   "repeatEndPickDate": "Wybierz datę zakończenia",
   "repeatEndTimes": "czasy",
-  "repeatSummaryEvery": "Co {count} {unit}",
+  "repeatSummaryEvery": "Co {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      },
       "unit": {
         "type": "String"
       }

@@ -57,20 +57,21 @@ class AppLocalizationsSv extends AppLocalizations {
   String get realBalance => 'Riktig balans';
 
   @override
-  String get settingsHideHeroBalancesTitle => 'Hide balances in summary cards';
+  String get settingsHideHeroBalancesTitle =>
+      'Dölj saldon i sammanfattningskort';
 
   @override
   String get settingsHideHeroBalancesSubtitle =>
-      'When on, amounts on Plan, Track, and Review stay masked until you tap the eye icon on each tab. When off, balances are always visible.';
+      'När aktiverat förblir beloppen i Plan, Spåra och Granska dolda tills du trycker på ögonikonet på varje flik. När avaktiverat är saldon alltid synliga.';
 
   @override
-  String get heroBalancesShow => 'Show balances';
+  String get heroBalancesShow => 'Visa saldon';
 
   @override
-  String get heroBalancesHide => 'Hide balances';
+  String get heroBalancesHide => 'Dölj saldon';
 
   @override
-  String get semanticsHeroBalanceHidden => 'Balance hidden for privacy';
+  String get semanticsHeroBalanceHidden => 'Saldo dolt för integritetsskydd';
 
   @override
   String get heroResetButton => 'Återställa';
@@ -206,8 +207,8 @@ class AppLocalizationsSv extends AppLocalizations {
   String get repeatEndTimes => 'gånger';
 
   @override
-  String repeatSummaryEvery(int count, String unit) {
-    return 'Varje $count $unit';
+  String repeatSummaryEvery(String unit) {
+    return 'Varje $unit';
   }
 
   @override

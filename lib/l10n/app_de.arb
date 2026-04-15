@@ -19,6 +19,11 @@
   "heroNet": "Netto",
   "heroBalance": "Gleichgewicht",
   "realBalance": "Echtes Gleichgewicht",
+  "settingsHideHeroBalancesTitle": "Guthaben in Übersichtskarten ausblenden",
+  "settingsHideHeroBalancesSubtitle": "Wenn aktiviert, bleiben die Beträge in Planen, Verfolgen und Überprüfen ausgeblendet, bis Sie auf das Augensymbol im jeweiligen Tab tippen. Wenn deaktiviert, sind die Guthaben immer sichtbar.",
+  "heroBalancesShow": "Guthaben anzeigen",
+  "heroBalancesHide": "Guthaben ausblenden",
+  "semanticsHeroBalanceHidden": "Guthaben aus Datenschutzgründen ausgeblendet",
   "heroResetButton": "Zurücksetzen",
   "fabScrollToTop": "Nach oben",
   "filterAll": "Alle",
@@ -87,12 +92,9 @@
   "repeatEndAfterChoice": "Nach einer bestimmten Anzahl",
   "repeatEndPickDate": "Wählen Sie das Enddatum",
   "repeatEndTimes": "mal",
-  "repeatSummaryEvery": "Jeden {count} {unit}",
+  "repeatSummaryEvery": "Jede {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      },
       "unit": {
         "type": "String"
       }

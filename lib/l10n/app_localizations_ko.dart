@@ -57,20 +57,20 @@ class AppLocalizationsKo extends AppLocalizations {
   String get realBalance => '실제 균형';
 
   @override
-  String get settingsHideHeroBalancesTitle => 'Hide balances in summary cards';
+  String get settingsHideHeroBalancesTitle => '요약 카드에서 잔액 숨기기';
 
   @override
   String get settingsHideHeroBalancesSubtitle =>
-      'When on, amounts on Plan, Track, and Review stay masked until you tap the eye icon on each tab. When off, balances are always visible.';
+      '켜져 있으면 각 탭의 눈 아이콘을 탭할 때까지 계획, 추적, 검토의 금액이 가려집니다. 꺼져 있으면 잔액이 항상 표시됩니다.';
 
   @override
-  String get heroBalancesShow => 'Show balances';
+  String get heroBalancesShow => '잔액 표시';
 
   @override
-  String get heroBalancesHide => 'Hide balances';
+  String get heroBalancesHide => '잔액 숨기기';
 
   @override
-  String get semanticsHeroBalanceHidden => 'Balance hidden for privacy';
+  String get semanticsHeroBalanceHidden => '개인 정보 보호를 위해 잔액 숨김';
 
   @override
   String get heroResetButton => '다시 놓기';
@@ -206,8 +206,8 @@ class AppLocalizationsKo extends AppLocalizations {
   String get repeatEndTimes => '타임스';
 
   @override
-  String repeatSummaryEvery(int count, String unit) {
-    return '$count $unit마다';
+  String repeatSummaryEvery(String unit) {
+    return '$unit마다';
   }
 
   @override

@@ -206,8 +206,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get repeatEndTimes => 'times';
 
   @override
-  String repeatSummaryEvery(int count, String unit) {
-    return 'Every $count $unit';
+  String repeatSummaryEvery(String unit) {
+    return 'Every $unit';
   }
 
   @override
