@@ -8,9 +8,6 @@ const _kThreshold = 'backup_export_reminder_threshold';
 const _kSinceExport = 'backup_export_reminder_tx_since_export';
 const _kSuppressedUntil = 'backup_export_reminder_suppressed_until';
 
-/// Extra qualifying transactions after "Remind later" before the banner can show again.
-const int kBackupReminderSnoozeExtraTransactions = 5;
-
 const int kBackupReminderThresholdDefault = 10;
 const int kBackupReminderThresholdMin = 1;
 const int kBackupReminderThresholdMax = 500;
@@ -108,7 +105,8 @@ Future<void> recordQualifyingTransactionForBackupReminder(
 
 Future<void> remindLaterBackupExportReminder() async {
   final c = backupExportReminderSinceExportCount.value;
-  final next = c + kBackupReminderSnoozeExtraTransactions;
+  final step = backupExportReminderThreshold.value;
+  final next = c + step;
   backupExportReminderSuppressedUntil.value = next;
   final p = await SharedPreferences.getInstance();
   await p.setInt(_kSuppressedUntil, next);

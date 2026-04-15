@@ -939,7 +939,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                         subtitle: Text(
                           enabled
-                              ? '${l10n.settingsBackupReminderSubtitle}\n${l10n.settingsBackupReminderSnoozeHint(kBackupReminderSnoozeExtraTransactions)}'
+                              ? '${l10n.settingsBackupReminderSubtitle}\n${l10n.settingsBackupReminderSnoozeHint(backupExportReminderThreshold.value)}'
                               : l10n.settingsBackupReminderSubtitle,
                           style: TextStyle(
                             fontSize: 12,
