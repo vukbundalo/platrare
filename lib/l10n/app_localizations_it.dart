@@ -931,6 +931,25 @@ class AppLocalizationsIt extends AppLocalizations {
       'Richiedi lo sblocco biometrico o il PIN all\'apertura dell\'app';
 
   @override
+  String get settingsSecurityLockDelayTitle => 'Re-lock after background';
+
+  @override
+  String get settingsSecurityLockDelaySubtitle =>
+      'How long the app can stay off-screen before requiring unlock again. Immediately is the strongest.';
+
+  @override
+  String get settingsSecurityLockDelayImmediate => 'Immediately';
+
+  @override
+  String get settingsSecurityLockDelay30s => '30 seconds';
+
+  @override
+  String get settingsSecurityLockDelay1m => '1 minute';
+
+  @override
+  String get settingsSecurityLockDelay5m => '5 minutes';
+
+  @override
   String get settingsSecuritySetPin => 'Imposta il PIN';
 
   @override

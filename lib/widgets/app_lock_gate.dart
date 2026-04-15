@@ -25,6 +25,7 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
   bool _pinAvailable = false;
   bool _allowAutoBiometric = true;
   String? _pinError;
+  DateTime? _wentToBackgroundAt;
 
   @override
   void initState() {
@@ -42,17 +43,63 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (!appSecurityEnabled.value) return;
+    if (!appSecurityEnabled.value) {
+      _wentToBackgroundAt = null;
+      return;
+    }
+    if (_isTrueBackgroundState(state)) {
+      _onApplicationBackgrounded();
+    } else if (state == AppLifecycleState.resumed) {
+      _onApplicationResumed();
+    }
+  }
+
+  /// [inactive] is intentionally ignored (system UI overlays, brief interruptions).
+  bool _isTrueBackgroundState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
+      return true;
+    }
+    return state == AppLifecycleState.hidden;
+  }
+
+  void _onApplicationBackgrounded() {
+    final graceSec = appLockGraceSeconds.value;
+    if (graceSec <= 0) {
       _isUnlocked = false;
       _allowAutoBiometric = true;
-      if (mounted) setState(() {});
+      _wentToBackgroundAt = null;
+    } else {
+      _wentToBackgroundAt = DateTime.now();
     }
-    if (state == AppLifecycleState.resumed &&
-        !_isUnlocked &&
-        _allowAutoBiometric) {
+    if (mounted) setState(() {});
+  }
+
+  void _onApplicationResumed() {
+    if (!appSecurityEnabled.value) return;
+    final grace = Duration(seconds: appLockGraceSeconds.value);
+    if (grace == Duration.zero) {
+      if (!_isUnlocked && _allowAutoBiometric) {
+        _tryBiometricAuth();
+      }
+      return;
+    }
+    if (_wentToBackgroundAt == null) {
+      if (!_isUnlocked && _allowAutoBiometric) {
+        _tryBiometricAuth();
+      }
+      return;
+    }
+    final away = DateTime.now().difference(_wentToBackgroundAt!);
+    _wentToBackgroundAt = null;
+    if (away < grace) {
+      if (mounted) setState(() {});
+      return;
+    }
+    _isUnlocked = false;
+    _allowAutoBiometric = true;
+    if (mounted) setState(() {});
+    if (!_isUnlocked && _allowAutoBiometric) {
       _tryBiometricAuth();
     }
   }

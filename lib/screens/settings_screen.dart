@@ -258,6 +258,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+  String _lockGraceOptionLabel(AppLocalizations l10n, int seconds) {
+    return switch (seconds) {
+      0 => l10n.settingsSecurityLockDelayImmediate,
+      30 => l10n.settingsSecurityLockDelay30s,
+      60 => l10n.settingsSecurityLockDelay1m,
+      300 => l10n.settingsSecurityLockDelay5m,
+      _ => l10n.settingsSecurityLockDelayImmediate,
+    };
+  }
+
   Future<void> _toggleAppSecurity(bool enabled, AppLocalizations l10n) async {
     if (enabled) {
       await _showSetPinDialog(l10n);
@@ -266,6 +276,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       return;
     }
     await setSecurityEnabled(false);
+    await clearLockGracePreference();
     if (!mounted) return;
     setState(() {});
   }
@@ -700,6 +711,56 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         value: enabled,
                         onChanged: (v) => _toggleAppSecurity(v, l10n),
                       ),
+                      if (enabled) ...[
+                        const SizedBox(height: 8),
+                        ValueListenableBuilder<int>(
+                          valueListenable: appLockGraceSeconds,
+                          builder: (context, graceSeconds, _) {
+                            final cs = Theme.of(context).colorScheme;
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  l10n.settingsSecurityLockDelayTitle,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall
+                                      ?.copyWith(fontWeight: FontWeight.w600),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  l10n.settingsSecurityLockDelaySubtitle,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: cs.onSurfaceVariant,
+                                    height: 1.35,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                DropdownButton<int>(
+                                  isExpanded: true,
+                                  value: graceSeconds,
+                                  borderRadius: BorderRadius.circular(12),
+                                  items: [
+                                    for (final sec in kAppLockGraceOptions)
+                                      DropdownMenuItem<int>(
+                                        value: sec,
+                                        child: Text(
+                                          _lockGraceOptionLabel(l10n, sec),
+                                        ),
+                                      ),
+                                  ],
+                                  onChanged: (v) async {
+                                    if (v == null) return;
+                                    await setLockGraceSeconds(v);
+                                    if (mounted) setState(() {});
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ],
                       const SizedBox(height: 4),
                       FutureBuilder<bool>(
                         future: hasSecurityPin(),
@@ -1457,6 +1518,7 @@ class _ClearDataSheetState extends State<_ClearDataSheet> {
       if (_security && mounted) {
         await setSecurityEnabled(false);
         await clearSecurityPin();
+        await clearLockGracePreference();
       }
 
       if (mounted) Navigator.pop(context, true);

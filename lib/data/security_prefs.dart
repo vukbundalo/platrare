@@ -6,12 +6,35 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const _kSecurityEnabledKey = 'security_enabled';
 const _kSecurityPinHashKey = 'security_pin_hash';
+const _kLockGraceSecondsKey = 'security_lock_grace_seconds';
 
 final ValueNotifier<bool> appSecurityEnabled = ValueNotifier(false);
+
+/// Seconds the app may stay in the background before re-lock (0 = lock on pause).
+final ValueNotifier<int> appLockGraceSeconds = ValueNotifier(0);
+
+/// Supported re-lock delay values (seconds).
+const List<int> kAppLockGraceOptions = [0, 30, 60, 300];
 
 Future<void> initSecurityPrefs() async {
   final p = await SharedPreferences.getInstance();
   appSecurityEnabled.value = p.getBool(_kSecurityEnabledKey) ?? false;
+  final raw = p.getInt(_kLockGraceSecondsKey);
+  appLockGraceSeconds.value =
+      raw != null && kAppLockGraceOptions.contains(raw) ? raw : 0;
+}
+
+Future<void> setLockGraceSeconds(int seconds) async {
+  final v = kAppLockGraceOptions.contains(seconds) ? seconds : 0;
+  final p = await SharedPreferences.getInstance();
+  appLockGraceSeconds.value = v;
+  await p.setInt(_kLockGraceSecondsKey, v);
+}
+
+Future<void> clearLockGracePreference() async {
+  final p = await SharedPreferences.getInstance();
+  appLockGraceSeconds.value = 0;
+  await p.remove(_kLockGraceSecondsKey);
 }
 
 Future<void> setSecurityEnabled(bool enabled) async {

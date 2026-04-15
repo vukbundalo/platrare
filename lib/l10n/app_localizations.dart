@@ -1716,6 +1716,42 @@ abstract class AppLocalizations {
   /// **'Require biometric unlock or PIN when app opens'**
   String get settingsSecurityEnableLockSubtitle;
 
+  /// No description provided for @settingsSecurityLockDelayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-lock after background'**
+  String get settingsSecurityLockDelayTitle;
+
+  /// No description provided for @settingsSecurityLockDelaySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How long the app can stay off-screen before requiring unlock again. Immediately is the strongest.'**
+  String get settingsSecurityLockDelaySubtitle;
+
+  /// No description provided for @settingsSecurityLockDelayImmediate.
+  ///
+  /// In en, this message translates to:
+  /// **'Immediately'**
+  String get settingsSecurityLockDelayImmediate;
+
+  /// No description provided for @settingsSecurityLockDelay30s.
+  ///
+  /// In en, this message translates to:
+  /// **'30 seconds'**
+  String get settingsSecurityLockDelay30s;
+
+  /// No description provided for @settingsSecurityLockDelay1m.
+  ///
+  /// In en, this message translates to:
+  /// **'1 minute'**
+  String get settingsSecurityLockDelay1m;
+
+  /// No description provided for @settingsSecurityLockDelay5m.
+  ///
+  /// In en, this message translates to:
+  /// **'5 minutes'**
+  String get settingsSecurityLockDelay5m;
+
   /// No description provided for @settingsSecuritySetPin.
   ///
   /// In en, this message translates to:
