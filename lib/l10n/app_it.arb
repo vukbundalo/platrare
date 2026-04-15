@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "Saldo nascosto per la privacy",
   "heroResetButton": "Reset",
   "fabScrollToTop": "Torna su",
+  "fabPickProjectionDate": "Scegli data di proiezione",
   "filterAll": "Tutto",
   "filterAllAccounts": "Tutti i conti",
   "filterAllCategories": "Tutte le categorie",
@@ -719,7 +720,9 @@
   "statsEmptySubtitle": "Nessun dato di spesa per l'intervallo selezionato.",
   "semanticsShowProjections": "Mostra i saldi previsti per conto",
   "semanticsHideProjections": "Nascondi i saldi previsti per conto",
-  "semanticsDateAllTime": "Data: sempre: tocca per cambiare modalità",
+    "semanticsShowDayBalanceBreakdown": "Mostra i saldi dei conti per questo giorno",
+  "semanticsHideDayBalanceBreakdown": "Nascondi i saldi dei conti per questo giorno",
+"semanticsDateAllTime": "Data: sempre: tocca per cambiare modalità",
   "semanticsDateMode": "Data: {mode}: tocca per cambiare modalità",
   "@semanticsDateMode": {
     "placeholders": {
@@ -857,6 +860,11 @@
     }
   },
   "backupReminderRemindLater": "Ricorda più tardi",
+
+  "backupExportLedgerVerifyTitle": "Verifica contabile prima del backup",
+  "backupExportLedgerVerifyInfo": "Confronta il saldo memorizzato di ogni conto con una riproduzione completa della tua cronologia. Puoi esportare il backup in ogni caso; le discrepanze sono informative.",
+  "backupExportLedgerVerifyContinue": "Continua con il backup",
+
 
 
   "persistenceErrorReloaded": "Impossibile salvare le modifiche. I dati sono stati ricaricati dalla memoria."

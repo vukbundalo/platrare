@@ -79,7 +79,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get fabScrollToTop => 'للأعلى';
 
   @override
-  String get fabPickProjectionDate => 'Choose projection date';
+  String get fabPickProjectionDate => 'اختيار تاريخ التوقع';
 
   @override
   String get filterAll => 'الجميع';
@@ -1453,11 +1453,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get semanticsShowDayBalanceBreakdown =>
-      'Show account balances for this day';
+      'عرض أرصدة الحسابات لهذا اليوم';
 
   @override
   String get semanticsHideDayBalanceBreakdown =>
-      'Hide account balances for this day';
+      'إخفاء أرصدة الحسابات لهذا اليوم';
 
   @override
   String get semanticsDateAllTime => 'التاريخ: طوال الوقت — انقر لتغيير الوضع';
@@ -1701,14 +1701,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get backupReminderRemindLater => 'تذكير لاحقاً';
 
   @override
-  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+  String get backupExportLedgerVerifyTitle => 'فحص السجل قبل النسخ الاحتياطي';
 
   @override
   String get backupExportLedgerVerifyInfo =>
-      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+      'يقارن الرصيد المخزّن لكل حساب بإعادة تشغيل كاملة لسجل معاملاتك. يمكنك تصدير النسخة الاحتياطية في كلتا الحالتين؛ الاختلافات للإعلام فقط.';
 
   @override
-  String get backupExportLedgerVerifyContinue => 'Continue to backup';
+  String get backupExportLedgerVerifyContinue => 'المتابعة إلى النسخ الاحتياطي';
 
   @override
   String get persistenceErrorReloaded =>

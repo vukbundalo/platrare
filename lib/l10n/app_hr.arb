@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "Stanje skriveno radi privatnosti",
   "heroResetButton": "Resetiraj",
   "fabScrollToTop": "Na vrh",
+  "fabPickProjectionDate": "Odaberi datum projekcije",
   "filterAll": "Sve",
   "filterAllAccounts": "Svi računi",
   "filterAllCategories": "Sve kategorije",
@@ -719,7 +720,9 @@
   "statsEmptySubtitle": "Nema podataka o potrošnji za odabrani raspon.",
   "semanticsShowProjections": "Prikaži predviđena stanja po računu",
   "semanticsHideProjections": "Sakrij predviđena stanja po računu",
-  "semanticsDateAllTime": "Datum: cijelo vrijeme — dodirnite za promjenu načina",
+    "semanticsShowDayBalanceBreakdown": "Prikaži stanja računa za ovaj dan",
+  "semanticsHideDayBalanceBreakdown": "Sakrij stanja računa za ovaj dan",
+"semanticsDateAllTime": "Datum: cijelo vrijeme — dodirnite za promjenu načina",
   "semanticsDateMode": "Datum: {mode} — dodirnite za promjenu načina",
   "@semanticsDateMode": {
     "placeholders": {
@@ -857,6 +860,11 @@
     }
   },
   "backupReminderRemindLater": "Podsjeti kasnije",
+
+  "backupExportLedgerVerifyTitle": "Provjera knjige prije sigurnosne kopije",
+  "backupExportLedgerVerifyInfo": "Uspoređuje pohranjeni saldo svakog računa s potpunom reprodukcijom vaše povijesti. Možeš izvesti sigurnosnu kopiju u svakom slučaju; nepodudaranja su informativna.",
+  "backupExportLedgerVerifyContinue": "Nastavi na sigurnosnu kopiju",
+
 
 
   "persistenceErrorReloaded": "Nije moguće spremiti promjene. Podaci su ponovno učitani iz pohrane."

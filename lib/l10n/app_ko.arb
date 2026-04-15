@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "개인 정보 보호를 위해 잔액 숨김",
   "heroResetButton": "다시 놓기",
   "fabScrollToTop": "맨 위로",
+  "fabPickProjectionDate": "예측 날짜 선택",
   "filterAll": "모두",
   "filterAllAccounts": "모든 계정",
   "filterAllCategories": "모든 카테고리",
@@ -719,7 +720,9 @@
   "statsEmptySubtitle": "선택한 범위에 대한 지출 데이터가 없습니다.",
   "semanticsShowProjections": "계정별 예상 잔액 표시",
   "semanticsHideProjections": "계정별 예상 잔액 숨기기",
-  "semanticsDateAllTime": "날짜: 항상 — 모드를 변경하려면 탭하세요.",
+    "semanticsShowDayBalanceBreakdown": "이 날의 계정 잔액 표시",
+  "semanticsHideDayBalanceBreakdown": "이 날의 계정 잔액 숨기기",
+"semanticsDateAllTime": "날짜: 항상 — 모드를 변경하려면 탭하세요.",
   "semanticsDateMode": "날짜: {mode} — 탭하여 모드 변경",
   "@semanticsDateMode": {
     "placeholders": {
@@ -857,6 +860,11 @@
     }
   },
   "backupReminderRemindLater": "나중에 알림",
+
+  "backupExportLedgerVerifyTitle": "백업 전 원장 확인",
+  "backupExportLedgerVerifyInfo": "각 계정의 저장된 잔액을 거래 내역 전체 재생과 비교합니다. 어느 경우든 백업을 내보낼 수 있습니다. 불일치는 참고 정보입니다.",
+  "backupExportLedgerVerifyContinue": "백업으로 계속",
+
 
 
   "persistenceErrorReloaded": "변경사항을 저장할 수 없습니다. 데이터가 저장소에서 다시 로드되었습니다."

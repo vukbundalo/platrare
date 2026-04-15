@@ -79,7 +79,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get fabScrollToTop => 'Back to top';
 
   @override
-  String get fabPickProjectionDate => 'Choose projection date';
+  String get fabPickProjectionDate => '选择预测日期';
 
   @override
   String get filterAll => 'All';
@@ -1451,12 +1451,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get semanticsHideProjections => 'Hide projected balances by account';
 
   @override
-  String get semanticsShowDayBalanceBreakdown =>
-      'Show account balances for this day';
+  String get semanticsShowDayBalanceBreakdown => '显示本日账户余额';
 
   @override
-  String get semanticsHideDayBalanceBreakdown =>
-      'Hide account balances for this day';
+  String get semanticsHideDayBalanceBreakdown => '隐藏本日账户余额';
 
   @override
   String get semanticsDateAllTime => 'Date: all time — tap to change mode';
@@ -1695,14 +1693,14 @@ class AppLocalizationsZh extends AppLocalizations {
   String get backupReminderRemindLater => '稍后提醒';
 
   @override
-  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+  String get backupExportLedgerVerifyTitle => '备份前账本检查';
 
   @override
   String get backupExportLedgerVerifyInfo =>
-      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+      '将每个账户的存储余额与您完整的历史记录重播进行比较。无论如何您都可以导出备份；不一致仅供参考。';
 
   @override
-  String get backupExportLedgerVerifyContinue => 'Continue to backup';
+  String get backupExportLedgerVerifyContinue => '继续备份';
 
   @override
   String get persistenceErrorReloaded =>
@@ -1782,6 +1780,9 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get fabScrollToTop => '返回顶部';
+
+  @override
+  String get fabPickProjectionDate => '选择预测日期';
 
   @override
   String get filterAll => '全部';
@@ -3111,6 +3112,12 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get semanticsHideProjections => '按账户隐藏预计余额';
 
   @override
+  String get semanticsShowDayBalanceBreakdown => '显示本日账户余额';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown => '隐藏本日账户余额';
+
+  @override
   String get semanticsDateAllTime => '日期：所有时间 — 点击即可更改模式';
 
   @override
@@ -3334,6 +3341,16 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get backupReminderRemindLater => '稍后提醒';
+
+  @override
+  String get backupExportLedgerVerifyTitle => '备份前账本检查';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      '将每个账户的存储余额与您完整的历史记录重播进行比较。无论如何您都可以导出备份；不一致仅供参考。';
+
+  @override
+  String get backupExportLedgerVerifyContinue => '继续备份';
 
   @override
   String get persistenceErrorReloaded => '无法保存更改。数据已从存储中重新加载。';

@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "Guthaben aus Datenschutzgründen ausgeblendet",
   "heroResetButton": "Zurücksetzen",
   "fabScrollToTop": "Nach oben",
+  "fabPickProjectionDate": "Projektionsdatum wählen",
   "filterAll": "Alle",
   "filterAllAccounts": "Alle Konten",
   "filterAllCategories": "Alle Kategorien",
@@ -719,7 +720,9 @@
   "statsEmptySubtitle": "Keine Ausgabendaten für den ausgewählten Bereich.",
   "semanticsShowProjections": "Zeigen Sie die prognostizierten Salden nach Konto an",
   "semanticsHideProjections": "Verstecken Sie die prognostizierten Salden nach Konto",
-  "semanticsDateAllTime": "Datum: Gesamtzeit – tippen Sie, um den Modus zu ändern",
+    "semanticsShowDayBalanceBreakdown": "Kontostände für diesen Tag anzeigen",
+  "semanticsHideDayBalanceBreakdown": "Kontostände für diesen Tag ausblenden",
+"semanticsDateAllTime": "Datum: Gesamtzeit – tippen Sie, um den Modus zu ändern",
   "semanticsDateMode": "Datum: {mode} – tippen Sie, um den Modus zu ändern",
   "@semanticsDateMode": {
     "placeholders": {
@@ -857,6 +860,11 @@
     }
   },
   "backupReminderRemindLater": "Später erinnern",
+
+  "backupExportLedgerVerifyTitle": "Kontoprüfung vor dem Backup",
+  "backupExportLedgerVerifyInfo": "Vergleicht das gespeicherte Saldo jedes Kontos mit einer vollständigen Wiedergabe Ihres Verlaufs. Sie können das Backup in jedem Fall exportieren; Abweichungen sind informativ.",
+  "backupExportLedgerVerifyContinue": "Weiter zum Backup",
+
 
 
   "persistenceErrorReloaded": "Änderungen konnten nicht gespeichert werden. Daten wurden aus dem Speicher neu geladen."

@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "Saldo dolt för integritetsskydd",
   "heroResetButton": "Återställa",
   "fabScrollToTop": "Till toppen",
+  "fabPickProjectionDate": "Välj projektionsdatum",
   "filterAll": "Alla",
   "filterAllAccounts": "Alla konton",
   "filterAllCategories": "Alla kategorier",
@@ -719,7 +720,9 @@
   "statsEmptySubtitle": "Ingen utgiftsdata för det valda intervallet.",
   "semanticsShowProjections": "Visa prognostiserade saldon per konto",
   "semanticsHideProjections": "Dölj beräknade saldon per konto",
-  "semanticsDateAllTime": "Datum: hela tiden — tryck för att ändra läge",
+    "semanticsShowDayBalanceBreakdown": "Visa kontosaldon för den här dagen",
+  "semanticsHideDayBalanceBreakdown": "Dölj kontosaldon för den här dagen",
+"semanticsDateAllTime": "Datum: hela tiden — tryck för att ändra läge",
   "semanticsDateMode": "Datum: {mode} — tryck för att ändra läge",
   "@semanticsDateMode": {
     "placeholders": {
@@ -857,6 +860,11 @@
     }
   },
   "backupReminderRemindLater": "Påminn senare",
+
+  "backupExportLedgerVerifyTitle": "Huvudbokskontroll före säkerhetskopiering",
+  "backupExportLedgerVerifyInfo": "Jämför det lagrade saldot för varje konto med en fullständig uppspelning av din historik. Du kan exportera en säkerhetskopia oavsett; avvikelser är informativa.",
+  "backupExportLedgerVerifyContinue": "Fortsätt till säkerhetskopiering",
+
 
 
   "persistenceErrorReloaded": "Det gick inte att spara ändringarna. Data laddades om från lagringen."

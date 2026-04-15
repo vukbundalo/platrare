@@ -27,6 +27,7 @@
 
   "heroResetButton": "Reset",
   "fabScrollToTop": "Back to top",
+  "fabPickProjectionDate": "Odaberi datum projekcije",
   "filterAll": "Sve",
   "filterAllAccounts": "Svi računi",
   "filterAllCategories": "Sve kategorije",
@@ -466,7 +467,9 @@
   "statsEmptySubtitle": "Nema podataka o potrošnji za izabrani period.",
   "semanticsShowProjections": "Prikaži projektovana stanja po računu",
   "semanticsHideProjections": "Sakrij projektovana stanja po računu",
-  "semanticsDateAllTime": "Datum: celo vreme \u2014 dodirnite za promenu režima",
+    "semanticsShowDayBalanceBreakdown": "Prikaži stanja računa za ovaj dan",
+  "semanticsHideDayBalanceBreakdown": "Sakrij stanja računa za ovaj dan",
+"semanticsDateAllTime": "Datum: celo vreme \u2014 dodirnite za promenu režima",
   "semanticsDateMode": "Datum: {mode} \u2014 dodirnite za promenu režima",
   "semanticsDateThisMonth": "Datum: ovaj mesec \u2014 dodirnite za mesec, nedelju, godinu ili celo vreme",
   "semanticsTxTypeCycle": "Tip transakcije: sve, prihod, rashod, prenos",
@@ -572,6 +575,11 @@
     }
   },
   "backupReminderRemindLater": "Podseti kasnije",
+
+  "backupExportLedgerVerifyTitle": "Provera knjige pre rezervne kopije",
+  "backupExportLedgerVerifyInfo": "Upoređuje sačuvani saldo svakog računa s potpunim reprodukovanjem vaše istorije. U svakom slučaju možete izvesti rezervnu kopiju; neslaganja su informativna.",
+  "backupExportLedgerVerifyContinue": "Nastavi na rezervnu kopiju",
+
 
 
 

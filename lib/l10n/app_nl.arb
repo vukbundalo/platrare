@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "Saldo verborgen voor privacy",
   "heroResetButton": "Opnieuw instellen",
   "fabScrollToTop": "Terug naar boven",
+  "fabPickProjectionDate": "Projectiedatum kiezen",
   "filterAll": "Alle",
   "filterAllAccounts": "Alle rekeningen",
   "filterAllCategories": "Alle categorieën",
@@ -719,7 +720,9 @@
   "statsEmptySubtitle": "Geen bestedingsgegevens voor het geselecteerde bereik.",
   "semanticsShowProjections": "Toon geprojecteerde saldi per rekening",
   "semanticsHideProjections": "Verberg geprojecteerde saldi per rekening",
-  "semanticsDateAllTime": "Datum: altijd — tik om de modus te wijzigen",
+    "semanticsShowDayBalanceBreakdown": "Accountsaldi voor deze dag weergeven",
+  "semanticsHideDayBalanceBreakdown": "Accountsaldi voor deze dag verbergen",
+"semanticsDateAllTime": "Datum: altijd — tik om de modus te wijzigen",
   "semanticsDateMode": "Datum: {mode} — tik om de modus te wijzigen",
   "@semanticsDateMode": {
     "placeholders": {
@@ -857,6 +860,11 @@
     }
   },
   "backupReminderRemindLater": "Later herinneren",
+
+  "backupExportLedgerVerifyTitle": "Grootboekcontrole voor back-up",
+  "backupExportLedgerVerifyInfo": "Vergelijkt het opgeslagen saldo van elk account met een volledige herhaling van uw geschiedenis. U kunt een back-up exporteren ongeacht het resultaat; afwijkingen zijn informatief.",
+  "backupExportLedgerVerifyContinue": "Doorgaan naar back-up",
+
 
 
   "persistenceErrorReloaded": "Kan wijzigingen niet opslaan. Gegevens zijn opnieuw geladen uit de opslag."

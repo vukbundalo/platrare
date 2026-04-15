@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "Solde masqué pour la confidentialité",
   "heroResetButton": "Réinitialiser",
   "fabScrollToTop": "Haut de page",
+  "fabPickProjectionDate": "Choisir la date de projection",
   "filterAll": "Tout",
   "filterAllAccounts": "Tous les comptes",
   "filterAllCategories": "Toutes les catégories",
@@ -566,7 +567,9 @@
   "statsEmptySubtitle": "Aucune donnée de dépense pour la plage sélectionnée.",
   "semanticsShowProjections": "Afficher les soldes projetés par compte",
   "semanticsHideProjections": "Masquer les soldes projetés par compte",
-  "semanticsDateAllTime": "Date : depuis le début — appuyer pour changer de mode",
+    "semanticsShowDayBalanceBreakdown": "Afficher les soldes des comptes pour ce jour",
+  "semanticsHideDayBalanceBreakdown": "Masquer les soldes des comptes pour ce jour",
+"semanticsDateAllTime": "Date : depuis le début — appuyer pour changer de mode",
   "semanticsDateMode": "Date : {mode} — appuyer pour changer de mode",
   "@semanticsDateMode": {
     "placeholders": {
@@ -688,6 +691,11 @@
     }
   },
   "backupReminderRemindLater": "Rappeler plus tard",
+
+  "backupExportLedgerVerifyTitle": "Vérification du registre avant la sauvegarde",
+  "backupExportLedgerVerifyInfo": "Cela compare le solde stocké de chaque compte à une relecture complète de votre historique. Vous pouvez exporter une sauvegarde dans les deux cas ; les écarts sont informatifs.",
+  "backupExportLedgerVerifyContinue": "Continuer vers la sauvegarde",
+
 
 
   "persistenceErrorReloaded": "Impossible d'enregistrer les modifications. Les données ont été rechargées depuis le stockage."

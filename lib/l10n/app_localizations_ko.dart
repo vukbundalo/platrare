@@ -79,7 +79,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get fabScrollToTop => '맨 위로';
 
   @override
-  String get fabPickProjectionDate => 'Choose projection date';
+  String get fabPickProjectionDate => '예측 날짜 선택';
 
   @override
   String get filterAll => '모두';
@@ -1424,12 +1424,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get semanticsHideProjections => '계정별 예상 잔액 숨기기';
 
   @override
-  String get semanticsShowDayBalanceBreakdown =>
-      'Show account balances for this day';
+  String get semanticsShowDayBalanceBreakdown => '이 날의 계정 잔액 표시';
 
   @override
-  String get semanticsHideDayBalanceBreakdown =>
-      'Hide account balances for this day';
+  String get semanticsHideDayBalanceBreakdown => '이 날의 계정 잔액 숨기기';
 
   @override
   String get semanticsDateAllTime => '날짜: 항상 — 모드를 변경하려면 탭하세요.';
@@ -1665,14 +1663,14 @@ class AppLocalizationsKo extends AppLocalizations {
   String get backupReminderRemindLater => '나중에 알림';
 
   @override
-  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+  String get backupExportLedgerVerifyTitle => '백업 전 원장 확인';
 
   @override
   String get backupExportLedgerVerifyInfo =>
-      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+      '각 계정의 저장된 잔액을 거래 내역 전체 재생과 비교합니다. 어느 경우든 백업을 내보낼 수 있습니다. 불일치는 참고 정보입니다.';
 
   @override
-  String get backupExportLedgerVerifyContinue => 'Continue to backup';
+  String get backupExportLedgerVerifyContinue => '백업으로 계속';
 
   @override
   String get persistenceErrorReloaded =>

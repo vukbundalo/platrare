@@ -79,7 +79,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get fabScrollToTop => '先頭に戻る';
 
   @override
-  String get fabPickProjectionDate => 'Choose projection date';
+  String get fabPickProjectionDate => '予測日を選択';
 
   @override
   String get filterAll => '全て';
@@ -1423,12 +1423,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get semanticsHideProjections => '口座ごとの予想残高を非表示にする';
 
   @override
-  String get semanticsShowDayBalanceBreakdown =>
-      'Show account balances for this day';
+  String get semanticsShowDayBalanceBreakdown => 'この日の口座残高を表示';
 
   @override
-  String get semanticsHideDayBalanceBreakdown =>
-      'Hide account balances for this day';
+  String get semanticsHideDayBalanceBreakdown => 'この日の口座残高を非表示';
 
   @override
   String get semanticsDateAllTime => '日付: 常時 — タップしてモードを変更します';
@@ -1663,14 +1661,14 @@ class AppLocalizationsJa extends AppLocalizations {
   String get backupReminderRemindLater => '後でリマインド';
 
   @override
-  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+  String get backupExportLedgerVerifyTitle => 'バックアップ前の台帳確認';
 
   @override
   String get backupExportLedgerVerifyInfo =>
-      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+      '各口座の保存済み残高を取引履歴の完全な再生と比較します。どちらの場合もバックアップをエクスポートできます。不一致は参考情報です。';
 
   @override
-  String get backupExportLedgerVerifyContinue => 'Continue to backup';
+  String get backupExportLedgerVerifyContinue => 'バックアップに進む';
 
   @override
   String get persistenceErrorReloaded => '変更を保存できませんでした。データがストレージから再ロードされました。';

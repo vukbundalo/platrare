@@ -80,7 +80,7 @@ class AppLocalizationsSr extends AppLocalizations {
   String get fabScrollToTop => 'Back to top';
 
   @override
-  String get fabPickProjectionDate => 'Choose projection date';
+  String get fabPickProjectionDate => 'Odaberi datum projekcije';
 
   @override
   String get filterAll => 'Sve';
@@ -1466,11 +1466,11 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get semanticsShowDayBalanceBreakdown =>
-      'Show account balances for this day';
+      'Prikaži stanja računa za ovaj dan';
 
   @override
   String get semanticsHideDayBalanceBreakdown =>
-      'Hide account balances for this day';
+      'Sakrij stanja računa za ovaj dan';
 
   @override
   String get semanticsDateAllTime =>
@@ -1714,14 +1714,15 @@ class AppLocalizationsSr extends AppLocalizations {
   String get backupReminderRemindLater => 'Podseti kasnije';
 
   @override
-  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+  String get backupExportLedgerVerifyTitle =>
+      'Provera knjige pre rezervne kopije';
 
   @override
   String get backupExportLedgerVerifyInfo =>
-      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+      'Upoređuje sačuvani saldo svakog računa s potpunim reprodukovanjem vaše istorije. U svakom slučaju možete izvesti rezervnu kopiju; neslaganja su informativna.';
 
   @override
-  String get backupExportLedgerVerifyContinue => 'Continue to backup';
+  String get backupExportLedgerVerifyContinue => 'Nastavi na rezervnu kopiju';
 
   @override
   String get persistenceErrorReloaded =>
@@ -1802,6 +1803,9 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String get fabScrollToTop => 'На врх';
+
+  @override
+  String get fabPickProjectionDate => 'Одабери датум пројекције';
 
   @override
   String get filterAll => 'Све';
@@ -3183,6 +3187,14 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
   String get semanticsHideProjections => 'Сакриј пројектована стања по рачуну';
 
   @override
+  String get semanticsShowDayBalanceBreakdown =>
+      'Прикажи стања рачуна за овај дан';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown =>
+      'Сакриј стања рачуна за овај дан';
+
+  @override
   String get semanticsDateAllTime =>
       'Датум: цело време — додирните за промену режима';
 
@@ -3423,6 +3435,17 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
   String get backupReminderRemindLater => 'Подсети касније';
 
   @override
+  String get backupExportLedgerVerifyTitle =>
+      'Провера књиге пре резервне копије';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'Упоређује сачувани салдо сваког рачуна с потпуним репродуковањем ваше историје. У сваком случају можете извести резервну копију; неслагања су информативна.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Настави на резервну копију';
+
+  @override
   String get persistenceErrorReloaded =>
       'Чување није успело. Подаци су поново учитани.';
 }
@@ -3501,6 +3524,9 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get fabScrollToTop => 'Back to top';
+
+  @override
+  String get fabPickProjectionDate => 'Odaberi datum projekcije';
 
   @override
   String get filterAll => 'Sve';
@@ -4885,6 +4911,14 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   String get semanticsHideProjections => 'Sakrij projektovana stanja po računu';
 
   @override
+  String get semanticsShowDayBalanceBreakdown =>
+      'Prikaži stanja računa za ovaj dan';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown =>
+      'Sakrij stanja računa za ovaj dan';
+
+  @override
   String get semanticsDateAllTime =>
       'Datum: celo vreme — dodirnite za promenu režima';
 
@@ -5124,6 +5158,17 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get backupReminderRemindLater => 'Podseti kasnije';
+
+  @override
+  String get backupExportLedgerVerifyTitle =>
+      'Provera knjige pre rezervne kopije';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'Upoređuje sačuvani saldo svakog računa s potpunim reprodukovanjem vaše istorije. U svakom slučaju možete izvesti rezervnu kopiju; neslaganja su informativna.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Nastavi na rezervnu kopiju';
 
   @override
   String get persistenceErrorReloaded =>

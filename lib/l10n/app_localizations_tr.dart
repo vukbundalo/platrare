@@ -80,7 +80,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get fabScrollToTop => 'Başa dön';
 
   @override
-  String get fabPickProjectionDate => 'Choose projection date';
+  String get fabPickProjectionDate => 'Projeksiyon tarihi seç';
 
   @override
   String get filterAll => 'Tüm';
@@ -1459,11 +1459,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get semanticsShowDayBalanceBreakdown =>
-      'Show account balances for this day';
+      'Bu gün için hesap bakiyelerini göster';
 
   @override
   String get semanticsHideDayBalanceBreakdown =>
-      'Hide account balances for this day';
+      'Bu gün için hesap bakiyelerini gizle';
 
   @override
   String get semanticsDateAllTime =>
@@ -1710,14 +1710,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get backupReminderRemindLater => 'Daha sonra hatırlat';
 
   @override
-  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+  String get backupExportLedgerVerifyTitle =>
+      'Yedeklemeden önce defter kontrolü';
 
   @override
   String get backupExportLedgerVerifyInfo =>
-      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+      'Her hesabın kayıtlı bakiyesini geçmişinizin tam tekrarıyla karşılaştırır. Her iki durumda da yedekleme dışa aktarabilirsiniz; uyuşmazlıklar bilgi amaçlıdır.';
 
   @override
-  String get backupExportLedgerVerifyContinue => 'Continue to backup';
+  String get backupExportLedgerVerifyContinue => 'Yedeklemeye devam et';
 
   @override
   String get persistenceErrorReloaded =>

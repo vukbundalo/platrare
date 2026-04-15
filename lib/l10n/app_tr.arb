@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "Gizlilik için bakiye gizlendi",
   "heroResetButton": "Sıfırla",
   "fabScrollToTop": "Başa dön",
+  "fabPickProjectionDate": "Projeksiyon tarihi seç",
   "filterAll": "Tüm",
   "filterAllAccounts": "Tüm hesaplar",
   "filterAllCategories": "Tüm kategoriler",
@@ -719,7 +720,9 @@
   "statsEmptySubtitle": "Seçilen aralık için harcama verisi yok.",
   "semanticsShowProjections": "Tahmini bakiyeleri hesaba göre göster",
   "semanticsHideProjections": "Tahmini bakiyeleri hesaba göre gizle",
-  "semanticsDateAllTime": "Tarih: tüm zamanlar — modu değiştirmek için dokunun",
+    "semanticsShowDayBalanceBreakdown": "Bu gün için hesap bakiyelerini göster",
+  "semanticsHideDayBalanceBreakdown": "Bu gün için hesap bakiyelerini gizle",
+"semanticsDateAllTime": "Tarih: tüm zamanlar — modu değiştirmek için dokunun",
   "semanticsDateMode": "Tarih: {mode} — modu değiştirmek için dokunun",
   "@semanticsDateMode": {
     "placeholders": {
@@ -857,6 +860,11 @@
     }
   },
   "backupReminderRemindLater": "Daha sonra hatırlat",
+
+  "backupExportLedgerVerifyTitle": "Yedeklemeden önce defter kontrolü",
+  "backupExportLedgerVerifyInfo": "Her hesabın kayıtlı bakiyesini geçmişinizin tam tekrarıyla karşılaştırır. Her iki durumda da yedekleme dışa aktarabilirsiniz; uyuşmazlıklar bilgi amaçlıdır.",
+  "backupExportLedgerVerifyContinue": "Yedeklemeye devam et",
+
 
 
   "persistenceErrorReloaded": "Değişiklikler kaydedilemedi. Veriler depolama alanından yeniden yüklendi."

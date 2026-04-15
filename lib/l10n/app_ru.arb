@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "Баланс скрыт для конфиденциальности",
   "heroResetButton": "Перезагрузить",
   "fabScrollToTop": "Наверх",
+  "fabPickProjectionDate": "Выбрать дату проекции",
   "filterAll": "Все",
   "filterAllAccounts": "Все аккаунты",
   "filterAllCategories": "Все категории",
@@ -719,7 +720,9 @@
   "statsEmptySubtitle": "Нет данных о расходах для выбранного диапазона.",
   "semanticsShowProjections": "Показать прогнозируемые остатки по счетам",
   "semanticsHideProjections": "Скрыть прогнозируемые остатки по счетам",
-  "semanticsDateAllTime": "Дата: все время — нажмите, чтобы изменить режим",
+    "semanticsShowDayBalanceBreakdown": "Показать балансы счетов за этот день",
+  "semanticsHideDayBalanceBreakdown": "Скрыть балансы счетов за этот день",
+"semanticsDateAllTime": "Дата: все время — нажмите, чтобы изменить режим",
   "semanticsDateMode": "Дата: {mode} — нажмите, чтобы изменить режим.",
   "@semanticsDateMode": {
     "placeholders": {
@@ -857,6 +860,11 @@
     }
   },
   "backupReminderRemindLater": "Напомнить позже",
+
+  "backupExportLedgerVerifyTitle": "Проверка журнала перед резервным копированием",
+  "backupExportLedgerVerifyInfo": "Сравнивает сохранённый баланс каждого счёта с полным воспроизведением истории. Вы можете экспортировать резервную копию в любом случае; расхождения носят информационный характер.",
+  "backupExportLedgerVerifyContinue": "Перейти к резервному копированию",
+
 
 
   "persistenceErrorReloaded": "Не удалось сохранить изменения. Данные были перезагружены из хранилища."

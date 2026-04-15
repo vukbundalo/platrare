@@ -80,7 +80,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get fabScrollToTop => 'Na vrh';
 
   @override
-  String get fabPickProjectionDate => 'Choose projection date';
+  String get fabPickProjectionDate => 'Odaberi datum projekcije';
 
   @override
   String get filterAll => 'Sve';
@@ -1461,11 +1461,11 @@ class AppLocalizationsBs extends AppLocalizations {
 
   @override
   String get semanticsShowDayBalanceBreakdown =>
-      'Show account balances for this day';
+      'Prikaži stanja računa za ovaj dan';
 
   @override
   String get semanticsHideDayBalanceBreakdown =>
-      'Hide account balances for this day';
+      'Sakrij stanja računa za ovaj dan';
 
   @override
   String get semanticsDateAllTime =>
@@ -1710,14 +1710,15 @@ class AppLocalizationsBs extends AppLocalizations {
   String get backupReminderRemindLater => 'Podsjeti kasnije';
 
   @override
-  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+  String get backupExportLedgerVerifyTitle =>
+      'Provjera knjige prije sigurnosne kopije';
 
   @override
   String get backupExportLedgerVerifyInfo =>
-      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+      'Uspoređuje pohranjeni saldo svakog računa s potpunom reprodukcijom vaše povijesti. U svakom slučaju možete izvesti sigurnosnu kopiju; nepodudaranja su informativna.';
 
   @override
-  String get backupExportLedgerVerifyContinue => 'Continue to backup';
+  String get backupExportLedgerVerifyContinue => 'Nastavi na sigurnosnu kopiju';
 
   @override
   String get persistenceErrorReloaded =>

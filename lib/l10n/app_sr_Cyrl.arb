@@ -23,6 +23,7 @@
   "semanticsHeroBalanceHidden": "Стање скривено ради приватности",
   "heroResetButton": "Ресет",
   "fabScrollToTop": "На врх",
+  "fabPickProjectionDate": "Одабери датум пројекције",
   "filterAll": "Све",
   "filterAllAccounts": "Сви рачуни",
   "filterAllCategories": "Све категорије",
@@ -426,7 +427,9 @@
   "statsEmptySubtitle": "Нема података о потрошњи за изабрани период.",
   "semanticsShowProjections": "Прикажи пројектована стања по рачуну",
   "semanticsHideProjections": "Сакриј пројектована стања по рачуну",
-  "semanticsDateAllTime": "Датум: цело време — додирните за промену режима",
+    "semanticsShowDayBalanceBreakdown": "Прикажи стања рачуна за овај дан",
+  "semanticsHideDayBalanceBreakdown": "Сакриј стања рачуна за овај дан",
+"semanticsDateAllTime": "Датум: цело време — додирните за промену режима",
   "semanticsDateMode": "Датум: {mode} — додирните за промену режима",
   "semanticsDateThisMonth": "Датум: овај месец — додирните за месец, недељу, годину или цело време",
   "semanticsTxTypeCycle": "Тип трансакције: све, приход, расход, пренос",
@@ -550,6 +553,11 @@
     }
   },
   "backupReminderRemindLater": "Подсети касније",
+
+  "backupExportLedgerVerifyTitle": "Провера књиге пре резервне копије",
+  "backupExportLedgerVerifyInfo": "Упоређује сачувани салдо сваког рачуна с потпуним репродуковањем ваше историје. У сваком случају можете извести резервну копију; неслагања су информативна.",
+  "backupExportLedgerVerifyContinue": "Настави на резервну копију",
+
 
 
   "persistenceErrorReloaded": "Чување није успело. Подаци су поново учитани."

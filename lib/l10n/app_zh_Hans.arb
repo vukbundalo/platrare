@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "余额已隐藏以保护隐私",
   "heroResetButton": "重置",
   "fabScrollToTop": "返回顶部",
+  "fabPickProjectionDate": "选择预测日期",
   "filterAll": "全部",
   "filterAllAccounts": "所有账户",
   "filterAllCategories": "所有类别",
@@ -719,7 +720,9 @@
   "statsEmptySubtitle": "所选范围内没有支出数据。",
   "semanticsShowProjections": "按账户显示预计余额",
   "semanticsHideProjections": "按账户隐藏预计余额",
-  "semanticsDateAllTime": "日期：所有时间 — 点击即可更改模式",
+    "semanticsShowDayBalanceBreakdown": "显示本日账户余额",
+  "semanticsHideDayBalanceBreakdown": "隐藏本日账户余额",
+"semanticsDateAllTime": "日期：所有时间 — 点击即可更改模式",
   "semanticsDateMode": "日期：{mode} — 点击即可更改模式",
   "@semanticsDateMode": {
     "placeholders": {
@@ -857,6 +860,11 @@
     }
   },
   "backupReminderRemindLater": "稍后提醒",
+
+  "backupExportLedgerVerifyTitle": "备份前账本检查",
+  "backupExportLedgerVerifyInfo": "将每个账户的存储余额与您完整的历史记录重播进行比较。无论如何您都可以导出备份；不一致仅供参考。",
+  "backupExportLedgerVerifyContinue": "继续备份",
+
 
 
   "persistenceErrorReloaded": "无法保存更改。数据已从存储中重新加载。"

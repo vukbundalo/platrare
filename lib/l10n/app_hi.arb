@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "गोपनीयता के लिए शेष राशि छुपी है",
   "heroResetButton": "रीसेट करें",
   "fabScrollToTop": "ऊपर जाएं",
+  "fabPickProjectionDate": "प्रोजेक्शन तिथि चुनें",
   "filterAll": "सभी",
   "filterAllAccounts": "सभी खाते",
   "filterAllCategories": "सभी श्रेणियां",
@@ -719,7 +720,9 @@
   "statsEmptySubtitle": "चयनित सीमा के लिए कोई व्यय डेटा नहीं।",
   "semanticsShowProjections": "खाते के अनुसार अनुमानित शेष दिखाएं",
   "semanticsHideProjections": "खाते द्वारा अनुमानित शेष छिपाएँ",
-  "semanticsDateAllTime": "दिनांक: हर समय - मोड बदलने के लिए टैप करें",
+    "semanticsShowDayBalanceBreakdown": "इस दिन के लिए खाता शेष दिखाएं",
+  "semanticsHideDayBalanceBreakdown": "इस दिन के लिए खाता शेष छुपाएं",
+"semanticsDateAllTime": "दिनांक: हर समय - मोड बदलने के लिए टैप करें",
   "semanticsDateMode": "दिनांक: {mode} - मोड बदलने के लिए टैप करें",
   "@semanticsDateMode": {
     "placeholders": {
@@ -857,6 +860,11 @@
     }
   },
   "backupReminderRemindLater": "बाद में याद दिलाएं",
+
+  "backupExportLedgerVerifyTitle": "बैकअप से पहले लेजर जाँच",
+  "backupExportLedgerVerifyInfo": "यह प्रत्येक खाते के संग्रहीत शेष की तुलना आपके इतिहास के पूर्ण पुनः-प्रसार से करता है। आप किसी भी स्थिति में बैकअप एक्सपोर्ट कर सकते हैं; विसंगतियाँ सूचनात्मक हैं।",
+  "backupExportLedgerVerifyContinue": "बैकअप पर जारी रखें",
+
 
 
   "persistenceErrorReloaded": "परिवर्तन सहेजे नहीं जा सके. डेटा को स्टोरेज से पुनः लोड किया गया था।"

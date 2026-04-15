@@ -81,7 +81,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get fabScrollToTop => 'На початок';
 
   @override
-  String get fabPickProjectionDate => 'Choose projection date';
+  String get fabPickProjectionDate => 'Вибрати дату прогнозу';
 
   @override
   String get filterAll => 'Усі';
@@ -1466,11 +1466,11 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get semanticsShowDayBalanceBreakdown =>
-      'Show account balances for this day';
+      'Показати баланси рахунків за цей день';
 
   @override
   String get semanticsHideDayBalanceBreakdown =>
-      'Hide account balances for this day';
+      'Приховати баланси рахунків за цей день';
 
   @override
   String get semanticsDateAllTime =>
@@ -1715,14 +1715,16 @@ class AppLocalizationsUk extends AppLocalizations {
   String get backupReminderRemindLater => 'Нагадати пізніше';
 
   @override
-  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+  String get backupExportLedgerVerifyTitle =>
+      'Перевірка журналу перед резервним копіюванням';
 
   @override
   String get backupExportLedgerVerifyInfo =>
-      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+      'Порівнює збережений баланс кожного рахунку з повним відтворенням історії. Ви можете експортувати резервну копію в будь-якому випадку; розбіжності мають інформаційний характер.';
 
   @override
-  String get backupExportLedgerVerifyContinue => 'Continue to backup';
+  String get backupExportLedgerVerifyContinue =>
+      'Перейти до резервного копіювання';
 
   @override
   String get persistenceErrorReloaded =>

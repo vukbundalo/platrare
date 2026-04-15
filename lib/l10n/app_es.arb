@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "Saldo oculto por privacidad",
   "heroResetButton": "Restablecer",
   "fabScrollToTop": "Volver arriba",
+  "fabPickProjectionDate": "Elegir fecha de proyección",
   "filterAll": "Todo",
   "filterAllAccounts": "Todas las cuentas",
   "filterAllCategories": "Todas las categorías",
@@ -566,7 +567,9 @@
   "statsEmptySubtitle": "No hay datos de gasto para el rango seleccionado.",
   "semanticsShowProjections": "Mostrar saldos proyectados por cuenta",
   "semanticsHideProjections": "Ocultar saldos proyectados por cuenta",
-  "semanticsDateAllTime": "Fecha: todo el tiempo — toca para cambiar modo",
+    "semanticsShowDayBalanceBreakdown": "Mostrar saldos de cuentas para este día",
+  "semanticsHideDayBalanceBreakdown": "Ocultar saldos de cuentas para este día",
+"semanticsDateAllTime": "Fecha: todo el tiempo — toca para cambiar modo",
   "semanticsDateMode": "Fecha: {mode} — toca para cambiar modo",
   "@semanticsDateMode": {
     "placeholders": {
@@ -688,6 +691,11 @@
     }
   },
   "backupReminderRemindLater": "Recordar más tarde",
+
+  "backupExportLedgerVerifyTitle": "Verificación del libro antes de la copia de seguridad",
+  "backupExportLedgerVerifyInfo": "Compara el saldo almacenado de cada cuenta con una reproducción completa de tu historial. Puedes exportar la copia de seguridad de cualquier forma; las discrepancias son informativas.",
+  "backupExportLedgerVerifyContinue": "Continuar con la copia de seguridad",
+
 
 
   "persistenceErrorReloaded": "No se pudieron guardar los cambios. Los datos se recargaron desde el almacenamiento."

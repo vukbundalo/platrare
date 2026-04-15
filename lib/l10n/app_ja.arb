@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "プライバシーのため残高は非表示",
   "heroResetButton": "リセット",
   "fabScrollToTop": "先頭に戻る",
+  "fabPickProjectionDate": "予測日を選択",
   "filterAll": "全て",
   "filterAllAccounts": "すべてのアカウント",
   "filterAllCategories": "すべてのカテゴリー",
@@ -719,7 +720,9 @@
   "statsEmptySubtitle": "選択した範囲には支出データがありません。",
   "semanticsShowProjections": "口座ごとに予想残高を表示",
   "semanticsHideProjections": "口座ごとの予想残高を非表示にする",
-  "semanticsDateAllTime": "日付: 常時 — タップしてモードを変更します",
+    "semanticsShowDayBalanceBreakdown": "この日の口座残高を表示",
+  "semanticsHideDayBalanceBreakdown": "この日の口座残高を非表示",
+"semanticsDateAllTime": "日付: 常時 — タップしてモードを変更します",
   "semanticsDateMode": "日付: {mode} — タップしてモードを変更します",
   "@semanticsDateMode": {
     "placeholders": {
@@ -857,6 +860,11 @@
     }
   },
   "backupReminderRemindLater": "後でリマインド",
+
+  "backupExportLedgerVerifyTitle": "バックアップ前の台帳確認",
+  "backupExportLedgerVerifyInfo": "各口座の保存済み残高を取引履歴の完全な再生と比較します。どちらの場合もバックアップをエクスポートできます。不一致は参考情報です。",
+  "backupExportLedgerVerifyContinue": "バックアップに進む",
+
 
 
   "persistenceErrorReloaded": "変更を保存できませんでした。データがストレージから再ロードされました。"

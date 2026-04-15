@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "الرصيد مخفي للخصوصية",
   "heroResetButton": "إعادة ضبط",
   "fabScrollToTop": "للأعلى",
+  "fabPickProjectionDate": "اختيار تاريخ التوقع",
   "filterAll": "الجميع",
   "filterAllAccounts": "جميع الحسابات",
   "filterAllCategories": "جميع الفئات",
@@ -719,7 +720,9 @@
   "statsEmptySubtitle": "لا توجد بيانات الإنفاق للنطاق المحدد.",
   "semanticsShowProjections": "عرض الأرصدة المتوقعة حسب الحساب",
   "semanticsHideProjections": "إخفاء الأرصدة المتوقعة حسب الحساب",
-  "semanticsDateAllTime": "التاريخ: طوال الوقت — انقر لتغيير الوضع",
+    "semanticsShowDayBalanceBreakdown": "عرض أرصدة الحسابات لهذا اليوم",
+  "semanticsHideDayBalanceBreakdown": "إخفاء أرصدة الحسابات لهذا اليوم",
+"semanticsDateAllTime": "التاريخ: طوال الوقت — انقر لتغيير الوضع",
   "semanticsDateMode": "التاريخ: {mode} — انقر لتغيير الوضع",
   "@semanticsDateMode": {
     "placeholders": {
@@ -857,6 +860,11 @@
     }
   },
   "backupReminderRemindLater": "تذكير لاحقاً",
+
+  "backupExportLedgerVerifyTitle": "فحص السجل قبل النسخ الاحتياطي",
+  "backupExportLedgerVerifyInfo": "يقارن الرصيد المخزّن لكل حساب بإعادة تشغيل كاملة لسجل معاملاتك. يمكنك تصدير النسخة الاحتياطية في كلتا الحالتين؛ الاختلافات للإعلام فقط.",
+  "backupExportLedgerVerifyContinue": "المتابعة إلى النسخ الاحتياطي",
+
 
 
   "persistenceErrorReloaded": "تعذر حفظ التغييرات. تم إعادة تحميل البيانات من التخزين."

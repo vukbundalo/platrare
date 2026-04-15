@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "Баланс прихований для конфіденційності",
   "heroResetButton": "Скинути",
   "fabScrollToTop": "На початок",
+  "fabPickProjectionDate": "Вибрати дату прогнозу",
   "filterAll": "Усі",
   "filterAllAccounts": "Усі рахунки",
   "filterAllCategories": "Усі категорії",
@@ -566,7 +567,9 @@
   "statsEmptySubtitle": "Немає даних про витрати для вибраного діапазону.",
   "semanticsShowProjections": "Показати прогнозовані баланси по рахунках",
   "semanticsHideProjections": "Приховати прогнозовані баланси по рахунках",
-  "semanticsDateAllTime": "Дата: за весь час — торкніться для зміни режиму",
+    "semanticsShowDayBalanceBreakdown": "Показати баланси рахунків за цей день",
+  "semanticsHideDayBalanceBreakdown": "Приховати баланси рахунків за цей день",
+"semanticsDateAllTime": "Дата: за весь час — торкніться для зміни режиму",
   "semanticsDateMode": "Дата: {mode} — торкніться для зміни режиму",
   "@semanticsDateMode": {
     "placeholders": {
@@ -688,6 +691,11 @@
     }
   },
   "backupReminderRemindLater": "Нагадати пізніше",
+
+  "backupExportLedgerVerifyTitle": "Перевірка журналу перед резервним копіюванням",
+  "backupExportLedgerVerifyInfo": "Порівнює збережений баланс кожного рахунку з повним відтворенням історії. Ви можете експортувати резервну копію в будь-якому випадку; розбіжності мають інформаційний характер.",
+  "backupExportLedgerVerifyContinue": "Перейти до резервного копіювання",
+
 
 
   "persistenceErrorReloaded": "Не вдалося зберегти зміни. Дані перезавантажено зі сховища."

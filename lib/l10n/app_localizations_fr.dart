@@ -81,7 +81,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get fabScrollToTop => 'Haut de page';
 
   @override
-  String get fabPickProjectionDate => 'Choose projection date';
+  String get fabPickProjectionDate => 'Choisir la date de projection';
 
   @override
   String get filterAll => 'Tout';
@@ -1475,11 +1475,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get semanticsShowDayBalanceBreakdown =>
-      'Show account balances for this day';
+      'Afficher les soldes des comptes pour ce jour';
 
   @override
   String get semanticsHideDayBalanceBreakdown =>
-      'Hide account balances for this day';
+      'Masquer les soldes des comptes pour ce jour';
 
   @override
   String get semanticsDateAllTime =>
@@ -1726,14 +1726,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get backupReminderRemindLater => 'Rappeler plus tard';
 
   @override
-  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+  String get backupExportLedgerVerifyTitle =>
+      'Vérification du registre avant la sauvegarde';
 
   @override
   String get backupExportLedgerVerifyInfo =>
-      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+      'Cela compare le solde stocké de chaque compte à une relecture complète de votre historique. Vous pouvez exporter une sauvegarde dans les deux cas ; les écarts sont informatifs.';
 
   @override
-  String get backupExportLedgerVerifyContinue => 'Continue to backup';
+  String get backupExportLedgerVerifyContinue => 'Continuer vers la sauvegarde';
 
   @override
   String get persistenceErrorReloaded =>

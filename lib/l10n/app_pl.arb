@@ -26,6 +26,7 @@
   "semanticsHeroBalanceHidden": "Saldo ukryte dla prywatności",
   "heroResetButton": "Nastawić",
   "fabScrollToTop": "Na górę",
+  "fabPickProjectionDate": "Wybierz datę projekcji",
   "filterAll": "Wszystko",
   "filterAllAccounts": "Wszystkie konta",
   "filterAllCategories": "Wszystkie kategorie",
@@ -719,7 +720,9 @@
   "statsEmptySubtitle": "Brak danych o wydatkach dla wybranego zakresu.",
   "semanticsShowProjections": "Pokaż prognozowane salda według konta",
   "semanticsHideProjections": "Ukryj przewidywane salda według konta",
-  "semanticsDateAllTime": "Data: cały czas — dotknij, aby zmienić tryb",
+    "semanticsShowDayBalanceBreakdown": "Pokaż salda kont na ten dzień",
+  "semanticsHideDayBalanceBreakdown": "Ukryj salda kont na ten dzień",
+"semanticsDateAllTime": "Data: cały czas — dotknij, aby zmienić tryb",
   "semanticsDateMode": "Data: {mode} — dotknij, aby zmienić tryb",
   "@semanticsDateMode": {
     "placeholders": {
@@ -857,6 +860,11 @@
     }
   },
   "backupReminderRemindLater": "Przypomnij później",
+
+  "backupExportLedgerVerifyTitle": "Weryfikacja księgi przed kopią zapasową",
+  "backupExportLedgerVerifyInfo": "Porównuje zapisane saldo każdego konta z pełnym odtworzeniem historii. Możesz wyeksportować kopię zapasową w obu przypadkach; rozbieżności mają charakter informacyjny.",
+  "backupExportLedgerVerifyContinue": "Kontynuuj do kopii zapasowej",
+
 
 
   "persistenceErrorReloaded": "Nie udało się zapisać zmian. Dane zostały ponownie załadowane z magazynu."

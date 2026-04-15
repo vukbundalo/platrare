@@ -80,7 +80,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get fabScrollToTop => 'Back to top';
 
   @override
-  String get fabPickProjectionDate => 'Choose projection date';
+  String get fabPickProjectionDate => 'Escolher data de projeção';
 
   @override
   String get filterAll => 'All';
@@ -1454,11 +1454,11 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get semanticsShowDayBalanceBreakdown =>
-      'Show account balances for this day';
+      'Mostrar saldos das contas para este dia';
 
   @override
   String get semanticsHideDayBalanceBreakdown =>
-      'Hide account balances for this day';
+      'Ocultar saldos das contas para este dia';
 
   @override
   String get semanticsDateAllTime => 'Date: all time — tap to change mode';
@@ -1699,14 +1699,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get backupReminderRemindLater => 'Lembrar depois';
 
   @override
-  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+  String get backupExportLedgerVerifyTitle =>
+      'Verificação do razão antes da cópia de segurança';
 
   @override
   String get backupExportLedgerVerifyInfo =>
-      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+      'Compara o saldo armazenado de cada conta com uma reprodução completa do seu histórico. Pode exportar a cópia de segurança de qualquer forma; as discrepâncias são informativas.';
 
   @override
-  String get backupExportLedgerVerifyContinue => 'Continue to backup';
+  String get backupExportLedgerVerifyContinue =>
+      'Continuar para a cópia de segurança';
 
   @override
   String get persistenceErrorReloaded =>
@@ -1787,6 +1789,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get fabScrollToTop => 'Back to top';
+
+  @override
+  String get fabPickProjectionDate => 'Escolher data de projeção';
 
   @override
   String get filterAll => 'Todos';
@@ -3169,6 +3174,14 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get semanticsHideProjections => 'Ocultar saldos projetados por conta';
 
   @override
+  String get semanticsShowDayBalanceBreakdown =>
+      'Mostrar saldos das contas para este dia';
+
+  @override
+  String get semanticsHideDayBalanceBreakdown =>
+      'Ocultar saldos das contas para este dia';
+
+  @override
   String get semanticsDateAllTime => 'Data: sempre – toque para alterar o modo';
 
   @override
@@ -3410,6 +3423,17 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get backupReminderRemindLater => 'Lembrar depois';
+
+  @override
+  String get backupExportLedgerVerifyTitle =>
+      'Verificação do razão antes do backup';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'Compara o saldo armazenado de cada conta com uma reprodução completa do seu histórico. Você pode exportar o backup de qualquer forma; as discrepâncias são informativas.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Continuar para o backup';
 
   @override
   String get persistenceErrorReloaded =>
