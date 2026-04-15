@@ -248,7 +248,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   void _onBackupExportReminderListenable() {
     if (!mounted) return;
-    _syncBackupExportMaterialBanner();
+    // Defer: notifier updates run synchronously (e.g. from Settings while this
+    // route is under a dialog). Showing MaterialBanner / setState during that
+    // stack can trip framework.dart _dependents assertions.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _syncBackupExportMaterialBanner();
+    });
   }
 
   void _syncBackupExportMaterialBanner() {
