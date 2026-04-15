@@ -249,7 +249,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 
     if (mounted) {
       final messenger = ScaffoldMessenger.of(context);
-      final snackMargin = snackBarFloatingMarginAboveStackedFab(context);
+      final snackMargin = snackBarFloatingMarginBesideStackedFab(context);
       Navigator.pop(context, true);
       messenger.showSnackBar(
         SnackBar(

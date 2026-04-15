@@ -1,28 +1,44 @@
 import 'package:flutter/material.dart';
 
+// Geometry shared by [stackedFabScrollBottomInset] and snack bar margins.
+const _kFabEdgeMargin = 16.0;
+const _kSmallFabSize = 40.0;
+const _kFabStackGap = 12.0;
+const _kMainFabSize = 56.0;
+const _kScrollClearanceBelowFab = 12.0;
+
 /// Bottom space for scroll views whose [Scaffold] shows a floating action button
 /// (e.g. [StackedScrollFab] with scroll-to-top + main FAB) so the last item is
 /// not covered when scrolled to the end.
 double stackedFabScrollBottomInset(BuildContext context) {
   final safe = MediaQuery.paddingOf(context).bottom;
-  // Scaffold FAB margin + stacked column (small 40 + gap + regular 56) + clearance.
-  const margin = 16.0;
-  const smallFab = 40.0;
-  const gap = 12.0;
-  const mainFab = 56.0;
-  const clearance = 12.0;
-  return margin + smallFab + gap + mainFab + margin + clearance + safe;
+  return _kFabEdgeMargin +
+      _kSmallFabSize +
+      _kFabStackGap +
+      _kMainFabSize +
+      _kFabEdgeMargin +
+      _kScrollClearanceBelowFab +
+      safe;
 }
 
-/// [SnackBar.margin] for [SnackBarBehavior.floating] so the bar clears a
-/// [StackedScrollFab] column (main Track / Plan FABs) instead of covering it.
-EdgeInsets snackBarFloatingMarginAboveStackedFab(BuildContext context) {
-  const horizontal = 16.0;
-  return EdgeInsets.fromLTRB(
-    horizontal,
+/// Horizontal width reserved on the [AxisDirection.end] side for a stacked FAB
+/// column (small + gap + main, or the wider reset row) plus the scaffold margin.
+double stackedFabEndReservedWidth() {
+  return _kFabEdgeMargin + _kSmallFabSize + _kFabStackGap + _kMainFabSize;
+}
+
+/// [SnackBar.margin] for [SnackBarBehavior.floating]: sits on the **same bottom
+/// row** as [StackedScrollFab], uses most of the width on the start side, and
+/// leaves the trailing end clear so FABs stay visible (not full-width over FAB).
+EdgeInsetsGeometry snackBarFloatingMarginBesideStackedFab(
+    BuildContext context) {
+  final safe = MediaQuery.paddingOf(context).bottom;
+  final bottom = _kFabEdgeMargin + safe;
+  return EdgeInsetsDirectional.fromSTEB(
+    _kFabEdgeMargin,
     0,
-    horizontal,
-    stackedFabScrollBottomInset(context),
+    stackedFabEndReservedWidth(),
+    bottom,
   );
 }
 

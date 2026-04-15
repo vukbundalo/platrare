@@ -44,7 +44,7 @@ Future<bool> guardPersist(BuildContext context, Future<void> Function() op) asyn
           content: Text(AppLocalizations.of(context).persistenceErrorReloaded),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          margin: snackBarFloatingMarginAboveStackedFab(context),
+          margin: snackBarFloatingMarginBesideStackedFab(context),
         ),
       );
     }
