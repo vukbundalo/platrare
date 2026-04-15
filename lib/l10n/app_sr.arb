@@ -290,6 +290,12 @@
   "settingsSectionSecurity": "Sigurnost",
   "settingsSecurityEnableLock": "Zaključaj aplikaciju pri otvaranju",
   "settingsSecurityEnableLockSubtitle": "Traži biometriju ili PIN kada se aplikacija otvori",
+  "settingsSecurityLockDelayTitle": "Ponovo zaključaj posle pozadine",
+  "settingsSecurityLockDelaySubtitle": "Koliko dugo aplikacija može biti van ekrana pre nego što ponovo zatraži otključavanje. Odmah je najbezbednije.",
+  "settingsSecurityLockDelayImmediate": "Odmah",
+  "settingsSecurityLockDelay30s": "30 sekundi",
+  "settingsSecurityLockDelay1m": "1 minut",
+  "settingsSecurityLockDelay5m": "5 minuta",
   "settingsSecuritySetPin": "Postavi PIN",
   "settingsSecurityChangePin": "Promeni PIN",
   "settingsSecurityPinSubtitle": "Koristi PIN kao rezervu ako biometrija nije dostupna",
@@ -379,6 +385,8 @@
   "accountPickColor": "Izaberi boju",
   "accountIconSheetTitle": "Ikonica računa",
   "accountColorSheetTitle": "Boja računa",
+  "searchAccountIcons": "Pretraži ikone po imenu…",
+  "accountIconSearchNoMatches": "Nema ikona koje odgovaraju toj pretrazi.",
   "accountUseInitialLetter": "Inicijal",
   "accountUseDefaultColor": "Kao grupa",
   "labelRealBalance": "Stvarno stanje",
@@ -539,6 +547,32 @@
   "autoBackupShareSubtitle": "Pošalji poslednju kopiju na iCloud Drive, Google Drive ili drugu aplikaciju",
   "autoBackupCloudReminder": "Automatska kopija je spremna — sačuvajte je u oblaku za zaštitu van uređaja",
   "autoBackupCloudReminderAction": "Podeli",
+
+  "settingsBackupReminderTitle": "Podsetnik za rezervnu kopiju",
+  "settingsBackupReminderSubtitle": "Baner unutar aplikacije ako dodate mnogo transakcija bez izvoza ručne rezervne kopije.",
+  "settingsBackupReminderThresholdTitle": "Prag transakcija",
+  "settingsBackupReminderThresholdSubtitle": "Podseti posle {count} novih transakcija od poslednjeg ručnog izvoza.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "Unesite ceo broj od 1 do 500.",
+  "settingsBackupReminderSnoozeHint": "\"Podseti kasnije\" skriva baner sve dok ne dodate još {n} transakcija.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "Izvesti rezervnu kopiju?",
+  "backupReminderBannerBody": "Dodali ste {count} transakcija od poslednjeg ručnog izvoza.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "Podseti kasnije",
+
 
   "persistenceErrorReloaded": "Чување није успело. Подаци су поново учитани."
 }

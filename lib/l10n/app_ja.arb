@@ -488,6 +488,12 @@
   "settingsSectionSecurity": "安全",
   "settingsSecurityEnableLock": "開いたときにアプリをロックする",
   "settingsSecurityEnableLockSubtitle": "アプリを開くときに生体認証によるロック解除または PIN を要求する",
+  "settingsSecurityLockDelayTitle": "バックグラウンド後に再ロック",
+  "settingsSecurityLockDelaySubtitle": "再度ロック解除が必要になるまでアプリが画面外にある時間。即時が最も強力です。",
+  "settingsSecurityLockDelayImmediate": "即時",
+  "settingsSecurityLockDelay30s": "30秒",
+  "settingsSecurityLockDelay1m": "1分",
+  "settingsSecurityLockDelay5m": "5分",
   "settingsSecuritySetPin": "暗証番号を設定する",
   "settingsSecurityChangePin": "PINの変更",
   "settingsSecurityPinSubtitle": "生体認証が利用できない場合は、フォールバックとして PIN を使用する",
@@ -597,6 +603,8 @@
   "accountPickColor": "色を選択してください",
   "accountIconSheetTitle": "アカウントアイコン",
   "accountColorSheetTitle": "アカウントの色",
+  "searchAccountIcons": "名前でアイコンを検索…",
+  "accountIconSearchNoMatches": "その検索に一致するアイコンはありません。",
   "accountUseInitialLetter": "頭文字",
   "accountUseDefaultColor": "マッチグループ",
   "labelRealBalance": "実質残高",
@@ -824,5 +832,32 @@
   "autoBackupShareSubtitle": "最新のバックアップを iCloud Drive、Google Drive、または任意のアプリにアップロード",
   "autoBackupCloudReminder": "自動バックアップの準備ができています - オフデバイス保護のためにクラウドに保存します",
   "autoBackupCloudReminderAction": "共有",
+
+  "settingsBackupReminderTitle": "バックアップリマインダー",
+  "settingsBackupReminderSubtitle": "手動バックアップをエクスポートせずに多くの取引を追加した場合のアプリ内バナー。",
+  "settingsBackupReminderThresholdTitle": "トランザクション閾値",
+  "settingsBackupReminderThresholdSubtitle": "最後の手動エクスポートから{count}件の新しい取引後にリマインド。",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "1から500の整数を入力してください。",
+  "settingsBackupReminderSnoozeHint": "「後でリマインド」は{n}件の取引を追加するまでバナーを非表示にします。",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "バックアップをエクスポートしますか？",
+  "backupReminderBannerBody": "最後の手動エクスポートから{count}件の取引を追加しました。",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "後でリマインド",
+
+
   "persistenceErrorReloaded": "変更を保存できませんでした。データがストレージから再ロードされました。"
 }

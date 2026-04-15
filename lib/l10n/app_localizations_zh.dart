@@ -922,23 +922,23 @@ class AppLocalizationsZh extends AppLocalizations {
       'Require biometric unlock or PIN when app opens';
 
   @override
-  String get settingsSecurityLockDelayTitle => 'Re-lock after background';
+  String get settingsSecurityLockDelayTitle => '后台后重新锁定';
 
   @override
   String get settingsSecurityLockDelaySubtitle =>
-      'How long the app can stay off-screen before requiring unlock again. Immediately is the strongest.';
+      '应用在屏幕外停留多久后才需要重新解锁。立即是最安全的选项。';
 
   @override
-  String get settingsSecurityLockDelayImmediate => 'Immediately';
+  String get settingsSecurityLockDelayImmediate => '立即';
 
   @override
-  String get settingsSecurityLockDelay30s => '30 seconds';
+  String get settingsSecurityLockDelay30s => '30秒';
 
   @override
-  String get settingsSecurityLockDelay1m => '1 minute';
+  String get settingsSecurityLockDelay1m => '1分钟';
 
   @override
-  String get settingsSecurityLockDelay5m => '5 minutes';
+  String get settingsSecurityLockDelay5m => '5分钟';
 
   @override
   String get settingsSecuritySetPin => 'Set PIN';
@@ -1209,10 +1209,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get accountColorSheetTitle => 'Account color';
 
   @override
-  String get searchAccountIcons => 'Search icons by name…';
+  String get searchAccountIcons => '按名称搜索图标…';
 
   @override
-  String get accountIconSearchNoMatches => 'No icons match that search.';
+  String get accountIconSearchNoMatches => '没有与该搜索匹配的图标。';
 
   @override
   String get accountUseInitialLetter => 'Initial letter';
@@ -1659,39 +1659,47 @@ class AppLocalizationsZh extends AppLocalizations {
   String get autoBackupCloudReminderAction => 'Share';
 
   @override
-  String get settingsBackupReminderTitle => 'Backup reminder';
+  String get settingsBackupReminderTitle => '备份提醒';
 
   @override
-  String get settingsBackupReminderSubtitle =>
-      'In-app banner if you add many transactions without exporting a manual backup.';
+  String get settingsBackupReminderSubtitle => '如果您添加了许多交易而未导出手动备份，将显示应用内横幅。';
 
   @override
-  String get settingsBackupReminderThresholdTitle => 'Transaction threshold';
+  String get settingsBackupReminderThresholdTitle => '交易阈值';
 
   @override
   String settingsBackupReminderThresholdSubtitle(int count) {
-    return 'Remind after $count new transactions since your last manual export.';
+    return '自上次手动导出后新增 $count 笔交易后提醒。';
   }
 
   @override
-  String get settingsBackupReminderThresholdInvalid =>
-      'Enter a whole number from 1 to 500.';
+  String get settingsBackupReminderThresholdInvalid => '请输入1到500之间的整数。';
 
   @override
   String settingsBackupReminderSnoozeHint(int n) {
-    return '\"Remind later\" hides the banner until you add $n more transactions.';
+    return '\"稍后提醒\"会隐藏横幅，直到您再添加 $n 笔交易。';
   }
 
   @override
-  String get backupReminderBannerTitle => 'Export a backup?';
+  String get backupReminderBannerTitle => '导出备份？';
 
   @override
   String backupReminderBannerBody(int count) {
-    return 'You have added $count transactions since your last manual export.';
+    return '自上次手动导出以来，您已添加 $count 笔交易。';
   }
 
   @override
-  String get backupReminderRemindLater => 'Remind later';
+  String get backupReminderRemindLater => '稍后提醒';
+
+  @override
+  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Continue to backup';
 
   @override
   String get persistenceErrorReloaded =>
@@ -2588,6 +2596,25 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get settingsSecurityEnableLockSubtitle => '应用程序打开时需要生物识别解锁或 PIN';
 
   @override
+  String get settingsSecurityLockDelayTitle => '后台后重新锁定';
+
+  @override
+  String get settingsSecurityLockDelaySubtitle =>
+      '应用在屏幕外停留多久后才需要重新解锁。立即是最安全的选项。';
+
+  @override
+  String get settingsSecurityLockDelayImmediate => '立即';
+
+  @override
+  String get settingsSecurityLockDelay30s => '30秒';
+
+  @override
+  String get settingsSecurityLockDelay1m => '1分钟';
+
+  @override
+  String get settingsSecurityLockDelay5m => '5分钟';
+
+  @override
   String get settingsSecuritySetPin => '设置密码';
 
   @override
@@ -2843,6 +2870,12 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get accountColorSheetTitle => '帐号颜色';
+
+  @override
+  String get searchAccountIcons => '按名称搜索图标…';
+
+  @override
+  String get accountIconSearchNoMatches => '没有与该搜索匹配的图标。';
 
   @override
   String get accountUseInitialLetter => '首字母';
@@ -3265,6 +3298,39 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get autoBackupCloudReminderAction => '分享';
+
+  @override
+  String get settingsBackupReminderTitle => '备份提醒';
+
+  @override
+  String get settingsBackupReminderSubtitle => '如果您添加了许多交易而未导出手动备份，将显示应用内横幅。';
+
+  @override
+  String get settingsBackupReminderThresholdTitle => '交易阈值';
+
+  @override
+  String settingsBackupReminderThresholdSubtitle(int count) {
+    return '自上次手动导出后新增 $count 笔交易后提醒。';
+  }
+
+  @override
+  String get settingsBackupReminderThresholdInvalid => '请输入1到500之间的整数。';
+
+  @override
+  String settingsBackupReminderSnoozeHint(int n) {
+    return '\"稍后提醒\"会隐藏横幅，直到您再添加 $n 笔交易。';
+  }
+
+  @override
+  String get backupReminderBannerTitle => '导出备份？';
+
+  @override
+  String backupReminderBannerBody(int count) {
+    return '自上次手动导出以来，您已添加 $count 笔交易。';
+  }
+
+  @override
+  String get backupReminderRemindLater => '稍后提醒';
 
   @override
   String get persistenceErrorReloaded => '无法保存更改。数据已从存储中重新加载。';

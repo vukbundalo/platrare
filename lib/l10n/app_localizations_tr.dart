@@ -928,23 +928,24 @@ class AppLocalizationsTr extends AppLocalizations {
       'Uygulama açıldığında biyometrik kilit açma veya PIN iste';
 
   @override
-  String get settingsSecurityLockDelayTitle => 'Re-lock after background';
+  String get settingsSecurityLockDelayTitle =>
+      'Arka plan sonrası yeniden kilitle';
 
   @override
   String get settingsSecurityLockDelaySubtitle =>
-      'How long the app can stay off-screen before requiring unlock again. Immediately is the strongest.';
+      'Uygulamanın yeniden kilit açma gerektirmeden önce ekran dışında kalabileceği süre. Hemen en güçlü seçenektir.';
 
   @override
-  String get settingsSecurityLockDelayImmediate => 'Immediately';
+  String get settingsSecurityLockDelayImmediate => 'Hemen';
 
   @override
-  String get settingsSecurityLockDelay30s => '30 seconds';
+  String get settingsSecurityLockDelay30s => '30 saniye';
 
   @override
-  String get settingsSecurityLockDelay1m => '1 minute';
+  String get settingsSecurityLockDelay1m => '1 dakika';
 
   @override
-  String get settingsSecurityLockDelay5m => '5 minutes';
+  String get settingsSecurityLockDelay5m => '5 dakika';
 
   @override
   String get settingsSecuritySetPin => 'PIN\'i ayarla';
@@ -1214,10 +1215,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get accountColorSheetTitle => 'Hesap rengi';
 
   @override
-  String get searchAccountIcons => 'Search icons by name…';
+  String get searchAccountIcons => 'Adla simge ara…';
 
   @override
-  String get accountIconSearchNoMatches => 'No icons match that search.';
+  String get accountIconSearchNoMatches => 'Bu aramaya uygun simge yok.';
 
   @override
   String get accountUseInitialLetter => 'İlk harf';
@@ -1671,39 +1672,49 @@ class AppLocalizationsTr extends AppLocalizations {
   String get autoBackupCloudReminderAction => 'Paylaş';
 
   @override
-  String get settingsBackupReminderTitle => 'Backup reminder';
+  String get settingsBackupReminderTitle => 'Yedekleme hatırlatıcısı';
 
   @override
   String get settingsBackupReminderSubtitle =>
-      'In-app banner if you add many transactions without exporting a manual backup.';
+      'Manuel yedek dışa aktarmadan birçok işlem eklerseniz uygulama içi banner gösterilir.';
 
   @override
-  String get settingsBackupReminderThresholdTitle => 'Transaction threshold';
+  String get settingsBackupReminderThresholdTitle => 'İşlem eşiği';
 
   @override
   String settingsBackupReminderThresholdSubtitle(int count) {
-    return 'Remind after $count new transactions since your last manual export.';
+    return 'Son manuel dışa aktarımınızdan bu yana $count yeni işlem sonrasında hatırlat.';
   }
 
   @override
   String get settingsBackupReminderThresholdInvalid =>
-      'Enter a whole number from 1 to 500.';
+      '1 ile 500 arasında tam sayı girin.';
 
   @override
   String settingsBackupReminderSnoozeHint(int n) {
-    return '\"Remind later\" hides the banner until you add $n more transactions.';
+    return '\"Daha sonra hatırlat\" $n işlem daha ekleyene kadar banneri gizler.';
   }
 
   @override
-  String get backupReminderBannerTitle => 'Export a backup?';
+  String get backupReminderBannerTitle => 'Yedek dışa aktarılsın mı?';
 
   @override
   String backupReminderBannerBody(int count) {
-    return 'You have added $count transactions since your last manual export.';
+    return 'Son manuel dışa aktarımınızdan bu yana $count işlem eklediniz.';
   }
 
   @override
-  String get backupReminderRemindLater => 'Remind later';
+  String get backupReminderRemindLater => 'Daha sonra hatırlat';
+
+  @override
+  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Continue to backup';
 
   @override
   String get persistenceErrorReloaded =>

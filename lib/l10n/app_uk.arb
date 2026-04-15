@@ -359,6 +359,12 @@
   "settingsSectionSecurity": "Безпека",
   "settingsSecurityEnableLock": "Блокувати програму при відкритті",
   "settingsSecurityEnableLockSubtitle": "Вимагати біометричне розблокування або PIN при відкритті програми",
+  "settingsSecurityLockDelayTitle": "Повторне блокування при згортанні",
+  "settingsSecurityLockDelaySubtitle": "Як довго програма може бути поза екраном, перш ніж знову вимагатиме розблокування. Негайно — найбезпечніший варіант.",
+  "settingsSecurityLockDelayImmediate": "Негайно",
+  "settingsSecurityLockDelay30s": "30 секунд",
+  "settingsSecurityLockDelay1m": "1 хвилина",
+  "settingsSecurityLockDelay5m": "5 хвилин",
   "settingsSecuritySetPin": "Встановити PIN",
   "settingsSecurityChangePin": "Змінити PIN",
   "settingsSecurityPinSubtitle": "Використовувати PIN як резерв, якщо біометрія недоступна",
@@ -458,6 +464,8 @@
   "accountPickColor": "Вибрати колір",
   "accountIconSheetTitle": "Значок рахунку",
   "accountColorSheetTitle": "Колір рахунку",
+  "searchAccountIcons": "Пошук значків за назвою…",
+  "accountIconSearchNoMatches": "Немає значків, що відповідають цьому пошуку.",
   "accountUseInitialLetter": "Перша літера",
   "accountUseDefaultColor": "Колір групи",
   "labelRealBalance": "Реальний баланс",
@@ -655,5 +663,32 @@
   "autoBackupShareSubtitle": "Завантажити останню резервну копію на iCloud Drive, Google Drive або будь-яку іншу програму",
   "autoBackupCloudReminder": "Автоматичне резервне копіювання готове — збережіть у хмарі для захисту поза пристроєм",
   "autoBackupCloudReminderAction": "Поділитися",
+
+  "settingsBackupReminderTitle": "Нагадування про резервну копію",
+  "settingsBackupReminderSubtitle": "Банер у програмі, якщо ви додаєте багато транзакцій без експорту ручної резервної копії.",
+  "settingsBackupReminderThresholdTitle": "Поріг транзакцій",
+  "settingsBackupReminderThresholdSubtitle": "Нагадати після {count} нових транзакцій з моменту останнього ручного експорту.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "Введіть ціле число від 1 до 500.",
+  "settingsBackupReminderSnoozeHint": "«Нагадати пізніше» приховує банер, доки ви не додасте ще {n} транзакцій.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "Експортувати резервну копію?",
+  "backupReminderBannerBody": "Ви додали {count} транзакцій з моменту останнього ручного експорту.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "Нагадати пізніше",
+
+
   "persistenceErrorReloaded": "Не вдалося зберегти зміни. Дані перезавантажено зі сховища."
 }

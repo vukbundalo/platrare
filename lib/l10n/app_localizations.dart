@@ -3078,6 +3078,24 @@ abstract class AppLocalizations {
   /// **'Remind later'**
   String get backupReminderRemindLater;
 
+  /// No description provided for @backupExportLedgerVerifyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger check before backup'**
+  String get backupExportLedgerVerifyTitle;
+
+  /// No description provided for @backupExportLedgerVerifyInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.'**
+  String get backupExportLedgerVerifyInfo;
+
+  /// No description provided for @backupExportLedgerVerifyContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to backup'**
+  String get backupExportLedgerVerifyContinue;
+
   /// No description provided for @persistenceErrorReloaded.
   ///
   /// In en, this message translates to:

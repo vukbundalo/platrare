@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/backup_export_reminder_prefs.dart';
 import '../data/data_transfer.dart';
 import '../l10n/app_localizations.dart';
+import '../widgets/ledger_verify_dialog.dart';
 
 /// Password / unencrypted warning / share sheet. Returns `true` if a backup
 /// was shared successfully (also updates backup reminder prefs).
@@ -12,6 +13,9 @@ Future<bool> runManualBackupExportFlow({
   Rect? sharePositionOrigin,
 }) async {
   if (!context.mounted) return false;
+
+  final proceed = await showLedgerVerifyBeforeExportDialog(context, l10n);
+  if (!context.mounted || !proceed) return false;
 
   final screenSize = MediaQuery.sizeOf(context);
   final shareOrigin = sharePositionOrigin ??

@@ -930,23 +930,23 @@ class AppLocalizationsPl extends AppLocalizations {
       'Wymagaj odblokowania biometrycznego lub kodu PIN przy otwieraniu aplikacji';
 
   @override
-  String get settingsSecurityLockDelayTitle => 'Re-lock after background';
+  String get settingsSecurityLockDelayTitle => 'Ponowne blokowanie po tle';
 
   @override
   String get settingsSecurityLockDelaySubtitle =>
-      'How long the app can stay off-screen before requiring unlock again. Immediately is the strongest.';
+      'Jak długo aplikacja może pozostawać poza ekranem przed ponownym wymaganiem odblokowania. Natychmiast jest najbezpieczniejszą opcją.';
 
   @override
-  String get settingsSecurityLockDelayImmediate => 'Immediately';
+  String get settingsSecurityLockDelayImmediate => 'Natychmiast';
 
   @override
-  String get settingsSecurityLockDelay30s => '30 seconds';
+  String get settingsSecurityLockDelay30s => '30 sekund';
 
   @override
-  String get settingsSecurityLockDelay1m => '1 minute';
+  String get settingsSecurityLockDelay1m => '1 minuta';
 
   @override
-  String get settingsSecurityLockDelay5m => '5 minutes';
+  String get settingsSecurityLockDelay5m => '5 minut';
 
   @override
   String get settingsSecuritySetPin => 'Ustaw PIN';
@@ -1216,10 +1216,11 @@ class AppLocalizationsPl extends AppLocalizations {
   String get accountColorSheetTitle => 'Kolor konta';
 
   @override
-  String get searchAccountIcons => 'Search icons by name…';
+  String get searchAccountIcons => 'Wyszukaj ikony według nazwy…';
 
   @override
-  String get accountIconSearchNoMatches => 'No icons match that search.';
+  String get accountIconSearchNoMatches =>
+      'Żadne ikony nie pasują do tego wyszukiwania.';
 
   @override
   String get accountUseInitialLetter => 'List początkowy';
@@ -1673,39 +1674,49 @@ class AppLocalizationsPl extends AppLocalizations {
   String get autoBackupCloudReminderAction => 'Udostępnij';
 
   @override
-  String get settingsBackupReminderTitle => 'Backup reminder';
+  String get settingsBackupReminderTitle => 'Przypomnienie o kopii zapasowej';
 
   @override
   String get settingsBackupReminderSubtitle =>
-      'In-app banner if you add many transactions without exporting a manual backup.';
+      'Baner w aplikacji, jeśli dodasz wiele transakcji bez eksportu ręcznej kopii zapasowej.';
 
   @override
-  String get settingsBackupReminderThresholdTitle => 'Transaction threshold';
+  String get settingsBackupReminderThresholdTitle => 'Próg transakcji';
 
   @override
   String settingsBackupReminderThresholdSubtitle(int count) {
-    return 'Remind after $count new transactions since your last manual export.';
+    return 'Przypomnij po $count nowych transakcjach od ostatniego ręcznego eksportu.';
   }
 
   @override
   String get settingsBackupReminderThresholdInvalid =>
-      'Enter a whole number from 1 to 500.';
+      'Wprowadź liczbę całkowitą od 1 do 500.';
 
   @override
   String settingsBackupReminderSnoozeHint(int n) {
-    return '\"Remind later\" hides the banner until you add $n more transactions.';
+    return '\"Przypomnij później\" ukrywa baner, dopóki nie dodasz kolejnych $n transakcji.';
   }
 
   @override
-  String get backupReminderBannerTitle => 'Export a backup?';
+  String get backupReminderBannerTitle => 'Eksportować kopię zapasową?';
 
   @override
   String backupReminderBannerBody(int count) {
-    return 'You have added $count transactions since your last manual export.';
+    return 'Dodałeś(-aś) $count transakcji od ostatniego ręcznego eksportu.';
   }
 
   @override
-  String get backupReminderRemindLater => 'Remind later';
+  String get backupReminderRemindLater => 'Przypomnij później';
+
+  @override
+  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Continue to backup';
 
   @override
   String get persistenceErrorReloaded =>

@@ -488,6 +488,12 @@
   "settingsSectionSecurity": "Sigurnost",
   "settingsSecurityEnableLock": "Zaključaj aplikaciju pri otvaranju",
   "settingsSecurityEnableLockSubtitle": "Zahtijevaj biometrijsko otključavanje ili PIN kada se aplikacija otvori",
+  "settingsSecurityLockDelayTitle": "Ponovo zaključaj nakon pozadine",
+  "settingsSecurityLockDelaySubtitle": "Koliko dugo aplikacija može biti izvan zaslona prije ponovnog traženja otključavanja. Odmah je najsigurnije.",
+  "settingsSecurityLockDelayImmediate": "Odmah",
+  "settingsSecurityLockDelay30s": "30 sekundi",
+  "settingsSecurityLockDelay1m": "1 minuta",
+  "settingsSecurityLockDelay5m": "5 minuta",
   "settingsSecuritySetPin": "Postavite PIN",
   "settingsSecurityChangePin": "Promjena PIN-a",
   "settingsSecurityPinSubtitle": "Koristite PIN kao zamjenu ako biometrijski podaci nisu dostupni",
@@ -597,6 +603,8 @@
   "accountPickColor": "Odaberite boju",
   "accountIconSheetTitle": "Ikona računa",
   "accountColorSheetTitle": "Boja računa",
+  "searchAccountIcons": "Pretraži ikone po imenu…",
+  "accountIconSearchNoMatches": "Nema ikona koje odgovaraju tom pretraživanju.",
   "accountUseInitialLetter": "Početno slovo",
   "accountUseDefaultColor": "Skupina podudaranja",
   "labelRealBalance": "Prava ravnoteža",
@@ -824,5 +832,32 @@
   "autoBackupShareSubtitle": "Prenesite najnoviju sigurnosnu kopiju na iCloud Drive, Google Drive ili bilo koju aplikaciju",
   "autoBackupCloudReminder": "Automatsko sigurnosno kopiranje spremno — spremite ga u oblak za zaštitu izvan uređaja",
   "autoBackupCloudReminderAction": "Podijeli",
+
+  "settingsBackupReminderTitle": "Podsjetnik za sigurnosnu kopiju",
+  "settingsBackupReminderSubtitle": "Baner unutar aplikacije ako dodaš mnogo transakcija bez izvoza ručne sigurnosne kopije.",
+  "settingsBackupReminderThresholdTitle": "Prag transakcija",
+  "settingsBackupReminderThresholdSubtitle": "Podsjeti nakon {count} novih transakcija od zadnjeg ručnog izvoza.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "Unesite cijeli broj od 1 do 500.",
+  "settingsBackupReminderSnoozeHint": "\"Podsjeti kasnije\" skriva baner dok ne dodaš još {n} transakcija.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "Izvesti sigurnosnu kopiju?",
+  "backupReminderBannerBody": "Dodao/Dodala si {count} transakcija od zadnjeg ručnog izvoza.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "Podsjeti kasnije",
+
+
   "persistenceErrorReloaded": "Nije moguće spremiti promjene. Podaci su ponovno učitani iz pohrane."
 }

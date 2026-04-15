@@ -902,23 +902,23 @@ class AppLocalizationsKo extends AppLocalizations {
       '앱이 열릴 때 생체 인식 잠금 해제 또는 PIN 요구';
 
   @override
-  String get settingsSecurityLockDelayTitle => 'Re-lock after background';
+  String get settingsSecurityLockDelayTitle => '백그라운드 후 재잠금';
 
   @override
   String get settingsSecurityLockDelaySubtitle =>
-      'How long the app can stay off-screen before requiring unlock again. Immediately is the strongest.';
+      '다시 잠금 해제가 필요하기 전까지 앱이 화면 밖에 있을 수 있는 시간. 즉시가 가장 강력합니다.';
 
   @override
-  String get settingsSecurityLockDelayImmediate => 'Immediately';
+  String get settingsSecurityLockDelayImmediate => '즉시';
 
   @override
-  String get settingsSecurityLockDelay30s => '30 seconds';
+  String get settingsSecurityLockDelay30s => '30초';
 
   @override
-  String get settingsSecurityLockDelay1m => '1 minute';
+  String get settingsSecurityLockDelay1m => '1분';
 
   @override
-  String get settingsSecurityLockDelay5m => '5 minutes';
+  String get settingsSecurityLockDelay5m => '5분';
 
   @override
   String get settingsSecuritySetPin => 'PIN 설정';
@@ -1183,10 +1183,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get accountColorSheetTitle => '계정 색상';
 
   @override
-  String get searchAccountIcons => 'Search icons by name…';
+  String get searchAccountIcons => '이름으로 아이콘 검색…';
 
   @override
-  String get accountIconSearchNoMatches => 'No icons match that search.';
+  String get accountIconSearchNoMatches => '해당 검색과 일치하는 아이콘이 없습니다.';
 
   @override
   String get accountUseInitialLetter => '첫 글자';
@@ -1628,39 +1628,48 @@ class AppLocalizationsKo extends AppLocalizations {
   String get autoBackupCloudReminderAction => '공유';
 
   @override
-  String get settingsBackupReminderTitle => 'Backup reminder';
+  String get settingsBackupReminderTitle => '백업 알림';
 
   @override
   String get settingsBackupReminderSubtitle =>
-      'In-app banner if you add many transactions without exporting a manual backup.';
+      '수동 백업을 내보내지 않고 많은 거래를 추가하면 인앱 배너가 표시됩니다.';
 
   @override
-  String get settingsBackupReminderThresholdTitle => 'Transaction threshold';
+  String get settingsBackupReminderThresholdTitle => '거래 임계값';
 
   @override
   String settingsBackupReminderThresholdSubtitle(int count) {
-    return 'Remind after $count new transactions since your last manual export.';
+    return '마지막 수동 내보내기 이후 $count개의 새 거래 후 알림.';
   }
 
   @override
-  String get settingsBackupReminderThresholdInvalid =>
-      'Enter a whole number from 1 to 500.';
+  String get settingsBackupReminderThresholdInvalid => '1에서 500 사이의 정수를 입력하세요.';
 
   @override
   String settingsBackupReminderSnoozeHint(int n) {
-    return '\"Remind later\" hides the banner until you add $n more transactions.';
+    return '\"나중에 알림\"은 $n개의 거래를 더 추가할 때까지 배너를 숨깁니다.';
   }
 
   @override
-  String get backupReminderBannerTitle => 'Export a backup?';
+  String get backupReminderBannerTitle => '백업을 내보내시겠습니까?';
 
   @override
   String backupReminderBannerBody(int count) {
-    return 'You have added $count transactions since your last manual export.';
+    return '마지막 수동 내보내기 이후 $count개의 거래를 추가했습니다.';
   }
 
   @override
-  String get backupReminderRemindLater => 'Remind later';
+  String get backupReminderRemindLater => '나중에 알림';
+
+  @override
+  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Continue to backup';
 
   @override
   String get persistenceErrorReloaded =>

@@ -488,6 +488,12 @@
   "settingsSectionSecurity": "Segurança",
   "settingsSecurityEnableLock": "Bloquear aplicativo ao abrir",
   "settingsSecurityEnableLockSubtitle": "Exigir desbloqueio biométrico ou PIN quando o aplicativo for aberto",
+  "settingsSecurityLockDelayTitle": "Rebloqueio após segundo plano",
+  "settingsSecurityLockDelaySubtitle": "Por quanto tempo o app pode ficar fora da tela antes de exigir desbloqueio novamente. Imediatamente é a opção mais segura.",
+  "settingsSecurityLockDelayImmediate": "Imediatamente",
+  "settingsSecurityLockDelay30s": "30 segundos",
+  "settingsSecurityLockDelay1m": "1 minuto",
+  "settingsSecurityLockDelay5m": "5 minutos",
   "settingsSecuritySetPin": "Definir PIN",
   "settingsSecurityChangePin": "Alterar PIN",
   "settingsSecurityPinSubtitle": "Use um PIN como alternativa se a biometria não estiver disponível",
@@ -597,6 +603,8 @@
   "accountPickColor": "Escolha a cor",
   "accountIconSheetTitle": "Ícone da conta",
   "accountColorSheetTitle": "Cor da conta",
+  "searchAccountIcons": "Pesquisar ícones por nome…",
+  "accountIconSearchNoMatches": "Nenhum ícone corresponde a essa pesquisa.",
   "accountUseInitialLetter": "Carta inicial",
   "accountUseDefaultColor": "Grupo de correspondência",
   "labelRealBalance": "Equilíbrio real",
@@ -824,5 +832,32 @@
   "autoBackupShareSubtitle": "Carregue o backup mais recente para iCloud Drive, Google Drive ou qualquer aplicativo",
   "autoBackupCloudReminder": "Pronto para backup automático – salve-o na nuvem para proteção fora do dispositivo",
   "autoBackupCloudReminderAction": "Compartilhar",
+
+  "settingsBackupReminderTitle": "Lembrete de backup",
+  "settingsBackupReminderSubtitle": "Banner no app se você adicionar muitas transações sem exportar um backup manual.",
+  "settingsBackupReminderThresholdTitle": "Limite de transações",
+  "settingsBackupReminderThresholdSubtitle": "Lembrar após {count} novas transações desde o último export manual.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "Insira um número inteiro de 1 a 500.",
+  "settingsBackupReminderSnoozeHint": "\"Lembrar depois\" oculta o banner até você adicionar mais {n} transações.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "Exportar um backup?",
+  "backupReminderBannerBody": "Você adicionou {count} transações desde o último export manual.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "Lembrar depois",
+
+
   "persistenceErrorReloaded": "Não foi possível salvar as alterações. Os dados foram recarregados do armazenamento."
 }

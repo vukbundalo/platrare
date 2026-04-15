@@ -488,6 +488,12 @@
   "settingsSectionSecurity": "Sicurezza",
   "settingsSecurityEnableLock": "Blocca l'app aperta",
   "settingsSecurityEnableLockSubtitle": "Richiedi lo sblocco biometrico o il PIN all'apertura dell'app",
+  "settingsSecurityLockDelayTitle": "Riblocca dopo l'inattività",
+  "settingsSecurityLockDelaySubtitle": "Per quanto tempo l'app può restare fuori schermo prima di richiedere nuovamente lo sblocco. Immediatamente è la più sicura.",
+  "settingsSecurityLockDelayImmediate": "Immediatamente",
+  "settingsSecurityLockDelay30s": "30 secondi",
+  "settingsSecurityLockDelay1m": "1 minuto",
+  "settingsSecurityLockDelay5m": "5 minuti",
   "settingsSecuritySetPin": "Imposta il PIN",
   "settingsSecurityChangePin": "Cambia PIN",
   "settingsSecurityPinSubtitle": "Utilizza un PIN come riserva se i dati biometrici non sono disponibili",
@@ -597,6 +603,8 @@
   "accountPickColor": "Scegli il colore",
   "accountIconSheetTitle": "Icona dell'account",
   "accountColorSheetTitle": "Colore del conto",
+  "searchAccountIcons": "Cerca icone per nome…",
+  "accountIconSearchNoMatches": "Nessuna icona corrisponde a questa ricerca.",
   "accountUseInitialLetter": "Lettera iniziale",
   "accountUseDefaultColor": "Gruppo di partite",
   "labelRealBalance": "Equilibrio reale",
@@ -824,5 +832,32 @@
   "autoBackupShareSubtitle": "Carica l'ultimo backup su iCloud Drive, Google Drive o qualsiasi app",
   "autoBackupCloudReminder": "Predisposizione per il backup automatico: salvalo nel cloud per la protezione esterna al dispositivo",
   "autoBackupCloudReminderAction": "Condividi",
+
+  "settingsBackupReminderTitle": "Promemoria backup",
+  "settingsBackupReminderSubtitle": "Banner in-app se aggiungi molte transazioni senza esportare un backup manuale.",
+  "settingsBackupReminderThresholdTitle": "Soglia transazioni",
+  "settingsBackupReminderThresholdSubtitle": "Ricorda dopo {count} nuove transazioni dall'ultimo esportazione manuale.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "Inserisci un numero intero da 1 a 500.",
+  "settingsBackupReminderSnoozeHint": "\"Ricorda più tardi\" nasconde il banner finché non aggiungi altre {n} transazioni.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "Esportare un backup?",
+  "backupReminderBannerBody": "Hai aggiunto {count} transazioni dall'ultimo esportazione manuale.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "Ricorda più tardi",
+
+
   "persistenceErrorReloaded": "Impossibile salvare le modifiche. I dati sono stati ricaricati dalla memoria."
 }

@@ -927,23 +927,23 @@ class AppLocalizationsSv extends AppLocalizations {
       'Kräv biometrisk upplåsning eller PIN-kod när appen öppnas';
 
   @override
-  String get settingsSecurityLockDelayTitle => 'Re-lock after background';
+  String get settingsSecurityLockDelayTitle => 'Lås igen efter bakgrund';
 
   @override
   String get settingsSecurityLockDelaySubtitle =>
-      'How long the app can stay off-screen before requiring unlock again. Immediately is the strongest.';
+      'Hur länge appen kan vara utanför skärmen innan upplåsning krävs igen. Omedelbart är det starkaste alternativet.';
 
   @override
-  String get settingsSecurityLockDelayImmediate => 'Immediately';
+  String get settingsSecurityLockDelayImmediate => 'Omedelbart';
 
   @override
-  String get settingsSecurityLockDelay30s => '30 seconds';
+  String get settingsSecurityLockDelay30s => '30 sekunder';
 
   @override
-  String get settingsSecurityLockDelay1m => '1 minute';
+  String get settingsSecurityLockDelay1m => '1 minut';
 
   @override
-  String get settingsSecurityLockDelay5m => '5 minutes';
+  String get settingsSecurityLockDelay5m => '5 minuter';
 
   @override
   String get settingsSecuritySetPin => 'Ställ in PIN-kod';
@@ -1215,10 +1215,10 @@ class AppLocalizationsSv extends AppLocalizations {
   String get accountColorSheetTitle => 'Kontofärg';
 
   @override
-  String get searchAccountIcons => 'Search icons by name…';
+  String get searchAccountIcons => 'Sök ikoner efter namn…';
 
   @override
-  String get accountIconSearchNoMatches => 'No icons match that search.';
+  String get accountIconSearchNoMatches => 'Inga ikoner matchar den sökningen.';
 
   @override
   String get accountUseInitialLetter => 'Inledande brev';
@@ -1672,39 +1672,49 @@ class AppLocalizationsSv extends AppLocalizations {
   String get autoBackupCloudReminderAction => 'Dela';
 
   @override
-  String get settingsBackupReminderTitle => 'Backup reminder';
+  String get settingsBackupReminderTitle => 'Säkerhetskopieringspåminnelse';
 
   @override
   String get settingsBackupReminderSubtitle =>
-      'In-app banner if you add many transactions without exporting a manual backup.';
+      'Appbanner om du lägger till många transaktioner utan att exportera en manuell säkerhetskopia.';
 
   @override
-  String get settingsBackupReminderThresholdTitle => 'Transaction threshold';
+  String get settingsBackupReminderThresholdTitle => 'Transaktionströskel';
 
   @override
   String settingsBackupReminderThresholdSubtitle(int count) {
-    return 'Remind after $count new transactions since your last manual export.';
+    return 'Påminn efter $count nya transaktioner sedan din senaste manuella export.';
   }
 
   @override
   String get settingsBackupReminderThresholdInvalid =>
-      'Enter a whole number from 1 to 500.';
+      'Ange ett heltal från 1 till 500.';
 
   @override
   String settingsBackupReminderSnoozeHint(int n) {
-    return '\"Remind later\" hides the banner until you add $n more transactions.';
+    return '\"Påminn senare\" döljer bannern tills du lägger till $n fler transaktioner.';
   }
 
   @override
-  String get backupReminderBannerTitle => 'Export a backup?';
+  String get backupReminderBannerTitle => 'Exportera en säkerhetskopia?';
 
   @override
   String backupReminderBannerBody(int count) {
-    return 'You have added $count transactions since your last manual export.';
+    return 'Du har lagt till $count transaktioner sedan din senaste manuella export.';
   }
 
   @override
-  String get backupReminderRemindLater => 'Remind later';
+  String get backupReminderRemindLater => 'Påminn senare';
+
+  @override
+  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Continue to backup';
 
   @override
   String get persistenceErrorReloaded =>

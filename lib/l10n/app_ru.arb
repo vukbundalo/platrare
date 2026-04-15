@@ -488,6 +488,12 @@
   "settingsSectionSecurity": "Безопасность",
   "settingsSecurityEnableLock": "Блокировать приложение при открытии",
   "settingsSecurityEnableLockSubtitle": "Требовать биометрическую разблокировку или PIN-код при открытии приложения",
+  "settingsSecurityLockDelayTitle": "Повторная блокировка при сворачивании",
+  "settingsSecurityLockDelaySubtitle": "Как долго приложение может находиться вне экрана, прежде чем потребуется повторная разблокировка. Немедленно — самый надёжный вариант.",
+  "settingsSecurityLockDelayImmediate": "Немедленно",
+  "settingsSecurityLockDelay30s": "30 секунд",
+  "settingsSecurityLockDelay1m": "1 минута",
+  "settingsSecurityLockDelay5m": "5 минут",
   "settingsSecuritySetPin": "Установить PIN-код",
   "settingsSecurityChangePin": "Изменить ПИН-код",
   "settingsSecurityPinSubtitle": "Используйте PIN-код в качестве запасного варианта, если биометрические данные недоступны.",
@@ -597,6 +603,8 @@
   "accountPickColor": "Выберите цвет",
   "accountIconSheetTitle": "Значок учетной записи",
   "accountColorSheetTitle": "Цвет аккаунта",
+  "searchAccountIcons": "Поиск значков по названию…",
+  "accountIconSearchNoMatches": "Нет значков, соответствующих этому поиску.",
   "accountUseInitialLetter": "Начальная буква",
   "accountUseDefaultColor": "Группа совпадений",
   "labelRealBalance": "Реальный баланс",
@@ -824,5 +832,32 @@
   "autoBackupShareSubtitle": "Загрузите последнюю резервную копию на iCloud Drive, Google Drive или любое приложение.",
   "autoBackupCloudReminder": "Готово к автоматическому резервному копированию — сохраните его в облаке для защиты вне устройства.",
   "autoBackupCloudReminderAction": "Поделиться",
+
+  "settingsBackupReminderTitle": "Напоминание о резервной копии",
+  "settingsBackupReminderSubtitle": "Баннер в приложении, если вы добавите много транзакций без экспорта ручной резервной копии.",
+  "settingsBackupReminderThresholdTitle": "Порог транзакций",
+  "settingsBackupReminderThresholdSubtitle": "Напомнить после {count} новых транзакций с момента последнего ручного экспорта.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "Введите целое число от 1 до 500.",
+  "settingsBackupReminderSnoozeHint": "«Напомнить позже» скрывает баннер до тех пор, пока вы не добавите ещё {n} транзакций.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "Экспортировать резервную копию?",
+  "backupReminderBannerBody": "Вы добавили {count} транзакций с момента последнего ручного экспорта.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "Напомнить позже",
+
+
   "persistenceErrorReloaded": "Не удалось сохранить изменения. Данные были перезагружены из хранилища."
 }

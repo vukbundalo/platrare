@@ -7,7 +7,6 @@ import '../data/backup_export_reminder_prefs.dart';
 import '../data/balance_privacy_prefs.dart';
 import '../data/data_repository.dart';
 import '../data/data_transfer.dart';
-import '../data/ledger_verify.dart';
 import '../data/currency_localized_names.dart';
 import '../data/currency_prefs.dart';
 import '../data/fx_service.dart';
@@ -22,6 +21,7 @@ import '../l10n/supported_languages.dart';
 import '../models/account.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/manual_backup_export_flow.dart';
+import '../widgets/ledger_verify_dialog.dart';
 import '../utils/persistence_guard.dart';
 import 'app_about_screen.dart';
 import 'privacy_policy_screen.dart';
@@ -480,61 +480,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _showLedgerVerify(BuildContext context, AppLocalizations l10n) {
-    final mismatches = verifyLedger(
-      accounts: data.accounts,
-      transactions: data.transactions,
-    );
-    if (!context.mounted) return;
-    showDialog<void>(
-      context: context,
-      builder: (ctx) {
-        String fmt(double x) => x.toStringAsFixed(2);
-        return AlertDialog(
-          title: Text(l10n.ledgerVerifyDialogTitle),
-          content: SingleChildScrollView(
-            child: mismatches.isEmpty
-                ? Text(l10n.ledgerVerifyAllMatch)
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        l10n.ledgerVerifyMismatchesTitle,
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                      const SizedBox(height: 8),
-                      ...mismatches.map((m) {
-                        var name = m.accountId;
-                        for (final a in data.accounts) {
-                          if (a.id == m.accountId) {
-                            name = accountDisplayName(a);
-                            break;
-                          }
-                        }
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: Text(
-                            l10n.ledgerVerifyMismatchDetails(
-                              name,
-                              fmt(m.storedBalance),
-                              fmt(m.recomputedBalance),
-                              fmt(m.delta),
-                            ),
-                          ),
-                        );
-                      }),
-                    ],
-                  ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: Text(l10n.close),
-            ),
-          ],
-        );
-      },
-    );
+    showLedgerVerifyReadOnlyDialog(context, l10n);
   }
 
   void _openLanguagePicker(BuildContext context, AppLocalizations l10n) {

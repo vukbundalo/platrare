@@ -902,23 +902,23 @@ class AppLocalizationsJa extends AppLocalizations {
       'アプリを開くときに生体認証によるロック解除または PIN を要求する';
 
   @override
-  String get settingsSecurityLockDelayTitle => 'Re-lock after background';
+  String get settingsSecurityLockDelayTitle => 'バックグラウンド後に再ロック';
 
   @override
   String get settingsSecurityLockDelaySubtitle =>
-      'How long the app can stay off-screen before requiring unlock again. Immediately is the strongest.';
+      '再度ロック解除が必要になるまでアプリが画面外にある時間。即時が最も強力です。';
 
   @override
-  String get settingsSecurityLockDelayImmediate => 'Immediately';
+  String get settingsSecurityLockDelayImmediate => '即時';
 
   @override
-  String get settingsSecurityLockDelay30s => '30 seconds';
+  String get settingsSecurityLockDelay30s => '30秒';
 
   @override
-  String get settingsSecurityLockDelay1m => '1 minute';
+  String get settingsSecurityLockDelay1m => '1分';
 
   @override
-  String get settingsSecurityLockDelay5m => '5 minutes';
+  String get settingsSecurityLockDelay5m => '5分';
 
   @override
   String get settingsSecuritySetPin => '暗証番号を設定する';
@@ -1182,10 +1182,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get accountColorSheetTitle => 'アカウントの色';
 
   @override
-  String get searchAccountIcons => 'Search icons by name…';
+  String get searchAccountIcons => '名前でアイコンを検索…';
 
   @override
-  String get accountIconSearchNoMatches => 'No icons match that search.';
+  String get accountIconSearchNoMatches => 'その検索に一致するアイコンはありません。';
 
   @override
   String get accountUseInitialLetter => '頭文字';
@@ -1626,39 +1626,48 @@ class AppLocalizationsJa extends AppLocalizations {
   String get autoBackupCloudReminderAction => '共有';
 
   @override
-  String get settingsBackupReminderTitle => 'Backup reminder';
+  String get settingsBackupReminderTitle => 'バックアップリマインダー';
 
   @override
   String get settingsBackupReminderSubtitle =>
-      'In-app banner if you add many transactions without exporting a manual backup.';
+      '手動バックアップをエクスポートせずに多くの取引を追加した場合のアプリ内バナー。';
 
   @override
-  String get settingsBackupReminderThresholdTitle => 'Transaction threshold';
+  String get settingsBackupReminderThresholdTitle => 'トランザクション閾値';
 
   @override
   String settingsBackupReminderThresholdSubtitle(int count) {
-    return 'Remind after $count new transactions since your last manual export.';
+    return '最後の手動エクスポートから$count件の新しい取引後にリマインド。';
   }
 
   @override
-  String get settingsBackupReminderThresholdInvalid =>
-      'Enter a whole number from 1 to 500.';
+  String get settingsBackupReminderThresholdInvalid => '1から500の整数を入力してください。';
 
   @override
   String settingsBackupReminderSnoozeHint(int n) {
-    return '\"Remind later\" hides the banner until you add $n more transactions.';
+    return '「後でリマインド」は$n件の取引を追加するまでバナーを非表示にします。';
   }
 
   @override
-  String get backupReminderBannerTitle => 'Export a backup?';
+  String get backupReminderBannerTitle => 'バックアップをエクスポートしますか？';
 
   @override
   String backupReminderBannerBody(int count) {
-    return 'You have added $count transactions since your last manual export.';
+    return '最後の手動エクスポートから$count件の取引を追加しました。';
   }
 
   @override
-  String get backupReminderRemindLater => 'Remind later';
+  String get backupReminderRemindLater => '後でリマインド';
+
+  @override
+  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Continue to backup';
 
   @override
   String get persistenceErrorReloaded => '変更を保存できませんでした。データがストレージから再ロードされました。';

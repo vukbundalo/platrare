@@ -488,6 +488,12 @@
   "settingsSectionSecurity": "보안",
   "settingsSecurityEnableLock": "열 때 앱 잠금",
   "settingsSecurityEnableLockSubtitle": "앱이 열릴 때 생체 인식 잠금 해제 또는 PIN 요구",
+  "settingsSecurityLockDelayTitle": "백그라운드 후 재잠금",
+  "settingsSecurityLockDelaySubtitle": "다시 잠금 해제가 필요하기 전까지 앱이 화면 밖에 있을 수 있는 시간. 즉시가 가장 강력합니다.",
+  "settingsSecurityLockDelayImmediate": "즉시",
+  "settingsSecurityLockDelay30s": "30초",
+  "settingsSecurityLockDelay1m": "1분",
+  "settingsSecurityLockDelay5m": "5분",
   "settingsSecuritySetPin": "PIN 설정",
   "settingsSecurityChangePin": "PIN 변경",
   "settingsSecurityPinSubtitle": "생체 인식을 사용할 수 없는 경우 대체 수단으로 PIN을 사용하세요.",
@@ -597,6 +603,8 @@
   "accountPickColor": "색상을 선택하세요",
   "accountIconSheetTitle": "계정 아이콘",
   "accountColorSheetTitle": "계정 색상",
+  "searchAccountIcons": "이름으로 아이콘 검색…",
+  "accountIconSearchNoMatches": "해당 검색과 일치하는 아이콘이 없습니다.",
   "accountUseInitialLetter": "첫 글자",
   "accountUseDefaultColor": "경기 그룹",
   "labelRealBalance": "실제 균형",
@@ -824,5 +832,32 @@
   "autoBackupShareSubtitle": "iCloud Drive, Google Drive 또는 모든 앱에 최신 백업 업로드",
   "autoBackupCloudReminder": "자동 백업 준비 - 기기 외부 보호를 위해 클라우드에 저장",
   "autoBackupCloudReminderAction": "공유",
+
+  "settingsBackupReminderTitle": "백업 알림",
+  "settingsBackupReminderSubtitle": "수동 백업을 내보내지 않고 많은 거래를 추가하면 인앱 배너가 표시됩니다.",
+  "settingsBackupReminderThresholdTitle": "거래 임계값",
+  "settingsBackupReminderThresholdSubtitle": "마지막 수동 내보내기 이후 {count}개의 새 거래 후 알림.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "1에서 500 사이의 정수를 입력하세요.",
+  "settingsBackupReminderSnoozeHint": "\"나중에 알림\"은 {n}개의 거래를 더 추가할 때까지 배너를 숨깁니다.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "백업을 내보내시겠습니까?",
+  "backupReminderBannerBody": "마지막 수동 내보내기 이후 {count}개의 거래를 추가했습니다.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "나중에 알림",
+
+
   "persistenceErrorReloaded": "변경사항을 저장할 수 없습니다. 데이터가 저장소에서 다시 로드되었습니다."
 }

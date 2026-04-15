@@ -488,6 +488,12 @@
   "settingsSectionSecurity": "सुरक्षा",
   "settingsSecurityEnableLock": "लॉक ऐप खुला",
   "settingsSecurityEnableLockSubtitle": "ऐप खुलने पर बायोमेट्रिक अनलॉक या पिन की आवश्यकता होगी",
+  "settingsSecurityLockDelayTitle": "बैकग्राउंड के बाद पुनः लॉक करें",
+  "settingsSecurityLockDelaySubtitle": "ऐप कितनी देर तक स्क्रीन से दूर रह सकता है, इससे पहले कि फिर से अनलॉक की आवश्यकता हो। तुरंत सबसे मजबूत है।",
+  "settingsSecurityLockDelayImmediate": "तुरंत",
+  "settingsSecurityLockDelay30s": "30 सेकंड",
+  "settingsSecurityLockDelay1m": "1 मिनट",
+  "settingsSecurityLockDelay5m": "5 मिनट",
   "settingsSecuritySetPin": "पिन सेट करें",
   "settingsSecurityChangePin": "पिन बदलें",
   "settingsSecurityPinSubtitle": "यदि बायोमेट्रिक अनुपलब्ध है तो फ़ॉलबैक के रूप में पिन का उपयोग करें",
@@ -597,6 +603,8 @@
   "accountPickColor": "रंग पसंद करो",
   "accountIconSheetTitle": "खाता चिह्न",
   "accountColorSheetTitle": "खाते का रंग",
+  "searchAccountIcons": "नाम से आइकन खोजें…",
+  "accountIconSearchNoMatches": "उस खोज से कोई आइकन मेल नहीं खाता।",
   "accountUseInitialLetter": "प्रारंभिक पत्र",
   "accountUseDefaultColor": "मिलान समूह",
   "labelRealBalance": "वास्तविक संतुलन",
@@ -824,5 +832,32 @@
   "autoBackupShareSubtitle": "iCloud Drive, Google Drive या किसी ऐप पर नवीनतम बैकअप अपलोड करें",
   "autoBackupCloudReminder": "ऑटो-बैकअप तैयार - ऑफ-डिवाइस सुरक्षा के लिए इसे क्लाउड पर सहेजें",
   "autoBackupCloudReminderAction": "शेयर करें",
+
+  "settingsBackupReminderTitle": "बैकअप अनुस्मारक",
+  "settingsBackupReminderSubtitle": "इन-ऐप बैनर यदि आप मैन्युअल बैकअप एक्सपोर्ट किए बिना कई लेनदेन जोड़ते हैं।",
+  "settingsBackupReminderThresholdTitle": "लेनदेन थ्रेशोल्ड",
+  "settingsBackupReminderThresholdSubtitle": "आपके अंतिम मैन्युअल एक्सपोर्ट के बाद {count} नए लेनदेन के बाद याद दिलाएं।",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "1 से 500 तक एक पूर्ण संख्या दर्ज करें।",
+  "settingsBackupReminderSnoozeHint": "\"बाद में याद दिलाएं\" बैनर को तब तक छुपाता है जब तक आप {n} और लेनदेन नहीं जोड़ते।",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "बैकअप एक्सपोर्ट करें?",
+  "backupReminderBannerBody": "आपने अपने अंतिम मैन्युअल एक्सपोर्ट के बाद {count} लेनदेन जोड़े हैं।",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "बाद में याद दिलाएं",
+
+
   "persistenceErrorReloaded": "परिवर्तन सहेजे नहीं जा सके. डेटा को स्टोरेज से पुनः लोड किया गया था।"
 }

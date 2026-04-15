@@ -488,6 +488,12 @@
   "settingsSectionSecurity": "Güvenlik",
   "settingsSecurityEnableLock": "Uygulamayı açıkken kilitle",
   "settingsSecurityEnableLockSubtitle": "Uygulama açıldığında biyometrik kilit açma veya PIN iste",
+  "settingsSecurityLockDelayTitle": "Arka plan sonrası yeniden kilitle",
+  "settingsSecurityLockDelaySubtitle": "Uygulamanın yeniden kilit açma gerektirmeden önce ekran dışında kalabileceği süre. Hemen en güçlü seçenektir.",
+  "settingsSecurityLockDelayImmediate": "Hemen",
+  "settingsSecurityLockDelay30s": "30 saniye",
+  "settingsSecurityLockDelay1m": "1 dakika",
+  "settingsSecurityLockDelay5m": "5 dakika",
   "settingsSecuritySetPin": "PIN'i ayarla",
   "settingsSecurityChangePin": "PIN'i değiştir",
   "settingsSecurityPinSubtitle": "Biyometri kullanılamıyorsa yedek olarak PIN kullanın",
@@ -597,6 +603,8 @@
   "accountPickColor": "Renk seç",
   "accountIconSheetTitle": "Hesap simgesi",
   "accountColorSheetTitle": "Hesap rengi",
+  "searchAccountIcons": "Adla simge ara…",
+  "accountIconSearchNoMatches": "Bu aramaya uygun simge yok.",
   "accountUseInitialLetter": "İlk harf",
   "accountUseDefaultColor": "Maç grubu",
   "labelRealBalance": "Gerçek denge",
@@ -824,5 +832,32 @@
   "autoBackupShareSubtitle": "En son yedeklemeyi iCloud Drive'a, Google Drive'a veya herhangi bir uygulamaya yükleyin",
   "autoBackupCloudReminder": "Otomatik yedeklemeye hazır; cihaz dışı koruma için buluta kaydedin",
   "autoBackupCloudReminderAction": "Paylaş",
+
+  "settingsBackupReminderTitle": "Yedekleme hatırlatıcısı",
+  "settingsBackupReminderSubtitle": "Manuel yedek dışa aktarmadan birçok işlem eklerseniz uygulama içi banner gösterilir.",
+  "settingsBackupReminderThresholdTitle": "İşlem eşiği",
+  "settingsBackupReminderThresholdSubtitle": "Son manuel dışa aktarımınızdan bu yana {count} yeni işlem sonrasında hatırlat.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "1 ile 500 arasında tam sayı girin.",
+  "settingsBackupReminderSnoozeHint": "\"Daha sonra hatırlat\" {n} işlem daha ekleyene kadar banneri gizler.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "Yedek dışa aktarılsın mı?",
+  "backupReminderBannerBody": "Son manuel dışa aktarımınızdan bu yana {count} işlem eklediniz.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "Daha sonra hatırlat",
+
+
   "persistenceErrorReloaded": "Değişiklikler kaydedilemedi. Veriler depolama alanından yeniden yüklendi."
 }

@@ -929,23 +929,24 @@ class AppLocalizationsSr extends AppLocalizations {
       'Traži biometriju ili PIN kada se aplikacija otvori';
 
   @override
-  String get settingsSecurityLockDelayTitle => 'Re-lock after background';
+  String get settingsSecurityLockDelayTitle =>
+      'Ponovo zaključaj posle pozadine';
 
   @override
   String get settingsSecurityLockDelaySubtitle =>
-      'How long the app can stay off-screen before requiring unlock again. Immediately is the strongest.';
+      'Koliko dugo aplikacija može biti van ekrana pre nego što ponovo zatraži otključavanje. Odmah je najbezbednije.';
 
   @override
-  String get settingsSecurityLockDelayImmediate => 'Immediately';
+  String get settingsSecurityLockDelayImmediate => 'Odmah';
 
   @override
-  String get settingsSecurityLockDelay30s => '30 seconds';
+  String get settingsSecurityLockDelay30s => '30 sekundi';
 
   @override
-  String get settingsSecurityLockDelay1m => '1 minute';
+  String get settingsSecurityLockDelay1m => '1 minut';
 
   @override
-  String get settingsSecurityLockDelay5m => '5 minutes';
+  String get settingsSecurityLockDelay5m => '5 minuta';
 
   @override
   String get settingsSecuritySetPin => 'Postavi PIN';
@@ -1219,10 +1220,11 @@ class AppLocalizationsSr extends AppLocalizations {
   String get accountColorSheetTitle => 'Boja računa';
 
   @override
-  String get searchAccountIcons => 'Search icons by name…';
+  String get searchAccountIcons => 'Pretraži ikone po imenu…';
 
   @override
-  String get accountIconSearchNoMatches => 'No icons match that search.';
+  String get accountIconSearchNoMatches =>
+      'Nema ikona koje odgovaraju toj pretrazi.';
 
   @override
   String get accountUseInitialLetter => 'Inicijal';
@@ -1674,39 +1676,49 @@ class AppLocalizationsSr extends AppLocalizations {
   String get autoBackupCloudReminderAction => 'Podeli';
 
   @override
-  String get settingsBackupReminderTitle => 'Backup reminder';
+  String get settingsBackupReminderTitle => 'Podsetnik za rezervnu kopiju';
 
   @override
   String get settingsBackupReminderSubtitle =>
-      'In-app banner if you add many transactions without exporting a manual backup.';
+      'Baner unutar aplikacije ako dodate mnogo transakcija bez izvoza ručne rezervne kopije.';
 
   @override
-  String get settingsBackupReminderThresholdTitle => 'Transaction threshold';
+  String get settingsBackupReminderThresholdTitle => 'Prag transakcija';
 
   @override
   String settingsBackupReminderThresholdSubtitle(int count) {
-    return 'Remind after $count new transactions since your last manual export.';
+    return 'Podseti posle $count novih transakcija od poslednjeg ručnog izvoza.';
   }
 
   @override
   String get settingsBackupReminderThresholdInvalid =>
-      'Enter a whole number from 1 to 500.';
+      'Unesite ceo broj od 1 do 500.';
 
   @override
   String settingsBackupReminderSnoozeHint(int n) {
-    return '\"Remind later\" hides the banner until you add $n more transactions.';
+    return '\"Podseti kasnije\" skriva baner sve dok ne dodate još $n transakcija.';
   }
 
   @override
-  String get backupReminderBannerTitle => 'Export a backup?';
+  String get backupReminderBannerTitle => 'Izvesti rezervnu kopiju?';
 
   @override
   String backupReminderBannerBody(int count) {
-    return 'You have added $count transactions since your last manual export.';
+    return 'Dodali ste $count transakcija od poslednjeg ručnog izvoza.';
   }
 
   @override
-  String get backupReminderRemindLater => 'Remind later';
+  String get backupReminderRemindLater => 'Podseti kasnije';
+
+  @override
+  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Continue to backup';
 
   @override
   String get persistenceErrorReloaded =>
@@ -2638,6 +2650,25 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
       'Тражи биометрију или ПИН када се апликација отвори';
 
   @override
+  String get settingsSecurityLockDelayTitle => 'Поново закључај после позадине';
+
+  @override
+  String get settingsSecurityLockDelaySubtitle =>
+      'Колико дуго апликација може бити ван екрана пре него што поново затражи откључавање. Одмах је најбезбедније.';
+
+  @override
+  String get settingsSecurityLockDelayImmediate => 'Одмах';
+
+  @override
+  String get settingsSecurityLockDelay30s => '30 секунди';
+
+  @override
+  String get settingsSecurityLockDelay1m => '1 минут';
+
+  @override
+  String get settingsSecurityLockDelay5m => '5 минута';
+
+  @override
   String get settingsSecuritySetPin => 'Постави ПИН';
 
   @override
@@ -2906,6 +2937,13 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String get accountColorSheetTitle => 'Боја рачуна';
+
+  @override
+  String get searchAccountIcons => 'Претражи иконе по имену…';
+
+  @override
+  String get accountIconSearchNoMatches =>
+      'Нема икона које одговарају тој претрази.';
 
   @override
   String get accountUseInitialLetter => 'Иницијал';
@@ -3345,6 +3383,41 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String get autoBackupCloudReminderAction => 'Подели';
+
+  @override
+  String get settingsBackupReminderTitle => 'Подсетник за резервну копију';
+
+  @override
+  String get settingsBackupReminderSubtitle =>
+      'Банер унутар апликације ако додате много трансакција без извоза ручне резервне копије.';
+
+  @override
+  String get settingsBackupReminderThresholdTitle => 'Праг трансакција';
+
+  @override
+  String settingsBackupReminderThresholdSubtitle(int count) {
+    return 'Подсети после $count нових трансакција од последњег ручног извоза.';
+  }
+
+  @override
+  String get settingsBackupReminderThresholdInvalid =>
+      'Унесите цео број од 1 до 500.';
+
+  @override
+  String settingsBackupReminderSnoozeHint(int n) {
+    return '\"Подсети касније\" скрива банер све док не додате још $n трансакција.';
+  }
+
+  @override
+  String get backupReminderBannerTitle => 'Извезти резервну копију?';
+
+  @override
+  String backupReminderBannerBody(int count) {
+    return 'Додали сте $count трансакција од последњег ручног извоза.';
+  }
+
+  @override
+  String get backupReminderRemindLater => 'Подсети касније';
 
   @override
   String get persistenceErrorReloaded =>
@@ -4276,6 +4349,26 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
       'Traži biometriju ili PIN kada se aplikacija otvori';
 
   @override
+  String get settingsSecurityLockDelayTitle =>
+      'Ponovo zaključaj posle pozadine';
+
+  @override
+  String get settingsSecurityLockDelaySubtitle =>
+      'Koliko dugo aplikacija može biti van ekrana pre nego što ponovo zatraži otključavanje. Odmah je najbezbednije.';
+
+  @override
+  String get settingsSecurityLockDelayImmediate => 'Odmah';
+
+  @override
+  String get settingsSecurityLockDelay30s => '30 sekundi';
+
+  @override
+  String get settingsSecurityLockDelay1m => '1 minut';
+
+  @override
+  String get settingsSecurityLockDelay5m => '5 minuta';
+
+  @override
   String get settingsSecuritySetPin => 'Postavi PIN';
 
   @override
@@ -4545,6 +4638,13 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get accountColorSheetTitle => 'Boja računa';
+
+  @override
+  String get searchAccountIcons => 'Pretraži ikone po imenu…';
+
+  @override
+  String get accountIconSearchNoMatches =>
+      'Nema ikona koje odgovaraju toj pretrazi.';
 
   @override
   String get accountUseInitialLetter => 'Inicijal';
@@ -4986,6 +5086,41 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get autoBackupCloudReminderAction => 'Podeli';
+
+  @override
+  String get settingsBackupReminderTitle => 'Podsetnik za rezervnu kopiju';
+
+  @override
+  String get settingsBackupReminderSubtitle =>
+      'Baner unutar aplikacije ako dodate mnogo transakcija bez izvoza ručne rezervne kopije.';
+
+  @override
+  String get settingsBackupReminderThresholdTitle => 'Prag transakcija';
+
+  @override
+  String settingsBackupReminderThresholdSubtitle(int count) {
+    return 'Podseti posle $count novih transakcija od poslednjeg ručnog izvoza.';
+  }
+
+  @override
+  String get settingsBackupReminderThresholdInvalid =>
+      'Unesite ceo broj od 1 do 500.';
+
+  @override
+  String settingsBackupReminderSnoozeHint(int n) {
+    return '\"Podseti kasnije\" skriva baner sve dok ne dodate još $n transakcija.';
+  }
+
+  @override
+  String get backupReminderBannerTitle => 'Izvesti rezervnu kopiju?';
+
+  @override
+  String backupReminderBannerBody(int count) {
+    return 'Dodali ste $count transakcija od poslednjeg ručnog izvoza.';
+  }
+
+  @override
+  String get backupReminderRemindLater => 'Podseti kasnije';
 
   @override
   String get persistenceErrorReloaded =>

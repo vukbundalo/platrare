@@ -929,23 +929,24 @@ class AppLocalizationsUk extends AppLocalizations {
       'Вимагати біометричне розблокування або PIN при відкритті програми';
 
   @override
-  String get settingsSecurityLockDelayTitle => 'Re-lock after background';
+  String get settingsSecurityLockDelayTitle =>
+      'Повторне блокування при згортанні';
 
   @override
   String get settingsSecurityLockDelaySubtitle =>
-      'How long the app can stay off-screen before requiring unlock again. Immediately is the strongest.';
+      'Як довго програма може бути поза екраном, перш ніж знову вимагатиме розблокування. Негайно — найбезпечніший варіант.';
 
   @override
-  String get settingsSecurityLockDelayImmediate => 'Immediately';
+  String get settingsSecurityLockDelayImmediate => 'Негайно';
 
   @override
-  String get settingsSecurityLockDelay30s => '30 seconds';
+  String get settingsSecurityLockDelay30s => '30 секунд';
 
   @override
-  String get settingsSecurityLockDelay1m => '1 minute';
+  String get settingsSecurityLockDelay1m => '1 хвилина';
 
   @override
-  String get settingsSecurityLockDelay5m => '5 minutes';
+  String get settingsSecurityLockDelay5m => '5 хвилин';
 
   @override
   String get settingsSecuritySetPin => 'Встановити PIN';
@@ -1218,10 +1219,11 @@ class AppLocalizationsUk extends AppLocalizations {
   String get accountColorSheetTitle => 'Колір рахунку';
 
   @override
-  String get searchAccountIcons => 'Search icons by name…';
+  String get searchAccountIcons => 'Пошук значків за назвою…';
 
   @override
-  String get accountIconSearchNoMatches => 'No icons match that search.';
+  String get accountIconSearchNoMatches =>
+      'Немає значків, що відповідають цьому пошуку.';
 
   @override
   String get accountUseInitialLetter => 'Перша літера';
@@ -1675,39 +1677,49 @@ class AppLocalizationsUk extends AppLocalizations {
   String get autoBackupCloudReminderAction => 'Поділитися';
 
   @override
-  String get settingsBackupReminderTitle => 'Backup reminder';
+  String get settingsBackupReminderTitle => 'Нагадування про резервну копію';
 
   @override
   String get settingsBackupReminderSubtitle =>
-      'In-app banner if you add many transactions without exporting a manual backup.';
+      'Банер у програмі, якщо ви додаєте багато транзакцій без експорту ручної резервної копії.';
 
   @override
-  String get settingsBackupReminderThresholdTitle => 'Transaction threshold';
+  String get settingsBackupReminderThresholdTitle => 'Поріг транзакцій';
 
   @override
   String settingsBackupReminderThresholdSubtitle(int count) {
-    return 'Remind after $count new transactions since your last manual export.';
+    return 'Нагадати після $count нових транзакцій з моменту останнього ручного експорту.';
   }
 
   @override
   String get settingsBackupReminderThresholdInvalid =>
-      'Enter a whole number from 1 to 500.';
+      'Введіть ціле число від 1 до 500.';
 
   @override
   String settingsBackupReminderSnoozeHint(int n) {
-    return '\"Remind later\" hides the banner until you add $n more transactions.';
+    return '«Нагадати пізніше» приховує банер, доки ви не додасте ще $n транзакцій.';
   }
 
   @override
-  String get backupReminderBannerTitle => 'Export a backup?';
+  String get backupReminderBannerTitle => 'Експортувати резервну копію?';
 
   @override
   String backupReminderBannerBody(int count) {
-    return 'You have added $count transactions since your last manual export.';
+    return 'Ви додали $count транзакцій з моменту останнього ручного експорту.';
   }
 
   @override
-  String get backupReminderRemindLater => 'Remind later';
+  String get backupReminderRemindLater => 'Нагадати пізніше';
+
+  @override
+  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Continue to backup';
 
   @override
   String get persistenceErrorReloaded =>

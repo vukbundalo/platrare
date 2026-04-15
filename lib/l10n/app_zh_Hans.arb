@@ -488,6 +488,12 @@
   "settingsSectionSecurity": "安全",
   "settingsSecurityEnableLock": "锁定应用程序打开状态",
   "settingsSecurityEnableLockSubtitle": "应用程序打开时需要生物识别解锁或 PIN",
+  "settingsSecurityLockDelayTitle": "后台后重新锁定",
+  "settingsSecurityLockDelaySubtitle": "应用在屏幕外停留多久后才需要重新解锁。立即是最安全的选项。",
+  "settingsSecurityLockDelayImmediate": "立即",
+  "settingsSecurityLockDelay30s": "30秒",
+  "settingsSecurityLockDelay1m": "1分钟",
+  "settingsSecurityLockDelay5m": "5分钟",
   "settingsSecuritySetPin": "设置密码",
   "settingsSecurityChangePin": "更改密码",
   "settingsSecurityPinSubtitle": "如果生物识别不可用，请使用 PIN 作为后备措施",
@@ -597,6 +603,8 @@
   "accountPickColor": "选择颜色",
   "accountIconSheetTitle": "帐户图标",
   "accountColorSheetTitle": "帐号颜色",
+  "searchAccountIcons": "按名称搜索图标…",
+  "accountIconSearchNoMatches": "没有与该搜索匹配的图标。",
   "accountUseInitialLetter": "首字母",
   "accountUseDefaultColor": "比赛组",
   "labelRealBalance": "实际余额",
@@ -824,5 +832,32 @@
   "autoBackupShareSubtitle": "将最新备份上传到 iCloud Drive、Google Drive 或任何应用程序",
   "autoBackupCloudReminder": "自动备份就绪 - 将其保存到云端以实现设备外保护",
   "autoBackupCloudReminderAction": "分享",
+
+  "settingsBackupReminderTitle": "备份提醒",
+  "settingsBackupReminderSubtitle": "如果您添加了许多交易而未导出手动备份，将显示应用内横幅。",
+  "settingsBackupReminderThresholdTitle": "交易阈值",
+  "settingsBackupReminderThresholdSubtitle": "自上次手动导出后新增 {count} 笔交易后提醒。",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "请输入1到500之间的整数。",
+  "settingsBackupReminderSnoozeHint": "\"稍后提醒\"会隐藏横幅，直到您再添加 {n} 笔交易。",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "导出备份？",
+  "backupReminderBannerBody": "自上次手动导出以来，您已添加 {count} 笔交易。",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "稍后提醒",
+
+
   "persistenceErrorReloaded": "无法保存更改。数据已从存储中重新加载。"
 }

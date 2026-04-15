@@ -924,23 +924,24 @@ class AppLocalizationsAr extends AppLocalizations {
       'يتطلب فتح القفل البيومتري أو رقم التعريف الشخصي عند فتح التطبيق';
 
   @override
-  String get settingsSecurityLockDelayTitle => 'Re-lock after background';
+  String get settingsSecurityLockDelayTitle =>
+      'إعادة القفل بعد التحويل للخلفية';
 
   @override
   String get settingsSecurityLockDelaySubtitle =>
-      'How long the app can stay off-screen before requiring unlock again. Immediately is the strongest.';
+      'المدة التي يمكن أن يبقى فيها التطبيق خارج الشاشة قبل أن يطلب إعادة الفتح. الفوري هو الأقوى.';
 
   @override
-  String get settingsSecurityLockDelayImmediate => 'Immediately';
+  String get settingsSecurityLockDelayImmediate => 'فوراً';
 
   @override
-  String get settingsSecurityLockDelay30s => '30 seconds';
+  String get settingsSecurityLockDelay30s => '30 ثانية';
 
   @override
-  String get settingsSecurityLockDelay1m => '1 minute';
+  String get settingsSecurityLockDelay1m => 'دقيقة واحدة';
 
   @override
-  String get settingsSecurityLockDelay5m => '5 minutes';
+  String get settingsSecurityLockDelay5m => '5 دقائق';
 
   @override
   String get settingsSecuritySetPin => 'تعيين رقم التعريف الشخصي';
@@ -1210,10 +1211,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get accountColorSheetTitle => 'لون الحساب';
 
   @override
-  String get searchAccountIcons => 'Search icons by name…';
+  String get searchAccountIcons => 'البحث عن الأيقونات بالاسم…';
 
   @override
-  String get accountIconSearchNoMatches => 'No icons match that search.';
+  String get accountIconSearchNoMatches => 'لا توجد أيقونات تطابق هذا البحث.';
 
   @override
   String get accountUseInitialLetter => 'الرسالة الأولية';
@@ -1662,39 +1663,49 @@ class AppLocalizationsAr extends AppLocalizations {
   String get autoBackupCloudReminderAction => 'يشارك';
 
   @override
-  String get settingsBackupReminderTitle => 'Backup reminder';
+  String get settingsBackupReminderTitle => 'تذكير بالنسخ الاحتياطي';
 
   @override
   String get settingsBackupReminderSubtitle =>
-      'In-app banner if you add many transactions without exporting a manual backup.';
+      'شعار داخل التطبيق إذا أضفت معاملات كثيرة دون تصدير نسخة احتياطية يدوية.';
 
   @override
-  String get settingsBackupReminderThresholdTitle => 'Transaction threshold';
+  String get settingsBackupReminderThresholdTitle => 'حد المعاملات';
 
   @override
   String settingsBackupReminderThresholdSubtitle(int count) {
-    return 'Remind after $count new transactions since your last manual export.';
+    return 'تذكير بعد $count معاملة جديدة منذ آخر تصدير يدوي.';
   }
 
   @override
   String get settingsBackupReminderThresholdInvalid =>
-      'Enter a whole number from 1 to 500.';
+      'أدخل عدداً صحيحاً من 1 إلى 500.';
 
   @override
   String settingsBackupReminderSnoozeHint(int n) {
-    return '\"Remind later\" hides the banner until you add $n more transactions.';
+    return '«تذكير لاحقاً» يخفي الشعار حتى تضيف $n معاملة أخرى.';
   }
 
   @override
-  String get backupReminderBannerTitle => 'Export a backup?';
+  String get backupReminderBannerTitle => 'تصدير نسخة احتياطية؟';
 
   @override
   String backupReminderBannerBody(int count) {
-    return 'You have added $count transactions since your last manual export.';
+    return 'لقد أضفت $count معاملة منذ آخر تصدير يدوي.';
   }
 
   @override
-  String get backupReminderRemindLater => 'Remind later';
+  String get backupReminderRemindLater => 'تذكير لاحقاً';
+
+  @override
+  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Continue to backup';
 
   @override
   String get persistenceErrorReloaded =>

@@ -359,6 +359,12 @@
   "settingsSectionSecurity": "Sécurité",
   "settingsSecurityEnableLock": "Verrouiller l'app à l'ouverture",
   "settingsSecurityEnableLockSubtitle": "Exiger un déverrouillage biométrique ou un PIN à l'ouverture de l'app",
+  "settingsSecurityLockDelayTitle": "Re-verrouiller après mise en arrière-plan",
+  "settingsSecurityLockDelaySubtitle": "Durée pendant laquelle l'app peut rester hors écran avant de demander un déverrouillage. Immédiatement est la plus sécurisée.",
+  "settingsSecurityLockDelayImmediate": "Immédiatement",
+  "settingsSecurityLockDelay30s": "30 secondes",
+  "settingsSecurityLockDelay1m": "1 minute",
+  "settingsSecurityLockDelay5m": "5 minutes",
   "settingsSecuritySetPin": "Définir le PIN",
   "settingsSecurityChangePin": "Modifier le PIN",
   "settingsSecurityPinSubtitle": "Utiliser un PIN en secours si la biométrie n'est pas disponible",
@@ -458,6 +464,8 @@
   "accountPickColor": "Choisir une couleur",
   "accountIconSheetTitle": "Icône du compte",
   "accountColorSheetTitle": "Couleur du compte",
+  "searchAccountIcons": "Rechercher des icônes par nom…",
+  "accountIconSearchNoMatches": "Aucune icône ne correspond à cette recherche.",
   "accountUseInitialLetter": "Initiale",
   "accountUseDefaultColor": "Correspondre au groupe",
   "labelRealBalance": "Solde réel",
@@ -655,5 +663,32 @@
   "autoBackupShareSubtitle": "Télécharger la dernière sauvegarde sur iCloud Drive, Google Drive ou toute autre app",
   "autoBackupCloudReminder": "Sauvegarde automatique prête — enregistrez-la dans le cloud pour une protection hors appareil",
   "autoBackupCloudReminderAction": "Partager",
+
+  "settingsBackupReminderTitle": "Rappel de sauvegarde",
+  "settingsBackupReminderSubtitle": "Bannière in-app si vous ajoutez de nombreuses transactions sans exporter une sauvegarde manuelle.",
+  "settingsBackupReminderThresholdTitle": "Seuil de transactions",
+  "settingsBackupReminderThresholdSubtitle": "Rappeler après {count} nouvelles transactions depuis votre dernière exportation manuelle.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "Entrez un nombre entier de 1 à 500.",
+  "settingsBackupReminderSnoozeHint": "\"Rappeler plus tard\" masque la bannière jusqu'à ce que vous ajoutiez {n} transactions supplémentaires.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "Exporter une sauvegarde ?",
+  "backupReminderBannerBody": "Vous avez ajouté {count} transactions depuis votre dernière exportation manuelle.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "Rappeler plus tard",
+
+
   "persistenceErrorReloaded": "Impossible d'enregistrer les modifications. Les données ont été rechargées depuis le stockage."
 }

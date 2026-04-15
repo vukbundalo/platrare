@@ -488,6 +488,12 @@
   "settingsSectionSecurity": "حماية",
   "settingsSecurityEnableLock": "قفل التطبيق مفتوحا",
   "settingsSecurityEnableLockSubtitle": "يتطلب فتح القفل البيومتري أو رقم التعريف الشخصي عند فتح التطبيق",
+  "settingsSecurityLockDelayTitle": "إعادة القفل بعد التحويل للخلفية",
+  "settingsSecurityLockDelaySubtitle": "المدة التي يمكن أن يبقى فيها التطبيق خارج الشاشة قبل أن يطلب إعادة الفتح. الفوري هو الأقوى.",
+  "settingsSecurityLockDelayImmediate": "فوراً",
+  "settingsSecurityLockDelay30s": "30 ثانية",
+  "settingsSecurityLockDelay1m": "دقيقة واحدة",
+  "settingsSecurityLockDelay5m": "5 دقائق",
   "settingsSecuritySetPin": "تعيين رقم التعريف الشخصي",
   "settingsSecurityChangePin": "تغيير رقم التعريف الشخصي",
   "settingsSecurityPinSubtitle": "استخدم رقم التعريف الشخصي كإجراء احتياطي في حالة عدم توفر القياسات الحيوية",
@@ -597,6 +603,8 @@
   "accountPickColor": "اختر اللون",
   "accountIconSheetTitle": "رمز الحساب",
   "accountColorSheetTitle": "لون الحساب",
+  "searchAccountIcons": "البحث عن الأيقونات بالاسم…",
+  "accountIconSearchNoMatches": "لا توجد أيقونات تطابق هذا البحث.",
   "accountUseInitialLetter": "الرسالة الأولية",
   "accountUseDefaultColor": "مباراة المجموعة",
   "labelRealBalance": "التوازن الحقيقي",
@@ -824,5 +832,32 @@
   "autoBackupShareSubtitle": "قم بتحميل أحدث نسخة احتياطية إلى iCloud Drive أو Google Drive أو أي تطبيق",
   "autoBackupCloudReminder": "النسخ الاحتياطي التلقائي جاهز - احفظه على السحابة للحماية خارج الجهاز",
   "autoBackupCloudReminderAction": "يشارك",
+
+  "settingsBackupReminderTitle": "تذكير بالنسخ الاحتياطي",
+  "settingsBackupReminderSubtitle": "شعار داخل التطبيق إذا أضفت معاملات كثيرة دون تصدير نسخة احتياطية يدوية.",
+  "settingsBackupReminderThresholdTitle": "حد المعاملات",
+  "settingsBackupReminderThresholdSubtitle": "تذكير بعد {count} معاملة جديدة منذ آخر تصدير يدوي.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "أدخل عدداً صحيحاً من 1 إلى 500.",
+  "settingsBackupReminderSnoozeHint": "«تذكير لاحقاً» يخفي الشعار حتى تضيف {n} معاملة أخرى.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "تصدير نسخة احتياطية؟",
+  "backupReminderBannerBody": "لقد أضفت {count} معاملة منذ آخر تصدير يدوي.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "تذكير لاحقاً",
+
+
   "persistenceErrorReloaded": "تعذر حفظ التغييرات. تم إعادة تحميل البيانات من التخزين."
 }

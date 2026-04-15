@@ -488,6 +488,12 @@
   "settingsSectionSecurity": "Beveiliging",
   "settingsSecurityEnableLock": "App vergrendelen bij openen",
   "settingsSecurityEnableLockSubtitle": "Biometrische ontgrendeling of pincode vereisen wanneer de app wordt geopend",
+  "settingsSecurityLockDelayTitle": "Opnieuw vergrendelen na achtergrond",
+  "settingsSecurityLockDelaySubtitle": "Hoe lang de app op de achtergrond kan blijven voordat ontgrendeling opnieuw vereist is. Onmiddellijk is het sterkst.",
+  "settingsSecurityLockDelayImmediate": "Onmiddellijk",
+  "settingsSecurityLockDelay30s": "30 seconden",
+  "settingsSecurityLockDelay1m": "1 minuut",
+  "settingsSecurityLockDelay5m": "5 minuten",
   "settingsSecuritySetPin": "Pincode instellen",
   "settingsSecurityChangePin": "Wijzig pincode",
   "settingsSecurityPinSubtitle": "Gebruik een pincode als reserve als biometrie niet beschikbaar is",
@@ -597,6 +603,8 @@
   "accountPickColor": "Kies kleur",
   "accountIconSheetTitle": "Accountpictogram",
   "accountColorSheetTitle": "Accountkleur",
+  "searchAccountIcons": "Pictogrammen op naam zoeken…",
+  "accountIconSearchNoMatches": "Geen pictogrammen komen overeen met die zoekopdracht.",
   "accountUseInitialLetter": "Eerste brief",
   "accountUseDefaultColor": "Match groep",
   "labelRealBalance": "Echt evenwicht",
@@ -824,5 +832,32 @@
   "autoBackupShareSubtitle": "Upload de nieuwste back-up naar iCloud Drive, Google Drive of een andere app",
   "autoBackupCloudReminder": "Klaar voor automatische back-up: sla het op in de cloud voor bescherming buiten het apparaat",
   "autoBackupCloudReminderAction": "Delen",
+
+  "settingsBackupReminderTitle": "Back-upherinnering",
+  "settingsBackupReminderSubtitle": "In-app banner als u veel transacties toevoegt zonder een handmatige back-up te exporteren.",
+  "settingsBackupReminderThresholdTitle": "Transactiedrempel",
+  "settingsBackupReminderThresholdSubtitle": "Herinner na {count} nieuwe transacties sinds uw laatste handmatige export.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "Voer een geheel getal in van 1 tot 500.",
+  "settingsBackupReminderSnoozeHint": "\"Later herinneren\" verbergt de banner totdat u {n} meer transacties toevoegt.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "Een back-up exporteren?",
+  "backupReminderBannerBody": "U heeft {count} transacties toegevoegd sinds uw laatste handmatige export.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "Later herinneren",
+
+
   "persistenceErrorReloaded": "Kan wijzigingen niet opslaan. Gegevens zijn opnieuw geladen uit de opslag."
 }

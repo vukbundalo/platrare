@@ -732,5 +732,9 @@
   },
   "backupReminderRemindLater": "Remind later",
 
+  "backupExportLedgerVerifyTitle": "Ledger check before backup",
+  "backupExportLedgerVerifyInfo": "This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.",
+  "backupExportLedgerVerifyContinue": "Continue to backup",
+
   "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
 }

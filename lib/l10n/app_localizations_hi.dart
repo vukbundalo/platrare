@@ -927,23 +927,24 @@ class AppLocalizationsHi extends AppLocalizations {
       'ऐप खुलने पर बायोमेट्रिक अनलॉक या पिन की आवश्यकता होगी';
 
   @override
-  String get settingsSecurityLockDelayTitle => 'Re-lock after background';
+  String get settingsSecurityLockDelayTitle =>
+      'बैकग्राउंड के बाद पुनः लॉक करें';
 
   @override
   String get settingsSecurityLockDelaySubtitle =>
-      'How long the app can stay off-screen before requiring unlock again. Immediately is the strongest.';
+      'ऐप कितनी देर तक स्क्रीन से दूर रह सकता है, इससे पहले कि फिर से अनलॉक की आवश्यकता हो। तुरंत सबसे मजबूत है।';
 
   @override
-  String get settingsSecurityLockDelayImmediate => 'Immediately';
+  String get settingsSecurityLockDelayImmediate => 'तुरंत';
 
   @override
-  String get settingsSecurityLockDelay30s => '30 seconds';
+  String get settingsSecurityLockDelay30s => '30 सेकंड';
 
   @override
-  String get settingsSecurityLockDelay1m => '1 minute';
+  String get settingsSecurityLockDelay1m => '1 मिनट';
 
   @override
-  String get settingsSecurityLockDelay5m => '5 minutes';
+  String get settingsSecurityLockDelay5m => '5 मिनट';
 
   @override
   String get settingsSecuritySetPin => 'पिन सेट करें';
@@ -1213,10 +1214,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get accountColorSheetTitle => 'खाते का रंग';
 
   @override
-  String get searchAccountIcons => 'Search icons by name…';
+  String get searchAccountIcons => 'नाम से आइकन खोजें…';
 
   @override
-  String get accountIconSearchNoMatches => 'No icons match that search.';
+  String get accountIconSearchNoMatches => 'उस खोज से कोई आइकन मेल नहीं खाता।';
 
   @override
   String get accountUseInitialLetter => 'प्रारंभिक पत्र';
@@ -1668,39 +1669,49 @@ class AppLocalizationsHi extends AppLocalizations {
   String get autoBackupCloudReminderAction => 'शेयर करें';
 
   @override
-  String get settingsBackupReminderTitle => 'Backup reminder';
+  String get settingsBackupReminderTitle => 'बैकअप अनुस्मारक';
 
   @override
   String get settingsBackupReminderSubtitle =>
-      'In-app banner if you add many transactions without exporting a manual backup.';
+      'इन-ऐप बैनर यदि आप मैन्युअल बैकअप एक्सपोर्ट किए बिना कई लेनदेन जोड़ते हैं।';
 
   @override
-  String get settingsBackupReminderThresholdTitle => 'Transaction threshold';
+  String get settingsBackupReminderThresholdTitle => 'लेनदेन थ्रेशोल्ड';
 
   @override
   String settingsBackupReminderThresholdSubtitle(int count) {
-    return 'Remind after $count new transactions since your last manual export.';
+    return 'आपके अंतिम मैन्युअल एक्सपोर्ट के बाद $count नए लेनदेन के बाद याद दिलाएं।';
   }
 
   @override
   String get settingsBackupReminderThresholdInvalid =>
-      'Enter a whole number from 1 to 500.';
+      '1 से 500 तक एक पूर्ण संख्या दर्ज करें।';
 
   @override
   String settingsBackupReminderSnoozeHint(int n) {
-    return '\"Remind later\" hides the banner until you add $n more transactions.';
+    return '\"बाद में याद दिलाएं\" बैनर को तब तक छुपाता है जब तक आप $n और लेनदेन नहीं जोड़ते।';
   }
 
   @override
-  String get backupReminderBannerTitle => 'Export a backup?';
+  String get backupReminderBannerTitle => 'बैकअप एक्सपोर्ट करें?';
 
   @override
   String backupReminderBannerBody(int count) {
-    return 'You have added $count transactions since your last manual export.';
+    return 'आपने अपने अंतिम मैन्युअल एक्सपोर्ट के बाद $count लेनदेन जोड़े हैं।';
   }
 
   @override
-  String get backupReminderRemindLater => 'Remind later';
+  String get backupReminderRemindLater => 'बाद में याद दिलाएं';
+
+  @override
+  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Continue to backup';
 
   @override
   String get persistenceErrorReloaded =>

@@ -1694,6 +1694,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backupReminderRemindLater => 'Remind later';
 
   @override
+  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Continue to backup';
+
+  @override
   String get persistenceErrorReloaded =>
       'Couldn’t save changes. Data was reloaded from storage.';
 }

@@ -488,6 +488,12 @@
   "settingsSectionSecurity": "Bezpieczeństwo",
   "settingsSecurityEnableLock": "Zablokuj aplikację po otwarciu",
   "settingsSecurityEnableLockSubtitle": "Wymagaj odblokowania biometrycznego lub kodu PIN przy otwieraniu aplikacji",
+  "settingsSecurityLockDelayTitle": "Ponowne blokowanie po tle",
+  "settingsSecurityLockDelaySubtitle": "Jak długo aplikacja może pozostawać poza ekranem przed ponownym wymaganiem odblokowania. Natychmiast jest najbezpieczniejszą opcją.",
+  "settingsSecurityLockDelayImmediate": "Natychmiast",
+  "settingsSecurityLockDelay30s": "30 sekund",
+  "settingsSecurityLockDelay1m": "1 minuta",
+  "settingsSecurityLockDelay5m": "5 minut",
   "settingsSecuritySetPin": "Ustaw PIN",
   "settingsSecurityChangePin": "Zmień PIN",
   "settingsSecurityPinSubtitle": "Użyj kodu PIN jako rozwiązania zastępczego, jeśli dane biometryczne są niedostępne",
@@ -597,6 +603,8 @@
   "accountPickColor": "Wybierz kolor",
   "accountIconSheetTitle": "Ikona konta",
   "accountColorSheetTitle": "Kolor konta",
+  "searchAccountIcons": "Wyszukaj ikony według nazwy…",
+  "accountIconSearchNoMatches": "Żadne ikony nie pasują do tego wyszukiwania.",
   "accountUseInitialLetter": "List początkowy",
   "accountUseDefaultColor": "Grupa meczowa",
   "labelRealBalance": "Prawdziwa równowaga",
@@ -824,5 +832,32 @@
   "autoBackupShareSubtitle": "Prześlij najnowszą kopię zapasową na iCloud Drive, Google Drive lub dowolną aplikację",
   "autoBackupCloudReminder": "Gotowa do automatycznego tworzenia kopii zapasowych — zapisz ją w chmurze, aby chronić dane poza urządzeniem",
   "autoBackupCloudReminderAction": "Udostępnij",
+
+  "settingsBackupReminderTitle": "Przypomnienie o kopii zapasowej",
+  "settingsBackupReminderSubtitle": "Baner w aplikacji, jeśli dodasz wiele transakcji bez eksportu ręcznej kopii zapasowej.",
+  "settingsBackupReminderThresholdTitle": "Próg transakcji",
+  "settingsBackupReminderThresholdSubtitle": "Przypomnij po {count} nowych transakcjach od ostatniego ręcznego eksportu.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "Wprowadź liczbę całkowitą od 1 do 500.",
+  "settingsBackupReminderSnoozeHint": "\"Przypomnij później\" ukrywa baner, dopóki nie dodasz kolejnych {n} transakcji.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "Eksportować kopię zapasową?",
+  "backupReminderBannerBody": "Dodałeś(-aś) {count} transakcji od ostatniego ręcznego eksportu.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "Przypomnij później",
+
+
   "persistenceErrorReloaded": "Nie udało się zapisać zmian. Dane zostały ponownie załadowane z magazynu."
 }

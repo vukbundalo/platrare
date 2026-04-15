@@ -267,6 +267,12 @@
   "settingsSectionSecurity": "Сигурност",
   "settingsSecurityEnableLock": "Закључај апликацију при отварању",
   "settingsSecurityEnableLockSubtitle": "Тражи биометрију или ПИН када се апликација отвори",
+  "settingsSecurityLockDelayTitle": "Поново закључај после позадине",
+  "settingsSecurityLockDelaySubtitle": "Колико дуго апликација може бити ван екрана пре него што поново затражи откључавање. Одмах је најбезбедније.",
+  "settingsSecurityLockDelayImmediate": "Одмах",
+  "settingsSecurityLockDelay30s": "30 секунди",
+  "settingsSecurityLockDelay1m": "1 минут",
+  "settingsSecurityLockDelay5m": "5 минута",
   "settingsSecuritySetPin": "Постави ПИН",
   "settingsSecurityChangePin": "Промени ПИН",
   "settingsSecurityPinSubtitle": "Користи ПИН као резерву ако биометрија није доступна",
@@ -345,6 +351,8 @@
   "accountPickColor": "Изабери боју",
   "accountIconSheetTitle": "Иконица рачуна",
   "accountColorSheetTitle": "Боја рачуна",
+  "searchAccountIcons": "Претражи иконе по имену…",
+  "accountIconSearchNoMatches": "Нема икона које одговарају тој претрази.",
   "accountUseInitialLetter": "Иницијал",
   "accountUseDefaultColor": "Као група",
   "labelRealBalance": "Стварно стање",
@@ -517,5 +525,32 @@
   "autoBackupShareSubtitle": "Пошаљи последњу копију на иЦлоуд Дриве, Гоогле Дриве или другу апликацију",
   "autoBackupCloudReminder": "Аутоматска копија је спремна — сачувајте је у облаку за заштиту ван уређаја",
   "autoBackupCloudReminderAction": "Подели",
+
+  "settingsBackupReminderTitle": "Подсетник за резервну копију",
+  "settingsBackupReminderSubtitle": "Банер унутар апликације ако додате много трансакција без извоза ручне резервне копије.",
+  "settingsBackupReminderThresholdTitle": "Праг трансакција",
+  "settingsBackupReminderThresholdSubtitle": "Подсети после {count} нових трансакција од последњег ручног извоза.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "Унесите цео број од 1 до 500.",
+  "settingsBackupReminderSnoozeHint": "\"Подсети касније\" скрива банер све док не додате још {n} трансакција.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "Извезти резервну копију?",
+  "backupReminderBannerBody": "Додали сте {count} трансакција од последњег ручног извоза.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "Подсети касније",
+
+
   "persistenceErrorReloaded": "Чување није успело. Подаци су поново учитани."
 }

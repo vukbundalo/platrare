@@ -488,6 +488,12 @@
   "settingsSectionSecurity": "Security",
   "settingsSecurityEnableLock": "Lock app on open",
   "settingsSecurityEnableLockSubtitle": "Require biometric unlock or PIN when app opens",
+  "settingsSecurityLockDelayTitle": "Rebloqueio após segundo plano",
+  "settingsSecurityLockDelaySubtitle": "Por quanto tempo o app pode ficar fora do ecrã antes de exigir desbloqueio novamente. Imediatamente é a opção mais segura.",
+  "settingsSecurityLockDelayImmediate": "Imediatamente",
+  "settingsSecurityLockDelay30s": "30 segundos",
+  "settingsSecurityLockDelay1m": "1 minuto",
+  "settingsSecurityLockDelay5m": "5 minutos",
   "settingsSecuritySetPin": "Set PIN",
   "settingsSecurityChangePin": "Change PIN",
   "settingsSecurityPinSubtitle": "Use a PIN as fallback if biometric is unavailable",
@@ -597,6 +603,8 @@
   "accountPickColor": "Choose color",
   "accountIconSheetTitle": "Account icon",
   "accountColorSheetTitle": "Account color",
+  "searchAccountIcons": "Pesquisar ícones por nome…",
+  "accountIconSearchNoMatches": "Nenhum ícone corresponde a essa pesquisa.",
   "accountUseInitialLetter": "Initial letter",
   "accountUseDefaultColor": "Match group",
   "labelRealBalance": "Real balance",
@@ -824,5 +832,31 @@
   "autoBackupShareSubtitle": "Upload latest backup to iCloud Drive, Google Drive or any app",
   "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
   "autoBackupCloudReminderAction": "Share",
+
+  "settingsBackupReminderTitle": "Lembrete de cópia de segurança",
+  "settingsBackupReminderSubtitle": "Banner no app se adicionar muitas transações sem exportar uma cópia de segurança manual.",
+  "settingsBackupReminderThresholdTitle": "Limite de transações",
+  "settingsBackupReminderThresholdSubtitle": "Lembrar após {count} novas transações desde a última exportação manual.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "Introduza um número inteiro de 1 a 500.",
+  "settingsBackupReminderSnoozeHint": "\"Lembrar depois\" oculta o banner até adicionar mais {n} transações.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "Exportar cópia de segurança?",
+  "backupReminderBannerBody": "Adicionou {count} transações desde a última exportação manual.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "Lembrar depois",
+
   "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage."
 }

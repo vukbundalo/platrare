@@ -488,6 +488,12 @@
   "settingsSectionSecurity": "Sicherheit",
   "settingsSecurityEnableLock": "App beim Öffnen sperren",
   "settingsSecurityEnableLockSubtitle": "Beim Öffnen der App ist eine biometrische Entsperrung oder eine PIN erforderlich",
+  "settingsSecurityLockDelayTitle": "Erneut sperren nach Hintergrund",
+  "settingsSecurityLockDelaySubtitle": "Wie lange die App ausgeblendet sein kann, bevor eine erneute Entsperrung erforderlich ist. Sofort ist am sichersten.",
+  "settingsSecurityLockDelayImmediate": "Sofort",
+  "settingsSecurityLockDelay30s": "30 Sekunden",
+  "settingsSecurityLockDelay1m": "1 Minute",
+  "settingsSecurityLockDelay5m": "5 Minuten",
   "settingsSecuritySetPin": "PIN festlegen",
   "settingsSecurityChangePin": "PIN ändern",
   "settingsSecurityPinSubtitle": "Verwenden Sie eine PIN als Ersatz, wenn biometrische Daten nicht verfügbar sind",
@@ -597,6 +603,8 @@
   "accountPickColor": "Wählen Sie Farbe",
   "accountIconSheetTitle": "Kontosymbol",
   "accountColorSheetTitle": "Kontofarbe",
+  "searchAccountIcons": "Symbole nach Name suchen…",
+  "accountIconSearchNoMatches": "Keine Symbole passen zu dieser Suche.",
   "accountUseInitialLetter": "Anfangsbuchstabe",
   "accountUseDefaultColor": "Match-Gruppe",
   "labelRealBalance": "Echtes Gleichgewicht",
@@ -824,5 +832,32 @@
   "autoBackupShareSubtitle": "Laden Sie das neueste Backup auf iCloud Drive, Google Drive oder eine beliebige App hoch",
   "autoBackupCloudReminder": "Bereit für automatisches Backup – speichern Sie es in der Cloud, um es auch außerhalb des Geräts zu schützen",
   "autoBackupCloudReminderAction": "Teilen",
+
+  "settingsBackupReminderTitle": "Backup-Erinnerung",
+  "settingsBackupReminderSubtitle": "In-App-Banner, wenn Sie viele Transaktionen hinzufügen, ohne ein manuelles Backup zu exportieren.",
+  "settingsBackupReminderThresholdTitle": "Transaktionsschwellenwert",
+  "settingsBackupReminderThresholdSubtitle": "Erinnern nach {count} neuen Transaktionen seit Ihrem letzten manuellen Export.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "Geben Sie eine ganze Zahl von 1 bis 500 ein.",
+  "settingsBackupReminderSnoozeHint": "\"Später erinnern\" verbirgt das Banner, bis Sie {n} weitere Transaktionen hinzufügen.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "Backup exportieren?",
+  "backupReminderBannerBody": "Sie haben {count} Transaktionen seit Ihrem letzten manuellen Export hinzugefügt.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "Später erinnern",
+
+
   "persistenceErrorReloaded": "Änderungen konnten nicht gespeichert werden. Daten wurden aus dem Speicher neu geladen."
 }

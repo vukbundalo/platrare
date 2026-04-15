@@ -488,6 +488,12 @@
   "settingsSectionSecurity": "Säkerhet",
   "settingsSecurityEnableLock": "Lås appen på öppen",
   "settingsSecurityEnableLockSubtitle": "Kräv biometrisk upplåsning eller PIN-kod när appen öppnas",
+  "settingsSecurityLockDelayTitle": "Lås igen efter bakgrund",
+  "settingsSecurityLockDelaySubtitle": "Hur länge appen kan vara utanför skärmen innan upplåsning krävs igen. Omedelbart är det starkaste alternativet.",
+  "settingsSecurityLockDelayImmediate": "Omedelbart",
+  "settingsSecurityLockDelay30s": "30 sekunder",
+  "settingsSecurityLockDelay1m": "1 minut",
+  "settingsSecurityLockDelay5m": "5 minuter",
   "settingsSecuritySetPin": "Ställ in PIN-kod",
   "settingsSecurityChangePin": "Ändra PIN-kod",
   "settingsSecurityPinSubtitle": "Använd en PIN-kod som reserv om biometrisk inte är tillgänglig",
@@ -597,6 +603,8 @@
   "accountPickColor": "Välj färg",
   "accountIconSheetTitle": "Kontoikon",
   "accountColorSheetTitle": "Kontofärg",
+  "searchAccountIcons": "Sök ikoner efter namn…",
+  "accountIconSearchNoMatches": "Inga ikoner matchar den sökningen.",
   "accountUseInitialLetter": "Inledande brev",
   "accountUseDefaultColor": "Matchgrupp",
   "labelRealBalance": "Riktig balans",
@@ -824,5 +832,32 @@
   "autoBackupShareSubtitle": "Ladda upp senaste säkerhetskopian till iCloud Drive, Google Drive eller valfri app",
   "autoBackupCloudReminder": "Klar för automatisk säkerhetskopiering – spara den i molnet för skydd utanför enheten",
   "autoBackupCloudReminderAction": "Dela",
+
+  "settingsBackupReminderTitle": "Säkerhetskopieringspåminnelse",
+  "settingsBackupReminderSubtitle": "Appbanner om du lägger till många transaktioner utan att exportera en manuell säkerhetskopia.",
+  "settingsBackupReminderThresholdTitle": "Transaktionströskel",
+  "settingsBackupReminderThresholdSubtitle": "Påminn efter {count} nya transaktioner sedan din senaste manuella export.",
+  "@settingsBackupReminderThresholdSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsBackupReminderThresholdInvalid": "Ange ett heltal från 1 till 500.",
+  "settingsBackupReminderSnoozeHint": "\"Påminn senare\" döljer bannern tills du lägger till {n} fler transaktioner.",
+  "@settingsBackupReminderSnoozeHint": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "backupReminderBannerTitle": "Exportera en säkerhetskopia?",
+  "backupReminderBannerBody": "Du har lagt till {count} transaktioner sedan din senaste manuella export.",
+  "@backupReminderBannerBody": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backupReminderRemindLater": "Påminn senare",
+
+
   "persistenceErrorReloaded": "Det gick inte att spara ändringarna. Data laddades om från lagringen."
 }

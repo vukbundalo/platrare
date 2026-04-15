@@ -933,23 +933,24 @@ class AppLocalizationsDe extends AppLocalizations {
       'Beim Öffnen der App ist eine biometrische Entsperrung oder eine PIN erforderlich';
 
   @override
-  String get settingsSecurityLockDelayTitle => 'Re-lock after background';
+  String get settingsSecurityLockDelayTitle =>
+      'Erneut sperren nach Hintergrund';
 
   @override
   String get settingsSecurityLockDelaySubtitle =>
-      'How long the app can stay off-screen before requiring unlock again. Immediately is the strongest.';
+      'Wie lange die App ausgeblendet sein kann, bevor eine erneute Entsperrung erforderlich ist. Sofort ist am sichersten.';
 
   @override
-  String get settingsSecurityLockDelayImmediate => 'Immediately';
+  String get settingsSecurityLockDelayImmediate => 'Sofort';
 
   @override
-  String get settingsSecurityLockDelay30s => '30 seconds';
+  String get settingsSecurityLockDelay30s => '30 Sekunden';
 
   @override
-  String get settingsSecurityLockDelay1m => '1 minute';
+  String get settingsSecurityLockDelay1m => '1 Minute';
 
   @override
-  String get settingsSecurityLockDelay5m => '5 minutes';
+  String get settingsSecurityLockDelay5m => '5 Minuten';
 
   @override
   String get settingsSecuritySetPin => 'PIN festlegen';
@@ -1224,10 +1225,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get accountColorSheetTitle => 'Kontofarbe';
 
   @override
-  String get searchAccountIcons => 'Search icons by name…';
+  String get searchAccountIcons => 'Symbole nach Name suchen…';
 
   @override
-  String get accountIconSearchNoMatches => 'No icons match that search.';
+  String get accountIconSearchNoMatches =>
+      'Keine Symbole passen zu dieser Suche.';
 
   @override
   String get accountUseInitialLetter => 'Anfangsbuchstabe';
@@ -1684,39 +1686,50 @@ class AppLocalizationsDe extends AppLocalizations {
   String get autoBackupCloudReminderAction => 'Teilen';
 
   @override
-  String get settingsBackupReminderTitle => 'Backup reminder';
+  String get settingsBackupReminderTitle => 'Backup-Erinnerung';
 
   @override
   String get settingsBackupReminderSubtitle =>
-      'In-app banner if you add many transactions without exporting a manual backup.';
+      'In-App-Banner, wenn Sie viele Transaktionen hinzufügen, ohne ein manuelles Backup zu exportieren.';
 
   @override
-  String get settingsBackupReminderThresholdTitle => 'Transaction threshold';
+  String get settingsBackupReminderThresholdTitle =>
+      'Transaktionsschwellenwert';
 
   @override
   String settingsBackupReminderThresholdSubtitle(int count) {
-    return 'Remind after $count new transactions since your last manual export.';
+    return 'Erinnern nach $count neuen Transaktionen seit Ihrem letzten manuellen Export.';
   }
 
   @override
   String get settingsBackupReminderThresholdInvalid =>
-      'Enter a whole number from 1 to 500.';
+      'Geben Sie eine ganze Zahl von 1 bis 500 ein.';
 
   @override
   String settingsBackupReminderSnoozeHint(int n) {
-    return '\"Remind later\" hides the banner until you add $n more transactions.';
+    return '\"Später erinnern\" verbirgt das Banner, bis Sie $n weitere Transaktionen hinzufügen.';
   }
 
   @override
-  String get backupReminderBannerTitle => 'Export a backup?';
+  String get backupReminderBannerTitle => 'Backup exportieren?';
 
   @override
   String backupReminderBannerBody(int count) {
-    return 'You have added $count transactions since your last manual export.';
+    return 'Sie haben $count Transaktionen seit Ihrem letzten manuellen Export hinzugefügt.';
   }
 
   @override
-  String get backupReminderRemindLater => 'Remind later';
+  String get backupReminderRemindLater => 'Später erinnern';
+
+  @override
+  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Continue to backup';
 
   @override
   String get persistenceErrorReloaded =>

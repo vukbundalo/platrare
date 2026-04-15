@@ -923,23 +923,23 @@ class AppLocalizationsPt extends AppLocalizations {
       'Require biometric unlock or PIN when app opens';
 
   @override
-  String get settingsSecurityLockDelayTitle => 'Re-lock after background';
+  String get settingsSecurityLockDelayTitle => 'Rebloqueio após segundo plano';
 
   @override
   String get settingsSecurityLockDelaySubtitle =>
-      'How long the app can stay off-screen before requiring unlock again. Immediately is the strongest.';
+      'Por quanto tempo o app pode ficar fora do ecrã antes de exigir desbloqueio novamente. Imediatamente é a opção mais segura.';
 
   @override
-  String get settingsSecurityLockDelayImmediate => 'Immediately';
+  String get settingsSecurityLockDelayImmediate => 'Imediatamente';
 
   @override
-  String get settingsSecurityLockDelay30s => '30 seconds';
+  String get settingsSecurityLockDelay30s => '30 segundos';
 
   @override
-  String get settingsSecurityLockDelay1m => '1 minute';
+  String get settingsSecurityLockDelay1m => '1 minuto';
 
   @override
-  String get settingsSecurityLockDelay5m => '5 minutes';
+  String get settingsSecurityLockDelay5m => '5 minutos';
 
   @override
   String get settingsSecuritySetPin => 'Set PIN';
@@ -1210,10 +1210,11 @@ class AppLocalizationsPt extends AppLocalizations {
   String get accountColorSheetTitle => 'Account color';
 
   @override
-  String get searchAccountIcons => 'Search icons by name…';
+  String get searchAccountIcons => 'Pesquisar ícones por nome…';
 
   @override
-  String get accountIconSearchNoMatches => 'No icons match that search.';
+  String get accountIconSearchNoMatches =>
+      'Nenhum ícone corresponde a essa pesquisa.';
 
   @override
   String get accountUseInitialLetter => 'Initial letter';
@@ -1660,39 +1661,49 @@ class AppLocalizationsPt extends AppLocalizations {
   String get autoBackupCloudReminderAction => 'Share';
 
   @override
-  String get settingsBackupReminderTitle => 'Backup reminder';
+  String get settingsBackupReminderTitle => 'Lembrete de cópia de segurança';
 
   @override
   String get settingsBackupReminderSubtitle =>
-      'In-app banner if you add many transactions without exporting a manual backup.';
+      'Banner no app se adicionar muitas transações sem exportar uma cópia de segurança manual.';
 
   @override
-  String get settingsBackupReminderThresholdTitle => 'Transaction threshold';
+  String get settingsBackupReminderThresholdTitle => 'Limite de transações';
 
   @override
   String settingsBackupReminderThresholdSubtitle(int count) {
-    return 'Remind after $count new transactions since your last manual export.';
+    return 'Lembrar após $count novas transações desde a última exportação manual.';
   }
 
   @override
   String get settingsBackupReminderThresholdInvalid =>
-      'Enter a whole number from 1 to 500.';
+      'Introduza um número inteiro de 1 a 500.';
 
   @override
   String settingsBackupReminderSnoozeHint(int n) {
-    return '\"Remind later\" hides the banner until you add $n more transactions.';
+    return '\"Lembrar depois\" oculta o banner até adicionar mais $n transações.';
   }
 
   @override
-  String get backupReminderBannerTitle => 'Export a backup?';
+  String get backupReminderBannerTitle => 'Exportar cópia de segurança?';
 
   @override
   String backupReminderBannerBody(int count) {
-    return 'You have added $count transactions since your last manual export.';
+    return 'Adicionou $count transações desde a última exportação manual.';
   }
 
   @override
-  String get backupReminderRemindLater => 'Remind later';
+  String get backupReminderRemindLater => 'Lembrar depois';
+
+  @override
+  String get backupExportLedgerVerifyTitle => 'Ledger check before backup';
+
+  @override
+  String get backupExportLedgerVerifyInfo =>
+      'This compares each account’s stored balance to a full replay of your history. You can export a backup either way; mismatches are informational.';
+
+  @override
+  String get backupExportLedgerVerifyContinue => 'Continue to backup';
 
   @override
   String get persistenceErrorReloaded =>
@@ -2626,6 +2637,25 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
       'Exigir desbloqueio biométrico ou PIN quando o aplicativo for aberto';
 
   @override
+  String get settingsSecurityLockDelayTitle => 'Rebloqueio após segundo plano';
+
+  @override
+  String get settingsSecurityLockDelaySubtitle =>
+      'Por quanto tempo o app pode ficar fora da tela antes de exigir desbloqueio novamente. Imediatamente é a opção mais segura.';
+
+  @override
+  String get settingsSecurityLockDelayImmediate => 'Imediatamente';
+
+  @override
+  String get settingsSecurityLockDelay30s => '30 segundos';
+
+  @override
+  String get settingsSecurityLockDelay1m => '1 minuto';
+
+  @override
+  String get settingsSecurityLockDelay5m => '5 minutos';
+
+  @override
   String get settingsSecuritySetPin => 'Definir PIN';
 
   @override
@@ -2893,6 +2923,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get accountColorSheetTitle => 'Cor da conta';
+
+  @override
+  String get searchAccountIcons => 'Pesquisar ícones por nome…';
+
+  @override
+  String get accountIconSearchNoMatches =>
+      'Nenhum ícone corresponde a essa pesquisa.';
 
   @override
   String get accountUseInitialLetter => 'Carta inicial';
@@ -3335,6 +3372,41 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get autoBackupCloudReminderAction => 'Compartilhar';
+
+  @override
+  String get settingsBackupReminderTitle => 'Lembrete de backup';
+
+  @override
+  String get settingsBackupReminderSubtitle =>
+      'Banner no app se você adicionar muitas transações sem exportar um backup manual.';
+
+  @override
+  String get settingsBackupReminderThresholdTitle => 'Limite de transações';
+
+  @override
+  String settingsBackupReminderThresholdSubtitle(int count) {
+    return 'Lembrar após $count novas transações desde o último export manual.';
+  }
+
+  @override
+  String get settingsBackupReminderThresholdInvalid =>
+      'Insira um número inteiro de 1 a 500.';
+
+  @override
+  String settingsBackupReminderSnoozeHint(int n) {
+    return '\"Lembrar depois\" oculta o banner até você adicionar mais $n transações.';
+  }
+
+  @override
+  String get backupReminderBannerTitle => 'Exportar um backup?';
+
+  @override
+  String backupReminderBannerBody(int count) {
+    return 'Você adicionou $count transações desde o último export manual.';
+  }
+
+  @override
+  String get backupReminderRemindLater => 'Lembrar depois';
 
   @override
   String get persistenceErrorReloaded =>
