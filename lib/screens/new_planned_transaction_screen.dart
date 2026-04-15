@@ -13,6 +13,7 @@ import '../widgets/attachments_editor.dart';
 import '../widgets/app_hero_layout.dart';
 import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
+import '../utils/minor_units_amount_formatter.dart';
 import '../utils/projections.dart' as proj;
 
 class NewPlannedTransactionScreen extends StatefulWidget {
@@ -34,6 +35,8 @@ class _NewPlannedTransactionScreenState
     extends State<NewPlannedTransactionScreen> {
   final _amountController = TextEditingController();
   final _destinationAmountController = TextEditingController();
+  final _amountMinorFormatter = MinorUnitsAmountInputFormatter();
+  final _destinationMinorFormatter = MinorUnitsAmountInputFormatter();
   final _descriptionController = TextEditingController();
 
   Account? _fromAccount;
@@ -159,6 +162,9 @@ class _NewPlannedTransactionScreenState
         _date = e.date;
       }
       _attachments = List.from(e.attachments);
+      _amountMinorFormatter.syncFromDisplay(_amountController.text);
+      _destinationMinorFormatter.syncFromDisplay(
+          _destinationAmountController.text);
     } else if (widget.defaultDateForNew != null) {
       _date = DateUtils.dateOnly(widget.defaultDateForNew!);
     }
@@ -415,7 +421,8 @@ class _NewPlannedTransactionScreenState
                                 controller: _amountController,
                                 keyboardType:
                                     const TextInputType.numberWithOptions(
-                                        decimal: true),
+                                        decimal: false),
+                                inputFormatters: [_amountMinorFormatter],
                                 autofocus: !_isEdit &&
                                     (_fromAccount != null ||
                                         _toAccount != null),
@@ -509,7 +516,8 @@ class _NewPlannedTransactionScreenState
                     TextField(
                       controller: _destinationAmountController,
                       keyboardType: const TextInputType.numberWithOptions(
-                          decimal: true),
+                          decimal: false),
+                      inputFormatters: [_destinationMinorFormatter],
                       decoration: InputDecoration(
                         labelText: AppLocalizations.of(context)
                             .destReceivesLabel(

@@ -10,6 +10,7 @@ import '../../l10n/app_localizations.dart';
 import '../../models/account.dart';
 import '../../utils/balance_correction.dart';
 import '../../utils/fx.dart' as fx;
+import '../../utils/minor_units_amount_formatter.dart';
 import '../../utils/persistence_guard.dart';
 import '../../widgets/account_avatar.dart';
 
@@ -686,6 +687,9 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
   late final TextEditingController _institutionController;
   late final TextEditingController _balanceController;
   late final TextEditingController _overdraftController;
+  final _balanceMinorFormatter =
+      MinorUnitsAmountInputFormatter(allowNegative: true);
+  final _overdraftMinorFormatter = MinorUnitsAmountInputFormatter();
   late AccountGroup _group;
   late String _currencyCode;
   late int _iconCodePoint;
@@ -726,6 +730,8 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
     _currencyCode = widget.account?.currencyCode ?? settings.baseCurrency;
     _iconCodePoint = widget.account?.iconCodePoint ?? 0;
     _colorArgb = widget.account?.colorArgb;
+    _balanceMinorFormatter.syncFromDisplay(_balanceController.text);
+    _overdraftMinorFormatter.syncFromDisplay(_overdraftController.text);
   }
 
   String _trimmedInstitution() {
@@ -1255,22 +1261,26 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
               TextField(
                 controller: _balanceController,
                 keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true, signed: true),
+                    decimal: false, signed: true),
+                inputFormatters: [_balanceMinorFormatter],
                 decoration: InputDecoration(
                   labelText: l10n.labelRealBalance,
                   suffixText: ' ${fx.currencySymbol(_currencyCode)}',
                 ),
+                onChanged: (_) => setState(() {}),
               ),
               if (_accountGroupAllowsOverdraft(_group)) ...[
                 const SizedBox(height: 12),
                 TextField(
                   controller: _overdraftController,
                   keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true, signed: false),
+                      decimal: false, signed: false),
+                  inputFormatters: [_overdraftMinorFormatter],
                   decoration: InputDecoration(
                     labelText: l10n.labelOverdraftLimit,
                     suffixText: ' ${fx.currencySymbol(_currencyCode)}',
                   ),
+                  onChanged: (_) => setState(() {}),
                 ),
               ],
               const SizedBox(height: 20),
@@ -1336,6 +1346,9 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
   late final TextEditingController _institutionController;
   late final TextEditingController _balanceController;
   late final TextEditingController _overdraftController;
+  final _balanceMinorFormatter =
+      MinorUnitsAmountInputFormatter(allowNegative: true);
+  final _overdraftMinorFormatter = MinorUnitsAmountInputFormatter();
   late AccountGroup _group;
   late String _currencyCode;
   late int _iconCodePoint;
@@ -1380,6 +1393,8 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
         widget.existing?.currencyCode ?? settings.baseCurrency;
     _iconCodePoint = widget.existing?.iconCodePoint ?? 0;
     _colorArgb = widget.existing?.colorArgb;
+    _balanceMinorFormatter.syncFromDisplay(_balanceController.text);
+    _overdraftMinorFormatter.syncFromDisplay(_overdraftController.text);
   }
 
   String _trimmedInstitutionScreen() {
@@ -2013,7 +2028,8 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                     TextField(
                       controller: _balanceController,
                       keyboardType: const TextInputType.numberWithOptions(
-                          decimal: true, signed: true),
+                          decimal: false, signed: true),
+                      inputFormatters: [_balanceMinorFormatter],
                       decoration: InputDecoration(
                         labelText: l10n.labelRealBalance,
                         suffixText:
@@ -2026,7 +2042,8 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                       TextField(
                         controller: _overdraftController,
                         keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true, signed: false),
+                            decimal: false, signed: false),
+                        inputFormatters: [_overdraftMinorFormatter],
                         decoration: InputDecoration(
                           labelText: l10n.labelOverdraftLimit,
                           suffixText:

@@ -12,6 +12,7 @@ import '../utils/fx.dart' as fx;
 import '../widgets/account_avatar.dart';
 import '../widgets/attachments_editor.dart';
 import '../utils/persistence_guard.dart';
+import '../utils/minor_units_amount_formatter.dart';
 import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
 
@@ -26,6 +27,8 @@ class NewTransactionScreen extends StatefulWidget {
 class _NewTransactionScreenState extends State<NewTransactionScreen> {
   final _amountController = TextEditingController();
   final _destinationAmountController = TextEditingController();
+  final _amountMinorFormatter = MinorUnitsAmountInputFormatter();
+  final _destinationMinorFormatter = MinorUnitsAmountInputFormatter();
   final _noteController = TextEditingController();
   Account? _fromAccount;
   Account? _toAccount;
@@ -108,6 +111,9 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       _category = e.category;
       _date = e.date;
       _attachments = List.from(e.attachments);
+      _amountMinorFormatter.syncFromDisplay(_amountController.text);
+      _destinationMinorFormatter.syncFromDisplay(
+          _destinationAmountController.text);
     }
   }
 
@@ -415,7 +421,8 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                                 controller: _amountController,
                                 keyboardType:
                                     const TextInputType.numberWithOptions(
-                                        decimal: true),
+                                        decimal: false),
+                                inputFormatters: [_amountMinorFormatter],
                                 style: TextStyle(
                                   fontSize: 42,
                                   fontWeight: FontWeight.w800,
@@ -527,7 +534,8 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                     TextField(
                       controller: _destinationAmountController,
                       keyboardType: const TextInputType.numberWithOptions(
-                          decimal: true),
+                          decimal: false),
+                      inputFormatters: [_destinationMinorFormatter],
                       decoration: InputDecoration(
                         suffixText:
                             '  ${fx.currencySymbol(_toAccount!.currencyCode)}',
