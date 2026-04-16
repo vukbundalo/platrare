@@ -87,7 +87,7 @@ String l10nRepeatSummary(BuildContext context, PlannedTransaction pt) {
     buf.write(l.repeatSummaryEvery(unit));
   }
   if (pt.repeatEndDate != null) {
-    final dateStr = formatAppDate(context, 'MMMd', pt.repeatEndDate!);
+    final dateStr = formatAppDate(context, 'd MMM yyyy', pt.repeatEndDate!);
     buf.write(', ${l.repeatSummaryUntil(dateStr)}');
   } else if (pt.repeatEndAfter != null) {
     buf.write(', ${l.repeatSummaryTimes(pt.repeatEndAfter!)}');

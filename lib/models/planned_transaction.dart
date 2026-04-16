@@ -83,9 +83,17 @@ DateTime nextPlannedEffectiveDate(
       final nominalThis = dateWithDayInMonth(from.year, from.month, dom);
       final step =
           (pt.repeatInterval == RepeatInterval.monthly ? 1 : 12) * every;
-      final nextNominal = _addMonths(nominalThis, step);
-      return _dateOnly(
-          applyWeekendAdjustment(nextNominal, pt.weekendAdjustment));
+      var nextNominal = _addMonths(nominalThis, step);
+      var next = _dateOnly(applyWeekendAdjustment(nextNominal, pt.weekendAdjustment));
+      // Weekend adjustment can push the next nominal back to 'from' (e.g. Aug 1
+      // Saturday → Jul 31 Friday when 'from' is already Jul 31, because
+      // nominalThis is computed as Jul 1 instead of Aug 1). Advance one more
+      // step so the series does not stall.
+      if (!next.isAfter(from)) {
+        nextNominal = _addMonths(nextNominal, step);
+        next = _dateOnly(applyWeekendAdjustment(nextNominal, pt.weekendAdjustment));
+      }
+      return next;
   }
 }
 
