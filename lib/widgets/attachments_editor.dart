@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:open_filex/open_filex.dart';
 
+import '../data/data_transfer.dart';
 import '../l10n/app_localizations.dart';
 
 enum AttachmentPickSource { camera, gallery, files }
@@ -129,25 +130,36 @@ Future<List<String>> pickNewAttachmentPaths(BuildContext context) async {
   );
   if (choice == null) return [];
 
+  final List<String> picked;
   switch (choice) {
     case AttachmentPickSource.camera:
       final img = await ImagePicker().pickImage(source: ImageSource.camera);
-      if (img == null) return [];
-      return [img.path];
+      picked = img == null ? [] : [img.path];
+      break;
     case AttachmentPickSource.gallery:
       final imgs = await ImagePicker().pickMultiImage();
-      return imgs.map((e) => e.path).toList();
+      picked = imgs.map((e) => e.path).toList();
+      break;
     case AttachmentPickSource.files:
       final result = await FilePicker.pickFiles(
         allowMultiple: true,
         type: FileType.any,
       );
-      if (result == null) return [];
-      return result.files
-          .where((f) => f.path != null)
-          .map((f) => f.path!)
-          .toList();
+      picked = result == null
+          ? []
+          : result.files
+              .where((f) => f.path != null)
+              .map((f) => f.path!)
+              .toList();
+      break;
   }
+
+  final out = <String>[];
+  for (final path in picked) {
+    final persisted = await DataTransfer.persistPickedAttachment(path);
+    if (persisted != null) out.add(persisted);
+  }
+  return out;
 }
 
 /// Thumbnails + add/remove, matching Track’s new-transaction attachments row.

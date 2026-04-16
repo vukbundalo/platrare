@@ -448,6 +448,29 @@ class DataTransfer {
     return d;
   }
 
+  /// Copies a user-picked file into `platrare_attachments` under Documents.
+  ///
+  /// Camera, gallery, and file pickers often return paths under OS **temporary**
+  /// storage that the system deletes later. Storing those paths in the database
+  /// makes attachments vanish after cleanup or the next day. Paths already under
+  /// the attachment library are returned unchanged.
+  static Future<String?> persistPickedAttachment(String sourcePath) async {
+    final lib = await _attachmentsLibraryDir();
+    final normalizedSrc = p.normalize(sourcePath);
+    final libPrefix = p.normalize(lib.path);
+    final inLibrary = normalizedSrc == libPrefix ||
+        normalizedSrc.startsWith('$libPrefix${p.separator}');
+    if (inLibrary) return sourcePath;
+
+    final src = File(sourcePath);
+    if (!await src.exists()) return null;
+    final fileName =
+        '${const Uuid().v4()}_${_sanitizeFileName(p.basename(sourcePath))}';
+    final out = File(p.join(lib.path, fileName));
+    await src.copy(out.path);
+    return out.path;
+  }
+
   static Transaction _transactionWithAttachments(
     Transaction t,
     List<String> attachments,
