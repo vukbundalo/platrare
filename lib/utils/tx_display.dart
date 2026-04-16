@@ -56,8 +56,20 @@ String txAmountDisplay(TxType t, double nativeAmount,
 /// Which category list to show for a given [TxType], or null to hide.
 enum CategoryList { income, expense }
 
+/// Cash or receivable/payable moves involving non-personal accounts can be
+/// tagged with a category. [TxType.transfer] (personal → personal) stays
+/// uncategorized — pure internal moves.
 CategoryList? categoryListFor(TxType t) => switch (t) {
-      TxType.income || TxType.invoice => CategoryList.income,
-      TxType.expense || TxType.bill => CategoryList.expense,
-      _ => null,
+      TxType.income ||
+      TxType.invoice ||
+      TxType.collection ||
+      TxType.loan =>
+        CategoryList.income,
+      TxType.expense ||
+      TxType.bill ||
+      TxType.advance ||
+      TxType.settlement ||
+      TxType.offset =>
+        CategoryList.expense,
+      TxType.transfer => null,
     };
