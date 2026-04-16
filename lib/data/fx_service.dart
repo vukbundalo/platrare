@@ -12,6 +12,9 @@ const double _bamEurPeg = 1.95583;
 const String _cacheKey = 'cached_fx_rates';
 const Duration _staleness = Duration(hours: 6);
 
+/// Mobile / simulator networks can be slow; v2 host is sometimes slower than legacy.
+const Duration _httpTimeout = Duration(seconds: 20);
+
 /// Singleton service that keeps [settings.exchangeRates] up-to-date with ECB
 /// data via the Frankfurter API (v2 on api.frankfurter.dev, with legacy fallback).
 class FxService {
@@ -46,37 +49,18 @@ class FxService {
   /// Returns silently on failure (keeps existing rates).
   Future<void> refreshRates() async {
     try {
-      final v2 = Uri.parse('https://api.frankfurter.dev/v2/rates?base=EUR');
-      final response =
-          await http.get(v2).timeout(const Duration(seconds: 10));
+      Map<String, double>? apiRates = await _fetchFrankfurterV2Rates();
 
-      Map<String, double>? apiRates;
-
-      if (response.statusCode == 200) {
-        final decoded = jsonDecode(response.body);
-        if (decoded is List<dynamic>) {
-          apiRates = parseFrankfurterV2(decoded, outDataAsOf: (_) {});
-        }
-      }
-
-      // Legacy v1 shape (still served on api.frankfurter.app as of 2026).
+      // If v2 fails (timeout, DNS, empty body), still try legacy — the old code
+      // never reached here when the first `.timeout` threw.
       if (apiRates == null || apiRates.isEmpty) {
-        final legacy = Uri.parse('https://api.frankfurter.app/latest?base=EUR');
-        final legacyRes =
-            await http.get(legacy).timeout(const Duration(seconds: 10));
-        if (legacyRes.statusCode != 200) {
-          debugPrint(
-            '[FxService] HTTP ${legacyRes.statusCode} – keeping cached rates',
-          );
-          return;
-        }
-        final body = jsonDecode(legacyRes.body) as Map<String, dynamic>;
-        apiRates = (body['rates'] as Map<String, dynamic>)
-            .map((k, v) => MapEntry(k, (v as num).toDouble()));
+        apiRates = await _fetchFrankfurterLegacyRates();
       }
 
-      if (apiRates.isEmpty) {
-        debugPrint('[FxService] Empty rate payload – keeping cached rates');
+      if (apiRates == null || apiRates.isEmpty) {
+        debugPrint(
+          '[FxService] No usable response from v2 or legacy API – keeping cached rates',
+        );
         return;
       }
 
@@ -88,6 +72,43 @@ class FxService {
       debugPrint('[FxService] Rates updated (${apiRates.length} currencies)');
     } catch (e) {
       debugPrint('[FxService] Refresh failed: $e – keeping cached/hardcoded rates');
+    }
+  }
+
+  /// Frankfurter v2 JSON array at api.frankfurter.dev; returns null on any failure.
+  Future<Map<String, double>?> _fetchFrankfurterV2Rates() async {
+    try {
+      final v2 = Uri.parse('https://api.frankfurter.dev/v2/rates?base=EUR');
+      final response = await http.get(v2).timeout(_httpTimeout);
+      if (response.statusCode != 200) return null;
+      final decoded = jsonDecode(response.body);
+      if (decoded is! List<dynamic>) return null;
+      final parsed = parseFrankfurterV2(decoded, outDataAsOf: (_) {});
+      return parsed.isEmpty ? null : parsed;
+    } catch (e) {
+      debugPrint('[FxService] v2 rates request failed ($e), trying legacy…');
+      return null;
+    }
+  }
+
+  /// Legacy v1 shape on api.frankfurter.app (still served as of 2026).
+  Future<Map<String, double>?> _fetchFrankfurterLegacyRates() async {
+    try {
+      final legacy = Uri.parse('https://api.frankfurter.app/latest?base=EUR');
+      final legacyRes = await http.get(legacy).timeout(_httpTimeout);
+      if (legacyRes.statusCode != 200) {
+        debugPrint(
+          '[FxService] Legacy HTTP ${legacyRes.statusCode} – keeping cached rates',
+        );
+        return null;
+      }
+      final body = jsonDecode(legacyRes.body) as Map<String, dynamic>;
+      final rates = (body['rates'] as Map<String, dynamic>)
+          .map((k, v) => MapEntry(k, (v as num).toDouble()));
+      return rates.isEmpty ? null : rates;
+    } catch (e) {
+      debugPrint('[FxService] Legacy rates request failed: $e');
+      return null;
     }
   }
 
