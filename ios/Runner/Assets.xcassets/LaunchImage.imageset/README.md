@@ -1,18 +1,12 @@
 # Launch Screen Assets
 
-`LaunchImage.png` / `LaunchImage@2x.png` / `LaunchImage@3x.png` are resized from
-`AppIcon.appiconset/1024.png` so the native iOS launch matches the app icon.
-
-To refresh after changing the master icon, regenerate with:
+`LaunchImage*.png` are generated from **`assets/branding/splash_logo.png`** (same
+master as the app icon and Flutter splash). Regenerate whenever you change the
+logo:
 
 ```bash
-SRC=ios/Runner/Assets.xcassets/AppIcon.appiconset/1024.png
-DEST=ios/Runner/Assets.xcassets/LaunchImage.imageset
-sips -z 220 220 "$SRC" --out "$DEST/LaunchImage.png"
-sips -z 440 440 "$SRC" --out "$DEST/LaunchImage@2x.png"
-sips -z 660 660 "$SRC" --out "$DEST/LaunchImage@3x.png"
+bash tool/sync_branding_icons.sh
 ```
 
-Also copy `1024.png` (or your transparent splash master) to
-`assets/branding/splash_logo.png` if you want it to match native launch; the
-in-app cold splash loads `splash_logo.png` only.
+The script resizes into this imageset and updates `AppIcon.appiconset`,
+Android `mipmap-*/platrare.png`, and `assets/branding/app_icon.png`.
