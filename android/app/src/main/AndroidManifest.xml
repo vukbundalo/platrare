@@ -6,7 +6,7 @@
     <application
         android:label="Platrare"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/platrare"
         android:supportsRtl="true">
         <activity
             android:name=".MainActivity"
