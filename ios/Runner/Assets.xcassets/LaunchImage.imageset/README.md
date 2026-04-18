@@ -13,4 +13,6 @@ sips -z 440 440 "$SRC" --out "$DEST/LaunchImage@2x.png"
 sips -z 660 660 "$SRC" --out "$DEST/LaunchImage@3x.png"
 ```
 
-Also copy `1024.png` to `assets/branding/app_icon.png` for the Flutter splash.
+Also copy `1024.png` (or your transparent splash master) to
+`assets/branding/splash_logo.png` if you want it to match native launch; the
+in-app cold splash loads `splash_logo.png` only.

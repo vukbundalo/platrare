@@ -4,8 +4,9 @@ import '../theme/platrare_theme.dart';
 
 /// Full-screen branded splash shown on cold start.
 ///
-/// Uses the same graphic as the launcher icon ([assets/branding/app_icon.png],
-/// sourced from AppIcon 1024). Keep in sync with iOS/Android native launch.
+/// Logo: [assets/branding/splash_logo.png] — use an RGBA PNG (transparent
+/// background) so the splash fill color shows through. Optional: keep
+/// [assets/branding/app_icon.png] in sync with App Icon 1024 for tooling.
 ///
 /// Light mode: [platrare_splash]-tint background, wordmark, brand-blue spinner.
 /// Dark mode: dark splash background, white wordmark, highlight-blue spinner.
@@ -139,13 +140,13 @@ class _SplashBody extends StatelessWidget {
             // ── Upper breathing room: ~38% of available height
             const Spacer(flex: 38),
 
-            // ── App icon (same asset as launcher; see assets/branding/) ──
+            // ── Splash mark (transparent RGBA PNG in assets/branding/) ──
             FadeTransition(
               opacity: contentFade,
               child: Transform.translate(
                 offset: Offset(0, contentSlide),
                 child: Image.asset(
-                  'assets/branding/app_icon.png',
+                  'assets/branding/splash_logo.png',
                   width: 110,
                   height: 110,
                   filterQuality: FilterQuality.high,
