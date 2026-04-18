@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'platrare_theme.dart';
 
 /// Surfaces for light and dark mode.
 ///
-/// Light mode keeps the subtle blue-forward gradient feel.
+/// Light mode keeps the subtle blue-forward gradient feel anchored to the
+/// three brand colors (navy / primary-blue / highlight-blue).
 /// Dark mode uses flat, neutral surfaces — no gradients, no blue wash.
 abstract final class PlatrareSurfaces {
   static const double _heroRadius = 18;
@@ -16,8 +18,14 @@ abstract final class PlatrareSurfaces {
           end: Alignment.bottomCenter,
           stops: const [0.0, 0.28, 1.0],
           colors: [
-            Color.alphaBlend(cs.primary.withValues(alpha: 0.07), cs.surface),
-            Color.alphaBlend(cs.primary.withValues(alpha: 0.03), cs.surface),
+            Color.alphaBlend(
+              PlatrareColors.primary.withValues(alpha: 0.07),
+              cs.surface,
+            ),
+            Color.alphaBlend(
+              PlatrareColors.primary.withValues(alpha: 0.03),
+              cs.surface,
+            ),
             cs.surface,
           ],
         ),
@@ -34,7 +42,7 @@ abstract final class PlatrareSurfaces {
   }) {
     if (brightness == Brightness.light) {
       final mist = Color.alphaBlend(
-        cs.primary.withValues(alpha: 0.055),
+        PlatrareColors.primary.withValues(alpha: 0.055),
         cs.surface,
       );
       return BoxDecoration(
@@ -62,18 +70,18 @@ abstract final class PlatrareSurfaces {
           end: Alignment.bottomRight,
           colors: [
             Color.alphaBlend(
-              cs.primary.withValues(alpha: 0.13),
+              PlatrareColors.primary.withValues(alpha: 0.15),
               cs.surfaceContainerHigh,
             ),
             Color.alphaBlend(
-              cs.primary.withValues(alpha: 0.05),
+              PlatrareColors.highlight.withValues(alpha: 0.06),
               cs.surfaceContainerLow,
             ),
           ],
         ),
         borderRadius: BorderRadius.circular(_heroRadius),
         border: Border.all(
-          color: cs.outlineVariant.withValues(alpha: 0.72),
+          color: PlatrareColors.primary.withValues(alpha: 0.22),
         ),
       );
     }
@@ -96,8 +104,14 @@ abstract final class PlatrareSurfaces {
           end: Alignment.bottomRight,
           stops: const [0.0, 0.5, 1.0],
           colors: [
-            Color.alphaBlend(cs.primary.withValues(alpha: 0.18), cs.surface),
-            Color.alphaBlend(cs.primary.withValues(alpha: 0.08), cs.surface),
+            Color.alphaBlend(
+              PlatrareColors.navy.withValues(alpha: 0.12),
+              cs.surface,
+            ),
+            Color.alphaBlend(
+              PlatrareColors.primary.withValues(alpha: 0.06),
+              cs.surface,
+            ),
             cs.surface,
           ],
         ),
@@ -115,7 +129,10 @@ abstract final class PlatrareSurfaces {
           end: Alignment.bottomCenter,
           stops: const [0.0, 0.18, 1.0],
           colors: [
-            Color.alphaBlend(cs.primary.withValues(alpha: 0.05), cs.surface),
+            Color.alphaBlend(
+              PlatrareColors.primary.withValues(alpha: 0.05),
+              cs.surface,
+            ),
             cs.surface,
             cs.surface,
           ],

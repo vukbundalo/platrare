@@ -3,9 +3,18 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'ledger_colors.dart';
 
-/// Material 3 theme: institutional blue seed, Inter typography, cool surfaces.
+/// The three brand colors that appear on the app icon.
+///
+/// Navy = wallet body. Primary = card accent. Highlight = gradient edge.
+abstract final class PlatrareColors {
+  static const navy = Color(0xFF273A56);
+  static const primary = Color(0xFF2F7DD1);
+  static const highlight = Color(0xFF4A90E2);
+}
+
+/// Material 3 theme: brand blue seed, Inter typography, cool surfaces.
 ThemeData buildPlatrareTheme(Brightness brightness) {
-  const seed = Color(0xFF1A56DB);
+  const seed = PlatrareColors.primary;
   final baseScheme = ColorScheme.fromSeed(
     seedColor: seed,
     brightness: brightness,
@@ -46,7 +55,7 @@ ThemeData buildPlatrareTheme(Brightness brightness) {
         borderRadius: BorderRadius.circular(16),
         side: BorderSide(
           color: brightness == Brightness.light
-              ? cs.primary.withValues(alpha: 0.14)
+              ? cs.primary.withValues(alpha: 0.20)
               : cs.outlineVariant.withValues(alpha: 0.40),
         ),
       ),
