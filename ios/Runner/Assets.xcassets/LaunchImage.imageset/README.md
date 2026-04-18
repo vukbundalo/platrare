@@ -1,12 +1,9 @@
-# Launch Screen Assets
+# Launch Screen (storyboard)
 
-`LaunchImage*.png` are generated from **`assets/branding/splash_logo.png`** (same
-master as the app icon and Flutter splash). Regenerate whenever you change the
-logo:
+These PNGs are the **brief** fullscreen image before Flutter draws. They are
+generated only from **`assets/branding/splash_logo.png`** (same art as
+`SplashScreen` in Dart), not from the app’s home-screen icon set.
 
 ```bash
-bash tool/sync_branding_icons.sh
+bash tool/sync_splash_assets.sh
 ```
-
-The script resizes into this imageset and updates `AppIcon.appiconset`,
-Android `mipmap-*/platrare.png`, and `assets/branding/app_icon.png`.

@@ -6,6 +6,6 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/platrare" />
+            android:src="@drawable/splash_center" />
     </item>
 </layer-list>

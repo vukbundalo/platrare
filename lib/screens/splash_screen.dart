@@ -4,10 +4,10 @@ import '../theme/platrare_theme.dart';
 
 /// Full-screen branded splash shown on cold start.
 ///
-/// Logo: [assets/branding/splash_logo.png] — master for Flutter splash and,
-/// after `tool/sync_branding_icons.sh`, for iOS AppIcon, LaunchImage, Android
-/// `platrare` mipmaps, and [assets/branding/app_icon.png]. Use RGBA for a
-/// transparent background so the splash fill shows through.
+/// Logo: [assets/branding/splash_logo.png] — used here and on the native
+/// launch layer (iOS LaunchImage, Android `drawable-nodpi/splash_center`).
+/// Refresh native bitmaps after changing the PNG: `bash tool/sync_splash_assets.sh`.
+/// Launcher icons stay in AppIcon / `@mipmap/platrare` (separate assets).
 ///
 /// Light mode: [platrare_splash]-tint background, wordmark, brand-blue spinner.
 /// Dark mode: dark splash background, white wordmark, highlight-blue spinner.
