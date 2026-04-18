@@ -1106,26 +1106,24 @@ class _ReviewScreenState extends State<ReviewScreen> {
     Widget? mainFab;
     if (_activeSection == 'statistics') {
       if (_reviewStatisticsHasNonDefaultChoices) {
-        mainFab = FloatingActionButton.extended(
-          heroTag: 'review_fab',
+        mainFab = FloatingActionButton.small(
+          heroTag: 'review_fab_reset',
           onPressed: _reviewFabResetStatistics,
           tooltip: l10n.heroResetButton,
-          icon: const Icon(Icons.restart_alt_rounded),
-          label: Text(l10n.heroResetButton),
+          child: const Icon(Icons.restart_alt_rounded),
         );
       }
     } else if (_displayCurrency != settings.baseCurrency) {
-      mainFab = FloatingActionButton.extended(
-        heroTag: 'review_fab',
+      mainFab = FloatingActionButton.small(
+        heroTag: 'review_fab_reset',
         onPressed: () =>
             setState(() => _displayCurrency = settings.baseCurrency),
         tooltip: l10n.heroResetButton,
-        icon: const Icon(Icons.restart_alt_rounded),
-        label: Text(l10n.heroResetButton),
+        child: const Icon(Icons.restart_alt_rounded),
       );
     } else {
       mainFab = FloatingActionButton(
-        heroTag: 'review_fab',
+        heroTag: 'review_fab_add',
         onPressed: _addAccount,
         tooltip: l10n.tooltipAddAccount,
         child: const Icon(Icons.add_rounded),
