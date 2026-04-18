@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../theme/platrare_theme.dart';
 
 /// Full-screen branded splash shown on cold start.
 ///
-/// Design language: flat brand-primary blue (#1A56DB), single white delta (Δ)
-/// mark, Inter 800 wordmark. No decoration beyond that.
+/// Uses the same graphic as the launcher icon ([assets/branding/app_icon.png],
+/// sourced from AppIcon 1024). Keep in sync with iOS/Android native launch.
+///
+/// Light mode: [platrare_splash]-tint background, wordmark, brand-blue spinner.
+/// Dark mode: dark splash background, white wordmark, highlight-blue spinner.
 ///
 /// [onComplete] fires when the exit animation ends so the caller can remove
 /// this widget from the tree.
@@ -77,13 +81,17 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light,
+      value: brightness == Brightness.light
+          ? SystemUiOverlayStyle.dark
+          : SystemUiOverlayStyle.light,
       child: AnimatedBuilder(
         animation: _ctrl,
         builder: (context, _) => FadeTransition(
           opacity: _exitFade,
           child: _SplashBody(
+            brightness: brightness,
             contentFade: _contentFade,
             contentSlide: _contentSlide.value,
             loaderFade: _loaderFade,
@@ -100,22 +108,30 @@ class _SplashScreenState extends State<SplashScreen>
 
 class _SplashBody extends StatelessWidget {
   const _SplashBody({
+    required this.brightness,
     required this.contentFade,
     required this.contentSlide,
     required this.loaderFade,
   });
 
+  final Brightness brightness;
   final Animation<double> contentFade;
   final double contentSlide;
   final Animation<double> loaderFade;
 
-  // The exact brand seed used in platrare_theme.dart.
-  static const Color _bg = Color(0xFF1A56DB);
-
   @override
   Widget build(BuildContext context) {
+    final isLight = brightness == Brightness.light;
+    // Align with Android `platrare_splash` / iOS launch background (#F2F5F9 / #0F1419).
+    const lightSplash = Color(0xFFF2F5F9);
+    const darkSplash = Color(0xFF0F1419);
+    final bgColor = isLight ? lightSplash : darkSplash;
+    final wordmarkColor = isLight ? PlatrareColors.navy : Colors.white;
+    final spinnerColor =
+        isLight ? PlatrareColors.primary : PlatrareColors.highlight;
+
     return ColoredBox(
-      color: _bg,
+      color: bgColor,
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -123,12 +139,18 @@ class _SplashBody extends StatelessWidget {
             // ── Upper breathing room: ~38% of available height
             const Spacer(flex: 38),
 
-            // ── Logo mark ──
+            // ── App icon (same asset as launcher; see assets/branding/) ──
             FadeTransition(
               opacity: contentFade,
               child: Transform.translate(
                 offset: Offset(0, contentSlide),
-                child: const _LogoMark(),
+                child: Image.asset(
+                  'assets/branding/app_icon.png',
+                  width: 110,
+                  height: 110,
+                  filterQuality: FilterQuality.high,
+                  semanticLabel: 'Platrare',
+                ),
               ),
             ),
 
@@ -144,7 +166,7 @@ class _SplashBody extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 38,
                     fontWeight: FontWeight.w800,
-                    color: Colors.white,
+                    color: wordmarkColor,
                     letterSpacing: -1.5,
                   ),
                 ),
@@ -163,7 +185,7 @@ class _SplashBody extends StatelessWidget {
                 child: CircularProgressIndicator(
                   strokeWidth: 2.0,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    Colors.white.withValues(alpha: 0.38),
+                    spinnerColor.withValues(alpha: 0.65),
                   ),
                 ),
               ),
@@ -177,97 +199,3 @@ class _SplashBody extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Logo mark — frosted glass tile + white delta (Δ)
-// ---------------------------------------------------------------------------
-
-class _LogoMark extends StatelessWidget {
-  const _LogoMark();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 110,
-      height: 110,
-      decoration: BoxDecoration(
-        // Frosted glass feel: white at very low opacity over the brand blue
-        color: Colors.white.withValues(alpha: 0.11),
-        borderRadius: BorderRadius.circular(30),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.22),
-          width: 1.5,
-        ),
-        boxShadow: [
-          // Inner-facing shadow: deeper blue — gives tile depth without noise
-          BoxShadow(
-            color: const Color(0xFF0E35A0).withValues(alpha: 0.50),
-            blurRadius: 40,
-            spreadRadius: -4,
-            offset: const Offset(0, 12),
-          ),
-        ],
-      ),
-      child: Center(
-        child: CustomPaint(
-          size: const Size(50, 50),
-          painter: _DeltaPainter(),
-        ),
-      ),
-    );
-  }
-}
-
-/// Draws a clean, filled, upward-pointing equilateral delta (Δ) with
-/// softly rounded corners. One shape. Maximum clarity.
-class _DeltaPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
-
-    // Three vertices: apex at top-center, base-right, base-left.
-    // Nudge apex slightly above true equilateral for optical balance.
-    final vertices = <Offset>[
-      Offset(size.width * 0.500, size.height * 0.055), // apex
-      Offset(size.width * 0.965, size.height * 0.930), // base-right
-      Offset(size.width * 0.035, size.height * 0.930), // base-left
-    ];
-
-    canvas.drawPath(_roundedPolygon(vertices, 5.5), paint);
-  }
-
-  /// Builds a Path for a convex polygon with rounded corners of radius [r].
-  Path _roundedPolygon(List<Offset> verts, double r) {
-    final n = verts.length;
-    final path = Path();
-
-    for (int i = 0; i < n; i++) {
-      final prev = verts[(i - 1 + n) % n];
-      final curr = verts[i];
-      final next = verts[(i + 1) % n];
-
-      final toPrev = prev - curr;
-      final toNext = next - curr;
-
-      // Points at distance r from the vertex along each adjacent edge
-      final p1 = curr + toPrev / toPrev.distance * r;
-      final p2 = curr + toNext / toNext.distance * r;
-
-      if (i == 0) {
-        path.moveTo(p1.dx, p1.dy);
-      } else {
-        path.lineTo(p1.dx, p1.dy);
-      }
-      // Round the corner with a quadratic bezier through the vertex
-      path.quadraticBezierTo(curr.dx, curr.dy, p2.dx, p2.dy);
-    }
-
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
