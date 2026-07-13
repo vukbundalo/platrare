@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:open_filex/open_filex.dart';
+import '../data/data_transfer.dart';
 import '../data/user_settings.dart' as settings;
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
@@ -631,13 +632,14 @@ class _AttachmentsCard extends StatelessWidget {
               runSpacing: 8,
               children: attachments.map((path) {
                 final isImg = _isImage(path);
+                final resolvedPath = DataTransfer.resolveAttachmentPath(path);
                 return GestureDetector(
-                  onTap: () => OpenFilex.open(path),
+                  onTap: () => OpenFilex.open(resolvedPath),
                   child: isImg
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Image.file(
-                            File(path),
+                            File(resolvedPath),
                             width: 90,
                             height: 90,
                             fit: BoxFit.cover,

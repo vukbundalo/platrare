@@ -201,8 +201,9 @@ class AttachmentsEditorSection extends StatelessWidget {
       children: [
         ...attachments.map((path) {
           final isImg = _isImage(path);
+          final resolvedPath = DataTransfer.resolveAttachmentPath(path);
           return GestureDetector(
-            onTap: () => OpenFilex.open(path),
+            onTap: () => OpenFilex.open(resolvedPath),
             child: Stack(
               clipBehavior: Clip.none,
               children: [
@@ -222,7 +223,7 @@ class AttachmentsEditorSection extends StatelessWidget {
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Image.file(
-                            File(path),
+                            File(resolvedPath),
                             fit: BoxFit.cover,
                             width: 80,
                             height: 80,

@@ -5,6 +5,7 @@ import 'data/auto_backup_service.dart';
 import 'data/backup_export_reminder_prefs.dart';
 import 'data/balance_privacy_prefs.dart';
 import 'data/currency_prefs.dart';
+import 'data/data_transfer.dart';
 import 'data/local/platrare_database.dart';
 import 'data/fx_service.dart';
 import 'data/locale_prefs.dart';
@@ -36,6 +37,7 @@ Future<void> main() async {
     initSecurityPrefs(),
     initBalancePrivacyPrefs(),
     initBackupExportReminderPrefs(),
+    DataTransfer.warmAttachmentsLibrary(),
   ]);
   await loadCurrencyPreferences();
   await _initDateFormattingForLocales();

@@ -441,11 +441,35 @@ class DataTransfer {
     );
   }
 
+  static Directory? _cachedAttachmentsLibraryDir;
+
   static Future<Directory> _attachmentsLibraryDir() async {
     final root = await getApplicationDocumentsDirectory();
     final d = Directory(p.join(root.path, 'platrare_attachments'));
     if (!await d.exists()) await d.create(recursive: true);
+    _cachedAttachmentsLibraryDir = d;
     return d;
+  }
+
+  /// Resolves the attachments library directory once at startup so
+  /// [resolveAttachmentPath] can run synchronously from widget build methods.
+  static Future<void> warmAttachmentsLibrary() => _attachmentsLibraryDir();
+
+  /// Maps a stored attachment reference to where the file actually is now.
+  ///
+  /// Stored references are absolute paths. On iOS that prefix can go stale
+  /// (e.g. a reinstall/update rotates the app's sandbox container UUID) even
+  /// though the underlying file is still sitting in `platrare_attachments`
+  /// under the new container. Since every attachment lives flat in that one
+  /// library directory, re-deriving the path from the current library
+  /// directory + the stored file's basename recovers it without needing a DB
+  /// migration.
+  static String resolveAttachmentPath(String stored) {
+    if (File(stored).existsSync()) return stored;
+    final lib = _cachedAttachmentsLibraryDir;
+    if (lib == null) return stored;
+    final candidate = File(p.join(lib.path, p.basename(stored)));
+    return candidate.existsSync() ? candidate.path : stored;
   }
 
   /// Copies a user-picked file into `platrare_attachments` under Documents.
