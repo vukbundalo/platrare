@@ -95,22 +95,22 @@ class AutoBackupService {
   /// last backup is less than 24 h old.
   Future<AutoBackupResult> runIfDue() async {
     if (!_enabled) {
-      debugPrint('[AutoBackup] Skipped — auto-backup is disabled');
+      _log('[AutoBackup] Skipped — auto-backup is disabled');
       return AutoBackupResult.skipped;
     }
     if (data.accounts.isEmpty && data.transactions.isEmpty) {
-      debugPrint('[AutoBackup] Skipped — no data to back up');
+      _log('[AutoBackup] Skipped — no data to back up');
       return AutoBackupResult.skipped;
     }
 
     final now = DateTime.now();
     final last = _lastBackupAt;
     if (last != null && now.difference(last) < _kInterval) {
-      debugPrint('[AutoBackup] Not due — last backup was ${now.difference(last).inMinutes} min ago');
+      _log('[AutoBackup] Not due — last backup was ${now.difference(last).inMinutes} min ago');
       return AutoBackupResult.notDue;
     }
 
-    debugPrint('[AutoBackup] Running backup…');
+    _log('[AutoBackup] Running backup…');
     try {
       final path = await _writeBackupFile();
       _lastBackupAt = now;
@@ -121,10 +121,10 @@ class AutoBackupService {
 
       await _pruneOldFiles();
 
-      debugPrint('[AutoBackup] Success → $path');
+      _log('[AutoBackup] Success → $path');
       return AutoBackupResult.ran;
     } catch (e) {
-      debugPrint('[AutoBackup] Backup failed: $e');
+      _log('[AutoBackup] Backup failed: $e');
       return AutoBackupResult.failed;
     }
   }
@@ -170,7 +170,13 @@ class AutoBackupService {
         await f.delete();
       }
     } catch (e) {
-      debugPrint('[AutoBackup] Prune failed: $e');
+      _log('[AutoBackup] Prune failed: $e');
     }
   }
+}
+
+/// Debug-only logging: release builds must not emit backup paths, sizes, or
+/// record counts into device logs.
+void _log(String message) {
+  if (kDebugMode) debugPrint(message);
 }

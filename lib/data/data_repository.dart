@@ -180,13 +180,13 @@ class DataRepository {
   // --- Categories ------------------------------------------------------------
 
   static Future<void> addCategory(String name, {required bool income}) async {
+    final list = income ? data.incomeCategories : data.expenseCategories;
+    // No duplicate rows: a second add of the same name would create a second
+    // DB row that exports/imports as a duplicate.
+    if (list.any((c) => c.toLowerCase() == name.toLowerCase())) return;
     final kind = income ? 'income' : 'expense';
     await _db.insertCategory(name: name, kind: kind);
-    if (income) {
-      data.incomeCategories.add(name);
-    } else {
-      data.expenseCategories.add(name);
-    }
+    list.add(name);
   }
 
   // --- Selective clear -------------------------------------------------------

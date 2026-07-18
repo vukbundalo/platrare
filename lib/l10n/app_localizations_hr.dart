@@ -1001,6 +1001,11 @@ class AppLocalizationsHr extends AppLocalizations {
   String get securityPinIncorrect => 'Netočan PIN, pokušajte ponovno';
 
   @override
+  String securityTooManyAttempts(int seconds) {
+    return 'Previše pokušaja. Pokušajte ponovno za $seconds s';
+  }
+
+  @override
   String get securityBiometricReason =>
       'Autentificirajte se da biste otvorili svoju aplikaciju';
 

@@ -995,6 +995,11 @@ class AppLocalizationsZh extends AppLocalizations {
   String get securityPinIncorrect => 'Incorrect PIN, try again';
 
   @override
+  String securityTooManyAttempts(int seconds) {
+    return '尝试次数过多。请在 $seconds 秒后重试';
+  }
+
+  @override
   String get securityBiometricReason => 'Authenticate to open your app';
 
   @override
@@ -2665,6 +2670,11 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get securityPinIncorrect => 'PIN 码不正确，请重试';
+
+  @override
+  String securityTooManyAttempts(int seconds) {
+    return '尝试次数过多。请在 $seconds 秒后重试';
+  }
 
   @override
   String get securityBiometricReason => '进行身份验证以打开您的应用程序';

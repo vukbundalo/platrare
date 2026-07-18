@@ -511,6 +511,7 @@
   "securityUnlockWithPin": "Разблокировать с помощью PIN-кода",
   "securityTryBiometric": "Попробуйте биометрическую разблокировку",
   "securityPinIncorrect": "Неверный PIN-код, попробуйте еще раз.",
+  "securityTooManyAttempts": "Слишком много попыток. Повторите через {seconds} с",
   "securityBiometricReason": "Пройдите аутентификацию, чтобы открыть приложение",
   "settingsTheme": "Тема",
   "settingsThemeSubtitleSystem": "Следующие настройки системы",

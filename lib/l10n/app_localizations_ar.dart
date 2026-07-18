@@ -1000,6 +1000,11 @@ class AppLocalizationsAr extends AppLocalizations {
       'رقم التعريف الشخصي غير صحيح، حاول مرة أخرى';
 
   @override
+  String securityTooManyAttempts(int seconds) {
+    return 'محاولات كثيرة جدًا. حاول مجددًا خلال $seconds ث';
+  }
+
+  @override
   String get securityBiometricReason => 'قم بالمصادقة لفتح التطبيق الخاص بك';
 
   @override

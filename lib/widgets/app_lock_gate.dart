@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
@@ -27,6 +29,13 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
   String? _pinError;
   DateTime? _wentToBackgroundAt;
 
+  /// Obscures content while backgrounded so the OS app-switcher snapshot
+  /// never captures financial data (even within the re-lock grace period).
+  bool _coverForAppSwitcher = false;
+
+  int _lockoutRemainingSec = 0;
+  Timer? _lockoutTimer;
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +46,7 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _lockoutTimer?.cancel();
     _pinController.dispose();
     super.dispose();
   }
@@ -45,7 +55,15 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (!appSecurityEnabled.value) {
       _wentToBackgroundAt = null;
+      if (_coverForAppSwitcher && mounted) {
+        setState(() => _coverForAppSwitcher = false);
+      }
       return;
+    }
+    final cover = state != AppLifecycleState.resumed;
+    if (cover != _coverForAppSwitcher) {
+      _coverForAppSwitcher = cover;
+      if (mounted) setState(() {});
     }
     if (_isTrueBackgroundState(state)) {
       _onApplicationBackgrounded();
@@ -107,7 +125,28 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
   Future<void> _prepare() async {
     _supportsBiometric = await _localAuth.isDeviceSupported();
     _pinAvailable = await hasSecurityPin();
+    final lockout = await pinLockoutRemainingSeconds();
+    if (lockout > 0 && mounted) _startLockoutCountdown(lockout);
     await _evaluateLockState();
+  }
+
+  void _startLockoutCountdown(int seconds) {
+    _lockoutTimer?.cancel();
+    setState(() => _lockoutRemainingSec = seconds);
+    _lockoutTimer = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (!mounted) {
+        t.cancel();
+        return;
+      }
+      setState(() {
+        _lockoutRemainingSec -= 1;
+        if (_lockoutRemainingSec <= 0) {
+          _lockoutRemainingSec = 0;
+          _pinError = null;
+          t.cancel();
+        }
+      });
+    });
   }
 
   Future<void> _evaluateLockState() async {
@@ -156,19 +195,28 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
 
   Future<void> _unlockWithPin() async {
     final l10n = AppLocalizations.of(context);
+    if (_lockoutRemainingSec > 0) return;
     final pin = _pinController.text.trim();
     if (pin.length < 4) {
       setState(() => _pinError = l10n.securityPinMustBe4Digits);
       return;
     }
-    final ok = await verifySecurityPin(pin);
+    final result = await attemptPinUnlock(pin);
     if (!mounted) return;
-    if (ok) {
+    if (result.ok) {
+      _lockoutTimer?.cancel();
       _pinController.clear();
       setState(() {
         _isUnlocked = true;
         _pinError = null;
+        _lockoutRemainingSec = 0;
       });
+      return;
+    }
+    if (result.isLockedOut) {
+      _startLockoutCountdown(result.lockoutRemainingSeconds);
+      setState(() => _pinError =
+          l10n.securityTooManyAttempts(result.lockoutRemainingSeconds));
       return;
     }
     setState(() => _pinError = l10n.securityPinIncorrect);
@@ -180,6 +228,7 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
       valueListenable: appSecurityEnabled,
       builder: (context, securityEnabled, _) {
         final showLock = securityEnabled && !_isUnlocked;
+        final showCover = securityEnabled && _coverForAppSwitcher;
         return Stack(
           fit: StackFit.expand,
           clipBehavior: Clip.none,
@@ -192,9 +241,25 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
               ),
             ),
             if (showLock) Positioned.fill(child: _buildLockLayer(context)),
+            if (showCover) Positioned.fill(child: _buildPrivacyCover(context)),
           ],
         );
       },
+    );
+  }
+
+  /// Opaque branded cover shown while backgrounded so OS app-switcher
+  /// snapshots never contain ledger content.
+  Widget _buildPrivacyCover(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final brightness = Theme.of(context).brightness;
+    return ExcludeSemantics(
+      child: DecoratedBox(
+        decoration: PlatrareSurfaces.lockBackdrop(cs, brightness),
+        child: Center(
+          child: Icon(Icons.lock_rounded, size: 46, color: cs.primary),
+        ),
+      ),
     );
   }
 
@@ -249,16 +314,22 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
                               keyboardType: TextInputType.number,
                               obscureText: true,
                               maxLength: 8,
+                              enabled: _lockoutRemainingSec <= 0,
                               decoration: InputDecoration(
                                 labelText: l10n.securityPinLabel,
-                                errorText: _pinError,
+                                errorText: _lockoutRemainingSec > 0
+                                    ? l10n.securityTooManyAttempts(
+                                        _lockoutRemainingSec)
+                                    : _pinError,
                                 counterText: '',
                               ),
                               onSubmitted: (_) => _unlockWithPin(),
                             ),
                             const SizedBox(height: 10),
                             FilledButton(
-                              onPressed: _unlockWithPin,
+                              onPressed: _lockoutRemainingSec > 0
+                                  ? null
+                                  : _unlockWithPin,
                               child: Text(l10n.securityUnlockWithPin),
                             ),
                           ],

@@ -511,6 +511,7 @@
   "securityUnlockWithPin": "Ontgrendel met pincode",
   "securityTryBiometric": "Probeer biometrische ontgrendeling",
   "securityPinIncorrect": "Onjuiste pincode, probeer het opnieuw",
+  "securityTooManyAttempts": "Te veel pogingen. Probeer het over {seconds} s opnieuw",
   "securityBiometricReason": "Verifieer om uw app te openen",
   "settingsTheme": "Thema",
   "settingsThemeSubtitleSystem": "Systeeminstellingen volgen",

@@ -511,6 +511,7 @@
   "securityUnlockWithPin": "使用 PIN 码解锁",
   "securityTryBiometric": "尝试生物识别解锁",
   "securityPinIncorrect": "PIN 码不正确，请重试",
+  "securityTooManyAttempts": "尝试次数过多。请在 {seconds} 秒后重试",
   "securityBiometricReason": "进行身份验证以打开您的应用程序",
   "settingsTheme": "主题",
   "settingsThemeSubtitleSystem": "以下系统设置",

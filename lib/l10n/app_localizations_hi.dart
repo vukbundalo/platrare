@@ -1001,6 +1001,11 @@ class AppLocalizationsHi extends AppLocalizations {
   String get securityPinIncorrect => 'ग़लत पिन, पुनः प्रयास करें';
 
   @override
+  String securityTooManyAttempts(int seconds) {
+    return 'बहुत अधिक प्रयास। $seconds सेकंड में पुनः प्रयास करें';
+  }
+
+  @override
   String get securityBiometricReason => 'अपना ऐप खोलने के लिए प्रमाणित करें';
 
   @override

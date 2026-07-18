@@ -511,6 +511,7 @@
   "securityUnlockWithPin": "Otključajte PIN-om",
   "securityTryBiometric": "Probajte biometrijsko otključavanje",
   "securityPinIncorrect": "Netačan PIN, pokušajte ponovo",
+  "securityTooManyAttempts": "Previše pokušaja. Pokušajte ponovo za {seconds} s",
   "securityBiometricReason": "Autentifikujte da otvorite aplikaciju",
   "settingsTheme": "Tema",
   "settingsThemeSubtitleSystem": "Slijede postavke sistema",

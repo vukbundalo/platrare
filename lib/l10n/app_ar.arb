@@ -511,6 +511,7 @@
   "securityUnlockWithPin": "فتح القفل باستخدام رقم التعريف الشخصي",
   "securityTryBiometric": "حاول فتح القفل البيومتري",
   "securityPinIncorrect": "رقم التعريف الشخصي غير صحيح، حاول مرة أخرى",
+  "securityTooManyAttempts": "محاولات كثيرة جدًا. حاول مجددًا خلال {seconds} ث",
   "securityBiometricReason": "قم بالمصادقة لفتح التطبيق الخاص بك",
   "settingsTheme": "سمة",
   "settingsThemeSubtitleSystem": "بعد إعدادات النظام",

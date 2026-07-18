@@ -511,6 +511,7 @@
   "securityUnlockWithPin": "Sblocca con PIN",
   "securityTryBiometric": "Prova lo sblocco biometrico",
   "securityPinIncorrect": "PIN errato, riprova",
+  "securityTooManyAttempts": "Troppi tentativi. Riprova tra {seconds} s",
   "securityBiometricReason": "Autenticati per aprire la tua app",
   "settingsTheme": "Tema",
   "settingsThemeSubtitleSystem": "Seguendo le impostazioni di sistema",

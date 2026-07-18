@@ -1019,18 +1019,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onTap: _refreshingRates
                 ? null
                 : () async {
+                    final messenger = ScaffoldMessenger.of(context);
                     setState(() => _refreshingRates = true);
                     try {
                       await FxService.instance.refreshRates();
                       if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      messenger.showSnackBar(
                         SnackBar(
                           content: Text(l10n.settingsExchangeRatesUpdatedSnack),
                         ),
                       );
                     } catch (_) {
                       if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      messenger.showSnackBar(
                         SnackBar(
                           content: Text(l10n.settingsExchangeRatesUpdateFailed),
                         ),
@@ -1093,6 +1094,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             title: l10n.settingsClearData,
             subtitle: l10n.settingsClearDataSubtitle,
             onTap: () async {
+              final messenger = ScaffoldMessenger.of(context);
               final cleared = await showModalBottomSheet<bool>(
                 context: context,
                 isScrollControlled: true,
@@ -1101,7 +1103,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               );
               if (cleared == true && mounted) {
                 setState(() {});
-                ScaffoldMessenger.of(context).showSnackBar(
+                messenger.showSnackBar(
                   SnackBar(content: Text(l10n.clearDataDone)),
                 );
               }

@@ -1001,6 +1001,11 @@ class AppLocalizationsSv extends AppLocalizations {
   String get securityPinIncorrect => 'Fel PIN-kod, försök igen';
 
   @override
+  String securityTooManyAttempts(int seconds) {
+    return 'För många försök. Försök igen om $seconds s';
+  }
+
+  @override
   String get securityBiometricReason => 'Autentisera för att öppna din app';
 
   @override

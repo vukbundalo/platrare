@@ -1854,6 +1854,12 @@ abstract class AppLocalizations {
   /// **'Incorrect PIN, try again'**
   String get securityPinIncorrect;
 
+  /// No description provided for @securityTooManyAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Try again in {seconds} s'**
+  String securityTooManyAttempts(int seconds);
+
   /// No description provided for @securityBiometricReason.
   ///
   /// In en, this message translates to:

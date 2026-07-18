@@ -511,6 +511,7 @@
   "securityUnlockWithPin": "PIN으로 잠금 해제",
   "securityTryBiometric": "생체 인식 잠금 해제를 사용해 보세요",
   "securityPinIncorrect": "PIN이 잘못되었습니다. 다시 시도해 주세요.",
+  "securityTooManyAttempts": "시도 횟수가 너무 많습니다. {seconds}초 후 다시 시도하세요",
   "securityBiometricReason": "앱을 열려면 인증하세요.",
   "settingsTheme": "주제",
   "settingsThemeSubtitleSystem": "다음 시스템 설정",

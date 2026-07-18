@@ -38,6 +38,10 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   List<String> _attachments = [];
   bool _forceClose = false;
 
+  /// Guards against double-tap on Save: a second tap while the first
+  /// persistence await is in flight would apply balances twice.
+  bool _isSaving = false;
+
   bool get _isEdit => widget.existing != null;
 
   bool get _isDirty {
@@ -45,6 +49,9 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       final e = widget.existing!;
       final origAmt = e.nativeAmount != null ? e.nativeAmount!.toStringAsFixed(2) : '';
       if (_amountController.text.trim() != origAmt) return true;
+      final origDest =
+          e.destinationAmount != null ? e.destinationAmount!.toStringAsFixed(2) : '';
+      if (_destinationAmountController.text.trim() != origDest) return true;
       if (_fromAccount != e.fromAccount) return true;
       if (_toAccount != e.toAccount) return true;
       if (_category != e.category) return true;
@@ -176,18 +183,36 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   }
 
   Future<void> _save() async {
+    if (_isSaving) return;
+    setState(() => _isSaving = true);
+    try {
+      await _doSave();
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
+    }
+  }
+
+  Future<void> _doSave() async {
     final nativeAmt = _parsedAmount!;
+
+    // Re-resolve account references against data.accounts: after a persistence
+    // recovery reload, instances captured at screen open may be detached, and
+    // mutating those would corrupt (or fail to correct) the live balances.
+    _fromAccount = refreshedAccount(_fromAccount) ?? _fromAccount;
+    _toAccount = refreshedAccount(_toAccount) ?? _toAccount;
 
     // When editing, reverse the old transaction's balance changes first so that
     // prior-balance classification uses restored (pre-original-tx) balances.
     if (_isEdit) {
       final old = widget.existing!;
       if (old.nativeAmount != null) {
-        if (old.fromAccount != null) {
-          old.fromAccount!.balance += old.nativeAmount!;
+        final oldFrom = refreshedAccount(old.fromAccount) ?? old.fromAccount;
+        final oldTo = refreshedAccount(old.toAccount) ?? old.toAccount;
+        if (oldFrom != null) {
+          oldFrom.balance += old.nativeAmount!;
         }
-        if (old.toAccount != null) {
-          old.toAccount!.balance -= (old.destinationAmount ?? old.nativeAmount!);
+        if (oldTo != null) {
+          oldTo.balance -= (old.destinationAmount ?? old.nativeAmount!);
         }
       }
     }
@@ -598,7 +623,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                         settings.baseCurrency,
                   )
                 : '',
-            enabled: _canSave,
+            enabled: _canSave && !_isSaving,
             isEdit: _isEdit,
             onSave: () => _save(),
           ),

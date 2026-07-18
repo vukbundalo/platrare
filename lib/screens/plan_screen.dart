@@ -505,7 +505,21 @@ class _PlanScreenState extends State<PlanScreen> {
     );
   }
 
+  /// Guards [_realize] against re-entry: confirming the same planned row again
+  /// while the first realization is persisting would post it twice.
+  bool _realizing = false;
+
   Future<void> _realize(PlannedTransaction pt, {DateTime? realizationDate}) async {
+    if (_realizing) return;
+    _realizing = true;
+    try {
+      await _doRealize(pt, realizationDate: realizationDate);
+    } finally {
+      _realizing = false;
+    }
+  }
+
+  Future<void> _doRealize(PlannedTransaction pt, {DateTime? realizationDate}) async {
     if (pt.nativeAmount != null) {
       // Deduct from source in its native currency.
       if (pt.fromAccount != null) {

@@ -1003,6 +1003,11 @@ class AppLocalizationsSr extends AppLocalizations {
   String get securityPinIncorrect => 'Pogrešan PIN, pokušaj ponovo';
 
   @override
+  String securityTooManyAttempts(int seconds) {
+    return 'Previše pokušaja. Pokušaj ponovo za $seconds s';
+  }
+
+  @override
   String get securityBiometricReason =>
       'Potvrdi identitet za otvaranje aplikacije';
 
@@ -2727,6 +2732,11 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
   String get securityPinIncorrect => 'Погрешан ПИН, покушај поново';
 
   @override
+  String securityTooManyAttempts(int seconds) {
+    return 'Превише покушаја. Покушај поново за $seconds с';
+  }
+
+  @override
   String get securityBiometricReason =>
       'Потврди идентитет за отварање апликације';
 
@@ -4447,6 +4457,11 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get securityPinIncorrect => 'Pogrešan PIN, pokušaj ponovo';
+
+  @override
+  String securityTooManyAttempts(int seconds) {
+    return 'Previše pokušaja. Pokušaj ponovo za $seconds s';
+  }
 
   @override
   String get securityBiometricReason =>

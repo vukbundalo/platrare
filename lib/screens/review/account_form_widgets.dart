@@ -942,7 +942,21 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
     if (result != null) setState(() => _currencyCode = result);
   }
 
+  /// Re-entry guard: a double-tap on save while persistence is in flight
+  /// could insert a duplicate account or a double balance-correction row.
+  bool _isSaving = false;
+
   Future<void> _save() async {
+    if (_isSaving) return;
+    _isSaving = true;
+    try {
+      await _doSave();
+    } finally {
+      _isSaving = false;
+    }
+  }
+
+  Future<void> _doSave() async {
     final name = _nameController.text.trim();
     if (name.isEmpty) return;
     final instRaw = _trimmedInstitution();
@@ -1598,7 +1612,21 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
     });
   }
 
+  /// Re-entry guard: a double-tap on save while persistence is in flight
+  /// could insert a duplicate account or a double balance-correction row.
+  bool _isSaving = false;
+
   Future<void> _save() async {
+    if (_isSaving) return;
+    _isSaving = true;
+    try {
+      await _doSave();
+    } finally {
+      _isSaving = false;
+    }
+  }
+
+  Future<void> _doSave() async {
     final name = _nameController.text.trim();
     if (name.isEmpty) return;
     final instRaw = _trimmedInstitutionScreen();

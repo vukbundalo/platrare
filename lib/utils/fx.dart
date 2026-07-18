@@ -9,7 +9,9 @@ import '../data/user_settings.dart' as settings;
 double rateToBase(String currencyCode) {
   if (currencyCode == settings.baseCurrency) return 1.0;
   if (!settings.exchangeRates.containsKey(currencyCode)) {
-    debugPrint('[FX] WARNING: no rate for "$currencyCode" – defaulting to 1.0');
+    if (kDebugMode) {
+      debugPrint('[FX] WARNING: no rate for "$currencyCode" – defaulting to 1.0');
+    }
   }
   final numer = settings.exchangeRates[currencyCode] ?? 1.0;
   final denom = settings.exchangeRates[settings.baseCurrency] ?? 1.0;

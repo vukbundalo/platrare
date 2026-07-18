@@ -511,6 +511,7 @@
   "securityUnlockWithPin": "पिन से अनलॉक करें",
   "securityTryBiometric": "बायोमेट्रिक अनलॉक का प्रयास करें",
   "securityPinIncorrect": "ग़लत पिन, पुनः प्रयास करें",
+  "securityTooManyAttempts": "बहुत अधिक प्रयास। {seconds} सेकंड में पुनः प्रयास करें",
   "securityBiometricReason": "अपना ऐप खोलने के लिए प्रमाणित करें",
   "settingsTheme": "विषय",
   "settingsThemeSubtitleSystem": "निम्नलिखित सिस्टम सेटिंग्स",

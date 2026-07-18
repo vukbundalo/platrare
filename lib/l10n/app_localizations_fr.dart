@@ -1012,6 +1012,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get securityPinIncorrect => 'PIN incorrect, réessayez';
 
   @override
+  String securityTooManyAttempts(int seconds) {
+    return 'Trop de tentatives. Réessayez dans $seconds s';
+  }
+
+  @override
   String get securityBiometricReason =>
       'Authentifiez-vous pour ouvrir votre app';
 

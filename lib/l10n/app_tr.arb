@@ -511,6 +511,7 @@
   "securityUnlockWithPin": "PIN ile kilidi aç",
   "securityTryBiometric": "Biyometrik kilit açmayı deneyin",
   "securityPinIncorrect": "Yanlış PIN, tekrar deneyin",
+  "securityTooManyAttempts": "Çok fazla deneme. {seconds} sn sonra tekrar deneyin",
   "securityBiometricReason": "Uygulamanızı açmak için kimlik doğrulaması yapın",
   "settingsTheme": "Tema",
   "settingsThemeSubtitleSystem": "Sistem ayarlarını takip etmek",

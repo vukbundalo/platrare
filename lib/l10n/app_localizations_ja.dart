@@ -973,6 +973,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get securityPinIncorrect => 'PIN が間違っています。もう一度お試しください';
 
   @override
+  String securityTooManyAttempts(int seconds) {
+    return '試行回数が多すぎます。$seconds秒後にもう一度お試しください';
+  }
+
+  @override
   String get securityBiometricReason => '認証してアプリを開く';
 
   @override

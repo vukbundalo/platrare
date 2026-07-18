@@ -1002,6 +1002,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get securityPinIncorrect => 'Yanlış PIN, tekrar deneyin';
 
   @override
+  String securityTooManyAttempts(int seconds) {
+    return 'Çok fazla deneme. $seconds sn sonra tekrar deneyin';
+  }
+
+  @override
   String get securityBiometricReason =>
       'Uygulamanızı açmak için kimlik doğrulaması yapın';
 

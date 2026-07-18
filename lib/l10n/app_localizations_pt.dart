@@ -996,6 +996,11 @@ class AppLocalizationsPt extends AppLocalizations {
   String get securityPinIncorrect => 'Incorrect PIN, try again';
 
   @override
+  String securityTooManyAttempts(int seconds) {
+    return 'Demasiadas tentativas. Tente novamente em $seconds s';
+  }
+
+  @override
   String get securityBiometricReason => 'Authenticate to open your app';
 
   @override
@@ -2713,6 +2718,11 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get securityPinIncorrect => 'PIN incorreto, tente novamente';
+
+  @override
+  String securityTooManyAttempts(int seconds) {
+    return 'Muitas tentativas. Tente novamente em $seconds s';
+  }
 
   @override
   String get securityBiometricReason => 'Autentique para abrir seu aplicativo';

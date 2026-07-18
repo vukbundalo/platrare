@@ -511,6 +511,7 @@
   "securityUnlockWithPin": "Odblokuj za pomocą PIN-u",
   "securityTryBiometric": "Wypróbuj odblokowanie biometryczne",
   "securityPinIncorrect": "Nieprawidłowy PIN, spróbuj ponownie",
+  "securityTooManyAttempts": "Zbyt wiele prób. Spróbuj ponownie za {seconds} s",
   "securityBiometricReason": "Uwierzytelnij, aby otworzyć aplikację",
   "settingsTheme": "Temat",
   "settingsThemeSubtitleSystem": "Następujące ustawienia systemowe",

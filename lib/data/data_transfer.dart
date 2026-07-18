@@ -155,7 +155,7 @@ class DataTransfer {
     String? password,
     Rect? sharePositionOrigin,
   }) async {
-    debugPrint('[Backup:Export] Starting — encrypted: $encrypt');
+    _log('[Backup:Export] Starting — encrypted: $encrypt');
 
     if (encrypt) {
       final pwd = password?.trim();
@@ -167,20 +167,20 @@ class DataTransfer {
       }
     }
 
-    debugPrint('[Backup:Export] Building inner ZIP (accounts: ${data.accounts.length}, '
+    _log('[Backup:Export] Building inner ZIP (accounts: ${data.accounts.length}, '
         'transactions: ${data.transactions.length}, '
         'planned: ${data.plannedTransactions.length})');
     final inner = await _buildInnerZipBytes();
-    debugPrint('[Backup:Export] Inner ZIP built — ${inner.length} bytes');
+    _log('[Backup:Export] Inner ZIP built — ${inner.length} bytes');
 
     final Uint8List outBytes;
     if (encrypt) {
-      debugPrint('[Backup:Export] Encrypting…');
+      _log('[Backup:Export] Encrypting…');
       outBytes = await encryptInnerZip(
         innerZip: inner,
         password: password!.trim(),
       );
-      debugPrint('[Backup:Export] Encrypted — ${outBytes.length} bytes');
+      _log('[Backup:Export] Encrypted — ${outBytes.length} bytes');
     } else {
       outBytes = inner;
     }
@@ -189,19 +189,26 @@ class DataTransfer {
     final tmpDir = await getTemporaryDirectory();
     final tmpFile = File(p.join(tmpDir.path, name));
     await tmpFile.writeAsBytes(outBytes, flush: true);
-    debugPrint('[Backup:Export] Wrote temp file: ${tmpFile.path}');
+    _log('[Backup:Export] Wrote temp file: ${tmpFile.path}');
 
     final mimeType = encrypt ? 'application/octet-stream' : 'application/zip';
-    debugPrint('[Backup:Export] Opening share sheet — mime: $mimeType');
-    // share_plus 12+ routes file shares through a unified iOS `share` method that
-    // has regressed for file-only exports on some OS builds; stay on 10.x and
-    // the dedicated `shareFiles` channel (see pubspec).
-    await Share.shareXFiles(
-      [XFile(tmpFile.path, mimeType: mimeType, name: name)],
-      subject: name,
-      sharePositionOrigin: sharePositionOrigin,
-    );
-    debugPrint('[Backup:Export] Share sheet dismissed');
+    _log('[Backup:Export] Opening share sheet — mime: $mimeType');
+    try {
+      // share_plus 12+ routes file shares through a unified iOS `share` method that
+      // has regressed for file-only exports on some OS builds; stay on 10.x and
+      // the dedicated `shareFiles` channel (see pubspec).
+      await Share.shareXFiles(
+        [XFile(tmpFile.path, mimeType: mimeType, name: name)],
+        subject: name,
+        sharePositionOrigin: sharePositionOrigin,
+      );
+      _log('[Backup:Export] Share sheet dismissed');
+    } finally {
+      // The (possibly unencrypted) ledger must not linger in the temp dir.
+      try {
+        await tmpFile.delete();
+      } catch (_) {}
+    }
   }
 
   /// Builds a data-only (no attachments) unencrypted ZIP for the automatic
@@ -209,7 +216,7 @@ class DataTransfer {
   /// auto-backups are lightweight by design and attachments are covered by
   /// OS-level device backup (iCloud / Google Backup) separately.
   static Future<Uint8List> buildAutoBackupBytes() async {
-    debugPrint('[Backup:Auto] Building data-only ZIP (no attachments) — '
+    _log('[Backup:Auto] Building data-only ZIP (no attachments) — '
         'accounts: ${data.accounts.length}, '
         'transactions: ${data.transactions.length}, '
         'planned: ${data.plannedTransactions.length}');
@@ -238,7 +245,7 @@ class DataTransfer {
       incomeCategoriesCount: data.incomeCategories.length,
       expenseCategoriesCount: data.expenseCategories.length,
     );
-    debugPrint('[Backup:Auto] ZIP built — ${bytes.length} bytes, exportedAt: $exportedAt');
+    _log('[Backup:Auto] ZIP built — ${bytes.length} bytes, exportedAt: $exportedAt');
     return bytes;
   }
 
@@ -562,19 +569,41 @@ class DataTransfer {
     );
 
     await PlatrareDatabase.instance.loadIntoMemory();
-    settings.baseCurrency = backup.baseCurrency;
-    settings.secondaryCurrency = backup.secondaryCurrency;
-    await saveCurrencyPreferences();
 
-    await setSecurityEnabled(backup.securityEnabled);
-    if (backup.pinHash != null && backup.pinHash!.isNotEmpty) {
-      await restoreSecurityPinHash(backup.pinHash!);
-    } else {
-      await clearSecurityPin();
+    // The database is already replaced; run every follow-up step even when an
+    // earlier one fails so a preferences hiccup cannot leave the restore half
+    // applied (e.g. new ledger with the previous app-lock PIN). The first
+    // error is rethrown at the end for the caller's error UI.
+    Object? firstError;
+    StackTrace? firstStack;
+    Future<void> best(Future<void> Function() step) async {
+      try {
+        await step();
+      } catch (e, st) {
+        firstError ??= e;
+        firstStack ??= st;
+      }
     }
 
+    settings.baseCurrency = backup.baseCurrency;
+    settings.secondaryCurrency = backup.secondaryCurrency;
+    await best(saveCurrencyPreferences);
+
+    await best(() => setSecurityEnabled(backup.securityEnabled));
+    await best(() async {
+      if (backup.pinHash != null && backup.pinHash!.isNotEmpty) {
+        await restoreSecurityPinHash(backup.pinHash!);
+      } else {
+        await clearSecurityPin();
+      }
+    });
+
     data.accounts.sort(compareAccountsStorageOrder);
-    await resetBackupExportReminderState();
+    await best(resetBackupExportReminderState);
+
+    if (firstError != null) {
+      Error.throwWithStackTrace(firstError!, firstStack!);
+    }
   }
 
   /// Maps absolute on-disk paths → `attachments/NNN_name` (deduplicated).
@@ -935,4 +964,10 @@ class DataTransfer {
     }
     return dt;
   }
+}
+
+/// Debug-only logging: release builds must not emit backup paths, sizes, or
+/// record counts into device logs.
+void _log(String message) {
+  if (kDebugMode) debugPrint(message);
 }

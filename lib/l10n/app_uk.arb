@@ -382,6 +382,7 @@
   "securityUnlockWithPin": "Розблокувати за допомогою PIN",
   "securityTryBiometric": "Спробувати біометричне розблокування",
   "securityPinIncorrect": "Невірний PIN, спробуйте ще",
+  "securityTooManyAttempts": "Забагато спроб. Повторіть через {seconds} с",
   "securityBiometricReason": "Автентифікуйтесь для відкриття програми",
   "settingsTheme": "Тема",
   "settingsThemeSubtitleSystem": "Відповідно до системних налаштувань",

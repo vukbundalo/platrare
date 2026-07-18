@@ -1003,6 +1003,11 @@ class AppLocalizationsNl extends AppLocalizations {
   String get securityPinIncorrect => 'Onjuiste pincode, probeer het opnieuw';
 
   @override
+  String securityTooManyAttempts(int seconds) {
+    return 'Te veel pogingen. Probeer het over $seconds s opnieuw';
+  }
+
+  @override
   String get securityBiometricReason => 'Verifieer om uw app te openen';
 
   @override
