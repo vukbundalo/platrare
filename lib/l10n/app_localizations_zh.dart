@@ -1737,6 +1737,151 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get persistenceErrorReloaded =>
       'Couldn’t save changes. Data was reloaded from storage.';
+
+  @override
+  String get helpTooltip => '帮助';
+
+  @override
+  String get helpNext => '下一步';
+
+  @override
+  String get helpBack => '上一步';
+
+  @override
+  String get helpDone => '完成';
+
+  @override
+  String get helpSkip => '跳过';
+
+  @override
+  String get helpTrackHeroTitle => '总额与筛选';
+
+  @override
+  String get helpTrackHeroBody =>
+      '此卡片汇总下方列表的收支。筛选标签可按账户、类别和类型过滤；日期标签在日、周、月、年之间切换；箭头可反转排序。';
+
+  @override
+  String get helpTrackListTitle => '你的历史记录';
+
+  @override
+  String get helpTrackListBody => '已记录的交易按天分组。点按可查看或编辑，也可以用搜索找到特定记录。';
+
+  @override
+  String get helpTrackFabTitle => '添加交易';
+
+  @override
+  String get helpTrackFabBody => '记录收入、支出或账户之间的转账。';
+
+  @override
+  String get helpSettingsTitle => '设置';
+
+  @override
+  String get helpSettingsBody => '货币、语言、主题、安全、备份和账户管理都在这里。';
+
+  @override
+  String get helpPlanHeroTitle => '预测';
+
+  @override
+  String get helpPlanHeroBody => '所选日期的个人余额和净余额。下方的标签用于筛选计划交易。';
+
+  @override
+  String get helpPlanListTitle => '计划交易';
+
+  @override
+  String get helpPlanListBody => '预期的收入、支出和转账。点按可编辑；顶部的标签用于筛选此列表。';
+
+  @override
+  String get helpPlanFabTitle => '添加计划';
+
+  @override
+  String get helpPlanFabBody => '安排一笔预期交易，也可以设置重复。';
+
+  @override
+  String get helpPlanProjectionFabTitle => '预测未来';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      '点按地球按钮选择未来日期即可查看预测余额——将应用截至该日期的计划交易。也可以点按上方卡片中的日期。';
+
+  @override
+  String get helpReviewHeroTitle => '净资产';
+
+  @override
+  String get helpReviewHeroBody => '一眼掌握个人余额和净资产。点按金额可在基础货币和第二货币之间切换。';
+
+  @override
+  String get helpReviewSectionsTitle => '分区';
+
+  @override
+  String get helpReviewSectionsBody => '左右滑动或点按标签，在个人账户、个人、机构和统计之间切换。';
+
+  @override
+  String get helpReviewAccountsTitle => '账户';
+
+  @override
+  String get helpReviewAccountsBody => '每张卡片显示一个账户及其余额。点按可打开完整交易历史。';
+
+  @override
+  String get helpReviewFabTitle => '添加账户';
+
+  @override
+  String get helpReviewFabBody => '为现金、银行卡和储蓄创建账户，也可以为你关注的个人和企业创建账户。';
+
+  @override
+  String get helpSettingsSecurityTitle => '安全';
+
+  @override
+  String get helpSettingsSecurityBody => '用设备的锁屏方式锁定应用，并选择重新锁定的速度。';
+
+  @override
+  String get helpSettingsPreferencesTitle => '偏好设置';
+
+  @override
+  String get helpSettingsPreferencesBody => '语言、主题、货币及其他日常选项。';
+
+  @override
+  String get helpSettingsDataTitle => '你的数据';
+
+  @override
+  String get helpSettingsDataBody =>
+      '导出加密备份，在其他设备上导入，并调整自动备份。除非你导出，数据始终保留在本设备上。';
+
+  @override
+  String get helpSettingsManageTitle => '管理';
+
+  @override
+  String get helpSettingsManageBody => '编辑账户、重命名类别——更改会应用到整个应用。';
+
+  @override
+  String get helpTxAccountsTitle => '转出与转入';
+
+  @override
+  String get helpTxAccountsBody => '选择钱从哪里来、到哪里去。仅转出:支出。仅转入:收入。两者都选:账户间转账。';
+
+  @override
+  String get helpTxDetailsTitle => '金额与详情';
+
+  @override
+  String get helpTxDetailsBody => '输入金额，再添加类别、备注或附件，以便日后查找。';
+
+  @override
+  String get helpTxDateTitle => '日期';
+
+  @override
+  String get helpTxDateBody => '点按此处修改交易日期。';
+
+  @override
+  String get helpPlannedDateTitle => '预定日期';
+
+  @override
+  String get helpPlannedDateBody => '点按此处选择执行时间。计划也可以按你选择的周期重复。';
+
+  @override
+  String get helpPlannedProjectionTitle => '预测余额';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      '账户选择器会显示每个账户在预定日期的预测余额，帮你发现会导致透支的计划。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -3411,4 +3556,149 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get persistenceErrorReloaded => '无法保存更改。数据已从存储中重新加载。';
+
+  @override
+  String get helpTooltip => '帮助';
+
+  @override
+  String get helpNext => '下一步';
+
+  @override
+  String get helpBack => '上一步';
+
+  @override
+  String get helpDone => '完成';
+
+  @override
+  String get helpSkip => '跳过';
+
+  @override
+  String get helpTrackHeroTitle => '总额与筛选';
+
+  @override
+  String get helpTrackHeroBody =>
+      '此卡片汇总下方列表的收支。筛选标签可按账户、类别和类型过滤；日期标签在日、周、月、年之间切换；箭头可反转排序。';
+
+  @override
+  String get helpTrackListTitle => '你的历史记录';
+
+  @override
+  String get helpTrackListBody => '已记录的交易按天分组。点按可查看或编辑，也可以用搜索找到特定记录。';
+
+  @override
+  String get helpTrackFabTitle => '添加交易';
+
+  @override
+  String get helpTrackFabBody => '记录收入、支出或账户之间的转账。';
+
+  @override
+  String get helpSettingsTitle => '设置';
+
+  @override
+  String get helpSettingsBody => '货币、语言、主题、安全、备份和账户管理都在这里。';
+
+  @override
+  String get helpPlanHeroTitle => '预测';
+
+  @override
+  String get helpPlanHeroBody => '所选日期的个人余额和净余额。下方的标签用于筛选计划交易。';
+
+  @override
+  String get helpPlanListTitle => '计划交易';
+
+  @override
+  String get helpPlanListBody => '预期的收入、支出和转账。点按可编辑；顶部的标签用于筛选此列表。';
+
+  @override
+  String get helpPlanFabTitle => '添加计划';
+
+  @override
+  String get helpPlanFabBody => '安排一笔预期交易，也可以设置重复。';
+
+  @override
+  String get helpPlanProjectionFabTitle => '预测未来';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      '点按地球按钮选择未来日期即可查看预测余额——将应用截至该日期的计划交易。也可以点按上方卡片中的日期。';
+
+  @override
+  String get helpReviewHeroTitle => '净资产';
+
+  @override
+  String get helpReviewHeroBody => '一眼掌握个人余额和净资产。点按金额可在基础货币和第二货币之间切换。';
+
+  @override
+  String get helpReviewSectionsTitle => '分区';
+
+  @override
+  String get helpReviewSectionsBody => '左右滑动或点按标签，在个人账户、个人、机构和统计之间切换。';
+
+  @override
+  String get helpReviewAccountsTitle => '账户';
+
+  @override
+  String get helpReviewAccountsBody => '每张卡片显示一个账户及其余额。点按可打开完整交易历史。';
+
+  @override
+  String get helpReviewFabTitle => '添加账户';
+
+  @override
+  String get helpReviewFabBody => '为现金、银行卡和储蓄创建账户，也可以为你关注的个人和企业创建账户。';
+
+  @override
+  String get helpSettingsSecurityTitle => '安全';
+
+  @override
+  String get helpSettingsSecurityBody => '用设备的锁屏方式锁定应用，并选择重新锁定的速度。';
+
+  @override
+  String get helpSettingsPreferencesTitle => '偏好设置';
+
+  @override
+  String get helpSettingsPreferencesBody => '语言、主题、货币及其他日常选项。';
+
+  @override
+  String get helpSettingsDataTitle => '你的数据';
+
+  @override
+  String get helpSettingsDataBody =>
+      '导出加密备份，在其他设备上导入，并调整自动备份。除非你导出，数据始终保留在本设备上。';
+
+  @override
+  String get helpSettingsManageTitle => '管理';
+
+  @override
+  String get helpSettingsManageBody => '编辑账户、重命名类别——更改会应用到整个应用。';
+
+  @override
+  String get helpTxAccountsTitle => '转出与转入';
+
+  @override
+  String get helpTxAccountsBody => '选择钱从哪里来、到哪里去。仅转出:支出。仅转入:收入。两者都选:账户间转账。';
+
+  @override
+  String get helpTxDetailsTitle => '金额与详情';
+
+  @override
+  String get helpTxDetailsBody => '输入金额，再添加类别、备注或附件，以便日后查找。';
+
+  @override
+  String get helpTxDateTitle => '日期';
+
+  @override
+  String get helpTxDateBody => '点按此处修改交易日期。';
+
+  @override
+  String get helpPlannedDateTitle => '预定日期';
+
+  @override
+  String get helpPlannedDateBody => '点按此处选择执行时间。计划也可以按你选择的周期重复。';
+
+  @override
+  String get helpPlannedProjectionTitle => '预测余额';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      '账户选择器会显示每个账户在预定日期的预测余额，帮你发现会导致透支的计划。';
 }

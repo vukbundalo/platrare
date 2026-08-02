@@ -15,6 +15,7 @@ import '../widgets/account_avatar.dart';
 import 'account_transactions_screen.dart';
 import 'review/account_form_widgets.dart';
 import 'settings_screen.dart';
+import '../help/help_tour.dart';
 import '../widgets/app_hero_layout.dart';
 import '../widgets/review_stats_empty_state.dart';
 import '../widgets/stacked_scroll_fab.dart';
@@ -195,6 +196,34 @@ class _ReviewScreenState extends State<ReviewScreen> {
   late final List<ScrollController> _reviewPageScrollControllers;
   final ScrollController _reviewEmptyScrollController = ScrollController();
   bool _showReviewScrollToTopFab = false;
+
+  // ── Help tour anchors ("?" in the app bar) ─────────────────────────────────
+  final GlobalKey _helpHeroKey = GlobalKey();
+  final GlobalKey _helpFabKey = GlobalKey();
+
+  List<HelpStep> _helpSteps() {
+    final l10n = AppLocalizations.of(context);
+    return [
+      HelpStep(
+        targetKey: _helpHeroKey,
+        title: l10n.helpReviewHeroTitle,
+        body: l10n.helpReviewHeroBody,
+      ),
+      HelpStep(
+        title: l10n.helpReviewSectionsTitle,
+        body: l10n.helpReviewSectionsBody,
+      ),
+      HelpStep(
+        title: l10n.helpReviewAccountsTitle,
+        body: l10n.helpReviewAccountsBody,
+      ),
+      HelpStep(
+        targetKey: _helpFabKey,
+        title: l10n.helpReviewFabTitle,
+        body: l10n.helpReviewFabBody,
+      ),
+    ];
+  }
 
   /// Drives hero bottom shadow under [NestedScrollView] (real scroll offset).
   final ValueNotifier<bool> _reviewHeroOverlapShadow = ValueNotifier(false);
@@ -1123,6 +1152,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
       );
     } else {
       mainFab = FloatingActionButton(
+        key: _helpFabKey,
         heroTag: 'review_fab_add',
         onPressed: _addAccount,
         tooltip: l10n.tooltipAddAccount,
@@ -1170,6 +1200,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   surfaceTintColor: Colors.transparent,
                   scrolledUnderElevation: 0,
                   title: Text(l10n.navReview),
+                  leading: HelpTourButton(steps: _helpSteps),
                   actions: [
                     IconButton(
                       icon: const Icon(Icons.settings_outlined),
@@ -1204,6 +1235,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   pinned: true,
                   delegate: HeroPinnedDelegate(
                     child: _NetWorthHero(
+                      key: _helpHeroKey,
                       personal: _personalTotal,
                       net: _netTotal,
                       displayCurrency: _displayCurrency,
@@ -1305,6 +1337,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             elevation: 0,
                             forceMaterialTransparency: true,
                             title: Text(l10n.navReview),
+                            leading: HelpTourButton(steps: _helpSteps),
                             actions: [
                               IconButton(
                                 icon: const Icon(Icons.settings_outlined),
@@ -1356,6 +1389,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                   padding: AppHeroConstants
                                       .mainFlexibleSpaceHeroOuterPadding,
                                   child: _NetWorthHero(
+                                    key: _helpHeroKey,
                                     personal: _personalTotal,
                                     net: _netTotal,
                                     displayCurrency: _displayCurrency,
@@ -1397,6 +1431,7 @@ class _NetWorthHero extends StatelessWidget {
   final VoidCallback onToggleCurrency;
 
   const _NetWorthHero({
+    super.key,
     required this.personal,
     required this.net,
     required this.displayCurrency,

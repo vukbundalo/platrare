@@ -1769,4 +1769,166 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get persistenceErrorReloaded =>
       'Änderungen konnten nicht gespeichert werden. Daten wurden aus dem Speicher neu geladen.';
+
+  @override
+  String get helpTooltip => 'Hilfe';
+
+  @override
+  String get helpNext => 'Weiter';
+
+  @override
+  String get helpBack => 'Zurück';
+
+  @override
+  String get helpDone => 'Fertig';
+
+  @override
+  String get helpSkip => 'Überspringen';
+
+  @override
+  String get helpTrackHeroTitle => 'Summen und Filter';
+
+  @override
+  String get helpTrackHeroBody =>
+      'Diese Karte summiert Ein- und Ausgänge für die Liste darunter. Die Chips filtern nach Konto, Kategorie und Typ; der Datums-Chip wechselt zwischen Tag, Woche, Monat und Jahr; der Pfeil kehrt die Sortierung um.';
+
+  @override
+  String get helpTrackListTitle => 'Dein Verlauf';
+
+  @override
+  String get helpTrackListBody =>
+      'Erfasste Transaktionen, nach Tagen gruppiert. Tippe auf eine, um sie anzusehen oder zu bearbeiten, und nutze die Suche für bestimmte Einträge.';
+
+  @override
+  String get helpTrackFabTitle => 'Transaktion hinzufügen';
+
+  @override
+  String get helpTrackFabBody =>
+      'Erfasse Geldeingänge, Ausgaben oder Umbuchungen zwischen deinen Konten.';
+
+  @override
+  String get helpSettingsTitle => 'Einstellungen';
+
+  @override
+  String get helpSettingsBody =>
+      'Währungen, Sprache, Design, Sicherheit, Backups und Kontoverwaltung findest du hier.';
+
+  @override
+  String get helpPlanHeroTitle => 'Prognose';
+
+  @override
+  String get helpPlanHeroBody =>
+      'Dein persönlicher und Netto-Saldo zum gewählten Datum. Die Chips darunter filtern die geplanten Transaktionen.';
+
+  @override
+  String get helpPlanListTitle => 'Geplante Transaktionen';
+
+  @override
+  String get helpPlanListBody =>
+      'Erwartete Einnahmen, Ausgaben und Umbuchungen. Tippe auf einen Eintrag, um ihn zu bearbeiten; die Chips oben filtern diese Liste.';
+
+  @override
+  String get helpPlanFabTitle => 'Plan hinzufügen';
+
+  @override
+  String get helpPlanFabBody =>
+      'Plane eine erwartete Transaktion, auch wiederkehrend.';
+
+  @override
+  String get helpPlanProjectionFabTitle => 'Blick in die Zukunft';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      'Tippe auf den Globus, um ein zukünftiges Datum zu wählen und die prognostizierten Salden zu sehen — geplante Transaktionen bis zu diesem Datum werden berücksichtigt. Du kannst auch auf das Datum in der Karte oben tippen.';
+
+  @override
+  String get helpReviewHeroTitle => 'Vermögen';
+
+  @override
+  String get helpReviewHeroBody =>
+      'Dein persönlicher Saldo und dein Nettovermögen auf einen Blick. Tippe auf die Beträge, um zwischen Basis- und Zweitwährung zu wechseln.';
+
+  @override
+  String get helpReviewSectionsTitle => 'Bereiche';
+
+  @override
+  String get helpReviewSectionsBody =>
+      'Wische nach links und rechts — oder tippe auf die Chips — um zwischen persönlichen Konten, Personen, Organisationen und Statistiken zu wechseln.';
+
+  @override
+  String get helpReviewAccountsTitle => 'Konten';
+
+  @override
+  String get helpReviewAccountsBody =>
+      'Jede Karte zeigt ein Konto und seinen Saldo. Tippe darauf, um den vollständigen Verlauf zu öffnen.';
+
+  @override
+  String get helpReviewFabTitle => 'Konto hinzufügen';
+
+  @override
+  String get helpReviewFabBody =>
+      'Lege Konten für Bargeld, Karten und Ersparnisse an — oder für Personen und Firmen, die du im Blick behalten willst.';
+
+  @override
+  String get helpSettingsSecurityTitle => 'Sicherheit';
+
+  @override
+  String get helpSettingsSecurityBody =>
+      'Sperre die App hinter der Displaysperre deines Geräts und lege fest, wie schnell sie wieder sperrt.';
+
+  @override
+  String get helpSettingsPreferencesTitle => 'Einstellungen';
+
+  @override
+  String get helpSettingsPreferencesBody =>
+      'Sprache, Design, Währungen und weitere Alltagsoptionen.';
+
+  @override
+  String get helpSettingsDataTitle => 'Deine Daten';
+
+  @override
+  String get helpSettingsDataBody =>
+      'Exportiere verschlüsselte Backups, importiere sie auf einem anderen Gerät und stelle automatische Backups ein. Deine Daten bleiben auf diesem Gerät, solange du sie nicht exportierst.';
+
+  @override
+  String get helpSettingsManageTitle => 'Verwalten';
+
+  @override
+  String get helpSettingsManageBody =>
+      'Bearbeite Konten und benenne Kategorien um — Änderungen gelten überall in der App.';
+
+  @override
+  String get helpTxAccountsTitle => 'Von und Nach';
+
+  @override
+  String get helpTxAccountsBody =>
+      'Wähle, woher das Geld kommt und wohin es geht. Nur Von: Ausgabe. Nur Nach: Einnahme. Beides: eine Umbuchung zwischen Konten.';
+
+  @override
+  String get helpTxDetailsTitle => 'Betrag und Details';
+
+  @override
+  String get helpTxDetailsBody =>
+      'Gib den Betrag ein und ergänze Kategorie, Notiz oder Anhang, damit der Eintrag später leicht zu finden ist.';
+
+  @override
+  String get helpTxDateTitle => 'Datum';
+
+  @override
+  String get helpTxDateBody =>
+      'Tippe hier, um den Tag der Transaktion zu ändern.';
+
+  @override
+  String get helpPlannedDateTitle => 'Fälligkeitsdatum';
+
+  @override
+  String get helpPlannedDateBody =>
+      'Tippe hier, um festzulegen, wann dies geschehen soll. Ein Plan kann sich auch nach einem Zeitplan wiederholen.';
+
+  @override
+  String get helpPlannedProjectionTitle => 'Prognostizierte Salden';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      'Die Kontoauswahl zeigt den prognostizierten Saldo jedes Kontos zum Fälligkeitsdatum — so erkennst du Pläne, die ein Konto überziehen würden.';
 }

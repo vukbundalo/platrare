@@ -23,6 +23,7 @@ import '../utils/fx.dart' as fx;
 import '../utils/manual_backup_export_flow.dart';
 import '../widgets/ledger_verify_dialog.dart';
 import '../utils/persistence_guard.dart';
+import '../help/help_tour.dart';
 import 'app_about_screen.dart';
 import 'privacy_policy_screen.dart';
 
@@ -37,6 +38,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
   late final Future<PackageInfo> _packageInfoFuture = PackageInfo.fromPlatform();
   bool _refreshingRates = false;
   bool _exportingBackup = false;
+
+  // ── Help tour anchors ("?" in the app bar) ─────────────────────────────────
+  final GlobalKey _helpSecurityKey = GlobalKey();
+  final GlobalKey _helpPreferencesKey = GlobalKey();
+  final GlobalKey _helpDataKey = GlobalKey();
+  final GlobalKey _helpManageKey = GlobalKey();
+
+  List<HelpStep> _helpSteps() {
+    final l10n = AppLocalizations.of(context);
+    return [
+      HelpStep(
+        targetKey: _helpSecurityKey,
+        title: l10n.helpSettingsSecurityTitle,
+        body: l10n.helpSettingsSecurityBody,
+      ),
+      HelpStep(
+        targetKey: _helpPreferencesKey,
+        title: l10n.helpSettingsPreferencesTitle,
+        body: l10n.helpSettingsPreferencesBody,
+      ),
+      HelpStep(
+        targetKey: _helpDataKey,
+        title: l10n.helpSettingsDataTitle,
+        body: l10n.helpSettingsDataBody,
+      ),
+      HelpStep(
+        targetKey: _helpManageKey,
+        title: l10n.helpSettingsManageTitle,
+        body: l10n.helpSettingsManageBody,
+      ),
+    ];
+  }
 
   Future<void> _exportBackup(AppLocalizations l10n) async {
     if (!mounted) return;
@@ -634,12 +667,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: Text(l10n.settingsTitle),
         backgroundColor: cs.surface,
+        actions: [HelpTourButton(steps: _helpSteps)],
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         children: [
           // ── 1. Security ──────────────────────────────────
-          _SectionLabel(l10n.settingsSectionSecurity),
+          _SectionLabel(l10n.settingsSectionSecurity, key: _helpSecurityKey),
           const SizedBox(height: 8),
           Card(
             margin: EdgeInsets.zero,
@@ -756,7 +790,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(height: 24),
           // ── 2. Preferences ───────────────────────────────
-          _SectionLabel(l10n.settingsSectionPreferences),
+          _SectionLabel(l10n.settingsSectionPreferences,
+              key: _helpPreferencesKey),
           const SizedBox(height: 8),
           currencyCard(
             icon: Icons.home_rounded,
@@ -872,7 +907,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(height: 24),
           // ── 3. Data ──────────────────────────────────────
-          _SectionLabel(l10n.settingsSectionData),
+          _SectionLabel(l10n.settingsSectionData, key: _helpDataKey),
           const SizedBox(height: 8),
           // Auto-backup toggle
           StatefulBuilder(
@@ -1050,7 +1085,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(height: 24),
           // ── 4. Manage ────────────────────────────────────
-          _SectionLabel(l10n.settingsSectionManage),
+          _SectionLabel(l10n.settingsSectionManage, key: _helpManageKey),
           const SizedBox(height: 8),
           currencyCard(
             icon: Icons.label_outline_rounded,
@@ -1946,7 +1981,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
 class _SectionLabel extends StatelessWidget {
   final String title;
-  const _SectionLabel(this.title);
+  const _SectionLabel(this.title, {super.key});
 
   @override
   Widget build(BuildContext context) {

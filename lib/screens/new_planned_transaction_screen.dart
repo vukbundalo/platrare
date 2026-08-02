@@ -15,6 +15,7 @@ import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
 import '../utils/minor_units_amount_formatter.dart';
 import '../utils/projections.dart' as proj;
+import '../help/help_tour.dart';
 
 class NewPlannedTransactionScreen extends StatefulWidget {
   final PlannedTransaction? existing;
@@ -50,6 +51,30 @@ class _NewPlannedTransactionScreenState
   int? _repeatEndAfter;
   bool _forceClose = false;
   List<String> _attachments = [];
+
+  // ── Help tour anchors ("?" in the app bar) ─────────────────────────────────
+  final GlobalKey _helpAccountsKey = GlobalKey();
+  final GlobalKey _helpDateKey = GlobalKey();
+
+  List<HelpStep> _helpSteps() {
+    final l10n = AppLocalizations.of(context);
+    return [
+      HelpStep(
+        targetKey: _helpAccountsKey,
+        title: l10n.helpTxAccountsTitle,
+        body: l10n.helpTxAccountsBody,
+      ),
+      HelpStep(
+        targetKey: _helpDateKey,
+        title: l10n.helpPlannedDateTitle,
+        body: l10n.helpPlannedDateBody,
+      ),
+      HelpStep(
+        title: l10n.helpPlannedProjectionTitle,
+        body: l10n.helpPlannedProjectionBody,
+      ),
+    ];
+  }
 
   bool get _isEdit => widget.existing != null;
 
@@ -342,7 +367,9 @@ class _NewPlannedTransactionScreenState
             ? AppLocalizations.of(context).editPlanTitle
             : AppLocalizations.of(context).planTransactionTitle),
         actions: [
+          HelpTourButton(steps: _helpSteps),
           TextButton.icon(
+            key: _helpDateKey,
             onPressed: _pickDate,
             icon: Icon(Icons.calendar_today_rounded,
                 size: 15, color: cs.primary),
@@ -361,35 +388,45 @@ class _NewPlannedTransactionScreenState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // From account
-                  _AccountPickerTile(
-                    label: AppLocalizations.of(context).labelFrom,
-                    account: _fromAccount,
-                    leadingIcon: Icons.arrow_upward_rounded,
-                    projectedBalance: fromHeadroom,
-                    onTap: () async {
-                      final a = await _showAccountPicker(exclude: _toAccount);
-                      if (a != null) setState(() => _fromAccount = a);
-                    },
-                    onClear: _fromAccount != null
-                        ? () => setState(() => _fromAccount = null)
-                        : null,
-                  ),
-                  const SizedBox(height: 8),
+                  KeyedSubtree(
+                    key: _helpAccountsKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // From account
+                        _AccountPickerTile(
+                          label: AppLocalizations.of(context).labelFrom,
+                          account: _fromAccount,
+                          leadingIcon: Icons.arrow_upward_rounded,
+                          projectedBalance: fromHeadroom,
+                          onTap: () async {
+                            final a =
+                                await _showAccountPicker(exclude: _toAccount);
+                            if (a != null) setState(() => _fromAccount = a);
+                          },
+                          onClear: _fromAccount != null
+                              ? () => setState(() => _fromAccount = null)
+                              : null,
+                        ),
+                        const SizedBox(height: 8),
 
-                  // To account
-                  _AccountPickerTile(
-                    label: AppLocalizations.of(context).labelTo,
-                    account: _toAccount,
-                    leadingIcon: Icons.arrow_downward_rounded,
-                    projectedBalance: toHeadroom,
-                    onTap: () async {
-                      final a = await _showAccountPicker(exclude: _fromAccount);
-                      if (a != null) setState(() => _toAccount = a);
-                    },
-                    onClear: _toAccount != null
-                        ? () => setState(() => _toAccount = null)
-                        : null,
+                        // To account
+                        _AccountPickerTile(
+                          label: AppLocalizations.of(context).labelTo,
+                          account: _toAccount,
+                          leadingIcon: Icons.arrow_downward_rounded,
+                          projectedBalance: toHeadroom,
+                          onTap: () async {
+                            final a =
+                                await _showAccountPicker(exclude: _fromAccount);
+                            if (a != null) setState(() => _toAccount = a);
+                          },
+                          onClear: _toAccount != null
+                              ? () => setState(() => _toAccount = null)
+                              : null,
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 16),
 

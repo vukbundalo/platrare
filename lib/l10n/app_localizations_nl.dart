@@ -1758,4 +1758,166 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get persistenceErrorReloaded =>
       'Kan wijzigingen niet opslaan. Gegevens zijn opnieuw geladen uit de opslag.';
+
+  @override
+  String get helpTooltip => 'Hulp';
+
+  @override
+  String get helpNext => 'Volgende';
+
+  @override
+  String get helpBack => 'Terug';
+
+  @override
+  String get helpDone => 'Klaar';
+
+  @override
+  String get helpSkip => 'Overslaan';
+
+  @override
+  String get helpTrackHeroTitle => 'Totalen en filters';
+
+  @override
+  String get helpTrackHeroBody =>
+      'Deze kaart telt inkomsten en uitgaven op voor de lijst eronder. De chips filteren op rekening, categorie en type; de datumchip wisselt tussen dag, week, maand en jaar; de pijl draait de sortering om.';
+
+  @override
+  String get helpTrackListTitle => 'Je geschiedenis';
+
+  @override
+  String get helpTrackListBody =>
+      'Vastgelegde transacties, gegroepeerd per dag. Tik op een transactie om die te bekijken of te bewerken, en gebruik zoeken om een specifieke invoer te vinden.';
+
+  @override
+  String get helpTrackFabTitle => 'Transactie toevoegen';
+
+  @override
+  String get helpTrackFabBody =>
+      'Leg vast wat er binnenkomt, eruit gaat of tussen je rekeningen wordt overgeboekt.';
+
+  @override
+  String get helpSettingsTitle => 'Instellingen';
+
+  @override
+  String get helpSettingsBody =>
+      'Valuta’s, taal, thema, beveiliging, back-ups en rekeningbeheer vind je hier.';
+
+  @override
+  String get helpPlanHeroTitle => 'Prognose';
+
+  @override
+  String get helpPlanHeroBody =>
+      'Je persoonlijke en netto saldo op de gekozen datum. De chips eronder filteren de geplande transacties.';
+
+  @override
+  String get helpPlanListTitle => 'Geplande transacties';
+
+  @override
+  String get helpPlanListBody =>
+      'Verwachte inkomsten, uitgaven en overboekingen. Tik op een item om het te bewerken; de chips bovenaan filteren deze lijst.';
+
+  @override
+  String get helpPlanFabTitle => 'Plan toevoegen';
+
+  @override
+  String get helpPlanFabBody =>
+      'Plan een verwachte transactie, ook terugkerend.';
+
+  @override
+  String get helpPlanProjectionFabTitle => 'Kijk vooruit';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      'Tik op de wereldbol om een toekomstige datum te kiezen en je verwachte saldi te zien — geplande transacties tot die datum worden meegenomen. Je kunt ook op de datum in de kaart bovenaan tikken.';
+
+  @override
+  String get helpReviewHeroTitle => 'Vermogen';
+
+  @override
+  String get helpReviewHeroBody =>
+      'Je persoonlijke saldo en netto vermogen in één oogopslag. Tik op de bedragen om te wisselen tussen je basis- en tweede valuta.';
+
+  @override
+  String get helpReviewSectionsTitle => 'Secties';
+
+  @override
+  String get helpReviewSectionsBody =>
+      'Veeg naar links en rechts — of tik op de chips — om te wisselen tussen persoonlijke rekeningen, personen, organisaties en statistieken.';
+
+  @override
+  String get helpReviewAccountsTitle => 'Rekeningen';
+
+  @override
+  String get helpReviewAccountsBody =>
+      'Elke kaart toont een rekening en het saldo. Tik erop om de volledige geschiedenis te openen.';
+
+  @override
+  String get helpReviewFabTitle => 'Rekening toevoegen';
+
+  @override
+  String get helpReviewFabBody =>
+      'Maak rekeningen voor contant geld, kaarten en spaargeld, of voor personen en bedrijven die je volgt.';
+
+  @override
+  String get helpSettingsSecurityTitle => 'Beveiliging';
+
+  @override
+  String get helpSettingsSecurityBody =>
+      'Vergrendel de app achter de schermvergrendeling van je toestel en kies hoe snel die opnieuw vergrendelt.';
+
+  @override
+  String get helpSettingsPreferencesTitle => 'Voorkeuren';
+
+  @override
+  String get helpSettingsPreferencesBody =>
+      'Taal, thema, valuta’s en andere dagelijkse opties.';
+
+  @override
+  String get helpSettingsDataTitle => 'Je gegevens';
+
+  @override
+  String get helpSettingsDataBody =>
+      'Exporteer versleutelde back-ups, importeer ze op een ander toestel en stel automatische back-ups in. Je gegevens blijven op dit toestel tenzij je ze exporteert.';
+
+  @override
+  String get helpSettingsManageTitle => 'Beheren';
+
+  @override
+  String get helpSettingsManageBody =>
+      'Bewerk rekeningen en hernoem categorieën — wijzigingen gelden overal in de app.';
+
+  @override
+  String get helpTxAccountsTitle => 'Van en Naar';
+
+  @override
+  String get helpTxAccountsBody =>
+      'Kies waar het geld vandaan komt en waar het naartoe gaat. Alleen Van: uitgave. Alleen Naar: inkomsten. Allebei: een overboeking tussen rekeningen.';
+
+  @override
+  String get helpTxDetailsTitle => 'Bedrag en details';
+
+  @override
+  String get helpTxDetailsBody =>
+      'Voer het bedrag in en voeg een categorie, notitie of bijlage toe zodat je de invoer later makkelijk terugvindt.';
+
+  @override
+  String get helpTxDateTitle => 'Datum';
+
+  @override
+  String get helpTxDateBody =>
+      'Tik hier om de dag van de transactie te wijzigen.';
+
+  @override
+  String get helpPlannedDateTitle => 'Geplande datum';
+
+  @override
+  String get helpPlannedDateBody =>
+      'Tik hier om te kiezen wanneer dit moet gebeuren. Een plan kan zich ook herhalen volgens een schema dat jij kiest.';
+
+  @override
+  String get helpPlannedProjectionTitle => 'Geprognosticeerde saldi';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      'De rekeningkiezers tonen het verwachte saldo van elke rekening op de geplande datum, zodat je ziet welk plan een rekening rood zou laten staan.';
 }

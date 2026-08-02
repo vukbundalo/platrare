@@ -1756,4 +1756,165 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get persistenceErrorReloaded =>
       'Det gick inte att spara ändringarna. Data laddades om från lagringen.';
+
+  @override
+  String get helpTooltip => 'Hjälp';
+
+  @override
+  String get helpNext => 'Nästa';
+
+  @override
+  String get helpBack => 'Tillbaka';
+
+  @override
+  String get helpDone => 'Klar';
+
+  @override
+  String get helpSkip => 'Hoppa över';
+
+  @override
+  String get helpTrackHeroTitle => 'Summor och filter';
+
+  @override
+  String get helpTrackHeroBody =>
+      'Det här kortet summerar pengar in och ut för listan nedanför. Chippen filtrerar på konto, kategori och typ; datumchippet växlar mellan dag, vecka, månad och år; pilen vänder sorteringen.';
+
+  @override
+  String get helpTrackListTitle => 'Din historik';
+
+  @override
+  String get helpTrackListBody =>
+      'Registrerade transaktioner, grupperade per dag. Tryck på en för att visa eller redigera den, och använd sök för att hitta en specifik post.';
+
+  @override
+  String get helpTrackFabTitle => 'Lägg till en transaktion';
+
+  @override
+  String get helpTrackFabBody =>
+      'Registrera pengar som kommer in, går ut eller flyttas mellan dina konton.';
+
+  @override
+  String get helpSettingsTitle => 'Inställningar';
+
+  @override
+  String get helpSettingsBody =>
+      'Valutor, språk, tema, säkerhet, säkerhetskopior och kontohantering finns här.';
+
+  @override
+  String get helpPlanHeroTitle => 'Prognos';
+
+  @override
+  String get helpPlanHeroBody =>
+      'Ditt personliga och ditt nettosaldo på valt datum. Chippen nedanför filtrerar de planerade transaktionerna.';
+
+  @override
+  String get helpPlanListTitle => 'Planerade transaktioner';
+
+  @override
+  String get helpPlanListBody =>
+      'Förväntade inkomster, utgifter och överföringar. Tryck på en post för att redigera den; chippen högst upp filtrerar listan.';
+
+  @override
+  String get helpPlanFabTitle => 'Lägg till en plan';
+
+  @override
+  String get helpPlanFabBody =>
+      'Planera en förväntad transaktion, även återkommande.';
+
+  @override
+  String get helpPlanProjectionFabTitle => 'Blicka framåt';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      'Tryck på jordgloben för att välja ett framtida datum och se beräknade saldon — planerade transaktioner fram till det datumet tillämpas. Du kan också trycka på datumet på kortet ovanför.';
+
+  @override
+  String get helpReviewHeroTitle => 'Nettoförmögenhet';
+
+  @override
+  String get helpReviewHeroBody =>
+      'Ditt personliga saldo och din nettoförmögenhet i en blick. Tryck på beloppen för att växla mellan bas- och sekundärvaluta.';
+
+  @override
+  String get helpReviewSectionsTitle => 'Sektioner';
+
+  @override
+  String get helpReviewSectionsBody =>
+      'Svep åt vänster och höger — eller tryck på chippen — för att växla mellan personliga konton, personer, organisationer och statistik.';
+
+  @override
+  String get helpReviewAccountsTitle => 'Konton';
+
+  @override
+  String get helpReviewAccountsBody =>
+      'Varje kort visar ett konto och dess saldo. Tryck på ett för att öppna hela transaktionshistoriken.';
+
+  @override
+  String get helpReviewFabTitle => 'Lägg till ett konto';
+
+  @override
+  String get helpReviewFabBody =>
+      'Skapa konton för kontanter, kort och sparande, eller för personer och företag du följer.';
+
+  @override
+  String get helpSettingsSecurityTitle => 'Säkerhet';
+
+  @override
+  String get helpSettingsSecurityBody =>
+      'Lås appen bakom enhetens skärmlås och välj hur snabbt den låser sig igen.';
+
+  @override
+  String get helpSettingsPreferencesTitle => 'Preferenser';
+
+  @override
+  String get helpSettingsPreferencesBody =>
+      'Språk, tema, valutor och andra vardagsinställningar.';
+
+  @override
+  String get helpSettingsDataTitle => 'Dina data';
+
+  @override
+  String get helpSettingsDataBody =>
+      'Exportera krypterade säkerhetskopior, importera dem på en annan enhet och justera automatiska kopior. Dina data stannar på den här enheten om du inte exporterar dem.';
+
+  @override
+  String get helpSettingsManageTitle => 'Hantera';
+
+  @override
+  String get helpSettingsManageBody =>
+      'Redigera konton och byt namn på kategorier — ändringarna gäller i hela appen.';
+
+  @override
+  String get helpTxAccountsTitle => 'Från och Till';
+
+  @override
+  String get helpTxAccountsBody =>
+      'Välj varifrån pengarna kommer och vart de går. Bara Från: utgift. Bara Till: inkomst. Båda: en överföring mellan konton.';
+
+  @override
+  String get helpTxDetailsTitle => 'Belopp och detaljer';
+
+  @override
+  String get helpTxDetailsBody =>
+      'Ange beloppet och lägg till kategori, anteckning eller bilaga så att posten är lätt att hitta senare.';
+
+  @override
+  String get helpTxDateTitle => 'Datum';
+
+  @override
+  String get helpTxDateBody => 'Tryck här för att ändra transaktionens dag.';
+
+  @override
+  String get helpPlannedDateTitle => 'Förfallodatum';
+
+  @override
+  String get helpPlannedDateBody =>
+      'Tryck här för att välja när detta ska ske. En plan kan även upprepas enligt ett schema du väljer.';
+
+  @override
+  String get helpPlannedProjectionTitle => 'Beräknade saldon';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      'Kontoväljarna visar varje kontos beräknade saldo på förfallodatumet, så att du ser planer som skulle övertrassera ett konto.';
 }

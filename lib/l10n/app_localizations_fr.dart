@@ -1771,4 +1771,166 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get persistenceErrorReloaded =>
       'Impossible d\'enregistrer les modifications. Les données ont été rechargées depuis le stockage.';
+
+  @override
+  String get helpTooltip => 'Aide';
+
+  @override
+  String get helpNext => 'Suivant';
+
+  @override
+  String get helpBack => 'Retour';
+
+  @override
+  String get helpDone => 'Terminé';
+
+  @override
+  String get helpSkip => 'Passer';
+
+  @override
+  String get helpTrackHeroTitle => 'Totaux et filtres';
+
+  @override
+  String get helpTrackHeroBody =>
+      'Cette carte additionne les entrées et sorties de la liste ci-dessous. Les puces filtrent par compte, catégorie et type ; la puce de date alterne jour, semaine, mois et année ; la flèche inverse le tri.';
+
+  @override
+  String get helpTrackListTitle => 'Votre historique';
+
+  @override
+  String get helpTrackListBody =>
+      'Les transactions enregistrées, groupées par jour. Touchez-en une pour la consulter ou la modifier, et utilisez la recherche pour retrouver une entrée précise.';
+
+  @override
+  String get helpTrackFabTitle => 'Ajouter une transaction';
+
+  @override
+  String get helpTrackFabBody =>
+      'Enregistrez l’argent qui entre, qui sort ou qui circule entre vos comptes.';
+
+  @override
+  String get helpSettingsTitle => 'Réglages';
+
+  @override
+  String get helpSettingsBody =>
+      'Devises, langue, thème, sécurité, sauvegardes et gestion des comptes se trouvent ici.';
+
+  @override
+  String get helpPlanHeroTitle => 'Projection';
+
+  @override
+  String get helpPlanHeroBody =>
+      'Vos soldes personnel et net à la date choisie. Les puces en dessous filtrent les transactions planifiées.';
+
+  @override
+  String get helpPlanListTitle => 'Transactions planifiées';
+
+  @override
+  String get helpPlanListBody =>
+      'Revenus, dépenses et virements à venir. Touchez-en une pour la modifier ; les puces en haut filtrent cette liste.';
+
+  @override
+  String get helpPlanFabTitle => 'Ajouter un plan';
+
+  @override
+  String get helpPlanFabBody =>
+      'Planifiez une transaction prévue, y compris récurrente.';
+
+  @override
+  String get helpPlanProjectionFabTitle => 'Projeter l’avenir';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      'Touchez le globe pour choisir une date future et voir vos soldes projetés — les transactions planifiées jusqu’à cette date sont appliquées. Vous pouvez aussi toucher la date sur la carte en haut.';
+
+  @override
+  String get helpReviewHeroTitle => 'Patrimoine net';
+
+  @override
+  String get helpReviewHeroBody =>
+      'Votre solde personnel et votre patrimoine net en un coup d’œil. Touchez les montants pour basculer entre devise principale et secondaire.';
+
+  @override
+  String get helpReviewSectionsTitle => 'Sections';
+
+  @override
+  String get helpReviewSectionsBody =>
+      'Balayez vers la gauche ou la droite — ou touchez les puces — pour passer des comptes personnels aux personnes, entités et statistiques.';
+
+  @override
+  String get helpReviewAccountsTitle => 'Comptes';
+
+  @override
+  String get helpReviewAccountsBody =>
+      'Chaque carte affiche un compte et son solde. Touchez-la pour ouvrir l’historique complet.';
+
+  @override
+  String get helpReviewFabTitle => 'Ajouter un compte';
+
+  @override
+  String get helpReviewFabBody =>
+      'Créez des comptes pour votre argent liquide, vos cartes et votre épargne, ou pour les personnes et entreprises que vous suivez.';
+
+  @override
+  String get helpSettingsSecurityTitle => 'Sécurité';
+
+  @override
+  String get helpSettingsSecurityBody =>
+      'Verrouillez l’application derrière le verrouillage de votre appareil et choisissez le délai de reverrouillage.';
+
+  @override
+  String get helpSettingsPreferencesTitle => 'Préférences';
+
+  @override
+  String get helpSettingsPreferencesBody =>
+      'Langue, thème, devises et autres options du quotidien.';
+
+  @override
+  String get helpSettingsDataTitle => 'Vos données';
+
+  @override
+  String get helpSettingsDataBody =>
+      'Exportez des sauvegardes chiffrées, importez-les sur un autre appareil et réglez les sauvegardes automatiques. Vos données restent sur cet appareil tant que vous ne les exportez pas.';
+
+  @override
+  String get helpSettingsManageTitle => 'Gérer';
+
+  @override
+  String get helpSettingsManageBody =>
+      'Modifiez les comptes et renommez les catégories : les changements s’appliquent partout dans l’application.';
+
+  @override
+  String get helpTxAccountsTitle => 'De et Vers';
+
+  @override
+  String get helpTxAccountsBody =>
+      'Choisissez d’où vient l’argent et où il va. Seulement De : dépense. Seulement Vers : revenu. Les deux : un virement entre comptes.';
+
+  @override
+  String get helpTxDetailsTitle => 'Montant et détails';
+
+  @override
+  String get helpTxDetailsBody =>
+      'Saisissez le montant, puis ajoutez une catégorie, une note ou une pièce jointe pour retrouver l’entrée facilement.';
+
+  @override
+  String get helpTxDateTitle => 'Date';
+
+  @override
+  String get helpTxDateBody =>
+      'Touchez ici pour changer le jour de la transaction.';
+
+  @override
+  String get helpPlannedDateTitle => 'Date prévue';
+
+  @override
+  String get helpPlannedDateBody =>
+      'Touchez ici pour choisir quand cela doit se produire. Un plan peut aussi se répéter selon le rythme de votre choix.';
+
+  @override
+  String get helpPlannedProjectionTitle => 'Soldes projetés';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      'Les sélecteurs de compte affichent le solde projeté de chaque compte à la date prévue, pour repérer un plan qui mettrait un compte à découvert.';
 }

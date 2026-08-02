@@ -16,6 +16,7 @@ import '../utils/persistence_guard.dart';
 import '../utils/minor_units_amount_formatter.dart';
 import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
+import '../help/help_tour.dart';
 
 class NewTransactionScreen extends StatefulWidget {
   final Transaction? existing;
@@ -41,6 +42,30 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   /// Guards against double-tap on Save: a second tap while the first
   /// persistence await is in flight would apply balances twice.
   bool _isSaving = false;
+
+  // ── Help tour anchors ("?" in the app bar) ─────────────────────────────────
+  final GlobalKey _helpAccountsKey = GlobalKey();
+  final GlobalKey _helpDateKey = GlobalKey();
+
+  List<HelpStep> _helpSteps() {
+    final l10n = AppLocalizations.of(context);
+    return [
+      HelpStep(
+        targetKey: _helpAccountsKey,
+        title: l10n.helpTxAccountsTitle,
+        body: l10n.helpTxAccountsBody,
+      ),
+      HelpStep(
+        title: l10n.helpTxDetailsTitle,
+        body: l10n.helpTxDetailsBody,
+      ),
+      HelpStep(
+        targetKey: _helpDateKey,
+        title: l10n.helpTxDateTitle,
+        body: l10n.helpTxDateBody,
+      ),
+    ];
+  }
 
   bool get _isEdit => widget.existing != null;
 
@@ -350,7 +375,9 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       appBar: AppBar(
         title: Text(_isEdit ? l10n.editTransactionTitle : l10n.newTransactionTitle),
         actions: [
+          HelpTourButton(steps: _helpSteps),
           GestureDetector(
+            key: _helpDateKey,
             onTap: _pickDate,
             child: Container(
               margin: const EdgeInsets.only(right: 16),
@@ -391,37 +418,44 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                   _SectionLabel(AppLocalizations.of(context).sectionAccounts),
                   const SizedBox(height: 8),
 
-                  _AccountTile(
-                    label: AppLocalizations.of(context).labelFrom,
-                    account: _fromAccount,
-                    accentColor: context.ledgerColors.negative,
-                    icon: Icons.arrow_upward_rounded,
-                    onTap: () async {
-                      final a = await _pickAccount(exclude: _toAccount);
-                      if (a != null && mounted) {
-                        setState(() => _fromAccount = a);
-                      }
-                    },
-                    onClear: _fromAccount != null
-                        ? () => setState(() => _fromAccount = null)
-                        : null,
-                  ),
-                  const SizedBox(height: 8),
-
-                  _AccountTile(
-                    label: AppLocalizations.of(context).labelTo,
-                    account: _toAccount,
-                    accentColor: context.ledgerColors.positive,
-                    icon: Icons.arrow_downward_rounded,
-                    onTap: () async {
-                      final a = await _pickAccount(exclude: _fromAccount);
-                      if (a != null && mounted) {
-                        setState(() => _toAccount = a);
-                      }
-                    },
-                    onClear: _toAccount != null
-                        ? () => setState(() => _toAccount = null)
-                        : null,
+                  KeyedSubtree(
+                    key: _helpAccountsKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _AccountTile(
+                          label: AppLocalizations.of(context).labelFrom,
+                          account: _fromAccount,
+                          accentColor: context.ledgerColors.negative,
+                          icon: Icons.arrow_upward_rounded,
+                          onTap: () async {
+                            final a = await _pickAccount(exclude: _toAccount);
+                            if (a != null && mounted) {
+                              setState(() => _fromAccount = a);
+                            }
+                          },
+                          onClear: _fromAccount != null
+                              ? () => setState(() => _fromAccount = null)
+                              : null,
+                        ),
+                        const SizedBox(height: 8),
+                        _AccountTile(
+                          label: AppLocalizations.of(context).labelTo,
+                          account: _toAccount,
+                          accentColor: context.ledgerColors.positive,
+                          icon: Icons.arrow_downward_rounded,
+                          onTap: () async {
+                            final a = await _pickAccount(exclude: _fromAccount);
+                            if (a != null && mounted) {
+                              setState(() => _toAccount = a);
+                            }
+                          },
+                          onClear: _toAccount != null
+                              ? () => setState(() => _toAccount = null)
+                              : null,
+                        ),
+                      ],
+                    ),
                   ),
 
                   const SizedBox(height: 24),

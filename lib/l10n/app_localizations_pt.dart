@@ -1745,6 +1745,167 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get persistenceErrorReloaded =>
       'Couldn’t save changes. Data was reloaded from storage.';
+
+  @override
+  String get helpTooltip => 'Ajuda';
+
+  @override
+  String get helpNext => 'Avançar';
+
+  @override
+  String get helpBack => 'Voltar';
+
+  @override
+  String get helpDone => 'Concluir';
+
+  @override
+  String get helpSkip => 'Pular';
+
+  @override
+  String get helpTrackHeroTitle => 'Totais e filtros';
+
+  @override
+  String get helpTrackHeroBody =>
+      'Este cartão soma entradas e saídas da lista abaixo. Os chips filtram por conta, categoria e tipo; o chip de data alterna dia, semana, mês e ano; a seta inverte a ordenação.';
+
+  @override
+  String get helpTrackListTitle => 'Seu histórico';
+
+  @override
+  String get helpTrackListBody =>
+      'Transações registradas, agrupadas por dia. Toque em uma para ver ou editar, e use a busca para encontrar um lançamento específico.';
+
+  @override
+  String get helpTrackFabTitle => 'Adicionar uma transação';
+
+  @override
+  String get helpTrackFabBody =>
+      'Registre dinheiro entrando, saindo ou sendo movido entre suas contas.';
+
+  @override
+  String get helpSettingsTitle => 'Configurações';
+
+  @override
+  String get helpSettingsBody =>
+      'Moedas, idioma, tema, segurança, backups e gestão de contas ficam aqui.';
+
+  @override
+  String get helpPlanHeroTitle => 'Projeção';
+
+  @override
+  String get helpPlanHeroBody =>
+      'Seu saldo pessoal e líquido na data escolhida. Os chips abaixo filtram as transações planejadas.';
+
+  @override
+  String get helpPlanListTitle => 'Transações planejadas';
+
+  @override
+  String get helpPlanListBody =>
+      'Receitas, despesas e transferências esperadas. Toque em uma para editar; os chips no topo filtram esta lista.';
+
+  @override
+  String get helpPlanFabTitle => 'Adicionar um plano';
+
+  @override
+  String get helpPlanFabBody =>
+      'Agende uma transação esperada, inclusive recorrente.';
+
+  @override
+  String get helpPlanProjectionFabTitle => 'Projete o futuro';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      'Toque no globo para escolher uma data futura e ver os saldos projetados — as transações planejadas até essa data são aplicadas. Você também pode tocar na data no cartão acima.';
+
+  @override
+  String get helpReviewHeroTitle => 'Patrimônio líquido';
+
+  @override
+  String get helpReviewHeroBody =>
+      'Seu saldo pessoal e patrimônio líquido em um relance. Toque nos valores para alternar entre a moeda base e a secundária.';
+
+  @override
+  String get helpReviewSectionsTitle => 'Seções';
+
+  @override
+  String get helpReviewSectionsBody =>
+      'Deslize para os lados — ou toque nos chips — para navegar entre contas pessoais, pessoas, entidades e estatísticas.';
+
+  @override
+  String get helpReviewAccountsTitle => 'Contas';
+
+  @override
+  String get helpReviewAccountsBody =>
+      'Cada cartão mostra uma conta e seu saldo. Toque para abrir o histórico completo de transações.';
+
+  @override
+  String get helpReviewFabTitle => 'Adicionar uma conta';
+
+  @override
+  String get helpReviewFabBody =>
+      'Crie contas para dinheiro, cartões e poupança, ou para pessoas e empresas que você acompanha.';
+
+  @override
+  String get helpSettingsSecurityTitle => 'Segurança';
+
+  @override
+  String get helpSettingsSecurityBody =>
+      'Bloqueie o app com o bloqueio de tela do dispositivo e escolha a rapidez com que ele bloqueia de novo.';
+
+  @override
+  String get helpSettingsPreferencesTitle => 'Preferências';
+
+  @override
+  String get helpSettingsPreferencesBody =>
+      'Idioma, tema, moedas e outras opções do dia a dia.';
+
+  @override
+  String get helpSettingsDataTitle => 'Seus dados';
+
+  @override
+  String get helpSettingsDataBody =>
+      'Exporte backups criptografados, importe-os em outro aparelho e ajuste os backups automáticos. Seus dados ficam neste aparelho, a menos que você os exporte.';
+
+  @override
+  String get helpSettingsManageTitle => 'Gerenciar';
+
+  @override
+  String get helpSettingsManageBody =>
+      'Edite contas e renomeie categorias — as mudanças valem em todo o app.';
+
+  @override
+  String get helpTxAccountsTitle => 'De e Para';
+
+  @override
+  String get helpTxAccountsBody =>
+      'Escolha de onde o dinheiro vem e para onde vai. Só De: saída. Só Para: entrada. Ambos: uma transferência entre contas.';
+
+  @override
+  String get helpTxDetailsTitle => 'Valor e detalhes';
+
+  @override
+  String get helpTxDetailsBody =>
+      'Digite o valor e adicione categoria, nota ou anexo para achar o lançamento com facilidade depois.';
+
+  @override
+  String get helpTxDateTitle => 'Data';
+
+  @override
+  String get helpTxDateBody => 'Toque aqui para mudar o dia da transação.';
+
+  @override
+  String get helpPlannedDateTitle => 'Data prevista';
+
+  @override
+  String get helpPlannedDateBody =>
+      'Toque aqui para escolher quando isso deve acontecer. Um plano também pode se repetir no ritmo que você escolher.';
+
+  @override
+  String get helpPlannedProjectionTitle => 'Saldos projetados';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      'Os seletores de conta mostram o saldo projetado de cada conta na data prevista, para você notar um plano que deixaria uma conta no vermelho.';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -3501,4 +3662,165 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get persistenceErrorReloaded =>
       'Não foi possível salvar as alterações. Os dados foram recarregados do armazenamento.';
+
+  @override
+  String get helpTooltip => 'Ajuda';
+
+  @override
+  String get helpNext => 'Avançar';
+
+  @override
+  String get helpBack => 'Voltar';
+
+  @override
+  String get helpDone => 'Concluir';
+
+  @override
+  String get helpSkip => 'Pular';
+
+  @override
+  String get helpTrackHeroTitle => 'Totais e filtros';
+
+  @override
+  String get helpTrackHeroBody =>
+      'Este cartão soma entradas e saídas da lista abaixo. Os chips filtram por conta, categoria e tipo; o chip de data alterna dia, semana, mês e ano; a seta inverte a ordenação.';
+
+  @override
+  String get helpTrackListTitle => 'Seu histórico';
+
+  @override
+  String get helpTrackListBody =>
+      'Transações registradas, agrupadas por dia. Toque em uma para ver ou editar, e use a busca para encontrar um lançamento específico.';
+
+  @override
+  String get helpTrackFabTitle => 'Adicionar uma transação';
+
+  @override
+  String get helpTrackFabBody =>
+      'Registre dinheiro entrando, saindo ou sendo movido entre suas contas.';
+
+  @override
+  String get helpSettingsTitle => 'Configurações';
+
+  @override
+  String get helpSettingsBody =>
+      'Moedas, idioma, tema, segurança, backups e gestão de contas ficam aqui.';
+
+  @override
+  String get helpPlanHeroTitle => 'Projeção';
+
+  @override
+  String get helpPlanHeroBody =>
+      'Seu saldo pessoal e líquido na data escolhida. Os chips abaixo filtram as transações planejadas.';
+
+  @override
+  String get helpPlanListTitle => 'Transações planejadas';
+
+  @override
+  String get helpPlanListBody =>
+      'Receitas, despesas e transferências esperadas. Toque em uma para editar; os chips no topo filtram esta lista.';
+
+  @override
+  String get helpPlanFabTitle => 'Adicionar um plano';
+
+  @override
+  String get helpPlanFabBody =>
+      'Agende uma transação esperada, inclusive recorrente.';
+
+  @override
+  String get helpPlanProjectionFabTitle => 'Projete o futuro';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      'Toque no globo para escolher uma data futura e ver os saldos projetados — as transações planejadas até essa data são aplicadas. Você também pode tocar na data no cartão acima.';
+
+  @override
+  String get helpReviewHeroTitle => 'Patrimônio líquido';
+
+  @override
+  String get helpReviewHeroBody =>
+      'Seu saldo pessoal e patrimônio líquido em um relance. Toque nos valores para alternar entre a moeda base e a secundária.';
+
+  @override
+  String get helpReviewSectionsTitle => 'Seções';
+
+  @override
+  String get helpReviewSectionsBody =>
+      'Deslize para os lados — ou toque nos chips — para navegar entre contas pessoais, pessoas, entidades e estatísticas.';
+
+  @override
+  String get helpReviewAccountsTitle => 'Contas';
+
+  @override
+  String get helpReviewAccountsBody =>
+      'Cada cartão mostra uma conta e seu saldo. Toque para abrir o histórico completo de transações.';
+
+  @override
+  String get helpReviewFabTitle => 'Adicionar uma conta';
+
+  @override
+  String get helpReviewFabBody =>
+      'Crie contas para dinheiro, cartões e poupança, ou para pessoas e empresas que você acompanha.';
+
+  @override
+  String get helpSettingsSecurityTitle => 'Segurança';
+
+  @override
+  String get helpSettingsSecurityBody =>
+      'Bloqueie o app com o bloqueio de tela do dispositivo e escolha a rapidez com que ele bloqueia de novo.';
+
+  @override
+  String get helpSettingsPreferencesTitle => 'Preferências';
+
+  @override
+  String get helpSettingsPreferencesBody =>
+      'Idioma, tema, moedas e outras opções do dia a dia.';
+
+  @override
+  String get helpSettingsDataTitle => 'Seus dados';
+
+  @override
+  String get helpSettingsDataBody =>
+      'Exporte backups criptografados, importe-os em outro aparelho e ajuste os backups automáticos. Seus dados ficam neste aparelho, a menos que você os exporte.';
+
+  @override
+  String get helpSettingsManageTitle => 'Gerenciar';
+
+  @override
+  String get helpSettingsManageBody =>
+      'Edite contas e renomeie categorias — as mudanças valem em todo o app.';
+
+  @override
+  String get helpTxAccountsTitle => 'De e Para';
+
+  @override
+  String get helpTxAccountsBody =>
+      'Escolha de onde o dinheiro vem e para onde vai. Só De: saída. Só Para: entrada. Ambos: uma transferência entre contas.';
+
+  @override
+  String get helpTxDetailsTitle => 'Valor e detalhes';
+
+  @override
+  String get helpTxDetailsBody =>
+      'Digite o valor e adicione categoria, nota ou anexo para achar o lançamento com facilidade depois.';
+
+  @override
+  String get helpTxDateTitle => 'Data';
+
+  @override
+  String get helpTxDateBody => 'Toque aqui para mudar o dia da transação.';
+
+  @override
+  String get helpPlannedDateTitle => 'Data prevista';
+
+  @override
+  String get helpPlannedDateBody =>
+      'Toque aqui para escolher quando isso deve acontecer. Um plano também pode se repetir no ritmo que você escolher.';
+
+  @override
+  String get helpPlannedProjectionTitle => 'Saldos projetados';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      'Os seletores de conta mostram o saldo projetado de cada conta na data prevista, para você notar um plano que deixaria uma conta no vermelho.';
 }

@@ -1750,4 +1750,165 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get persistenceErrorReloaded =>
       'परिवर्तन सहेजे नहीं जा सके. डेटा को स्टोरेज से पुनः लोड किया गया था।';
+
+  @override
+  String get helpTooltip => 'सहायता';
+
+  @override
+  String get helpNext => 'आगे';
+
+  @override
+  String get helpBack => 'पीछे';
+
+  @override
+  String get helpDone => 'हो गया';
+
+  @override
+  String get helpSkip => 'छोड़ें';
+
+  @override
+  String get helpTrackHeroTitle => 'योग और फ़िल्टर';
+
+  @override
+  String get helpTrackHeroBody =>
+      'यह कार्ड नीचे दी गई सूची के लिए आने-जाने वाला पैसा जोड़ता है। चिप्स खाते, श्रेणी और प्रकार से फ़िल्टर करते हैं; तारीख़ चिप दिन, सप्ताह, महीना और साल बदलती है; तीर क्रम पलट देता है।';
+
+  @override
+  String get helpTrackListTitle => 'आपका इतिहास';
+
+  @override
+  String get helpTrackListBody =>
+      'दर्ज लेन-देन, दिन के अनुसार समूहित। देखने या संपादित करने के लिए किसी पर टैप करें, और किसी ख़ास प्रविष्टि के लिए खोज का उपयोग करें।';
+
+  @override
+  String get helpTrackFabTitle => 'लेन-देन जोड़ें';
+
+  @override
+  String get helpTrackFabBody =>
+      'आने वाला, जाने वाला या आपके खातों के बीच जाने वाला पैसा दर्ज करें।';
+
+  @override
+  String get helpSettingsTitle => 'सेटिंग्स';
+
+  @override
+  String get helpSettingsBody =>
+      'मुद्राएँ, भाषा, थीम, सुरक्षा, बैकअप और खाता प्रबंधन यहाँ हैं।';
+
+  @override
+  String get helpPlanHeroTitle => 'अनुमान';
+
+  @override
+  String get helpPlanHeroBody =>
+      'चुनी गई तारीख़ पर आपका व्यक्तिगत और शुद्ध बैलेंस। नीचे के चिप्स नियोजित लेन-देन को फ़िल्टर करते हैं।';
+
+  @override
+  String get helpPlanListTitle => 'नियोजित लेन-देन';
+
+  @override
+  String get helpPlanListBody =>
+      'अपेक्षित आय, ख़र्च और अंतरण। संपादित करने के लिए किसी पर टैप करें; ऊपर के चिप्स इस सूची को फ़िल्टर करते हैं।';
+
+  @override
+  String get helpPlanFabTitle => 'योजना जोड़ें';
+
+  @override
+  String get helpPlanFabBody =>
+      'अपेक्षित लेन-देन नियोजित करें, दोहराने वाले भी।';
+
+  @override
+  String get helpPlanProjectionFabTitle => 'भविष्य का अनुमान';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      'भविष्य की तारीख़ चुनकर अनुमानित बैलेंस देखने के लिए ग्लोब पर टैप करें — उस तारीख़ तक के नियोजित लेन-देन लागू होते हैं। आप ऊपर कार्ड में तारीख़ पर भी टैप कर सकते हैं।';
+
+  @override
+  String get helpReviewHeroTitle => 'कुल संपत्ति';
+
+  @override
+  String get helpReviewHeroBody =>
+      'आपका व्यक्तिगत बैलेंस और कुल संपत्ति एक नज़र में। मूल और द्वितीयक मुद्रा के बीच बदलने के लिए राशियों पर टैप करें।';
+
+  @override
+  String get helpReviewSectionsTitle => 'अनुभाग';
+
+  @override
+  String get helpReviewSectionsBody =>
+      'व्यक्तिगत खातों, व्यक्तियों, संस्थाओं और आँकड़ों के बीच जाने के लिए बाएँ-दाएँ स्वाइप करें या चिप्स पर टैप करें।';
+
+  @override
+  String get helpReviewAccountsTitle => 'खाते';
+
+  @override
+  String get helpReviewAccountsBody =>
+      'हर कार्ड एक खाता और उसका बैलेंस दिखाता है। पूरा लेन-देन इतिहास खोलने के लिए टैप करें।';
+
+  @override
+  String get helpReviewFabTitle => 'खाता जोड़ें';
+
+  @override
+  String get helpReviewFabBody =>
+      'नक़दी, कार्ड और बचत के लिए, या जिन लोगों और व्यवसायों पर आप नज़र रखते हैं उनके लिए खाते बनाएँ।';
+
+  @override
+  String get helpSettingsSecurityTitle => 'सुरक्षा';
+
+  @override
+  String get helpSettingsSecurityBody =>
+      'ऐप को अपने डिवाइस के स्क्रीन लॉक से लॉक करें और चुनें कि यह कितनी जल्दी फिर लॉक हो।';
+
+  @override
+  String get helpSettingsPreferencesTitle => 'प्राथमिकताएँ';
+
+  @override
+  String get helpSettingsPreferencesBody =>
+      'भाषा, थीम, मुद्राएँ और अन्य रोज़मर्रा के विकल्प।';
+
+  @override
+  String get helpSettingsDataTitle => 'आपका डेटा';
+
+  @override
+  String get helpSettingsDataBody =>
+      'एन्क्रिप्टेड बैकअप निर्यात करें, दूसरे डिवाइस पर आयात करें और स्वचालित बैकअप सेट करें। जब तक आप निर्यात नहीं करते, आपका डेटा इसी डिवाइस पर रहता है।';
+
+  @override
+  String get helpSettingsManageTitle => 'प्रबंधन';
+
+  @override
+  String get helpSettingsManageBody =>
+      'खाते संपादित करें और श्रेणियों के नाम बदलें — बदलाव पूरे ऐप में लागू होते हैं।';
+
+  @override
+  String get helpTxAccountsTitle => 'कहाँ से और कहाँ तक';
+
+  @override
+  String get helpTxAccountsBody =>
+      'चुनें कि पैसा कहाँ से आता है और कहाँ जाता है। केवल \'से\': ख़र्च। केवल \'तक\': आय। दोनों: खातों के बीच अंतरण।';
+
+  @override
+  String get helpTxDetailsTitle => 'राशि और विवरण';
+
+  @override
+  String get helpTxDetailsBody =>
+      'राशि दर्ज करें, फिर श्रेणी, नोट या अनुलग्नक जोड़ें ताकि प्रविष्टि बाद में आसानी से मिले।';
+
+  @override
+  String get helpTxDateTitle => 'तारीख़';
+
+  @override
+  String get helpTxDateBody => 'लेन-देन का दिन बदलने के लिए यहाँ टैप करें।';
+
+  @override
+  String get helpPlannedDateTitle => 'नियत तारीख़';
+
+  @override
+  String get helpPlannedDateBody =>
+      'यह कब होना चाहिए, चुनने के लिए यहाँ टैप करें। योजना आपके चुने शेड्यूल पर दोहराई भी जा सकती है।';
+
+  @override
+  String get helpPlannedProjectionTitle => 'अनुमानित बैलेंस';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      'खाता चयनकर्ता नियत तारीख़ पर हर खाते का अनुमानित बैलेंस दिखाते हैं, ताकि आप ऐसी योजना पकड़ सकें जो खाते को घाटे में ले जाए।';
 }

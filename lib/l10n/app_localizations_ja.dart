@@ -1697,4 +1697,154 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get persistenceErrorReloaded => '変更を保存できませんでした。データがストレージから再ロードされました。';
+
+  @override
+  String get helpTooltip => 'ヘルプ';
+
+  @override
+  String get helpNext => '次へ';
+
+  @override
+  String get helpBack => '戻る';
+
+  @override
+  String get helpDone => '完了';
+
+  @override
+  String get helpSkip => 'スキップ';
+
+  @override
+  String get helpTrackHeroTitle => '合計とフィルター';
+
+  @override
+  String get helpTrackHeroBody =>
+      'このカードは下のリストの入出金を合計します。チップで口座・カテゴリ・種類を絞り込み、日付チップは日・週・月・年を切り替え、矢印は並び順を反転します。';
+
+  @override
+  String get helpTrackListTitle => '履歴';
+
+  @override
+  String get helpTrackListBody =>
+      '記録した取引が日ごとにまとまっています。タップして表示・編集でき、検索で特定の記録を探せます。';
+
+  @override
+  String get helpTrackFabTitle => '取引を追加';
+
+  @override
+  String get helpTrackFabBody => '入金・出金・口座間の移動を記録します。';
+
+  @override
+  String get helpSettingsTitle => '設定';
+
+  @override
+  String get helpSettingsBody => '通貨、言語、テーマ、セキュリティ、バックアップ、口座管理はここにあります。';
+
+  @override
+  String get helpPlanHeroTitle => '予測';
+
+  @override
+  String get helpPlanHeroBody => '選択した日付の個人残高と純残高を表示します。下のチップで計画した取引を絞り込めます。';
+
+  @override
+  String get helpPlanListTitle => '計画した取引';
+
+  @override
+  String get helpPlanListBody =>
+      '予定している収入・支出・振替の一覧です。タップして編集でき、上部のチップでこのリストを絞り込めます。';
+
+  @override
+  String get helpPlanFabTitle => '計画を追加';
+
+  @override
+  String get helpPlanFabBody => '予定の取引を登録します。繰り返しも設定できます。';
+
+  @override
+  String get helpPlanProjectionFabTitle => '将来を予測';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      '地球儀をタップして将来の日付を選ぶと、予測残高が表示されます。その日までの計画した取引が反映されます。上のカードの日付をタップしても同じことができます。';
+
+  @override
+  String get helpReviewHeroTitle => '純資産';
+
+  @override
+  String get helpReviewHeroBody =>
+      '個人残高と純資産をひと目で確認できます。金額をタップすると基本通貨と第二通貨を切り替えられます。';
+
+  @override
+  String get helpReviewSectionsTitle => 'セクション';
+
+  @override
+  String get helpReviewSectionsBody =>
+      '左右にスワイプするかチップをタップして、個人口座・個人・組織・統計を切り替えます。';
+
+  @override
+  String get helpReviewAccountsTitle => '口座';
+
+  @override
+  String get helpReviewAccountsBody => '各カードは口座と残高を表示します。タップすると取引履歴全体が開きます。';
+
+  @override
+  String get helpReviewFabTitle => '口座を追加';
+
+  @override
+  String get helpReviewFabBody => '現金・カード・貯蓄の口座や、管理したい相手や会社の口座を作成できます。';
+
+  @override
+  String get helpSettingsSecurityTitle => 'セキュリティ';
+
+  @override
+  String get helpSettingsSecurityBody => '端末の画面ロックでアプリを保護し、再ロックまでの時間を選べます。';
+
+  @override
+  String get helpSettingsPreferencesTitle => '環境設定';
+
+  @override
+  String get helpSettingsPreferencesBody => '言語、テーマ、通貨などの日常的な設定です。';
+
+  @override
+  String get helpSettingsDataTitle => 'データ';
+
+  @override
+  String get helpSettingsDataBody =>
+      '暗号化バックアップの書き出し、他の端末への読み込み、自動バックアップの調整ができます。書き出さない限りデータはこの端末に留まります。';
+
+  @override
+  String get helpSettingsManageTitle => '管理';
+
+  @override
+  String get helpSettingsManageBody => '口座の編集やカテゴリ名の変更ができます。変更はアプリ全体に反映されます。';
+
+  @override
+  String get helpTxAccountsTitle => '「から」と「へ」';
+
+  @override
+  String get helpTxAccountsBody =>
+      'お金の出所と行き先を選びます。「から」のみ:支出。「へ」のみ:収入。両方:口座間の振替。';
+
+  @override
+  String get helpTxDetailsTitle => '金額と詳細';
+
+  @override
+  String get helpTxDetailsBody => '金額を入力し、カテゴリ・メモ・添付を追加しておくと、後で見つけやすくなります。';
+
+  @override
+  String get helpTxDateTitle => '日付';
+
+  @override
+  String get helpTxDateBody => 'ここをタップして取引の日付を変更します。';
+
+  @override
+  String get helpPlannedDateTitle => '予定日';
+
+  @override
+  String get helpPlannedDateBody => 'ここをタップして実行日を選びます。選んだスケジュールで繰り返すこともできます。';
+
+  @override
+  String get helpPlannedProjectionTitle => '予測残高';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      '口座の選択欄には予定日時点の予測残高が表示されるため、残高不足になる計画に気づけます。';
 }

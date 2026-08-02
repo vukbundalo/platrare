@@ -1758,4 +1758,165 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get persistenceErrorReloaded =>
       'Nie udało się zapisać zmian. Dane zostały ponownie załadowane z magazynu.';
+
+  @override
+  String get helpTooltip => 'Pomoc';
+
+  @override
+  String get helpNext => 'Dalej';
+
+  @override
+  String get helpBack => 'Wstecz';
+
+  @override
+  String get helpDone => 'Gotowe';
+
+  @override
+  String get helpSkip => 'Pomiń';
+
+  @override
+  String get helpTrackHeroTitle => 'Sumy i filtry';
+
+  @override
+  String get helpTrackHeroBody =>
+      'Ta karta sumuje wpływy i wydatki dla listy poniżej. Chipy filtrują według konta, kategorii i typu; chip daty przełącza dzień, tydzień, miesiąc i rok; strzałka odwraca kolejność sortowania.';
+
+  @override
+  String get helpTrackListTitle => 'Twoja historia';
+
+  @override
+  String get helpTrackListBody =>
+      'Zarejestrowane transakcje pogrupowane według dni. Dotknij, aby zobaczyć lub edytować, a wyszukiwarka pomoże znaleźć konkretny wpis.';
+
+  @override
+  String get helpTrackFabTitle => 'Dodaj transakcję';
+
+  @override
+  String get helpTrackFabBody =>
+      'Rejestruj pieniądze przychodzące, wychodzące lub przenoszone między kontami.';
+
+  @override
+  String get helpSettingsTitle => 'Ustawienia';
+
+  @override
+  String get helpSettingsBody =>
+      'Waluty, język, motyw, bezpieczeństwo, kopie zapasowe i zarządzanie kontami znajdziesz tutaj.';
+
+  @override
+  String get helpPlanHeroTitle => 'Prognoza';
+
+  @override
+  String get helpPlanHeroBody =>
+      'Twoje saldo osobiste i netto na wybraną datę. Chipy poniżej filtrują planowane transakcje.';
+
+  @override
+  String get helpPlanListTitle => 'Planowane transakcje';
+
+  @override
+  String get helpPlanListBody =>
+      'Oczekiwane wpływy, wydatki i przelewy. Dotknij pozycji, aby ją edytować; chipy u góry filtrują tę listę.';
+
+  @override
+  String get helpPlanFabTitle => 'Dodaj plan';
+
+  @override
+  String get helpPlanFabBody =>
+      'Zaplanuj spodziewaną transakcję, także cykliczną.';
+
+  @override
+  String get helpPlanProjectionFabTitle => 'Prognozuj przyszłość';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      'Dotknij globusa, aby wybrać przyszłą datę i zobaczyć prognozowane salda — uwzględniane są planowane transakcje do tej daty. Możesz też dotknąć daty na karcie u góry.';
+
+  @override
+  String get helpReviewHeroTitle => 'Wartość netto';
+
+  @override
+  String get helpReviewHeroBody =>
+      'Twoje saldo osobiste i wartość netto w skrócie. Dotknij kwot, aby przełączyć walutę podstawową i dodatkową.';
+
+  @override
+  String get helpReviewSectionsTitle => 'Sekcje';
+
+  @override
+  String get helpReviewSectionsBody =>
+      'Przesuwaj w lewo i w prawo — lub dotykaj chipów — aby przechodzić między kontami osobistymi, osobami, podmiotami i statystykami.';
+
+  @override
+  String get helpReviewAccountsTitle => 'Konta';
+
+  @override
+  String get helpReviewAccountsBody =>
+      'Każda karta pokazuje konto i jego saldo. Dotknij, aby otworzyć pełną historię transakcji.';
+
+  @override
+  String get helpReviewFabTitle => 'Dodaj konto';
+
+  @override
+  String get helpReviewFabBody =>
+      'Twórz konta na gotówkę, karty i oszczędności albo dla osób i firm, które śledzisz.';
+
+  @override
+  String get helpSettingsSecurityTitle => 'Bezpieczeństwo';
+
+  @override
+  String get helpSettingsSecurityBody =>
+      'Zablokuj aplikację blokadą ekranu urządzenia i wybierz, jak szybko blokuje się ponownie.';
+
+  @override
+  String get helpSettingsPreferencesTitle => 'Preferencje';
+
+  @override
+  String get helpSettingsPreferencesBody =>
+      'Język, motyw, waluty i inne codzienne opcje.';
+
+  @override
+  String get helpSettingsDataTitle => 'Twoje dane';
+
+  @override
+  String get helpSettingsDataBody =>
+      'Eksportuj zaszyfrowane kopie zapasowe, importuj je na innym urządzeniu i konfiguruj kopie automatyczne. Twoje dane pozostają na tym urządzeniu, dopóki ich nie wyeksportujesz.';
+
+  @override
+  String get helpSettingsManageTitle => 'Zarządzanie';
+
+  @override
+  String get helpSettingsManageBody =>
+      'Edytuj konta i zmieniaj nazwy kategorii — zmiany obowiązują w całej aplikacji.';
+
+  @override
+  String get helpTxAccountsTitle => 'Z i Do';
+
+  @override
+  String get helpTxAccountsBody =>
+      'Wybierz, skąd pochodzą pieniądze i dokąd trafiają. Tylko Z: wydatek. Tylko Do: wpływ. Oba: przelew między kontami.';
+
+  @override
+  String get helpTxDetailsTitle => 'Kwota i szczegóły';
+
+  @override
+  String get helpTxDetailsBody =>
+      'Wpisz kwotę, a następnie dodaj kategorię, notatkę lub załącznik, aby łatwo odnaleźć wpis później.';
+
+  @override
+  String get helpTxDateTitle => 'Data';
+
+  @override
+  String get helpTxDateBody => 'Dotknij tutaj, aby zmienić dzień transakcji.';
+
+  @override
+  String get helpPlannedDateTitle => 'Termin';
+
+  @override
+  String get helpPlannedDateBody =>
+      'Dotknij tutaj, aby wybrać, kiedy to ma nastąpić. Plan może też powtarzać się według wybranego harmonogramu.';
+
+  @override
+  String get helpPlannedProjectionTitle => 'Prognozowane salda';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      'Wybór kont pokazuje prognozowane saldo każdego konta na dzień terminu, dzięki czemu dostrzeżesz plan, który zdebetowałby konto.';
 }

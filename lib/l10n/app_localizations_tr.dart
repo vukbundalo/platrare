@@ -1754,4 +1754,166 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get persistenceErrorReloaded =>
       'Değişiklikler kaydedilemedi. Veriler depolama alanından yeniden yüklendi.';
+
+  @override
+  String get helpTooltip => 'Yardım';
+
+  @override
+  String get helpNext => 'İleri';
+
+  @override
+  String get helpBack => 'Geri';
+
+  @override
+  String get helpDone => 'Bitti';
+
+  @override
+  String get helpSkip => 'Atla';
+
+  @override
+  String get helpTrackHeroTitle => 'Toplamlar ve filtreler';
+
+  @override
+  String get helpTrackHeroBody =>
+      'Bu kart, alttaki liste için giren ve çıkan parayı toplar. Çipler hesap, kategori ve türe göre filtreler; tarih çipi gün, hafta, ay ve yıl arasında geçiş yapar; ok sıralamayı tersine çevirir.';
+
+  @override
+  String get helpTrackListTitle => 'Geçmişiniz';
+
+  @override
+  String get helpTrackListBody =>
+      'Kaydedilen işlemler günlere göre gruplanır. Görüntülemek veya düzenlemek için bir işleme dokunun; belirli bir kaydı bulmak için aramayı kullanın.';
+
+  @override
+  String get helpTrackFabTitle => 'İşlem ekle';
+
+  @override
+  String get helpTrackFabBody =>
+      'Gelen, giden veya hesaplarınız arasında taşınan parayı kaydedin.';
+
+  @override
+  String get helpSettingsTitle => 'Ayarlar';
+
+  @override
+  String get helpSettingsBody =>
+      'Para birimleri, dil, tema, güvenlik, yedekler ve hesap yönetimi burada.';
+
+  @override
+  String get helpPlanHeroTitle => 'Projeksiyon';
+
+  @override
+  String get helpPlanHeroBody =>
+      'Seçilen tarihteki kişisel ve net bakiyeniz. Alttaki çipler planlanan işlemleri filtreler.';
+
+  @override
+  String get helpPlanListTitle => 'Planlanan işlemler';
+
+  @override
+  String get helpPlanListBody =>
+      'Beklediğiniz gelirler, giderler ve transferler. Düzenlemek için birine dokunun; üstteki çipler bu listeyi filtreler.';
+
+  @override
+  String get helpPlanFabTitle => 'Plan ekle';
+
+  @override
+  String get helpPlanFabBody =>
+      'Beklenen bir işlemi, tekrarlayanlar dahil, planlayın.';
+
+  @override
+  String get helpPlanProjectionFabTitle => 'Geleceği görün';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      'Gelecek bir tarih seçip öngörülen bakiyeleri görmek için küreye dokunun — o tarihe kadarki planlanan işlemler uygulanır. Üstteki karttaki tarihe de dokunabilirsiniz.';
+
+  @override
+  String get helpReviewHeroTitle => 'Net varlık';
+
+  @override
+  String get helpReviewHeroBody =>
+      'Kişisel bakiyeniz ve net varlığınız bir bakışta. Ana ve ikincil para birimi arasında geçiş için tutarlara dokunun.';
+
+  @override
+  String get helpReviewSectionsTitle => 'Bölümler';
+
+  @override
+  String get helpReviewSectionsBody =>
+      'Kişisel hesaplar, kişiler, kuruluşlar ve istatistikler arasında geçmek için sola-sağa kaydırın veya çiplere dokunun.';
+
+  @override
+  String get helpReviewAccountsTitle => 'Hesaplar';
+
+  @override
+  String get helpReviewAccountsBody =>
+      'Her kart bir hesabı ve bakiyesini gösterir. Tüm işlem geçmişini açmak için dokunun.';
+
+  @override
+  String get helpReviewFabTitle => 'Hesap ekle';
+
+  @override
+  String get helpReviewFabBody =>
+      'Nakit, kart ve birikimleriniz için ya da takip ettiğiniz kişi ve işletmeler için hesaplar oluşturun.';
+
+  @override
+  String get helpSettingsSecurityTitle => 'Güvenlik';
+
+  @override
+  String get helpSettingsSecurityBody =>
+      'Uygulamayı cihazınızın ekran kilidiyle kilitleyin ve ne kadar çabuk yeniden kilitleneceğini seçin.';
+
+  @override
+  String get helpSettingsPreferencesTitle => 'Tercihler';
+
+  @override
+  String get helpSettingsPreferencesBody =>
+      'Dil, tema, para birimleri ve diğer günlük seçenekler.';
+
+  @override
+  String get helpSettingsDataTitle => 'Verileriniz';
+
+  @override
+  String get helpSettingsDataBody =>
+      'Şifreli yedekler dışa aktarın, başka bir cihazda içe aktarın ve otomatik yedekleri ayarlayın. Dışa aktarmadığınız sürece verileriniz bu cihazda kalır.';
+
+  @override
+  String get helpSettingsManageTitle => 'Yönetim';
+
+  @override
+  String get helpSettingsManageBody =>
+      'Hesapları düzenleyin ve kategorileri yeniden adlandırın — değişiklikler uygulamanın her yerinde geçerlidir.';
+
+  @override
+  String get helpTxAccountsTitle => 'Nereden ve Nereye';
+
+  @override
+  String get helpTxAccountsBody =>
+      'Paranın nereden gelip nereye gittiğini seçin. Yalnız Nereden: gider. Yalnız Nereye: gelir. İkisi birden: hesaplar arası transfer.';
+
+  @override
+  String get helpTxDetailsTitle => 'Tutar ve ayrıntılar';
+
+  @override
+  String get helpTxDetailsBody =>
+      'Tutarı girin; sonra kaydı kolayca bulmak için kategori, not veya ek ekleyin.';
+
+  @override
+  String get helpTxDateTitle => 'Tarih';
+
+  @override
+  String get helpTxDateBody =>
+      'İşlemin gününü değiştirmek için buraya dokunun.';
+
+  @override
+  String get helpPlannedDateTitle => 'Vade tarihi';
+
+  @override
+  String get helpPlannedDateBody =>
+      'Bunun ne zaman gerçekleşeceğini seçmek için buraya dokunun. Bir plan seçtiğiniz aralıkla tekrarlanabilir.';
+
+  @override
+  String get helpPlannedProjectionTitle => 'Öngörülen bakiyeler';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      'Hesap seçiciler, her hesabın vade tarihindeki öngörülen bakiyesini gösterir; böylece hesabı eksiye düşürecek planları fark edersiniz.';
 }

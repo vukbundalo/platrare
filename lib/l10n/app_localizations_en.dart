@@ -1741,4 +1741,166 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get persistenceErrorReloaded =>
       'Couldn’t save changes. Data was reloaded from storage.';
+
+  @override
+  String get helpTooltip => 'Help';
+
+  @override
+  String get helpNext => 'Next';
+
+  @override
+  String get helpBack => 'Back';
+
+  @override
+  String get helpDone => 'Done';
+
+  @override
+  String get helpSkip => 'Skip';
+
+  @override
+  String get helpTrackHeroTitle => 'Totals and filters';
+
+  @override
+  String get helpTrackHeroBody =>
+      'This card sums money in and out for the list below. The chips filter by account, category, and type; the date chip cycles day, week, month, and year; the arrow flips the sort order.';
+
+  @override
+  String get helpTrackListTitle => 'Your history';
+
+  @override
+  String get helpTrackListBody =>
+      'Recorded transactions, grouped by day. Tap one to view or edit it, and use search to find a specific entry.';
+
+  @override
+  String get helpTrackFabTitle => 'Add a transaction';
+
+  @override
+  String get helpTrackFabBody =>
+      'Record money coming in, going out, or moving between your accounts.';
+
+  @override
+  String get helpSettingsTitle => 'Settings';
+
+  @override
+  String get helpSettingsBody =>
+      'Currencies, language, theme, security, backups, and account management live here.';
+
+  @override
+  String get helpPlanHeroTitle => 'Projection';
+
+  @override
+  String get helpPlanHeroBody =>
+      'Your personal and net balances on the chosen date. The chips below filter the planned transactions.';
+
+  @override
+  String get helpPlanListTitle => 'Planned transactions';
+
+  @override
+  String get helpPlanListBody =>
+      'Upcoming income, expenses, and transfers you expect. Tap one to edit it; the chips at the top filter this list.';
+
+  @override
+  String get helpPlanFabTitle => 'Add a plan';
+
+  @override
+  String get helpPlanFabBody =>
+      'Schedule an expected transaction, including repeating ones.';
+
+  @override
+  String get helpPlanProjectionFabTitle => 'Project the future';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      'Tap the globe to pick a future date and see projected balances — planned transactions up to that date are applied. You can also tap the date on the card above.';
+
+  @override
+  String get helpReviewHeroTitle => 'Net worth';
+
+  @override
+  String get helpReviewHeroBody =>
+      'Your personal balance and net worth at a glance. Tap the amounts to switch between your base and secondary currency.';
+
+  @override
+  String get helpReviewSectionsTitle => 'Sections';
+
+  @override
+  String get helpReviewSectionsBody =>
+      'Swipe left and right — or tap the chips — to move between personal accounts, individuals, entities, and statistics.';
+
+  @override
+  String get helpReviewAccountsTitle => 'Accounts';
+
+  @override
+  String get helpReviewAccountsBody =>
+      'Each card shows an account and its balance. Tap one to open its full transaction history.';
+
+  @override
+  String get helpReviewFabTitle => 'Add an account';
+
+  @override
+  String get helpReviewFabBody =>
+      'Create accounts for your cash, cards, and savings, or for people and businesses you track.';
+
+  @override
+  String get helpSettingsSecurityTitle => 'Security';
+
+  @override
+  String get helpSettingsSecurityBody =>
+      'Lock the app behind your device’s screen lock and choose how quickly it locks again.';
+
+  @override
+  String get helpSettingsPreferencesTitle => 'Preferences';
+
+  @override
+  String get helpSettingsPreferencesBody =>
+      'Language, theme, currencies, and other everyday options.';
+
+  @override
+  String get helpSettingsDataTitle => 'Your data';
+
+  @override
+  String get helpSettingsDataBody =>
+      'Export encrypted backups, import them on another device, and tune automatic backups. Your data stays on this device unless you export it.';
+
+  @override
+  String get helpSettingsManageTitle => 'Manage';
+
+  @override
+  String get helpSettingsManageBody =>
+      'Edit accounts and rename categories — changes apply everywhere in the app.';
+
+  @override
+  String get helpTxAccountsTitle => 'From and To';
+
+  @override
+  String get helpTxAccountsBody =>
+      'Pick where the money comes from and where it goes. Only From: money out. Only To: money in. Both: a transfer between accounts.';
+
+  @override
+  String get helpTxDetailsTitle => 'Amount and details';
+
+  @override
+  String get helpTxDetailsBody =>
+      'Enter the amount, then add a category, note, or attachment so the entry is easy to find later.';
+
+  @override
+  String get helpTxDateTitle => 'Date';
+
+  @override
+  String get helpTxDateBody =>
+      'Tap here to change the day this transaction happened.';
+
+  @override
+  String get helpPlannedDateTitle => 'Due date';
+
+  @override
+  String get helpPlannedDateBody =>
+      'Tap here to pick when this should happen. A plan can also repeat on a schedule you choose.';
+
+  @override
+  String get helpPlannedProjectionTitle => 'Projected balances';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      'The account pickers show each account’s projected balance on the due date, so you can spot a plan that would overdraw an account.';
 }

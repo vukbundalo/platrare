@@ -1768,4 +1768,165 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get persistenceErrorReloaded =>
       'Не удалось сохранить изменения. Данные были перезагружены из хранилища.';
+
+  @override
+  String get helpTooltip => 'Справка';
+
+  @override
+  String get helpNext => 'Далее';
+
+  @override
+  String get helpBack => 'Назад';
+
+  @override
+  String get helpDone => 'Готово';
+
+  @override
+  String get helpSkip => 'Пропустить';
+
+  @override
+  String get helpTrackHeroTitle => 'Итоги и фильтры';
+
+  @override
+  String get helpTrackHeroBody =>
+      'Эта карточка суммирует поступления и расходы по списку ниже. Чипы фильтруют по счёту, категории и типу; чип даты переключает день, неделю, месяц и год; стрелка меняет порядок сортировки.';
+
+  @override
+  String get helpTrackListTitle => 'Ваша история';
+
+  @override
+  String get helpTrackListBody =>
+      'Записанные операции, сгруппированные по дням. Нажмите на операцию, чтобы посмотреть или изменить её, а поиск поможет найти нужную запись.';
+
+  @override
+  String get helpTrackFabTitle => 'Добавить операцию';
+
+  @override
+  String get helpTrackFabBody =>
+      'Записывайте поступления, расходы и переводы между вашими счетами.';
+
+  @override
+  String get helpSettingsTitle => 'Настройки';
+
+  @override
+  String get helpSettingsBody =>
+      'Валюты, язык, тема, безопасность, резервные копии и управление счетами — всё здесь.';
+
+  @override
+  String get helpPlanHeroTitle => 'Прогноз';
+
+  @override
+  String get helpPlanHeroBody =>
+      'Ваш личный и чистый баланс на выбранную дату. Чипы ниже фильтруют запланированные операции.';
+
+  @override
+  String get helpPlanListTitle => 'Запланированные операции';
+
+  @override
+  String get helpPlanListBody =>
+      'Ожидаемые доходы, расходы и переводы. Нажмите на запись, чтобы изменить её; чипы сверху фильтруют список.';
+
+  @override
+  String get helpPlanFabTitle => 'Добавить план';
+
+  @override
+  String get helpPlanFabBody =>
+      'Запланируйте ожидаемую операцию, в том числе повторяющуюся.';
+
+  @override
+  String get helpPlanProjectionFabTitle => 'Прогноз на будущее';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      'Нажмите на глобус, чтобы выбрать будущую дату и увидеть прогнозные балансы — учитываются запланированные операции до этой даты. Можно также нажать на дату в карточке сверху.';
+
+  @override
+  String get helpReviewHeroTitle => 'Капитал';
+
+  @override
+  String get helpReviewHeroBody =>
+      'Ваш личный баланс и чистый капитал одним взглядом. Нажмите на суммы, чтобы переключиться между основной и дополнительной валютой.';
+
+  @override
+  String get helpReviewSectionsTitle => 'Разделы';
+
+  @override
+  String get helpReviewSectionsBody =>
+      'Листайте влево и вправо — или нажимайте чипы — чтобы переходить между личными счетами, людьми, организациями и статистикой.';
+
+  @override
+  String get helpReviewAccountsTitle => 'Счета';
+
+  @override
+  String get helpReviewAccountsBody =>
+      'Каждая карточка показывает счёт и его баланс. Нажмите, чтобы открыть полную историю операций.';
+
+  @override
+  String get helpReviewFabTitle => 'Добавить счёт';
+
+  @override
+  String get helpReviewFabBody =>
+      'Создавайте счета для наличных, карт и сбережений, а также для людей и организаций, которые вы отслеживаете.';
+
+  @override
+  String get helpSettingsSecurityTitle => 'Безопасность';
+
+  @override
+  String get helpSettingsSecurityBody =>
+      'Заблокируйте приложение блокировкой экрана устройства и выберите, как быстро оно блокируется снова.';
+
+  @override
+  String get helpSettingsPreferencesTitle => 'Предпочтения';
+
+  @override
+  String get helpSettingsPreferencesBody =>
+      'Язык, тема, валюты и другие повседневные настройки.';
+
+  @override
+  String get helpSettingsDataTitle => 'Ваши данные';
+
+  @override
+  String get helpSettingsDataBody =>
+      'Экспортируйте зашифрованные резервные копии, импортируйте их на другом устройстве и настраивайте автокопии. Данные не покидают это устройство, пока вы их не экспортируете.';
+
+  @override
+  String get helpSettingsManageTitle => 'Управление';
+
+  @override
+  String get helpSettingsManageBody =>
+      'Изменяйте счета и переименовывайте категории — изменения действуют во всём приложении.';
+
+  @override
+  String get helpTxAccountsTitle => 'Откуда и Куда';
+
+  @override
+  String get helpTxAccountsBody =>
+      'Выберите, откуда приходят деньги и куда уходят. Только Откуда — расход. Только Куда — доход. Оба — перевод между счетами.';
+
+  @override
+  String get helpTxDetailsTitle => 'Сумма и детали';
+
+  @override
+  String get helpTxDetailsBody =>
+      'Введите сумму, затем добавьте категорию, заметку или вложение, чтобы запись было легко найти.';
+
+  @override
+  String get helpTxDateTitle => 'Дата';
+
+  @override
+  String get helpTxDateBody => 'Нажмите здесь, чтобы изменить день операции.';
+
+  @override
+  String get helpPlannedDateTitle => 'Срок';
+
+  @override
+  String get helpPlannedDateBody =>
+      'Нажмите здесь, чтобы выбрать, когда это должно произойти. План может повторяться по выбранному расписанию.';
+
+  @override
+  String get helpPlannedProjectionTitle => 'Прогнозные балансы';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      'Выбор счетов показывает прогнозный баланс каждого счёта на дату срока — так видно план, который уведёт счёт в минус.';
 }

@@ -1700,4 +1700,159 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get persistenceErrorReloaded =>
       '변경사항을 저장할 수 없습니다. 데이터가 저장소에서 다시 로드되었습니다.';
+
+  @override
+  String get helpTooltip => '도움말';
+
+  @override
+  String get helpNext => '다음';
+
+  @override
+  String get helpBack => '뒤로';
+
+  @override
+  String get helpDone => '완료';
+
+  @override
+  String get helpSkip => '건너뛰기';
+
+  @override
+  String get helpTrackHeroTitle => '합계와 필터';
+
+  @override
+  String get helpTrackHeroBody =>
+      '이 카드는 아래 목록의 수입과 지출을 합산합니다. 칩으로 계좌·카테고리·유형을 필터링하고, 날짜 칩은 일·주·월·년을 전환하며, 화살표는 정렬 순서를 뒤집습니다.';
+
+  @override
+  String get helpTrackListTitle => '기록';
+
+  @override
+  String get helpTrackListBody =>
+      '기록된 거래가 날짜별로 묶여 있습니다. 탭하여 보거나 수정하고, 검색으로 특정 항목을 찾으세요.';
+
+  @override
+  String get helpTrackFabTitle => '거래 추가';
+
+  @override
+  String get helpTrackFabBody => '들어오는 돈, 나가는 돈, 계좌 간 이동을 기록하세요.';
+
+  @override
+  String get helpSettingsTitle => '설정';
+
+  @override
+  String get helpSettingsBody => '통화, 언어, 테마, 보안, 백업, 계좌 관리가 모두 여기에 있습니다.';
+
+  @override
+  String get helpPlanHeroTitle => '예측';
+
+  @override
+  String get helpPlanHeroBody =>
+      '선택한 날짜의 개인 잔액과 순 잔액입니다. 아래 칩으로 계획된 거래를 필터링할 수 있습니다.';
+
+  @override
+  String get helpPlanListTitle => '계획된 거래';
+
+  @override
+  String get helpPlanListBody =>
+      '예상되는 수입·지출·이체 목록입니다. 탭하여 수정하고, 상단의 칩으로 목록을 필터링하세요.';
+
+  @override
+  String get helpPlanFabTitle => '계획 추가';
+
+  @override
+  String get helpPlanFabBody => '예정된 거래를 등록하세요. 반복도 설정할 수 있습니다.';
+
+  @override
+  String get helpPlanProjectionFabTitle => '미래 예측';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      '지구본을 탭해 미래 날짜를 선택하면 예측 잔액이 표시됩니다. 그 날짜까지의 계획된 거래가 반영됩니다. 위 카드의 날짜를 탭해도 됩니다.';
+
+  @override
+  String get helpReviewHeroTitle => '순자산';
+
+  @override
+  String get helpReviewHeroBody =>
+      '개인 잔액과 순자산을 한눈에 봅니다. 금액을 탭하면 기본 통화와 보조 통화가 전환됩니다.';
+
+  @override
+  String get helpReviewSectionsTitle => '섹션';
+
+  @override
+  String get helpReviewSectionsBody =>
+      '좌우로 스와이프하거나 칩을 탭해 개인 계좌·개인·기관·통계 사이를 이동하세요.';
+
+  @override
+  String get helpReviewAccountsTitle => '계좌';
+
+  @override
+  String get helpReviewAccountsBody =>
+      '각 카드는 계좌와 잔액을 보여줍니다. 탭하면 전체 거래 내역이 열립니다.';
+
+  @override
+  String get helpReviewFabTitle => '계좌 추가';
+
+  @override
+  String get helpReviewFabBody => '현금·카드·저축 계좌나, 관리하고 싶은 사람과 회사의 계좌를 만드세요.';
+
+  @override
+  String get helpSettingsSecurityTitle => '보안';
+
+  @override
+  String get helpSettingsSecurityBody =>
+      '기기의 화면 잠금으로 앱을 잠그고, 다시 잠기는 속도를 선택하세요.';
+
+  @override
+  String get helpSettingsPreferencesTitle => '환경설정';
+
+  @override
+  String get helpSettingsPreferencesBody => '언어, 테마, 통화 등 일상적인 옵션입니다.';
+
+  @override
+  String get helpSettingsDataTitle => '내 데이터';
+
+  @override
+  String get helpSettingsDataBody =>
+      '암호화된 백업을 내보내고, 다른 기기에서 가져오고, 자동 백업을 조정하세요. 내보내지 않는 한 데이터는 이 기기에만 저장됩니다.';
+
+  @override
+  String get helpSettingsManageTitle => '관리';
+
+  @override
+  String get helpSettingsManageBody =>
+      '계좌를 수정하고 카테고리 이름을 바꾸세요. 변경 사항은 앱 전체에 적용됩니다.';
+
+  @override
+  String get helpTxAccountsTitle => '보내는 곳과 받는 곳';
+
+  @override
+  String get helpTxAccountsBody =>
+      '돈이 어디에서 와서 어디로 가는지 선택하세요. 보내는 곳만: 지출. 받는 곳만: 수입. 둘 다: 계좌 간 이체.';
+
+  @override
+  String get helpTxDetailsTitle => '금액과 세부 정보';
+
+  @override
+  String get helpTxDetailsBody => '금액을 입력한 뒤 카테고리·메모·첨부를 더하면 나중에 찾기 쉽습니다.';
+
+  @override
+  String get helpTxDateTitle => '날짜';
+
+  @override
+  String get helpTxDateBody => '여기를 탭해 거래 날짜를 변경하세요.';
+
+  @override
+  String get helpPlannedDateTitle => '예정일';
+
+  @override
+  String get helpPlannedDateBody =>
+      '여기를 탭해 실행 시점을 선택하세요. 원하는 일정으로 반복할 수도 있습니다.';
+
+  @override
+  String get helpPlannedProjectionTitle => '예측 잔액';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      '계좌 선택기에는 예정일 기준 예측 잔액이 표시되어, 계좌를 마이너스로 만들 계획을 미리 알 수 있습니다.';
 }

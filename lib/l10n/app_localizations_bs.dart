@@ -1755,4 +1755,166 @@ class AppLocalizationsBs extends AppLocalizations {
   @override
   String get persistenceErrorReloaded =>
       'Nije moguće sačuvati promjene. Podaci su ponovo učitani iz skladišta.';
+
+  @override
+  String get helpTooltip => 'Pomoć';
+
+  @override
+  String get helpNext => 'Dalje';
+
+  @override
+  String get helpBack => 'Nazad';
+
+  @override
+  String get helpDone => 'Gotovo';
+
+  @override
+  String get helpSkip => 'Preskoči';
+
+  @override
+  String get helpTrackHeroTitle => 'Zbirovi i filteri';
+
+  @override
+  String get helpTrackHeroBody =>
+      'Ova kartica sabira prilive i odlive za listu ispod. Čipovi filtriraju po računu, kategoriji i tipu; čip datuma mijenja dan, sedmicu, mjesec i godinu; strelica obrće redoslijed sortiranja.';
+
+  @override
+  String get helpTrackListTitle => 'Vaša historija';
+
+  @override
+  String get helpTrackListBody =>
+      'Zabilježene transakcije, grupisane po danima. Dodirnite neku da je pogledate ili izmijenite, a pretragom pronađite određeni unos.';
+
+  @override
+  String get helpTrackFabTitle => 'Dodaj transakciju';
+
+  @override
+  String get helpTrackFabBody =>
+      'Zabilježite novac koji stiže, odlazi ili se prebacuje između vaših računa.';
+
+  @override
+  String get helpSettingsTitle => 'Postavke';
+
+  @override
+  String get helpSettingsBody =>
+      'Valute, jezik, tema, sigurnost, rezervne kopije i upravljanje računima nalaze se ovdje.';
+
+  @override
+  String get helpPlanHeroTitle => 'Projekcija';
+
+  @override
+  String get helpPlanHeroBody =>
+      'Vaš lični i neto saldo na izabrani datum. Čipovi ispod filtriraju planirane transakcije.';
+
+  @override
+  String get helpPlanListTitle => 'Planirane transakcije';
+
+  @override
+  String get helpPlanListBody =>
+      'Očekivani prihodi, troškovi i transferi. Dodirnite stavku da je izmijenite; čipovi na vrhu filtriraju ovu listu.';
+
+  @override
+  String get helpPlanFabTitle => 'Dodaj plan';
+
+  @override
+  String get helpPlanFabBody =>
+      'Zakažite očekivanu transakciju, uključujući i ponavljajuće.';
+
+  @override
+  String get helpPlanProjectionFabTitle => 'Pogled u budućnost';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      'Dodirnite globus da izaberete budući datum i vidite projektovana stanja — primjenjuju se planirane transakcije do tog datuma. Možete i dodirnuti datum na kartici iznad.';
+
+  @override
+  String get helpReviewHeroTitle => 'Neto vrijednost';
+
+  @override
+  String get helpReviewHeroBody =>
+      'Vaš lični saldo i neto vrijednost na prvi pogled. Dodirnite iznose da promijenite osnovnu i sekundarnu valutu.';
+
+  @override
+  String get helpReviewSectionsTitle => 'Sekcije';
+
+  @override
+  String get helpReviewSectionsBody =>
+      'Prevlačite lijevo i desno — ili dodirujte čipove — da se krećete između ličnih računa, osoba, entiteta i statistike.';
+
+  @override
+  String get helpReviewAccountsTitle => 'Računi';
+
+  @override
+  String get helpReviewAccountsBody =>
+      'Svaka kartica prikazuje račun i njegov saldo. Dodirnite je da otvorite cijelu historiju transakcija.';
+
+  @override
+  String get helpReviewFabTitle => 'Dodaj račun';
+
+  @override
+  String get helpReviewFabBody =>
+      'Napravite račune za gotovinu, kartice i štednju, ili za osobe i firme koje pratite.';
+
+  @override
+  String get helpSettingsSecurityTitle => 'Sigurnost';
+
+  @override
+  String get helpSettingsSecurityBody =>
+      'Zaključajte aplikaciju zaključavanjem ekrana uređaja i izaberite koliko brzo se ponovo zaključava.';
+
+  @override
+  String get helpSettingsPreferencesTitle => 'Postavke';
+
+  @override
+  String get helpSettingsPreferencesBody =>
+      'Jezik, tema, valute i druge svakodnevne opcije.';
+
+  @override
+  String get helpSettingsDataTitle => 'Vaši podaci';
+
+  @override
+  String get helpSettingsDataBody =>
+      'Izvezite šifrovane rezervne kopije, uvezite ih na drugom uređaju i podesite automatske kopije. Podaci ostaju na ovom uređaju dok ih ne izvezete.';
+
+  @override
+  String get helpSettingsManageTitle => 'Upravljanje';
+
+  @override
+  String get helpSettingsManageBody =>
+      'Izmijenite račune i preimenujte kategorije — promjene važe svuda u aplikaciji.';
+
+  @override
+  String get helpTxAccountsTitle => 'Sa i Na';
+
+  @override
+  String get helpTxAccountsBody =>
+      'Izaberite odakle novac dolazi i kuda ide. Samo Sa: trošak. Samo Na: prihod. Oba: transfer između računa.';
+
+  @override
+  String get helpTxDetailsTitle => 'Iznos i detalji';
+
+  @override
+  String get helpTxDetailsBody =>
+      'Unesite iznos, zatim dodajte kategoriju, bilješku ili prilog da biste unos kasnije lako pronašli.';
+
+  @override
+  String get helpTxDateTitle => 'Datum';
+
+  @override
+  String get helpTxDateBody =>
+      'Dodirnite ovdje da promijenite dan transakcije.';
+
+  @override
+  String get helpPlannedDateTitle => 'Datum dospijeća';
+
+  @override
+  String get helpPlannedDateBody =>
+      'Dodirnite ovdje da izaberete kada ovo treba da se desi. Plan se može i ponavljati po rasporedu koji izaberete.';
+
+  @override
+  String get helpPlannedProjectionTitle => 'Projektovana stanja';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      'Birači računa prikazuju projektovano stanje svakog računa na datum dospijeća, pa lako uočite plan koji bi račun odveo u minus.';
 }

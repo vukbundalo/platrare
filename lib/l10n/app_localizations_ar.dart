@@ -1746,4 +1746,164 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get persistenceErrorReloaded =>
       'تعذر حفظ التغييرات. تم إعادة تحميل البيانات من التخزين.';
+
+  @override
+  String get helpTooltip => 'مساعدة';
+
+  @override
+  String get helpNext => 'التالي';
+
+  @override
+  String get helpBack => 'رجوع';
+
+  @override
+  String get helpDone => 'تم';
+
+  @override
+  String get helpSkip => 'تخطي';
+
+  @override
+  String get helpTrackHeroTitle => 'الإجماليات والمرشحات';
+
+  @override
+  String get helpTrackHeroBody =>
+      'تجمع هذه البطاقة الأموال الداخلة والخارجة للقائمة أدناه. ترشّح الشرائح حسب الحساب والفئة والنوع؛ وتبدّل شريحة التاريخ بين اليوم والأسبوع والشهر والسنة؛ ويعكس السهم ترتيب الفرز.';
+
+  @override
+  String get helpTrackListTitle => 'سجلّك';
+
+  @override
+  String get helpTrackListBody =>
+      'المعاملات المسجّلة مجمّعة حسب اليوم. انقر على معاملة لعرضها أو تعديلها، واستخدم البحث للعثور على قيد معيّن.';
+
+  @override
+  String get helpTrackFabTitle => 'إضافة معاملة';
+
+  @override
+  String get helpTrackFabBody =>
+      'سجّل الأموال الداخلة أو الخارجة أو المنقولة بين حساباتك.';
+
+  @override
+  String get helpSettingsTitle => 'الإعدادات';
+
+  @override
+  String get helpSettingsBody =>
+      'العملات واللغة والمظهر والأمان والنسخ الاحتياطي وإدارة الحسابات كلها هنا.';
+
+  @override
+  String get helpPlanHeroTitle => 'التوقّع';
+
+  @override
+  String get helpPlanHeroBody =>
+      'رصيدك الشخصي والصافي في التاريخ المحدد. ترشّح الشرائح أدناه المعاملات المخططة.';
+
+  @override
+  String get helpPlanListTitle => 'المعاملات المخططة';
+
+  @override
+  String get helpPlanListBody =>
+      'الدخل والمصروفات والتحويلات المتوقعة. انقر على عنصر لتعديله؛ وترشّح الشرائح في الأعلى هذه القائمة.';
+
+  @override
+  String get helpPlanFabTitle => 'إضافة خطة';
+
+  @override
+  String get helpPlanFabBody => 'جدولة معاملة متوقعة، بما في ذلك المتكررة.';
+
+  @override
+  String get helpPlanProjectionFabTitle => 'استشراف المستقبل';
+
+  @override
+  String get helpPlanProjectionFabBody =>
+      'انقر على الكرة الأرضية لاختيار تاريخ مستقبلي ورؤية الأرصدة المتوقعة — تُطبَّق المعاملات المخططة حتى ذلك التاريخ. يمكنك أيضًا النقر على التاريخ في البطاقة أعلاه.';
+
+  @override
+  String get helpReviewHeroTitle => 'صافي الثروة';
+
+  @override
+  String get helpReviewHeroBody =>
+      'رصيدك الشخصي وصافي ثروتك بنظرة واحدة. انقر على المبالغ للتبديل بين عملتك الأساسية والثانوية.';
+
+  @override
+  String get helpReviewSectionsTitle => 'الأقسام';
+
+  @override
+  String get helpReviewSectionsBody =>
+      'اسحب يمينًا ويسارًا — أو انقر على الشرائح — للتنقل بين الحسابات الشخصية والأفراد والكيانات والإحصاءات.';
+
+  @override
+  String get helpReviewAccountsTitle => 'الحسابات';
+
+  @override
+  String get helpReviewAccountsBody =>
+      'تعرض كل بطاقة حسابًا ورصيده. انقر عليها لفتح سجل المعاملات الكامل.';
+
+  @override
+  String get helpReviewFabTitle => 'إضافة حساب';
+
+  @override
+  String get helpReviewFabBody =>
+      'أنشئ حسابات للنقد والبطاقات والمدخرات، أو للأشخاص والشركات التي تتابعها.';
+
+  @override
+  String get helpSettingsSecurityTitle => 'الأمان';
+
+  @override
+  String get helpSettingsSecurityBody =>
+      'اقفل التطبيق خلف قفل شاشة جهازك واختر سرعة إعادة القفل.';
+
+  @override
+  String get helpSettingsPreferencesTitle => 'التفضيلات';
+
+  @override
+  String get helpSettingsPreferencesBody =>
+      'اللغة والمظهر والعملات وخيارات يومية أخرى.';
+
+  @override
+  String get helpSettingsDataTitle => 'بياناتك';
+
+  @override
+  String get helpSettingsDataBody =>
+      'صدّر نسخًا احتياطية مشفّرة، واستوردها على جهاز آخر، واضبط النسخ التلقائي. تبقى بياناتك على هذا الجهاز ما لم تصدّرها.';
+
+  @override
+  String get helpSettingsManageTitle => 'الإدارة';
+
+  @override
+  String get helpSettingsManageBody =>
+      'عدّل الحسابات وأعد تسمية الفئات — تسري التغييرات في التطبيق كله.';
+
+  @override
+  String get helpTxAccountsTitle => 'من وإلى';
+
+  @override
+  String get helpTxAccountsBody =>
+      'اختر من أين يأتي المال وإلى أين يذهب. «من» فقط: مصروف. «إلى» فقط: دخل. كلاهما: تحويل بين الحسابات.';
+
+  @override
+  String get helpTxDetailsTitle => 'المبلغ والتفاصيل';
+
+  @override
+  String get helpTxDetailsBody =>
+      'أدخل المبلغ ثم أضف فئة أو ملاحظة أو مرفقًا ليسهل العثور على القيد لاحقًا.';
+
+  @override
+  String get helpTxDateTitle => 'التاريخ';
+
+  @override
+  String get helpTxDateBody => 'انقر هنا لتغيير يوم المعاملة.';
+
+  @override
+  String get helpPlannedDateTitle => 'تاريخ الاستحقاق';
+
+  @override
+  String get helpPlannedDateBody =>
+      'انقر هنا لاختيار موعد حدوث ذلك. يمكن للخطة أيضًا أن تتكرر وفق جدول تختاره.';
+
+  @override
+  String get helpPlannedProjectionTitle => 'الأرصدة المتوقعة';
+
+  @override
+  String get helpPlannedProjectionBody =>
+      'يعرض مُنتقيا الحسابات الرصيد المتوقع لكل حساب في تاريخ الاستحقاق، لتلاحظ أي خطة قد تجعل الحساب سالبًا.';
 }

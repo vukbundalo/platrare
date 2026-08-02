@@ -20,6 +20,7 @@ import '../utils/persistence_guard.dart';
 import '../utils/projections.dart' as proj;
 import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
+import '../help/help_tour.dart';
 import 'new_planned_transaction_screen.dart';
 import 'review_screen.dart';
 import 'settings_screen.dart';
@@ -78,6 +79,38 @@ class _PlanScreenState extends State<PlanScreen> {
   int _planVisibleDaySlots = kLazyDayInitialCount;
   int? _planLazyListSig;
   bool _showPlanScrollToTopFab = false;
+
+  // ── Help tour anchors ("?" in the app bar) ─────────────────────────────────
+  final GlobalKey _helpHeroKey = GlobalKey();
+  final GlobalKey _helpFabKey = GlobalKey();
+  final GlobalKey _helpProjectionFabKey = GlobalKey();
+
+  List<HelpStep> _helpSteps() {
+    final l10n = AppLocalizations.of(context);
+    return [
+      HelpStep(
+        targetKey: _helpHeroKey,
+        title: l10n.helpPlanHeroTitle,
+        body: l10n.helpPlanHeroBody,
+      ),
+      HelpStep(
+        title: l10n.helpPlanListTitle,
+        body: l10n.helpPlanListBody,
+      ),
+      // Skipped automatically while the projection FAB is hidden (no
+      // accounts / planned rows yet).
+      HelpStep(
+        targetKey: _helpProjectionFabKey,
+        title: l10n.helpPlanProjectionFabTitle,
+        body: l10n.helpPlanProjectionFabBody,
+      ),
+      HelpStep(
+        targetKey: _helpFabKey,
+        title: l10n.helpPlanFabTitle,
+        body: l10n.helpPlanFabBody,
+      ),
+    ];
+  }
 
   bool get _hasActiveFilter =>
       _typeFilter != null ||
@@ -941,12 +974,14 @@ class _PlanScreenState extends State<PlanScreen> {
           displayPlanned.isNotEmpty || showPlanResetFab || hasPlanned;
       if (showPlanAddFab) {
         final addFab = FloatingActionButton(
+          key: _helpFabKey,
           heroTag: 'plan_fab_add',
           onPressed: _addPlanned,
           child: const Icon(Icons.add_rounded),
         );
         final projectionDateFab = planHeroInteractive
             ? FloatingActionButton.small(
+                key: _helpProjectionFabKey,
                 heroTag: 'plan_fab_projection_date',
                 tooltip: l10n.fabPickProjectionDate,
                 onPressed: _pickSnapshotDate,
@@ -1007,6 +1042,7 @@ class _PlanScreenState extends State<PlanScreen> {
             surfaceTintColor: Colors.transparent,
             scrolledUnderElevation: 0,
             title: Text(AppLocalizations.of(context).navPlan),
+            leading: HelpTourButton(steps: _helpSteps),
             actions: [
               IconButton(
                 icon: const Icon(Icons.settings_outlined),
@@ -1027,6 +1063,7 @@ class _PlanScreenState extends State<PlanScreen> {
             pinned: true,
             delegate: HeroPinnedDelegate(
               child: _ProjectionHero(
+                key: _helpHeroKey,
                 personal: snapshotPersonal,
                 net: snapshotNet,
                 snapshotDate: _snapshotDate,
@@ -1252,6 +1289,7 @@ class _ProjectionHero extends StatelessWidget {
   final VoidCallback onToggleSort;
 
   const _ProjectionHero({
+    super.key,
     required this.personal,
     required this.net,
     required this.snapshotDate,

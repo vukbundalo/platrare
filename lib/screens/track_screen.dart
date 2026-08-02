@@ -18,6 +18,7 @@ import '../utils/persistence_guard.dart';
 import '../utils/projections.dart' as proj;
 import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
+import '../help/help_tour.dart';
 import 'new_transaction_screen.dart';
 import 'review_screen.dart' show AccountFormSheet;
 import 'settings_screen.dart';
@@ -72,6 +73,36 @@ class _TrackScreenState extends State<TrackScreen> {
 
   /// Small FAB above main FAB when list is scrolled down.
   bool _showScrollToTopFab = false;
+
+  // ── Help tour anchors ("?" in the app bar) ─────────────────────────────────
+  final GlobalKey _helpHeroKey = GlobalKey();
+  final GlobalKey _helpFabKey = GlobalKey();
+  final GlobalKey _helpSettingsKey = GlobalKey();
+
+  List<HelpStep> _helpSteps() {
+    final l10n = AppLocalizations.of(context);
+    return [
+      HelpStep(
+        targetKey: _helpHeroKey,
+        title: l10n.helpTrackHeroTitle,
+        body: l10n.helpTrackHeroBody,
+      ),
+      HelpStep(
+        title: l10n.helpTrackListTitle,
+        body: l10n.helpTrackListBody,
+      ),
+      HelpStep(
+        targetKey: _helpFabKey,
+        title: l10n.helpTrackFabTitle,
+        body: l10n.helpTrackFabBody,
+      ),
+      HelpStep(
+        targetKey: _helpSettingsKey,
+        title: l10n.helpSettingsTitle,
+        body: l10n.helpSettingsBody,
+      ),
+    ];
+  }
 
   bool get _hasActiveFilter =>
       _typeFilter != null ||
@@ -585,6 +616,7 @@ class _TrackScreenState extends State<TrackScreen> {
                         ),
                         const SizedBox(width: 12),
                         FloatingActionButton(
+                          key: _helpFabKey,
                           heroTag: 'track_fab_add',
                           onPressed: _openNewTransaction,
                           child: const Icon(Icons.add_rounded),
@@ -592,6 +624,7 @@ class _TrackScreenState extends State<TrackScreen> {
                       ],
                     )
                   : FloatingActionButton(
+                      key: _helpFabKey,
                       heroTag: 'track_fab_add',
                       onPressed: _openNewTransaction,
                       child: const Icon(Icons.add_rounded),
@@ -616,8 +649,10 @@ class _TrackScreenState extends State<TrackScreen> {
           surfaceTintColor: Colors.transparent,
           scrolledUnderElevation: 0,
           title: Text(AppLocalizations.of(context).navTrack),
+          leading: HelpTourButton(steps: _helpSteps),
           actions: [
             IconButton(
+              key: _helpSettingsKey,
               icon: const Icon(Icons.settings_outlined),
               tooltip: AppLocalizations.of(context).tooltipSettings,
               onPressed: () async {
@@ -635,6 +670,7 @@ class _TrackScreenState extends State<TrackScreen> {
           pinned: true,
           delegate: HeroPinnedDelegate(
             child: _TrackHero(
+              key: _helpHeroKey,
               totalIn: 0,
               totalOut: 0,
               accountPanelOpen: _accountStripOpen,
@@ -792,8 +828,10 @@ class _TrackScreenState extends State<TrackScreen> {
           surfaceTintColor: Colors.transparent,
           scrolledUnderElevation: 0,
           title: Text(AppLocalizations.of(context).navTrack),
+          leading: HelpTourButton(steps: _helpSteps),
           actions: [
             IconButton(
+              key: _helpSettingsKey,
               icon: const Icon(Icons.settings_outlined),
               tooltip: AppLocalizations.of(context).tooltipSettings,
               onPressed: () async {
@@ -811,6 +849,7 @@ class _TrackScreenState extends State<TrackScreen> {
           pinned: true,
           delegate: HeroPinnedDelegate(
             child: _TrackHero(
+              key: _helpHeroKey,
               totalIn: totals.totalIn,
               totalOut: totals.totalOut,
               accountPanelOpen: _accountStripOpen,
@@ -974,6 +1013,7 @@ class _TrackHero extends StatelessWidget {
   final String filterChipsDisabledSemantics;
 
   const _TrackHero({
+    super.key,
     required this.totalIn,
     required this.totalOut,
     required this.accountPanelOpen,

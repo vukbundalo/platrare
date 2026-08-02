@@ -3149,6 +3149,288 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn’t save changes. Data was reloaded from storage.'**
   String get persistenceErrorReloaded;
+
+  /// No description provided for @helpTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get helpTooltip;
+
+  /// No description provided for @helpNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get helpNext;
+
+  /// No description provided for @helpBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get helpBack;
+
+  /// No description provided for @helpDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get helpDone;
+
+  /// No description provided for @helpSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get helpSkip;
+
+  /// No description provided for @helpTrackHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Totals and filters'**
+  String get helpTrackHeroTitle;
+
+  /// No description provided for @helpTrackHeroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This card sums money in and out for the list below. The chips filter by account, category, and type; the date chip cycles day, week, month, and year; the arrow flips the sort order.'**
+  String get helpTrackHeroBody;
+
+  /// No description provided for @helpTrackListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your history'**
+  String get helpTrackListTitle;
+
+  /// No description provided for @helpTrackListBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded transactions, grouped by day. Tap one to view or edit it, and use search to find a specific entry.'**
+  String get helpTrackListBody;
+
+  /// No description provided for @helpTrackFabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a transaction'**
+  String get helpTrackFabTitle;
+
+  /// No description provided for @helpTrackFabBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Record money coming in, going out, or moving between your accounts.'**
+  String get helpTrackFabBody;
+
+  /// No description provided for @helpSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get helpSettingsTitle;
+
+  /// No description provided for @helpSettingsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Currencies, language, theme, security, backups, and account management live here.'**
+  String get helpSettingsBody;
+
+  /// No description provided for @helpPlanHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Projection'**
+  String get helpPlanHeroTitle;
+
+  /// No description provided for @helpPlanHeroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your personal and net balances on the chosen date. The chips below filter the planned transactions.'**
+  String get helpPlanHeroBody;
+
+  /// No description provided for @helpPlanListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned transactions'**
+  String get helpPlanListTitle;
+
+  /// No description provided for @helpPlanListBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming income, expenses, and transfers you expect. Tap one to edit it; the chips at the top filter this list.'**
+  String get helpPlanListBody;
+
+  /// No description provided for @helpPlanFabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a plan'**
+  String get helpPlanFabTitle;
+
+  /// No description provided for @helpPlanFabBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule an expected transaction, including repeating ones.'**
+  String get helpPlanFabBody;
+
+  /// No description provided for @helpPlanProjectionFabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Project the future'**
+  String get helpPlanProjectionFabTitle;
+
+  /// No description provided for @helpPlanProjectionFabBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the globe to pick a future date and see projected balances — planned transactions up to that date are applied. You can also tap the date on the card above.'**
+  String get helpPlanProjectionFabBody;
+
+  /// No description provided for @helpReviewHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Net worth'**
+  String get helpReviewHeroTitle;
+
+  /// No description provided for @helpReviewHeroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your personal balance and net worth at a glance. Tap the amounts to switch between your base and secondary currency.'**
+  String get helpReviewHeroBody;
+
+  /// No description provided for @helpReviewSectionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sections'**
+  String get helpReviewSectionsTitle;
+
+  /// No description provided for @helpReviewSectionsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe left and right — or tap the chips — to move between personal accounts, individuals, entities, and statistics.'**
+  String get helpReviewSectionsBody;
+
+  /// No description provided for @helpReviewAccountsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get helpReviewAccountsTitle;
+
+  /// No description provided for @helpReviewAccountsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Each card shows an account and its balance. Tap one to open its full transaction history.'**
+  String get helpReviewAccountsBody;
+
+  /// No description provided for @helpReviewFabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an account'**
+  String get helpReviewFabTitle;
+
+  /// No description provided for @helpReviewFabBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Create accounts for your cash, cards, and savings, or for people and businesses you track.'**
+  String get helpReviewFabBody;
+
+  /// No description provided for @helpSettingsSecurityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get helpSettingsSecurityTitle;
+
+  /// No description provided for @helpSettingsSecurityBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock the app behind your device’s screen lock and choose how quickly it locks again.'**
+  String get helpSettingsSecurityBody;
+
+  /// No description provided for @helpSettingsPreferencesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get helpSettingsPreferencesTitle;
+
+  /// No description provided for @helpSettingsPreferencesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Language, theme, currencies, and other everyday options.'**
+  String get helpSettingsPreferencesBody;
+
+  /// No description provided for @helpSettingsDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data'**
+  String get helpSettingsDataTitle;
+
+  /// No description provided for @helpSettingsDataBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Export encrypted backups, import them on another device, and tune automatic backups. Your data stays on this device unless you export it.'**
+  String get helpSettingsDataBody;
+
+  /// No description provided for @helpSettingsManageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage'**
+  String get helpSettingsManageTitle;
+
+  /// No description provided for @helpSettingsManageBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit accounts and rename categories — changes apply everywhere in the app.'**
+  String get helpSettingsManageBody;
+
+  /// No description provided for @helpTxAccountsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'From and To'**
+  String get helpTxAccountsTitle;
+
+  /// No description provided for @helpTxAccountsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick where the money comes from and where it goes. Only From: money out. Only To: money in. Both: a transfer between accounts.'**
+  String get helpTxAccountsBody;
+
+  /// No description provided for @helpTxDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount and details'**
+  String get helpTxDetailsTitle;
+
+  /// No description provided for @helpTxDetailsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the amount, then add a category, note, or attachment so the entry is easy to find later.'**
+  String get helpTxDetailsBody;
+
+  /// No description provided for @helpTxDateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get helpTxDateTitle;
+
+  /// No description provided for @helpTxDateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap here to change the day this transaction happened.'**
+  String get helpTxDateBody;
+
+  /// No description provided for @helpPlannedDateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Due date'**
+  String get helpPlannedDateTitle;
+
+  /// No description provided for @helpPlannedDateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap here to pick when this should happen. A plan can also repeat on a schedule you choose.'**
+  String get helpPlannedDateBody;
+
+  /// No description provided for @helpPlannedProjectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Projected balances'**
+  String get helpPlannedProjectionTitle;
+
+  /// No description provided for @helpPlannedProjectionBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The account pickers show each account’s projected balance on the due date, so you can spot a plan that would overdraw an account.'**
+  String get helpPlannedProjectionBody;
 }
 
 class _AppLocalizationsDelegate
