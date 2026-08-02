@@ -136,7 +136,9 @@ class PlannedTransaction {
   final String? fromAccountId;
   final String? toAccountId;
 
-  final String? category;
+  /// Denormalized category label; mutable so a category rename can relabel
+  /// plans in memory in lockstep with the SQLite bulk update.
+  String? category;
   final String? description;
   final DateTime date;
   final TxType? txType;

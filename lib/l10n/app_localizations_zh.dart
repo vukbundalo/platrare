@@ -1063,6 +1063,33 @@ class AppLocalizationsZh extends AppLocalizations {
   String get categoryAdd => 'Add';
 
   @override
+  String get editCategoryTitle => 'Edit Category';
+
+  @override
+  String get categorySave => 'Save';
+
+  @override
+  String get categoryRenameAction => 'Rename';
+
+  @override
+  String get categoryDuplicateName =>
+      'A category with this name already exists.';
+
+  @override
+  String get categoryInUseTitle => 'Category in use';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transactions',
+      one: '1 transaction',
+    );
+    return '\"$category\" is used by $_temp0. It can\'t be deleted, but it can be renamed — all linked transactions update automatically.';
+  }
+
+  @override
   String get searchCurrencies => 'Search currencies…';
 
   @override
@@ -2737,6 +2764,26 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get categoryAdd => '添加';
+
+  @override
+  String get editCategoryTitle => '编辑类别';
+
+  @override
+  String get categorySave => '保存';
+
+  @override
+  String get categoryRenameAction => '重命名';
+
+  @override
+  String get categoryDuplicateName => '已存在同名类别。';
+
+  @override
+  String get categoryInUseTitle => '类别正在使用中';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    return '“$category”正在被 $count 笔交易使用。无法删除，但可以重命名——所有关联交易将自动更新。';
+  }
 
   @override
   String get searchCurrencies => '搜索货币...';

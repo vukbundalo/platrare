@@ -1068,6 +1068,34 @@ class AppLocalizationsAr extends AppLocalizations {
   String get categoryAdd => 'يضيف';
 
   @override
+  String get editCategoryTitle => 'تعديل الفئة';
+
+  @override
+  String get categorySave => 'حفظ';
+
+  @override
+  String get categoryRenameAction => 'إعادة تسمية';
+
+  @override
+  String get categoryDuplicateName => 'توجد فئة بهذا الاسم بالفعل.';
+
+  @override
+  String get categoryInUseTitle => 'الفئة قيد الاستخدام';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count معاملة',
+      few: '$count معاملات',
+      two: 'معاملتين',
+      one: 'معاملة واحدة',
+    );
+    return 'الفئة \"$category\" مستخدمة في $_temp0. لا يمكن حذفها، لكن يمكن إعادة تسميتها — وسيتم تحديث جميع المعاملات المرتبطة تلقائيًا.';
+  }
+
+  @override
   String get searchCurrencies => 'بحث عن العملات...';
 
   @override

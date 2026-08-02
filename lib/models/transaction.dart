@@ -34,7 +34,10 @@ class Transaction {
   // ── Core fields ───────────────────────────────────────────────────────────
   final Account? fromAccount;
   final Account? toAccount;
-  final String? category;
+
+  /// Denormalized category label; mutable so a category rename can relabel
+  /// history in memory in lockstep with the SQLite bulk update.
+  String? category;
   final String? description;
   final DateTime date;
   final TxType? txType;

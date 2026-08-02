@@ -1073,6 +1073,33 @@ class AppLocalizationsIt extends AppLocalizations {
   String get categoryAdd => 'Aggiungere';
 
   @override
+  String get editCategoryTitle => 'Modifica categoria';
+
+  @override
+  String get categorySave => 'Salva';
+
+  @override
+  String get categoryRenameAction => 'Rinomina';
+
+  @override
+  String get categoryDuplicateName =>
+      'Esiste già una categoria con questo nome.';
+
+  @override
+  String get categoryInUseTitle => 'Categoria in uso';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transazioni',
+      one: '1 transazione',
+    );
+    return '\"$category\" è usata da $_temp0. Non può essere eliminata, ma può essere rinominata: tutte le transazioni collegate verranno aggiornate automaticamente.';
+  }
+
+  @override
   String get searchCurrencies => 'Cerca valute…';
 
   @override

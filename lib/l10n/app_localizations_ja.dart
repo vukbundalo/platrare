@@ -1041,6 +1041,26 @@ class AppLocalizationsJa extends AppLocalizations {
   String get categoryAdd => '追加';
 
   @override
+  String get editCategoryTitle => 'カテゴリーを編集';
+
+  @override
+  String get categorySave => '保存';
+
+  @override
+  String get categoryRenameAction => '名前を変更';
+
+  @override
+  String get categoryDuplicateName => '同じ名前のカテゴリーが既に存在します。';
+
+  @override
+  String get categoryInUseTitle => '使用中のカテゴリー';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    return '「$category」は$count件の取引で使用されています。削除できませんが、名前の変更は可能です。変更すると関連するすべての取引に自動的に反映されます。';
+  }
+
+  @override
   String get searchCurrencies => '通貨を検索…';
 
   @override

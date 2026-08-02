@@ -1698,17 +1698,23 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
-  void _addCategory(List<String> targetList) async {
-    final controller = TextEditingController();
+  /// Name-input dialog shared by add and edit flows. Returns the trimmed
+  /// non-empty name, or null when cancelled.
+  Future<String?> _promptCategoryName({
+    required String title,
+    required String confirmLabel,
+    String initial = '',
+  }) async {
+    final controller = TextEditingController(text: initial);
     try {
-      final result = await showDialog<String>(
+      return await showDialog<String>(
         context: context,
         builder: (ctx) {
           final l = AppLocalizations.of(ctx);
           return AlertDialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20)),
-            title: Text(l.newCategoryTitle),
+            title: Text(title),
             content: TextField(
               controller: controller,
               autofocus: true,
@@ -1727,32 +1733,84 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   final v = controller.text.trim();
                   Navigator.pop(ctx, v.isEmpty ? null : v);
                 },
-                child: Text(l.categoryAdd),
+                child: Text(confirmLabel),
               ),
             ],
           );
         },
       );
-      if (result != null && !targetList.contains(result)) {
-        if (!mounted) return;
-        if (!await guardPersist(
-          context,
-          () => DataRepository.addCategory(
-            result,
-            income: identical(targetList, data.incomeCategories),
-          ),
-        )) {
-          if (mounted) setState(() {});
-          return;
-        }
-        if (mounted) setState(() {});
-      }
     } finally {
       controller.dispose();
     }
   }
 
-  void _deleteCategory(String category, List<String> targetList) {
+  void _showDuplicateNameSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(AppLocalizations.of(context).categoryDuplicateName),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+    );
+  }
+
+  void _addCategory(List<String> targetList) async {
+    final l = AppLocalizations.of(context);
+    final income = identical(targetList, data.incomeCategories);
+    final result = await _promptCategoryName(
+      title: l.newCategoryTitle,
+      confirmLabel: l.categoryAdd,
+    );
+    if (result == null || !mounted) return;
+    if (DataRepository.categoryNameExists(result, income: income)) {
+      _showDuplicateNameSnackBar();
+      return;
+    }
+    await guardPersist(
+      context,
+      () => DataRepository.addCategory(result, income: income),
+    );
+    if (mounted) setState(() {});
+  }
+
+  void _editCategory(String category, List<String> targetList) async {
+    final l = AppLocalizations.of(context);
+    final income = identical(targetList, data.incomeCategories);
+    // Prefill with the localized label the user sees; saving it unchanged for
+    // a default category simply pins that translation as the stored name.
+    final result = await _promptCategoryName(
+      title: l.editCategoryTitle,
+      confirmLabel: l.categorySave,
+      initial: l10nCategoryName(context, category),
+    );
+    if (result == null || result == category || !mounted) return;
+    if (DataRepository.categoryNameExists(result,
+        income: income, exclude: category)) {
+      _showDuplicateNameSnackBar();
+      return;
+    }
+    await guardPersist(
+      context,
+      () => DataRepository.renameCategory(category, result, income: income),
+    );
+    if (mounted) setState(() {});
+  }
+
+  void _deleteCategory(String category, List<String> targetList) async {
+    final income = identical(targetList, data.incomeCategories);
+    // A category referenced by history or plans can't be deleted — renaming
+    // keeps every linked record consistent instead.
+    late final int usage;
+    try {
+      usage = await DataRepository.categoryUsageCount(category, income: income);
+    } catch (_) {
+      return;
+    }
+    if (!mounted) return;
+    if (usage > 0) {
+      _showCategoryInUseDialog(category, targetList, usage);
+      return;
+    }
     showDialog(
       context: context,
       builder: (ctx) {
@@ -1775,7 +1833,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   context,
                   () => DataRepository.removeCategory(
                     category,
-                    income: identical(targetList, data.incomeCategories),
+                    income: income,
                   ),
                 )) {
                   if (mounted) setState(() {});
@@ -1788,6 +1846,39 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 foregroundColor: Theme.of(ctx).colorScheme.onError,
               ),
               child: Text(l.delete),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showCategoryInUseDialog(
+    String category,
+    List<String> targetList,
+    int usage,
+  ) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        final l = AppLocalizations.of(ctx);
+        final displayName = l10nCategoryName(ctx, category);
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)),
+          title: Text(l.categoryInUseTitle),
+          content: Text(l.categoryInUseBody(displayName, usage)),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(l.cancel),
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                _editCategory(category, targetList);
+              },
+              child: Text(l.categoryRenameAction),
             ),
           ],
         );
@@ -1822,6 +1913,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     color: lc.positive,
                     categories: data.incomeCategories,
                     onAdd: () => _addCategory(data.incomeCategories),
+                    onEdit: (c) => _editCategory(c, data.incomeCategories),
                     onDelete: (c) =>
                         _deleteCategory(c, data.incomeCategories),
                   ),
@@ -1836,6 +1928,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     color: lc.negative,
                     categories: data.expenseCategories,
                     onAdd: () => _addCategory(data.expenseCategories),
+                    onEdit: (c) => _editCategory(c, data.expenseCategories),
                     onDelete: (c) =>
                         _deleteCategory(c, data.expenseCategories),
                   ),
@@ -2004,6 +2097,7 @@ class _SubSection extends StatelessWidget {
   final Color color;
   final List<String> categories;
   final VoidCallback onAdd;
+  final void Function(String) onEdit;
   final void Function(String) onDelete;
 
   const _SubSection({
@@ -2012,6 +2106,7 @@ class _SubSection extends StatelessWidget {
     required this.color,
     required this.categories,
     required this.onAdd,
+    required this.onEdit,
     required this.onDelete,
   });
 
@@ -2035,11 +2130,12 @@ class _SubSection extends StatelessWidget {
           runSpacing: 6,
           children: [
             ...categories.map(
-              (cat) => Chip(
+              (cat) => InputChip(
                 label: Text(
                   l10nCategoryName(context, cat),
                   style: const TextStyle(fontSize: 12),
                 ),
+                onPressed: () => onEdit(cat),
                 onDeleted: () => onDelete(cat),
                 deleteIcon: const Icon(Icons.close_rounded, size: 13),
                 visualDensity: VisualDensity.compact,

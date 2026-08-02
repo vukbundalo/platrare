@@ -1071,6 +1071,32 @@ class AppLocalizationsTr extends AppLocalizations {
   String get categoryAdd => 'Eklemek';
 
   @override
+  String get editCategoryTitle => 'Kategoriyi Düzenle';
+
+  @override
+  String get categorySave => 'Kaydet';
+
+  @override
+  String get categoryRenameAction => 'Yeniden Adlandır';
+
+  @override
+  String get categoryDuplicateName => 'Bu ada sahip bir kategori zaten var.';
+
+  @override
+  String get categoryInUseTitle => 'Kategori kullanımda';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count işlemde',
+      one: '1 işlemde',
+    );
+    return '\"$category\" $_temp0 kullanılıyor. Silinemez, ancak yeniden adlandırılabilir — bağlantılı tüm işlemler otomatik olarak güncellenir.';
+  }
+
+  @override
   String get searchCurrencies => 'Para birimlerini arayın…';
 
   @override

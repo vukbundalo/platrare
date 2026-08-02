@@ -336,6 +336,12 @@
   "categoryIncome": "Prihod",
   "categoryExpense": "Rashod",
   "categoryAdd": "Dodaj",
+  "editCategoryTitle": "Uredi kategoriju",
+  "categorySave": "Sačuvaj",
+  "categoryRenameAction": "Preimenuj",
+  "categoryDuplicateName": "Kategorija sa ovim nazivom već postoji.",
+  "categoryInUseTitle": "Kategorija je u upotrebi",
+  "categoryInUseBody": "Kategoriju \"{category}\" {count, plural, one{koristi {count} transakcija} few{koriste {count} transakcije} other{koristi {count} transakcija}}. Ne može se obrisati, ali se može preimenovati — sve povezane transakcije biće automatski ažurirane.",
   "searchCurrencies": "Pretraži valute\u2026",
 
   "period1M": "1M",

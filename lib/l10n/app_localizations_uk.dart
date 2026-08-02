@@ -1073,6 +1073,34 @@ class AppLocalizationsUk extends AppLocalizations {
   String get categoryAdd => 'Додати';
 
   @override
+  String get editCategoryTitle => 'Редагувати категорію';
+
+  @override
+  String get categorySave => 'Зберегти';
+
+  @override
+  String get categoryRenameAction => 'Перейменувати';
+
+  @override
+  String get categoryDuplicateName => 'Категорія з такою назвою вже існує.';
+
+  @override
+  String get categoryInUseTitle => 'Категорія використовується';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count транзакціях',
+      many: '$count транзакціях',
+      few: '$count транзакціях',
+      one: '$count транзакції',
+    );
+    return '«$category» використовується в $_temp0. Її не можна видалити, але можна перейменувати — усі пов\'язані транзакції оновляться автоматично.';
+  }
+
+  @override
   String get searchCurrencies => 'Пошук валют…';
 
   @override

@@ -435,6 +435,18 @@
   "categoryIncome": "Income",
   "categoryExpense": "Expense",
   "categoryAdd": "Add",
+  "editCategoryTitle": "Edit Category",
+  "categorySave": "Save",
+  "categoryRenameAction": "Rename",
+  "categoryDuplicateName": "A category with this name already exists.",
+  "categoryInUseTitle": "Category in use",
+  "categoryInUseBody": "\"{category}\" is used by {count, plural, =1{1 transaction} other{{count} transactions}}. It can't be deleted, but it can be renamed — all linked transactions update automatically.",
+  "@categoryInUseBody": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "count": {"type": "num"}
+    }
+  },
   "searchCurrencies": "Search currencies\u2026",
 
   "period1M": "1M",

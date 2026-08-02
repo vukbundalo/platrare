@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/account.dart';
+// CategoryList / categoryListFor live in models/account.dart (next to TxType)
+// so non-UI layers can use them; re-exported here for existing importers.
+export '../models/account.dart' show CategoryList, categoryListFor;
 import '../theme/ledger_colors.dart';
 import 'fx.dart' as fx;
 
@@ -53,23 +56,3 @@ String txAmountDisplay(TxType t, double nativeAmount,
   };
 }
 
-/// Which category list to show for a given [TxType], or null to hide.
-enum CategoryList { income, expense }
-
-/// Cash or receivable/payable moves involving non-personal accounts can be
-/// tagged with a category. [TxType.transfer] (personal → personal) stays
-/// uncategorized — pure internal moves.
-CategoryList? categoryListFor(TxType t) => switch (t) {
-      TxType.income ||
-      TxType.invoice ||
-      TxType.collection ||
-      TxType.loan =>
-        CategoryList.income,
-      TxType.expense ||
-      TxType.bill ||
-      TxType.advance ||
-      TxType.settlement ||
-      TxType.offset =>
-        CategoryList.expense,
-      TxType.transfer => null,
-    };

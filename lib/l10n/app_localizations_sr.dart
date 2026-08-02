@@ -1072,6 +1072,33 @@ class AppLocalizationsSr extends AppLocalizations {
   String get categoryAdd => 'Dodaj';
 
   @override
+  String get editCategoryTitle => 'Uredi kategoriju';
+
+  @override
+  String get categorySave => 'Sačuvaj';
+
+  @override
+  String get categoryRenameAction => 'Preimenuj';
+
+  @override
+  String get categoryDuplicateName => 'Kategorija sa ovim nazivom već postoji.';
+
+  @override
+  String get categoryInUseTitle => 'Kategorija je u upotrebi';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'koristi $count transakcija',
+      few: 'koriste $count transakcije',
+      one: 'koristi $count transakcija',
+    );
+    return 'Kategoriju \"$category\" $_temp0. Ne može se obrisati, ali se može preimenovati — sve povezane transakcije biće automatski ažurirane.';
+  }
+
+  @override
   String get searchCurrencies => 'Pretraži valute…';
 
   @override
@@ -2801,6 +2828,33 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
   String get categoryAdd => 'Додај';
 
   @override
+  String get editCategoryTitle => 'Уреди категорију';
+
+  @override
+  String get categorySave => 'Сачувај';
+
+  @override
+  String get categoryRenameAction => 'Преименуј';
+
+  @override
+  String get categoryDuplicateName => 'Категорија са овим називом већ постоји.';
+
+  @override
+  String get categoryInUseTitle => 'Категорија је у употреби';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'користи $count трансакција',
+      few: 'користе $count трансакције',
+      one: 'користи $count трансакција',
+    );
+    return 'Категорију \"$category\" $_temp0. Не може се обрисати, али се може преименовати — све повезане трансакције биће аутоматски ажуриране.';
+  }
+
+  @override
   String get searchCurrencies => 'Претражи валуте…';
 
   @override
@@ -4526,6 +4580,33 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get categoryAdd => 'Dodaj';
+
+  @override
+  String get editCategoryTitle => 'Uredi kategoriju';
+
+  @override
+  String get categorySave => 'Sačuvaj';
+
+  @override
+  String get categoryRenameAction => 'Preimenuj';
+
+  @override
+  String get categoryDuplicateName => 'Kategorija sa ovim nazivom već postoji.';
+
+  @override
+  String get categoryInUseTitle => 'Kategorija je u upotrebi';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'koristi $count transakcija',
+      few: 'koriste $count transakcije',
+      one: 'koristi $count transakcija',
+    );
+    return 'Kategoriju \"$category\" $_temp0. Ne može se obrisati, ali se može preimenovati — sve povezane transakcije biće automatski ažurirane.';
+  }
 
   @override
   String get searchCurrencies => 'Pretraži valute…';

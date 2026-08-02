@@ -17,6 +17,27 @@ enum TxType {
   transfer,   // personal → personal
 }
 
+/// Which category list a [TxType] draws from, or null for uncategorized.
+enum CategoryList { income, expense }
+
+/// Cash or receivable/payable moves involving non-personal accounts can be
+/// tagged with a category. [TxType.transfer] (personal → personal) stays
+/// uncategorized — pure internal moves.
+CategoryList? categoryListFor(TxType t) => switch (t) {
+      TxType.income ||
+      TxType.invoice ||
+      TxType.collection ||
+      TxType.loan =>
+        CategoryList.income,
+      TxType.expense ||
+      TxType.bill ||
+      TxType.advance ||
+      TxType.settlement ||
+      TxType.offset =>
+        CategoryList.expense,
+      TxType.transfer => null,
+    };
+
 /// Classify a transaction using the accounts' PRIOR balances (before applying).
 TxType classifyTransaction({required Account? from, required Account? to}) {
   final fg = from?.group;

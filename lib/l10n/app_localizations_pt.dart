@@ -1064,6 +1064,33 @@ class AppLocalizationsPt extends AppLocalizations {
   String get categoryAdd => 'Add';
 
   @override
+  String get editCategoryTitle => 'Edit Category';
+
+  @override
+  String get categorySave => 'Save';
+
+  @override
+  String get categoryRenameAction => 'Rename';
+
+  @override
+  String get categoryDuplicateName =>
+      'A category with this name already exists.';
+
+  @override
+  String get categoryInUseTitle => 'Category in use';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transactions',
+      one: '1 transaction',
+    );
+    return '\"$category\" is used by $_temp0. It can\'t be deleted, but it can be renamed — all linked transactions update automatically.';
+  }
+
+  @override
   String get searchCurrencies => 'Search currencies…';
 
   @override
@@ -2787,6 +2814,32 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get categoryAdd => 'Adicionar';
+
+  @override
+  String get editCategoryTitle => 'Editar categoria';
+
+  @override
+  String get categorySave => 'Salvar';
+
+  @override
+  String get categoryRenameAction => 'Renomear';
+
+  @override
+  String get categoryDuplicateName => 'Já existe uma categoria com esse nome.';
+
+  @override
+  String get categoryInUseTitle => 'Categoria em uso';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transações',
+      one: '$count transação',
+    );
+    return '\"$category\" é usada por $_temp0. Ela não pode ser excluída, mas pode ser renomeada — todas as transações vinculadas serão atualizadas automaticamente.';
+  }
 
   @override
   String get searchCurrencies => 'Pesquisar moedas…';

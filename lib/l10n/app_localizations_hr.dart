@@ -1070,6 +1070,33 @@ class AppLocalizationsHr extends AppLocalizations {
   String get categoryAdd => 'Dodati';
 
   @override
+  String get editCategoryTitle => 'Uredi kategoriju';
+
+  @override
+  String get categorySave => 'Spremi';
+
+  @override
+  String get categoryRenameAction => 'Preimenuj';
+
+  @override
+  String get categoryDuplicateName => 'Kategorija s ovim nazivom već postoji.';
+
+  @override
+  String get categoryInUseTitle => 'Kategorija je u upotrebi';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'koristi $count transakcija',
+      few: 'koriste $count transakcije',
+      one: 'koristi $count transakcija',
+    );
+    return 'Kategoriju \"$category\" $_temp0. Ne može se obrisati, ali se može preimenovati — sve povezane transakcije automatski će se ažurirati.';
+  }
+
+  @override
   String get searchCurrencies => 'Traži valute…';
 
   @override

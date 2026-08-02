@@ -1980,6 +1980,42 @@ abstract class AppLocalizations {
   /// **'Add'**
   String get categoryAdd;
 
+  /// No description provided for @editCategoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Category'**
+  String get editCategoryTitle;
+
+  /// No description provided for @categorySave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get categorySave;
+
+  /// No description provided for @categoryRenameAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get categoryRenameAction;
+
+  /// No description provided for @categoryDuplicateName.
+  ///
+  /// In en, this message translates to:
+  /// **'A category with this name already exists.'**
+  String get categoryDuplicateName;
+
+  /// No description provided for @categoryInUseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Category in use'**
+  String get categoryInUseTitle;
+
+  /// No description provided for @categoryInUseBody.
+  ///
+  /// In en, this message translates to:
+  /// **'\"{category}\" is used by {count, plural, =1{1 transaction} other{{count} transactions}}. It can\'t be deleted, but it can be renamed — all linked transactions update automatically.'**
+  String categoryInUseBody(String category, num count);
+
   /// No description provided for @searchCurrencies.
   ///
   /// In en, this message translates to:

@@ -179,14 +179,64 @@ class DataRepository {
 
   // --- Categories ------------------------------------------------------------
 
+  /// True when [name] already exists in the income/expense list,
+  /// case-insensitively. [exclude] skips one entry (the item being renamed).
+  static bool categoryNameExists(
+    String name, {
+    required bool income,
+    String? exclude,
+  }) {
+    final list = income ? data.incomeCategories : data.expenseCategories;
+    final lower = name.toLowerCase();
+    return list.any((c) => c != exclude && c.toLowerCase() == lower);
+  }
+
   static Future<void> addCategory(String name, {required bool income}) async {
     final list = income ? data.incomeCategories : data.expenseCategories;
     // No duplicate rows: a second add of the same name would create a second
     // DB row that exports/imports as a duplicate.
-    if (list.any((c) => c.toLowerCase() == name.toLowerCase())) return;
+    if (categoryNameExists(name, income: income)) return;
     final kind = income ? 'income' : 'expense';
     await _db.insertCategory(name: name, kind: kind);
     list.add(name);
+  }
+
+  /// How many transactions + planned transactions currently use [name].
+  static Future<int> categoryUsageCount(
+    String name, {
+    required bool income,
+  }) =>
+      _db.countCategoryUsage(name, income ? 'income' : 'expense');
+
+  /// Renames a category and relabels its transactions / planned transactions
+  /// (same kind only) in one SQLite commit, then mirrors the change in memory.
+  /// Callers must validate duplicates via [categoryNameExists] first.
+  static Future<void> renameCategory(
+    String oldName,
+    String newName, {
+    required bool income,
+  }) async {
+    if (oldName == newName) return;
+    final kind = income ? 'income' : 'expense';
+    await _db.renameCategoryEverywhere(
+      oldName: oldName,
+      newName: newName,
+      kind: kind,
+    );
+
+    final list = income ? data.incomeCategories : data.expenseCategories;
+    final i = list.indexOf(oldName);
+    if (i >= 0) list[i] = newName;
+
+    final wanted = income ? CategoryList.income : CategoryList.expense;
+    bool matches(String? category, TxType? t) =>
+        category == oldName && t != null && categoryListFor(t) == wanted;
+    for (final t in data.transactions) {
+      if (matches(t.category, t.txType)) t.category = newName;
+    }
+    for (final p in data.plannedTransactions) {
+      if (matches(p.category, p.txType)) p.category = newName;
+    }
   }
 
   // --- Selective clear -------------------------------------------------------

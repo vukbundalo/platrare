@@ -558,6 +558,64 @@ class PlatrareDatabase extends _$PlatrareDatabase {
         .go();
   }
 
+  /// TxType indexes whose transactions draw from the [kind] category list.
+  /// Kind-scoping matters because income and expense lists may share a name
+  /// (e.g. seed "Other" exists in both).
+  static List<int> txTypeIndexesForCategoryKind(String kind) {
+    final wanted =
+        kind == 'income' ? CategoryList.income : CategoryList.expense;
+    return [
+      for (final t in TxType.values)
+        if (categoryListFor(t) == wanted) t.index,
+    ];
+  }
+
+  /// How many transactions + planned transactions of [kind] carry [name].
+  /// Rows with a null txType are unclassifiable and excluded (their label is
+  /// denormalized and remains readable either way).
+  Future<int> countCategoryUsage(String name, String kind) async {
+    final idxs = txTypeIndexesForCategoryKind(kind);
+    final txCountExp = dbTransactions.id.count();
+    final txCount = await (selectOnly(dbTransactions)
+          ..addColumns([txCountExp])
+          ..where(dbTransactions.category.equals(name) &
+              dbTransactions.txTypeIndex.isIn(idxs)))
+        .map((r) => r.read(txCountExp) ?? 0)
+        .getSingle();
+    final pCountExp = dbPlannedTransactions.id.count();
+    final pCount = await (selectOnly(dbPlannedTransactions)
+          ..addColumns([pCountExp])
+          ..where(dbPlannedTransactions.category.equals(name) &
+              dbPlannedTransactions.txTypeIndex.isIn(idxs)))
+        .map((r) => r.read(pCountExp) ?? 0)
+        .getSingle();
+    return txCount + pCount;
+  }
+
+  /// Renames a category and relabels every transaction / planned transaction
+  /// of the same kind in one atomic commit. History rows keep pointing at the
+  /// same logical category under its new name.
+  Future<void> renameCategoryEverywhere({
+    required String oldName,
+    required String newName,
+    required String kind,
+  }) async {
+    final idxs = txTypeIndexesForCategoryKind(kind);
+    await transaction(() async {
+      await (update(dbCategories)
+            ..where((t) => t.name.equals(oldName) & t.kind.equals(kind)))
+          .write(DbCategoriesCompanion(name: Value(newName)));
+      await (update(dbTransactions)
+            ..where((t) =>
+                t.category.equals(oldName) & t.txTypeIndex.isIn(idxs)))
+          .write(DbTransactionsCompanion(category: Value(newName)));
+      await (update(dbPlannedTransactions)
+            ..where((t) =>
+                t.category.equals(oldName) & t.txTypeIndex.isIn(idxs)))
+          .write(DbPlannedTransactionsCompanion(category: Value(newName)));
+    });
+  }
+
   // ─── Bulk-clear helpers ──────────────────────────────────────────────────
 
   /// Deletes all transaction rows. Callers must reset account balances.

@@ -1041,6 +1041,26 @@ class AppLocalizationsKo extends AppLocalizations {
   String get categoryAdd => '추가하다';
 
   @override
+  String get editCategoryTitle => '카테고리 수정';
+
+  @override
+  String get categorySave => '저장';
+
+  @override
+  String get categoryRenameAction => '이름 변경';
+
+  @override
+  String get categoryDuplicateName => '같은 이름의 카테고리가 이미 있습니다.';
+
+  @override
+  String get categoryInUseTitle => '사용 중인 카테고리';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    return '\'$category\'은(는) $count개의 거래에서 사용 중입니다. 삭제할 수는 없지만 이름을 변경할 수 있으며, 연결된 모든 거래에 자동으로 반영됩니다.';
+  }
+
+  @override
   String get searchCurrencies => '통화 검색…';
 
   @override

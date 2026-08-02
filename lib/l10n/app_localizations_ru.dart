@@ -1075,6 +1075,35 @@ class AppLocalizationsRu extends AppLocalizations {
   String get categoryAdd => 'Добавлять';
 
   @override
+  String get editCategoryTitle => 'Изменить категорию';
+
+  @override
+  String get categorySave => 'Сохранить';
+
+  @override
+  String get categoryRenameAction => 'Переименовать';
+
+  @override
+  String get categoryDuplicateName =>
+      'Категория с таким названием уже существует.';
+
+  @override
+  String get categoryInUseTitle => 'Категория используется';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count транзакциях',
+      many: '$count транзакциях',
+      few: '$count транзакциях',
+      one: '$count транзакции',
+    );
+    return '«$category» используется в $_temp0. Её нельзя удалить, но можно переименовать — все связанные транзакции обновятся автоматически.';
+  }
+
+  @override
   String get searchCurrencies => 'Поиск валют…';
 
   @override

@@ -1069,6 +1069,32 @@ class AppLocalizationsHi extends AppLocalizations {
   String get categoryAdd => 'जोड़ना';
 
   @override
+  String get editCategoryTitle => 'श्रेणी संपादित करें';
+
+  @override
+  String get categorySave => 'सहेजें';
+
+  @override
+  String get categoryRenameAction => 'नाम बदलें';
+
+  @override
+  String get categoryDuplicateName => 'इस नाम की श्रेणी पहले से मौजूद है।';
+
+  @override
+  String get categoryInUseTitle => 'श्रेणी उपयोग में है';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count लेन-देन',
+      one: '$count लेन-देन',
+    );
+    return '\"$category\" का उपयोग $_temp0 में हो रहा है। इसे हटाया नहीं जा सकता, लेकिन नाम बदला जा सकता है — सभी जुड़े लेन-देन अपने आप अपडेट हो जाएँगे।';
+  }
+
+  @override
   String get searchCurrencies => 'मुद्राएँ खोजें…';
 
   @override

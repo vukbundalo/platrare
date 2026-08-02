@@ -1069,6 +1069,33 @@ class AppLocalizationsSv extends AppLocalizations {
   String get categoryAdd => 'Tillägga';
 
   @override
+  String get editCategoryTitle => 'Redigera kategori';
+
+  @override
+  String get categorySave => 'Spara';
+
+  @override
+  String get categoryRenameAction => 'Byt namn';
+
+  @override
+  String get categoryDuplicateName =>
+      'Det finns redan en kategori med det här namnet.';
+
+  @override
+  String get categoryInUseTitle => 'Kategorin används';
+
+  @override
+  String categoryInUseBody(String category, num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transaktioner',
+      one: '1 transaktion',
+    );
+    return '\"$category\" används av $_temp0. Den kan inte tas bort, men den kan byta namn — alla kopplade transaktioner uppdateras automatiskt.';
+  }
+
+  @override
   String get searchCurrencies => 'Sök valutor...';
 
   @override
