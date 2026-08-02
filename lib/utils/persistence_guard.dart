@@ -64,7 +64,8 @@ List<Account> applyAccountGroupReorder(
   int oldIndex,
   int newIndex,
 ) {
-  if (newIndex > oldIndex) newIndex -= 1;
+  // [newIndex] is the post-removal insertion index, as provided by
+  // SliverReorderableList.onReorderItem.
   final ordered = List<Account>.from(groupList);
   final item = ordered.removeAt(oldIndex);
   ordered.insert(newIndex, item);

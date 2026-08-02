@@ -794,7 +794,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
         ),
         SliverReorderableList(
           itemCount: accounts.length,
-          onReorder: (oldIndex, newIndex) =>
+          onReorderItem: (oldIndex, newIndex) =>
               _onReorderAccounts(accounts, oldIndex, newIndex),
           itemBuilder: (context, index) {
             final a = accounts[index];

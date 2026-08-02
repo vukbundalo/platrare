@@ -1118,7 +1118,7 @@ class _PlanScreenState extends State<PlanScreen> {
               ),
               SliverReorderableList(
                 itemCount: projPersonal.length,
-                onReorder: (oldIndex, newIndex) =>
+                onReorderItem: (oldIndex, newIndex) =>
                     _onReorderProjectionAccounts(
                   projPersonal,
                   oldIndex,
@@ -1143,7 +1143,7 @@ class _PlanScreenState extends State<PlanScreen> {
               ),
               SliverReorderableList(
                 itemCount: projIndividuals.length,
-                onReorder: (oldIndex, newIndex) =>
+                onReorderItem: (oldIndex, newIndex) =>
                     _onReorderProjectionAccounts(
                   projIndividuals,
                   oldIndex,
@@ -1168,7 +1168,7 @@ class _PlanScreenState extends State<PlanScreen> {
               ),
               SliverReorderableList(
                 itemCount: projEntities.length,
-                onReorder: (oldIndex, newIndex) =>
+                onReorderItem: (oldIndex, newIndex) =>
                     _onReorderProjectionAccounts(
                   projEntities,
                   oldIndex,

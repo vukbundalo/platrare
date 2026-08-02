@@ -1,8 +1,20 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+// Play Store / production: copy android/key.properties.example to
+// android/key.properties and point it at your upload keystore, per
+// https://docs.flutter.dev/deployment/android#signing-the-app
+val keystorePropertiesFile = rootProject.file("key.properties")
+val keystoreProperties = Properties().apply {
+    if (keystorePropertiesFile.exists()) {
+        keystorePropertiesFile.inputStream().use { load(it) }
+    }
 }
 
 android {
@@ -29,14 +41,26 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (keystorePropertiesFile.exists()) {
+            create("release") {
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+                storeFile = keystoreProperties.getProperty("storeFile")?.let { file(it) }
+                storePassword = keystoreProperties.getProperty("storePassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // Play Store / production: copy android/key.properties.example to
-            // android/key.properties, add a keystore, and wire signingConfigs per
-            // https://docs.flutter.dev/deployment/android#signing-the-app
-            //
-            // Debug signing keeps local `flutter run --release` working without secrets.
-            signingConfig = signingConfigs.getByName("debug")
+            // Uses the upload keystore when android/key.properties exists;
+            // debug signing keeps local `flutter run --release` working without secrets.
+            signingConfig = if (keystorePropertiesFile.exists()) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }

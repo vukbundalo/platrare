@@ -1,4 +1,4 @@
-package com.example.platrare
+package com.platrare.app
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

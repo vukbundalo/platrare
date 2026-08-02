@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'ledger_colors.dart';
 
@@ -149,7 +148,8 @@ ThemeData buildPlatrareTheme(Brightness brightness) {
     ),
   );
 
-  final inter = GoogleFonts.interTextTheme(base.textTheme);
+  // Inter ships as a bundled asset font (assets/fonts) — no runtime fetching.
+  final inter = base.textTheme.apply(fontFamily: 'Inter');
   final textTheme = inter.copyWith(
     titleLarge: inter.titleLarge?.copyWith(
       fontWeight: FontWeight.w700,
@@ -177,6 +177,6 @@ ThemeData buildPlatrareTheme(Brightness brightness) {
 
   return base.copyWith(
     textTheme: textTheme,
-    primaryTextTheme: GoogleFonts.interTextTheme(base.primaryTextTheme),
+    primaryTextTheme: base.primaryTextTheme.apply(fontFamily: 'Inter'),
   );
 }

@@ -41,6 +41,9 @@ Color accountAvatarOnBackground(Color background) =>
 
 IconData? accountIconOrNull(Account account) {
   if (account.iconCodePoint == 0) return null;
+  // Safe under icon tree-shaking: every selectable codepoint is also a const
+  // Icons.* reference in _kAccountPickIconDefs, so its glyph is retained.
+  // ignore: non_const_argument_for_const_parameter
   return IconData(account.iconCodePoint, fontFamily: 'MaterialIcons');
 }
 
