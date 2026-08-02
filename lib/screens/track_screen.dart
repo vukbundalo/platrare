@@ -59,7 +59,7 @@ class _TrackScreenState extends State<TrackScreen> {
   String? _typeFilter;      // _kTypeIncome / _kTypeExpense / _kTypeTransfer
   Account? _accountFilter;
   String? _categoryFilter;
-  /// null = current calendar month only [start, next month); UI cycles week/month/year; 'day'|'all' in data paths.
+  /// null = all time (default); UI cycles day/week/month/year.
   String? _dateFilter;
   DateTime _dateAnchor = DateTime.now();
   bool _newestFirst = true;
@@ -145,19 +145,20 @@ class _TrackScreenState extends State<TrackScreen> {
         }
       });
 
-  /// Cycles: this month (null) → month → week → year → all time → null.
+  /// Cycles: all time (null) → day → week → month → year → null.
   void _cycleDateFilter() => setState(() {
         if (_dateFilter == null) {
-          _dateFilter = 'month';
+          _dateFilter = 'day';
           _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'month') {
+        } else if (_dateFilter == 'day') {
           _dateFilter = 'week';
           _dateAnchor = DateTime.now();
         } else if (_dateFilter == 'week') {
+          _dateFilter = 'month';
+          _dateAnchor = DateTime.now();
+        } else if (_dateFilter == 'month') {
           _dateFilter = 'year';
           _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'year') {
-          _dateFilter = 'all';
         } else {
           _dateFilter = null;
         }
@@ -166,17 +167,18 @@ class _TrackScreenState extends State<TrackScreen> {
   void _toggleSort() => setState(() => _newestFirst = !_newestFirst);
 
   bool get _hasNavigableDateFilter =>
+      _dateFilter == 'day' ||
       _dateFilter == 'week' ||
       _dateFilter == 'month' ||
       _dateFilter == 'year';
 
-  /// Shown on the date chip (calendar when null = this month only).
+  /// Default (no filter) shows the ∞ icon — the Track list is all-time.
   String? get _dateChipModeLetter => switch (_dateFilter) {
-        'month' => 'M',
+        'day' => 'D',
         'week' => 'W',
+        'month' => 'M',
         'year' => 'Y',
-        'all' => '∞',
-        _ => null,
+        _ => '∞',
       };
 
   void _navigateDate(int direction) {
@@ -285,15 +287,15 @@ class _TrackScreenState extends State<TrackScreen> {
   }
 
   void _onTrackScrollLoadMoreDays() {
-    if (_dateFilter != 'all') return;
-    if (_searchQuery.trim().isNotEmpty) return;
+    if (_dateFilter != null) return;
     if (!_scrollController.hasClients) return;
     final pos = _scrollController.position;
     if (!pos.hasPixels || !pos.hasContentDimensions) return;
     if (pos.pixels < pos.maxScrollExtent - 360) return;
 
-    final g = DayGroupedTransactions.build(_baseFilteredTx, _newestFirst);
-    if (!shouldLazyLoadDaySections(_dateFilter, g.dayKeys.length)) return;
+    final g = DayGroupedTransactions.build(
+        _applySearch(_baseFilteredTx, context), _newestFirst);
+    if (!shouldLazyLoadDaySections('all', g.dayKeys.length)) return;
     if (_visibleTrackDaySlots >= g.dayKeys.length) return;
 
     setState(() {
@@ -311,6 +313,7 @@ class _TrackScreenState extends State<TrackScreen> {
       _accountFilter?.id,
       _categoryFilter,
       _newestFirst,
+      _searchQuery,
       _baseFilteredTx.length,
       data.transactions.length,
     );
@@ -326,22 +329,6 @@ class _TrackScreenState extends State<TrackScreen> {
     _scrollController.dispose();
     _searchController.dispose();
     super.dispose();
-  }
-
-  /// Default window when the date chip is on “this month” (calendar icon): same as Plan — current month only.
-  (DateTime, DateTime) get _currentMonthRange {
-    final now = DateTime.now();
-    final start = DateTime(now.year, now.month, 1);
-    final end = DateTime(now.year, now.month + 1, 1);
-    return (start, end);
-  }
-
-  /// Transactions in the current calendar month only (when [_dateFilter] is null).
-  List<Transaction> get _visibleTx {
-    final (start, end) = _currentMonthRange;
-    return data.transactions
-        .where((t) => !t.date.isBefore(start) && t.date.isBefore(end))
-        .toList();
   }
 
   /// Income and expense totals reflecting the current filter/window.
@@ -366,8 +353,6 @@ class _TrackScreenState extends State<TrackScreen> {
   List<Transaction> get _baseFilteredTx {
     Iterable<Transaction> source;
     if (_dateFilter == null) {
-      source = _visibleTx;
-    } else if (_dateFilter == 'all') {
       source = data.transactions;
     } else {
       final (start, end) = _dateRange;
@@ -791,7 +776,9 @@ class _TrackScreenState extends State<TrackScreen> {
         DayGroupedTransactions.build(displayTx, _newestFirst);
     final days = dayBundle.dayKeys;
     final grouped = dayBundle.grouped;
-    final lazyDays = shouldLazyLoadDaySections(_dateFilter, days.length);
+    // Track's default (null) date filter is all-time — lazy-load it like 'all'.
+    final lazyDays =
+        shouldLazyLoadDaySections(_dateFilter ?? 'all', days.length);
     final visibleDayCount = lazyDays
         ? math.min(_visibleTrackDaySlots, days.length)
         : days.length;
@@ -920,11 +907,7 @@ class _TrackScreenState extends State<TrackScreen> {
                   Text(
                     isFiltered
                         ? l10n.emptyNoTransactionsForFilters
-                        : _dateFilter == 'all'
-                            ? l10n.emptyNoTransactionsInHistory
-                            : l10n.emptyNoTransactionsForMonth(
-                                formatAppDate(
-                                    context, 'MMMM', DateTime.now())),
+                        : l10n.emptyNoTransactionsInHistory,
                     style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
@@ -979,7 +962,7 @@ class _TrackHero extends StatelessWidget {
   final VoidCallback onToggleCategoryPanel;
   final String? typeFilter;
   final VoidCallback onCycleType;
-  /// `M` / `W` / `Y` when that period mode is active; null → calendar icon.
+  /// `D` / `W` / `M` / `Y` when that period mode is active; `∞` → all time.
   final String? dateModeLetter;
   final bool dateFilterActive;
   final VoidCallback onCycleDate;

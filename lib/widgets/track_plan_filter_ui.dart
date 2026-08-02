@@ -14,6 +14,7 @@ enum TrackPlanFilterPanel { none, account, category }
 
 String _semanticsDateModeWord(AppLocalizations l10n, String letter) {
   return switch (letter) {
+    'D' => l10n.repeatDaily,
     'M' => l10n.repeatMonthly,
     'W' => l10n.repeatWeekly,
     'Y' => l10n.repeatYearly,

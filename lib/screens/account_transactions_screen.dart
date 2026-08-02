@@ -73,20 +73,6 @@ class _AccountTransactionsScreenState
           t.toAccountId == widget.account.id)
       .toList();
 
-  (DateTime, DateTime) get _currentMonthRange {
-    final now = DateTime.now();
-    final start = DateTime(now.year, now.month, 1);
-    final end = DateTime(now.year, now.month + 1, 1);
-    return (start, end);
-  }
-
-  List<Transaction> get _visibleAccountTx {
-    final (start, end) = _currentMonthRange;
-    return _allAccountTx
-        .where((t) => !t.date.isBefore(start) && t.date.isBefore(end))
-        .toList();
-  }
-
   (DateTime, DateTime) get _dateRange {
     final a = _dateAnchor;
     return switch (_dateFilter) {
@@ -124,16 +110,18 @@ class _AccountTransactionsScreenState
   }
 
   bool get _hasNavigableDateFilter =>
+      _dateFilter == 'day' ||
       _dateFilter == 'week' ||
       _dateFilter == 'month' ||
       _dateFilter == 'year';
 
+  /// Default (no filter) shows the ∞ icon — the account list is all-time.
   String? get _dateChipModeLetter => switch (_dateFilter) {
-        'month' => 'M',
+        'day' => 'D',
         'week' => 'W',
+        'month' => 'M',
         'year' => 'Y',
-        'all' => '∞',
-        _ => null,
+        _ => '∞',
       };
 
   bool get _hasActiveFilter =>
@@ -161,18 +149,20 @@ class _AccountTransactionsScreenState
         }
       });
 
+  /// Cycles: all time (null) → day → week → month → year → null.
   void _cycleDateFilter() => setState(() {
         if (_dateFilter == null) {
-          _dateFilter = 'month';
+          _dateFilter = 'day';
           _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'month') {
+        } else if (_dateFilter == 'day') {
           _dateFilter = 'week';
           _dateAnchor = DateTime.now();
         } else if (_dateFilter == 'week') {
+          _dateFilter = 'month';
+          _dateAnchor = DateTime.now();
+        } else if (_dateFilter == 'month') {
           _dateFilter = 'year';
           _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'year') {
-          _dateFilter = 'all';
         } else {
           _dateFilter = null;
         }
@@ -234,8 +224,6 @@ class _AccountTransactionsScreenState
   List<Transaction> get _filteredTx {
     Iterable<Transaction> source;
     if (_dateFilter == null) {
-      source = _visibleAccountTx;
-    } else if (_dateFilter == 'all') {
       source = _allAccountTx;
     } else {
       final (start, end) = _dateRange;
@@ -295,14 +283,14 @@ class _AccountTransactionsScreenState
   }
 
   void _onAccountScrollLoadMoreDays() {
-    if (_dateFilter != 'all') return;
+    if (_dateFilter != null) return;
     if (!_scrollController.hasClients) return;
     final pos = _scrollController.position;
     if (!pos.hasPixels || !pos.hasContentDimensions) return;
     if (pos.pixels < pos.maxScrollExtent - 360) return;
 
     final g = DayGroupedTransactions.build(_filteredTx, _newestFirst);
-    if (!shouldLazyLoadDaySections(_dateFilter, g.dayKeys.length)) return;
+    if (!shouldLazyLoadDaySections('all', g.dayKeys.length)) return;
     if (_visibleAccountDaySlots >= g.dayKeys.length) return;
 
     setState(() {
@@ -381,7 +369,9 @@ class _AccountTransactionsScreenState
         DayGroupedTransactions.build(displayTx, _newestFirst);
     final days = dayBundle.dayKeys;
     final grouped = dayBundle.grouped;
-    final lazyDays = shouldLazyLoadDaySections(_dateFilter, days.length);
+    // Default (null) date filter is all-time — lazy-load it like 'all'.
+    final lazyDays =
+        shouldLazyLoadDaySections(_dateFilter ?? 'all', days.length);
     final visibleDayCount = lazyDays
         ? math.min(_visibleAccountDaySlots, days.length)
         : days.length;
@@ -515,11 +505,7 @@ class _AccountTransactionsScreenState
                     Text(
                       _hasActiveFilter
                           ? l10n.emptyNoTransactionsForFilters
-                          : _dateFilter == 'all'
-                              ? l10n.emptyNoTransactionsForAccount
-                              : l10n.emptyNoTransactionsForMonth(
-                                  formatAppDate(
-                                      context, 'MMMM', DateTime.now())),
+                          : l10n.emptyNoTransactionsForAccount,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 15,

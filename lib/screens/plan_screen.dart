@@ -61,6 +61,8 @@ class _PlanScreenState extends State<PlanScreen> {
   String? _typeFilter;
   Account? _accountFilter;
   String? _categoryFilter;
+  /// null = all time (default on Plan — repeating items must stay visible
+  /// past month boundaries); 'month' / 'week' / 'year' narrow the list.
   String? _dateFilter;
   DateTime _dateAnchor = DateTime.now();
   /// Planned list: oldest → newest by default (overdue / soonest days first).
@@ -138,16 +140,17 @@ class _PlanScreenState extends State<PlanScreen> {
 
   void _cycleDateFilter() => setState(() {
         if (_dateFilter == null) {
-          _dateFilter = 'month';
+          _dateFilter = 'day';
           _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'month') {
+        } else if (_dateFilter == 'day') {
           _dateFilter = 'week';
           _dateAnchor = DateTime.now();
         } else if (_dateFilter == 'week') {
+          _dateFilter = 'month';
+          _dateAnchor = DateTime.now();
+        } else if (_dateFilter == 'month') {
           _dateFilter = 'year';
           _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'year') {
-          _dateFilter = 'all';
         } else {
           _dateFilter = null;
         }
@@ -156,16 +159,18 @@ class _PlanScreenState extends State<PlanScreen> {
   void _toggleSort() => setState(() => _newestFirst = !_newestFirst);
 
   bool get _hasNavigableDateFilter =>
+      _dateFilter == 'day' ||
       _dateFilter == 'week' ||
       _dateFilter == 'month' ||
       _dateFilter == 'year';
 
+  /// Default (no filter) shows the ∞ icon — the Plan list is all-time.
   String? get _dateChipModeLetter => switch (_dateFilter) {
-        'month' => 'M',
+        'day' => 'D',
         'week' => 'W',
+        'month' => 'M',
         'year' => 'Y',
-        'all' => '∞',
-        _ => null,
+        _ => '∞',
       };
 
   /// Same horizon as the projection snapshot date picker — Plan is forward-looking.
@@ -202,8 +207,8 @@ class _PlanScreenState extends State<PlanScreen> {
     return !DateUtils.dateOnly(next).isAfter(_planListLatestNavDate);
   }
 
-  /// Default list window when the date chip is on “this month” (calendar icon):
-  /// `[first day of this calendar month, first day of next month)`.
+  /// `[first day of this calendar month, first day of next month)` — only
+  /// anchors the default date for “new planned” when the list is all-time.
   (DateTime, DateTime) get _currentMonthRange {
     final now = DateTime.now();
     final start = DateTime(now.year, now.month, 1);
@@ -214,9 +219,8 @@ class _PlanScreenState extends State<PlanScreen> {
   /// Default date when opening “new planned” from the list’s visible period.
   DateTime? get _defaultDateForNewPlanned {
     if (_isFutureProjection) return null;
-    final (start, end) = _dateFilter != null && _dateFilter != 'all'
-        ? _dateRange
-        : _currentMonthRange;
+    final (start, end) =
+        _dateFilter != null ? _dateRange : _currentMonthRange;
     final s = DateUtils.dateOnly(start);
     final lastInclusive =
         DateUtils.dateOnly(end.subtract(const Duration(days: 1)));
@@ -354,12 +358,8 @@ class _PlanScreenState extends State<PlanScreen> {
 
   List<PlannedTransaction> get _filteredPlanned {
     Iterable<PlannedTransaction> source = data.plannedTransactions;
-    if (_dateFilter != null && _dateFilter != 'all') {
+    if (_dateFilter != null) {
       final (start, end) = _dateRange;
-      source = source.where(
-          (pt) => !pt.date.isBefore(start) && pt.date.isBefore(end));
-    } else if (_dateFilter == null) {
-      final (start, end) = _currentMonthRange;
       source = source.where(
           (pt) => !pt.date.isBefore(start) && pt.date.isBefore(end));
     }
@@ -420,7 +420,7 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 
   void _onPlanScrollLoadMoreDays() {
-    if (_dateFilter != 'all') return;
+    if (_dateFilter != null) return;
     if (!_planScrollController.hasClients) return;
     final pos = _planScrollController.position;
     if (!pos.hasPixels || !pos.hasContentDimensions) return;
@@ -428,7 +428,7 @@ class _PlanScreenState extends State<PlanScreen> {
 
     final bundle = DayGroupedPlanned.build(
         _applyPlannedSearch(_filteredPlanned), _newestFirst);
-    if (!shouldLazyLoadDaySections(_dateFilter, bundle.dayKeys.length)) return;
+    if (!shouldLazyLoadDaySections('all', bundle.dayKeys.length)) return;
     if (_planVisibleDaySlots >= bundle.dayKeys.length) return;
 
     setState(() {
@@ -905,8 +905,9 @@ class _PlanScreenState extends State<PlanScreen> {
     _syncPlanLazyWindowSignature();
     final planDayBundle =
         DayGroupedPlanned.build(displayPlanned, _newestFirst);
-    final lazyPlanDays =
-        shouldLazyLoadDaySections(_dateFilter, planDayBundle.dayKeys.length);
+    // Plan's default (null) date filter is all-time — lazy-load it like 'all'.
+    final lazyPlanDays = shouldLazyLoadDaySections(
+        _dateFilter ?? 'all', planDayBundle.dayKeys.length);
     final planVisibleDayGroups = lazyPlanDays
         ? math.min(_planVisibleDaySlots, planDayBundle.dayKeys.length)
         : planDayBundle.dayKeys.length;
@@ -934,8 +935,8 @@ class _PlanScreenState extends State<PlanScreen> {
           _accountStripOpen ||
           _categoryStripOpen;
       // Show add when this view has rows, or “reset” strip is relevant, or any
-      // planned tx exists globally (e.g. August items hidden by default April
-      // month filter — user still needs + for April).
+      // planned tx exists globally (e.g. items hidden by a month/week/year
+      // filter — user still needs + for that period).
       final showPlanAddFab =
           displayPlanned.isNotEmpty || showPlanResetFab || hasPlanned;
       if (showPlanAddFab) {
@@ -1579,8 +1580,8 @@ class _ProjectionAccountCard extends StatelessWidget {
   }
 }
 
-/// Shown when filters (or the default month window) hide all planned items but
-/// some exist at other dates — mirrors Track’s “no results” pattern.
+/// Shown when filters hide all planned items but some exist at other dates —
+/// mirrors Track’s “no results” pattern (default all-time view hides nothing).
 class _PlanFilteredEmpty extends StatelessWidget {
   final bool hasExplicitFilters;
 
