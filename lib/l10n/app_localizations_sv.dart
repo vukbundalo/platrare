@@ -51,6 +51,67 @@ class AppLocalizationsSv extends AppLocalizations {
   String get heroNet => 'Netto';
 
   @override
+  String get widgetLowestPoint => 'Lägsta punkt';
+
+  @override
+  String get widgetProjected => 'Prognos';
+
+  @override
+  String get widgetHorizonIn7Days => 'Om 7 dagar';
+
+  @override
+  String get widgetHorizonEndOfMonth => 'Månadens slut';
+
+  @override
+  String get widgetMetricAccount => 'Kontosaldo';
+
+  @override
+  String get widgetQuickAdd => 'Snabbregistrera';
+
+  @override
+  String get widgetStale => 'Kan vara inaktuellt';
+
+  @override
+  String get widgetOpenToStart => 'Öppna Platrare för att lägga till konton';
+
+  @override
+  String get widgetDueToday => 'Förfaller i dag';
+
+  @override
+  String get widgetDescQuickAdd =>
+      'Lägg till en transaktion eller en plan med en tryckning.';
+
+  @override
+  String get widgetNameNumbers => 'Saldo';
+
+  @override
+  String get widgetDescNumbers =>
+      'Visa en siffra: disponibelt, nettoförmögenhet eller din lägsta punkt denna månad.';
+
+  @override
+  String get widgetConfigMetric => 'Mått';
+
+  @override
+  String get widgetConfigHorizon => 'Horisont';
+
+  @override
+  String widgetSiriAddTransaction(String appName) {
+    return 'Lägg till en transaktion i $appName';
+  }
+
+  @override
+  String widgetSiriAddPlanned(String appName) {
+    return 'Lägg till en planerad transaktion i $appName';
+  }
+
+  @override
+  String get settingsWidgetAmountsTitle => 'Visa belopp i widgetar';
+
+  @override
+  String get settingsWidgetAmountsSubtitle =>
+      'Widgetar på hemskärmen syns utan att appen låses upp. När applåset är på döljs belopp om du inte slår på det här.';
+
+  @override
   String get heroBalance => 'Balans';
 
   @override
@@ -872,6 +933,160 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get settingsDataExportFailed => 'Exporten misslyckades';
+
+  @override
+  String get settingsCsvExportTitle => 'Exportera som CSV';
+
+  @override
+  String get settingsCsvExportSubtitle =>
+      'Dina transaktioner som en kalkylbladsfil';
+
+  @override
+  String get settingsCsvExportFailed => 'CSV-exporten misslyckades';
+
+  @override
+  String get settingsCsvImportTitle => 'Importera från CSV';
+
+  @override
+  String get settingsCsvImportSubtitle =>
+      'Lägg till transaktioner från ett kalkylblad — inget ersätts';
+
+  @override
+  String get settingsCsvTemplateTitle => 'Hämta CSV-mall';
+
+  @override
+  String get settingsCsvTemplateSubtitle =>
+      'En exempelfil att klistra in dina gamla data i';
+
+  @override
+  String get csvTemplateInstruction1 =>
+      'Ersätt exempelraderna nedan med dina egna data och importera sedan filen från Inställningar.';
+
+  @override
+  String get csvTemplateInstruction2 =>
+      'date och amount är obligatoriska. Skriv datum som YYYY-MM-DD och belopp som ett positivt tal.';
+
+  @override
+  String get csvTemplateInstruction3 =>
+      'type kan vara income, expense, transfer, invoice, bill, advance, settlement, loan, collection eller offset. Lämna tomt så räknar appen ut det från kontona.';
+
+  @override
+  String get csvTemplateInstruction4 =>
+      'Konton och kategorier som inte finns ännu skapas automatiskt. Rader som börjar med # ignoreras.';
+
+  @override
+  String get csvImportPreviewTitle => 'Importera transaktioner';
+
+  @override
+  String csvImportPreviewCounts(int importable, int total) {
+    return '$importable av $total rader läggs till';
+  }
+
+  @override
+  String csvImportPreviewNewAccounts(String names) {
+    return 'Nya konton: $names';
+  }
+
+  @override
+  String csvImportPreviewNewCategories(String names) {
+    return 'Nya kategorier: $names';
+  }
+
+  @override
+  String csvImportPreviewDuplicates(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rader finns redan',
+      one: '1 rad finns redan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportPreviewSkipDuplicates =>
+      'Hoppa över rader som redan finns';
+
+  @override
+  String csvImportPreviewIssuesTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rader kunde inte läsas',
+      one: '1 rad kunde inte läsas',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String csvImportPreviewIssueLine(int line, String reason) {
+    return 'Rad $line: $reason';
+  }
+
+  @override
+  String csvImportPreviewIssueMore(int count) {
+    return '…och $count till';
+  }
+
+  @override
+  String get csvImportPreviewDateStyleTitle =>
+      'Datum som 03/04/2026 är tvetydiga. Hur ska de tolkas?';
+
+  @override
+  String get csvImportPreviewDateStyleDayFirst => 'Dag först (3 april)';
+
+  @override
+  String get csvImportPreviewDateStyleMonthFirst => 'Månad först (4 mars)';
+
+  @override
+  String get csvImportPreviewNothing =>
+      'Ingen rad i den här filen kan importeras.';
+
+  @override
+  String get csvImportPreviewConfirm => 'Importera';
+
+  @override
+  String get csvRowProblemDate => 'ogiltigt eller saknat datum';
+
+  @override
+  String get csvRowProblemAmount => 'ogiltigt eller saknat belopp';
+
+  @override
+  String get csvRowProblemAccount => 'ogiltigt eller saknat konto';
+
+  @override
+  String get csvRowProblemType => 'okänd transaktionstyp';
+
+  @override
+  String csvImportDone(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transaktioner importerade',
+      one: '1 transaktion importerad',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportFailedNoColumns =>
+      'Inga kolumner kändes igen. Utgå från CSV-mallen.';
+
+  @override
+  String csvImportFailedMissingColumn(String column) {
+    return 'Filen saknar kolumnen \"$column\".';
+  }
+
+  @override
+  String get csvImportFailedEmpty => 'Den här filen innehåller inga datarader.';
+
+  @override
+  String csvImportFailedTooManyRows(int rows, int max) {
+    return 'Den här filen har $rows rader; gränsen är $max.';
+  }
+
+  @override
+  String get csvImportFailed => 'CSV-importen misslyckades';
 
   @override
   String get ledgerVerifyDialogTitle => 'Ledger verifiering';
@@ -1917,4 +2132,62 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get helpPlannedProjectionBody =>
       'Kontoväljarna visar varje kontos beräknade saldo på förfallodatumet, så att du ser planer som skulle övertrassera ett konto.';
+
+  @override
+  String get settingsPlannedRemindersTitle => 'Planpåminnelser';
+
+  @override
+  String get settingsPlannedRemindersSubtitle =>
+      'Meddelar dig när en planerad transaktion förfaller. Fungerar helt offline — inget lämnar din enhet.';
+
+  @override
+  String get settingsPlannedRemindersTimeTitle => 'Påminnelsetid';
+
+  @override
+  String get settingsPlannedRemindersLeadTitle => 'Förvarning';
+
+  @override
+  String get settingsPlannedRemindersLeadOnDay => 'På förfallodagen';
+
+  @override
+  String settingsPlannedRemindersLeadDaysBefore(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dagar innan',
+      one: '1 dag innan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPlannedRemindersPermissionDenied =>
+      'Aviseringar är avstängda för Platrare. Tillåt dem i systeminställningarna för att få påminnelser.';
+
+  @override
+  String get plannedReminderChannelName =>
+      'Påminnelser om planerade transaktioner';
+
+  @override
+  String get plannedReminderChannelDescription =>
+      'Aviseringar för kommande planerade transaktioner.';
+
+  @override
+  String get plannedReminderFallbackTitle => 'Planerad transaktion';
+
+  @override
+  String get plannedReminderDueToday => 'Förfaller i dag';
+
+  @override
+  String get plannedReminderDueTomorrow => 'Förfaller i morgon';
+
+  @override
+  String plannedReminderDueInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Förfaller om $count dagar',
+    );
+    return '$_temp0';
+  }
 }

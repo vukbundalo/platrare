@@ -17,6 +17,24 @@
   "heroIn": "في",
   "heroOut": "خارج",
   "heroNet": "شبكة",
+  "widgetLowestPoint": "أدنى نقطة",
+  "widgetProjected": "متوقَّع",
+  "widgetHorizonIn7Days": "خلال 7 أيام",
+  "widgetHorizonEndOfMonth": "نهاية الشهر",
+  "widgetMetricAccount": "رصيد الحساب",
+  "widgetQuickAdd": "إضافة سريعة",
+  "widgetStale": "قد تكون غير محدَّثة",
+  "widgetOpenToStart": "افتح Platrare لإضافة حسابات",
+  "widgetDueToday": "مستحق اليوم",
+  "widgetDescQuickAdd": "أضف معاملة أو خطة بلمسة واحدة.",
+  "widgetNameNumbers": "الرصيد",
+  "widgetDescNumbers": "اعرض رقمًا واحدًا: المتاح للإنفاق أو صافي الثروة أو أدنى نقطة هذا الشهر.",
+  "widgetConfigMetric": "المقياس",
+  "widgetConfigHorizon": "المدى",
+  "widgetSiriAddTransaction": "أضف معاملة في {appName}",
+  "widgetSiriAddPlanned": "أضف معاملة مخطَّطة في {appName}",
+  "settingsWidgetAmountsTitle": "إظهار المبالغ في الأدوات",
+  "settingsWidgetAmountsSubtitle": "تظهر أدوات الشاشة الرئيسية دون فتح قفل التطبيق. عند تفعيل قفل التطبيق تبقى المبالغ مخفية ما لم تُفعِّل هذا الخيار.",
   "heroBalance": "توازن",
   "realBalance": "التوازن الحقيقي",
   "settingsHideHeroBalancesTitle": "إخفاء الأرصدة في بطاقات الملخص",
@@ -457,6 +475,99 @@
   },
   "settingsDataOpenExportFile": "افتح الملف",
   "settingsDataExportFailed": "فشل التصدير",
+  "settingsCsvExportTitle": "تصدير بصيغة CSV",
+  "settingsCsvExportSubtitle": "معاملاتك كملف جدول بيانات",
+  "settingsCsvExportFailed": "فشل تصدير CSV",
+  "settingsCsvImportTitle": "استيراد من CSV",
+  "settingsCsvImportSubtitle": "أضف معاملات من جدول بيانات — لا يتم استبدال أي شيء",
+  "settingsCsvTemplateTitle": "الحصول على قالب CSV",
+  "settingsCsvTemplateSubtitle": "ملف نموذجي للصق بياناتك القديمة فيه",
+  "csvTemplateInstruction1": "استبدل صفوف المثال أدناه ببياناتك الخاصة، ثم استورد هذا الملف من الإعدادات.",
+  "csvTemplateInstruction2": "الحقلان date و amount مطلوبان. اكتب التواريخ بالصيغة YYYY-MM-DD والمبالغ كرقم موجب.",
+  "csvTemplateInstruction3": "يمكن أن يكون الحقل type أحد التالي: income أو expense أو transfer أو invoice أو bill أو advance أو settlement أو loan أو collection أو offset. اتركه فارغًا ليستنتجه التطبيق من الحسابات.",
+  "csvTemplateInstruction4": "يتم إنشاء الحسابات والفئات غير الموجودة تلقائيًا. تُتجاهل الأسطر التي تبدأ بـ #.",
+  "csvImportPreviewTitle": "استيراد المعاملات",
+  "csvImportPreviewCounts": "ستتم إضافة {importable} من أصل {total} صف",
+  "@csvImportPreviewCounts": {
+    "placeholders": {
+      "importable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewNewAccounts": "حسابات جديدة: {names}",
+  "@csvImportPreviewNewAccounts": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewNewCategories": "فئات جديدة: {names}",
+  "@csvImportPreviewNewCategories": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewDuplicates": "{count, plural, =1{صف واحد موجود بالفعل} =2{صفان موجودان بالفعل} few{{count} صفوف موجودة بالفعل} other{{count} صفًا موجودة بالفعل}}",
+  "csvImportPreviewSkipDuplicates": "تخطي الصفوف الموجودة بالفعل",
+  "csvImportPreviewIssuesTitle": "{count, plural, =1{تعذّرت قراءة صف واحد} =2{تعذّرت قراءة صفين} few{تعذّرت قراءة {count} صفوف} other{تعذّرت قراءة {count} صفًا}}",
+  "csvImportPreviewIssueLine": "السطر {line}: {reason}",
+  "@csvImportPreviewIssueLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewIssueMore": "…و{count} أخرى",
+  "@csvImportPreviewIssueMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewDateStyleTitle": "التواريخ مثل 03/04/2026 غامضة. كيف ينبغي قراءتها؟",
+  "csvImportPreviewDateStyleDayFirst": "اليوم أولًا (3 أبريل)",
+  "csvImportPreviewDateStyleMonthFirst": "الشهر أولًا (4 مارس)",
+  "csvImportPreviewNothing": "لا يمكن استيراد أي صف من هذا الملف.",
+  "csvImportPreviewConfirm": "استيراد",
+  "csvRowProblemDate": "تاريخ غير صالح أو مفقود",
+  "csvRowProblemAmount": "مبلغ غير صالح أو مفقود",
+  "csvRowProblemAccount": "حساب غير صالح أو مفقود",
+  "csvRowProblemType": "نوع معاملة غير معروف",
+  "csvImportDone": "{count, plural, =1{تم استيراد معاملة واحدة} =2{تم استيراد معاملتين} few{تم استيراد {count} معاملات} other{تم استيراد {count} معاملة}}",
+  "csvImportFailedNoColumns": "لم يتم التعرف على أي عمود. ابدأ من قالب CSV.",
+  "csvImportFailedMissingColumn": "الملف لا يحتوي على العمود \"{column}\".",
+  "@csvImportFailedMissingColumn": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportFailedEmpty": "هذا الملف لا يحتوي على صفوف بيانات.",
+  "csvImportFailedTooManyRows": "يحتوي هذا الملف على {rows} صف؛ الحد الأقصى هو {max}.",
+  "@csvImportFailedTooManyRows": {
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportFailed": "فشل استيراد CSV",
   "ledgerVerifyDialogTitle": "التحقق من دفتر الأستاذ",
   "ledgerVerifyAllMatch": "جميع الحسابات متطابقة.",
   "ledgerVerifyMismatchesTitle": "عدم التطابق",
@@ -727,9 +838,9 @@
   "statsEmptySubtitle": "لا توجد بيانات الإنفاق للنطاق المحدد.",
   "semanticsShowProjections": "عرض الأرصدة المتوقعة حسب الحساب",
   "semanticsHideProjections": "إخفاء الأرصدة المتوقعة حسب الحساب",
-    "semanticsShowDayBalanceBreakdown": "عرض أرصدة الحسابات لهذا اليوم",
+  "semanticsShowDayBalanceBreakdown": "عرض أرصدة الحسابات لهذا اليوم",
   "semanticsHideDayBalanceBreakdown": "إخفاء أرصدة الحسابات لهذا اليوم",
-"semanticsDateAllTime": "التاريخ: طوال الوقت — انقر لتغيير الوضع",
+  "semanticsDateAllTime": "التاريخ: طوال الوقت — انقر لتغيير الوضع",
   "semanticsDateMode": "التاريخ: {mode} — انقر لتغيير الوضع",
   "@semanticsDateMode": {
     "placeholders": {
@@ -842,40 +953,40 @@
   "autoBackupShareSubtitle": "قم بتحميل أحدث نسخة احتياطية إلى iCloud Drive أو Google Drive أو أي تطبيق",
   "autoBackupCloudReminder": "النسخ الاحتياطي التلقائي جاهز - احفظه على السحابة للحماية خارج الجهاز",
   "autoBackupCloudReminderAction": "يشارك",
-
   "settingsBackupReminderTitle": "تذكير بالنسخ الاحتياطي",
   "settingsBackupReminderSubtitle": "شعار داخل التطبيق إذا أضفت معاملات كثيرة دون تصدير نسخة احتياطية يدوية.",
   "settingsBackupReminderThresholdTitle": "حد المعاملات",
   "settingsBackupReminderThresholdSubtitle": "تذكير بعد {count} معاملة جديدة منذ آخر تصدير يدوي.",
   "@settingsBackupReminderThresholdSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsBackupReminderThresholdInvalid": "أدخل عدداً صحيحاً من 1 إلى 500.",
   "settingsBackupReminderSnoozeHint": "«تذكير لاحقاً» يخفي الشعار حتى تضيف {n} معاملة أخرى.",
   "@settingsBackupReminderSnoozeHint": {
     "placeholders": {
-      "n": {"type": "int"}
+      "n": {
+        "type": "int"
+      }
     }
   },
   "backupReminderBannerTitle": "تصدير نسخة احتياطية؟",
   "backupReminderBannerBody": "لقد أضفت {count} معاملة منذ آخر تصدير يدوي.",
   "@backupReminderBannerBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "backupReminderRemindLater": "تذكير لاحقاً",
-
   "backupExportLedgerVerifyTitle": "فحص السجل قبل النسخ الاحتياطي",
   "backupExportLedgerVerifyInfo": "يقارن الرصيد المخزّن لكل حساب بإعادة تشغيل كاملة لسجل معاملاتك. يمكنك تصدير النسخة الاحتياطية في كلتا الحالتين؛ الاختلافات للإعلام فقط.",
   "backupExportLedgerVerifyContinue": "المتابعة إلى النسخ الاحتياطي",
-
-
-
   "persistenceErrorReloaded": "تعذر حفظ التغييرات. تم إعادة تحميل البيانات من التخزين.",
-
   "helpTooltip": "مساعدة",
   "helpNext": "التالي",
   "helpBack": "رجوع",
@@ -922,5 +1033,18 @@
   "helpPlannedDateTitle": "تاريخ الاستحقاق",
   "helpPlannedDateBody": "انقر هنا لاختيار موعد حدوث ذلك. يمكن للخطة أيضًا أن تتكرر وفق جدول تختاره.",
   "helpPlannedProjectionTitle": "الأرصدة المتوقعة",
-  "helpPlannedProjectionBody": "يعرض مُنتقيا الحسابات الرصيد المتوقع لكل حساب في تاريخ الاستحقاق، لتلاحظ أي خطة قد تجعل الحساب سالبًا."
+  "helpPlannedProjectionBody": "يعرض مُنتقيا الحسابات الرصيد المتوقع لكل حساب في تاريخ الاستحقاق، لتلاحظ أي خطة قد تجعل الحساب سالبًا.",
+  "settingsPlannedRemindersTitle": "تذكيرات الخطط",
+  "settingsPlannedRemindersSubtitle": "يخطرك عند استحقاق معاملة مخططة. يعمل دون اتصال تمامًا — لا شيء يغادر جهازك.",
+  "settingsPlannedRemindersTimeTitle": "وقت التذكير",
+  "settingsPlannedRemindersLeadTitle": "الإشعار المسبق",
+  "settingsPlannedRemindersLeadOnDay": "في يوم الاستحقاق",
+  "settingsPlannedRemindersLeadDaysBefore": "{count, plural, one{قبل يوم واحد} two{قبل يومين} few{قبل {count} أيام} other{قبل {count} يومًا}}",
+  "settingsPlannedRemindersPermissionDenied": "الإشعارات معطّلة لتطبيق Platrare. اسمح بها في إعدادات النظام لتلقي التذكيرات.",
+  "plannedReminderChannelName": "تذكيرات المعاملات المخططة",
+  "plannedReminderChannelDescription": "إشعارات بالمعاملات المخططة القادمة.",
+  "plannedReminderFallbackTitle": "معاملة مخططة",
+  "plannedReminderDueToday": "تستحق اليوم",
+  "plannedReminderDueTomorrow": "تستحق غدًا",
+  "plannedReminderDueInDays": "{count, plural, one{تستحق بعد يوم} two{تستحق بعد يومين} few{تستحق بعد {count} أيام} other{تستحق بعد {count} يومًا}}"
 }

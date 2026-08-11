@@ -51,6 +51,67 @@ class AppLocalizationsHr extends AppLocalizations {
   String get heroNet => 'Neto';
 
   @override
+  String get widgetLowestPoint => 'Najniža točka';
+
+  @override
+  String get widgetProjected => 'Projekcija';
+
+  @override
+  String get widgetHorizonIn7Days => 'Za 7 dana';
+
+  @override
+  String get widgetHorizonEndOfMonth => 'Kraj mjeseca';
+
+  @override
+  String get widgetMetricAccount => 'Stanje računa';
+
+  @override
+  String get widgetQuickAdd => 'Brzi unos';
+
+  @override
+  String get widgetStale => 'Možda nije ažurno';
+
+  @override
+  String get widgetOpenToStart => 'Otvorite Platrare da dodate račune';
+
+  @override
+  String get widgetDueToday => 'Dospijeva danas';
+
+  @override
+  String get widgetDescQuickAdd =>
+      'Dodajte transakciju ili plan jednim dodirom.';
+
+  @override
+  String get widgetNameNumbers => 'Stanje';
+
+  @override
+  String get widgetDescNumbers =>
+      'Prikažite jedan broj: raspoloživo, neto vrijednost ili najnižu točku ovog mjeseca.';
+
+  @override
+  String get widgetConfigMetric => 'Pokazatelj';
+
+  @override
+  String get widgetConfigHorizon => 'Horizont';
+
+  @override
+  String widgetSiriAddTransaction(String appName) {
+    return 'Dodaj transakciju u $appName';
+  }
+
+  @override
+  String widgetSiriAddPlanned(String appName) {
+    return 'Dodaj planiranu transakciju u $appName';
+  }
+
+  @override
+  String get settingsWidgetAmountsTitle => 'Prikaži iznose u widgetima';
+
+  @override
+  String get settingsWidgetAmountsSubtitle =>
+      'Widgeti na početnom zaslonu vidljivi su bez otključavanja aplikacije. Dok je zaključavanje uključeno, iznosi ostaju skriveni osim ako ovo ne uključite.';
+
+  @override
   String get heroBalance => 'Ravnoteža';
 
   @override
@@ -872,6 +933,163 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get settingsDataExportFailed => 'Izvoz nije uspio';
+
+  @override
+  String get settingsCsvExportTitle => 'Izvezi kao CSV';
+
+  @override
+  String get settingsCsvExportSubtitle =>
+      'Vaše transakcije kao proračunska tablica';
+
+  @override
+  String get settingsCsvExportFailed => 'Izvoz CSV-a nije uspio';
+
+  @override
+  String get settingsCsvImportTitle => 'Uvezi iz CSV-a';
+
+  @override
+  String get settingsCsvImportSubtitle =>
+      'Dodajte transakcije iz proračunske tablice — ništa se ne zamjenjuje';
+
+  @override
+  String get settingsCsvTemplateTitle => 'Preuzmi CSV predložak';
+
+  @override
+  String get settingsCsvTemplateSubtitle =>
+      'Primjer datoteke u koju možete zalijepiti stare podatke';
+
+  @override
+  String get csvTemplateInstruction1 =>
+      'Zamijenite primjere redaka ispod vlastitim podacima, a zatim uvezite ovu datoteku u Postavkama.';
+
+  @override
+  String get csvTemplateInstruction2 =>
+      'Polja date i amount su obavezna. Datume pišite kao YYYY-MM-DD, a iznose kao pozitivan broj.';
+
+  @override
+  String get csvTemplateInstruction3 =>
+      'Polje type može biti income, expense, transfer, invoice, bill, advance, settlement, loan, collection ili offset. Ostavite prazno da aplikacija odredi vrstu prema računima.';
+
+  @override
+  String get csvTemplateInstruction4 =>
+      'Računi i kategorije koji još ne postoje stvaraju se automatski. Retci koji počinju s # zanemaruju se.';
+
+  @override
+  String get csvImportPreviewTitle => 'Uvoz transakcija';
+
+  @override
+  String csvImportPreviewCounts(int importable, int total) {
+    return 'Bit će dodano $importable od $total redaka';
+  }
+
+  @override
+  String csvImportPreviewNewAccounts(String names) {
+    return 'Novi računi: $names';
+  }
+
+  @override
+  String csvImportPreviewNewCategories(String names) {
+    return 'Nove kategorije: $names';
+  }
+
+  @override
+  String csvImportPreviewDuplicates(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count redaka već postoji',
+      few: '$count retka već postoje',
+      one: '$count redak već postoji',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportPreviewSkipDuplicates =>
+      'Preskoči retke koji već postoje';
+
+  @override
+  String csvImportPreviewIssuesTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count redaka nije bilo moguće pročitati',
+      few: '$count retka nije bilo moguće pročitati',
+      one: '$count redak nije bilo moguće pročitati',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String csvImportPreviewIssueLine(int line, String reason) {
+    return 'Redak $line: $reason';
+  }
+
+  @override
+  String csvImportPreviewIssueMore(int count) {
+    return '…i još $count';
+  }
+
+  @override
+  String get csvImportPreviewDateStyleTitle =>
+      'Datumi poput 03/04/2026 su dvosmisleni. Kako ih čitati?';
+
+  @override
+  String get csvImportPreviewDateStyleDayFirst => 'Prvo dan (3. travnja)';
+
+  @override
+  String get csvImportPreviewDateStyleMonthFirst => 'Prvo mjesec (4. ožujka)';
+
+  @override
+  String get csvImportPreviewNothing =>
+      'Nijedan redak iz ove datoteke ne može se uvesti.';
+
+  @override
+  String get csvImportPreviewConfirm => 'Uvezi';
+
+  @override
+  String get csvRowProblemDate => 'neispravan ili nedostajući datum';
+
+  @override
+  String get csvRowProblemAmount => 'neispravan ili nedostajući iznos';
+
+  @override
+  String get csvRowProblemAccount => 'neispravan ili nedostajući račun';
+
+  @override
+  String get csvRowProblemType => 'nepoznata vrsta transakcije';
+
+  @override
+  String csvImportDone(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Uvezeno $count transakcija',
+      few: 'Uvezene $count transakcije',
+      one: 'Uvezena $count transakcija',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportFailedNoColumns =>
+      'Nijedan stupac nije prepoznat. Krenite od CSV predloška.';
+
+  @override
+  String csvImportFailedMissingColumn(String column) {
+    return 'Datoteka nema stupac \"$column\".';
+  }
+
+  @override
+  String get csvImportFailedEmpty => 'Ova datoteka nema redaka s podacima.';
+
+  @override
+  String csvImportFailedTooManyRows(int rows, int max) {
+    return 'Ova datoteka ima $rows redaka; ograničenje je $max.';
+  }
+
+  @override
+  String get csvImportFailed => 'Uvoz CSV-a nije uspio';
 
   @override
   String get ledgerVerifyDialogTitle => 'Provjera glavne knjige';
@@ -1916,4 +2134,65 @@ class AppLocalizationsHr extends AppLocalizations {
   @override
   String get helpPlannedProjectionBody =>
       'Birači računa prikazuju projicirano stanje svakog računa na datum dospijeća, pa lako uočite plan koji bi račun odveo u minus.';
+
+  @override
+  String get settingsPlannedRemindersTitle => 'Podsjetnici za planove';
+
+  @override
+  String get settingsPlannedRemindersSubtitle =>
+      'Obavještava vas kada planirana transakcija dospijeva. Radi potpuno offline — ništa ne napušta vaš uređaj.';
+
+  @override
+  String get settingsPlannedRemindersTimeTitle => 'Vrijeme podsjetnika';
+
+  @override
+  String get settingsPlannedRemindersLeadTitle => 'Najava unaprijed';
+
+  @override
+  String get settingsPlannedRemindersLeadOnDay => 'Na dan dospijeća';
+
+  @override
+  String settingsPlannedRemindersLeadDaysBefore(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dana prije',
+      few: '$count dana prije',
+      one: '$count dan prije',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPlannedRemindersPermissionDenied =>
+      'Obavijesti su isključene za Platrare. Dopustite ih u postavkama sustava kako biste primali podsjetnike.';
+
+  @override
+  String get plannedReminderChannelName =>
+      'Podsjetnici za planirane transakcije';
+
+  @override
+  String get plannedReminderChannelDescription =>
+      'Obavijesti o nadolazećim planiranim transakcijama.';
+
+  @override
+  String get plannedReminderFallbackTitle => 'Planirana transakcija';
+
+  @override
+  String get plannedReminderDueToday => 'Dospijeva danas';
+
+  @override
+  String get plannedReminderDueTomorrow => 'Dospijeva sutra';
+
+  @override
+  String plannedReminderDueInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Dospijeva za $count dana',
+      few: 'Dospijeva za $count dana',
+      one: 'Dospijeva za $count dan',
+    );
+    return '$_temp0';
+  }
 }

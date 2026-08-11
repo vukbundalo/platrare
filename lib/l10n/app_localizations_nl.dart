@@ -51,6 +51,67 @@ class AppLocalizationsNl extends AppLocalizations {
   String get heroNet => 'Netto';
 
   @override
+  String get widgetLowestPoint => 'Laagste punt';
+
+  @override
+  String get widgetProjected => 'Prognose';
+
+  @override
+  String get widgetHorizonIn7Days => 'Over 7 dagen';
+
+  @override
+  String get widgetHorizonEndOfMonth => 'Einde maand';
+
+  @override
+  String get widgetMetricAccount => 'Rekeningsaldo';
+
+  @override
+  String get widgetQuickAdd => 'Snel toevoegen';
+
+  @override
+  String get widgetStale => 'Mogelijk verouderd';
+
+  @override
+  String get widgetOpenToStart => 'Open Platrare om rekeningen toe te voegen';
+
+  @override
+  String get widgetDueToday => 'Vandaag verschuldigd';
+
+  @override
+  String get widgetDescQuickAdd =>
+      'Voeg met één tik een transactie of plan toe.';
+
+  @override
+  String get widgetNameNumbers => 'Saldo';
+
+  @override
+  String get widgetDescNumbers =>
+      'Toon één getal: besteedbaar, nettowaarde of je laagste punt deze maand.';
+
+  @override
+  String get widgetConfigMetric => 'Waarde';
+
+  @override
+  String get widgetConfigHorizon => 'Horizon';
+
+  @override
+  String widgetSiriAddTransaction(String appName) {
+    return 'Een transactie toevoegen in $appName';
+  }
+
+  @override
+  String widgetSiriAddPlanned(String appName) {
+    return 'Een geplande transactie toevoegen in $appName';
+  }
+
+  @override
+  String get settingsWidgetAmountsTitle => 'Bedragen tonen in widgets';
+
+  @override
+  String get settingsWidgetAmountsSubtitle =>
+      'Widgets op het beginscherm zijn zichtbaar zonder de app te ontgrendelen. Met appvergrendeling aan blijven bedragen verborgen, tenzij je dit inschakelt.';
+
+  @override
   String get heroBalance => 'Evenwicht';
 
   @override
@@ -873,6 +934,159 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get settingsDataExportFailed => 'Exporteren is mislukt';
+
+  @override
+  String get settingsCsvExportTitle => 'Exporteren als CSV';
+
+  @override
+  String get settingsCsvExportSubtitle =>
+      'Je transacties als spreadsheetbestand';
+
+  @override
+  String get settingsCsvExportFailed => 'CSV-export mislukt';
+
+  @override
+  String get settingsCsvImportTitle => 'Importeren uit CSV';
+
+  @override
+  String get settingsCsvImportSubtitle =>
+      'Voeg transacties toe uit een spreadsheet — er wordt niets vervangen';
+
+  @override
+  String get settingsCsvTemplateTitle => 'CSV-sjabloon ophalen';
+
+  @override
+  String get settingsCsvTemplateSubtitle =>
+      'Een voorbeeldbestand om je oude gegevens in te plakken';
+
+  @override
+  String get csvTemplateInstruction1 =>
+      'Vervang de voorbeeldrijen hieronder door je eigen gegevens en importeer dit bestand daarna via Instellingen.';
+
+  @override
+  String get csvTemplateInstruction2 =>
+      'date en amount zijn verplicht. Schrijf datums als YYYY-MM-DD en bedragen als positief getal.';
+
+  @override
+  String get csvTemplateInstruction3 =>
+      'type kan income, expense, transfer, invoice, bill, advance, settlement, loan, collection of offset zijn. Laat het leeg om de app het uit de rekeningen te laten afleiden.';
+
+  @override
+  String get csvTemplateInstruction4 =>
+      'Rekeningen en categorieën die nog niet bestaan worden automatisch aangemaakt. Regels die met # beginnen worden genegeerd.';
+
+  @override
+  String get csvImportPreviewTitle => 'Transacties importeren';
+
+  @override
+  String csvImportPreviewCounts(int importable, int total) {
+    return '$importable van $total rijen worden toegevoegd';
+  }
+
+  @override
+  String csvImportPreviewNewAccounts(String names) {
+    return 'Nieuwe rekeningen: $names';
+  }
+
+  @override
+  String csvImportPreviewNewCategories(String names) {
+    return 'Nieuwe categorieën: $names';
+  }
+
+  @override
+  String csvImportPreviewDuplicates(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rijen bestaan al',
+      one: '1 rij bestaat al',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportPreviewSkipDuplicates => 'Rijen overslaan die al bestaan';
+
+  @override
+  String csvImportPreviewIssuesTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rijen konden niet worden gelezen',
+      one: '1 rij kon niet worden gelezen',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String csvImportPreviewIssueLine(int line, String reason) {
+    return 'Regel $line: $reason';
+  }
+
+  @override
+  String csvImportPreviewIssueMore(int count) {
+    return '…en nog $count';
+  }
+
+  @override
+  String get csvImportPreviewDateStyleTitle =>
+      'Datums als 03/04/2026 zijn dubbelzinnig. Hoe moeten ze worden gelezen?';
+
+  @override
+  String get csvImportPreviewDateStyleDayFirst => 'Dag eerst (3 april)';
+
+  @override
+  String get csvImportPreviewDateStyleMonthFirst => 'Maand eerst (4 maart)';
+
+  @override
+  String get csvImportPreviewNothing =>
+      'Geen enkele rij in dit bestand kan worden geïmporteerd.';
+
+  @override
+  String get csvImportPreviewConfirm => 'Importeren';
+
+  @override
+  String get csvRowProblemDate => 'ongeldige of ontbrekende datum';
+
+  @override
+  String get csvRowProblemAmount => 'ongeldig of ontbrekend bedrag';
+
+  @override
+  String get csvRowProblemAccount => 'ongeldige of ontbrekende rekening';
+
+  @override
+  String get csvRowProblemType => 'onbekend transactietype';
+
+  @override
+  String csvImportDone(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transacties geïmporteerd',
+      one: '1 transactie geïmporteerd',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportFailedNoColumns =>
+      'Geen herkende kolommen. Begin met het CSV-sjabloon.';
+
+  @override
+  String csvImportFailedMissingColumn(String column) {
+    return 'Het bestand heeft geen kolom \"$column\".';
+  }
+
+  @override
+  String get csvImportFailedEmpty => 'Dit bestand bevat geen gegevensrijen.';
+
+  @override
+  String csvImportFailedTooManyRows(int rows, int max) {
+    return 'Dit bestand heeft $rows rijen; de limiet is $max.';
+  }
+
+  @override
+  String get csvImportFailed => 'CSV-import mislukt';
 
   @override
   String get ledgerVerifyDialogTitle => 'Grootboekverificatie';
@@ -1920,4 +2134,62 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get helpPlannedProjectionBody =>
       'De rekeningkiezers tonen het verwachte saldo van elke rekening op de geplande datum, zodat je ziet welk plan een rekening rood zou laten staan.';
+
+  @override
+  String get settingsPlannedRemindersTitle => 'Planherinneringen';
+
+  @override
+  String get settingsPlannedRemindersSubtitle =>
+      'Meldt wanneer een geplande transactie vervalt. Werkt volledig offline — niets verlaat je apparaat.';
+
+  @override
+  String get settingsPlannedRemindersTimeTitle => 'Herinneringstijd';
+
+  @override
+  String get settingsPlannedRemindersLeadTitle => 'Vooraf melden';
+
+  @override
+  String get settingsPlannedRemindersLeadOnDay => 'Op de vervaldag';
+
+  @override
+  String settingsPlannedRemindersLeadDaysBefore(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dagen van tevoren',
+      one: '1 dag van tevoren',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPlannedRemindersPermissionDenied =>
+      'Meldingen zijn uitgeschakeld voor Platrare. Sta ze toe in de systeeminstellingen om herinneringen te ontvangen.';
+
+  @override
+  String get plannedReminderChannelName =>
+      'Herinneringen voor geplande transacties';
+
+  @override
+  String get plannedReminderChannelDescription =>
+      'Meldingen voor aankomende geplande transacties.';
+
+  @override
+  String get plannedReminderFallbackTitle => 'Geplande transactie';
+
+  @override
+  String get plannedReminderDueToday => 'Vervalt vandaag';
+
+  @override
+  String get plannedReminderDueTomorrow => 'Vervalt morgen';
+
+  @override
+  String plannedReminderDueInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Vervalt over $count dagen',
+    );
+    return '$_temp0';
+  }
 }

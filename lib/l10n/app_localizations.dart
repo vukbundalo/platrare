@@ -222,6 +222,114 @@ abstract class AppLocalizations {
   /// **'Net'**
   String get heroNet;
 
+  /// Home-screen widget: metric name for the projected trough
+  ///
+  /// In en, this message translates to:
+  /// **'Lowest point'**
+  String get widgetLowestPoint;
+
+  /// Home-screen widget: metric name for a projected value
+  ///
+  /// In en, this message translates to:
+  /// **'Projected'**
+  String get widgetProjected;
+
+  /// Home-screen widget: projection horizon, one week out
+  ///
+  /// In en, this message translates to:
+  /// **'In 7 days'**
+  String get widgetHorizonIn7Days;
+
+  /// Home-screen widget: projection horizon, end of month
+  ///
+  /// In en, this message translates to:
+  /// **'End of month'**
+  String get widgetHorizonEndOfMonth;
+
+  /// Home-screen widget: metric name for a single account balance
+  ///
+  /// In en, this message translates to:
+  /// **'Account balance'**
+  String get widgetMetricAccount;
+
+  /// Home-screen widget: name of the quick-add widget
+  ///
+  /// In en, this message translates to:
+  /// **'Quick add'**
+  String get widgetQuickAdd;
+
+  /// Home-screen widget: footnote when the snapshot is older than its series
+  ///
+  /// In en, this message translates to:
+  /// **'May be out of date'**
+  String get widgetStale;
+
+  /// Home-screen widget: empty state before any accounts exist
+  ///
+  /// In en, this message translates to:
+  /// **'Open Platrare to add accounts'**
+  String get widgetOpenToStart;
+
+  /// Home-screen widget: header for planned items due today
+  ///
+  /// In en, this message translates to:
+  /// **'Due today'**
+  String get widgetDueToday;
+
+  /// Widget gallery: description of the quick-add widget
+  ///
+  /// In en, this message translates to:
+  /// **'Add a transaction or a plan in one tap.'**
+  String get widgetDescQuickAdd;
+
+  /// Widget gallery: name of the configurable numbers widget
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get widgetNameNumbers;
+
+  /// Widget gallery: description of the configurable numbers widget
+  ///
+  /// In en, this message translates to:
+  /// **'Show one figure: spendable, net worth, or your lowest point this month.'**
+  String get widgetDescNumbers;
+
+  /// Widget configuration sheet: metric picker label
+  ///
+  /// In en, this message translates to:
+  /// **'Metric'**
+  String get widgetConfigMetric;
+
+  /// Widget configuration sheet: horizon picker label
+  ///
+  /// In en, this message translates to:
+  /// **'Horizon'**
+  String get widgetConfigHorizon;
+
+  /// Siri phrase for adding a tracked transaction. {appName} is replaced by the app name by the OS.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a transaction in {appName}'**
+  String widgetSiriAddTransaction(String appName);
+
+  /// Siri phrase for adding a planned transaction. {appName} is replaced by the app name by the OS.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a planned transaction in {appName}'**
+  String widgetSiriAddPlanned(String appName);
+
+  /// Settings: toggle for showing real amounts in home-screen widgets
+  ///
+  /// In en, this message translates to:
+  /// **'Show amounts in widgets'**
+  String get settingsWidgetAmountsTitle;
+
+  /// Settings: explanation of the widget amounts toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Home-screen widgets are visible without unlocking the app. While app lock is on, amounts stay masked unless you turn this on.'**
+  String get settingsWidgetAmountsSubtitle;
+
   /// No description provided for @heroBalance.
   ///
   /// In en, this message translates to:
@@ -1620,6 +1728,216 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Export failed'**
   String get settingsDataExportFailed;
+
+  /// No description provided for @settingsCsvExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export as CSV'**
+  String get settingsCsvExportTitle;
+
+  /// No description provided for @settingsCsvExportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your transactions as a spreadsheet file'**
+  String get settingsCsvExportSubtitle;
+
+  /// No description provided for @settingsCsvExportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'CSV export failed'**
+  String get settingsCsvExportFailed;
+
+  /// No description provided for @settingsCsvImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import from CSV'**
+  String get settingsCsvImportTitle;
+
+  /// No description provided for @settingsCsvImportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add transactions from a spreadsheet — nothing is replaced'**
+  String get settingsCsvImportSubtitle;
+
+  /// No description provided for @settingsCsvTemplateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get CSV template'**
+  String get settingsCsvTemplateTitle;
+
+  /// No description provided for @settingsCsvTemplateSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'An example file to paste your old data into'**
+  String get settingsCsvTemplateSubtitle;
+
+  /// No description provided for @csvTemplateInstruction1.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace the example rows below with your own data, then import this file from Settings.'**
+  String get csvTemplateInstruction1;
+
+  /// No description provided for @csvTemplateInstruction2.
+  ///
+  /// In en, this message translates to:
+  /// **'date and amount are required. Write dates as YYYY-MM-DD and amounts as a positive number.'**
+  String get csvTemplateInstruction2;
+
+  /// No description provided for @csvTemplateInstruction3.
+  ///
+  /// In en, this message translates to:
+  /// **'type can be income, expense, transfer, invoice, bill, advance, settlement, loan, collection or offset. Leave it empty to let the app work it out from the accounts.'**
+  String get csvTemplateInstruction3;
+
+  /// No description provided for @csvTemplateInstruction4.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts and categories that do not exist yet are created for you. Lines starting with # are ignored.'**
+  String get csvTemplateInstruction4;
+
+  /// No description provided for @csvImportPreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import transactions'**
+  String get csvImportPreviewTitle;
+
+  /// No description provided for @csvImportPreviewCounts.
+  ///
+  /// In en, this message translates to:
+  /// **'{importable} of {total} rows will be added'**
+  String csvImportPreviewCounts(int importable, int total);
+
+  /// No description provided for @csvImportPreviewNewAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'New accounts: {names}'**
+  String csvImportPreviewNewAccounts(String names);
+
+  /// No description provided for @csvImportPreviewNewCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'New categories: {names}'**
+  String csvImportPreviewNewCategories(String names);
+
+  /// No description provided for @csvImportPreviewDuplicates.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 row already exists} other{{count} rows already exist}}'**
+  String csvImportPreviewDuplicates(num count);
+
+  /// No description provided for @csvImportPreviewSkipDuplicates.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip rows that already exist'**
+  String get csvImportPreviewSkipDuplicates;
+
+  /// No description provided for @csvImportPreviewIssuesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 row could not be read} other{{count} rows could not be read}}'**
+  String csvImportPreviewIssuesTitle(num count);
+
+  /// No description provided for @csvImportPreviewIssueLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Line {line}: {reason}'**
+  String csvImportPreviewIssueLine(int line, String reason);
+
+  /// No description provided for @csvImportPreviewIssueMore.
+  ///
+  /// In en, this message translates to:
+  /// **'…and {count} more'**
+  String csvImportPreviewIssueMore(int count);
+
+  /// No description provided for @csvImportPreviewDateStyleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates like 03/04/2026 are ambiguous. How should they be read?'**
+  String get csvImportPreviewDateStyleTitle;
+
+  /// No description provided for @csvImportPreviewDateStyleDayFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Day first (03 April)'**
+  String get csvImportPreviewDateStyleDayFirst;
+
+  /// No description provided for @csvImportPreviewDateStyleMonthFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Month first (04 March)'**
+  String get csvImportPreviewDateStyleMonthFirst;
+
+  /// No description provided for @csvImportPreviewNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No rows in this file can be imported.'**
+  String get csvImportPreviewNothing;
+
+  /// No description provided for @csvImportPreviewConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get csvImportPreviewConfirm;
+
+  /// No description provided for @csvRowProblemDate.
+  ///
+  /// In en, this message translates to:
+  /// **'invalid or missing date'**
+  String get csvRowProblemDate;
+
+  /// No description provided for @csvRowProblemAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'invalid or missing amount'**
+  String get csvRowProblemAmount;
+
+  /// No description provided for @csvRowProblemAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'invalid or missing account'**
+  String get csvRowProblemAccount;
+
+  /// No description provided for @csvRowProblemType.
+  ///
+  /// In en, this message translates to:
+  /// **'unknown transaction type'**
+  String get csvRowProblemType;
+
+  /// No description provided for @csvImportDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 transaction imported} other{{count} transactions imported}}'**
+  String csvImportDone(num count);
+
+  /// No description provided for @csvImportFailedNoColumns.
+  ///
+  /// In en, this message translates to:
+  /// **'No recognised columns. Start from the CSV template.'**
+  String get csvImportFailedNoColumns;
+
+  /// No description provided for @csvImportFailedMissingColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'The file has no \"{column}\" column.'**
+  String csvImportFailedMissingColumn(String column);
+
+  /// No description provided for @csvImportFailedEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'This file has no data rows.'**
+  String get csvImportFailedEmpty;
+
+  /// No description provided for @csvImportFailedTooManyRows.
+  ///
+  /// In en, this message translates to:
+  /// **'This file has {rows} rows; the limit is {max}.'**
+  String csvImportFailedTooManyRows(int rows, int max);
+
+  /// No description provided for @csvImportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'CSV import failed'**
+  String get csvImportFailed;
 
   /// No description provided for @ledgerVerifyDialogTitle.
   ///
@@ -3431,6 +3749,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The account pickers show each account’s projected balance on the due date, so you can spot a plan that would overdraw an account.'**
   String get helpPlannedProjectionBody;
+
+  /// No description provided for @settingsPlannedRemindersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned reminders'**
+  String get settingsPlannedRemindersTitle;
+
+  /// No description provided for @settingsPlannedRemindersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifies you when a planned transaction is due. Works fully offline — nothing leaves your device.'**
+  String get settingsPlannedRemindersSubtitle;
+
+  /// No description provided for @settingsPlannedRemindersTimeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder time'**
+  String get settingsPlannedRemindersTimeTitle;
+
+  /// No description provided for @settingsPlannedRemindersLeadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Advance notice'**
+  String get settingsPlannedRemindersLeadTitle;
+
+  /// No description provided for @settingsPlannedRemindersLeadOnDay.
+  ///
+  /// In en, this message translates to:
+  /// **'On the due date'**
+  String get settingsPlannedRemindersLeadOnDay;
+
+  /// No description provided for @settingsPlannedRemindersLeadDaysBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day before} other{{count} days before}}'**
+  String settingsPlannedRemindersLeadDaysBefore(int count);
+
+  /// No description provided for @settingsPlannedRemindersPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are turned off for Platrare. Allow them in system settings to receive reminders.'**
+  String get settingsPlannedRemindersPermissionDenied;
+
+  /// No description provided for @plannedReminderChannelName.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned transaction reminders'**
+  String get plannedReminderChannelName;
+
+  /// No description provided for @plannedReminderChannelDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications for upcoming planned transactions.'**
+  String get plannedReminderChannelDescription;
+
+  /// No description provided for @plannedReminderFallbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned transaction'**
+  String get plannedReminderFallbackTitle;
+
+  /// No description provided for @plannedReminderDueToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Due today'**
+  String get plannedReminderDueToday;
+
+  /// No description provided for @plannedReminderDueTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Due tomorrow'**
+  String get plannedReminderDueTomorrow;
+
+  /// No description provided for @plannedReminderDueInDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, other{Due in {count} days}}'**
+  String plannedReminderDueInDays(int count);
 }
 
 class _AppLocalizationsDelegate

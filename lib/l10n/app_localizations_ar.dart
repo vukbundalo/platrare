@@ -51,6 +51,66 @@ class AppLocalizationsAr extends AppLocalizations {
   String get heroNet => 'شبكة';
 
   @override
+  String get widgetLowestPoint => 'أدنى نقطة';
+
+  @override
+  String get widgetProjected => 'متوقَّع';
+
+  @override
+  String get widgetHorizonIn7Days => 'خلال 7 أيام';
+
+  @override
+  String get widgetHorizonEndOfMonth => 'نهاية الشهر';
+
+  @override
+  String get widgetMetricAccount => 'رصيد الحساب';
+
+  @override
+  String get widgetQuickAdd => 'إضافة سريعة';
+
+  @override
+  String get widgetStale => 'قد تكون غير محدَّثة';
+
+  @override
+  String get widgetOpenToStart => 'افتح Platrare لإضافة حسابات';
+
+  @override
+  String get widgetDueToday => 'مستحق اليوم';
+
+  @override
+  String get widgetDescQuickAdd => 'أضف معاملة أو خطة بلمسة واحدة.';
+
+  @override
+  String get widgetNameNumbers => 'الرصيد';
+
+  @override
+  String get widgetDescNumbers =>
+      'اعرض رقمًا واحدًا: المتاح للإنفاق أو صافي الثروة أو أدنى نقطة هذا الشهر.';
+
+  @override
+  String get widgetConfigMetric => 'المقياس';
+
+  @override
+  String get widgetConfigHorizon => 'المدى';
+
+  @override
+  String widgetSiriAddTransaction(String appName) {
+    return 'أضف معاملة في $appName';
+  }
+
+  @override
+  String widgetSiriAddPlanned(String appName) {
+    return 'أضف معاملة مخطَّطة في $appName';
+  }
+
+  @override
+  String get settingsWidgetAmountsTitle => 'إظهار المبالغ في الأدوات';
+
+  @override
+  String get settingsWidgetAmountsSubtitle =>
+      'تظهر أدوات الشاشة الرئيسية دون فتح قفل التطبيق. عند تفعيل قفل التطبيق تبقى المبالغ مخفية ما لم تُفعِّل هذا الخيار.';
+
+  @override
   String get heroBalance => 'توازن';
 
   @override
@@ -869,6 +929,163 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsDataExportFailed => 'فشل التصدير';
+
+  @override
+  String get settingsCsvExportTitle => 'تصدير بصيغة CSV';
+
+  @override
+  String get settingsCsvExportSubtitle => 'معاملاتك كملف جدول بيانات';
+
+  @override
+  String get settingsCsvExportFailed => 'فشل تصدير CSV';
+
+  @override
+  String get settingsCsvImportTitle => 'استيراد من CSV';
+
+  @override
+  String get settingsCsvImportSubtitle =>
+      'أضف معاملات من جدول بيانات — لا يتم استبدال أي شيء';
+
+  @override
+  String get settingsCsvTemplateTitle => 'الحصول على قالب CSV';
+
+  @override
+  String get settingsCsvTemplateSubtitle =>
+      'ملف نموذجي للصق بياناتك القديمة فيه';
+
+  @override
+  String get csvTemplateInstruction1 =>
+      'استبدل صفوف المثال أدناه ببياناتك الخاصة، ثم استورد هذا الملف من الإعدادات.';
+
+  @override
+  String get csvTemplateInstruction2 =>
+      'الحقلان date و amount مطلوبان. اكتب التواريخ بالصيغة YYYY-MM-DD والمبالغ كرقم موجب.';
+
+  @override
+  String get csvTemplateInstruction3 =>
+      'يمكن أن يكون الحقل type أحد التالي: income أو expense أو transfer أو invoice أو bill أو advance أو settlement أو loan أو collection أو offset. اتركه فارغًا ليستنتجه التطبيق من الحسابات.';
+
+  @override
+  String get csvTemplateInstruction4 =>
+      'يتم إنشاء الحسابات والفئات غير الموجودة تلقائيًا. تُتجاهل الأسطر التي تبدأ بـ #.';
+
+  @override
+  String get csvImportPreviewTitle => 'استيراد المعاملات';
+
+  @override
+  String csvImportPreviewCounts(int importable, int total) {
+    return 'ستتم إضافة $importable من أصل $total صف';
+  }
+
+  @override
+  String csvImportPreviewNewAccounts(String names) {
+    return 'حسابات جديدة: $names';
+  }
+
+  @override
+  String csvImportPreviewNewCategories(String names) {
+    return 'فئات جديدة: $names';
+  }
+
+  @override
+  String csvImportPreviewDuplicates(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count صفًا موجودة بالفعل',
+      few: '$count صفوف موجودة بالفعل',
+      two: 'صفان موجودان بالفعل',
+      one: 'صف واحد موجود بالفعل',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportPreviewSkipDuplicates => 'تخطي الصفوف الموجودة بالفعل';
+
+  @override
+  String csvImportPreviewIssuesTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تعذّرت قراءة $count صفًا',
+      few: 'تعذّرت قراءة $count صفوف',
+      two: 'تعذّرت قراءة صفين',
+      one: 'تعذّرت قراءة صف واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String csvImportPreviewIssueLine(int line, String reason) {
+    return 'السطر $line: $reason';
+  }
+
+  @override
+  String csvImportPreviewIssueMore(int count) {
+    return '…و$count أخرى';
+  }
+
+  @override
+  String get csvImportPreviewDateStyleTitle =>
+      'التواريخ مثل 03/04/2026 غامضة. كيف ينبغي قراءتها؟';
+
+  @override
+  String get csvImportPreviewDateStyleDayFirst => 'اليوم أولًا (3 أبريل)';
+
+  @override
+  String get csvImportPreviewDateStyleMonthFirst => 'الشهر أولًا (4 مارس)';
+
+  @override
+  String get csvImportPreviewNothing => 'لا يمكن استيراد أي صف من هذا الملف.';
+
+  @override
+  String get csvImportPreviewConfirm => 'استيراد';
+
+  @override
+  String get csvRowProblemDate => 'تاريخ غير صالح أو مفقود';
+
+  @override
+  String get csvRowProblemAmount => 'مبلغ غير صالح أو مفقود';
+
+  @override
+  String get csvRowProblemAccount => 'حساب غير صالح أو مفقود';
+
+  @override
+  String get csvRowProblemType => 'نوع معاملة غير معروف';
+
+  @override
+  String csvImportDone(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم استيراد $count معاملة',
+      few: 'تم استيراد $count معاملات',
+      two: 'تم استيراد معاملتين',
+      one: 'تم استيراد معاملة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportFailedNoColumns =>
+      'لم يتم التعرف على أي عمود. ابدأ من قالب CSV.';
+
+  @override
+  String csvImportFailedMissingColumn(String column) {
+    return 'الملف لا يحتوي على العمود \"$column\".';
+  }
+
+  @override
+  String get csvImportFailedEmpty => 'هذا الملف لا يحتوي على صفوف بيانات.';
+
+  @override
+  String csvImportFailedTooManyRows(int rows, int max) {
+    return 'يحتوي هذا الملف على $rows صف؛ الحد الأقصى هو $max.';
+  }
+
+  @override
+  String get csvImportFailed => 'فشل استيراد CSV';
 
   @override
   String get ledgerVerifyDialogTitle => 'التحقق من دفتر الأستاذ';
@@ -1906,4 +2123,66 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get helpPlannedProjectionBody =>
       'يعرض مُنتقيا الحسابات الرصيد المتوقع لكل حساب في تاريخ الاستحقاق، لتلاحظ أي خطة قد تجعل الحساب سالبًا.';
+
+  @override
+  String get settingsPlannedRemindersTitle => 'تذكيرات الخطط';
+
+  @override
+  String get settingsPlannedRemindersSubtitle =>
+      'يخطرك عند استحقاق معاملة مخططة. يعمل دون اتصال تمامًا — لا شيء يغادر جهازك.';
+
+  @override
+  String get settingsPlannedRemindersTimeTitle => 'وقت التذكير';
+
+  @override
+  String get settingsPlannedRemindersLeadTitle => 'الإشعار المسبق';
+
+  @override
+  String get settingsPlannedRemindersLeadOnDay => 'في يوم الاستحقاق';
+
+  @override
+  String settingsPlannedRemindersLeadDaysBefore(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'قبل $count يومًا',
+      few: 'قبل $count أيام',
+      two: 'قبل يومين',
+      one: 'قبل يوم واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPlannedRemindersPermissionDenied =>
+      'الإشعارات معطّلة لتطبيق Platrare. اسمح بها في إعدادات النظام لتلقي التذكيرات.';
+
+  @override
+  String get plannedReminderChannelName => 'تذكيرات المعاملات المخططة';
+
+  @override
+  String get plannedReminderChannelDescription =>
+      'إشعارات بالمعاملات المخططة القادمة.';
+
+  @override
+  String get plannedReminderFallbackTitle => 'معاملة مخططة';
+
+  @override
+  String get plannedReminderDueToday => 'تستحق اليوم';
+
+  @override
+  String get plannedReminderDueTomorrow => 'تستحق غدًا';
+
+  @override
+  String plannedReminderDueInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تستحق بعد $count يومًا',
+      few: 'تستحق بعد $count أيام',
+      two: 'تستحق بعد يومين',
+      one: 'تستحق بعد يوم',
+    );
+    return '$_temp0';
+  }
 }

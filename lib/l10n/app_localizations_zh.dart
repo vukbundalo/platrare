@@ -51,6 +51,65 @@ class AppLocalizationsZh extends AppLocalizations {
   String get heroNet => 'Net';
 
   @override
+  String get widgetLowestPoint => '最低点';
+
+  @override
+  String get widgetProjected => '预计';
+
+  @override
+  String get widgetHorizonIn7Days => '7 天后';
+
+  @override
+  String get widgetHorizonEndOfMonth => '月末';
+
+  @override
+  String get widgetMetricAccount => '账户余额';
+
+  @override
+  String get widgetQuickAdd => '快速添加';
+
+  @override
+  String get widgetStale => '可能不是最新';
+
+  @override
+  String get widgetOpenToStart => '打开 Platrare 添加账户';
+
+  @override
+  String get widgetDueToday => '今天到期';
+
+  @override
+  String get widgetDescQuickAdd => '一键添加交易或计划。';
+
+  @override
+  String get widgetNameNumbers => '余额';
+
+  @override
+  String get widgetDescNumbers => '显示一个数字：可用余额、净资产或本月最低点。';
+
+  @override
+  String get widgetConfigMetric => '指标';
+
+  @override
+  String get widgetConfigHorizon => '时间范围';
+
+  @override
+  String widgetSiriAddTransaction(String appName) {
+    return '在 $appName 中添加交易';
+  }
+
+  @override
+  String widgetSiriAddPlanned(String appName) {
+    return '在 $appName 中添加计划交易';
+  }
+
+  @override
+  String get settingsWidgetAmountsTitle => '在小组件中显示金额';
+
+  @override
+  String get settingsWidgetAmountsSubtitle =>
+      '主屏幕小组件无需解锁应用即可查看。启用应用锁时，除非开启此项，否则金额将保持隐藏。';
+
+  @override
   String get heroBalance => 'Balance';
 
   @override
@@ -867,6 +926,158 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get settingsDataExportFailed => 'Export failed';
+
+  @override
+  String get settingsCsvExportTitle => 'Export as CSV';
+
+  @override
+  String get settingsCsvExportSubtitle =>
+      'Your transactions as a spreadsheet file';
+
+  @override
+  String get settingsCsvExportFailed => 'CSV export failed';
+
+  @override
+  String get settingsCsvImportTitle => 'Import from CSV';
+
+  @override
+  String get settingsCsvImportSubtitle =>
+      'Add transactions from a spreadsheet — nothing is replaced';
+
+  @override
+  String get settingsCsvTemplateTitle => 'Get CSV template';
+
+  @override
+  String get settingsCsvTemplateSubtitle =>
+      'An example file to paste your old data into';
+
+  @override
+  String get csvTemplateInstruction1 =>
+      'Replace the example rows below with your own data, then import this file from Settings.';
+
+  @override
+  String get csvTemplateInstruction2 =>
+      'date and amount are required. Write dates as YYYY-MM-DD and amounts as a positive number.';
+
+  @override
+  String get csvTemplateInstruction3 =>
+      'type can be income, expense, transfer, invoice, bill, advance, settlement, loan, collection or offset. Leave it empty to let the app work it out from the accounts.';
+
+  @override
+  String get csvTemplateInstruction4 =>
+      'Accounts and categories that do not exist yet are created for you. Lines starting with # are ignored.';
+
+  @override
+  String get csvImportPreviewTitle => 'Import transactions';
+
+  @override
+  String csvImportPreviewCounts(int importable, int total) {
+    return '$importable of $total rows will be added';
+  }
+
+  @override
+  String csvImportPreviewNewAccounts(String names) {
+    return 'New accounts: $names';
+  }
+
+  @override
+  String csvImportPreviewNewCategories(String names) {
+    return 'New categories: $names';
+  }
+
+  @override
+  String csvImportPreviewDuplicates(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rows already exist',
+      one: '1 row already exists',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportPreviewSkipDuplicates => 'Skip rows that already exist';
+
+  @override
+  String csvImportPreviewIssuesTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rows could not be read',
+      one: '1 row could not be read',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String csvImportPreviewIssueLine(int line, String reason) {
+    return 'Line $line: $reason';
+  }
+
+  @override
+  String csvImportPreviewIssueMore(int count) {
+    return '…and $count more';
+  }
+
+  @override
+  String get csvImportPreviewDateStyleTitle =>
+      'Dates like 03/04/2026 are ambiguous. How should they be read?';
+
+  @override
+  String get csvImportPreviewDateStyleDayFirst => 'Day first (03 April)';
+
+  @override
+  String get csvImportPreviewDateStyleMonthFirst => 'Month first (04 March)';
+
+  @override
+  String get csvImportPreviewNothing => 'No rows in this file can be imported.';
+
+  @override
+  String get csvImportPreviewConfirm => 'Import';
+
+  @override
+  String get csvRowProblemDate => 'invalid or missing date';
+
+  @override
+  String get csvRowProblemAmount => 'invalid or missing amount';
+
+  @override
+  String get csvRowProblemAccount => 'invalid or missing account';
+
+  @override
+  String get csvRowProblemType => 'unknown transaction type';
+
+  @override
+  String csvImportDone(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transactions imported',
+      one: '1 transaction imported',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportFailedNoColumns =>
+      'No recognised columns. Start from the CSV template.';
+
+  @override
+  String csvImportFailedMissingColumn(String column) {
+    return 'The file has no \"$column\" column.';
+  }
+
+  @override
+  String get csvImportFailedEmpty => 'This file has no data rows.';
+
+  @override
+  String csvImportFailedTooManyRows(int rows, int max) {
+    return 'This file has $rows rows; the limit is $max.';
+  }
+
+  @override
+  String get csvImportFailed => 'CSV import failed';
 
   @override
   String get ledgerVerifyDialogTitle => 'Ledger verification';
@@ -1882,6 +2093,63 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get helpPlannedProjectionBody =>
       '账户选择器会显示每个账户在预定日期的预测余额，帮你发现会导致透支的计划。';
+
+  @override
+  String get settingsPlannedRemindersTitle => 'Planned reminders';
+
+  @override
+  String get settingsPlannedRemindersSubtitle =>
+      'Notifies you when a planned transaction is due. Works fully offline — nothing leaves your device.';
+
+  @override
+  String get settingsPlannedRemindersTimeTitle => 'Reminder time';
+
+  @override
+  String get settingsPlannedRemindersLeadTitle => 'Advance notice';
+
+  @override
+  String get settingsPlannedRemindersLeadOnDay => 'On the due date';
+
+  @override
+  String settingsPlannedRemindersLeadDaysBefore(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days before',
+      one: '1 day before',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPlannedRemindersPermissionDenied =>
+      'Notifications are turned off for Platrare. Allow them in system settings to receive reminders.';
+
+  @override
+  String get plannedReminderChannelName => 'Planned transaction reminders';
+
+  @override
+  String get plannedReminderChannelDescription =>
+      'Notifications for upcoming planned transactions.';
+
+  @override
+  String get plannedReminderFallbackTitle => 'Planned transaction';
+
+  @override
+  String get plannedReminderDueToday => 'Due today';
+
+  @override
+  String get plannedReminderDueTomorrow => 'Due tomorrow';
+
+  @override
+  String plannedReminderDueInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Due in $count days',
+    );
+    return '$_temp0';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -1929,6 +2197,65 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get heroNet => '网';
+
+  @override
+  String get widgetLowestPoint => '最低点';
+
+  @override
+  String get widgetProjected => '预计';
+
+  @override
+  String get widgetHorizonIn7Days => '7 天后';
+
+  @override
+  String get widgetHorizonEndOfMonth => '月末';
+
+  @override
+  String get widgetMetricAccount => '账户余额';
+
+  @override
+  String get widgetQuickAdd => '快速添加';
+
+  @override
+  String get widgetStale => '可能不是最新';
+
+  @override
+  String get widgetOpenToStart => '打开 Platrare 添加账户';
+
+  @override
+  String get widgetDueToday => '今天到期';
+
+  @override
+  String get widgetDescQuickAdd => '一键添加交易或计划。';
+
+  @override
+  String get widgetNameNumbers => '余额';
+
+  @override
+  String get widgetDescNumbers => '显示一个数字：可用余额、净资产或本月最低点。';
+
+  @override
+  String get widgetConfigMetric => '指标';
+
+  @override
+  String get widgetConfigHorizon => '时间范围';
+
+  @override
+  String widgetSiriAddTransaction(String appName) {
+    return '在 $appName 中添加交易';
+  }
+
+  @override
+  String widgetSiriAddPlanned(String appName) {
+    return '在 $appName 中添加计划交易';
+  }
+
+  @override
+  String get settingsWidgetAmountsTitle => '在小组件中显示金额';
+
+  @override
+  String get settingsWidgetAmountsSubtitle =>
+      '主屏幕小组件无需解锁应用即可查看。启用应用锁时，除非开启此项，否则金额将保持隐藏。';
 
   @override
   String get heroBalance => '平衡';
@@ -2720,6 +3047,148 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get settingsDataExportFailed => '导出失败';
+
+  @override
+  String get settingsCsvExportTitle => '导出为 CSV';
+
+  @override
+  String get settingsCsvExportSubtitle => '将交易保存为电子表格文件';
+
+  @override
+  String get settingsCsvExportFailed => 'CSV 导出失败';
+
+  @override
+  String get settingsCsvImportTitle => '从 CSV 导入';
+
+  @override
+  String get settingsCsvImportSubtitle => '从电子表格添加交易 — 不会替换任何现有数据';
+
+  @override
+  String get settingsCsvTemplateTitle => '获取 CSV 模板';
+
+  @override
+  String get settingsCsvTemplateSubtitle => '用于粘贴旧数据的示例文件';
+
+  @override
+  String get csvTemplateInstruction1 => '请用你自己的数据替换下面的示例行，然后在设置中导入此文件。';
+
+  @override
+  String get csvTemplateInstruction2 =>
+      'date 和 amount 为必填项。日期请写成 YYYY-MM-DD，金额请填正数。';
+
+  @override
+  String get csvTemplateInstruction3 =>
+      'type 可以是 income、expense、transfer、invoice、bill、advance、settlement、loan、collection 或 offset。留空则由应用根据账户自动判断。';
+
+  @override
+  String get csvTemplateInstruction4 => '尚不存在的账户和分类会自动创建。以 # 开头的行会被忽略。';
+
+  @override
+  String get csvImportPreviewTitle => '导入交易';
+
+  @override
+  String csvImportPreviewCounts(int importable, int total) {
+    return '将添加 $total 行中的 $importable 行';
+  }
+
+  @override
+  String csvImportPreviewNewAccounts(String names) {
+    return '新账户：$names';
+  }
+
+  @override
+  String csvImportPreviewNewCategories(String names) {
+    return '新分类：$names';
+  }
+
+  @override
+  String csvImportPreviewDuplicates(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 行已存在',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportPreviewSkipDuplicates => '跳过已存在的行';
+
+  @override
+  String csvImportPreviewIssuesTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '有 $count 行无法读取',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String csvImportPreviewIssueLine(int line, String reason) {
+    return '第 $line 行：$reason';
+  }
+
+  @override
+  String csvImportPreviewIssueMore(int count) {
+    return '…另有 $count 行';
+  }
+
+  @override
+  String get csvImportPreviewDateStyleTitle => '像 03/04/2026 这样的日期含义不明确。应如何解读？';
+
+  @override
+  String get csvImportPreviewDateStyleDayFirst => '日在前（4 月 3 日）';
+
+  @override
+  String get csvImportPreviewDateStyleMonthFirst => '月在前（3 月 4 日）';
+
+  @override
+  String get csvImportPreviewNothing => '此文件中没有可导入的行。';
+
+  @override
+  String get csvImportPreviewConfirm => '导入';
+
+  @override
+  String get csvRowProblemDate => '日期无效或缺失';
+
+  @override
+  String get csvRowProblemAmount => '金额无效或缺失';
+
+  @override
+  String get csvRowProblemAccount => '账户无效或缺失';
+
+  @override
+  String get csvRowProblemType => '未知的交易类型';
+
+  @override
+  String csvImportDone(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '已导入 $count 笔交易',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportFailedNoColumns => '未识别到任何列。请从 CSV 模板开始。';
+
+  @override
+  String csvImportFailedMissingColumn(String column) {
+    return '文件中没有“$column”列。';
+  }
+
+  @override
+  String get csvImportFailedEmpty => '此文件没有数据行。';
+
+  @override
+  String csvImportFailedTooManyRows(int rows, int max) {
+    return '此文件有 $rows 行，上限为 $max 行。';
+  }
+
+  @override
+  String get csvImportFailed => 'CSV 导入失败';
 
   @override
   String get ledgerVerifyDialogTitle => '账本验证';
@@ -3701,4 +4170,59 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   @override
   String get helpPlannedProjectionBody =>
       '账户选择器会显示每个账户在预定日期的预测余额，帮你发现会导致透支的计划。';
+
+  @override
+  String get settingsPlannedRemindersTitle => '计划提醒';
+
+  @override
+  String get settingsPlannedRemindersSubtitle =>
+      '在计划交易到期时通知您。完全离线运行——任何数据都不会离开您的设备。';
+
+  @override
+  String get settingsPlannedRemindersTimeTitle => '提醒时间';
+
+  @override
+  String get settingsPlannedRemindersLeadTitle => '提前提醒';
+
+  @override
+  String get settingsPlannedRemindersLeadOnDay => '到期当天';
+
+  @override
+  String settingsPlannedRemindersLeadDaysBefore(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '提前 $count 天',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPlannedRemindersPermissionDenied =>
+      'Platrare 的通知已关闭。请在系统设置中允许通知以接收提醒。';
+
+  @override
+  String get plannedReminderChannelName => '计划交易提醒';
+
+  @override
+  String get plannedReminderChannelDescription => '即将到期的计划交易通知。';
+
+  @override
+  String get plannedReminderFallbackTitle => '计划交易';
+
+  @override
+  String get plannedReminderDueToday => '今天到期';
+
+  @override
+  String get plannedReminderDueTomorrow => '明天到期';
+
+  @override
+  String plannedReminderDueInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 天后到期',
+    );
+    return '$_temp0';
+  }
 }

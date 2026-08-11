@@ -17,6 +17,24 @@
   "heroIn": "In",
   "heroOut": "Uit",
   "heroNet": "Netto",
+  "widgetLowestPoint": "Laagste punt",
+  "widgetProjected": "Prognose",
+  "widgetHorizonIn7Days": "Over 7 dagen",
+  "widgetHorizonEndOfMonth": "Einde maand",
+  "widgetMetricAccount": "Rekeningsaldo",
+  "widgetQuickAdd": "Snel toevoegen",
+  "widgetStale": "Mogelijk verouderd",
+  "widgetOpenToStart": "Open Platrare om rekeningen toe te voegen",
+  "widgetDueToday": "Vandaag verschuldigd",
+  "widgetDescQuickAdd": "Voeg met één tik een transactie of plan toe.",
+  "widgetNameNumbers": "Saldo",
+  "widgetDescNumbers": "Toon één getal: besteedbaar, nettowaarde of je laagste punt deze maand.",
+  "widgetConfigMetric": "Waarde",
+  "widgetConfigHorizon": "Horizon",
+  "widgetSiriAddTransaction": "Een transactie toevoegen in {appName}",
+  "widgetSiriAddPlanned": "Een geplande transactie toevoegen in {appName}",
+  "settingsWidgetAmountsTitle": "Bedragen tonen in widgets",
+  "settingsWidgetAmountsSubtitle": "Widgets op het beginscherm zijn zichtbaar zonder de app te ontgrendelen. Met appvergrendeling aan blijven bedragen verborgen, tenzij je dit inschakelt.",
   "heroBalance": "Evenwicht",
   "realBalance": "Echt evenwicht",
   "settingsHideHeroBalancesTitle": "Saldi verbergen in overzichtskaarten",
@@ -457,6 +475,99 @@
   },
   "settingsDataOpenExportFile": "Bestand openen",
   "settingsDataExportFailed": "Exporteren is mislukt",
+  "settingsCsvExportTitle": "Exporteren als CSV",
+  "settingsCsvExportSubtitle": "Je transacties als spreadsheetbestand",
+  "settingsCsvExportFailed": "CSV-export mislukt",
+  "settingsCsvImportTitle": "Importeren uit CSV",
+  "settingsCsvImportSubtitle": "Voeg transacties toe uit een spreadsheet — er wordt niets vervangen",
+  "settingsCsvTemplateTitle": "CSV-sjabloon ophalen",
+  "settingsCsvTemplateSubtitle": "Een voorbeeldbestand om je oude gegevens in te plakken",
+  "csvTemplateInstruction1": "Vervang de voorbeeldrijen hieronder door je eigen gegevens en importeer dit bestand daarna via Instellingen.",
+  "csvTemplateInstruction2": "date en amount zijn verplicht. Schrijf datums als YYYY-MM-DD en bedragen als positief getal.",
+  "csvTemplateInstruction3": "type kan income, expense, transfer, invoice, bill, advance, settlement, loan, collection of offset zijn. Laat het leeg om de app het uit de rekeningen te laten afleiden.",
+  "csvTemplateInstruction4": "Rekeningen en categorieën die nog niet bestaan worden automatisch aangemaakt. Regels die met # beginnen worden genegeerd.",
+  "csvImportPreviewTitle": "Transacties importeren",
+  "csvImportPreviewCounts": "{importable} van {total} rijen worden toegevoegd",
+  "@csvImportPreviewCounts": {
+    "placeholders": {
+      "importable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewNewAccounts": "Nieuwe rekeningen: {names}",
+  "@csvImportPreviewNewAccounts": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewNewCategories": "Nieuwe categorieën: {names}",
+  "@csvImportPreviewNewCategories": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewDuplicates": "{count, plural, =1{1 rij bestaat al} other{{count} rijen bestaan al}}",
+  "csvImportPreviewSkipDuplicates": "Rijen overslaan die al bestaan",
+  "csvImportPreviewIssuesTitle": "{count, plural, =1{1 rij kon niet worden gelezen} other{{count} rijen konden niet worden gelezen}}",
+  "csvImportPreviewIssueLine": "Regel {line}: {reason}",
+  "@csvImportPreviewIssueLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewIssueMore": "…en nog {count}",
+  "@csvImportPreviewIssueMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewDateStyleTitle": "Datums als 03/04/2026 zijn dubbelzinnig. Hoe moeten ze worden gelezen?",
+  "csvImportPreviewDateStyleDayFirst": "Dag eerst (3 april)",
+  "csvImportPreviewDateStyleMonthFirst": "Maand eerst (4 maart)",
+  "csvImportPreviewNothing": "Geen enkele rij in dit bestand kan worden geïmporteerd.",
+  "csvImportPreviewConfirm": "Importeren",
+  "csvRowProblemDate": "ongeldige of ontbrekende datum",
+  "csvRowProblemAmount": "ongeldig of ontbrekend bedrag",
+  "csvRowProblemAccount": "ongeldige of ontbrekende rekening",
+  "csvRowProblemType": "onbekend transactietype",
+  "csvImportDone": "{count, plural, =1{1 transactie geïmporteerd} other{{count} transacties geïmporteerd}}",
+  "csvImportFailedNoColumns": "Geen herkende kolommen. Begin met het CSV-sjabloon.",
+  "csvImportFailedMissingColumn": "Het bestand heeft geen kolom \"{column}\".",
+  "@csvImportFailedMissingColumn": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportFailedEmpty": "Dit bestand bevat geen gegevensrijen.",
+  "csvImportFailedTooManyRows": "Dit bestand heeft {rows} rijen; de limiet is {max}.",
+  "@csvImportFailedTooManyRows": {
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportFailed": "CSV-import mislukt",
   "ledgerVerifyDialogTitle": "Grootboekverificatie",
   "ledgerVerifyAllMatch": "Alle accounts komen overeen.",
   "ledgerVerifyMismatchesTitle": "Mismatches",
@@ -727,9 +838,9 @@
   "statsEmptySubtitle": "Geen bestedingsgegevens voor het geselecteerde bereik.",
   "semanticsShowProjections": "Toon geprojecteerde saldi per rekening",
   "semanticsHideProjections": "Verberg geprojecteerde saldi per rekening",
-    "semanticsShowDayBalanceBreakdown": "Accountsaldi voor deze dag weergeven",
+  "semanticsShowDayBalanceBreakdown": "Accountsaldi voor deze dag weergeven",
   "semanticsHideDayBalanceBreakdown": "Accountsaldi voor deze dag verbergen",
-"semanticsDateAllTime": "Datum: altijd — tik om de modus te wijzigen",
+  "semanticsDateAllTime": "Datum: altijd — tik om de modus te wijzigen",
   "semanticsDateMode": "Datum: {mode} — tik om de modus te wijzigen",
   "@semanticsDateMode": {
     "placeholders": {
@@ -842,40 +953,40 @@
   "autoBackupShareSubtitle": "Upload de nieuwste back-up naar iCloud Drive, Google Drive of een andere app",
   "autoBackupCloudReminder": "Klaar voor automatische back-up: sla het op in de cloud voor bescherming buiten het apparaat",
   "autoBackupCloudReminderAction": "Delen",
-
   "settingsBackupReminderTitle": "Back-upherinnering",
   "settingsBackupReminderSubtitle": "In-app banner als u veel transacties toevoegt zonder een handmatige back-up te exporteren.",
   "settingsBackupReminderThresholdTitle": "Transactiedrempel",
   "settingsBackupReminderThresholdSubtitle": "Herinner na {count} nieuwe transacties sinds uw laatste handmatige export.",
   "@settingsBackupReminderThresholdSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsBackupReminderThresholdInvalid": "Voer een geheel getal in van 1 tot 500.",
   "settingsBackupReminderSnoozeHint": "\"Later herinneren\" verbergt de banner totdat u {n} meer transacties toevoegt.",
   "@settingsBackupReminderSnoozeHint": {
     "placeholders": {
-      "n": {"type": "int"}
+      "n": {
+        "type": "int"
+      }
     }
   },
   "backupReminderBannerTitle": "Een back-up exporteren?",
   "backupReminderBannerBody": "U heeft {count} transacties toegevoegd sinds uw laatste handmatige export.",
   "@backupReminderBannerBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "backupReminderRemindLater": "Later herinneren",
-
   "backupExportLedgerVerifyTitle": "Grootboekcontrole voor back-up",
   "backupExportLedgerVerifyInfo": "Vergelijkt het opgeslagen saldo van elk account met een volledige herhaling van uw geschiedenis. U kunt een back-up exporteren ongeacht het resultaat; afwijkingen zijn informatief.",
   "backupExportLedgerVerifyContinue": "Doorgaan naar back-up",
-
-
-
   "persistenceErrorReloaded": "Kan wijzigingen niet opslaan. Gegevens zijn opnieuw geladen uit de opslag.",
-
   "helpTooltip": "Hulp",
   "helpNext": "Volgende",
   "helpBack": "Terug",
@@ -922,5 +1033,18 @@
   "helpPlannedDateTitle": "Geplande datum",
   "helpPlannedDateBody": "Tik hier om te kiezen wanneer dit moet gebeuren. Een plan kan zich ook herhalen volgens een schema dat jij kiest.",
   "helpPlannedProjectionTitle": "Geprognosticeerde saldi",
-  "helpPlannedProjectionBody": "De rekeningkiezers tonen het verwachte saldo van elke rekening op de geplande datum, zodat je ziet welk plan een rekening rood zou laten staan."
+  "helpPlannedProjectionBody": "De rekeningkiezers tonen het verwachte saldo van elke rekening op de geplande datum, zodat je ziet welk plan een rekening rood zou laten staan.",
+  "settingsPlannedRemindersTitle": "Planherinneringen",
+  "settingsPlannedRemindersSubtitle": "Meldt wanneer een geplande transactie vervalt. Werkt volledig offline — niets verlaat je apparaat.",
+  "settingsPlannedRemindersTimeTitle": "Herinneringstijd",
+  "settingsPlannedRemindersLeadTitle": "Vooraf melden",
+  "settingsPlannedRemindersLeadOnDay": "Op de vervaldag",
+  "settingsPlannedRemindersLeadDaysBefore": "{count, plural, =1{1 dag van tevoren} other{{count} dagen van tevoren}}",
+  "settingsPlannedRemindersPermissionDenied": "Meldingen zijn uitgeschakeld voor Platrare. Sta ze toe in de systeeminstellingen om herinneringen te ontvangen.",
+  "plannedReminderChannelName": "Herinneringen voor geplande transacties",
+  "plannedReminderChannelDescription": "Meldingen voor aankomende geplande transacties.",
+  "plannedReminderFallbackTitle": "Geplande transactie",
+  "plannedReminderDueToday": "Vervalt vandaag",
+  "plannedReminderDueTomorrow": "Vervalt morgen",
+  "plannedReminderDueInDays": "{count, plural, other{Vervalt over {count} dagen}}"
 }

@@ -51,6 +51,66 @@ class AppLocalizationsEn extends AppLocalizations {
   String get heroNet => 'Net';
 
   @override
+  String get widgetLowestPoint => 'Lowest point';
+
+  @override
+  String get widgetProjected => 'Projected';
+
+  @override
+  String get widgetHorizonIn7Days => 'In 7 days';
+
+  @override
+  String get widgetHorizonEndOfMonth => 'End of month';
+
+  @override
+  String get widgetMetricAccount => 'Account balance';
+
+  @override
+  String get widgetQuickAdd => 'Quick add';
+
+  @override
+  String get widgetStale => 'May be out of date';
+
+  @override
+  String get widgetOpenToStart => 'Open Platrare to add accounts';
+
+  @override
+  String get widgetDueToday => 'Due today';
+
+  @override
+  String get widgetDescQuickAdd => 'Add a transaction or a plan in one tap.';
+
+  @override
+  String get widgetNameNumbers => 'Balance';
+
+  @override
+  String get widgetDescNumbers =>
+      'Show one figure: spendable, net worth, or your lowest point this month.';
+
+  @override
+  String get widgetConfigMetric => 'Metric';
+
+  @override
+  String get widgetConfigHorizon => 'Horizon';
+
+  @override
+  String widgetSiriAddTransaction(String appName) {
+    return 'Add a transaction in $appName';
+  }
+
+  @override
+  String widgetSiriAddPlanned(String appName) {
+    return 'Add a planned transaction in $appName';
+  }
+
+  @override
+  String get settingsWidgetAmountsTitle => 'Show amounts in widgets';
+
+  @override
+  String get settingsWidgetAmountsSubtitle =>
+      'Home-screen widgets are visible without unlocking the app. While app lock is on, amounts stay masked unless you turn this on.';
+
+  @override
   String get heroBalance => 'Balance';
 
   @override
@@ -867,6 +927,158 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsDataExportFailed => 'Export failed';
+
+  @override
+  String get settingsCsvExportTitle => 'Export as CSV';
+
+  @override
+  String get settingsCsvExportSubtitle =>
+      'Your transactions as a spreadsheet file';
+
+  @override
+  String get settingsCsvExportFailed => 'CSV export failed';
+
+  @override
+  String get settingsCsvImportTitle => 'Import from CSV';
+
+  @override
+  String get settingsCsvImportSubtitle =>
+      'Add transactions from a spreadsheet — nothing is replaced';
+
+  @override
+  String get settingsCsvTemplateTitle => 'Get CSV template';
+
+  @override
+  String get settingsCsvTemplateSubtitle =>
+      'An example file to paste your old data into';
+
+  @override
+  String get csvTemplateInstruction1 =>
+      'Replace the example rows below with your own data, then import this file from Settings.';
+
+  @override
+  String get csvTemplateInstruction2 =>
+      'date and amount are required. Write dates as YYYY-MM-DD and amounts as a positive number.';
+
+  @override
+  String get csvTemplateInstruction3 =>
+      'type can be income, expense, transfer, invoice, bill, advance, settlement, loan, collection or offset. Leave it empty to let the app work it out from the accounts.';
+
+  @override
+  String get csvTemplateInstruction4 =>
+      'Accounts and categories that do not exist yet are created for you. Lines starting with # are ignored.';
+
+  @override
+  String get csvImportPreviewTitle => 'Import transactions';
+
+  @override
+  String csvImportPreviewCounts(int importable, int total) {
+    return '$importable of $total rows will be added';
+  }
+
+  @override
+  String csvImportPreviewNewAccounts(String names) {
+    return 'New accounts: $names';
+  }
+
+  @override
+  String csvImportPreviewNewCategories(String names) {
+    return 'New categories: $names';
+  }
+
+  @override
+  String csvImportPreviewDuplicates(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rows already exist',
+      one: '1 row already exists',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportPreviewSkipDuplicates => 'Skip rows that already exist';
+
+  @override
+  String csvImportPreviewIssuesTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rows could not be read',
+      one: '1 row could not be read',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String csvImportPreviewIssueLine(int line, String reason) {
+    return 'Line $line: $reason';
+  }
+
+  @override
+  String csvImportPreviewIssueMore(int count) {
+    return '…and $count more';
+  }
+
+  @override
+  String get csvImportPreviewDateStyleTitle =>
+      'Dates like 03/04/2026 are ambiguous. How should they be read?';
+
+  @override
+  String get csvImportPreviewDateStyleDayFirst => 'Day first (03 April)';
+
+  @override
+  String get csvImportPreviewDateStyleMonthFirst => 'Month first (04 March)';
+
+  @override
+  String get csvImportPreviewNothing => 'No rows in this file can be imported.';
+
+  @override
+  String get csvImportPreviewConfirm => 'Import';
+
+  @override
+  String get csvRowProblemDate => 'invalid or missing date';
+
+  @override
+  String get csvRowProblemAmount => 'invalid or missing amount';
+
+  @override
+  String get csvRowProblemAccount => 'invalid or missing account';
+
+  @override
+  String get csvRowProblemType => 'unknown transaction type';
+
+  @override
+  String csvImportDone(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transactions imported',
+      one: '1 transaction imported',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportFailedNoColumns =>
+      'No recognised columns. Start from the CSV template.';
+
+  @override
+  String csvImportFailedMissingColumn(String column) {
+    return 'The file has no \"$column\" column.';
+  }
+
+  @override
+  String get csvImportFailedEmpty => 'This file has no data rows.';
+
+  @override
+  String csvImportFailedTooManyRows(int rows, int max) {
+    return 'This file has $rows rows; the limit is $max.';
+  }
+
+  @override
+  String get csvImportFailed => 'CSV import failed';
 
   @override
   String get ledgerVerifyDialogTitle => 'Ledger verification';
@@ -1903,4 +2115,61 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get helpPlannedProjectionBody =>
       'The account pickers show each account’s projected balance on the due date, so you can spot a plan that would overdraw an account.';
+
+  @override
+  String get settingsPlannedRemindersTitle => 'Planned reminders';
+
+  @override
+  String get settingsPlannedRemindersSubtitle =>
+      'Notifies you when a planned transaction is due. Works fully offline — nothing leaves your device.';
+
+  @override
+  String get settingsPlannedRemindersTimeTitle => 'Reminder time';
+
+  @override
+  String get settingsPlannedRemindersLeadTitle => 'Advance notice';
+
+  @override
+  String get settingsPlannedRemindersLeadOnDay => 'On the due date';
+
+  @override
+  String settingsPlannedRemindersLeadDaysBefore(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days before',
+      one: '1 day before',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPlannedRemindersPermissionDenied =>
+      'Notifications are turned off for Platrare. Allow them in system settings to receive reminders.';
+
+  @override
+  String get plannedReminderChannelName => 'Planned transaction reminders';
+
+  @override
+  String get plannedReminderChannelDescription =>
+      'Notifications for upcoming planned transactions.';
+
+  @override
+  String get plannedReminderFallbackTitle => 'Planned transaction';
+
+  @override
+  String get plannedReminderDueToday => 'Due today';
+
+  @override
+  String get plannedReminderDueTomorrow => 'Due tomorrow';
+
+  @override
+  String plannedReminderDueInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Due in $count days',
+    );
+    return '$_temp0';
+  }
 }

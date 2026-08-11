@@ -51,6 +51,67 @@ class AppLocalizationsIt extends AppLocalizations {
   String get heroNet => 'Netto';
 
   @override
+  String get widgetLowestPoint => 'Punto più basso';
+
+  @override
+  String get widgetProjected => 'Previsto';
+
+  @override
+  String get widgetHorizonIn7Days => 'Tra 7 giorni';
+
+  @override
+  String get widgetHorizonEndOfMonth => 'Fine mese';
+
+  @override
+  String get widgetMetricAccount => 'Saldo del conto';
+
+  @override
+  String get widgetQuickAdd => 'Aggiunta rapida';
+
+  @override
+  String get widgetStale => 'Potrebbe non essere aggiornato';
+
+  @override
+  String get widgetOpenToStart => 'Apri Platrare per aggiungere conti';
+
+  @override
+  String get widgetDueToday => 'Scade oggi';
+
+  @override
+  String get widgetDescQuickAdd =>
+      'Aggiungi una transazione o un piano con un tocco.';
+
+  @override
+  String get widgetNameNumbers => 'Saldo';
+
+  @override
+  String get widgetDescNumbers =>
+      'Mostra un dato: disponibile, patrimonio netto o il punto più basso del mese.';
+
+  @override
+  String get widgetConfigMetric => 'Metrica';
+
+  @override
+  String get widgetConfigHorizon => 'Orizzonte';
+
+  @override
+  String widgetSiriAddTransaction(String appName) {
+    return 'Aggiungi una transazione in $appName';
+  }
+
+  @override
+  String widgetSiriAddPlanned(String appName) {
+    return 'Aggiungi una transazione pianificata in $appName';
+  }
+
+  @override
+  String get settingsWidgetAmountsTitle => 'Mostra importi nei widget';
+
+  @override
+  String get settingsWidgetAmountsSubtitle =>
+      'I widget nella schermata Home sono visibili senza sbloccare l’app. Con il blocco attivo gli importi restano nascosti, a meno che tu non attivi questa opzione.';
+
+  @override
   String get heroBalance => 'Bilancia';
 
   @override
@@ -875,6 +936,159 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get settingsDataExportFailed => 'Esportazione non riuscita';
+
+  @override
+  String get settingsCsvExportTitle => 'Esporta come CSV';
+
+  @override
+  String get settingsCsvExportSubtitle =>
+      'Le tue transazioni come foglio di calcolo';
+
+  @override
+  String get settingsCsvExportFailed => 'Esportazione CSV non riuscita';
+
+  @override
+  String get settingsCsvImportTitle => 'Importa da CSV';
+
+  @override
+  String get settingsCsvImportSubtitle =>
+      'Aggiungi transazioni da un foglio di calcolo — non viene sostituito nulla';
+
+  @override
+  String get settingsCsvTemplateTitle => 'Ottieni modello CSV';
+
+  @override
+  String get settingsCsvTemplateSubtitle =>
+      'Un file di esempio in cui incollare i tuoi vecchi dati';
+
+  @override
+  String get csvTemplateInstruction1 =>
+      'Sostituisci le righe di esempio qui sotto con i tuoi dati, poi importa questo file dalle Impostazioni.';
+
+  @override
+  String get csvTemplateInstruction2 =>
+      'date e amount sono obbligatori. Scrivi le date come YYYY-MM-DD e gli importi come numero positivo.';
+
+  @override
+  String get csvTemplateInstruction3 =>
+      'type può essere income, expense, transfer, invoice, bill, advance, settlement, loan, collection oppure offset. Lascialo vuoto per far dedurre il tipo dai conti.';
+
+  @override
+  String get csvTemplateInstruction4 =>
+      'I conti e le categorie che non esistono ancora vengono creati automaticamente. Le righe che iniziano con # vengono ignorate.';
+
+  @override
+  String get csvImportPreviewTitle => 'Importa transazioni';
+
+  @override
+  String csvImportPreviewCounts(int importable, int total) {
+    return 'Verranno aggiunte $importable righe su $total';
+  }
+
+  @override
+  String csvImportPreviewNewAccounts(String names) {
+    return 'Nuovi conti: $names';
+  }
+
+  @override
+  String csvImportPreviewNewCategories(String names) {
+    return 'Nuove categorie: $names';
+  }
+
+  @override
+  String csvImportPreviewDuplicates(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count righe esistono già',
+      one: '1 riga esiste già',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportPreviewSkipDuplicates => 'Salta le righe già presenti';
+
+  @override
+  String csvImportPreviewIssuesTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count righe non sono state lette',
+      one: '1 riga non è stata letta',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String csvImportPreviewIssueLine(int line, String reason) {
+    return 'Riga $line: $reason';
+  }
+
+  @override
+  String csvImportPreviewIssueMore(int count) {
+    return '…e altre $count';
+  }
+
+  @override
+  String get csvImportPreviewDateStyleTitle =>
+      'Le date come 03/04/2026 sono ambigue. Come vanno lette?';
+
+  @override
+  String get csvImportPreviewDateStyleDayFirst => 'Prima il giorno (3 aprile)';
+
+  @override
+  String get csvImportPreviewDateStyleMonthFirst => 'Prima il mese (4 marzo)';
+
+  @override
+  String get csvImportPreviewNothing =>
+      'Nessuna riga di questo file può essere importata.';
+
+  @override
+  String get csvImportPreviewConfirm => 'Importa';
+
+  @override
+  String get csvRowProblemDate => 'data non valida o mancante';
+
+  @override
+  String get csvRowProblemAmount => 'importo non valido o mancante';
+
+  @override
+  String get csvRowProblemAccount => 'conto non valido o mancante';
+
+  @override
+  String get csvRowProblemType => 'tipo di transazione sconosciuto';
+
+  @override
+  String csvImportDone(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transazioni importate',
+      one: '1 transazione importata',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportFailedNoColumns =>
+      'Nessuna colonna riconosciuta. Parti dal modello CSV.';
+
+  @override
+  String csvImportFailedMissingColumn(String column) {
+    return 'Il file non ha la colonna \"$column\".';
+  }
+
+  @override
+  String get csvImportFailedEmpty => 'Questo file non contiene righe di dati.';
+
+  @override
+  String csvImportFailedTooManyRows(int rows, int max) {
+    return 'Questo file ha $rows righe; il limite è $max.';
+  }
+
+  @override
+  String get csvImportFailed => 'Importazione CSV non riuscita';
 
   @override
   String get ledgerVerifyDialogTitle => 'Verifica del registro';
@@ -1924,4 +2138,61 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get helpPlannedProjectionBody =>
       'I selettori dei conti mostrano il saldo proiettato di ogni conto alla data prevista, così individui i piani che manderebbero un conto in rosso.';
+
+  @override
+  String get settingsPlannedRemindersTitle => 'Promemoria pianificazioni';
+
+  @override
+  String get settingsPlannedRemindersSubtitle =>
+      'Ti avvisa quando una transazione pianificata è in scadenza. Funziona completamente offline: nulla lascia il tuo dispositivo.';
+
+  @override
+  String get settingsPlannedRemindersTimeTitle => 'Ora del promemoria';
+
+  @override
+  String get settingsPlannedRemindersLeadTitle => 'Preavviso';
+
+  @override
+  String get settingsPlannedRemindersLeadOnDay => 'Il giorno della scadenza';
+
+  @override
+  String settingsPlannedRemindersLeadDaysBefore(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count giorni prima',
+      one: '1 giorno prima',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPlannedRemindersPermissionDenied =>
+      'Le notifiche sono disattivate per Platrare. Consentile nelle impostazioni di sistema per ricevere i promemoria.';
+
+  @override
+  String get plannedReminderChannelName => 'Promemoria transazioni pianificate';
+
+  @override
+  String get plannedReminderChannelDescription =>
+      'Notifiche per le prossime transazioni pianificate.';
+
+  @override
+  String get plannedReminderFallbackTitle => 'Transazione pianificata';
+
+  @override
+  String get plannedReminderDueToday => 'Scade oggi';
+
+  @override
+  String get plannedReminderDueTomorrow => 'Scade domani';
+
+  @override
+  String plannedReminderDueInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Scade tra $count giorni',
+    );
+    return '$_temp0';
+  }
 }

@@ -17,6 +17,24 @@
   "heroIn": "I",
   "heroOut": "Ut",
   "heroNet": "Netto",
+  "widgetLowestPoint": "Lägsta punkt",
+  "widgetProjected": "Prognos",
+  "widgetHorizonIn7Days": "Om 7 dagar",
+  "widgetHorizonEndOfMonth": "Månadens slut",
+  "widgetMetricAccount": "Kontosaldo",
+  "widgetQuickAdd": "Snabbregistrera",
+  "widgetStale": "Kan vara inaktuellt",
+  "widgetOpenToStart": "Öppna Platrare för att lägga till konton",
+  "widgetDueToday": "Förfaller i dag",
+  "widgetDescQuickAdd": "Lägg till en transaktion eller en plan med en tryckning.",
+  "widgetNameNumbers": "Saldo",
+  "widgetDescNumbers": "Visa en siffra: disponibelt, nettoförmögenhet eller din lägsta punkt denna månad.",
+  "widgetConfigMetric": "Mått",
+  "widgetConfigHorizon": "Horisont",
+  "widgetSiriAddTransaction": "Lägg till en transaktion i {appName}",
+  "widgetSiriAddPlanned": "Lägg till en planerad transaktion i {appName}",
+  "settingsWidgetAmountsTitle": "Visa belopp i widgetar",
+  "settingsWidgetAmountsSubtitle": "Widgetar på hemskärmen syns utan att appen låses upp. När applåset är på döljs belopp om du inte slår på det här.",
   "heroBalance": "Balans",
   "realBalance": "Riktig balans",
   "settingsHideHeroBalancesTitle": "Dölj saldon i sammanfattningskort",
@@ -457,6 +475,99 @@
   },
   "settingsDataOpenExportFile": "Öppna filen",
   "settingsDataExportFailed": "Exporten misslyckades",
+  "settingsCsvExportTitle": "Exportera som CSV",
+  "settingsCsvExportSubtitle": "Dina transaktioner som en kalkylbladsfil",
+  "settingsCsvExportFailed": "CSV-exporten misslyckades",
+  "settingsCsvImportTitle": "Importera från CSV",
+  "settingsCsvImportSubtitle": "Lägg till transaktioner från ett kalkylblad — inget ersätts",
+  "settingsCsvTemplateTitle": "Hämta CSV-mall",
+  "settingsCsvTemplateSubtitle": "En exempelfil att klistra in dina gamla data i",
+  "csvTemplateInstruction1": "Ersätt exempelraderna nedan med dina egna data och importera sedan filen från Inställningar.",
+  "csvTemplateInstruction2": "date och amount är obligatoriska. Skriv datum som YYYY-MM-DD och belopp som ett positivt tal.",
+  "csvTemplateInstruction3": "type kan vara income, expense, transfer, invoice, bill, advance, settlement, loan, collection eller offset. Lämna tomt så räknar appen ut det från kontona.",
+  "csvTemplateInstruction4": "Konton och kategorier som inte finns ännu skapas automatiskt. Rader som börjar med # ignoreras.",
+  "csvImportPreviewTitle": "Importera transaktioner",
+  "csvImportPreviewCounts": "{importable} av {total} rader läggs till",
+  "@csvImportPreviewCounts": {
+    "placeholders": {
+      "importable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewNewAccounts": "Nya konton: {names}",
+  "@csvImportPreviewNewAccounts": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewNewCategories": "Nya kategorier: {names}",
+  "@csvImportPreviewNewCategories": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewDuplicates": "{count, plural, =1{1 rad finns redan} other{{count} rader finns redan}}",
+  "csvImportPreviewSkipDuplicates": "Hoppa över rader som redan finns",
+  "csvImportPreviewIssuesTitle": "{count, plural, =1{1 rad kunde inte läsas} other{{count} rader kunde inte läsas}}",
+  "csvImportPreviewIssueLine": "Rad {line}: {reason}",
+  "@csvImportPreviewIssueLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewIssueMore": "…och {count} till",
+  "@csvImportPreviewIssueMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewDateStyleTitle": "Datum som 03/04/2026 är tvetydiga. Hur ska de tolkas?",
+  "csvImportPreviewDateStyleDayFirst": "Dag först (3 april)",
+  "csvImportPreviewDateStyleMonthFirst": "Månad först (4 mars)",
+  "csvImportPreviewNothing": "Ingen rad i den här filen kan importeras.",
+  "csvImportPreviewConfirm": "Importera",
+  "csvRowProblemDate": "ogiltigt eller saknat datum",
+  "csvRowProblemAmount": "ogiltigt eller saknat belopp",
+  "csvRowProblemAccount": "ogiltigt eller saknat konto",
+  "csvRowProblemType": "okänd transaktionstyp",
+  "csvImportDone": "{count, plural, =1{1 transaktion importerad} other{{count} transaktioner importerade}}",
+  "csvImportFailedNoColumns": "Inga kolumner kändes igen. Utgå från CSV-mallen.",
+  "csvImportFailedMissingColumn": "Filen saknar kolumnen \"{column}\".",
+  "@csvImportFailedMissingColumn": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportFailedEmpty": "Den här filen innehåller inga datarader.",
+  "csvImportFailedTooManyRows": "Den här filen har {rows} rader; gränsen är {max}.",
+  "@csvImportFailedTooManyRows": {
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportFailed": "CSV-importen misslyckades",
   "ledgerVerifyDialogTitle": "Ledger verifiering",
   "ledgerVerifyAllMatch": "Alla konton matchar.",
   "ledgerVerifyMismatchesTitle": "Felmatchningar",
@@ -727,9 +838,9 @@
   "statsEmptySubtitle": "Ingen utgiftsdata för det valda intervallet.",
   "semanticsShowProjections": "Visa prognostiserade saldon per konto",
   "semanticsHideProjections": "Dölj beräknade saldon per konto",
-    "semanticsShowDayBalanceBreakdown": "Visa kontosaldon för den här dagen",
+  "semanticsShowDayBalanceBreakdown": "Visa kontosaldon för den här dagen",
   "semanticsHideDayBalanceBreakdown": "Dölj kontosaldon för den här dagen",
-"semanticsDateAllTime": "Datum: hela tiden — tryck för att ändra läge",
+  "semanticsDateAllTime": "Datum: hela tiden — tryck för att ändra läge",
   "semanticsDateMode": "Datum: {mode} — tryck för att ändra läge",
   "@semanticsDateMode": {
     "placeholders": {
@@ -842,40 +953,40 @@
   "autoBackupShareSubtitle": "Ladda upp senaste säkerhetskopian till iCloud Drive, Google Drive eller valfri app",
   "autoBackupCloudReminder": "Klar för automatisk säkerhetskopiering – spara den i molnet för skydd utanför enheten",
   "autoBackupCloudReminderAction": "Dela",
-
   "settingsBackupReminderTitle": "Säkerhetskopieringspåminnelse",
   "settingsBackupReminderSubtitle": "Appbanner om du lägger till många transaktioner utan att exportera en manuell säkerhetskopia.",
   "settingsBackupReminderThresholdTitle": "Transaktionströskel",
   "settingsBackupReminderThresholdSubtitle": "Påminn efter {count} nya transaktioner sedan din senaste manuella export.",
   "@settingsBackupReminderThresholdSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsBackupReminderThresholdInvalid": "Ange ett heltal från 1 till 500.",
   "settingsBackupReminderSnoozeHint": "\"Påminn senare\" döljer bannern tills du lägger till {n} fler transaktioner.",
   "@settingsBackupReminderSnoozeHint": {
     "placeholders": {
-      "n": {"type": "int"}
+      "n": {
+        "type": "int"
+      }
     }
   },
   "backupReminderBannerTitle": "Exportera en säkerhetskopia?",
   "backupReminderBannerBody": "Du har lagt till {count} transaktioner sedan din senaste manuella export.",
   "@backupReminderBannerBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "backupReminderRemindLater": "Påminn senare",
-
   "backupExportLedgerVerifyTitle": "Huvudbokskontroll före säkerhetskopiering",
   "backupExportLedgerVerifyInfo": "Jämför det lagrade saldot för varje konto med en fullständig uppspelning av din historik. Du kan exportera en säkerhetskopia oavsett; avvikelser är informativa.",
   "backupExportLedgerVerifyContinue": "Fortsätt till säkerhetskopiering",
-
-
-
   "persistenceErrorReloaded": "Det gick inte att spara ändringarna. Data laddades om från lagringen.",
-
   "helpTooltip": "Hjälp",
   "helpNext": "Nästa",
   "helpBack": "Tillbaka",
@@ -922,5 +1033,18 @@
   "helpPlannedDateTitle": "Förfallodatum",
   "helpPlannedDateBody": "Tryck här för att välja när detta ska ske. En plan kan även upprepas enligt ett schema du väljer.",
   "helpPlannedProjectionTitle": "Beräknade saldon",
-  "helpPlannedProjectionBody": "Kontoväljarna visar varje kontos beräknade saldo på förfallodatumet, så att du ser planer som skulle övertrassera ett konto."
+  "helpPlannedProjectionBody": "Kontoväljarna visar varje kontos beräknade saldo på förfallodatumet, så att du ser planer som skulle övertrassera ett konto.",
+  "settingsPlannedRemindersTitle": "Planpåminnelser",
+  "settingsPlannedRemindersSubtitle": "Meddelar dig när en planerad transaktion förfaller. Fungerar helt offline — inget lämnar din enhet.",
+  "settingsPlannedRemindersTimeTitle": "Påminnelsetid",
+  "settingsPlannedRemindersLeadTitle": "Förvarning",
+  "settingsPlannedRemindersLeadOnDay": "På förfallodagen",
+  "settingsPlannedRemindersLeadDaysBefore": "{count, plural, =1{1 dag innan} other{{count} dagar innan}}",
+  "settingsPlannedRemindersPermissionDenied": "Aviseringar är avstängda för Platrare. Tillåt dem i systeminställningarna för att få påminnelser.",
+  "plannedReminderChannelName": "Påminnelser om planerade transaktioner",
+  "plannedReminderChannelDescription": "Aviseringar för kommande planerade transaktioner.",
+  "plannedReminderFallbackTitle": "Planerad transaktion",
+  "plannedReminderDueToday": "Förfaller i dag",
+  "plannedReminderDueTomorrow": "Förfaller i morgon",
+  "plannedReminderDueInDays": "{count, plural, other{Förfaller om {count} dagar}}"
 }

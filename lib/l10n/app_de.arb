@@ -17,6 +17,24 @@
   "heroIn": "In",
   "heroOut": "Aus",
   "heroNet": "Netto",
+  "widgetLowestPoint": "Tiefstand",
+  "widgetProjected": "Prognose",
+  "widgetHorizonIn7Days": "In 7 Tagen",
+  "widgetHorizonEndOfMonth": "Monatsende",
+  "widgetMetricAccount": "Kontostand",
+  "widgetQuickAdd": "Schnell erfassen",
+  "widgetStale": "Möglicherweise veraltet",
+  "widgetOpenToStart": "Platrare öffnen, um Konten anzulegen",
+  "widgetDueToday": "Heute fällig",
+  "widgetDescQuickAdd": "Buchung oder Plan mit einem Tipp hinzufügen.",
+  "widgetNameNumbers": "Saldo",
+  "widgetDescNumbers": "Eine Kennzahl anzeigen: verfügbar, Nettovermögen oder dein Tiefstand im Monat.",
+  "widgetConfigMetric": "Kennzahl",
+  "widgetConfigHorizon": "Zeithorizont",
+  "widgetSiriAddTransaction": "Eine Buchung in {appName} hinzufügen",
+  "widgetSiriAddPlanned": "Eine geplante Buchung in {appName} hinzufügen",
+  "settingsWidgetAmountsTitle": "Beträge in Widgets anzeigen",
+  "settingsWidgetAmountsSubtitle": "Widgets auf dem Home-Bildschirm sind ohne Entsperren sichtbar. Bei aktivierter App-Sperre bleiben Beträge verborgen, sofern du dies nicht einschaltest.",
   "heroBalance": "Gleichgewicht",
   "realBalance": "Echtes Gleichgewicht",
   "settingsHideHeroBalancesTitle": "Guthaben in Übersichtskarten ausblenden",
@@ -457,6 +475,99 @@
   },
   "settingsDataOpenExportFile": "Datei öffnen",
   "settingsDataExportFailed": "Der Export ist fehlgeschlagen",
+  "settingsCsvExportTitle": "Als CSV exportieren",
+  "settingsCsvExportSubtitle": "Transaktionen als Tabellendatei",
+  "settingsCsvExportFailed": "CSV-Export fehlgeschlagen",
+  "settingsCsvImportTitle": "Aus CSV importieren",
+  "settingsCsvImportSubtitle": "Transaktionen aus einer Tabelle hinzufügen — nichts wird ersetzt",
+  "settingsCsvTemplateTitle": "CSV-Vorlage abrufen",
+  "settingsCsvTemplateSubtitle": "Beispieldatei zum Einfügen alter Daten",
+  "csvTemplateInstruction1": "Die Beispielzeilen unten durch eigene Daten ersetzen und diese Datei dann in den Einstellungen importieren.",
+  "csvTemplateInstruction2": "date und amount sind erforderlich. Datumsangaben als YYYY-MM-DD und Beträge als positive Zahl schreiben.",
+  "csvTemplateInstruction3": "type kann income, expense, transfer, invoice, bill, advance, settlement, loan, collection oder offset sein. Leer lassen, damit die App es anhand der Konten ermittelt.",
+  "csvTemplateInstruction4": "Konten und Kategorien, die noch nicht existieren, werden automatisch angelegt. Zeilen, die mit # beginnen, werden ignoriert.",
+  "csvImportPreviewTitle": "Transaktionen importieren",
+  "csvImportPreviewCounts": "{importable} von {total} Zeilen werden hinzugefügt",
+  "@csvImportPreviewCounts": {
+    "placeholders": {
+      "importable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewNewAccounts": "Neue Konten: {names}",
+  "@csvImportPreviewNewAccounts": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewNewCategories": "Neue Kategorien: {names}",
+  "@csvImportPreviewNewCategories": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewDuplicates": "{count, plural, =1{1 Zeile existiert bereits} other{{count} Zeilen existieren bereits}}",
+  "csvImportPreviewSkipDuplicates": "Bereits vorhandene Zeilen überspringen",
+  "csvImportPreviewIssuesTitle": "{count, plural, =1{1 Zeile konnte nicht gelesen werden} other{{count} Zeilen konnten nicht gelesen werden}}",
+  "csvImportPreviewIssueLine": "Zeile {line}: {reason}",
+  "@csvImportPreviewIssueLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewIssueMore": "…und {count} weitere",
+  "@csvImportPreviewIssueMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewDateStyleTitle": "Datumsangaben wie 03/04/2026 sind mehrdeutig. Wie sollen sie gelesen werden?",
+  "csvImportPreviewDateStyleDayFirst": "Tag zuerst (3. April)",
+  "csvImportPreviewDateStyleMonthFirst": "Monat zuerst (4. März)",
+  "csvImportPreviewNothing": "Keine Zeile in dieser Datei kann importiert werden.",
+  "csvImportPreviewConfirm": "Importieren",
+  "csvRowProblemDate": "ungültiges oder fehlendes Datum",
+  "csvRowProblemAmount": "ungültiger oder fehlender Betrag",
+  "csvRowProblemAccount": "ungültiges oder fehlendes Konto",
+  "csvRowProblemType": "unbekannter Transaktionstyp",
+  "csvImportDone": "{count, plural, =1{1 Transaktion importiert} other{{count} Transaktionen importiert}}",
+  "csvImportFailedNoColumns": "Keine erkannten Spalten. Die CSV-Vorlage als Ausgangspunkt verwenden.",
+  "csvImportFailedMissingColumn": "Die Datei hat keine Spalte \"{column}\".",
+  "@csvImportFailedMissingColumn": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportFailedEmpty": "Diese Datei enthält keine Datenzeilen.",
+  "csvImportFailedTooManyRows": "Diese Datei hat {rows} Zeilen; das Limit liegt bei {max}.",
+  "@csvImportFailedTooManyRows": {
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportFailed": "CSV-Import fehlgeschlagen",
   "ledgerVerifyDialogTitle": "Überprüfung des Hauptbuchs",
   "ledgerVerifyAllMatch": "Alle Konten stimmen überein.",
   "ledgerVerifyMismatchesTitle": "Nichtübereinstimmungen",
@@ -727,9 +838,9 @@
   "statsEmptySubtitle": "Keine Ausgabendaten für den ausgewählten Bereich.",
   "semanticsShowProjections": "Zeigen Sie die prognostizierten Salden nach Konto an",
   "semanticsHideProjections": "Verstecken Sie die prognostizierten Salden nach Konto",
-    "semanticsShowDayBalanceBreakdown": "Kontostände für diesen Tag anzeigen",
+  "semanticsShowDayBalanceBreakdown": "Kontostände für diesen Tag anzeigen",
   "semanticsHideDayBalanceBreakdown": "Kontostände für diesen Tag ausblenden",
-"semanticsDateAllTime": "Datum: Gesamtzeit – tippen Sie, um den Modus zu ändern",
+  "semanticsDateAllTime": "Datum: Gesamtzeit – tippen Sie, um den Modus zu ändern",
   "semanticsDateMode": "Datum: {mode} – tippen Sie, um den Modus zu ändern",
   "@semanticsDateMode": {
     "placeholders": {
@@ -842,40 +953,40 @@
   "autoBackupShareSubtitle": "Laden Sie das neueste Backup auf iCloud Drive, Google Drive oder eine beliebige App hoch",
   "autoBackupCloudReminder": "Bereit für automatisches Backup – speichern Sie es in der Cloud, um es auch außerhalb des Geräts zu schützen",
   "autoBackupCloudReminderAction": "Teilen",
-
   "settingsBackupReminderTitle": "Backup-Erinnerung",
   "settingsBackupReminderSubtitle": "In-App-Banner, wenn Sie viele Transaktionen hinzufügen, ohne ein manuelles Backup zu exportieren.",
   "settingsBackupReminderThresholdTitle": "Transaktionsschwellenwert",
   "settingsBackupReminderThresholdSubtitle": "Erinnern nach {count} neuen Transaktionen seit Ihrem letzten manuellen Export.",
   "@settingsBackupReminderThresholdSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsBackupReminderThresholdInvalid": "Geben Sie eine ganze Zahl von 1 bis 500 ein.",
   "settingsBackupReminderSnoozeHint": "\"Später erinnern\" verbirgt das Banner, bis Sie {n} weitere Transaktionen hinzufügen.",
   "@settingsBackupReminderSnoozeHint": {
     "placeholders": {
-      "n": {"type": "int"}
+      "n": {
+        "type": "int"
+      }
     }
   },
   "backupReminderBannerTitle": "Backup exportieren?",
   "backupReminderBannerBody": "Sie haben {count} Transaktionen seit Ihrem letzten manuellen Export hinzugefügt.",
   "@backupReminderBannerBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "backupReminderRemindLater": "Später erinnern",
-
   "backupExportLedgerVerifyTitle": "Kontoprüfung vor dem Backup",
   "backupExportLedgerVerifyInfo": "Vergleicht das gespeicherte Saldo jedes Kontos mit einer vollständigen Wiedergabe Ihres Verlaufs. Sie können das Backup in jedem Fall exportieren; Abweichungen sind informativ.",
   "backupExportLedgerVerifyContinue": "Weiter zum Backup",
-
-
-
   "persistenceErrorReloaded": "Änderungen konnten nicht gespeichert werden. Daten wurden aus dem Speicher neu geladen.",
-
   "helpTooltip": "Hilfe",
   "helpNext": "Weiter",
   "helpBack": "Zurück",
@@ -922,5 +1033,18 @@
   "helpPlannedDateTitle": "Fälligkeitsdatum",
   "helpPlannedDateBody": "Tippe hier, um festzulegen, wann dies geschehen soll. Ein Plan kann sich auch nach einem Zeitplan wiederholen.",
   "helpPlannedProjectionTitle": "Prognostizierte Salden",
-  "helpPlannedProjectionBody": "Die Kontoauswahl zeigt den prognostizierten Saldo jedes Kontos zum Fälligkeitsdatum — so erkennst du Pläne, die ein Konto überziehen würden."
+  "helpPlannedProjectionBody": "Die Kontoauswahl zeigt den prognostizierten Saldo jedes Kontos zum Fälligkeitsdatum — so erkennst du Pläne, die ein Konto überziehen würden.",
+  "settingsPlannedRemindersTitle": "Plan-Erinnerungen",
+  "settingsPlannedRemindersSubtitle": "Benachrichtigt dich, wenn eine geplante Transaktion fällig ist. Funktioniert komplett offline – nichts verlässt dein Gerät.",
+  "settingsPlannedRemindersTimeTitle": "Erinnerungszeit",
+  "settingsPlannedRemindersLeadTitle": "Vorlaufzeit",
+  "settingsPlannedRemindersLeadOnDay": "Am Fälligkeitstag",
+  "settingsPlannedRemindersLeadDaysBefore": "{count, plural, =1{1 Tag vorher} other{{count} Tage vorher}}",
+  "settingsPlannedRemindersPermissionDenied": "Benachrichtigungen sind für Platrare deaktiviert. Erlaube sie in den Systemeinstellungen, um Erinnerungen zu erhalten.",
+  "plannedReminderChannelName": "Erinnerungen an geplante Transaktionen",
+  "plannedReminderChannelDescription": "Benachrichtigungen für anstehende geplante Transaktionen.",
+  "plannedReminderFallbackTitle": "Geplante Transaktion",
+  "plannedReminderDueToday": "Heute fällig",
+  "plannedReminderDueTomorrow": "Morgen fällig",
+  "plannedReminderDueInDays": "{count, plural, other{Fällig in {count} Tagen}}"
 }

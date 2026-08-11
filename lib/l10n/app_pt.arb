@@ -17,6 +17,24 @@
   "heroIn": "In",
   "heroOut": "Out",
   "heroNet": "Net",
+  "widgetLowestPoint": "Ponto mais baixo",
+  "widgetProjected": "Projetado",
+  "widgetHorizonIn7Days": "Em 7 dias",
+  "widgetHorizonEndOfMonth": "Fim do mês",
+  "widgetMetricAccount": "Saldo da conta",
+  "widgetQuickAdd": "Adição rápida",
+  "widgetStale": "Pode estar desatualizado",
+  "widgetOpenToStart": "Abra o Platrare para adicionar contas",
+  "widgetDueToday": "Vence hoje",
+  "widgetDescQuickAdd": "Adicione uma transação ou um plano num toque.",
+  "widgetNameNumbers": "Saldo",
+  "widgetDescNumbers": "Mostre um número: disponível, património líquido ou o seu ponto mais baixo do mês.",
+  "widgetConfigMetric": "Métrica",
+  "widgetConfigHorizon": "Horizonte",
+  "widgetSiriAddTransaction": "Adicionar uma transação no {appName}",
+  "widgetSiriAddPlanned": "Adicionar uma transação planeada no {appName}",
+  "settingsWidgetAmountsTitle": "Mostrar valores nos widgets",
+  "settingsWidgetAmountsSubtitle": "Os widgets do ecrã principal são visíveis sem desbloquear a app. Com o bloqueio ativo, os valores ficam ocultos a não ser que ative esta opção.",
   "heroBalance": "Balance",
   "realBalance": "Real balance",
   "settingsHideHeroBalancesTitle": "Ocultar saldos nos cartões de resumo",
@@ -457,6 +475,99 @@
   },
   "settingsDataOpenExportFile": "Open file",
   "settingsDataExportFailed": "Export failed",
+  "settingsCsvExportTitle": "Export as CSV",
+  "settingsCsvExportSubtitle": "Your transactions as a spreadsheet file",
+  "settingsCsvExportFailed": "CSV export failed",
+  "settingsCsvImportTitle": "Import from CSV",
+  "settingsCsvImportSubtitle": "Add transactions from a spreadsheet — nothing is replaced",
+  "settingsCsvTemplateTitle": "Get CSV template",
+  "settingsCsvTemplateSubtitle": "An example file to paste your old data into",
+  "csvTemplateInstruction1": "Replace the example rows below with your own data, then import this file from Settings.",
+  "csvTemplateInstruction2": "date and amount are required. Write dates as YYYY-MM-DD and amounts as a positive number.",
+  "csvTemplateInstruction3": "type can be income, expense, transfer, invoice, bill, advance, settlement, loan, collection or offset. Leave it empty to let the app work it out from the accounts.",
+  "csvTemplateInstruction4": "Accounts and categories that do not exist yet are created for you. Lines starting with # are ignored.",
+  "csvImportPreviewTitle": "Import transactions",
+  "csvImportPreviewCounts": "{importable} of {total} rows will be added",
+  "@csvImportPreviewCounts": {
+    "placeholders": {
+      "importable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewNewAccounts": "New accounts: {names}",
+  "@csvImportPreviewNewAccounts": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewNewCategories": "New categories: {names}",
+  "@csvImportPreviewNewCategories": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewDuplicates": "{count, plural, =1{1 row already exists} other{{count} rows already exist}}",
+  "csvImportPreviewSkipDuplicates": "Skip rows that already exist",
+  "csvImportPreviewIssuesTitle": "{count, plural, =1{1 row could not be read} other{{count} rows could not be read}}",
+  "csvImportPreviewIssueLine": "Line {line}: {reason}",
+  "@csvImportPreviewIssueLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewIssueMore": "…and {count} more",
+  "@csvImportPreviewIssueMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewDateStyleTitle": "Dates like 03/04/2026 are ambiguous. How should they be read?",
+  "csvImportPreviewDateStyleDayFirst": "Day first (03 April)",
+  "csvImportPreviewDateStyleMonthFirst": "Month first (04 March)",
+  "csvImportPreviewNothing": "No rows in this file can be imported.",
+  "csvImportPreviewConfirm": "Import",
+  "csvRowProblemDate": "invalid or missing date",
+  "csvRowProblemAmount": "invalid or missing amount",
+  "csvRowProblemAccount": "invalid or missing account",
+  "csvRowProblemType": "unknown transaction type",
+  "csvImportDone": "{count, plural, =1{1 transaction imported} other{{count} transactions imported}}",
+  "csvImportFailedNoColumns": "No recognised columns. Start from the CSV template.",
+  "csvImportFailedMissingColumn": "The file has no \"{column}\" column.",
+  "@csvImportFailedMissingColumn": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportFailedEmpty": "This file has no data rows.",
+  "csvImportFailedTooManyRows": "This file has {rows} rows; the limit is {max}.",
+  "@csvImportFailedTooManyRows": {
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportFailed": "CSV import failed",
   "ledgerVerifyDialogTitle": "Ledger verification",
   "ledgerVerifyAllMatch": "All accounts match.",
   "ledgerVerifyMismatchesTitle": "Mismatches",
@@ -727,9 +838,9 @@
   "statsEmptySubtitle": "No spending data for the selected range.",
   "semanticsShowProjections": "Show projected balances by account",
   "semanticsHideProjections": "Hide projected balances by account",
-    "semanticsShowDayBalanceBreakdown": "Mostrar saldos das contas para este dia",
+  "semanticsShowDayBalanceBreakdown": "Mostrar saldos das contas para este dia",
   "semanticsHideDayBalanceBreakdown": "Ocultar saldos das contas para este dia",
-"semanticsDateAllTime": "Date: all time — tap to change mode",
+  "semanticsDateAllTime": "Date: all time — tap to change mode",
   "semanticsDateMode": "Date: {mode} — tap to change mode",
   "@semanticsDateMode": {
     "placeholders": {
@@ -842,39 +953,40 @@
   "autoBackupShareSubtitle": "Upload latest backup to iCloud Drive, Google Drive or any app",
   "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
   "autoBackupCloudReminderAction": "Share",
-
   "settingsBackupReminderTitle": "Lembrete de cópia de segurança",
   "settingsBackupReminderSubtitle": "Banner no app se adicionar muitas transações sem exportar uma cópia de segurança manual.",
   "settingsBackupReminderThresholdTitle": "Limite de transações",
   "settingsBackupReminderThresholdSubtitle": "Lembrar após {count} novas transações desde a última exportação manual.",
   "@settingsBackupReminderThresholdSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsBackupReminderThresholdInvalid": "Introduza um número inteiro de 1 a 500.",
   "settingsBackupReminderSnoozeHint": "\"Lembrar depois\" oculta o banner até adicionar mais {n} transações.",
   "@settingsBackupReminderSnoozeHint": {
     "placeholders": {
-      "n": {"type": "int"}
+      "n": {
+        "type": "int"
+      }
     }
   },
   "backupReminderBannerTitle": "Exportar cópia de segurança?",
   "backupReminderBannerBody": "Adicionou {count} transações desde a última exportação manual.",
   "@backupReminderBannerBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "backupReminderRemindLater": "Lembrar depois",
-
   "backupExportLedgerVerifyTitle": "Verificação do razão antes da cópia de segurança",
   "backupExportLedgerVerifyInfo": "Compara o saldo armazenado de cada conta com uma reprodução completa do seu histórico. Pode exportar a cópia de segurança de qualquer forma; as discrepâncias são informativas.",
   "backupExportLedgerVerifyContinue": "Continuar para a cópia de segurança",
-
-
   "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage.",
-
   "helpTooltip": "Ajuda",
   "helpNext": "Avançar",
   "helpBack": "Voltar",
@@ -921,5 +1033,18 @@
   "helpPlannedDateTitle": "Data prevista",
   "helpPlannedDateBody": "Toque aqui para escolher quando isso deve acontecer. Um plano também pode se repetir no ritmo que você escolher.",
   "helpPlannedProjectionTitle": "Saldos projetados",
-  "helpPlannedProjectionBody": "Os seletores de conta mostram o saldo projetado de cada conta na data prevista, para você notar um plano que deixaria uma conta no vermelho."
+  "helpPlannedProjectionBody": "Os seletores de conta mostram o saldo projetado de cada conta na data prevista, para você notar um plano que deixaria uma conta no vermelho.",
+  "settingsPlannedRemindersTitle": "Planned reminders",
+  "settingsPlannedRemindersSubtitle": "Notifies you when a planned transaction is due. Works fully offline — nothing leaves your device.",
+  "settingsPlannedRemindersTimeTitle": "Reminder time",
+  "settingsPlannedRemindersLeadTitle": "Advance notice",
+  "settingsPlannedRemindersLeadOnDay": "On the due date",
+  "settingsPlannedRemindersLeadDaysBefore": "{count, plural, =1{1 day before} other{{count} days before}}",
+  "settingsPlannedRemindersPermissionDenied": "Notifications are turned off for Platrare. Allow them in system settings to receive reminders.",
+  "plannedReminderChannelName": "Planned transaction reminders",
+  "plannedReminderChannelDescription": "Notifications for upcoming planned transactions.",
+  "plannedReminderFallbackTitle": "Planned transaction",
+  "plannedReminderDueToday": "Due today",
+  "plannedReminderDueTomorrow": "Due tomorrow",
+  "plannedReminderDueInDays": "{count, plural, other{Due in {count} days}}"
 }

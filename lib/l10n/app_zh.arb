@@ -17,6 +17,24 @@
   "heroIn": "In",
   "heroOut": "Out",
   "heroNet": "Net",
+  "widgetLowestPoint": "最低点",
+  "widgetProjected": "预计",
+  "widgetHorizonIn7Days": "7 天后",
+  "widgetHorizonEndOfMonth": "月末",
+  "widgetMetricAccount": "账户余额",
+  "widgetQuickAdd": "快速添加",
+  "widgetStale": "可能不是最新",
+  "widgetOpenToStart": "打开 Platrare 添加账户",
+  "widgetDueToday": "今天到期",
+  "widgetDescQuickAdd": "一键添加交易或计划。",
+  "widgetNameNumbers": "余额",
+  "widgetDescNumbers": "显示一个数字：可用余额、净资产或本月最低点。",
+  "widgetConfigMetric": "指标",
+  "widgetConfigHorizon": "时间范围",
+  "widgetSiriAddTransaction": "在 {appName} 中添加交易",
+  "widgetSiriAddPlanned": "在 {appName} 中添加计划交易",
+  "settingsWidgetAmountsTitle": "在小组件中显示金额",
+  "settingsWidgetAmountsSubtitle": "主屏幕小组件无需解锁应用即可查看。启用应用锁时，除非开启此项，否则金额将保持隐藏。",
   "heroBalance": "Balance",
   "realBalance": "Real balance",
   "settingsHideHeroBalancesTitle": "在摘要卡片中隐藏余额",
@@ -457,6 +475,99 @@
   },
   "settingsDataOpenExportFile": "Open file",
   "settingsDataExportFailed": "Export failed",
+  "settingsCsvExportTitle": "Export as CSV",
+  "settingsCsvExportSubtitle": "Your transactions as a spreadsheet file",
+  "settingsCsvExportFailed": "CSV export failed",
+  "settingsCsvImportTitle": "Import from CSV",
+  "settingsCsvImportSubtitle": "Add transactions from a spreadsheet — nothing is replaced",
+  "settingsCsvTemplateTitle": "Get CSV template",
+  "settingsCsvTemplateSubtitle": "An example file to paste your old data into",
+  "csvTemplateInstruction1": "Replace the example rows below with your own data, then import this file from Settings.",
+  "csvTemplateInstruction2": "date and amount are required. Write dates as YYYY-MM-DD and amounts as a positive number.",
+  "csvTemplateInstruction3": "type can be income, expense, transfer, invoice, bill, advance, settlement, loan, collection or offset. Leave it empty to let the app work it out from the accounts.",
+  "csvTemplateInstruction4": "Accounts and categories that do not exist yet are created for you. Lines starting with # are ignored.",
+  "csvImportPreviewTitle": "Import transactions",
+  "csvImportPreviewCounts": "{importable} of {total} rows will be added",
+  "@csvImportPreviewCounts": {
+    "placeholders": {
+      "importable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewNewAccounts": "New accounts: {names}",
+  "@csvImportPreviewNewAccounts": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewNewCategories": "New categories: {names}",
+  "@csvImportPreviewNewCategories": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewDuplicates": "{count, plural, =1{1 row already exists} other{{count} rows already exist}}",
+  "csvImportPreviewSkipDuplicates": "Skip rows that already exist",
+  "csvImportPreviewIssuesTitle": "{count, plural, =1{1 row could not be read} other{{count} rows could not be read}}",
+  "csvImportPreviewIssueLine": "Line {line}: {reason}",
+  "@csvImportPreviewIssueLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewIssueMore": "…and {count} more",
+  "@csvImportPreviewIssueMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewDateStyleTitle": "Dates like 03/04/2026 are ambiguous. How should they be read?",
+  "csvImportPreviewDateStyleDayFirst": "Day first (03 April)",
+  "csvImportPreviewDateStyleMonthFirst": "Month first (04 March)",
+  "csvImportPreviewNothing": "No rows in this file can be imported.",
+  "csvImportPreviewConfirm": "Import",
+  "csvRowProblemDate": "invalid or missing date",
+  "csvRowProblemAmount": "invalid or missing amount",
+  "csvRowProblemAccount": "invalid or missing account",
+  "csvRowProblemType": "unknown transaction type",
+  "csvImportDone": "{count, plural, =1{1 transaction imported} other{{count} transactions imported}}",
+  "csvImportFailedNoColumns": "No recognised columns. Start from the CSV template.",
+  "csvImportFailedMissingColumn": "The file has no \"{column}\" column.",
+  "@csvImportFailedMissingColumn": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportFailedEmpty": "This file has no data rows.",
+  "csvImportFailedTooManyRows": "This file has {rows} rows; the limit is {max}.",
+  "@csvImportFailedTooManyRows": {
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportFailed": "CSV import failed",
   "ledgerVerifyDialogTitle": "Ledger verification",
   "ledgerVerifyAllMatch": "All accounts match.",
   "ledgerVerifyMismatchesTitle": "Mismatches",
@@ -727,9 +838,9 @@
   "statsEmptySubtitle": "No spending data for the selected range.",
   "semanticsShowProjections": "Show projected balances by account",
   "semanticsHideProjections": "Hide projected balances by account",
-    "semanticsShowDayBalanceBreakdown": "显示本日账户余额",
+  "semanticsShowDayBalanceBreakdown": "显示本日账户余额",
   "semanticsHideDayBalanceBreakdown": "隐藏本日账户余额",
-"semanticsDateAllTime": "Date: all time — tap to change mode",
+  "semanticsDateAllTime": "Date: all time — tap to change mode",
   "semanticsDateMode": "Date: {mode} — tap to change mode",
   "@semanticsDateMode": {
     "placeholders": {
@@ -842,39 +953,40 @@
   "autoBackupShareSubtitle": "Upload latest backup to iCloud Drive, Google Drive or any app",
   "autoBackupCloudReminder": "Auto-backup ready — save it to cloud for off-device protection",
   "autoBackupCloudReminderAction": "Share",
-
   "settingsBackupReminderTitle": "备份提醒",
   "settingsBackupReminderSubtitle": "如果您添加了许多交易而未导出手动备份，将显示应用内横幅。",
   "settingsBackupReminderThresholdTitle": "交易阈值",
   "settingsBackupReminderThresholdSubtitle": "自上次手动导出后新增 {count} 笔交易后提醒。",
   "@settingsBackupReminderThresholdSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsBackupReminderThresholdInvalid": "请输入1到500之间的整数。",
   "settingsBackupReminderSnoozeHint": "\"稍后提醒\"会隐藏横幅，直到您再添加 {n} 笔交易。",
   "@settingsBackupReminderSnoozeHint": {
     "placeholders": {
-      "n": {"type": "int"}
+      "n": {
+        "type": "int"
+      }
     }
   },
   "backupReminderBannerTitle": "导出备份？",
   "backupReminderBannerBody": "自上次手动导出以来，您已添加 {count} 笔交易。",
   "@backupReminderBannerBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "backupReminderRemindLater": "稍后提醒",
-
   "backupExportLedgerVerifyTitle": "备份前账本检查",
   "backupExportLedgerVerifyInfo": "将每个账户的存储余额与您完整的历史记录重播进行比较。无论如何您都可以导出备份；不一致仅供参考。",
   "backupExportLedgerVerifyContinue": "继续备份",
-
-
   "persistenceErrorReloaded": "Couldn’t save changes. Data was reloaded from storage.",
-
   "helpTooltip": "帮助",
   "helpNext": "下一步",
   "helpBack": "上一步",
@@ -921,5 +1033,18 @@
   "helpPlannedDateTitle": "预定日期",
   "helpPlannedDateBody": "点按此处选择执行时间。计划也可以按你选择的周期重复。",
   "helpPlannedProjectionTitle": "预测余额",
-  "helpPlannedProjectionBody": "账户选择器会显示每个账户在预定日期的预测余额，帮你发现会导致透支的计划。"
+  "helpPlannedProjectionBody": "账户选择器会显示每个账户在预定日期的预测余额，帮你发现会导致透支的计划。",
+  "settingsPlannedRemindersTitle": "Planned reminders",
+  "settingsPlannedRemindersSubtitle": "Notifies you when a planned transaction is due. Works fully offline — nothing leaves your device.",
+  "settingsPlannedRemindersTimeTitle": "Reminder time",
+  "settingsPlannedRemindersLeadTitle": "Advance notice",
+  "settingsPlannedRemindersLeadOnDay": "On the due date",
+  "settingsPlannedRemindersLeadDaysBefore": "{count, plural, =1{1 day before} other{{count} days before}}",
+  "settingsPlannedRemindersPermissionDenied": "Notifications are turned off for Platrare. Allow them in system settings to receive reminders.",
+  "plannedReminderChannelName": "Planned transaction reminders",
+  "plannedReminderChannelDescription": "Notifications for upcoming planned transactions.",
+  "plannedReminderFallbackTitle": "Planned transaction",
+  "plannedReminderDueToday": "Due today",
+  "plannedReminderDueTomorrow": "Due tomorrow",
+  "plannedReminderDueInDays": "{count, plural, other{Due in {count} days}}"
 }

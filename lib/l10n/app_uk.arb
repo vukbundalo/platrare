@@ -17,6 +17,24 @@
   "heroIn": "Доходи",
   "heroOut": "Витрати",
   "heroNet": "Нетто",
+  "widgetLowestPoint": "Мінімум",
+  "widgetProjected": "Прогноз",
+  "widgetHorizonIn7Days": "Через 7 днів",
+  "widgetHorizonEndOfMonth": "Кінець місяця",
+  "widgetMetricAccount": "Баланс рахунку",
+  "widgetQuickAdd": "Швидке додавання",
+  "widgetStale": "Дані можуть бути застарілими",
+  "widgetOpenToStart": "Відкрийте Platrare, щоб додати рахунки",
+  "widgetDueToday": "Сьогодні",
+  "widgetDescQuickAdd": "Додайте операцію або план одним дотиком.",
+  "widgetNameNumbers": "Баланс",
+  "widgetDescNumbers": "Покажіть одне число: доступно, чисті активи або мінімум цього місяця.",
+  "widgetConfigMetric": "Показник",
+  "widgetConfigHorizon": "Горизонт",
+  "widgetSiriAddTransaction": "Додати операцію в {appName}",
+  "widgetSiriAddPlanned": "Додати заплановану операцію в {appName}",
+  "settingsWidgetAmountsTitle": "Показувати суми у віджетах",
+  "settingsWidgetAmountsSubtitle": "Віджети на екрані «Дім» видно без розблокування застосунку. Коли блокування ввімкнено, суми приховані, якщо не ввімкнути цей параметр.",
   "heroBalance": "Баланс",
   "realBalance": "Реальний баланс",
   "settingsHideHeroBalancesTitle": "Приховати баланси в підсумкових картках",
@@ -48,36 +66,105 @@
   "repeatYearly": "Щороку",
   "repeatEveryLabel": "Кожні",
   "repeatEveryDays": "{count, plural, =1{день} other{{count} дні}}",
-  "@repeatEveryDays": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatEveryDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatEveryWeeks": "{count, plural, =1{тиждень} other{{count} тижні}}",
-  "@repeatEveryWeeks": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatEveryWeeks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatEveryMonths": "{count, plural, =1{місяць} other{{count} місяці}}",
-  "@repeatEveryMonths": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatEveryMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatEveryYears": "{count, plural, =1{рік} other{{count} роки}}",
-  "@repeatEveryYears": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatEveryYears": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatEndLabel": "Закінчується",
   "repeatEndNever": "Ніколи",
   "repeatEndOnDate": "На дату",
   "repeatEndAfterCount": "Після {count} разів",
-  "@repeatEndAfterCount": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatEndAfterCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatEndAfterChoice": "Після певної кількості разів",
   "repeatEndPickDate": "Вибрати дату завершення",
   "repeatEndTimes": "разів",
   "repeatSummaryEvery": "Кожні {unit}",
-  "@repeatSummaryEvery": { "placeholders": { "unit": {"type": "String"} } },
+  "@repeatSummaryEvery": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "repeatSummaryUntil": "до {date}",
-  "@repeatSummaryUntil": { "placeholders": { "date": {"type": "String"} } },
+  "@repeatSummaryUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "repeatSummaryTimes": "{count} разів",
-  "@repeatSummaryTimes": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatSummaryTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatSummaryTimesRemaining": "{remaining} з {total} залишилося",
-  "@repeatSummaryTimesRemaining": { "placeholders": { "remaining": {"type": "int"}, "total": {"type": "int"} } },
+  "@repeatSummaryTimesRemaining": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "detailRepeatEvery": "Повторювати кожні",
   "detailEnds": "Закінчується",
   "detailEndsNever": "Ніколи",
   "detailEndsOnDate": "{date}",
-  "@detailEndsOnDate": { "placeholders": { "date": {"type": "String"} } },
+  "@detailEndsOnDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "detailEndsAfterCount": "Після {count} разів",
-  "@detailEndsAfterCount": { "placeholders": { "count": {"type": "int"} } },
+  "@detailEndsAfterCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "detailProgress": "Прогрес",
   "weekendNoChange": "Без змін",
   "weekendFriday": "Перенести на п'ятницю",
@@ -85,7 +172,9 @@
   "weekendQuestion": "Якщо {day} припадає на вихідний?",
   "@weekendQuestion": {
     "placeholders": {
-      "day": {"type": "String"}
+      "day": {
+        "type": "String"
+      }
     }
   },
   "dateToday": "Сьогодні",
@@ -116,7 +205,9 @@
   "emptyNoTransactionsForMonth": "Немає транзакцій за {month}",
   "@emptyNoTransactionsForMonth": {
     "placeholders": {
-      "month": {"type": "String"}
+      "month": {
+        "type": "String"
+      }
     }
   },
   "emptyNoTransactionsForAccount": "Немає транзакцій для цього рахунку",
@@ -128,9 +219,15 @@
   "planConfirmBodyEarly": "Ця подія заплановано на {date}. Вона буде записана в Історію з датою сьогодні ({todayDate}). Наступна подія залишається на {nextDate}.",
   "@planConfirmBodyEarly": {
     "placeholders": {
-      "date": {"type": "String"},
-      "todayDate": {"type": "String"},
-      "nextDate": {"type": "String"}
+      "date": {
+        "type": "String"
+      },
+      "todayDate": {
+        "type": "String"
+      },
+      "nextDate": {
+        "type": "String"
+      }
     }
   },
   "planConfirmBodyNormal": "Це застосує транзакцію до реальних балансів рахунків і перемістить її до Історії.",
@@ -148,7 +245,9 @@
   "planNoPlannedInMonth": "Немає запланованих транзакцій у {month}",
   "@planNoPlannedInMonth": {
     "placeholders": {
-      "month": {"type": "String"}
+      "month": {
+        "type": "String"
+      }
     }
   },
   "planOverdue": "прострочено",
@@ -175,8 +274,12 @@
   "amountReceivedBy": "Сума, отримана {name} ({currency})",
   "@amountReceivedBy": {
     "placeholders": {
-      "name": {"type": "String"},
-      "currency": {"type": "String"}
+      "name": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
     }
   },
   "amountReceivedHelper": "Введіть точну суму, яку отримує рахунок призначення. Це фіксує реальний використаний курс обміну.",
@@ -199,14 +302,20 @@
   "projectedBalancesForDate": "Прогнозовані баланси на {date}",
   "@projectedBalancesForDate": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
   "destReceivesLabel": "{name} отримує ({currency})",
   "@destReceivesLabel": {
     "placeholders": {
-      "name": {"type": "String"},
-      "currency": {"type": "String"}
+      "name": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
     }
   },
   "destHelper": "Орієнтовна сума призначення. Точний курс фіксується при підтвердженні.",
@@ -226,7 +335,13 @@
   "detailWeekends": "Вихідні",
   "detailAttachments": "Вкладення",
   "detailFileCount": "{count, plural, =1{1 файл} other{{count} файли}}",
-  "@detailFileCount": { "placeholders": { "count": {"type": "int"} } },
+  "@detailFileCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "settingsTitle": "Налаштування",
   "settingsSectionDisplay": "Відображення",
   "settingsSectionLanguage": "Мова",
@@ -240,8 +355,12 @@
   "settingsCategoriesSubtitle": "{incomeCount} доходів · {expenseCount} витрат",
   "@settingsCategoriesSubtitle": {
     "placeholders": {
-      "incomeCount": {"type": "int"},
-      "expenseCount": {"type": "int"}
+      "incomeCount": {
+        "type": "int"
+      },
+      "expenseCount": {
+        "type": "int"
+      }
     }
   },
   "settingsArchivedAccounts": "Архівні рахунки",
@@ -249,7 +368,9 @@
   "settingsArchivedAccountsSubtitleCount": "{count} приховано з Огляду та списків вибору",
   "@settingsArchivedAccountsSubtitleCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsSectionData": "Дані",
@@ -296,24 +417,40 @@
   "backupImportPreviewVersion": "Версія програми: {version}",
   "@backupImportPreviewVersion": {
     "placeholders": {
-      "version": {"type": "String"}
+      "version": {
+        "type": "String"
+      }
     }
   },
   "backupImportPreviewExported": "Експортовано: {date}",
   "@backupImportPreviewExported": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
   "backupImportPreviewCounts": "{accounts} рахунків · {transactions} транзакцій · {planned} запланованих · {attachments} вкладень · {income} категорій доходів · {expense} категорій витрат",
   "@backupImportPreviewCounts": {
     "placeholders": {
-      "accounts": {"type": "int"},
-      "transactions": {"type": "int"},
-      "planned": {"type": "int"},
-      "attachments": {"type": "int"},
-      "income": {"type": "int"},
-      "expense": {"type": "int"}
+      "accounts": {
+        "type": "int"
+      },
+      "transactions": {
+        "type": "int"
+      },
+      "planned": {
+        "type": "int"
+      },
+      "attachments": {
+        "type": "int"
+      },
+      "income": {
+        "type": "int"
+      },
+      "expense": {
+        "type": "int"
+      }
     }
   },
   "backupImportPreviewContinue": "Продовжити",
@@ -331,21 +468,124 @@
   "settingsDataExportDoneBody": "Резервну копію збережено:\n{path}",
   "@settingsDataExportDoneBody": {
     "placeholders": {
-      "path": {"type": "String"}
+      "path": {
+        "type": "String"
+      }
     }
   },
   "settingsDataOpenExportFile": "Відкрити файл",
   "settingsDataExportFailed": "Помилка експорту",
+  "settingsCsvExportTitle": "Експорт у CSV",
+  "settingsCsvExportSubtitle": "Ваші транзакції у вигляді таблиці",
+  "settingsCsvExportFailed": "Не вдалося експортувати CSV",
+  "settingsCsvImportTitle": "Імпорт із CSV",
+  "settingsCsvImportSubtitle": "Додайте транзакції з таблиці — нічого не замінюється",
+  "settingsCsvTemplateTitle": "Отримати шаблон CSV",
+  "settingsCsvTemplateSubtitle": "Приклад файлу, куди можна вставити старі дані",
+  "csvTemplateInstruction1": "Замініть приклади рядків нижче своїми даними, а потім імпортуйте цей файл у налаштуваннях.",
+  "csvTemplateInstruction2": "Поля date і amount обов'язкові. Дати пишіть як YYYY-MM-DD, суми — додатним числом.",
+  "csvTemplateInstruction3": "Поле type може бути income, expense, transfer, invoice, bill, advance, settlement, loan, collection або offset. Залиште порожнім, щоб застосунок визначив тип за рахунками.",
+  "csvTemplateInstruction4": "Рахунки та категорії, яких ще немає, створюються автоматично. Рядки, що починаються з #, ігноруються.",
+  "csvImportPreviewTitle": "Імпорт транзакцій",
+  "csvImportPreviewCounts": "Буде додано {importable} рядків із {total}",
+  "@csvImportPreviewCounts": {
+    "placeholders": {
+      "importable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewNewAccounts": "Нові рахунки: {names}",
+  "@csvImportPreviewNewAccounts": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewNewCategories": "Нові категорії: {names}",
+  "@csvImportPreviewNewCategories": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewDuplicates": "{count, plural, one{{count} рядок уже існує} few{{count} рядки вже існують} many{{count} рядків уже існують} other{{count} рядки вже існують}}",
+  "csvImportPreviewSkipDuplicates": "Пропускати рядки, які вже є",
+  "csvImportPreviewIssuesTitle": "{count, plural, one{Не вдалося прочитати {count} рядок} few{Не вдалося прочитати {count} рядки} many{Не вдалося прочитати {count} рядків} other{Не вдалося прочитати {count} рядки}}",
+  "csvImportPreviewIssueLine": "Рядок {line}: {reason}",
+  "@csvImportPreviewIssueLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewIssueMore": "…і ще {count}",
+  "@csvImportPreviewIssueMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewDateStyleTitle": "Дати на кшталт 03/04/2026 неоднозначні. Як їх читати?",
+  "csvImportPreviewDateStyleDayFirst": "Спочатку день (3 квітня)",
+  "csvImportPreviewDateStyleMonthFirst": "Спочатку місяць (4 березня)",
+  "csvImportPreviewNothing": "Жоден рядок цього файлу не можна імпортувати.",
+  "csvImportPreviewConfirm": "Імпортувати",
+  "csvRowProblemDate": "недійсна або відсутня дата",
+  "csvRowProblemAmount": "недійсна або відсутня сума",
+  "csvRowProblemAccount": "недійсний або відсутній рахунок",
+  "csvRowProblemType": "невідомий тип транзакції",
+  "csvImportDone": "{count, plural, one{Імпортовано {count} транзакцію} few{Імпортовано {count} транзакції} many{Імпортовано {count} транзакцій} other{Імпортовано {count} транзакції}}",
+  "csvImportFailedNoColumns": "Не розпізнано жодного стовпця. Почніть із шаблону CSV.",
+  "csvImportFailedMissingColumn": "У файлі немає стовпця \"{column}\".",
+  "@csvImportFailedMissingColumn": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportFailedEmpty": "У цьому файлі немає рядків із даними.",
+  "csvImportFailedTooManyRows": "У файлі {rows} рядків, а межа — {max}.",
+  "@csvImportFailedTooManyRows": {
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportFailed": "Не вдалося імпортувати CSV",
   "ledgerVerifyDialogTitle": "Перевірка бухгалтерської книги",
   "ledgerVerifyAllMatch": "Усі рахунки збігаються.",
   "ledgerVerifyMismatchesTitle": "Розбіжності",
   "ledgerVerifyMismatchDetails": "{accountName}\nЗбережено: {stored}\nВідтворено: {replayed}\nРізниця: {diff}",
   "@ledgerVerifyMismatchDetails": {
     "placeholders": {
-      "accountName": {"type": "String"},
-      "stored": {"type": "String"},
-      "replayed": {"type": "String"},
-      "diff": {"type": "String"}
+      "accountName": {
+        "type": "String"
+      },
+      "stored": {
+        "type": "String"
+      },
+      "replayed": {
+        "type": "String"
+      },
+      "diff": {
+        "type": "String"
+      }
     }
   },
   "settingsLanguage": "Мова програми",
@@ -402,7 +642,9 @@
   "deleteCategoryBody": "\"{category}\" буде видалено зі списку.",
   "@deleteCategoryBody": {
     "placeholders": {
-      "category": {"type": "String"}
+      "category": {
+        "type": "String"
+      }
     }
   },
   "categoryIncome": "Дохід",
@@ -425,8 +667,12 @@
   "transactionSavedMessage": "{type} збережено  •  {amount}",
   "@transactionSavedMessage": {
     "placeholders": {
-      "type": {"type": "String"},
-      "amount": {"type": "String"}
+      "type": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "tooltipSettings": "Налаштування",
@@ -443,7 +689,9 @@
   "archiveWithPlannedBody": "{count, plural, =1{1 запланована транзакція посилається на цей рахунок.} other{{count} запланованих транзакцій посилаються на цей рахунок.}} Видаліть їх, щоб план залишався узгодженим з архівним рахунком.",
   "@archiveWithPlannedBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "removeAndArchive": "Видалити заплановані й архівувати",
@@ -459,7 +707,9 @@
   "deleteWithPlannedBody": "{count, plural, =1{1 запланована транзакція посилається на цей рахунок і також буде видалена.} other{{count} запланованих транзакцій посилаються на цей рахунок і також будуть видалені.}}",
   "@deleteWithPlannedBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "deleteAllAndDelete": "Видалити всі",
@@ -487,12 +737,18 @@
   "archiveOptionSubtitle": "Приховати з Огляду та списків вибору. Відновити будь-коли в Налаштуваннях. Потрібен нульовий баланс та овердрафт.",
   "archivedBannerText": "Цей рахунок архівовано. Він залишається у ваших даних, але прихований зі списків і списків вибору.",
   "balanceAdjustedTitle": "Баланс скориговано в Історії",
-  "balanceAdjustedBody": "Реальний баланс оновлено з {previous} до {current} {symbol}.\n\nУ Історії створено транзакцію коригування балансу для збереження узгодженості книги.\n\n\u2022 Реальний баланс відображає фактичну суму на цьому рахунку.\n\u2022 Перевірте Історію для перегляду запису коригування.",
+  "balanceAdjustedBody": "Реальний баланс оновлено з {previous} до {current} {symbol}.\n\nУ Історії створено транзакцію коригування балансу для збереження узгодженості книги.\n\n• Реальний баланс відображає фактичну суму на цьому рахунку.\n• Перевірте Історію для перегляду запису коригування.",
   "@balanceAdjustedBody": {
     "placeholders": {
-      "previous": {"type": "String"},
-      "current": {"type": "String"},
-      "symbol": {"type": "String"}
+      "previous": {
+        "type": "String"
+      },
+      "current": {
+        "type": "String"
+      },
+      "symbol": {
+        "type": "String"
+      }
     }
   },
   "ok": "OK",
@@ -512,7 +768,9 @@
   "statsNoExpensesPeriod": "Витрат за останні {period} немає",
   "@statsNoExpensesPeriod": {
     "placeholders": {
-      "period": {"type": "String"}
+      "period": {
+        "type": "String"
+      }
     }
   },
   "statsTotalSpent": "Загалом витрачено",
@@ -522,7 +780,9 @@
   "statsNoIncomePeriod": "Доходів за останні {period} немає",
   "@statsNoIncomePeriod": {
     "placeholders": {
-      "period": {"type": "String"}
+      "period": {
+        "type": "String"
+      }
     }
   },
   "statsTotalReceived": "Загалом отримано",
@@ -561,26 +821,32 @@
   "semanticsProjectionDate": "Дата прогнозу {date}. Подвійний дотик для вибору дати",
   "@semanticsProjectionDate": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
   "semanticsProjectedBalance": "Прогнозований особистий баланс {amount}",
   "@semanticsProjectedBalance": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "statsEmptyTitle": "Транзакцій ще немає",
   "statsEmptySubtitle": "Немає даних про витрати для вибраного діапазону.",
   "semanticsShowProjections": "Показати прогнозовані баланси по рахунках",
   "semanticsHideProjections": "Приховати прогнозовані баланси по рахунках",
-    "semanticsShowDayBalanceBreakdown": "Показати баланси рахунків за цей день",
+  "semanticsShowDayBalanceBreakdown": "Показати баланси рахунків за цей день",
   "semanticsHideDayBalanceBreakdown": "Приховати баланси рахунків за цей день",
-"semanticsDateAllTime": "Дата: за весь час — торкніться для зміни режиму",
+  "semanticsDateAllTime": "Дата: за весь час — торкніться для зміни режиму",
   "semanticsDateMode": "Дата: {mode} — торкніться для зміни режиму",
   "@semanticsDateMode": {
     "placeholders": {
-      "mode": {"type": "String"}
+      "mode": {
+        "type": "String"
+      }
     }
   },
   "semanticsDateThisMonth": "Дата: цей місяць — торкніться для вибору місяця, тижня, року або всього часу",
@@ -601,7 +867,9 @@
   "semanticsPeriod": "Період: {label}",
   "@semanticsPeriod": {
     "placeholders": {
-      "label": {"type": "String"}
+      "label": {
+        "type": "String"
+      }
     }
   },
   "trackSearchHint": "Пошук за описом, категорією, рахунком…",
@@ -610,7 +878,9 @@
   "settingsExchangeRatesUpdated": "Останнє оновлення: {time}",
   "@settingsExchangeRatesUpdated": {
     "placeholders": {
-      "time": {"type": "String"}
+      "time": {
+        "type": "String"
+      }
     }
   },
   "settingsExchangeRatesNeverUpdated": "Використовуються офлайн або вбудовані курси — торкніться для оновлення",
@@ -624,28 +894,36 @@
   "clearDataTransactionsSubtitle": "{count} транзакцій · баланси рахунків скинуто до нуля",
   "@clearDataTransactionsSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "clearDataPlanned": "Заплановані транзакції",
   "clearDataPlannedSubtitle": "{count} запланованих елементів",
   "@clearDataPlannedSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "clearDataAccounts": "Рахунки",
   "clearDataAccountsSubtitle": "{count} рахунків · також очищає Історію та План",
   "@clearDataAccountsSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "clearDataCategories": "Категорії",
   "clearDataCategoriesSubtitle": "{count} категорій · замінено стандартними",
   "@clearDataCategoriesSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "clearDataPreferences": "Параметри",
@@ -665,7 +943,9 @@
   "autoBackupLastAt": "Останнє резервне копіювання {date}",
   "@autoBackupLastAt": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
   "autoBackupNeverRun": "Резервної копії ще немає",
@@ -673,40 +953,40 @@
   "autoBackupShareSubtitle": "Завантажити останню резервну копію на iCloud Drive, Google Drive або будь-яку іншу програму",
   "autoBackupCloudReminder": "Автоматичне резервне копіювання готове — збережіть у хмарі для захисту поза пристроєм",
   "autoBackupCloudReminderAction": "Поділитися",
-
   "settingsBackupReminderTitle": "Нагадування про резервну копію",
   "settingsBackupReminderSubtitle": "Банер у програмі, якщо ви додаєте багато транзакцій без експорту ручної резервної копії.",
   "settingsBackupReminderThresholdTitle": "Поріг транзакцій",
   "settingsBackupReminderThresholdSubtitle": "Нагадати після {count} нових транзакцій з моменту останнього ручного експорту.",
   "@settingsBackupReminderThresholdSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsBackupReminderThresholdInvalid": "Введіть ціле число від 1 до 500.",
   "settingsBackupReminderSnoozeHint": "«Нагадати пізніше» приховує банер, доки ви не додасте ще {n} транзакцій.",
   "@settingsBackupReminderSnoozeHint": {
     "placeholders": {
-      "n": {"type": "int"}
+      "n": {
+        "type": "int"
+      }
     }
   },
   "backupReminderBannerTitle": "Експортувати резервну копію?",
   "backupReminderBannerBody": "Ви додали {count} транзакцій з моменту останнього ручного експорту.",
   "@backupReminderBannerBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "backupReminderRemindLater": "Нагадати пізніше",
-
   "backupExportLedgerVerifyTitle": "Перевірка журналу перед резервним копіюванням",
   "backupExportLedgerVerifyInfo": "Порівнює збережений баланс кожного рахунку з повним відтворенням історії. Ви можете експортувати резервну копію в будь-якому випадку; розбіжності мають інформаційний характер.",
   "backupExportLedgerVerifyContinue": "Перейти до резервного копіювання",
-
-
-
   "persistenceErrorReloaded": "Не вдалося зберегти зміни. Дані перезавантажено зі сховища.",
-
   "helpTooltip": "Довідка",
   "helpNext": "Далі",
   "helpBack": "Назад",
@@ -753,5 +1033,18 @@
   "helpPlannedDateTitle": "Термін",
   "helpPlannedDateBody": "Торкніться тут, щоб вибрати, коли це має статися. План також може повторюватися за обраним розкладом.",
   "helpPlannedProjectionTitle": "Прогнозовані баланси",
-  "helpPlannedProjectionBody": "Вибір рахунків показує прогнозований баланс кожного рахунку на дату терміну — так видно план, який завів би рахунок у мінус."
+  "helpPlannedProjectionBody": "Вибір рахунків показує прогнозований баланс кожного рахунку на дату терміну — так видно план, який завів би рахунок у мінус.",
+  "settingsPlannedRemindersTitle": "Нагадування про плани",
+  "settingsPlannedRemindersSubtitle": "Сповіщає, коли настає термін запланованої операції. Працює повністю офлайн — дані не залишають пристрій.",
+  "settingsPlannedRemindersTimeTitle": "Час нагадування",
+  "settingsPlannedRemindersLeadTitle": "Завчасність",
+  "settingsPlannedRemindersLeadOnDay": "У день терміну",
+  "settingsPlannedRemindersLeadDaysBefore": "{count, plural, one{За {count} день} few{За {count} дні} many{За {count} днів} other{За {count} дня}}",
+  "settingsPlannedRemindersPermissionDenied": "Сповіщення для Platrare вимкнено. Дозвольте їх у налаштуваннях системи, щоб отримувати нагадування.",
+  "plannedReminderChannelName": "Нагадування про заплановані операції",
+  "plannedReminderChannelDescription": "Сповіщення про майбутні заплановані операції.",
+  "plannedReminderFallbackTitle": "Запланована операція",
+  "plannedReminderDueToday": "Термін сьогодні",
+  "plannedReminderDueTomorrow": "Термін завтра",
+  "plannedReminderDueInDays": "{count, plural, one{Термін через {count} день} few{Термін через {count} дні} many{Термін через {count} днів} other{Термін через {count} дня}}"
 }

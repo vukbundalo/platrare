@@ -17,6 +17,24 @@
   "heroIn": "में",
   "heroOut": "बाहर",
   "heroNet": "जाल",
+  "widgetLowestPoint": "न्यूनतम बिंदु",
+  "widgetProjected": "अनुमानित",
+  "widgetHorizonIn7Days": "7 दिनों में",
+  "widgetHorizonEndOfMonth": "महीने का अंत",
+  "widgetMetricAccount": "खाता शेष",
+  "widgetQuickAdd": "त्वरित जोड़ें",
+  "widgetStale": "पुराना हो सकता है",
+  "widgetOpenToStart": "खाते जोड़ने के लिए Platrare खोलें",
+  "widgetDueToday": "आज देय",
+  "widgetDescQuickAdd": "एक टैप में लेनदेन या योजना जोड़ें।",
+  "widgetNameNumbers": "शेष",
+  "widgetDescNumbers": "एक आँकड़ा दिखाएँ: उपलब्ध, कुल संपत्ति, या इस महीने का न्यूनतम बिंदु।",
+  "widgetConfigMetric": "मीट्रिक",
+  "widgetConfigHorizon": "अवधि",
+  "widgetSiriAddTransaction": "{appName} में लेनदेन जोड़ें",
+  "widgetSiriAddPlanned": "{appName} में नियोजित लेनदेन जोड़ें",
+  "settingsWidgetAmountsTitle": "विजेट में राशि दिखाएँ",
+  "settingsWidgetAmountsSubtitle": "होम स्क्रीन विजेट ऐप अनलॉक किए बिना दिखते हैं। ऐप लॉक चालू होने पर, जब तक आप इसे चालू न करें, राशियाँ छिपी रहती हैं।",
   "heroBalance": "संतुलन",
   "realBalance": "वास्तविक संतुलन",
   "settingsHideHeroBalancesTitle": "सारांश कार्डों में शेष राशि छुपाएं",
@@ -457,6 +475,99 @@
   },
   "settingsDataOpenExportFile": "खुली फाइल",
   "settingsDataExportFailed": "निर्यात विफल",
+  "settingsCsvExportTitle": "CSV के रूप में निर्यात करें",
+  "settingsCsvExportSubtitle": "आपके लेन-देन स्प्रेडशीट फ़ाइल के रूप में",
+  "settingsCsvExportFailed": "CSV निर्यात विफल",
+  "settingsCsvImportTitle": "CSV से आयात करें",
+  "settingsCsvImportSubtitle": "स्प्रेडशीट से लेन-देन जोड़ें — कुछ भी बदला नहीं जाता",
+  "settingsCsvTemplateTitle": "CSV टेम्पलेट प्राप्त करें",
+  "settingsCsvTemplateSubtitle": "एक उदाहरण फ़ाइल जिसमें आप अपना पुराना डेटा चिपका सकते हैं",
+  "csvTemplateInstruction1": "नीचे दी गई उदाहरण पंक्तियों को अपने डेटा से बदलें, फिर इस फ़ाइल को सेटिंग्स से आयात करें।",
+  "csvTemplateInstruction2": "date और amount आवश्यक हैं। तिथियाँ YYYY-MM-DD के रूप में और राशियाँ धनात्मक संख्या के रूप में लिखें।",
+  "csvTemplateInstruction3": "type में income, expense, transfer, invoice, bill, advance, settlement, loan, collection या offset हो सकता है। खाली छोड़ें ताकि ऐप खातों से इसका अनुमान लगा ले।",
+  "csvTemplateInstruction4": "जो खाते और श्रेणियाँ अभी मौजूद नहीं हैं, वे अपने आप बन जाती हैं। # से शुरू होने वाली पंक्तियाँ अनदेखी की जाती हैं।",
+  "csvImportPreviewTitle": "लेन-देन आयात करें",
+  "csvImportPreviewCounts": "{total} में से {importable} पंक्तियाँ जोड़ी जाएँगी",
+  "@csvImportPreviewCounts": {
+    "placeholders": {
+      "importable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewNewAccounts": "नए खाते: {names}",
+  "@csvImportPreviewNewAccounts": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewNewCategories": "नई श्रेणियाँ: {names}",
+  "@csvImportPreviewNewCategories": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewDuplicates": "{count, plural, =1{1 पंक्ति पहले से मौजूद है} other{{count} पंक्तियाँ पहले से मौजूद हैं}}",
+  "csvImportPreviewSkipDuplicates": "पहले से मौजूद पंक्तियाँ छोड़ें",
+  "csvImportPreviewIssuesTitle": "{count, plural, =1{1 पंक्ति पढ़ी नहीं जा सकी} other{{count} पंक्तियाँ पढ़ी नहीं जा सकीं}}",
+  "csvImportPreviewIssueLine": "पंक्ति {line}: {reason}",
+  "@csvImportPreviewIssueLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewIssueMore": "…और {count} अन्य",
+  "@csvImportPreviewIssueMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewDateStyleTitle": "03/04/2026 जैसी तिथियाँ अस्पष्ट हैं। इन्हें कैसे पढ़ा जाए?",
+  "csvImportPreviewDateStyleDayFirst": "पहले दिन (3 अप्रैल)",
+  "csvImportPreviewDateStyleMonthFirst": "पहले महीना (4 मार्च)",
+  "csvImportPreviewNothing": "इस फ़ाइल की कोई भी पंक्ति आयात नहीं की जा सकती।",
+  "csvImportPreviewConfirm": "आयात करें",
+  "csvRowProblemDate": "अमान्य या अनुपस्थित तिथि",
+  "csvRowProblemAmount": "अमान्य या अनुपस्थित राशि",
+  "csvRowProblemAccount": "अमान्य या अनुपस्थित खाता",
+  "csvRowProblemType": "अज्ञात लेन-देन प्रकार",
+  "csvImportDone": "{count, plural, =1{1 लेन-देन आयात किया गया} other{{count} लेन-देन आयात किए गए}}",
+  "csvImportFailedNoColumns": "कोई भी कॉलम पहचाना नहीं गया। CSV टेम्पलेट से शुरू करें।",
+  "csvImportFailedMissingColumn": "फ़ाइल में \"{column}\" कॉलम नहीं है।",
+  "@csvImportFailedMissingColumn": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportFailedEmpty": "इस फ़ाइल में कोई डेटा पंक्ति नहीं है।",
+  "csvImportFailedTooManyRows": "इस फ़ाइल में {rows} पंक्तियाँ हैं; सीमा {max} है।",
+  "@csvImportFailedTooManyRows": {
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportFailed": "CSV आयात विफल",
   "ledgerVerifyDialogTitle": "बही सत्यापन",
   "ledgerVerifyAllMatch": "सभी खाते मेल खाते हैं.",
   "ledgerVerifyMismatchesTitle": "बेमेल",
@@ -727,9 +838,9 @@
   "statsEmptySubtitle": "चयनित सीमा के लिए कोई व्यय डेटा नहीं।",
   "semanticsShowProjections": "खाते के अनुसार अनुमानित शेष दिखाएं",
   "semanticsHideProjections": "खाते द्वारा अनुमानित शेष छिपाएँ",
-    "semanticsShowDayBalanceBreakdown": "इस दिन के लिए खाता शेष दिखाएं",
+  "semanticsShowDayBalanceBreakdown": "इस दिन के लिए खाता शेष दिखाएं",
   "semanticsHideDayBalanceBreakdown": "इस दिन के लिए खाता शेष छुपाएं",
-"semanticsDateAllTime": "दिनांक: हर समय - मोड बदलने के लिए टैप करें",
+  "semanticsDateAllTime": "दिनांक: हर समय - मोड बदलने के लिए टैप करें",
   "semanticsDateMode": "दिनांक: {mode} - मोड बदलने के लिए टैप करें",
   "@semanticsDateMode": {
     "placeholders": {
@@ -842,40 +953,40 @@
   "autoBackupShareSubtitle": "iCloud Drive, Google Drive या किसी ऐप पर नवीनतम बैकअप अपलोड करें",
   "autoBackupCloudReminder": "ऑटो-बैकअप तैयार - ऑफ-डिवाइस सुरक्षा के लिए इसे क्लाउड पर सहेजें",
   "autoBackupCloudReminderAction": "शेयर करें",
-
   "settingsBackupReminderTitle": "बैकअप अनुस्मारक",
   "settingsBackupReminderSubtitle": "इन-ऐप बैनर यदि आप मैन्युअल बैकअप एक्सपोर्ट किए बिना कई लेनदेन जोड़ते हैं।",
   "settingsBackupReminderThresholdTitle": "लेनदेन थ्रेशोल्ड",
   "settingsBackupReminderThresholdSubtitle": "आपके अंतिम मैन्युअल एक्सपोर्ट के बाद {count} नए लेनदेन के बाद याद दिलाएं।",
   "@settingsBackupReminderThresholdSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsBackupReminderThresholdInvalid": "1 से 500 तक एक पूर्ण संख्या दर्ज करें।",
   "settingsBackupReminderSnoozeHint": "\"बाद में याद दिलाएं\" बैनर को तब तक छुपाता है जब तक आप {n} और लेनदेन नहीं जोड़ते।",
   "@settingsBackupReminderSnoozeHint": {
     "placeholders": {
-      "n": {"type": "int"}
+      "n": {
+        "type": "int"
+      }
     }
   },
   "backupReminderBannerTitle": "बैकअप एक्सपोर्ट करें?",
   "backupReminderBannerBody": "आपने अपने अंतिम मैन्युअल एक्सपोर्ट के बाद {count} लेनदेन जोड़े हैं।",
   "@backupReminderBannerBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "backupReminderRemindLater": "बाद में याद दिलाएं",
-
   "backupExportLedgerVerifyTitle": "बैकअप से पहले लेजर जाँच",
   "backupExportLedgerVerifyInfo": "यह प्रत्येक खाते के संग्रहीत शेष की तुलना आपके इतिहास के पूर्ण पुनः-प्रसार से करता है। आप किसी भी स्थिति में बैकअप एक्सपोर्ट कर सकते हैं; विसंगतियाँ सूचनात्मक हैं।",
   "backupExportLedgerVerifyContinue": "बैकअप पर जारी रखें",
-
-
-
   "persistenceErrorReloaded": "परिवर्तन सहेजे नहीं जा सके. डेटा को स्टोरेज से पुनः लोड किया गया था।",
-
   "helpTooltip": "सहायता",
   "helpNext": "आगे",
   "helpBack": "पीछे",
@@ -922,5 +1033,18 @@
   "helpPlannedDateTitle": "नियत तारीख़",
   "helpPlannedDateBody": "यह कब होना चाहिए, चुनने के लिए यहाँ टैप करें। योजना आपके चुने शेड्यूल पर दोहराई भी जा सकती है।",
   "helpPlannedProjectionTitle": "अनुमानित बैलेंस",
-  "helpPlannedProjectionBody": "खाता चयनकर्ता नियत तारीख़ पर हर खाते का अनुमानित बैलेंस दिखाते हैं, ताकि आप ऐसी योजना पकड़ सकें जो खाते को घाटे में ले जाए।"
+  "helpPlannedProjectionBody": "खाता चयनकर्ता नियत तारीख़ पर हर खाते का अनुमानित बैलेंस दिखाते हैं, ताकि आप ऐसी योजना पकड़ सकें जो खाते को घाटे में ले जाए।",
+  "settingsPlannedRemindersTitle": "योजना अनुस्मारक",
+  "settingsPlannedRemindersSubtitle": "जब कोई नियोजित लेन-देन देय हो, तो सूचित करता है। पूरी तरह ऑफ़लाइन काम करता है — कुछ भी आपके डिवाइस से बाहर नहीं जाता।",
+  "settingsPlannedRemindersTimeTitle": "अनुस्मारक समय",
+  "settingsPlannedRemindersLeadTitle": "पहले सूचना",
+  "settingsPlannedRemindersLeadOnDay": "देय तिथि पर",
+  "settingsPlannedRemindersLeadDaysBefore": "{count, plural, =1{1 दिन पहले} other{{count} दिन पहले}}",
+  "settingsPlannedRemindersPermissionDenied": "Platrare के लिए सूचनाएँ बंद हैं। अनुस्मारक पाने के लिए सिस्टम सेटिंग्स में उन्हें अनुमति दें।",
+  "plannedReminderChannelName": "नियोजित लेन-देन अनुस्मारक",
+  "plannedReminderChannelDescription": "आगामी नियोजित लेन-देन की सूचनाएँ।",
+  "plannedReminderFallbackTitle": "नियोजित लेन-देन",
+  "plannedReminderDueToday": "आज देय",
+  "plannedReminderDueTomorrow": "कल देय",
+  "plannedReminderDueInDays": "{count, plural, other{{count} दिनों में देय}}"
 }

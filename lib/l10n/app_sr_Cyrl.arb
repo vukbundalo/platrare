@@ -14,6 +14,24 @@
   "heroIn": "Улаз",
   "heroOut": "Излаз",
   "heroNet": "Нето",
+  "widgetLowestPoint": "Најнижа тачка",
+  "widgetProjected": "Пројекција",
+  "widgetHorizonIn7Days": "За 7 дана",
+  "widgetHorizonEndOfMonth": "Крај месеца",
+  "widgetMetricAccount": "Стање рачуна",
+  "widgetQuickAdd": "Брзи унос",
+  "widgetStale": "Можда није ажурно",
+  "widgetOpenToStart": "Отворите Platrare да додате рачуне",
+  "widgetDueToday": "Доспева данас",
+  "widgetDescQuickAdd": "Додајте трансакцију или план једним додиром.",
+  "widgetNameNumbers": "Стање",
+  "widgetDescNumbers": "Прикажите један број: расположиво, нето вредност или најнижу тачку овог месеца.",
+  "widgetConfigMetric": "Показатељ",
+  "widgetConfigHorizon": "Хоризонт",
+  "widgetSiriAddTransaction": "Додај трансакцију у {appName}",
+  "widgetSiriAddPlanned": "Додај планирану трансакцију у {appName}",
+  "settingsWidgetAmountsTitle": "Прикажи износе у виџетима",
+  "settingsWidgetAmountsSubtitle": "Виџети на почетном екрану виде се без откључавања апликације. Док је закључавање укључено, износи остају сакривени осим ако ово не укључите.",
   "heroBalance": "Стање",
   "realBalance": "Стварно стање",
   "settingsHideHeroBalancesTitle": "Сакриј стања у картицама сажетка",
@@ -62,7 +80,8 @@
         "type": "String"
       }
     }
-  },  "repeatSummaryUntil": "до {date}",
+  },
+  "repeatSummaryUntil": "до {date}",
   "repeatSummaryTimes": "{count} пута",
   "repeatSummaryTimesRemaining": "{remaining} од {total} преостало",
   "detailRepeatEvery": "Понавља се сваки",
@@ -252,6 +271,41 @@
   "settingsDataExportDoneBody": "Резервна копија је сачувана на:\n{path}",
   "settingsDataOpenExportFile": "Отвори фајл",
   "settingsDataExportFailed": "Извоз није успео",
+  "settingsCsvExportTitle": "Извези као CSV",
+  "settingsCsvExportSubtitle": "Ваше трансакције као табела",
+  "settingsCsvExportFailed": "Извоз CSV-а није успео",
+  "settingsCsvImportTitle": "Увези из CSV-а",
+  "settingsCsvImportSubtitle": "Додајте трансакције из табеле — ништа се не замењује",
+  "settingsCsvTemplateTitle": "Преузми CSV шаблон",
+  "settingsCsvTemplateSubtitle": "Пример датотеке у коју можете налепити старе податке",
+  "csvTemplateInstruction1": "Замените примере редова испод сопственим подацима, а затим увезите ову датотеку у Подешавањима.",
+  "csvTemplateInstruction2": "Поља date и amount су обавезна. Датуме пишите као YYYY-MM-DD, а износе као позитиван број.",
+  "csvTemplateInstruction3": "Поље type може бити income, expense, transfer, invoice, bill, advance, settlement, loan, collection или offset. Оставите празно да апликација одреди врсту према рачунима.",
+  "csvTemplateInstruction4": "Рачуни и категорије који још не постоје креирају се аутоматски. Редови који почињу са # се занемарују.",
+  "csvImportPreviewTitle": "Увоз трансакција",
+  "csvImportPreviewCounts": "Биће додато {importable} од {total} редова",
+  "csvImportPreviewNewAccounts": "Нови рачуни: {names}",
+  "csvImportPreviewNewCategories": "Нове категорије: {names}",
+  "csvImportPreviewDuplicates": "{count, plural, one{{count} ред већ постоји} few{{count} реда већ постоје} other{{count} редова већ постоји}}",
+  "csvImportPreviewSkipDuplicates": "Прескочи редове који већ постоје",
+  "csvImportPreviewIssuesTitle": "{count, plural, one{{count} ред није било могуће прочитати} few{{count} реда није било могуће прочитати} other{{count} редова није било могуће прочитати}}",
+  "csvImportPreviewIssueLine": "Ред {line}: {reason}",
+  "csvImportPreviewIssueMore": "…и још {count}",
+  "csvImportPreviewDateStyleTitle": "Датуми попут 03/04/2026 су двосмислени. Како их читати?",
+  "csvImportPreviewDateStyleDayFirst": "Прво дан (3. април)",
+  "csvImportPreviewDateStyleMonthFirst": "Прво месец (4. март)",
+  "csvImportPreviewNothing": "Ниједан ред из ове датотеке не може да се увезе.",
+  "csvImportPreviewConfirm": "Увези",
+  "csvRowProblemDate": "неисправан или недостајући датум",
+  "csvRowProblemAmount": "неисправан или недостајући износ",
+  "csvRowProblemAccount": "неисправан или недостајући рачун",
+  "csvRowProblemType": "непозната врста трансакције",
+  "csvImportDone": "{count, plural, one{Увезена {count} трансакција} few{Увезене {count} трансакције} other{Увезено {count} трансакција}}",
+  "csvImportFailedNoColumns": "Ниједна колона није препозната. Крените од CSV шаблона.",
+  "csvImportFailedMissingColumn": "Датотека нема колону \"{column}\".",
+  "csvImportFailedEmpty": "Ова датотека нема редова са подацима.",
+  "csvImportFailedTooManyRows": "Ова датотека има {rows} редова; ограничење је {max}.",
+  "csvImportFailed": "Увоз CSV-а није успео",
   "ledgerVerifyDialogTitle": "Провера књиге",
   "ledgerVerifyAllMatch": "Сва стања се поклапају.",
   "ledgerVerifyMismatchesTitle": "Разлике",
@@ -434,9 +488,9 @@
   "statsEmptySubtitle": "Нема података о потрошњи за изабрани период.",
   "semanticsShowProjections": "Прикажи пројектована стања по рачуну",
   "semanticsHideProjections": "Сакриј пројектована стања по рачуну",
-    "semanticsShowDayBalanceBreakdown": "Прикажи стања рачуна за овај дан",
+  "semanticsShowDayBalanceBreakdown": "Прикажи стања рачуна за овај дан",
   "semanticsHideDayBalanceBreakdown": "Сакриј стања рачуна за овај дан",
-"semanticsDateAllTime": "Датум: цело време — додирните за промену режима",
+  "semanticsDateAllTime": "Датум: цело време — додирните за промену режима",
   "semanticsDateMode": "Датум: {mode} — додирните за промену режима",
   "semanticsDateThisMonth": "Датум: овај месец — додирните за месец, недељу, годину или цело време",
   "semanticsTxTypeCycle": "Тип трансакције: све, приход, расход, пренос",
@@ -535,40 +589,40 @@
   "autoBackupShareSubtitle": "Пошаљи последњу копију на иЦлоуд Дриве, Гоогле Дриве или другу апликацију",
   "autoBackupCloudReminder": "Аутоматска копија је спремна — сачувајте је у облаку за заштиту ван уређаја",
   "autoBackupCloudReminderAction": "Подели",
-
   "settingsBackupReminderTitle": "Подсетник за резервну копију",
   "settingsBackupReminderSubtitle": "Банер унутар апликације ако додате много трансакција без извоза ручне резервне копије.",
   "settingsBackupReminderThresholdTitle": "Праг трансакција",
   "settingsBackupReminderThresholdSubtitle": "Подсети после {count} нових трансакција од последњег ручног извоза.",
   "@settingsBackupReminderThresholdSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsBackupReminderThresholdInvalid": "Унесите цео број од 1 до 500.",
   "settingsBackupReminderSnoozeHint": "\"Подсети касније\" скрива банер све док не додате још {n} трансакција.",
   "@settingsBackupReminderSnoozeHint": {
     "placeholders": {
-      "n": {"type": "int"}
+      "n": {
+        "type": "int"
+      }
     }
   },
   "backupReminderBannerTitle": "Извезти резервну копију?",
   "backupReminderBannerBody": "Додали сте {count} трансакција од последњег ручног извоза.",
   "@backupReminderBannerBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "backupReminderRemindLater": "Подсети касније",
-
   "backupExportLedgerVerifyTitle": "Провера књиге пре резервне копије",
   "backupExportLedgerVerifyInfo": "Упоређује сачувани салдо сваког рачуна с потпуним репродуковањем ваше историје. У сваком случају можете извести резервну копију; неслагања су информативна.",
   "backupExportLedgerVerifyContinue": "Настави на резервну копију",
-
-
-
   "persistenceErrorReloaded": "Чување није успело. Подаци су поново учитани.",
-
   "helpTooltip": "Помоћ",
   "helpNext": "Даље",
   "helpBack": "Назад",
@@ -615,5 +669,18 @@
   "helpPlannedDateTitle": "Датум доспећа",
   "helpPlannedDateBody": "Додирните овде да изаберете када ово треба да се деси. План може и да се понавља по распореду који изаберете.",
   "helpPlannedProjectionTitle": "Пројектована стања",
-  "helpPlannedProjectionBody": "Бирачи налога приказују пројектовано стање сваког налога на датум доспећа, па лако уочите план који би налог одвео у минус."
+  "helpPlannedProjectionBody": "Бирачи налога приказују пројектовано стање сваког налога на датум доспећа, па лако уочите план који би налог одвео у минус.",
+  "settingsPlannedRemindersTitle": "Подсетници за планове",
+  "settingsPlannedRemindersSubtitle": "Обавештава вас када планирана трансакција доспева. Ради потпуно офлајн — ништа не напушта ваш уређај.",
+  "settingsPlannedRemindersTimeTitle": "Време подсетника",
+  "settingsPlannedRemindersLeadTitle": "Најава унапред",
+  "settingsPlannedRemindersLeadOnDay": "На дан доспећа",
+  "settingsPlannedRemindersLeadDaysBefore": "{count, plural, one{{count} дан раније} few{{count} дана раније} other{{count} дана раније}}",
+  "settingsPlannedRemindersPermissionDenied": "Обавештења су искључена за Platrare. Дозволите их у системским подешавањима да бисте примали подсетнике.",
+  "plannedReminderChannelName": "Подсетници за планиране трансакције",
+  "plannedReminderChannelDescription": "Обавештења о предстојећим планираним трансакцијама.",
+  "plannedReminderFallbackTitle": "Планирана трансакција",
+  "plannedReminderDueToday": "Доспева данас",
+  "plannedReminderDueTomorrow": "Доспева сутра",
+  "plannedReminderDueInDays": "{count, plural, one{Доспева за {count} дан} few{Доспева за {count} дана} other{Доспева за {count} дана}}"
 }

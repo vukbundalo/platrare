@@ -17,6 +17,24 @@
   "heroIn": "で",
   "heroOut": "外",
   "heroNet": "ネット",
+  "widgetLowestPoint": "最低残高",
+  "widgetProjected": "予測",
+  "widgetHorizonIn7Days": "7日後",
+  "widgetHorizonEndOfMonth": "月末",
+  "widgetMetricAccount": "口座残高",
+  "widgetQuickAdd": "クイック追加",
+  "widgetStale": "最新でない可能性があります",
+  "widgetOpenToStart": "Platrare を開いて口座を追加",
+  "widgetDueToday": "本日期限",
+  "widgetDescQuickAdd": "ワンタップで取引や予定を追加します。",
+  "widgetNameNumbers": "残高",
+  "widgetDescNumbers": "使える額・純資産・今月の最低残高から 1 つを表示します。",
+  "widgetConfigMetric": "指標",
+  "widgetConfigHorizon": "期間",
+  "widgetSiriAddTransaction": "{appName} で取引を追加",
+  "widgetSiriAddPlanned": "{appName} で予定取引を追加",
+  "settingsWidgetAmountsTitle": "ウィジェットに金額を表示",
+  "settingsWidgetAmountsSubtitle": "ホーム画面のウィジェットはアプリのロックを解除しなくても見えます。アプリロックが有効な間は、これをオンにしない限り金額は伏せられます。",
   "heroBalance": "バランス",
   "realBalance": "実質残高",
   "settingsHideHeroBalancesTitle": "サマリーカードの残高を非表示にする",
@@ -457,6 +475,99 @@
   },
   "settingsDataOpenExportFile": "ファイルを開く",
   "settingsDataExportFailed": "エクスポートに失敗しました",
+  "settingsCsvExportTitle": "CSV でエクスポート",
+  "settingsCsvExportSubtitle": "取引を表計算ファイルとして保存",
+  "settingsCsvExportFailed": "CSV のエクスポートに失敗しました",
+  "settingsCsvImportTitle": "CSV からインポート",
+  "settingsCsvImportSubtitle": "表計算ファイルから取引を追加します（既存データは置き換わりません）",
+  "settingsCsvTemplateTitle": "CSV テンプレートを取得",
+  "settingsCsvTemplateSubtitle": "以前のデータを貼り付けるためのサンプルファイル",
+  "csvTemplateInstruction1": "以下のサンプル行をご自身のデータに置き換えて、設定からこのファイルをインポートしてください。",
+  "csvTemplateInstruction2": "date と amount は必須です。日付は YYYY-MM-DD 形式で、金額は正の数で入力してください。",
+  "csvTemplateInstruction3": "type には income、expense、transfer、invoice、bill、advance、settlement、loan、collection、offset のいずれかを指定できます。空欄にすると口座から自動で判定されます。",
+  "csvTemplateInstruction4": "存在しない口座やカテゴリは自動的に作成されます。# で始まる行は無視されます。",
+  "csvImportPreviewTitle": "取引をインポート",
+  "csvImportPreviewCounts": "{total} 行のうち {importable} 行が追加されます",
+  "@csvImportPreviewCounts": {
+    "placeholders": {
+      "importable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewNewAccounts": "新しい口座: {names}",
+  "@csvImportPreviewNewAccounts": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewNewCategories": "新しいカテゴリ: {names}",
+  "@csvImportPreviewNewCategories": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewDuplicates": "{count, plural, other{{count} 行はすでに存在します}}",
+  "csvImportPreviewSkipDuplicates": "すでに存在する行をスキップ",
+  "csvImportPreviewIssuesTitle": "{count, plural, other{{count} 行を読み取れませんでした}}",
+  "csvImportPreviewIssueLine": "{line} 行目: {reason}",
+  "@csvImportPreviewIssueLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewIssueMore": "…他 {count} 件",
+  "@csvImportPreviewIssueMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewDateStyleTitle": "03/04/2026 のような日付は解釈が定まりません。どのように読み取りますか？",
+  "csvImportPreviewDateStyleDayFirst": "日が先 (4月3日)",
+  "csvImportPreviewDateStyleMonthFirst": "月が先 (3月4日)",
+  "csvImportPreviewNothing": "このファイルにはインポートできる行がありません。",
+  "csvImportPreviewConfirm": "インポート",
+  "csvRowProblemDate": "日付が無効または未入力です",
+  "csvRowProblemAmount": "金額が無効または未入力です",
+  "csvRowProblemAccount": "口座が無効または未入力です",
+  "csvRowProblemType": "不明な取引タイプです",
+  "csvImportDone": "{count, plural, other{{count} 件の取引をインポートしました}}",
+  "csvImportFailedNoColumns": "認識できる列がありません。CSV テンプレートから始めてください。",
+  "csvImportFailedMissingColumn": "ファイルに「{column}」列がありません。",
+  "@csvImportFailedMissingColumn": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportFailedEmpty": "このファイルにはデータ行がありません。",
+  "csvImportFailedTooManyRows": "このファイルは {rows} 行あります。上限は {max} 行です。",
+  "@csvImportFailedTooManyRows": {
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportFailed": "CSV のインポートに失敗しました",
   "ledgerVerifyDialogTitle": "台帳検証",
   "ledgerVerifyAllMatch": "すべてのアカウントが一致します。",
   "ledgerVerifyMismatchesTitle": "不一致",
@@ -727,9 +838,9 @@
   "statsEmptySubtitle": "選択した範囲には支出データがありません。",
   "semanticsShowProjections": "口座ごとに予想残高を表示",
   "semanticsHideProjections": "口座ごとの予想残高を非表示にする",
-    "semanticsShowDayBalanceBreakdown": "この日の口座残高を表示",
+  "semanticsShowDayBalanceBreakdown": "この日の口座残高を表示",
   "semanticsHideDayBalanceBreakdown": "この日の口座残高を非表示",
-"semanticsDateAllTime": "日付: 常時 — タップしてモードを変更します",
+  "semanticsDateAllTime": "日付: 常時 — タップしてモードを変更します",
   "semanticsDateMode": "日付: {mode} — タップしてモードを変更します",
   "@semanticsDateMode": {
     "placeholders": {
@@ -842,40 +953,40 @@
   "autoBackupShareSubtitle": "最新のバックアップを iCloud Drive、Google Drive、または任意のアプリにアップロード",
   "autoBackupCloudReminder": "自動バックアップの準備ができています - オフデバイス保護のためにクラウドに保存します",
   "autoBackupCloudReminderAction": "共有",
-
   "settingsBackupReminderTitle": "バックアップリマインダー",
   "settingsBackupReminderSubtitle": "手動バックアップをエクスポートせずに多くの取引を追加した場合のアプリ内バナー。",
   "settingsBackupReminderThresholdTitle": "トランザクション閾値",
   "settingsBackupReminderThresholdSubtitle": "最後の手動エクスポートから{count}件の新しい取引後にリマインド。",
   "@settingsBackupReminderThresholdSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsBackupReminderThresholdInvalid": "1から500の整数を入力してください。",
   "settingsBackupReminderSnoozeHint": "「後でリマインド」は{n}件の取引を追加するまでバナーを非表示にします。",
   "@settingsBackupReminderSnoozeHint": {
     "placeholders": {
-      "n": {"type": "int"}
+      "n": {
+        "type": "int"
+      }
     }
   },
   "backupReminderBannerTitle": "バックアップをエクスポートしますか？",
   "backupReminderBannerBody": "最後の手動エクスポートから{count}件の取引を追加しました。",
   "@backupReminderBannerBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "backupReminderRemindLater": "後でリマインド",
-
   "backupExportLedgerVerifyTitle": "バックアップ前の台帳確認",
   "backupExportLedgerVerifyInfo": "各口座の保存済み残高を取引履歴の完全な再生と比較します。どちらの場合もバックアップをエクスポートできます。不一致は参考情報です。",
   "backupExportLedgerVerifyContinue": "バックアップに進む",
-
-
-
   "persistenceErrorReloaded": "変更を保存できませんでした。データがストレージから再ロードされました。",
-
   "helpTooltip": "ヘルプ",
   "helpNext": "次へ",
   "helpBack": "戻る",
@@ -922,5 +1033,18 @@
   "helpPlannedDateTitle": "予定日",
   "helpPlannedDateBody": "ここをタップして実行日を選びます。選んだスケジュールで繰り返すこともできます。",
   "helpPlannedProjectionTitle": "予測残高",
-  "helpPlannedProjectionBody": "口座の選択欄には予定日時点の予測残高が表示されるため、残高不足になる計画に気づけます。"
+  "helpPlannedProjectionBody": "口座の選択欄には予定日時点の予測残高が表示されるため、残高不足になる計画に気づけます。",
+  "settingsPlannedRemindersTitle": "予定リマインダー",
+  "settingsPlannedRemindersSubtitle": "予定取引の期日になると通知します。完全オフラインで動作し、データが端末の外に出ることはありません。",
+  "settingsPlannedRemindersTimeTitle": "リマインダー時刻",
+  "settingsPlannedRemindersLeadTitle": "事前通知",
+  "settingsPlannedRemindersLeadOnDay": "期日当日",
+  "settingsPlannedRemindersLeadDaysBefore": "{count, plural, other{{count}日前}}",
+  "settingsPlannedRemindersPermissionDenied": "Platrare の通知がオフになっています。リマインダーを受け取るには、システム設定で通知を許可してください。",
+  "plannedReminderChannelName": "予定取引リマインダー",
+  "plannedReminderChannelDescription": "今後の予定取引に関する通知。",
+  "plannedReminderFallbackTitle": "予定取引",
+  "plannedReminderDueToday": "今日が期日",
+  "plannedReminderDueTomorrow": "明日が期日",
+  "plannedReminderDueInDays": "{count, plural, other{あと{count}日で期日}}"
 }

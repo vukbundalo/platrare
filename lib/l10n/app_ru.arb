@@ -17,6 +17,24 @@
   "heroIn": "В",
   "heroOut": "Вне",
   "heroNet": "Сеть",
+  "widgetLowestPoint": "Минимум",
+  "widgetProjected": "Прогноз",
+  "widgetHorizonIn7Days": "Через 7 дней",
+  "widgetHorizonEndOfMonth": "Конец месяца",
+  "widgetMetricAccount": "Баланс счёта",
+  "widgetQuickAdd": "Быстрое добавление",
+  "widgetStale": "Данные могут быть устаревшими",
+  "widgetOpenToStart": "Откройте Platrare, чтобы добавить счета",
+  "widgetDueToday": "Сегодня",
+  "widgetDescQuickAdd": "Добавьте операцию или план одним касанием.",
+  "widgetNameNumbers": "Баланс",
+  "widgetDescNumbers": "Покажите одну цифру: доступно, чистые активы или минимум за месяц.",
+  "widgetConfigMetric": "Показатель",
+  "widgetConfigHorizon": "Горизонт",
+  "widgetSiriAddTransaction": "Добавить операцию в {appName}",
+  "widgetSiriAddPlanned": "Добавить плановую операцию в {appName}",
+  "settingsWidgetAmountsTitle": "Показывать суммы в виджетах",
+  "settingsWidgetAmountsSubtitle": "Виджеты на экране «Домой» видны без разблокировки приложения. При включённой блокировке суммы скрыты, если не включить этот параметр.",
   "heroBalance": "Баланс",
   "realBalance": "Реальный баланс",
   "settingsHideHeroBalancesTitle": "Скрыть балансы в сводных карточках",
@@ -457,6 +475,99 @@
   },
   "settingsDataOpenExportFile": "Открыть файл",
   "settingsDataExportFailed": "Экспорт не удался",
+  "settingsCsvExportTitle": "Экспорт в CSV",
+  "settingsCsvExportSubtitle": "Ваши транзакции в виде таблицы",
+  "settingsCsvExportFailed": "Не удалось экспортировать CSV",
+  "settingsCsvImportTitle": "Импорт из CSV",
+  "settingsCsvImportSubtitle": "Добавьте транзакции из таблицы — ничего не заменяется",
+  "settingsCsvTemplateTitle": "Получить шаблон CSV",
+  "settingsCsvTemplateSubtitle": "Пример файла, куда можно вставить старые данные",
+  "csvTemplateInstruction1": "Замените примеры строк ниже своими данными, затем импортируйте этот файл в настройках.",
+  "csvTemplateInstruction2": "Поля date и amount обязательны. Даты пишите как YYYY-MM-DD, суммы — положительным числом.",
+  "csvTemplateInstruction3": "Поле type может быть income, expense, transfer, invoice, bill, advance, settlement, loan, collection или offset. Оставьте пустым, чтобы приложение определило тип по счетам.",
+  "csvTemplateInstruction4": "Счета и категории, которых ещё нет, создаются автоматически. Строки, начинающиеся с #, игнорируются.",
+  "csvImportPreviewTitle": "Импорт транзакций",
+  "csvImportPreviewCounts": "Будет добавлено {importable} строк из {total}",
+  "@csvImportPreviewCounts": {
+    "placeholders": {
+      "importable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewNewAccounts": "Новые счета: {names}",
+  "@csvImportPreviewNewAccounts": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewNewCategories": "Новые категории: {names}",
+  "@csvImportPreviewNewCategories": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewDuplicates": "{count, plural, one{{count} строка уже существует} few{{count} строки уже существуют} many{{count} строк уже существуют} other{{count} строки уже существуют}}",
+  "csvImportPreviewSkipDuplicates": "Пропускать строки, которые уже есть",
+  "csvImportPreviewIssuesTitle": "{count, plural, one{Не удалось прочитать {count} строку} few{Не удалось прочитать {count} строки} many{Не удалось прочитать {count} строк} other{Не удалось прочитать {count} строки}}",
+  "csvImportPreviewIssueLine": "Строка {line}: {reason}",
+  "@csvImportPreviewIssueLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewIssueMore": "…и ещё {count}",
+  "@csvImportPreviewIssueMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewDateStyleTitle": "Даты вида 03/04/2026 неоднозначны. Как их читать?",
+  "csvImportPreviewDateStyleDayFirst": "Сначала день (3 апреля)",
+  "csvImportPreviewDateStyleMonthFirst": "Сначала месяц (4 марта)",
+  "csvImportPreviewNothing": "Ни одну строку из этого файла нельзя импортировать.",
+  "csvImportPreviewConfirm": "Импортировать",
+  "csvRowProblemDate": "неверная или отсутствующая дата",
+  "csvRowProblemAmount": "неверная или отсутствующая сумма",
+  "csvRowProblemAccount": "неверный или отсутствующий счёт",
+  "csvRowProblemType": "неизвестный тип транзакции",
+  "csvImportDone": "{count, plural, one{Импортирована {count} транзакция} few{Импортированы {count} транзакции} many{Импортировано {count} транзакций} other{Импортировано {count} транзакции}}",
+  "csvImportFailedNoColumns": "Не распознано ни одного столбца. Начните с шаблона CSV.",
+  "csvImportFailedMissingColumn": "В файле нет столбца \"{column}\".",
+  "@csvImportFailedMissingColumn": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportFailedEmpty": "В этом файле нет строк с данными.",
+  "csvImportFailedTooManyRows": "В файле {rows} строк, а предел — {max}.",
+  "@csvImportFailedTooManyRows": {
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportFailed": "Не удалось импортировать CSV",
   "ledgerVerifyDialogTitle": "Проверка бухгалтерской книги",
   "ledgerVerifyAllMatch": "Все аккаунты совпадают.",
   "ledgerVerifyMismatchesTitle": "Несоответствия",
@@ -727,9 +838,9 @@
   "statsEmptySubtitle": "Нет данных о расходах для выбранного диапазона.",
   "semanticsShowProjections": "Показать прогнозируемые остатки по счетам",
   "semanticsHideProjections": "Скрыть прогнозируемые остатки по счетам",
-    "semanticsShowDayBalanceBreakdown": "Показать балансы счетов за этот день",
+  "semanticsShowDayBalanceBreakdown": "Показать балансы счетов за этот день",
   "semanticsHideDayBalanceBreakdown": "Скрыть балансы счетов за этот день",
-"semanticsDateAllTime": "Дата: все время — нажмите, чтобы изменить режим",
+  "semanticsDateAllTime": "Дата: все время — нажмите, чтобы изменить режим",
   "semanticsDateMode": "Дата: {mode} — нажмите, чтобы изменить режим.",
   "@semanticsDateMode": {
     "placeholders": {
@@ -842,40 +953,40 @@
   "autoBackupShareSubtitle": "Загрузите последнюю резервную копию на iCloud Drive, Google Drive или любое приложение.",
   "autoBackupCloudReminder": "Готово к автоматическому резервному копированию — сохраните его в облаке для защиты вне устройства.",
   "autoBackupCloudReminderAction": "Поделиться",
-
   "settingsBackupReminderTitle": "Напоминание о резервной копии",
   "settingsBackupReminderSubtitle": "Баннер в приложении, если вы добавите много транзакций без экспорта ручной резервной копии.",
   "settingsBackupReminderThresholdTitle": "Порог транзакций",
   "settingsBackupReminderThresholdSubtitle": "Напомнить после {count} новых транзакций с момента последнего ручного экспорта.",
   "@settingsBackupReminderThresholdSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsBackupReminderThresholdInvalid": "Введите целое число от 1 до 500.",
   "settingsBackupReminderSnoozeHint": "«Напомнить позже» скрывает баннер до тех пор, пока вы не добавите ещё {n} транзакций.",
   "@settingsBackupReminderSnoozeHint": {
     "placeholders": {
-      "n": {"type": "int"}
+      "n": {
+        "type": "int"
+      }
     }
   },
   "backupReminderBannerTitle": "Экспортировать резервную копию?",
   "backupReminderBannerBody": "Вы добавили {count} транзакций с момента последнего ручного экспорта.",
   "@backupReminderBannerBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "backupReminderRemindLater": "Напомнить позже",
-
   "backupExportLedgerVerifyTitle": "Проверка журнала перед резервным копированием",
   "backupExportLedgerVerifyInfo": "Сравнивает сохранённый баланс каждого счёта с полным воспроизведением истории. Вы можете экспортировать резервную копию в любом случае; расхождения носят информационный характер.",
   "backupExportLedgerVerifyContinue": "Перейти к резервному копированию",
-
-
-
   "persistenceErrorReloaded": "Не удалось сохранить изменения. Данные были перезагружены из хранилища.",
-
   "helpTooltip": "Справка",
   "helpNext": "Далее",
   "helpBack": "Назад",
@@ -922,5 +1033,18 @@
   "helpPlannedDateTitle": "Срок",
   "helpPlannedDateBody": "Нажмите здесь, чтобы выбрать, когда это должно произойти. План может повторяться по выбранному расписанию.",
   "helpPlannedProjectionTitle": "Прогнозные балансы",
-  "helpPlannedProjectionBody": "Выбор счетов показывает прогнозный баланс каждого счёта на дату срока — так видно план, который уведёт счёт в минус."
+  "helpPlannedProjectionBody": "Выбор счетов показывает прогнозный баланс каждого счёта на дату срока — так видно план, который уведёт счёт в минус.",
+  "settingsPlannedRemindersTitle": "Напоминания о планах",
+  "settingsPlannedRemindersSubtitle": "Уведомляет, когда наступает срок запланированной операции. Работает полностью офлайн — данные не покидают устройство.",
+  "settingsPlannedRemindersTimeTitle": "Время напоминания",
+  "settingsPlannedRemindersLeadTitle": "Заблаговременность",
+  "settingsPlannedRemindersLeadOnDay": "В день срока",
+  "settingsPlannedRemindersLeadDaysBefore": "{count, plural, one{За {count} день} few{За {count} дня} many{За {count} дней} other{За {count} дня}}",
+  "settingsPlannedRemindersPermissionDenied": "Уведомления для Platrare отключены. Разрешите их в настройках системы, чтобы получать напоминания.",
+  "plannedReminderChannelName": "Напоминания о запланированных операциях",
+  "plannedReminderChannelDescription": "Уведомления о предстоящих запланированных операциях.",
+  "plannedReminderFallbackTitle": "Запланированная операция",
+  "plannedReminderDueToday": "Срок сегодня",
+  "plannedReminderDueTomorrow": "Срок завтра",
+  "plannedReminderDueInDays": "{count, plural, one{Срок через {count} день} few{Срок через {count} дня} many{Срок через {count} дней} other{Срок через {count} дня}}"
 }

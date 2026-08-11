@@ -17,6 +17,24 @@
   "heroIn": "Entradas",
   "heroOut": "Salidas",
   "heroNet": "Neto",
+  "widgetLowestPoint": "Punto más bajo",
+  "widgetProjected": "Proyectado",
+  "widgetHorizonIn7Days": "En 7 días",
+  "widgetHorizonEndOfMonth": "Fin de mes",
+  "widgetMetricAccount": "Saldo de la cuenta",
+  "widgetQuickAdd": "Añadir rápido",
+  "widgetStale": "Puede estar desactualizado",
+  "widgetOpenToStart": "Abre Platrare para añadir cuentas",
+  "widgetDueToday": "Vence hoy",
+  "widgetDescQuickAdd": "Añade una transacción o un plan con un toque.",
+  "widgetNameNumbers": "Saldo",
+  "widgetDescNumbers": "Muestra una cifra: disponible, patrimonio neto o tu punto más bajo del mes.",
+  "widgetConfigMetric": "Métrica",
+  "widgetConfigHorizon": "Horizonte",
+  "widgetSiriAddTransaction": "Añadir una transacción en {appName}",
+  "widgetSiriAddPlanned": "Añadir una transacción planificada en {appName}",
+  "settingsWidgetAmountsTitle": "Mostrar importes en los widgets",
+  "settingsWidgetAmountsSubtitle": "Los widgets de la pantalla de inicio se ven sin desbloquear la app. Con el bloqueo activado, los importes se ocultan salvo que actives esta opción.",
   "heroBalance": "Saldo",
   "realBalance": "Saldo real",
   "settingsHideHeroBalancesTitle": "Ocultar saldos en las tarjetas de resumen",
@@ -48,36 +66,105 @@
   "repeatYearly": "Anual",
   "repeatEveryLabel": "Cada",
   "repeatEveryDays": "{count, plural, =1{día} other{{count} días}}",
-  "@repeatEveryDays": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatEveryDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatEveryWeeks": "{count, plural, =1{semana} other{{count} semanas}}",
-  "@repeatEveryWeeks": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatEveryWeeks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatEveryMonths": "{count, plural, =1{mes} other{{count} meses}}",
-  "@repeatEveryMonths": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatEveryMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatEveryYears": "{count, plural, =1{año} other{{count} años}}",
-  "@repeatEveryYears": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatEveryYears": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatEndLabel": "Finaliza",
   "repeatEndNever": "Nunca",
   "repeatEndOnDate": "En fecha",
   "repeatEndAfterCount": "Después de {count} veces",
-  "@repeatEndAfterCount": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatEndAfterCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatEndAfterChoice": "Tras un número de veces",
   "repeatEndPickDate": "Seleccionar fecha de fin",
   "repeatEndTimes": "veces",
   "repeatSummaryEvery": "Cada {unit}",
-  "@repeatSummaryEvery": { "placeholders": { "unit": {"type": "String"} } },
+  "@repeatSummaryEvery": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "repeatSummaryUntil": "hasta {date}",
-  "@repeatSummaryUntil": { "placeholders": { "date": {"type": "String"} } },
+  "@repeatSummaryUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "repeatSummaryTimes": "{count} veces",
-  "@repeatSummaryTimes": { "placeholders": { "count": {"type": "int"} } },
+  "@repeatSummaryTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "repeatSummaryTimesRemaining": "{remaining} de {total} restantes",
-  "@repeatSummaryTimesRemaining": { "placeholders": { "remaining": {"type": "int"}, "total": {"type": "int"} } },
+  "@repeatSummaryTimesRemaining": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "detailRepeatEvery": "Repetir cada",
   "detailEnds": "Finaliza",
   "detailEndsNever": "Nunca",
   "detailEndsOnDate": "El {date}",
-  "@detailEndsOnDate": { "placeholders": { "date": {"type": "String"} } },
+  "@detailEndsOnDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "detailEndsAfterCount": "Después de {count} veces",
-  "@detailEndsAfterCount": { "placeholders": { "count": {"type": "int"} } },
+  "@detailEndsAfterCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "detailProgress": "Progreso",
   "weekendNoChange": "Sin cambio",
   "weekendFriday": "Mover al viernes",
@@ -85,7 +172,9 @@
   "weekendQuestion": "¿Si el {day} cae en fin de semana?",
   "@weekendQuestion": {
     "placeholders": {
-      "day": {"type": "String"}
+      "day": {
+        "type": "String"
+      }
     }
   },
   "dateToday": "Hoy",
@@ -116,7 +205,9 @@
   "emptyNoTransactionsForMonth": "No hay transacciones en {month}",
   "@emptyNoTransactionsForMonth": {
     "placeholders": {
-      "month": {"type": "String"}
+      "month": {
+        "type": "String"
+      }
     }
   },
   "emptyNoTransactionsForAccount": "No hay transacciones para esta cuenta",
@@ -128,9 +219,15 @@
   "planConfirmBodyEarly": "Esta ocurrencia está programada para {date}. Se registrará en el Historial con la fecha de hoy ({todayDate}). La próxima ocurrencia permanece el {nextDate}.",
   "@planConfirmBodyEarly": {
     "placeholders": {
-      "date": {"type": "String"},
-      "todayDate": {"type": "String"},
-      "nextDate": {"type": "String"}
+      "date": {
+        "type": "String"
+      },
+      "todayDate": {
+        "type": "String"
+      },
+      "nextDate": {
+        "type": "String"
+      }
     }
   },
   "planConfirmBodyNormal": "Esto aplicará la transacción a los saldos reales de tu cuenta y la moverá al Historial.",
@@ -148,7 +245,9 @@
   "planNoPlannedInMonth": "No hay transacciones planificadas en {month}",
   "@planNoPlannedInMonth": {
     "placeholders": {
-      "month": {"type": "String"}
+      "month": {
+        "type": "String"
+      }
     }
   },
   "planOverdue": "vencido",
@@ -175,8 +274,12 @@
   "amountReceivedBy": "Importe recibido por {name} ({currency})",
   "@amountReceivedBy": {
     "placeholders": {
-      "name": {"type": "String"},
-      "currency": {"type": "String"}
+      "name": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
     }
   },
   "amountReceivedHelper": "Introduce el importe exacto que recibe la cuenta de destino. Esto fija el tipo de cambio real utilizado.",
@@ -199,14 +302,20 @@
   "projectedBalancesForDate": "Saldos proyectados para {date}",
   "@projectedBalancesForDate": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
   "destReceivesLabel": "{name} recibe ({currency})",
   "@destReceivesLabel": {
     "placeholders": {
-      "name": {"type": "String"},
-      "currency": {"type": "String"}
+      "name": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
     }
   },
   "destHelper": "Importe estimado en destino. El tipo de cambio exacto se fija al confirmar.",
@@ -226,7 +335,13 @@
   "detailWeekends": "Fines de semana",
   "detailAttachments": "Adjuntos",
   "detailFileCount": "{count, plural, =1{1 archivo} other{{count} archivos}}",
-  "@detailFileCount": { "placeholders": { "count": {"type": "int"} } },
+  "@detailFileCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "settingsTitle": "Ajustes",
   "settingsSectionDisplay": "Pantalla",
   "settingsSectionLanguage": "Idioma",
@@ -240,8 +355,12 @@
   "settingsCategoriesSubtitle": "{incomeCount} ingresos · {expenseCount} gastos",
   "@settingsCategoriesSubtitle": {
     "placeholders": {
-      "incomeCount": {"type": "int"},
-      "expenseCount": {"type": "int"}
+      "incomeCount": {
+        "type": "int"
+      },
+      "expenseCount": {
+        "type": "int"
+      }
     }
   },
   "settingsArchivedAccounts": "Cuentas archivadas",
@@ -249,7 +368,9 @@
   "settingsArchivedAccountsSubtitleCount": "{count} ocultas de Análisis y selectores",
   "@settingsArchivedAccountsSubtitleCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsSectionData": "Datos",
@@ -296,24 +417,40 @@
   "backupImportPreviewVersion": "Versión de la app: {version}",
   "@backupImportPreviewVersion": {
     "placeholders": {
-      "version": {"type": "String"}
+      "version": {
+        "type": "String"
+      }
     }
   },
   "backupImportPreviewExported": "Exportado: {date}",
   "@backupImportPreviewExported": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
   "backupImportPreviewCounts": "{accounts} cuentas · {transactions} transacciones · {planned} planificadas · {attachments} archivos adjuntos · {income} categorías de ingresos · {expense} categorías de gastos",
   "@backupImportPreviewCounts": {
     "placeholders": {
-      "accounts": {"type": "int"},
-      "transactions": {"type": "int"},
-      "planned": {"type": "int"},
-      "attachments": {"type": "int"},
-      "income": {"type": "int"},
-      "expense": {"type": "int"}
+      "accounts": {
+        "type": "int"
+      },
+      "transactions": {
+        "type": "int"
+      },
+      "planned": {
+        "type": "int"
+      },
+      "attachments": {
+        "type": "int"
+      },
+      "income": {
+        "type": "int"
+      },
+      "expense": {
+        "type": "int"
+      }
     }
   },
   "backupImportPreviewContinue": "Continuar",
@@ -331,21 +468,124 @@
   "settingsDataExportDoneBody": "Copia de seguridad guardada en:\n{path}",
   "@settingsDataExportDoneBody": {
     "placeholders": {
-      "path": {"type": "String"}
+      "path": {
+        "type": "String"
+      }
     }
   },
   "settingsDataOpenExportFile": "Abrir archivo",
   "settingsDataExportFailed": "Error al exportar",
+  "settingsCsvExportTitle": "Exportar como CSV",
+  "settingsCsvExportSubtitle": "Tus transacciones como hoja de cálculo",
+  "settingsCsvExportFailed": "Error al exportar el CSV",
+  "settingsCsvImportTitle": "Importar desde CSV",
+  "settingsCsvImportSubtitle": "Añade transacciones desde una hoja de cálculo: no se reemplaza nada",
+  "settingsCsvTemplateTitle": "Obtener plantilla CSV",
+  "settingsCsvTemplateSubtitle": "Un archivo de ejemplo donde pegar tus datos antiguos",
+  "csvTemplateInstruction1": "Sustituye las filas de ejemplo de abajo por tus propios datos y luego importa este archivo desde Ajustes.",
+  "csvTemplateInstruction2": "date y amount son obligatorios. Escribe las fechas como YYYY-MM-DD y los importes como número positivo.",
+  "csvTemplateInstruction3": "type puede ser income, expense, transfer, invoice, bill, advance, settlement, loan, collection u offset. Déjalo vacío para que la app lo deduzca de las cuentas.",
+  "csvTemplateInstruction4": "Las cuentas y categorías que aún no existan se crearán automáticamente. Las líneas que empiezan por # se ignoran.",
+  "csvImportPreviewTitle": "Importar transacciones",
+  "csvImportPreviewCounts": "Se añadirán {importable} de {total} filas",
+  "@csvImportPreviewCounts": {
+    "placeholders": {
+      "importable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewNewAccounts": "Cuentas nuevas: {names}",
+  "@csvImportPreviewNewAccounts": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewNewCategories": "Categorías nuevas: {names}",
+  "@csvImportPreviewNewCategories": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewDuplicates": "{count, plural, =1{1 fila ya existe} other{{count} filas ya existen}}",
+  "csvImportPreviewSkipDuplicates": "Omitir las filas que ya existen",
+  "csvImportPreviewIssuesTitle": "{count, plural, =1{No se pudo leer 1 fila} other{No se pudieron leer {count} filas}}",
+  "csvImportPreviewIssueLine": "Línea {line}: {reason}",
+  "@csvImportPreviewIssueLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewIssueMore": "…y {count} más",
+  "@csvImportPreviewIssueMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewDateStyleTitle": "Las fechas como 03/04/2026 son ambiguas. ¿Cómo deben leerse?",
+  "csvImportPreviewDateStyleDayFirst": "Día primero (3 de abril)",
+  "csvImportPreviewDateStyleMonthFirst": "Mes primero (4 de marzo)",
+  "csvImportPreviewNothing": "No se puede importar ninguna fila de este archivo.",
+  "csvImportPreviewConfirm": "Importar",
+  "csvRowProblemDate": "fecha no válida o ausente",
+  "csvRowProblemAmount": "importe no válido o ausente",
+  "csvRowProblemAccount": "cuenta no válida o ausente",
+  "csvRowProblemType": "tipo de transacción desconocido",
+  "csvImportDone": "{count, plural, =1{1 transacción importada} other{{count} transacciones importadas}}",
+  "csvImportFailedNoColumns": "No se ha reconocido ninguna columna. Empieza por la plantilla CSV.",
+  "csvImportFailedMissingColumn": "El archivo no tiene la columna \"{column}\".",
+  "@csvImportFailedMissingColumn": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportFailedEmpty": "Este archivo no tiene filas de datos.",
+  "csvImportFailedTooManyRows": "Este archivo tiene {rows} filas; el límite es {max}.",
+  "@csvImportFailedTooManyRows": {
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportFailed": "Error al importar el CSV",
   "ledgerVerifyDialogTitle": "Verificación del libro mayor",
   "ledgerVerifyAllMatch": "Todas las cuentas coinciden.",
   "ledgerVerifyMismatchesTitle": "Discrepancias",
   "ledgerVerifyMismatchDetails": "{accountName}\nAlmacenado: {stored}\nReproducido: {replayed}\nDiferencia: {diff}",
   "@ledgerVerifyMismatchDetails": {
     "placeholders": {
-      "accountName": {"type": "String"},
-      "stored": {"type": "String"},
-      "replayed": {"type": "String"},
-      "diff": {"type": "String"}
+      "accountName": {
+        "type": "String"
+      },
+      "stored": {
+        "type": "String"
+      },
+      "replayed": {
+        "type": "String"
+      },
+      "diff": {
+        "type": "String"
+      }
     }
   },
   "settingsLanguage": "Idioma de la app",
@@ -402,7 +642,9 @@
   "deleteCategoryBody": "\"{category}\" se eliminará de la lista.",
   "@deleteCategoryBody": {
     "placeholders": {
-      "category": {"type": "String"}
+      "category": {
+        "type": "String"
+      }
     }
   },
   "categoryIncome": "Ingreso",
@@ -425,8 +667,12 @@
   "transactionSavedMessage": "{type} guardada  •  {amount}",
   "@transactionSavedMessage": {
     "placeholders": {
-      "type": {"type": "String"},
-      "amount": {"type": "String"}
+      "type": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "tooltipSettings": "Ajustes",
@@ -443,7 +689,9 @@
   "archiveWithPlannedBody": "{count, plural, =1{1 transacción planificada hace referencia a esta cuenta.} other{{count} transacciones planificadas hacen referencia a esta cuenta.}} Elimínalas para mantener tu plan coherente con una cuenta archivada.",
   "@archiveWithPlannedBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "removeAndArchive": "Eliminar planificadas y archivar",
@@ -459,7 +707,9 @@
   "deleteWithPlannedBody": "{count, plural, =1{1 transacción planificada hace referencia a esta cuenta y también se eliminará.} other{{count} transacciones planificadas hacen referencia a esta cuenta y también se eliminarán.}}",
   "@deleteWithPlannedBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "deleteAllAndDelete": "Eliminar todas",
@@ -487,12 +737,18 @@
   "archiveOptionSubtitle": "Ocultar de Análisis y selectores. Restaurar en cualquier momento desde Ajustes. Requiere saldo y descubierto a cero.",
   "archivedBannerText": "Esta cuenta está archivada. Permanece en tus datos pero está oculta de listas y selectores.",
   "balanceAdjustedTitle": "Saldo ajustado en Historial",
-  "balanceAdjustedBody": "El saldo real se actualizó de {previous} a {current} {symbol}.\n\nSe creó una transacción de ajuste de saldo en el Historial para mantener la coherencia del libro mayor.\n\n\u2022 El saldo real refleja el importe real en esta cuenta.\n\u2022 Consulta el Historial para ver el asiento de ajuste.",
+  "balanceAdjustedBody": "El saldo real se actualizó de {previous} a {current} {symbol}.\n\nSe creó una transacción de ajuste de saldo en el Historial para mantener la coherencia del libro mayor.\n\n• El saldo real refleja el importe real en esta cuenta.\n• Consulta el Historial para ver el asiento de ajuste.",
   "@balanceAdjustedBody": {
     "placeholders": {
-      "previous": {"type": "String"},
-      "current": {"type": "String"},
-      "symbol": {"type": "String"}
+      "previous": {
+        "type": "String"
+      },
+      "current": {
+        "type": "String"
+      },
+      "symbol": {
+        "type": "String"
+      }
     }
   },
   "ok": "Aceptar",
@@ -512,7 +768,9 @@
   "statsNoExpensesPeriod": "No hay gastos en los últimos {period}",
   "@statsNoExpensesPeriod": {
     "placeholders": {
-      "period": {"type": "String"}
+      "period": {
+        "type": "String"
+      }
     }
   },
   "statsTotalSpent": "Total gastado",
@@ -522,7 +780,9 @@
   "statsNoIncomePeriod": "No hay ingresos en los últimos {period}",
   "@statsNoIncomePeriod": {
     "placeholders": {
-      "period": {"type": "String"}
+      "period": {
+        "type": "String"
+      }
     }
   },
   "statsTotalReceived": "Total recibido",
@@ -561,26 +821,32 @@
   "semanticsProjectionDate": "Fecha de proyección {date}. Doble toque para elegir fecha",
   "@semanticsProjectionDate": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
   "semanticsProjectedBalance": "Saldo personal proyectado {amount}",
   "@semanticsProjectedBalance": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "statsEmptyTitle": "Aún no hay transacciones",
   "statsEmptySubtitle": "No hay datos de gasto para el rango seleccionado.",
   "semanticsShowProjections": "Mostrar saldos proyectados por cuenta",
   "semanticsHideProjections": "Ocultar saldos proyectados por cuenta",
-    "semanticsShowDayBalanceBreakdown": "Mostrar saldos de cuentas para este día",
+  "semanticsShowDayBalanceBreakdown": "Mostrar saldos de cuentas para este día",
   "semanticsHideDayBalanceBreakdown": "Ocultar saldos de cuentas para este día",
-"semanticsDateAllTime": "Fecha: todo el tiempo — toca para cambiar modo",
+  "semanticsDateAllTime": "Fecha: todo el tiempo — toca para cambiar modo",
   "semanticsDateMode": "Fecha: {mode} — toca para cambiar modo",
   "@semanticsDateMode": {
     "placeholders": {
-      "mode": {"type": "String"}
+      "mode": {
+        "type": "String"
+      }
     }
   },
   "semanticsDateThisMonth": "Fecha: este mes — toca para mes, semana, año o todo el tiempo",
@@ -601,7 +867,9 @@
   "semanticsPeriod": "Período: {label}",
   "@semanticsPeriod": {
     "placeholders": {
-      "label": {"type": "String"}
+      "label": {
+        "type": "String"
+      }
     }
   },
   "trackSearchHint": "Buscar descripción, categoría, cuenta…",
@@ -610,7 +878,9 @@
   "settingsExchangeRatesUpdated": "Última actualización: {time}",
   "@settingsExchangeRatesUpdated": {
     "placeholders": {
-      "time": {"type": "String"}
+      "time": {
+        "type": "String"
+      }
     }
   },
   "settingsExchangeRatesNeverUpdated": "Usando tasas sin conexión o incluidas — toca para actualizar",
@@ -624,28 +894,36 @@
   "clearDataTransactionsSubtitle": "{count} transacciones · saldos de cuenta restablecidos a cero",
   "@clearDataTransactionsSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "clearDataPlanned": "Transacciones planificadas",
   "clearDataPlannedSubtitle": "{count} elementos planificados",
   "@clearDataPlannedSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "clearDataAccounts": "Cuentas",
   "clearDataAccountsSubtitle": "{count} cuentas · también borra el historial y el plan",
   "@clearDataAccountsSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "clearDataCategories": "Categorías",
   "clearDataCategoriesSubtitle": "{count} categorías · sustituidas por las predeterminadas",
   "@clearDataCategoriesSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "clearDataPreferences": "Preferencias",
@@ -665,7 +943,9 @@
   "autoBackupLastAt": "Última copia de seguridad {date}",
   "@autoBackupLastAt": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
   "autoBackupNeverRun": "Aún no hay copia de seguridad",
@@ -673,40 +953,40 @@
   "autoBackupShareSubtitle": "Subir la última copia de seguridad a iCloud Drive, Google Drive o cualquier app",
   "autoBackupCloudReminder": "Copia de seguridad automática lista — guárdala en la nube para protección fuera del dispositivo",
   "autoBackupCloudReminderAction": "Compartir",
-
   "settingsBackupReminderTitle": "Recordatorio de copia de seguridad",
   "settingsBackupReminderSubtitle": "Banner en la app si añades muchas transacciones sin exportar una copia de seguridad manual.",
   "settingsBackupReminderThresholdTitle": "Umbral de transacciones",
   "settingsBackupReminderThresholdSubtitle": "Recordar después de {count} transacciones nuevas desde tu última exportación manual.",
   "@settingsBackupReminderThresholdSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsBackupReminderThresholdInvalid": "Introduce un número entero del 1 al 500.",
   "settingsBackupReminderSnoozeHint": "\"Recordar más tarde\" oculta el banner hasta que añadas {n} transacciones más.",
   "@settingsBackupReminderSnoozeHint": {
     "placeholders": {
-      "n": {"type": "int"}
+      "n": {
+        "type": "int"
+      }
     }
   },
   "backupReminderBannerTitle": "¿Exportar una copia de seguridad?",
   "backupReminderBannerBody": "Has añadido {count} transacciones desde tu última exportación manual.",
   "@backupReminderBannerBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "backupReminderRemindLater": "Recordar más tarde",
-
   "backupExportLedgerVerifyTitle": "Verificación del libro antes de la copia de seguridad",
   "backupExportLedgerVerifyInfo": "Compara el saldo almacenado de cada cuenta con una reproducción completa de tu historial. Puedes exportar la copia de seguridad de cualquier forma; las discrepancias son informativas.",
   "backupExportLedgerVerifyContinue": "Continuar con la copia de seguridad",
-
-
-
   "persistenceErrorReloaded": "No se pudieron guardar los cambios. Los datos se recargaron desde el almacenamiento.",
-
   "helpTooltip": "Ayuda",
   "helpNext": "Siguiente",
   "helpBack": "Atrás",
@@ -753,5 +1033,18 @@
   "helpPlannedDateTitle": "Fecha prevista",
   "helpPlannedDateBody": "Toca aquí para elegir cuándo debe ocurrir. Un plan también puede repetirse con la frecuencia que elijas.",
   "helpPlannedProjectionTitle": "Saldos proyectados",
-  "helpPlannedProjectionBody": "Los selectores de cuenta muestran el saldo proyectado de cada cuenta en la fecha prevista, para detectar planes que dejarían una cuenta en negativo."
+  "helpPlannedProjectionBody": "Los selectores de cuenta muestran el saldo proyectado de cada cuenta en la fecha prevista, para detectar planes que dejarían una cuenta en negativo.",
+  "settingsPlannedRemindersTitle": "Recordatorios de planes",
+  "settingsPlannedRemindersSubtitle": "Te avisa cuando vence una transacción planificada. Funciona sin conexión: nada sale de tu dispositivo.",
+  "settingsPlannedRemindersTimeTitle": "Hora del recordatorio",
+  "settingsPlannedRemindersLeadTitle": "Antelación",
+  "settingsPlannedRemindersLeadOnDay": "El día de vencimiento",
+  "settingsPlannedRemindersLeadDaysBefore": "{count, plural, =1{1 día antes} other{{count} días antes}}",
+  "settingsPlannedRemindersPermissionDenied": "Las notificaciones están desactivadas para Platrare. Actívalas en los ajustes del sistema para recibir recordatorios.",
+  "plannedReminderChannelName": "Recordatorios de transacciones planificadas",
+  "plannedReminderChannelDescription": "Notificaciones de próximas transacciones planificadas.",
+  "plannedReminderFallbackTitle": "Transacción planificada",
+  "plannedReminderDueToday": "Vence hoy",
+  "plannedReminderDueTomorrow": "Vence mañana",
+  "plannedReminderDueInDays": "{count, plural, other{Vence en {count} días}}"
 }

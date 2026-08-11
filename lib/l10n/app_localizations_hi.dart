@@ -51,6 +51,66 @@ class AppLocalizationsHi extends AppLocalizations {
   String get heroNet => 'जाल';
 
   @override
+  String get widgetLowestPoint => 'न्यूनतम बिंदु';
+
+  @override
+  String get widgetProjected => 'अनुमानित';
+
+  @override
+  String get widgetHorizonIn7Days => '7 दिनों में';
+
+  @override
+  String get widgetHorizonEndOfMonth => 'महीने का अंत';
+
+  @override
+  String get widgetMetricAccount => 'खाता शेष';
+
+  @override
+  String get widgetQuickAdd => 'त्वरित जोड़ें';
+
+  @override
+  String get widgetStale => 'पुराना हो सकता है';
+
+  @override
+  String get widgetOpenToStart => 'खाते जोड़ने के लिए Platrare खोलें';
+
+  @override
+  String get widgetDueToday => 'आज देय';
+
+  @override
+  String get widgetDescQuickAdd => 'एक टैप में लेनदेन या योजना जोड़ें।';
+
+  @override
+  String get widgetNameNumbers => 'शेष';
+
+  @override
+  String get widgetDescNumbers =>
+      'एक आँकड़ा दिखाएँ: उपलब्ध, कुल संपत्ति, या इस महीने का न्यूनतम बिंदु।';
+
+  @override
+  String get widgetConfigMetric => 'मीट्रिक';
+
+  @override
+  String get widgetConfigHorizon => 'अवधि';
+
+  @override
+  String widgetSiriAddTransaction(String appName) {
+    return '$appName में लेनदेन जोड़ें';
+  }
+
+  @override
+  String widgetSiriAddPlanned(String appName) {
+    return '$appName में नियोजित लेनदेन जोड़ें';
+  }
+
+  @override
+  String get settingsWidgetAmountsTitle => 'विजेट में राशि दिखाएँ';
+
+  @override
+  String get settingsWidgetAmountsSubtitle =>
+      'होम स्क्रीन विजेट ऐप अनलॉक किए बिना दिखते हैं। ऐप लॉक चालू होने पर, जब तक आप इसे चालू न करें, राशियाँ छिपी रहती हैं।';
+
+  @override
   String get heroBalance => 'संतुलन';
 
   @override
@@ -872,6 +932,159 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get settingsDataExportFailed => 'निर्यात विफल';
+
+  @override
+  String get settingsCsvExportTitle => 'CSV के रूप में निर्यात करें';
+
+  @override
+  String get settingsCsvExportSubtitle =>
+      'आपके लेन-देन स्प्रेडशीट फ़ाइल के रूप में';
+
+  @override
+  String get settingsCsvExportFailed => 'CSV निर्यात विफल';
+
+  @override
+  String get settingsCsvImportTitle => 'CSV से आयात करें';
+
+  @override
+  String get settingsCsvImportSubtitle =>
+      'स्प्रेडशीट से लेन-देन जोड़ें — कुछ भी बदला नहीं जाता';
+
+  @override
+  String get settingsCsvTemplateTitle => 'CSV टेम्पलेट प्राप्त करें';
+
+  @override
+  String get settingsCsvTemplateSubtitle =>
+      'एक उदाहरण फ़ाइल जिसमें आप अपना पुराना डेटा चिपका सकते हैं';
+
+  @override
+  String get csvTemplateInstruction1 =>
+      'नीचे दी गई उदाहरण पंक्तियों को अपने डेटा से बदलें, फिर इस फ़ाइल को सेटिंग्स से आयात करें।';
+
+  @override
+  String get csvTemplateInstruction2 =>
+      'date और amount आवश्यक हैं। तिथियाँ YYYY-MM-DD के रूप में और राशियाँ धनात्मक संख्या के रूप में लिखें।';
+
+  @override
+  String get csvTemplateInstruction3 =>
+      'type में income, expense, transfer, invoice, bill, advance, settlement, loan, collection या offset हो सकता है। खाली छोड़ें ताकि ऐप खातों से इसका अनुमान लगा ले।';
+
+  @override
+  String get csvTemplateInstruction4 =>
+      'जो खाते और श्रेणियाँ अभी मौजूद नहीं हैं, वे अपने आप बन जाती हैं। # से शुरू होने वाली पंक्तियाँ अनदेखी की जाती हैं।';
+
+  @override
+  String get csvImportPreviewTitle => 'लेन-देन आयात करें';
+
+  @override
+  String csvImportPreviewCounts(int importable, int total) {
+    return '$total में से $importable पंक्तियाँ जोड़ी जाएँगी';
+  }
+
+  @override
+  String csvImportPreviewNewAccounts(String names) {
+    return 'नए खाते: $names';
+  }
+
+  @override
+  String csvImportPreviewNewCategories(String names) {
+    return 'नई श्रेणियाँ: $names';
+  }
+
+  @override
+  String csvImportPreviewDuplicates(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count पंक्तियाँ पहले से मौजूद हैं',
+      one: '1 पंक्ति पहले से मौजूद है',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportPreviewSkipDuplicates => 'पहले से मौजूद पंक्तियाँ छोड़ें';
+
+  @override
+  String csvImportPreviewIssuesTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count पंक्तियाँ पढ़ी नहीं जा सकीं',
+      one: '1 पंक्ति पढ़ी नहीं जा सकी',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String csvImportPreviewIssueLine(int line, String reason) {
+    return 'पंक्ति $line: $reason';
+  }
+
+  @override
+  String csvImportPreviewIssueMore(int count) {
+    return '…और $count अन्य';
+  }
+
+  @override
+  String get csvImportPreviewDateStyleTitle =>
+      '03/04/2026 जैसी तिथियाँ अस्पष्ट हैं। इन्हें कैसे पढ़ा जाए?';
+
+  @override
+  String get csvImportPreviewDateStyleDayFirst => 'पहले दिन (3 अप्रैल)';
+
+  @override
+  String get csvImportPreviewDateStyleMonthFirst => 'पहले महीना (4 मार्च)';
+
+  @override
+  String get csvImportPreviewNothing =>
+      'इस फ़ाइल की कोई भी पंक्ति आयात नहीं की जा सकती।';
+
+  @override
+  String get csvImportPreviewConfirm => 'आयात करें';
+
+  @override
+  String get csvRowProblemDate => 'अमान्य या अनुपस्थित तिथि';
+
+  @override
+  String get csvRowProblemAmount => 'अमान्य या अनुपस्थित राशि';
+
+  @override
+  String get csvRowProblemAccount => 'अमान्य या अनुपस्थित खाता';
+
+  @override
+  String get csvRowProblemType => 'अज्ञात लेन-देन प्रकार';
+
+  @override
+  String csvImportDone(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count लेन-देन आयात किए गए',
+      one: '1 लेन-देन आयात किया गया',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportFailedNoColumns =>
+      'कोई भी कॉलम पहचाना नहीं गया। CSV टेम्पलेट से शुरू करें।';
+
+  @override
+  String csvImportFailedMissingColumn(String column) {
+    return 'फ़ाइल में \"$column\" कॉलम नहीं है।';
+  }
+
+  @override
+  String get csvImportFailedEmpty => 'इस फ़ाइल में कोई डेटा पंक्ति नहीं है।';
+
+  @override
+  String csvImportFailedTooManyRows(int rows, int max) {
+    return 'इस फ़ाइल में $rows पंक्तियाँ हैं; सीमा $max है।';
+  }
+
+  @override
+  String get csvImportFailed => 'CSV आयात विफल';
 
   @override
   String get ledgerVerifyDialogTitle => 'बही सत्यापन';
@@ -1911,4 +2124,61 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get helpPlannedProjectionBody =>
       'खाता चयनकर्ता नियत तारीख़ पर हर खाते का अनुमानित बैलेंस दिखाते हैं, ताकि आप ऐसी योजना पकड़ सकें जो खाते को घाटे में ले जाए।';
+
+  @override
+  String get settingsPlannedRemindersTitle => 'योजना अनुस्मारक';
+
+  @override
+  String get settingsPlannedRemindersSubtitle =>
+      'जब कोई नियोजित लेन-देन देय हो, तो सूचित करता है। पूरी तरह ऑफ़लाइन काम करता है — कुछ भी आपके डिवाइस से बाहर नहीं जाता।';
+
+  @override
+  String get settingsPlannedRemindersTimeTitle => 'अनुस्मारक समय';
+
+  @override
+  String get settingsPlannedRemindersLeadTitle => 'पहले सूचना';
+
+  @override
+  String get settingsPlannedRemindersLeadOnDay => 'देय तिथि पर';
+
+  @override
+  String settingsPlannedRemindersLeadDaysBefore(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count दिन पहले',
+      one: '1 दिन पहले',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPlannedRemindersPermissionDenied =>
+      'Platrare के लिए सूचनाएँ बंद हैं। अनुस्मारक पाने के लिए सिस्टम सेटिंग्स में उन्हें अनुमति दें।';
+
+  @override
+  String get plannedReminderChannelName => 'नियोजित लेन-देन अनुस्मारक';
+
+  @override
+  String get plannedReminderChannelDescription =>
+      'आगामी नियोजित लेन-देन की सूचनाएँ।';
+
+  @override
+  String get plannedReminderFallbackTitle => 'नियोजित लेन-देन';
+
+  @override
+  String get plannedReminderDueToday => 'आज देय';
+
+  @override
+  String get plannedReminderDueTomorrow => 'कल देय';
+
+  @override
+  String plannedReminderDueInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count दिनों में देय',
+    );
+    return '$_temp0';
+  }
 }

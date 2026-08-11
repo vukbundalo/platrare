@@ -51,6 +51,65 @@ class AppLocalizationsKo extends AppLocalizations {
   String get heroNet => '그물';
 
   @override
+  String get widgetLowestPoint => '최저점';
+
+  @override
+  String get widgetProjected => '예상';
+
+  @override
+  String get widgetHorizonIn7Days => '7일 후';
+
+  @override
+  String get widgetHorizonEndOfMonth => '월말';
+
+  @override
+  String get widgetMetricAccount => '계좌 잔액';
+
+  @override
+  String get widgetQuickAdd => '빠른 추가';
+
+  @override
+  String get widgetStale => '최신 정보가 아닐 수 있음';
+
+  @override
+  String get widgetOpenToStart => 'Platrare를 열어 계좌를 추가하세요';
+
+  @override
+  String get widgetDueToday => '오늘 예정';
+
+  @override
+  String get widgetDescQuickAdd => '한 번의 탭으로 거래나 계획을 추가합니다.';
+
+  @override
+  String get widgetNameNumbers => '잔액';
+
+  @override
+  String get widgetDescNumbers => '가용 금액, 순자산, 이번 달 최저점 중 하나를 표시합니다.';
+
+  @override
+  String get widgetConfigMetric => '지표';
+
+  @override
+  String get widgetConfigHorizon => '기간';
+
+  @override
+  String widgetSiriAddTransaction(String appName) {
+    return '$appName에 거래 추가';
+  }
+
+  @override
+  String widgetSiriAddPlanned(String appName) {
+    return '$appName에 예정 거래 추가';
+  }
+
+  @override
+  String get settingsWidgetAmountsTitle => '위젯에 금액 표시';
+
+  @override
+  String get settingsWidgetAmountsSubtitle =>
+      '홈 화면 위젯은 앱 잠금을 해제하지 않아도 보입니다. 앱 잠금이 켜져 있으면 이 옵션을 켜기 전까지 금액이 가려집니다.';
+
+  @override
   String get heroBalance => '균형';
 
   @override
@@ -847,6 +906,152 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get settingsDataExportFailed => '내보내기 실패';
+
+  @override
+  String get settingsCsvExportTitle => 'CSV로 내보내기';
+
+  @override
+  String get settingsCsvExportSubtitle => '거래 내역을 스프레드시트 파일로';
+
+  @override
+  String get settingsCsvExportFailed => 'CSV 내보내기 실패';
+
+  @override
+  String get settingsCsvImportTitle => 'CSV에서 가져오기';
+
+  @override
+  String get settingsCsvImportSubtitle =>
+      '스프레드시트에서 거래를 추가합니다 — 기존 데이터는 바뀌지 않습니다';
+
+  @override
+  String get settingsCsvTemplateTitle => 'CSV 서식 파일 받기';
+
+  @override
+  String get settingsCsvTemplateSubtitle => '이전 데이터를 붙여 넣을 예시 파일';
+
+  @override
+  String get csvTemplateInstruction1 =>
+      '아래 예시 행을 본인의 데이터로 바꾼 다음 설정에서 이 파일을 가져오세요.';
+
+  @override
+  String get csvTemplateInstruction2 =>
+      'date와 amount는 필수입니다. 날짜는 YYYY-MM-DD 형식으로, 금액은 양수로 입력하세요.';
+
+  @override
+  String get csvTemplateInstruction3 =>
+      'type에는 income, expense, transfer, invoice, bill, advance, settlement, loan, collection 또는 offset을 넣을 수 있습니다. 비워 두면 앱이 계좌를 보고 판단합니다.';
+
+  @override
+  String get csvTemplateInstruction4 =>
+      '아직 없는 계좌와 카테고리는 자동으로 만들어집니다. #으로 시작하는 줄은 무시됩니다.';
+
+  @override
+  String get csvImportPreviewTitle => '거래 가져오기';
+
+  @override
+  String csvImportPreviewCounts(int importable, int total) {
+    return '$total개 행 중 $importable개가 추가됩니다';
+  }
+
+  @override
+  String csvImportPreviewNewAccounts(String names) {
+    return '새 계좌: $names';
+  }
+
+  @override
+  String csvImportPreviewNewCategories(String names) {
+    return '새 카테고리: $names';
+  }
+
+  @override
+  String csvImportPreviewDuplicates(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count개 행이 이미 있습니다',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportPreviewSkipDuplicates => '이미 있는 행 건너뛰기';
+
+  @override
+  String csvImportPreviewIssuesTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count개 행을 읽지 못했습니다',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String csvImportPreviewIssueLine(int line, String reason) {
+    return '$line번째 줄: $reason';
+  }
+
+  @override
+  String csvImportPreviewIssueMore(int count) {
+    return '…외 $count개';
+  }
+
+  @override
+  String get csvImportPreviewDateStyleTitle =>
+      '03/04/2026 같은 날짜는 해석이 모호합니다. 어떻게 읽을까요?';
+
+  @override
+  String get csvImportPreviewDateStyleDayFirst => '일이 먼저 (4월 3일)';
+
+  @override
+  String get csvImportPreviewDateStyleMonthFirst => '월이 먼저 (3월 4일)';
+
+  @override
+  String get csvImportPreviewNothing => '이 파일에서 가져올 수 있는 행이 없습니다.';
+
+  @override
+  String get csvImportPreviewConfirm => '가져오기';
+
+  @override
+  String get csvRowProblemDate => '날짜가 잘못되었거나 없음';
+
+  @override
+  String get csvRowProblemAmount => '금액이 잘못되었거나 없음';
+
+  @override
+  String get csvRowProblemAccount => '계좌가 잘못되었거나 없음';
+
+  @override
+  String get csvRowProblemType => '알 수 없는 거래 유형';
+
+  @override
+  String csvImportDone(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '거래 $count건을 가져왔습니다',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportFailedNoColumns => '인식된 열이 없습니다. CSV 서식 파일로 시작하세요.';
+
+  @override
+  String csvImportFailedMissingColumn(String column) {
+    return '파일에 \"$column\" 열이 없습니다.';
+  }
+
+  @override
+  String get csvImportFailedEmpty => '이 파일에는 데이터 행이 없습니다.';
+
+  @override
+  String csvImportFailedTooManyRows(int rows, int max) {
+    return '이 파일에는 $rows개 행이 있습니다. 한도는 $max개입니다.';
+  }
+
+  @override
+  String get csvImportFailed => 'CSV 가져오기 실패';
 
   @override
   String get ledgerVerifyDialogTitle => '원장 검증';
@@ -1855,4 +2060,59 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get helpPlannedProjectionBody =>
       '계좌 선택기에는 예정일 기준 예측 잔액이 표시되어, 계좌를 마이너스로 만들 계획을 미리 알 수 있습니다.';
+
+  @override
+  String get settingsPlannedRemindersTitle => '계획 알림';
+
+  @override
+  String get settingsPlannedRemindersSubtitle =>
+      '계획된 거래가 만기되면 알려줍니다. 완전히 오프라인으로 작동하며 어떤 데이터도 기기를 벗어나지 않습니다.';
+
+  @override
+  String get settingsPlannedRemindersTimeTitle => '알림 시간';
+
+  @override
+  String get settingsPlannedRemindersLeadTitle => '미리 알림';
+
+  @override
+  String get settingsPlannedRemindersLeadOnDay => '만기일 당일';
+
+  @override
+  String settingsPlannedRemindersLeadDaysBefore(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count일 전',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPlannedRemindersPermissionDenied =>
+      'Platrare 알림이 꺼져 있습니다. 알림을 받으려면 시스템 설정에서 허용하세요.';
+
+  @override
+  String get plannedReminderChannelName => '계획된 거래 알림';
+
+  @override
+  String get plannedReminderChannelDescription => '다가오는 계획된 거래에 대한 알림입니다.';
+
+  @override
+  String get plannedReminderFallbackTitle => '계획된 거래';
+
+  @override
+  String get plannedReminderDueToday => '오늘 만기';
+
+  @override
+  String get plannedReminderDueTomorrow => '내일 만기';
+
+  @override
+  String plannedReminderDueInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count일 후 만기',
+    );
+    return '$_temp0';
+  }
 }

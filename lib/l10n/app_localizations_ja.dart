@@ -51,6 +51,65 @@ class AppLocalizationsJa extends AppLocalizations {
   String get heroNet => 'ネット';
 
   @override
+  String get widgetLowestPoint => '最低残高';
+
+  @override
+  String get widgetProjected => '予測';
+
+  @override
+  String get widgetHorizonIn7Days => '7日後';
+
+  @override
+  String get widgetHorizonEndOfMonth => '月末';
+
+  @override
+  String get widgetMetricAccount => '口座残高';
+
+  @override
+  String get widgetQuickAdd => 'クイック追加';
+
+  @override
+  String get widgetStale => '最新でない可能性があります';
+
+  @override
+  String get widgetOpenToStart => 'Platrare を開いて口座を追加';
+
+  @override
+  String get widgetDueToday => '本日期限';
+
+  @override
+  String get widgetDescQuickAdd => 'ワンタップで取引や予定を追加します。';
+
+  @override
+  String get widgetNameNumbers => '残高';
+
+  @override
+  String get widgetDescNumbers => '使える額・純資産・今月の最低残高から 1 つを表示します。';
+
+  @override
+  String get widgetConfigMetric => '指標';
+
+  @override
+  String get widgetConfigHorizon => '期間';
+
+  @override
+  String widgetSiriAddTransaction(String appName) {
+    return '$appName で取引を追加';
+  }
+
+  @override
+  String widgetSiriAddPlanned(String appName) {
+    return '$appName で予定取引を追加';
+  }
+
+  @override
+  String get settingsWidgetAmountsTitle => 'ウィジェットに金額を表示';
+
+  @override
+  String get settingsWidgetAmountsSubtitle =>
+      'ホーム画面のウィジェットはアプリのロックを解除しなくても見えます。アプリロックが有効な間は、これをオンにしない限り金額は伏せられます。';
+
+  @override
   String get heroBalance => 'バランス';
 
   @override
@@ -847,6 +906,151 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get settingsDataExportFailed => 'エクスポートに失敗しました';
+
+  @override
+  String get settingsCsvExportTitle => 'CSV でエクスポート';
+
+  @override
+  String get settingsCsvExportSubtitle => '取引を表計算ファイルとして保存';
+
+  @override
+  String get settingsCsvExportFailed => 'CSV のエクスポートに失敗しました';
+
+  @override
+  String get settingsCsvImportTitle => 'CSV からインポート';
+
+  @override
+  String get settingsCsvImportSubtitle => '表計算ファイルから取引を追加します（既存データは置き換わりません）';
+
+  @override
+  String get settingsCsvTemplateTitle => 'CSV テンプレートを取得';
+
+  @override
+  String get settingsCsvTemplateSubtitle => '以前のデータを貼り付けるためのサンプルファイル';
+
+  @override
+  String get csvTemplateInstruction1 =>
+      '以下のサンプル行をご自身のデータに置き換えて、設定からこのファイルをインポートしてください。';
+
+  @override
+  String get csvTemplateInstruction2 =>
+      'date と amount は必須です。日付は YYYY-MM-DD 形式で、金額は正の数で入力してください。';
+
+  @override
+  String get csvTemplateInstruction3 =>
+      'type には income、expense、transfer、invoice、bill、advance、settlement、loan、collection、offset のいずれかを指定できます。空欄にすると口座から自動で判定されます。';
+
+  @override
+  String get csvTemplateInstruction4 =>
+      '存在しない口座やカテゴリは自動的に作成されます。# で始まる行は無視されます。';
+
+  @override
+  String get csvImportPreviewTitle => '取引をインポート';
+
+  @override
+  String csvImportPreviewCounts(int importable, int total) {
+    return '$total 行のうち $importable 行が追加されます';
+  }
+
+  @override
+  String csvImportPreviewNewAccounts(String names) {
+    return '新しい口座: $names';
+  }
+
+  @override
+  String csvImportPreviewNewCategories(String names) {
+    return '新しいカテゴリ: $names';
+  }
+
+  @override
+  String csvImportPreviewDuplicates(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 行はすでに存在します',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportPreviewSkipDuplicates => 'すでに存在する行をスキップ';
+
+  @override
+  String csvImportPreviewIssuesTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 行を読み取れませんでした',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String csvImportPreviewIssueLine(int line, String reason) {
+    return '$line 行目: $reason';
+  }
+
+  @override
+  String csvImportPreviewIssueMore(int count) {
+    return '…他 $count 件';
+  }
+
+  @override
+  String get csvImportPreviewDateStyleTitle =>
+      '03/04/2026 のような日付は解釈が定まりません。どのように読み取りますか？';
+
+  @override
+  String get csvImportPreviewDateStyleDayFirst => '日が先 (4月3日)';
+
+  @override
+  String get csvImportPreviewDateStyleMonthFirst => '月が先 (3月4日)';
+
+  @override
+  String get csvImportPreviewNothing => 'このファイルにはインポートできる行がありません。';
+
+  @override
+  String get csvImportPreviewConfirm => 'インポート';
+
+  @override
+  String get csvRowProblemDate => '日付が無効または未入力です';
+
+  @override
+  String get csvRowProblemAmount => '金額が無効または未入力です';
+
+  @override
+  String get csvRowProblemAccount => '口座が無効または未入力です';
+
+  @override
+  String get csvRowProblemType => '不明な取引タイプです';
+
+  @override
+  String csvImportDone(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件の取引をインポートしました',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportFailedNoColumns => '認識できる列がありません。CSV テンプレートから始めてください。';
+
+  @override
+  String csvImportFailedMissingColumn(String column) {
+    return 'ファイルに「$column」列がありません。';
+  }
+
+  @override
+  String get csvImportFailedEmpty => 'このファイルにはデータ行がありません。';
+
+  @override
+  String csvImportFailedTooManyRows(int rows, int max) {
+    return 'このファイルは $rows 行あります。上限は $max 行です。';
+  }
+
+  @override
+  String get csvImportFailed => 'CSV のインポートに失敗しました';
 
   @override
   String get ledgerVerifyDialogTitle => '台帳検証';
@@ -1847,4 +2051,59 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get helpPlannedProjectionBody =>
       '口座の選択欄には予定日時点の予測残高が表示されるため、残高不足になる計画に気づけます。';
+
+  @override
+  String get settingsPlannedRemindersTitle => '予定リマインダー';
+
+  @override
+  String get settingsPlannedRemindersSubtitle =>
+      '予定取引の期日になると通知します。完全オフラインで動作し、データが端末の外に出ることはありません。';
+
+  @override
+  String get settingsPlannedRemindersTimeTitle => 'リマインダー時刻';
+
+  @override
+  String get settingsPlannedRemindersLeadTitle => '事前通知';
+
+  @override
+  String get settingsPlannedRemindersLeadOnDay => '期日当日';
+
+  @override
+  String settingsPlannedRemindersLeadDaysBefore(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count日前',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPlannedRemindersPermissionDenied =>
+      'Platrare の通知がオフになっています。リマインダーを受け取るには、システム設定で通知を許可してください。';
+
+  @override
+  String get plannedReminderChannelName => '予定取引リマインダー';
+
+  @override
+  String get plannedReminderChannelDescription => '今後の予定取引に関する通知。';
+
+  @override
+  String get plannedReminderFallbackTitle => '予定取引';
+
+  @override
+  String get plannedReminderDueToday => '今日が期日';
+
+  @override
+  String get plannedReminderDueTomorrow => '明日が期日';
+
+  @override
+  String plannedReminderDueInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'あと$count日で期日',
+    );
+    return '$_temp0';
+  }
 }

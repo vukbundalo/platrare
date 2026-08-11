@@ -17,6 +17,24 @@
   "heroIn": "In",
   "heroOut": "Fuori",
   "heroNet": "Netto",
+  "widgetLowestPoint": "Punto più basso",
+  "widgetProjected": "Previsto",
+  "widgetHorizonIn7Days": "Tra 7 giorni",
+  "widgetHorizonEndOfMonth": "Fine mese",
+  "widgetMetricAccount": "Saldo del conto",
+  "widgetQuickAdd": "Aggiunta rapida",
+  "widgetStale": "Potrebbe non essere aggiornato",
+  "widgetOpenToStart": "Apri Platrare per aggiungere conti",
+  "widgetDueToday": "Scade oggi",
+  "widgetDescQuickAdd": "Aggiungi una transazione o un piano con un tocco.",
+  "widgetNameNumbers": "Saldo",
+  "widgetDescNumbers": "Mostra un dato: disponibile, patrimonio netto o il punto più basso del mese.",
+  "widgetConfigMetric": "Metrica",
+  "widgetConfigHorizon": "Orizzonte",
+  "widgetSiriAddTransaction": "Aggiungi una transazione in {appName}",
+  "widgetSiriAddPlanned": "Aggiungi una transazione pianificata in {appName}",
+  "settingsWidgetAmountsTitle": "Mostra importi nei widget",
+  "settingsWidgetAmountsSubtitle": "I widget nella schermata Home sono visibili senza sbloccare l’app. Con il blocco attivo gli importi restano nascosti, a meno che tu non attivi questa opzione.",
   "heroBalance": "Bilancia",
   "realBalance": "Equilibrio reale",
   "settingsHideHeroBalancesTitle": "Nascondi i saldi nelle schede di riepilogo",
@@ -457,6 +475,99 @@
   },
   "settingsDataOpenExportFile": "Apri file",
   "settingsDataExportFailed": "Esportazione non riuscita",
+  "settingsCsvExportTitle": "Esporta come CSV",
+  "settingsCsvExportSubtitle": "Le tue transazioni come foglio di calcolo",
+  "settingsCsvExportFailed": "Esportazione CSV non riuscita",
+  "settingsCsvImportTitle": "Importa da CSV",
+  "settingsCsvImportSubtitle": "Aggiungi transazioni da un foglio di calcolo — non viene sostituito nulla",
+  "settingsCsvTemplateTitle": "Ottieni modello CSV",
+  "settingsCsvTemplateSubtitle": "Un file di esempio in cui incollare i tuoi vecchi dati",
+  "csvTemplateInstruction1": "Sostituisci le righe di esempio qui sotto con i tuoi dati, poi importa questo file dalle Impostazioni.",
+  "csvTemplateInstruction2": "date e amount sono obbligatori. Scrivi le date come YYYY-MM-DD e gli importi come numero positivo.",
+  "csvTemplateInstruction3": "type può essere income, expense, transfer, invoice, bill, advance, settlement, loan, collection oppure offset. Lascialo vuoto per far dedurre il tipo dai conti.",
+  "csvTemplateInstruction4": "I conti e le categorie che non esistono ancora vengono creati automaticamente. Le righe che iniziano con # vengono ignorate.",
+  "csvImportPreviewTitle": "Importa transazioni",
+  "csvImportPreviewCounts": "Verranno aggiunte {importable} righe su {total}",
+  "@csvImportPreviewCounts": {
+    "placeholders": {
+      "importable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewNewAccounts": "Nuovi conti: {names}",
+  "@csvImportPreviewNewAccounts": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewNewCategories": "Nuove categorie: {names}",
+  "@csvImportPreviewNewCategories": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewDuplicates": "{count, plural, =1{1 riga esiste già} other{{count} righe esistono già}}",
+  "csvImportPreviewSkipDuplicates": "Salta le righe già presenti",
+  "csvImportPreviewIssuesTitle": "{count, plural, =1{1 riga non è stata letta} other{{count} righe non sono state lette}}",
+  "csvImportPreviewIssueLine": "Riga {line}: {reason}",
+  "@csvImportPreviewIssueLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewIssueMore": "…e altre {count}",
+  "@csvImportPreviewIssueMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewDateStyleTitle": "Le date come 03/04/2026 sono ambigue. Come vanno lette?",
+  "csvImportPreviewDateStyleDayFirst": "Prima il giorno (3 aprile)",
+  "csvImportPreviewDateStyleMonthFirst": "Prima il mese (4 marzo)",
+  "csvImportPreviewNothing": "Nessuna riga di questo file può essere importata.",
+  "csvImportPreviewConfirm": "Importa",
+  "csvRowProblemDate": "data non valida o mancante",
+  "csvRowProblemAmount": "importo non valido o mancante",
+  "csvRowProblemAccount": "conto non valido o mancante",
+  "csvRowProblemType": "tipo di transazione sconosciuto",
+  "csvImportDone": "{count, plural, =1{1 transazione importata} other{{count} transazioni importate}}",
+  "csvImportFailedNoColumns": "Nessuna colonna riconosciuta. Parti dal modello CSV.",
+  "csvImportFailedMissingColumn": "Il file non ha la colonna \"{column}\".",
+  "@csvImportFailedMissingColumn": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportFailedEmpty": "Questo file non contiene righe di dati.",
+  "csvImportFailedTooManyRows": "Questo file ha {rows} righe; il limite è {max}.",
+  "@csvImportFailedTooManyRows": {
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportFailed": "Importazione CSV non riuscita",
   "ledgerVerifyDialogTitle": "Verifica del registro",
   "ledgerVerifyAllMatch": "Tutti gli account corrispondono.",
   "ledgerVerifyMismatchesTitle": "Mancate corrispondenze",
@@ -727,9 +838,9 @@
   "statsEmptySubtitle": "Nessun dato di spesa per l'intervallo selezionato.",
   "semanticsShowProjections": "Mostra i saldi previsti per conto",
   "semanticsHideProjections": "Nascondi i saldi previsti per conto",
-    "semanticsShowDayBalanceBreakdown": "Mostra i saldi dei conti per questo giorno",
+  "semanticsShowDayBalanceBreakdown": "Mostra i saldi dei conti per questo giorno",
   "semanticsHideDayBalanceBreakdown": "Nascondi i saldi dei conti per questo giorno",
-"semanticsDateAllTime": "Data: sempre: tocca per cambiare modalità",
+  "semanticsDateAllTime": "Data: sempre: tocca per cambiare modalità",
   "semanticsDateMode": "Data: {mode}: tocca per cambiare modalità",
   "@semanticsDateMode": {
     "placeholders": {
@@ -842,40 +953,40 @@
   "autoBackupShareSubtitle": "Carica l'ultimo backup su iCloud Drive, Google Drive o qualsiasi app",
   "autoBackupCloudReminder": "Predisposizione per il backup automatico: salvalo nel cloud per la protezione esterna al dispositivo",
   "autoBackupCloudReminderAction": "Condividi",
-
   "settingsBackupReminderTitle": "Promemoria backup",
   "settingsBackupReminderSubtitle": "Banner in-app se aggiungi molte transazioni senza esportare un backup manuale.",
   "settingsBackupReminderThresholdTitle": "Soglia transazioni",
   "settingsBackupReminderThresholdSubtitle": "Ricorda dopo {count} nuove transazioni dall'ultimo esportazione manuale.",
   "@settingsBackupReminderThresholdSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsBackupReminderThresholdInvalid": "Inserisci un numero intero da 1 a 500.",
   "settingsBackupReminderSnoozeHint": "\"Ricorda più tardi\" nasconde il banner finché non aggiungi altre {n} transazioni.",
   "@settingsBackupReminderSnoozeHint": {
     "placeholders": {
-      "n": {"type": "int"}
+      "n": {
+        "type": "int"
+      }
     }
   },
   "backupReminderBannerTitle": "Esportare un backup?",
   "backupReminderBannerBody": "Hai aggiunto {count} transazioni dall'ultimo esportazione manuale.",
   "@backupReminderBannerBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "backupReminderRemindLater": "Ricorda più tardi",
-
   "backupExportLedgerVerifyTitle": "Verifica contabile prima del backup",
   "backupExportLedgerVerifyInfo": "Confronta il saldo memorizzato di ogni conto con una riproduzione completa della tua cronologia. Puoi esportare il backup in ogni caso; le discrepanze sono informative.",
   "backupExportLedgerVerifyContinue": "Continua con il backup",
-
-
-
   "persistenceErrorReloaded": "Impossibile salvare le modifiche. I dati sono stati ricaricati dalla memoria.",
-
   "helpTooltip": "Aiuto",
   "helpNext": "Avanti",
   "helpBack": "Indietro",
@@ -922,5 +1033,18 @@
   "helpPlannedDateTitle": "Data prevista",
   "helpPlannedDateBody": "Tocca qui per scegliere quando deve avvenire. Un piano può anche ripetersi con la cadenza che scegli.",
   "helpPlannedProjectionTitle": "Saldi proiettati",
-  "helpPlannedProjectionBody": "I selettori dei conti mostrano il saldo proiettato di ogni conto alla data prevista, così individui i piani che manderebbero un conto in rosso."
+  "helpPlannedProjectionBody": "I selettori dei conti mostrano il saldo proiettato di ogni conto alla data prevista, così individui i piani che manderebbero un conto in rosso.",
+  "settingsPlannedRemindersTitle": "Promemoria pianificazioni",
+  "settingsPlannedRemindersSubtitle": "Ti avvisa quando una transazione pianificata è in scadenza. Funziona completamente offline: nulla lascia il tuo dispositivo.",
+  "settingsPlannedRemindersTimeTitle": "Ora del promemoria",
+  "settingsPlannedRemindersLeadTitle": "Preavviso",
+  "settingsPlannedRemindersLeadOnDay": "Il giorno della scadenza",
+  "settingsPlannedRemindersLeadDaysBefore": "{count, plural, =1{1 giorno prima} other{{count} giorni prima}}",
+  "settingsPlannedRemindersPermissionDenied": "Le notifiche sono disattivate per Platrare. Consentile nelle impostazioni di sistema per ricevere i promemoria.",
+  "plannedReminderChannelName": "Promemoria transazioni pianificate",
+  "plannedReminderChannelDescription": "Notifiche per le prossime transazioni pianificate.",
+  "plannedReminderFallbackTitle": "Transazione pianificata",
+  "plannedReminderDueToday": "Scade oggi",
+  "plannedReminderDueTomorrow": "Scade domani",
+  "plannedReminderDueInDays": "{count, plural, other{Scade tra {count} giorni}}"
 }

@@ -17,6 +17,24 @@
   "heroIn": "İçinde",
   "heroOut": "Dışarı",
   "heroNet": "Açık",
+  "widgetLowestPoint": "En düşük nokta",
+  "widgetProjected": "Öngörülen",
+  "widgetHorizonIn7Days": "7 gün içinde",
+  "widgetHorizonEndOfMonth": "Ay sonu",
+  "widgetMetricAccount": "Hesap bakiyesi",
+  "widgetQuickAdd": "Hızlı ekle",
+  "widgetStale": "Güncel olmayabilir",
+  "widgetOpenToStart": "Hesap eklemek için Platrare’ı açın",
+  "widgetDueToday": "Bugün vadesi doluyor",
+  "widgetDescQuickAdd": "Tek dokunuşla işlem veya plan ekleyin.",
+  "widgetNameNumbers": "Bakiye",
+  "widgetDescNumbers": "Tek bir rakam gösterin: kullanılabilir, net değer veya bu ayki en düşük noktanız.",
+  "widgetConfigMetric": "Ölçüt",
+  "widgetConfigHorizon": "Ufuk",
+  "widgetSiriAddTransaction": "{appName} uygulamasına işlem ekle",
+  "widgetSiriAddPlanned": "{appName} uygulamasına planlı işlem ekle",
+  "settingsWidgetAmountsTitle": "Tutarları widget’larda göster",
+  "settingsWidgetAmountsSubtitle": "Ana ekran widget’ları uygulama kilidi açılmadan görünür. Uygulama kilidi açıkken bunu etkinleştirmediğiniz sürece tutarlar gizli kalır.",
   "heroBalance": "Denge",
   "realBalance": "Gerçek denge",
   "settingsHideHeroBalancesTitle": "Özet kartlardaki bakiyeleri gizle",
@@ -457,6 +475,99 @@
   },
   "settingsDataOpenExportFile": "Dosyayı aç",
   "settingsDataExportFailed": "Dışa aktarma başarısız oldu",
+  "settingsCsvExportTitle": "CSV olarak dışa aktar",
+  "settingsCsvExportSubtitle": "İşlemleriniz elektronik tablo dosyası olarak",
+  "settingsCsvExportFailed": "CSV dışa aktarma başarısız",
+  "settingsCsvImportTitle": "CSV'den içe aktar",
+  "settingsCsvImportSubtitle": "Bir elektronik tablodan işlem ekleyin — hiçbir şey değiştirilmez",
+  "settingsCsvTemplateTitle": "CSV şablonunu al",
+  "settingsCsvTemplateSubtitle": "Eski verilerinizi yapıştıracağınız örnek dosya",
+  "csvTemplateInstruction1": "Aşağıdaki örnek satırları kendi verilerinizle değiştirin, sonra bu dosyayı Ayarlar'dan içe aktarın.",
+  "csvTemplateInstruction2": "date ve amount zorunludur. Tarihleri YYYY-MM-DD biçiminde, tutarları pozitif sayı olarak yazın.",
+  "csvTemplateInstruction3": "type şunlardan biri olabilir: income, expense, transfer, invoice, bill, advance, settlement, loan, collection veya offset. Uygulamanın hesaplardan çıkarması için boş bırakın.",
+  "csvTemplateInstruction4": "Henüz var olmayan hesaplar ve kategoriler otomatik oluşturulur. # ile başlayan satırlar yoksayılır.",
+  "csvImportPreviewTitle": "İşlemleri içe aktar",
+  "csvImportPreviewCounts": "{total} satırın {importable} tanesi eklenecek",
+  "@csvImportPreviewCounts": {
+    "placeholders": {
+      "importable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewNewAccounts": "Yeni hesaplar: {names}",
+  "@csvImportPreviewNewAccounts": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewNewCategories": "Yeni kategoriler: {names}",
+  "@csvImportPreviewNewCategories": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewDuplicates": "{count, plural, =1{1 satır zaten var} other{{count} satır zaten var}}",
+  "csvImportPreviewSkipDuplicates": "Zaten var olan satırları atla",
+  "csvImportPreviewIssuesTitle": "{count, plural, =1{1 satır okunamadı} other{{count} satır okunamadı}}",
+  "csvImportPreviewIssueLine": "Satır {line}: {reason}",
+  "@csvImportPreviewIssueLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewIssueMore": "…ve {count} tane daha",
+  "@csvImportPreviewIssueMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewDateStyleTitle": "03/04/2026 gibi tarihler belirsiz. Nasıl okunmalı?",
+  "csvImportPreviewDateStyleDayFirst": "Önce gün (3 Nisan)",
+  "csvImportPreviewDateStyleMonthFirst": "Önce ay (4 Mart)",
+  "csvImportPreviewNothing": "Bu dosyadaki hiçbir satır içe aktarılamıyor.",
+  "csvImportPreviewConfirm": "İçe aktar",
+  "csvRowProblemDate": "geçersiz veya eksik tarih",
+  "csvRowProblemAmount": "geçersiz veya eksik tutar",
+  "csvRowProblemAccount": "geçersiz veya eksik hesap",
+  "csvRowProblemType": "bilinmeyen işlem türü",
+  "csvImportDone": "{count, plural, =1{1 işlem içe aktarıldı} other{{count} işlem içe aktarıldı}}",
+  "csvImportFailedNoColumns": "Tanınan sütun yok. CSV şablonundan başlayın.",
+  "csvImportFailedMissingColumn": "Dosyada \"{column}\" sütunu yok.",
+  "@csvImportFailedMissingColumn": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportFailedEmpty": "Bu dosyada veri satırı yok.",
+  "csvImportFailedTooManyRows": "Bu dosyada {rows} satır var; sınır {max}.",
+  "@csvImportFailedTooManyRows": {
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportFailed": "CSV içe aktarma başarısız",
   "ledgerVerifyDialogTitle": "Defter doğrulama",
   "ledgerVerifyAllMatch": "Tüm hesaplar eşleşiyor.",
   "ledgerVerifyMismatchesTitle": "Uyuşmazlıklar",
@@ -727,9 +838,9 @@
   "statsEmptySubtitle": "Seçilen aralık için harcama verisi yok.",
   "semanticsShowProjections": "Tahmini bakiyeleri hesaba göre göster",
   "semanticsHideProjections": "Tahmini bakiyeleri hesaba göre gizle",
-    "semanticsShowDayBalanceBreakdown": "Bu gün için hesap bakiyelerini göster",
+  "semanticsShowDayBalanceBreakdown": "Bu gün için hesap bakiyelerini göster",
   "semanticsHideDayBalanceBreakdown": "Bu gün için hesap bakiyelerini gizle",
-"semanticsDateAllTime": "Tarih: tüm zamanlar — modu değiştirmek için dokunun",
+  "semanticsDateAllTime": "Tarih: tüm zamanlar — modu değiştirmek için dokunun",
   "semanticsDateMode": "Tarih: {mode} — modu değiştirmek için dokunun",
   "@semanticsDateMode": {
     "placeholders": {
@@ -842,40 +953,40 @@
   "autoBackupShareSubtitle": "En son yedeklemeyi iCloud Drive'a, Google Drive'a veya herhangi bir uygulamaya yükleyin",
   "autoBackupCloudReminder": "Otomatik yedeklemeye hazır; cihaz dışı koruma için buluta kaydedin",
   "autoBackupCloudReminderAction": "Paylaş",
-
   "settingsBackupReminderTitle": "Yedekleme hatırlatıcısı",
   "settingsBackupReminderSubtitle": "Manuel yedek dışa aktarmadan birçok işlem eklerseniz uygulama içi banner gösterilir.",
   "settingsBackupReminderThresholdTitle": "İşlem eşiği",
   "settingsBackupReminderThresholdSubtitle": "Son manuel dışa aktarımınızdan bu yana {count} yeni işlem sonrasında hatırlat.",
   "@settingsBackupReminderThresholdSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsBackupReminderThresholdInvalid": "1 ile 500 arasında tam sayı girin.",
   "settingsBackupReminderSnoozeHint": "\"Daha sonra hatırlat\" {n} işlem daha ekleyene kadar banneri gizler.",
   "@settingsBackupReminderSnoozeHint": {
     "placeholders": {
-      "n": {"type": "int"}
+      "n": {
+        "type": "int"
+      }
     }
   },
   "backupReminderBannerTitle": "Yedek dışa aktarılsın mı?",
   "backupReminderBannerBody": "Son manuel dışa aktarımınızdan bu yana {count} işlem eklediniz.",
   "@backupReminderBannerBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "backupReminderRemindLater": "Daha sonra hatırlat",
-
   "backupExportLedgerVerifyTitle": "Yedeklemeden önce defter kontrolü",
   "backupExportLedgerVerifyInfo": "Her hesabın kayıtlı bakiyesini geçmişinizin tam tekrarıyla karşılaştırır. Her iki durumda da yedekleme dışa aktarabilirsiniz; uyuşmazlıklar bilgi amaçlıdır.",
   "backupExportLedgerVerifyContinue": "Yedeklemeye devam et",
-
-
-
   "persistenceErrorReloaded": "Değişiklikler kaydedilemedi. Veriler depolama alanından yeniden yüklendi.",
-
   "helpTooltip": "Yardım",
   "helpNext": "İleri",
   "helpBack": "Geri",
@@ -922,5 +1033,18 @@
   "helpPlannedDateTitle": "Vade tarihi",
   "helpPlannedDateBody": "Bunun ne zaman gerçekleşeceğini seçmek için buraya dokunun. Bir plan seçtiğiniz aralıkla tekrarlanabilir.",
   "helpPlannedProjectionTitle": "Öngörülen bakiyeler",
-  "helpPlannedProjectionBody": "Hesap seçiciler, her hesabın vade tarihindeki öngörülen bakiyesini gösterir; böylece hesabı eksiye düşürecek planları fark edersiniz."
+  "helpPlannedProjectionBody": "Hesap seçiciler, her hesabın vade tarihindeki öngörülen bakiyesini gösterir; böylece hesabı eksiye düşürecek planları fark edersiniz.",
+  "settingsPlannedRemindersTitle": "Plan hatırlatıcıları",
+  "settingsPlannedRemindersSubtitle": "Planlanan bir işlemin vadesi geldiğinde bildirir. Tamamen çevrimdışı çalışır; hiçbir veri cihazınızdan çıkmaz.",
+  "settingsPlannedRemindersTimeTitle": "Hatırlatma saati",
+  "settingsPlannedRemindersLeadTitle": "Önceden bildirim",
+  "settingsPlannedRemindersLeadOnDay": "Vade gününde",
+  "settingsPlannedRemindersLeadDaysBefore": "{count, plural, =1{1 gün önce} other{{count} gün önce}}",
+  "settingsPlannedRemindersPermissionDenied": "Platrare için bildirimler kapalı. Hatırlatıcı almak için sistem ayarlarından izin verin.",
+  "plannedReminderChannelName": "Planlanan işlem hatırlatıcıları",
+  "plannedReminderChannelDescription": "Yaklaşan planlanan işlemler için bildirimler.",
+  "plannedReminderFallbackTitle": "Planlanan işlem",
+  "plannedReminderDueToday": "Vadesi bugün",
+  "plannedReminderDueTomorrow": "Vadesi yarın",
+  "plannedReminderDueInDays": "{count, plural, other{Vadesine {count} gün var}}"
 }

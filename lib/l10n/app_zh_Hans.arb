@@ -17,6 +17,24 @@
   "heroIn": "在",
   "heroOut": "出去",
   "heroNet": "网",
+  "widgetLowestPoint": "最低点",
+  "widgetProjected": "预计",
+  "widgetHorizonIn7Days": "7 天后",
+  "widgetHorizonEndOfMonth": "月末",
+  "widgetMetricAccount": "账户余额",
+  "widgetQuickAdd": "快速添加",
+  "widgetStale": "可能不是最新",
+  "widgetOpenToStart": "打开 Platrare 添加账户",
+  "widgetDueToday": "今天到期",
+  "widgetDescQuickAdd": "一键添加交易或计划。",
+  "widgetNameNumbers": "余额",
+  "widgetDescNumbers": "显示一个数字：可用余额、净资产或本月最低点。",
+  "widgetConfigMetric": "指标",
+  "widgetConfigHorizon": "时间范围",
+  "widgetSiriAddTransaction": "在 {appName} 中添加交易",
+  "widgetSiriAddPlanned": "在 {appName} 中添加计划交易",
+  "settingsWidgetAmountsTitle": "在小组件中显示金额",
+  "settingsWidgetAmountsSubtitle": "主屏幕小组件无需解锁应用即可查看。启用应用锁时，除非开启此项，否则金额将保持隐藏。",
   "heroBalance": "平衡",
   "realBalance": "实际余额",
   "settingsHideHeroBalancesTitle": "在摘要卡片中隐藏余额",
@@ -457,6 +475,99 @@
   },
   "settingsDataOpenExportFile": "打开文件",
   "settingsDataExportFailed": "导出失败",
+  "settingsCsvExportTitle": "导出为 CSV",
+  "settingsCsvExportSubtitle": "将交易保存为电子表格文件",
+  "settingsCsvExportFailed": "CSV 导出失败",
+  "settingsCsvImportTitle": "从 CSV 导入",
+  "settingsCsvImportSubtitle": "从电子表格添加交易 — 不会替换任何现有数据",
+  "settingsCsvTemplateTitle": "获取 CSV 模板",
+  "settingsCsvTemplateSubtitle": "用于粘贴旧数据的示例文件",
+  "csvTemplateInstruction1": "请用你自己的数据替换下面的示例行，然后在设置中导入此文件。",
+  "csvTemplateInstruction2": "date 和 amount 为必填项。日期请写成 YYYY-MM-DD，金额请填正数。",
+  "csvTemplateInstruction3": "type 可以是 income、expense、transfer、invoice、bill、advance、settlement、loan、collection 或 offset。留空则由应用根据账户自动判断。",
+  "csvTemplateInstruction4": "尚不存在的账户和分类会自动创建。以 # 开头的行会被忽略。",
+  "csvImportPreviewTitle": "导入交易",
+  "csvImportPreviewCounts": "将添加 {total} 行中的 {importable} 行",
+  "@csvImportPreviewCounts": {
+    "placeholders": {
+      "importable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewNewAccounts": "新账户：{names}",
+  "@csvImportPreviewNewAccounts": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewNewCategories": "新分类：{names}",
+  "@csvImportPreviewNewCategories": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewDuplicates": "{count, plural, other{{count} 行已存在}}",
+  "csvImportPreviewSkipDuplicates": "跳过已存在的行",
+  "csvImportPreviewIssuesTitle": "{count, plural, other{有 {count} 行无法读取}}",
+  "csvImportPreviewIssueLine": "第 {line} 行：{reason}",
+  "@csvImportPreviewIssueLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportPreviewIssueMore": "…另有 {count} 行",
+  "@csvImportPreviewIssueMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportPreviewDateStyleTitle": "像 03/04/2026 这样的日期含义不明确。应如何解读？",
+  "csvImportPreviewDateStyleDayFirst": "日在前（4 月 3 日）",
+  "csvImportPreviewDateStyleMonthFirst": "月在前（3 月 4 日）",
+  "csvImportPreviewNothing": "此文件中没有可导入的行。",
+  "csvImportPreviewConfirm": "导入",
+  "csvRowProblemDate": "日期无效或缺失",
+  "csvRowProblemAmount": "金额无效或缺失",
+  "csvRowProblemAccount": "账户无效或缺失",
+  "csvRowProblemType": "未知的交易类型",
+  "csvImportDone": "{count, plural, other{已导入 {count} 笔交易}}",
+  "csvImportFailedNoColumns": "未识别到任何列。请从 CSV 模板开始。",
+  "csvImportFailedMissingColumn": "文件中没有“{column}”列。",
+  "@csvImportFailedMissingColumn": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "csvImportFailedEmpty": "此文件没有数据行。",
+  "csvImportFailedTooManyRows": "此文件有 {rows} 行，上限为 {max} 行。",
+  "@csvImportFailedTooManyRows": {
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "csvImportFailed": "CSV 导入失败",
   "ledgerVerifyDialogTitle": "账本验证",
   "ledgerVerifyAllMatch": "所有帐户都匹配。",
   "ledgerVerifyMismatchesTitle": "不匹配",
@@ -727,9 +838,9 @@
   "statsEmptySubtitle": "所选范围内没有支出数据。",
   "semanticsShowProjections": "按账户显示预计余额",
   "semanticsHideProjections": "按账户隐藏预计余额",
-    "semanticsShowDayBalanceBreakdown": "显示本日账户余额",
+  "semanticsShowDayBalanceBreakdown": "显示本日账户余额",
   "semanticsHideDayBalanceBreakdown": "隐藏本日账户余额",
-"semanticsDateAllTime": "日期：所有时间 — 点击即可更改模式",
+  "semanticsDateAllTime": "日期：所有时间 — 点击即可更改模式",
   "semanticsDateMode": "日期：{mode} — 点击即可更改模式",
   "@semanticsDateMode": {
     "placeholders": {
@@ -842,40 +953,40 @@
   "autoBackupShareSubtitle": "将最新备份上传到 iCloud Drive、Google Drive 或任何应用程序",
   "autoBackupCloudReminder": "自动备份就绪 - 将其保存到云端以实现设备外保护",
   "autoBackupCloudReminderAction": "分享",
-
   "settingsBackupReminderTitle": "备份提醒",
   "settingsBackupReminderSubtitle": "如果您添加了许多交易而未导出手动备份，将显示应用内横幅。",
   "settingsBackupReminderThresholdTitle": "交易阈值",
   "settingsBackupReminderThresholdSubtitle": "自上次手动导出后新增 {count} 笔交易后提醒。",
   "@settingsBackupReminderThresholdSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settingsBackupReminderThresholdInvalid": "请输入1到500之间的整数。",
   "settingsBackupReminderSnoozeHint": "\"稍后提醒\"会隐藏横幅，直到您再添加 {n} 笔交易。",
   "@settingsBackupReminderSnoozeHint": {
     "placeholders": {
-      "n": {"type": "int"}
+      "n": {
+        "type": "int"
+      }
     }
   },
   "backupReminderBannerTitle": "导出备份？",
   "backupReminderBannerBody": "自上次手动导出以来，您已添加 {count} 笔交易。",
   "@backupReminderBannerBody": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "backupReminderRemindLater": "稍后提醒",
-
   "backupExportLedgerVerifyTitle": "备份前账本检查",
   "backupExportLedgerVerifyInfo": "将每个账户的存储余额与您完整的历史记录重播进行比较。无论如何您都可以导出备份；不一致仅供参考。",
   "backupExportLedgerVerifyContinue": "继续备份",
-
-
-
   "persistenceErrorReloaded": "无法保存更改。数据已从存储中重新加载。",
-
   "helpTooltip": "帮助",
   "helpNext": "下一步",
   "helpBack": "上一步",
@@ -922,5 +1033,18 @@
   "helpPlannedDateTitle": "预定日期",
   "helpPlannedDateBody": "点按此处选择执行时间。计划也可以按你选择的周期重复。",
   "helpPlannedProjectionTitle": "预测余额",
-  "helpPlannedProjectionBody": "账户选择器会显示每个账户在预定日期的预测余额，帮你发现会导致透支的计划。"
+  "helpPlannedProjectionBody": "账户选择器会显示每个账户在预定日期的预测余额，帮你发现会导致透支的计划。",
+  "settingsPlannedRemindersTitle": "计划提醒",
+  "settingsPlannedRemindersSubtitle": "在计划交易到期时通知您。完全离线运行——任何数据都不会离开您的设备。",
+  "settingsPlannedRemindersTimeTitle": "提醒时间",
+  "settingsPlannedRemindersLeadTitle": "提前提醒",
+  "settingsPlannedRemindersLeadOnDay": "到期当天",
+  "settingsPlannedRemindersLeadDaysBefore": "{count, plural, other{提前 {count} 天}}",
+  "settingsPlannedRemindersPermissionDenied": "Platrare 的通知已关闭。请在系统设置中允许通知以接收提醒。",
+  "plannedReminderChannelName": "计划交易提醒",
+  "plannedReminderChannelDescription": "即将到期的计划交易通知。",
+  "plannedReminderFallbackTitle": "计划交易",
+  "plannedReminderDueToday": "今天到期",
+  "plannedReminderDueTomorrow": "明天到期",
+  "plannedReminderDueInDays": "{count, plural, other{{count} 天后到期}}"
 }

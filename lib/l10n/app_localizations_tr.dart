@@ -51,6 +51,66 @@ class AppLocalizationsTr extends AppLocalizations {
   String get heroNet => 'Açık';
 
   @override
+  String get widgetLowestPoint => 'En düşük nokta';
+
+  @override
+  String get widgetProjected => 'Öngörülen';
+
+  @override
+  String get widgetHorizonIn7Days => '7 gün içinde';
+
+  @override
+  String get widgetHorizonEndOfMonth => 'Ay sonu';
+
+  @override
+  String get widgetMetricAccount => 'Hesap bakiyesi';
+
+  @override
+  String get widgetQuickAdd => 'Hızlı ekle';
+
+  @override
+  String get widgetStale => 'Güncel olmayabilir';
+
+  @override
+  String get widgetOpenToStart => 'Hesap eklemek için Platrare’ı açın';
+
+  @override
+  String get widgetDueToday => 'Bugün vadesi doluyor';
+
+  @override
+  String get widgetDescQuickAdd => 'Tek dokunuşla işlem veya plan ekleyin.';
+
+  @override
+  String get widgetNameNumbers => 'Bakiye';
+
+  @override
+  String get widgetDescNumbers =>
+      'Tek bir rakam gösterin: kullanılabilir, net değer veya bu ayki en düşük noktanız.';
+
+  @override
+  String get widgetConfigMetric => 'Ölçüt';
+
+  @override
+  String get widgetConfigHorizon => 'Ufuk';
+
+  @override
+  String widgetSiriAddTransaction(String appName) {
+    return '$appName uygulamasına işlem ekle';
+  }
+
+  @override
+  String widgetSiriAddPlanned(String appName) {
+    return '$appName uygulamasına planlı işlem ekle';
+  }
+
+  @override
+  String get settingsWidgetAmountsTitle => 'Tutarları widget’larda göster';
+
+  @override
+  String get settingsWidgetAmountsSubtitle =>
+      'Ana ekran widget’ları uygulama kilidi açılmadan görünür. Uygulama kilidi açıkken bunu etkinleştirmediğiniz sürece tutarlar gizli kalır.';
+
+  @override
   String get heroBalance => 'Denge';
 
   @override
@@ -873,6 +933,159 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get settingsDataExportFailed => 'Dışa aktarma başarısız oldu';
+
+  @override
+  String get settingsCsvExportTitle => 'CSV olarak dışa aktar';
+
+  @override
+  String get settingsCsvExportSubtitle =>
+      'İşlemleriniz elektronik tablo dosyası olarak';
+
+  @override
+  String get settingsCsvExportFailed => 'CSV dışa aktarma başarısız';
+
+  @override
+  String get settingsCsvImportTitle => 'CSV\'den içe aktar';
+
+  @override
+  String get settingsCsvImportSubtitle =>
+      'Bir elektronik tablodan işlem ekleyin — hiçbir şey değiştirilmez';
+
+  @override
+  String get settingsCsvTemplateTitle => 'CSV şablonunu al';
+
+  @override
+  String get settingsCsvTemplateSubtitle =>
+      'Eski verilerinizi yapıştıracağınız örnek dosya';
+
+  @override
+  String get csvTemplateInstruction1 =>
+      'Aşağıdaki örnek satırları kendi verilerinizle değiştirin, sonra bu dosyayı Ayarlar\'dan içe aktarın.';
+
+  @override
+  String get csvTemplateInstruction2 =>
+      'date ve amount zorunludur. Tarihleri YYYY-MM-DD biçiminde, tutarları pozitif sayı olarak yazın.';
+
+  @override
+  String get csvTemplateInstruction3 =>
+      'type şunlardan biri olabilir: income, expense, transfer, invoice, bill, advance, settlement, loan, collection veya offset. Uygulamanın hesaplardan çıkarması için boş bırakın.';
+
+  @override
+  String get csvTemplateInstruction4 =>
+      'Henüz var olmayan hesaplar ve kategoriler otomatik oluşturulur. # ile başlayan satırlar yoksayılır.';
+
+  @override
+  String get csvImportPreviewTitle => 'İşlemleri içe aktar';
+
+  @override
+  String csvImportPreviewCounts(int importable, int total) {
+    return '$total satırın $importable tanesi eklenecek';
+  }
+
+  @override
+  String csvImportPreviewNewAccounts(String names) {
+    return 'Yeni hesaplar: $names';
+  }
+
+  @override
+  String csvImportPreviewNewCategories(String names) {
+    return 'Yeni kategoriler: $names';
+  }
+
+  @override
+  String csvImportPreviewDuplicates(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count satır zaten var',
+      one: '1 satır zaten var',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportPreviewSkipDuplicates => 'Zaten var olan satırları atla';
+
+  @override
+  String csvImportPreviewIssuesTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count satır okunamadı',
+      one: '1 satır okunamadı',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String csvImportPreviewIssueLine(int line, String reason) {
+    return 'Satır $line: $reason';
+  }
+
+  @override
+  String csvImportPreviewIssueMore(int count) {
+    return '…ve $count tane daha';
+  }
+
+  @override
+  String get csvImportPreviewDateStyleTitle =>
+      '03/04/2026 gibi tarihler belirsiz. Nasıl okunmalı?';
+
+  @override
+  String get csvImportPreviewDateStyleDayFirst => 'Önce gün (3 Nisan)';
+
+  @override
+  String get csvImportPreviewDateStyleMonthFirst => 'Önce ay (4 Mart)';
+
+  @override
+  String get csvImportPreviewNothing =>
+      'Bu dosyadaki hiçbir satır içe aktarılamıyor.';
+
+  @override
+  String get csvImportPreviewConfirm => 'İçe aktar';
+
+  @override
+  String get csvRowProblemDate => 'geçersiz veya eksik tarih';
+
+  @override
+  String get csvRowProblemAmount => 'geçersiz veya eksik tutar';
+
+  @override
+  String get csvRowProblemAccount => 'geçersiz veya eksik hesap';
+
+  @override
+  String get csvRowProblemType => 'bilinmeyen işlem türü';
+
+  @override
+  String csvImportDone(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count işlem içe aktarıldı',
+      one: '1 işlem içe aktarıldı',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get csvImportFailedNoColumns =>
+      'Tanınan sütun yok. CSV şablonundan başlayın.';
+
+  @override
+  String csvImportFailedMissingColumn(String column) {
+    return 'Dosyada \"$column\" sütunu yok.';
+  }
+
+  @override
+  String get csvImportFailedEmpty => 'Bu dosyada veri satırı yok.';
+
+  @override
+  String csvImportFailedTooManyRows(int rows, int max) {
+    return 'Bu dosyada $rows satır var; sınır $max.';
+  }
+
+  @override
+  String get csvImportFailed => 'CSV içe aktarma başarısız';
 
   @override
   String get ledgerVerifyDialogTitle => 'Defter doğrulama';
@@ -1916,4 +2129,61 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get helpPlannedProjectionBody =>
       'Hesap seçiciler, her hesabın vade tarihindeki öngörülen bakiyesini gösterir; böylece hesabı eksiye düşürecek planları fark edersiniz.';
+
+  @override
+  String get settingsPlannedRemindersTitle => 'Plan hatırlatıcıları';
+
+  @override
+  String get settingsPlannedRemindersSubtitle =>
+      'Planlanan bir işlemin vadesi geldiğinde bildirir. Tamamen çevrimdışı çalışır; hiçbir veri cihazınızdan çıkmaz.';
+
+  @override
+  String get settingsPlannedRemindersTimeTitle => 'Hatırlatma saati';
+
+  @override
+  String get settingsPlannedRemindersLeadTitle => 'Önceden bildirim';
+
+  @override
+  String get settingsPlannedRemindersLeadOnDay => 'Vade gününde';
+
+  @override
+  String settingsPlannedRemindersLeadDaysBefore(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count gün önce',
+      one: '1 gün önce',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPlannedRemindersPermissionDenied =>
+      'Platrare için bildirimler kapalı. Hatırlatıcı almak için sistem ayarlarından izin verin.';
+
+  @override
+  String get plannedReminderChannelName => 'Planlanan işlem hatırlatıcıları';
+
+  @override
+  String get plannedReminderChannelDescription =>
+      'Yaklaşan planlanan işlemler için bildirimler.';
+
+  @override
+  String get plannedReminderFallbackTitle => 'Planlanan işlem';
+
+  @override
+  String get plannedReminderDueToday => 'Vadesi bugün';
+
+  @override
+  String get plannedReminderDueTomorrow => 'Vadesi yarın';
+
+  @override
+  String plannedReminderDueInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Vadesine $count gün var',
+    );
+    return '$_temp0';
+  }
 }
