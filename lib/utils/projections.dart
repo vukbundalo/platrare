@@ -109,6 +109,106 @@ Map<String, double> projectBalances(DateTime date) {
   return balances;
 }
 
+/// Projected native balances for each of [dayCount] consecutive days starting
+/// at [start], as if [projectBalances] were called once per day — but with a
+/// single occurrence-walk per planned row instead of one walk per day.
+///
+/// `result[i]` is end-of-day balances for `start + i days`. Callers feed each
+/// map to [personalTotal] / [netWorthInBase] exactly as with [projectBalances].
+///
+/// Used by the home-screen widget snapshot, which needs a whole month of
+/// projections in one pass so the widget timeline can roll over day by day
+/// without the app running. `projection_series_test.dart` asserts equivalence
+/// with [projectBalances] for every index — keep it that way.
+List<Map<String, double>> projectBalancesSeries(DateTime start, int dayCount) {
+  assert(dayCount > 0);
+  final startDay = DateUtils.dateOnly(start);
+
+  // Day-key -> index. Built by walking the DateTime constructor rather than by
+  // subtracting dates, so DST transitions (23h/25h days) can't skew the index.
+  int keyOf(DateTime d) => d.year * 10000 + d.month * 100 + d.day;
+  final indexOfDay = <int, int>{};
+  var cursor = startDay;
+  for (var i = 0; i < dayCount; i++) {
+    indexOfDay[keyOf(cursor)] = i;
+    cursor = DateTime(cursor.year, cursor.month, cursor.day + 1);
+  }
+  final lastDay = cursor.subtract(const Duration(days: 1));
+  final dayEnd =
+      DateTime(lastDay.year, lastDay.month, lastDay.day, 23, 59, 59);
+
+  // deltas[i][accountId] = net change applied ON day i.
+  final deltas = List.generate(dayCount, (_) => <String, double>{});
+  void applyDelta(int i, String id, double v) =>
+      deltas[i][id] = (deltas[i][id] ?? 0) + v;
+
+  for (final pt in data.plannedTransactions) {
+    if (pt.nativeAmount == null) continue;
+
+    // Mirrors the occurrence walk in [projectBalances] exactly, including the
+    // repeatEndAfter capping against `repeatConfirmedCount + appliedHere`.
+    DateTime occurrence = DateUtils.dateOnly(pt.date);
+    var appliedHere = 0;
+    var guard = 0;
+    const maxOccurrencesPerPlanned = 50000;
+
+    while (true) {
+      if (++guard > maxOccurrencesPerPlanned) break;
+
+      final occEnd = DateTime(
+          occurrence.year, occurrence.month, occurrence.day, 23, 59, 59);
+      if (occEnd.isAfter(dayEnd)) break;
+
+      if (pt.repeatEndAfter != null &&
+          pt.repeatConfirmedCount + appliedHere >= pt.repeatEndAfter!) {
+        break;
+      }
+
+      // Occurrences before [start] are overdue: [projectBalances] applies them
+      // for every date at or after them, so they belong in the day-0 bucket
+      // and therefore in every prefix sum.
+      final idx = indexOfDay[keyOf(occurrence)] ?? 0;
+
+      if (pt.fromAccount != null) {
+        applyDelta(idx, pt.fromAccount!.id, -pt.nativeAmount!);
+      }
+      if (pt.toAccount != null) {
+        final credit = (pt.destinationAmount != null &&
+                pt.toAccount!.currencyCode != pt.fromAccount?.currencyCode)
+            ? pt.destinationAmount!
+            : pt.nativeAmount!;
+        applyDelta(idx, pt.toAccount!.id, credit);
+      }
+      appliedHere++;
+
+      if (pt.repeatInterval == RepeatInterval.none) break;
+
+      final next = nextPlannedEffectiveDate(pt, occurrence);
+      if (!next.isAfter(occurrence)) break;
+
+      if (pt.repeatEndDate != null &&
+          _dateOnly(next).isAfter(_dateOnly(pt.repeatEndDate!))) {
+        break;
+      }
+      if (pt.repeatEndAfter != null &&
+          pt.repeatConfirmedCount + appliedHere >= pt.repeatEndAfter!) {
+        break;
+      }
+
+      occurrence = next;
+    }
+  }
+
+  // Prefix-sum the deltas onto the current real balances.
+  final running = {for (final a in data.accounts) a.id: a.balance};
+  final out = <Map<String, double>>[];
+  for (var i = 0; i < dayCount; i++) {
+    deltas[i].forEach((id, v) => running[id] = (running[id] ?? 0) + v);
+    out.add(Map<String, double>.from(running));
+  }
+  return out;
+}
+
 /// Projected personal **headroom** (book + overdraft where set) at live rates.
 double personalTotal(Map<String, double> balances) {
   return data.accounts

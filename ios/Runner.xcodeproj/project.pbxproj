@@ -7,17 +7,47 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02F5B0F6791888011E33F998 /* PlatrareNumbersWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A246D94B4CBFA4EECBF2D46F /* PlatrareNumbersWidget.swift */; };
+		0C4A7A436D47480F8B0C6D8E /* AccountEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D36B03573B207EAF78B015E /* AccountEntity.swift */; };
+		1146F9D86253B169FEE091FB /* OpenIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393A97B3724383DD187220D2 /* OpenIntents.swift */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
+		1DF7E7E7603695F4AD883B96 /* PlatrareLinkQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1285FBE31714EEED729E3E3E /* PlatrareLinkQueue.swift */; };
+		1F95DD34391BBA582F683E11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B37D1164F02513AA26592F1 /* Assets.xcassets */; };
+		21A3A7F92BAB1E2424918987 /* NumbersConfigurationIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9CF224511B2BA8F3C268F2 /* NumbersConfigurationIntent.swift */; };
+		275346E6F5062DC276BD16B0 /* PlatrareShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346B8C7982FC258C370D5941 /* PlatrareShortcuts.swift */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
+		40FCEA8A73E960F1456FB273 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0066B2D996E18E43D62807B /* Snapshot.swift */; };
+		46F440EE455E2531C78AB114 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0CC90B2F8F8535B628948CF5 /* PrivacyInfo.xcprivacy */; };
+		4938FBDB6620E8FC69740BBB /* PlatrareQuickAddWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA9CF7B73232F4F059D6147 /* PlatrareQuickAddWidget.swift */; };
+		52A4809C9D7A8D4B38B9AB28 /* SnapshotStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4911714C59CA511FEFCB5D /* SnapshotStore.swift */; };
+		5914BB5FBCA50B39467B4535 /* PlatrareMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2324E6ED6D7B0D12D1FF0517 /* PlatrareMetric.swift */; };
+		5AFF7138FB5BCA40B6496817 /* Previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C865F19A9555F9C45557EA53 /* Previews.swift */; };
+		5C0F078674F3D2C6F9B64EE4 /* AmountFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F78D88D0418EF7776710B /* AmountFormatter.swift */; };
+		6C3CB12E3EE9E0493430DA0F /* PlatrareSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73F7856AFB1C3A4F4D5E6FF /* PlatrareSceneDelegate.swift */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		78A318202AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 78A3181F2AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage */; };
+		79BEFEB3FD9506086417EE2C /* PlatrareMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2324E6ED6D7B0D12D1FF0517 /* PlatrareMetric.swift */; };
+		7CD37C138DD2E68CBE76E9FF /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = ECE82CAF06237873840BE49E /* Localizable.xcstrings */; };
+		7D9BD99B19BB7736A344C76B /* PlatrareWidgetShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4599D534B28038C30D9F43 /* PlatrareWidgetShared.swift */; };
+		80DBDF89A25A066F2A60B3F3 /* PlatrareWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A8716FFEF16E21E5458A4 /* PlatrareWidgetBundle.swift */; };
+		8596C947DF23A199258CE71B /* PlatrareControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F4DBA44E3BB810E7C00522 /* PlatrareControl.swift */; };
+		8A7D72092ACACAAF68FCDD6A /* MetricResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21CAB933AC52760039F9EF /* MetricResolver.swift */; };
 		9736B86AC890C1D01E7B8271 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9276F25E6B74E88BB934E8DB /* Pods_Runner.framework */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		9F900E8FB88517D8D9B33FBE /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A3F4D28532314B6070E1E79 /* Pods_RunnerTests.framework */; };
+		A09C0864F3F674328DF86CED /* OpenIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393A97B3724383DD187220D2 /* OpenIntents.swift */; };
+		B4390C005DF01BCE4DC87423 /* PlatrareWidgetBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B8C279BA4DC07D28A75CCD /* PlatrareWidgetBridge.swift */; };
+		BB0C34C4A9F997CEE3F7709C /* AppShortcuts.strings in Resources */ = {isa = PBXBuildFile; fileRef = FF3C9545637AE7551C718DBB /* AppShortcuts.strings */; };
 		C5A1B2D41CF9000F007C11E2 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C5A1B2D31CF9000F007C11E1 /* PrivacyInfo.xcprivacy */; };
+		D13E2756F2BDAEAA5F6C6891 /* Fixtures in Resources */ = {isa = PBXBuildFile; fileRef = 0FFFE007451D3750A0B5C877 /* Fixtures */; };
+		E2E91C24672AC648255F0875 /* PlatrareWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 409664ACDC2EF0F25B5938DA /* PlatrareWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EAE32D02C5C6C69A44D79D91 /* WidgetTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46BF3EF9799B48F1502F246 /* WidgetTheme.swift */; };
+		F35F817AF22F8E6666835DF9 /* PlatrareLinkQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1285FBE31714EEED729E3E3E /* PlatrareLinkQueue.swift */; };
+		F8CF82B057BA76C4F31A3BD0 /* WidgetLinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87113D50DEA0158A8180D3FD /* WidgetLinkRouter.swift */; };
+		FBF2D535F33D156F1954C75D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901D691A52299B8AD11F5492 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,9 +58,27 @@
 			remoteGlobalIDString = 97C146ED1CF9000F007C117D;
 			remoteInfo = Runner;
 		};
+		CE7663AEADABF5387FBAC454 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 743BB51541387617B005A758;
+			remoteInfo = PlatrareWidgets;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		08E90FF5E3FB812E9982E986 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				E2E91C24672AC648255F0875 /* PlatrareWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -44,21 +92,51 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A1A8716FFEF16E21E5458A4 /* PlatrareWidgetBundle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlatrareWidgetBundle.swift; sourceTree = "<group>"; };
+		0CC90B2F8F8535B628948CF5 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		0FFFE007451D3750A0B5C877 /* Fixtures */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; path = Fixtures; sourceTree = "<group>"; };
+		1285FBE31714EEED729E3E3E /* PlatrareLinkQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlatrareLinkQueue.swift; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
+		17EDCE73996BBB7D41C16A7B /* sr-Latn */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = "sr-Latn"; path = "sr-Latn.lproj/AppShortcuts.strings"; sourceTree = "<group>"; };
+		1B790965D1BCB9AFC684AE03 /* ko */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		2324E6ED6D7B0D12D1FF0517 /* PlatrareMetric.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlatrareMetric.swift; sourceTree = "<group>"; };
+		236098A5CC215C3BF276EFAD /* PlatrareWidgets.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = PlatrareWidgets.entitlements; sourceTree = "<group>"; };
+		2E3407A652AFF5D30FB4A6DD /* Runner.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		346B8C7982FC258C370D5941 /* PlatrareShortcuts.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlatrareShortcuts.swift; sourceTree = "<group>"; };
+		393A97B3724383DD187220D2 /* OpenIntents.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OpenIntents.swift; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
+		4039006DC117FB2EDF866BD5 /* pl */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		409664ACDC2EF0F25B5938DA /* PlatrareWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PlatrareWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		4816CE8083250E7936EAA7C9 /* uk */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		57CDD7C22781F62A1D92D330 /* Widgets.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Widgets.xcconfig; sourceTree = "<group>"; };
+		5C4911714C59CA511FEFCB5D /* SnapshotStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SnapshotStore.swift; sourceTree = "<group>"; };
 		611F4A3A0069F1460082153F /* Pods-RunnerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.debug.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		66A38624A2C703DFE3547E5F /* de */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		6A9CF224511B2BA8F3C268F2 /* NumbersConfigurationIntent.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NumbersConfigurationIntent.swift; sourceTree = "<group>"; };
+		6C786AD5F9B4AFFC9A318FE3 /* pt-PT */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/AppShortcuts.strings"; sourceTree = "<group>"; };
 		6D9167976525C850AB4834CC /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
+		6F8DF470555E23B5101BFF3B /* sr-Cyrl */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = "sr-Cyrl"; path = "sr-Cyrl.lproj/AppShortcuts.strings"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78E0A7A72DC9AD7400C4905E /* FlutterGeneratedPluginSwiftPackage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FlutterGeneratedPluginSwiftPackage; path = Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage; sourceTree = "<group>"; };
 		7A3F4D28532314B6070E1E79 /* Pods_RunnerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RunnerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
 		7EE9BA7C2A0D223D95682B4A /* Pods-RunnerTests.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.profile.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.profile.xcconfig"; sourceTree = "<group>"; };
+		802F78D88D0418EF7776710B /* AmountFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AmountFormatter.swift; sourceTree = "<group>"; };
+		80E1DDC2DCFC8D872C13B55A /* ar */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
 		81AFD2A7B5E54E740C8633C7 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
+		85BA0038DFC1C92C3C6FD1D9 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		87113D50DEA0158A8180D3FD /* WidgetLinkRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WidgetLinkRouter.swift; sourceTree = "<group>"; };
+		880FB003AD6EC33F6E82E4C1 /* hr */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		8B6779A9AF8F32A78500343F /* zh-Hans */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AppShortcuts.strings"; sourceTree = "<group>"; };
+		8D36B03573B207EAF78B015E /* AccountEntity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountEntity.swift; sourceTree = "<group>"; };
+		8D84866C0A4EC629A10B605A /* it */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		901D691A52299B8AD11F5492 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		9276F25E6B74E88BB934E8DB /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		94E81B872ACAEEAC41F19EF9 /* ru */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		9740EEB41CF90195004384FC /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Profile.xcconfig; path = Flutter/Profile.xcconfig; sourceTree = "<group>"; };
@@ -67,12 +145,42 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B37D1164F02513AA26592F1 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A246D94B4CBFA4EECBF2D46F /* PlatrareNumbersWidget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlatrareNumbersWidget.swift; sourceTree = "<group>"; };
+		A959BB054E174B7E3310E748 /* en */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		B263914390876DF441E9C904 /* tr */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		B8885242074FA7D25697FFFB /* es */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		BA0BEB9A757E543DF91A42BF /* pt-BR */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/AppShortcuts.strings"; sourceTree = "<group>"; };
+		BAA9CF7B73232F4F059D6147 /* PlatrareQuickAddWidget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlatrareQuickAddWidget.swift; sourceTree = "<group>"; };
+		C1C947ADA4B0662DCDA62F22 /* ja */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		C2B8C279BA4DC07D28A75CCD /* PlatrareWidgetBridge.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlatrareWidgetBridge.swift; sourceTree = "<group>"; };
+		C46BF3EF9799B48F1502F246 /* WidgetTheme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WidgetTheme.swift; sourceTree = "<group>"; };
 		C5A1B2D31CF9000F007C11E1 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		C5F4DBA44E3BB810E7C00522 /* PlatrareControl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlatrareControl.swift; sourceTree = "<group>"; };
+		C865F19A9555F9C45557EA53 /* Previews.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Previews.swift; sourceTree = "<group>"; };
+		C87E39975DD261636477B036 /* fr */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		D4535CFDAAF7A165FEE69EA0 /* bs */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = bs; path = bs.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		D5B440FA01246E73FC0E4460 /* hi */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		D73F7856AFB1C3A4F4D5E6FF /* PlatrareSceneDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlatrareSceneDelegate.swift; sourceTree = "<group>"; };
+		D895AC6FFFA9BB09A10A342F /* nl */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		DA4599D534B28038C30D9F43 /* PlatrareWidgetShared.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlatrareWidgetShared.swift; sourceTree = "<group>"; };
+		DB21CAB933AC52760039F9EF /* MetricResolver.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MetricResolver.swift; sourceTree = "<group>"; };
 		DED4C7C440E65B608522CFC5 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
+		E0066B2D996E18E43D62807B /* Snapshot.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Snapshot.swift; sourceTree = "<group>"; };
 		E8B7D7D857B4CF3A4E79DCCB /* Pods-RunnerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release.xcconfig"; sourceTree = "<group>"; };
+		ECE82CAF06237873840BE49E /* Localizable.xcstrings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		F96D341524E22BCBBFDC93FF /* sv */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1CEAEF81775AD74CF40DF48F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBF2D535F33D156F1954C75D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		86DD4AA745AE63B47EA9285E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -114,11 +222,48 @@
 			path = RunnerTests;
 			sourceTree = "<group>";
 		};
+		3769D3C5DBF14CDC11A43C7E /* PlatrareWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				57CDD7C22781F62A1D92D330 /* Widgets.xcconfig */,
+				0A1A8716FFEF16E21E5458A4 /* PlatrareWidgetBundle.swift */,
+				0CC90B2F8F8535B628948CF5 /* PrivacyInfo.xcprivacy */,
+				9B37D1164F02513AA26592F1 /* Assets.xcassets */,
+				236098A5CC215C3BF276EFAD /* PlatrareWidgets.entitlements */,
+				85BA0038DFC1C92C3C6FD1D9 /* Info.plist */,
+				8D36B03573B207EAF78B015E /* AccountEntity.swift */,
+				802F78D88D0418EF7776710B /* AmountFormatter.swift */,
+				DB21CAB933AC52760039F9EF /* MetricResolver.swift */,
+				6A9CF224511B2BA8F3C268F2 /* NumbersConfigurationIntent.swift */,
+				C5F4DBA44E3BB810E7C00522 /* PlatrareControl.swift */,
+				A246D94B4CBFA4EECBF2D46F /* PlatrareNumbersWidget.swift */,
+				BAA9CF7B73232F4F059D6147 /* PlatrareQuickAddWidget.swift */,
+				E0066B2D996E18E43D62807B /* Snapshot.swift */,
+				5C4911714C59CA511FEFCB5D /* SnapshotStore.swift */,
+				C46BF3EF9799B48F1502F246 /* WidgetTheme.swift */,
+				ECE82CAF06237873840BE49E /* Localizable.xcstrings */,
+				C865F19A9555F9C45557EA53 /* Previews.swift */,
+				0FFFE007451D3750A0B5C877 /* Fixtures */,
+			);
+			path = PlatrareWidgets;
+			sourceTree = "<group>";
+		};
+		564CE449CD300CADDD547F88 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				393A97B3724383DD187220D2 /* OpenIntents.swift */,
+				1285FBE31714EEED729E3E3E /* PlatrareLinkQueue.swift */,
+				2324E6ED6D7B0D12D1FF0517 /* PlatrareMetric.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		5D036B62CC2ED918F7F8EF5C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				9276F25E6B74E88BB934E8DB /* Pods_Runner.framework */,
 				7A3F4D28532314B6070E1E79 /* Pods_RunnerTests.framework */,
+				9E9428D9C3156B15F5E54610 /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -145,6 +290,8 @@
 				331C8082294A63A400263BE5 /* RunnerTests */,
 				2E7FB3523D07CCD99E95EE32 /* Pods */,
 				5D036B62CC2ED918F7F8EF5C /* Frameworks */,
+				3769D3C5DBF14CDC11A43C7E /* PlatrareWidgets */,
+				564CE449CD300CADDD547F88 /* Shared */,
 			);
 			sourceTree = "<group>";
 		};
@@ -153,6 +300,7 @@
 			children = (
 				97C146EE1CF9000F007C117D /* Runner.app */,
 				331C8081294A63A400263BE5 /* RunnerTests.xctest */,
+				409664ACDC2EF0F25B5938DA /* PlatrareWidgets.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -169,8 +317,23 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
+				2E3407A652AFF5D30FB4A6DD /* Runner.entitlements */,
+				D73F7856AFB1C3A4F4D5E6FF /* PlatrareSceneDelegate.swift */,
+				C2B8C279BA4DC07D28A75CCD /* PlatrareWidgetBridge.swift */,
+				DA4599D534B28038C30D9F43 /* PlatrareWidgetShared.swift */,
+				87113D50DEA0158A8180D3FD /* WidgetLinkRouter.swift */,
+				346B8C7982FC258C370D5941 /* PlatrareShortcuts.swift */,
+				FF3C9545637AE7551C718DBB /* AppShortcuts.strings */,
 			);
 			path = Runner;
+			sourceTree = "<group>";
+		};
+		9E9428D9C3156B15F5E54610 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				901D691A52299B8AD11F5492 /* Foundation.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,6 +358,23 @@
 			productReference = 331C8081294A63A400263BE5 /* RunnerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		743BB51541387617B005A758 /* PlatrareWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CBFACEC22D936F79A0874B8D /* Build configuration list for PBXNativeTarget "PlatrareWidgets" */;
+			buildPhases = (
+				44A42C961F8EC0B5F0DA917A /* Sources */,
+				1CEAEF81775AD74CF40DF48F /* Frameworks */,
+				2EDD08995558DDC8A3A294F2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PlatrareWidgets;
+			productName = PlatrareWidgets;
+			productReference = 409664ACDC2EF0F25B5938DA /* PlatrareWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		97C146ED1CF9000F007C117D /* Runner */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
@@ -205,6 +385,7 @@
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
+				08E90FF5E3FB812E9982E986 /* Embed Foundation Extensions */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				B7E8F9A01E4923F5004D2609 /* Sign Native Asset Frameworks */,
 				A11025F0D8CCA238FD5DF7ED /* [CP] Embed Pods Frameworks */,
@@ -212,6 +393,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				E6FF5CAB524C7074388F2EA1 /* PBXTargetDependency */,
 			);
 			name = Runner;
 			packageProductDependencies = (
@@ -235,9 +417,24 @@
 						CreatedOnToolsVersion = 14.0;
 						TestTargetID = 97C146ED1CF9000F007C117D;
 					};
+					743BB51541387617B005A758 = {
+						CreatedOnToolsVersion = 1500;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
 					97C146ED1CF9000F007C117D = {
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 1100;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -248,6 +445,27 @@
 			knownRegions = (
 				en,
 				Base,
+				ar,
+				bs,
+				de,
+				es,
+				fr,
+				hi,
+				hr,
+				it,
+				ja,
+				ko,
+				nl,
+				pl,
+				"pt-BR",
+				"pt-PT",
+				ru,
+				"sr-Cyrl",
+				"sr-Latn",
+				sv,
+				tr,
+				uk,
+				"zh-Hans",
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			packageReferences = (
@@ -259,11 +477,23 @@
 			targets = (
 				97C146ED1CF9000F007C117D /* Runner */,
 				331C8080294A63A400263BE5 /* RunnerTests */,
+				743BB51541387617B005A758 /* PlatrareWidgets */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2EDD08995558DDC8A3A294F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46F440EE455E2531C78AB114 /* PrivacyInfo.xcprivacy in Resources */,
+				1F95DD34391BBA582F683E11 /* Assets.xcassets in Resources */,
+				7CD37C138DD2E68CBE76E9FF /* Localizable.xcstrings in Resources */,
+				D13E2756F2BDAEAA5F6C6891 /* Fixtures in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		331C807F294A63A400263BE5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -280,6 +510,7 @@
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
+				BB0C34C4A9F997CEE3F7709C /* AppShortcuts.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,12 +636,42 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		44A42C961F8EC0B5F0DA917A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80DBDF89A25A066F2A60B3F3 /* PlatrareWidgetBundle.swift in Sources */,
+				0C4A7A436D47480F8B0C6D8E /* AccountEntity.swift in Sources */,
+				5C0F078674F3D2C6F9B64EE4 /* AmountFormatter.swift in Sources */,
+				8A7D72092ACACAAF68FCDD6A /* MetricResolver.swift in Sources */,
+				21A3A7F92BAB1E2424918987 /* NumbersConfigurationIntent.swift in Sources */,
+				8596C947DF23A199258CE71B /* PlatrareControl.swift in Sources */,
+				02F5B0F6791888011E33F998 /* PlatrareNumbersWidget.swift in Sources */,
+				4938FBDB6620E8FC69740BBB /* PlatrareQuickAddWidget.swift in Sources */,
+				40FCEA8A73E960F1456FB273 /* Snapshot.swift in Sources */,
+				52A4809C9D7A8D4B38B9AB28 /* SnapshotStore.swift in Sources */,
+				EAE32D02C5C6C69A44D79D91 /* WidgetTheme.swift in Sources */,
+				A09C0864F3F674328DF86CED /* OpenIntents.swift in Sources */,
+				F35F817AF22F8E6666835DF9 /* PlatrareLinkQueue.swift in Sources */,
+				5914BB5FBCA50B39467B4535 /* PlatrareMetric.swift in Sources */,
+				5AFF7138FB5BCA40B6496817 /* Previews.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		97C146EA1CF9000F007C117D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				6C3CB12E3EE9E0493430DA0F /* PlatrareSceneDelegate.swift in Sources */,
+				B4390C005DF01BCE4DC87423 /* PlatrareWidgetBridge.swift in Sources */,
+				7D9BD99B19BB7736A344C76B /* PlatrareWidgetShared.swift in Sources */,
+				F8CF82B057BA76C4F31A3BD0 /* WidgetLinkRouter.swift in Sources */,
+				1146F9D86253B169FEE091FB /* OpenIntents.swift in Sources */,
+				1DF7E7E7603695F4AD883B96 /* PlatrareLinkQueue.swift in Sources */,
+				79BEFEB3FD9506086417EE2C /* PlatrareMetric.swift in Sources */,
+				275346E6F5062DC276BD16B0 /* PlatrareShortcuts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,6 +682,12 @@
 			isa = PBXTargetDependency;
 			target = 97C146ED1CF9000F007C117D /* Runner */;
 			targetProxy = 331C8085294A63A400263BE5 /* PBXContainerItemProxy */;
+		};
+		E6FF5CAB524C7074388F2EA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PlatrareWidgets;
+			target = 743BB51541387617B005A758 /* PlatrareWidgets */;
+			targetProxy = CE7663AEADABF5387FBAC454 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -439,6 +706,35 @@
 				97C147001CF9000F007C117D /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		FF3C9545637AE7551C718DBB /* AppShortcuts.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				80E1DDC2DCFC8D872C13B55A /* ar */,
+				D4535CFDAAF7A165FEE69EA0 /* bs */,
+				66A38624A2C703DFE3547E5F /* de */,
+				A959BB054E174B7E3310E748 /* en */,
+				B8885242074FA7D25697FFFB /* es */,
+				C87E39975DD261636477B036 /* fr */,
+				D5B440FA01246E73FC0E4460 /* hi */,
+				880FB003AD6EC33F6E82E4C1 /* hr */,
+				8D84866C0A4EC629A10B605A /* it */,
+				C1C947ADA4B0662DCDA62F22 /* ja */,
+				1B790965D1BCB9AFC684AE03 /* ko */,
+				D895AC6FFFA9BB09A10A342F /* nl */,
+				4039006DC117FB2EDF866BD5 /* pl */,
+				BA0BEB9A757E543DF91A42BF /* pt-BR */,
+				6C786AD5F9B4AFFC9A318FE3 /* pt-PT */,
+				94E81B872ACAEEAC41F19EF9 /* ru */,
+				6F8DF470555E23B5101BFF3B /* sr-Cyrl */,
+				17EDCE73996BBB7D41C16A7B /* sr-Latn */,
+				F96D341524E22BCBBFDC93FF /* sv */,
+				B263914390876DF441E9C904 /* tr */,
+				4816CE8083250E7936EAA7C9 /* uk */,
+				8B6779A9AF8F32A78500343F /* zh-Hans */,
+			);
+			name = AppShortcuts.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -502,8 +798,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = XSM926WBNS;
+				DEVELOPMENT_TEAM = XAU336YV25;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -567,6 +864,65 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Runner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Runner";
 			};
 			name = Profile;
+		};
+		651B9E4F225AE1A839CCC7EB /* Profile */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 57CDD7C22781F62A1D92D330 /* Widgets.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = PlatrareWidgets/PlatrareWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = XAU336YV25;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PlatrareWidgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = "$(FLUTTER_BUILD_NAME)";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.platrare.app.PlatrareWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Profile;
+		};
+		7BE59FEBB05A1EFD2D6DA2A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 57CDD7C22781F62A1D92D330 /* Widgets.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = PlatrareWidgets/PlatrareWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = XAU336YV25;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PlatrareWidgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = "$(FLUTTER_BUILD_NAME)";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.platrare.app.PlatrareWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
 		};
 		97C147031CF9000F007C117D /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -685,8 +1041,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = XSM926WBNS;
+				DEVELOPMENT_TEAM = XAU336YV25;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -708,8 +1065,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = XSM926WBNS;
+				DEVELOPMENT_TEAM = XAU336YV25;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -721,6 +1079,36 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		9F10D96FAE3EB27A052E45F5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 57CDD7C22781F62A1D92D330 /* Widgets.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = PlatrareWidgets/PlatrareWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = XAU336YV25;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PlatrareWidgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = "$(FLUTTER_BUILD_NAME)";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.platrare.app.PlatrareWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -753,6 +1141,16 @@
 				97C147061CF9000F007C117D /* Debug */,
 				97C147071CF9000F007C117D /* Release */,
 				249021D4217E4FDB00AE95B9 /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CBFACEC22D936F79A0874B8D /* Build configuration list for PBXNativeTarget "PlatrareWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9F10D96FAE3EB27A052E45F5 /* Release */,
+				7BE59FEBB05A1EFD2D6DA2A8 /* Debug */,
+				651B9E4F225AE1A839CCC7EB /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

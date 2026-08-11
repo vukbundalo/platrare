@@ -1,27 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'data/app_signals.dart';
 import 'data/auto_backup_service.dart';
 import 'data/backup_export_reminder_prefs.dart';
 import 'data/balance_privacy_prefs.dart';
 import 'data/currency_prefs.dart';
+import 'data/data_repository.dart';
 import 'data/data_transfer.dart';
 import 'data/local/platrare_database.dart';
 import 'data/fx_service.dart';
 import 'data/locale_prefs.dart';
 import 'data/navigation_prefs.dart';
+import 'data/planned_reminder_prefs.dart';
+import 'data/planned_reminder_service.dart';
 import 'data/security_prefs.dart';
 import 'data/theme_prefs.dart';
+import 'data/widget_link_router.dart';
+import 'data/widget_prefs.dart';
+import 'data/widget_snapshot_service.dart';
 import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'l10n/supported_languages.dart';
 import 'utils/manual_backup_export_flow.dart';
 import 'screens/splash_screen.dart';
+import 'screens/account_transactions_screen.dart';
+import 'screens/new_planned_transaction_screen.dart';
+import 'screens/new_transaction_screen.dart';
 import 'screens/track_screen.dart';
 import 'screens/plan_screen.dart';
 import 'screens/review_screen.dart';
 import 'theme/platrare_surfaces.dart';
 import 'theme/platrare_theme.dart';
+import 'data/app_data.dart' as data;
+import 'models/planned_transaction.dart';
 import 'utils/fx.dart' as fx;
+import 'utils/persistence_guard.dart';
 import 'widgets/app_lock_gate.dart';
 
 Future<void> main() async {
@@ -37,16 +50,26 @@ Future<void> main() async {
     initSecurityPrefs(),
     initBalancePrivacyPrefs(),
     initBackupExportReminderPrefs(),
+    initPlannedReminderPrefs(),
+    initWidgetPrefs(),
     DataTransfer.warmAttachmentsLibrary(),
   ]);
+  // After prefs + data are in memory: schedules the pending reminders.
+  await PlannedReminderService.instance.init();
   await loadCurrencyPreferences();
   await _initDateFormattingForLocales();
   await FxService.instance.init();
+  // After data + prefs + rates: writes the first home-screen widget snapshot
+  // and registers the localized app-icon quick actions.
+  await WidgetSnapshotService.instance.init();
   await AutoBackupService.instance.init();
   assert(() {
     debugPrint('[FX Test] ${fx.runFxLogicTest()}');
     return true;
   }());
+  // Native buffers any link that arrived before now (cold-start widget taps
+  // fire long before Dart is ready), then flushes on this call.
+  await initWidgetLinks();
   final initialMainTabIndex = await loadLastMainTabIndex();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -210,6 +233,7 @@ class _SplashRootState extends State<_SplashRoot> {
           Positioned.fill(
             child: SplashScreen(
               onComplete: () {
+                splashCompleted.value = true;
                 if (mounted) setState(() => _splashDone = true);
               },
             ),
@@ -239,13 +263,111 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     });
     // Run backup check on cold start (data is already loaded).
     _runAutoBackup();
+
+    // Deep links from widgets / quick actions / Siri. Dispatch lives here
+    // because this State already sits under MaterialApp's Navigator, already
+    // owns the tab index, and already drives the tabs' onChanged — so no
+    // global navigatorKey is needed.
+    pendingWidgetAction.addListener(_maybeDispatchWidgetAction);
+    splashCompleted.addListener(_maybeDispatchWidgetAction);
+    appUnlocked.addListener(_maybeDispatchWidgetAction);
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _maybeDispatchWidgetAction());
   }
 
   @override
   void dispose() {
     backupExportReminderListenable.removeListener(_onBackupExportReminderListenable);
+    pendingWidgetAction.removeListener(_maybeDispatchWidgetAction);
+    splashCompleted.removeListener(_maybeDispatchWidgetAction);
+    appUnlocked.removeListener(_maybeDispatchWidgetAction);
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  // ─── Widget / quick-action deep links ──────────────────────────────────────
+
+  /// Nonces already handled. Cold start can deliver the same URL twice (via
+  /// `willConnectTo` and again through `openURLContexts`).
+  final Set<String> _handledLinkNonces = {};
+  bool _dispatchingLink = false;
+
+  void _maybeDispatchWidgetAction() {
+    final action = pendingWidgetAction.value;
+    if (action == null || _dispatchingLink || !mounted) return;
+
+    // Wait for the splash to clear, then for authentication. The action sits
+    // in the notifier, so an arbitrarily long lock wait is fine.
+    if (!splashCompleted.value) return;
+    if (appSecurityEnabled.value && !appUnlocked.value) return;
+
+    if (!_handledLinkNonces.add(action.nonce)) {
+      pendingWidgetAction.value = null;
+      return;
+    }
+    // Keep the set bounded across a long-lived session.
+    if (_handledLinkNonces.length > 64) {
+      _handledLinkNonces.remove(_handledLinkNonces.first);
+    }
+    pendingWidgetAction.value = null;
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _dispatchWidgetAction(action));
+  }
+
+  Future<void> _dispatchWidgetAction(PendingWidgetAction action) async {
+    if (!mounted) return;
+    _dispatchingLink = true;
+    try {
+      switch (action) {
+        case OpenTabAction(:final tabIndex):
+          _selectTab(tabIndex);
+
+        case AddTrackedAction():
+          _selectTab(1); // Track
+          final saved = await Navigator.of(context).push<bool>(
+            MaterialPageRoute(builder: (_) => const NewTransactionScreen()),
+          );
+          // NewTransactionScreen persists internally and pops true — do not
+          // persist again here.
+          if (saved == true && mounted) setState(() {});
+
+        case AddPlannedAction():
+          _selectTab(0); // Plan
+          final created = await Navigator.of(context).push<PlannedTransaction>(
+            MaterialPageRoute(
+                builder: (_) => const NewPlannedTransactionScreen()),
+          );
+          if (created == null || !mounted) return;
+          // NewPlannedTransactionScreen returns the model and the CALLER
+          // persists (mirrors PlanScreen._addPlanned). guardPersist so a
+          // failure triggers the same loadIntoMemory recovery as elsewhere.
+          await guardPersist(
+              context, () => DataRepository.addPlanned(created));
+          if (mounted) setState(() {});
+
+        case OpenAccountAction(:final accountId):
+          final account =
+              data.accounts.where((a) => a.id == accountId).firstOrNull;
+          _selectTab(1);
+          if (account == null || !mounted) return;
+          await Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => AccountTransactionsScreen(account: account),
+            ),
+          );
+          if (mounted) setState(() {});
+      }
+    } finally {
+      _dispatchingLink = false;
+      // A second link may have landed while the first screen was open.
+      if (mounted) _maybeDispatchWidgetAction();
+    }
+  }
+
+  void _selectTab(int index) {
+    final i = index.clamp(0, 2);
+    if (mounted) setState(() => _currentIndex = i);
+    saveLastMainTabIndex(i);
   }
 
   void _onBackupExportReminderListenable() {
@@ -327,8 +449,16 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       _runAutoBackup();
+      // Re-anchor schedules (day may have rolled over, timezone may have
+      // changed, notifications may have fired while backgrounded).
+      PlannedReminderService.instance.resync();
+      // The day may have rolled over while backgrounded, which shifts every
+      // projected figure by one index.
+      WidgetSnapshotService.instance.requestUpdate();
     } else if (state == AppLifecycleState.paused) {
       saveLastMainTabIndex(_currentIndex);
+      // Last moment before the widget becomes the only visible surface.
+      WidgetSnapshotService.instance.flush();
     }
   }
 

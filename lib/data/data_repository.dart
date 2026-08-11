@@ -7,13 +7,20 @@ import 'backup_export_reminder_prefs.dart';
 import 'balance_posting.dart';
 import 'local/platrare_database.dart';
 import 'planned_normalize.dart';
+import 'planned_reminder_service.dart';
 import 'transaction_normalize.dart';
+import 'widget_snapshot_service.dart';
 
 /// Single entry point for mutating global lists and persisting to SQLite.
 class DataRepository {
   DataRepository._();
 
   static PlatrareDatabase get _db => PlatrareDatabase.instance;
+
+  /// Marks the home-screen widget snapshot dirty. Debounced downstream, and a
+  /// no-op until [WidgetSnapshotService.init] has run, so it is safe to call
+  /// from every mutation including those during startup hydration.
+  static void _touch() => WidgetSnapshotService.instance.requestUpdate();
 
   // --- Transactions ----------------------------------------------------------
 
@@ -22,6 +29,7 @@ class DataRepository {
     await _db.transactionUpsertTransactionAndAccounts(normalized);
     data.transactions.insert(0, normalized);
     await recordQualifyingTransactionForBackupReminder(normalized);
+    _touch();
   }
 
   static Future<void> replaceOrInsertTransaction(
@@ -52,6 +60,7 @@ class DataRepository {
       data.transactions.insert(0, normalized);
       await recordQualifyingTransactionForBackupReminder(normalized);
     }
+    _touch();
   }
 
   static Future<void> removeTransaction(Transaction t) async {
@@ -61,6 +70,7 @@ class DataRepository {
       t.toAccount,
     );
     data.transactions.removeWhere((x) => x.id == t.id);
+    _touch();
   }
 
   static Future<void> insertTransactionAt(int index, Transaction t) async {
@@ -68,6 +78,7 @@ class DataRepository {
     await _db.transactionUpsertTransactionAndAccounts(normalized);
     final i = index.clamp(0, data.transactions.length);
     data.transactions.insert(i, normalized);
+    _touch();
   }
 
   // --- Accounts --------------------------------------------------------------
@@ -99,6 +110,7 @@ class DataRepository {
         data.accounts.add(a);
       }
       _sortAccountsInMemory();
+      _touch();
       return;
     }
 
@@ -116,23 +128,27 @@ class DataRepository {
       persistTransaction: addTransaction,
     );
     _sortAccountsInMemory();
+    _touch();
   }
 
   /// Persists current field values on an existing in-memory [Account] (same id).
   static Future<void> persistAccountFields(Account a) async {
     await _db.upsertAccount(a);
     _sortAccountsInMemory();
+    _touch();
   }
 
   /// Persists [sortOrder] for each account (callers must set [Account.sortOrder]).
   static Future<void> persistAccountOrders(List<Account> accounts) async {
     await _db.batchUpsertAccounts(accounts);
     _sortAccountsInMemory();
+    _touch();
   }
 
   static Future<void> removeAccount(Account a) async {
     data.accounts.removeWhere((x) => x.id == a.id);
     await _db.deleteAccountRow(a.id);
+    _touch();
   }
 
   // --- Planned ---------------------------------------------------------------
@@ -142,11 +158,15 @@ class DataRepository {
     data.plannedTransactions.add(normalized);
     data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
     await _db.upsertPlanned(normalized);
+    PlannedReminderService.instance.resync();
+    _touch();
   }
 
   static Future<void> removePlanned(PlannedTransaction pt) async {
     data.plannedTransactions.removeWhere((x) => x.id == pt.id);
     await _db.deletePlannedRow(pt.id);
+    PlannedReminderService.instance.resync();
+    _touch();
   }
 
   static Future<void> replacePlanned(
@@ -165,6 +185,8 @@ class DataRepository {
     }
     data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
     await _db.upsertPlanned(normalized);
+    PlannedReminderService.instance.resync();
+    _touch();
   }
 
   /// Removes planned rows referencing [account] from memory and DB.
@@ -175,6 +197,8 @@ class DataRepository {
         p.toAccount == account ||
         (p.fromAccountId ?? p.fromAccount?.id) == account.id ||
         (p.toAccountId ?? p.toAccount?.id) == account.id);
+    PlannedReminderService.instance.resync();
+    _touch();
   }
 
   // --- Categories ------------------------------------------------------------
@@ -237,6 +261,7 @@ class DataRepository {
     for (final p in data.plannedTransactions) {
       if (matches(p.category, p.txType)) p.category = newName;
     }
+    _touch();
   }
 
   // --- Selective clear -------------------------------------------------------
@@ -271,6 +296,10 @@ class DataRepository {
       }
     }
 
+    if (accounts || planned) {
+      PlannedReminderService.instance.resync();
+    }
+
     if (accounts || transactions) {
       await resetBackupExportReminderState();
     }
@@ -288,6 +317,8 @@ class DataRepository {
         }
       }
     }
+
+    _touch();
   }
 
   static Future<void> removeCategory(String name, {required bool income}) async {

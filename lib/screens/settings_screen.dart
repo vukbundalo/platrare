@@ -11,8 +11,11 @@ import '../data/currency_localized_names.dart';
 import '../data/currency_prefs.dart';
 import '../data/fx_service.dart';
 import '../data/locale_prefs.dart';
+import '../data/planned_reminder_prefs.dart';
+import '../data/planned_reminder_service.dart';
 import '../data/security_prefs.dart';
 import '../data/theme_prefs.dart';
+import '../data/widget_prefs.dart';
 import '../data/user_settings.dart' as settings;
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
@@ -20,6 +23,7 @@ import '../l10n/app_localizations.dart';
 import '../l10n/supported_languages.dart';
 import '../models/account.dart';
 import '../utils/fx.dart' as fx;
+import '../utils/csv_transfer_flow.dart';
 import '../utils/manual_backup_export_flow.dart';
 import '../widgets/ledger_verify_dialog.dart';
 import '../utils/persistence_guard.dart';
@@ -38,6 +42,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   late final Future<PackageInfo> _packageInfoFuture = PackageInfo.fromPlatform();
   bool _refreshingRates = false;
   bool _exportingBackup = false;
+  bool _exportingCsv = false;
+  bool _sharingCsvTemplate = false;
 
   // ── Help tour anchors ("?" in the app bar) ─────────────────────────────────
   final GlobalKey _helpSecurityKey = GlobalKey();
@@ -79,6 +85,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
     } finally {
       if (mounted) setState(() => _exportingBackup = false);
     }
+  }
+
+  Future<void> _exportCsv(AppLocalizations l10n) async {
+    if (!mounted) return;
+    setState(() => _exportingCsv = true);
+    try {
+      await runCsvExportFlow(context: context, l10n: l10n);
+    } finally {
+      if (mounted) setState(() => _exportingCsv = false);
+    }
+  }
+
+  Future<void> _shareCsvTemplate(AppLocalizations l10n) async {
+    if (!mounted) return;
+    setState(() => _sharingCsvTemplate = true);
+    try {
+      await runCsvTemplateFlow(context: context, l10n: l10n);
+    } finally {
+      if (mounted) setState(() => _sharingCsvTemplate = false);
+    }
+  }
+
+  Future<void> _importCsv(AppLocalizations l10n) async {
+    final imported = await runCsvImportFlow(context: context, l10n: l10n);
+    // Accounts, balances and categories all move on a successful import.
+    if (imported && mounted) setState(() {});
   }
 
   Future<void> _pickBackupReminderThreshold(AppLocalizations l10n) async {
@@ -133,6 +165,65 @@ class _SettingsScreenState extends State<SettingsScreen> {
       }
     } finally {
       ctrl.dispose();
+    }
+  }
+
+  Future<void> _togglePlannedReminders(AppLocalizations l10n, bool v) async {
+    if (!v) {
+      await setPlannedRemindersEnabled(false);
+      return;
+    }
+    final granted = await PlannedReminderService.instance.requestPermissions();
+    if (!granted) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.settingsPlannedRemindersPermissionDenied),
+          ),
+        );
+      }
+      return;
+    }
+    await setPlannedRemindersEnabled(true);
+  }
+
+  Future<void> _pickPlannedReminderTime(TimeOfDay current) async {
+    final picked = await showTimePicker(context: context, initialTime: current);
+    if (picked != null) {
+      await setPlannedReminderTime(picked.hour, picked.minute);
+    }
+  }
+
+  String _plannedReminderLeadLabel(AppLocalizations l10n, int days) =>
+      days == 0
+          ? l10n.settingsPlannedRemindersLeadOnDay
+          : l10n.settingsPlannedRemindersLeadDaysBefore(days);
+
+  Future<void> _pickPlannedReminderLead(AppLocalizations l10n, int current) async {
+    final picked = await showDialog<int>(
+      context: context,
+      builder: (ctx) => SimpleDialog(
+        title: Text(l10n.settingsPlannedRemindersLeadTitle),
+        children: [
+          RadioGroup<int>(
+            groupValue: current,
+            onChanged: (v) => Navigator.pop(ctx, v),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (final d in kPlannedReminderLeadDayChoices)
+                  RadioListTile<int>(
+                    value: d,
+                    title: Text(_plannedReminderLeadLabel(l10n, d)),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+    if (picked != null) {
+      await setPlannedReminderLeadDays(picked);
     }
   }
 
@@ -905,6 +996,155 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
           ),
+          // Only meaningful while app lock is on: home-screen widgets are
+          // visible without authenticating, so amounts are masked there by
+          // default and this is the explicit opt-in.
+          ValueListenableBuilder<bool>(
+            valueListenable: appSecurityEnabled,
+            builder: (context, securityOn, _) {
+              if (!securityOn) return const SizedBox.shrink();
+              return Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Card(
+                  margin: EdgeInsets.zero,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    child: ValueListenableBuilder<bool>(
+                      valueListenable: widgetShowAmounts,
+                      builder: (context, show, _) {
+                        return SwitchListTile.adaptive(
+                          contentPadding: EdgeInsets.zero,
+                          secondary: Icon(
+                            Icons.widgets_outlined,
+                            size: 20,
+                            color: cs.primary,
+                          ),
+                          title: Text(
+                            l10n.settingsWidgetAmountsTitle,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                            ),
+                          ),
+                          subtitle: Text(
+                            l10n.settingsWidgetAmountsSubtitle,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: cs.onSurfaceVariant,
+                            ),
+                          ),
+                          value: show,
+                          onChanged: (v) async {
+                            await setWidgetShowAmounts(v);
+                            if (mounted) setState(() {});
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 8),
+          ListenableBuilder(
+            listenable: plannedReminderListenable,
+            builder: (context, _) {
+              final enabled = plannedRemindersEnabled.value;
+              final time = TimeOfDay(
+                hour: plannedReminderHour.value,
+                minute: plannedReminderMinute.value,
+              );
+              final lead = plannedReminderLeadDays.value;
+              return Card(
+                margin: EdgeInsets.zero,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SwitchListTile.adaptive(
+                        contentPadding: EdgeInsets.zero,
+                        secondary: Icon(
+                          Icons.notifications_active_outlined,
+                          size: 20,
+                          color: cs.primary,
+                        ),
+                        title: Text(
+                          l10n.settingsPlannedRemindersTitle,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
+                        subtitle: Text(
+                          l10n.settingsPlannedRemindersSubtitle,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: cs.onSurfaceVariant,
+                          ),
+                        ),
+                        value: enabled,
+                        onChanged: (v) => _togglePlannedReminders(l10n, v),
+                      ),
+                      if (enabled) ...[
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: Icon(
+                            Icons.schedule_outlined,
+                            size: 20,
+                            color: cs.primary,
+                          ),
+                          title: Text(
+                            l10n.settingsPlannedRemindersTimeTitle,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                            ),
+                          ),
+                          subtitle: Text(
+                            time.format(context),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: cs.onSurfaceVariant,
+                            ),
+                          ),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: () => _pickPlannedReminderTime(time),
+                        ),
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: Icon(
+                            Icons.history_toggle_off_outlined,
+                            size: 20,
+                            color: cs.primary,
+                          ),
+                          title: Text(
+                            l10n.settingsPlannedRemindersLeadTitle,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                            ),
+                          ),
+                          subtitle: Text(
+                            _plannedReminderLeadLabel(l10n, lead),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: cs.onSurfaceVariant,
+                            ),
+                          ),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: () => _pickPlannedReminderLead(l10n, lead),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
           const SizedBox(height: 24),
           // ── 3. Data ──────────────────────────────────────
           _SectionLabel(l10n.settingsSectionData, key: _helpDataKey),
@@ -1037,6 +1277,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
             semanticsLabel:
                 '${l10n.settingsDataImportTitle}. ${l10n.settingsDataImportSubtitle}',
             onTap: () => _importBackup(l10n),
+          ),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.table_view_rounded,
+            title: l10n.settingsCsvExportTitle,
+            subtitle: l10n.settingsCsvExportSubtitle,
+            loadingBadge: _exportingCsv,
+            semanticsLabel:
+                '${l10n.settingsCsvExportTitle}. ${l10n.settingsCsvExportSubtitle}',
+            onTap: _exportingCsv ? null : () => _exportCsv(l10n),
+          ),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.playlist_add_rounded,
+            title: l10n.settingsCsvImportTitle,
+            subtitle: l10n.settingsCsvImportSubtitle,
+            semanticsLabel:
+                '${l10n.settingsCsvImportTitle}. ${l10n.settingsCsvImportSubtitle}',
+            onTap: () => _importCsv(l10n),
+          ),
+          const SizedBox(height: 8),
+          currencyCard(
+            icon: Icons.description_outlined,
+            title: l10n.settingsCsvTemplateTitle,
+            subtitle: l10n.settingsCsvTemplateSubtitle,
+            loadingBadge: _sharingCsvTemplate,
+            semanticsLabel:
+                '${l10n.settingsCsvTemplateTitle}. ${l10n.settingsCsvTemplateSubtitle}',
+            onTap: _sharingCsvTemplate ? null : () => _shareCsvTemplate(l10n),
           ),
           const SizedBox(height: 8),
           currencyCard(

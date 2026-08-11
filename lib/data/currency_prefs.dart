@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'user_settings.dart' as settings;
+import 'widget_snapshot_service.dart';
 
 const _kBaseCurrencyKey = 'prefs_base_currency';
 const _kSecondaryCurrencyKey = 'prefs_secondary_currency';
@@ -21,4 +22,6 @@ Future<void> saveCurrencyPreferences() async {
   final p = await SharedPreferences.getInstance();
   await p.setString(_kBaseCurrencyKey, settings.baseCurrency);
   await p.setString(_kSecondaryCurrencyKey, settings.secondaryCurrency);
+  // Base currency drives every formatted amount in the widget snapshot.
+  WidgetSnapshotService.instance.requestUpdate();
 }

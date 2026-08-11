@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 
+import '../data/app_signals.dart';
 import '../data/security_prefs.dart';
 import '../l10n/app_localizations.dart';
 import '../theme/platrare_surfaces.dart';
@@ -21,7 +22,12 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
   final LocalAuthentication _localAuth = LocalAuthentication();
   final TextEditingController _pinController = TextEditingController();
 
-  bool _isUnlocked = false;
+  /// Mirrored into [appUnlocked] so the widget deep-link dispatcher can wait
+  /// for authentication. The lock is a Stack overlay inside `home:`, not a
+  /// route, so a pushed route would otherwise render above it.
+  bool get _isUnlocked => appUnlocked.value;
+  set _isUnlocked(bool v) => appUnlocked.value = v;
+
   bool _isAuthenticating = false;
   bool _supportsBiometric = false;
   bool _pinAvailable = false;
@@ -39,6 +45,9 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    // Locked until proven otherwise, but only when app lock is actually on —
+    // otherwise every other listener would see a spurious locked state.
+    appUnlocked.value = !appSecurityEnabled.value;
     WidgetsBinding.instance.addObserver(this);
     _prepare();
   }

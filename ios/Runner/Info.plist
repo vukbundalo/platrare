@@ -45,16 +45,37 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.platrare.app</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>platrare</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FlutterDeepLinkingEnabled</key>
+	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_dartVmService._tcp</string>
+	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Used to take photos of receipts and attach them to transactions.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Used to secure and unlock the app with Face ID.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Used only during development so debugging tools on your computer can connect to the app over Wi-Fi.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Used to attach photos to transactions.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -73,7 +94,7 @@
 					<key>UISceneConfigurationName</key>
 					<string>flutter</string>
 					<key>UISceneDelegateClassName</key>
-					<string>FlutterSceneDelegate</string>
+					<string>PlatrareSceneDelegate</string>
 					<key>UISceneStoryboardFile</key>
 					<string>Main</string>
 				</dict>

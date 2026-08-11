@@ -1,0 +1,446 @@
+{
+ "schemaVersion": 1,
+ "generatedAt": "2026-08-04T23:40:35.888165Z",
+ "generatedDay": "2026-08-05",
+ "staleAfterDay": "2026-09-09",
+ "localeTag": "en",
+ "textDirection": "ltr",
+ "baseCurrency": "BAM",
+ "format": {
+  "symbol": "KM",
+  "digits": 2,
+  "position": "suffix",
+  "separator": " "
+ },
+ "formatSample": {
+  "v": -1234.5,
+  "text": "-1234.50 KM"
+ },
+ "maskAmounts": false,
+ "maskPlaceholder": "••••",
+ "hasData": true,
+ "strings": {
+  "appName": "Platrare",
+  "spendableNow": "Balance",
+  "netWorth": "Net",
+  "lowestPoint": "Lowest point",
+  "projected": "Projected",
+  "horizonToday": "Today",
+  "horizon7d": "In 7 days",
+  "horizonEndOfMonth": "End of month",
+  "accountMetric": "Account balance",
+  "addTracked": "Add transaction",
+  "addPlanned": "Add plan",
+  "quickAdd": "Quick add",
+  "emptyTitle": "No accounts yet",
+  "emptyBody": "Open Platrare to add accounts",
+  "stale": "May be out of date",
+  "confirm": "Confirm",
+  "dueToday": "Due today"
+ },
+ "series": {
+  "dayCount": 35,
+  "days": [
+   {
+    "d": "2026-08-05",
+    "dLabel": "5 Aug",
+    "sp": 4714.568,
+    "nw": 4214.568,
+    "spText": "4714.57 KM",
+    "nwText": "4214.57 KM"
+   },
+   {
+    "d": "2026-08-06",
+    "dLabel": "6 Aug",
+    "sp": 4669.568,
+    "nw": 4169.568
+   },
+   {
+    "d": "2026-08-07",
+    "dLabel": "7 Aug",
+    "sp": 4669.568,
+    "nw": 4169.568
+   },
+   {
+    "d": "2026-08-08",
+    "dLabel": "8 Aug",
+    "sp": 4669.568,
+    "nw": 4169.568
+   },
+   {
+    "d": "2026-08-09",
+    "dLabel": "9 Aug",
+    "sp": 3769.568,
+    "nw": 3269.568
+   },
+   {
+    "d": "2026-08-10",
+    "dLabel": "10 Aug",
+    "sp": 3769.568,
+    "nw": 3269.568
+   },
+   {
+    "d": "2026-08-11",
+    "dLabel": "11 Aug",
+    "sp": 3769.568,
+    "nw": 3269.568
+   },
+   {
+    "d": "2026-08-12",
+    "dLabel": "12 Aug",
+    "sp": 3769.568,
+    "nw": 3269.568
+   },
+   {
+    "d": "2026-08-13",
+    "dLabel": "13 Aug",
+    "sp": 3769.568,
+    "nw": 3269.568
+   },
+   {
+    "d": "2026-08-14",
+    "dLabel": "14 Aug",
+    "sp": 3589.568,
+    "nw": 3089.568
+   },
+   {
+    "d": "2026-08-15",
+    "dLabel": "15 Aug",
+    "sp": 3589.568,
+    "nw": 3089.568
+   },
+   {
+    "d": "2026-08-16",
+    "dLabel": "16 Aug",
+    "sp": 3589.568,
+    "nw": 3089.568
+   },
+   {
+    "d": "2026-08-17",
+    "dLabel": "17 Aug",
+    "sp": 3589.568,
+    "nw": 3089.568
+   },
+   {
+    "d": "2026-08-18",
+    "dLabel": "18 Aug",
+    "sp": 3589.568,
+    "nw": 3089.568
+   },
+   {
+    "d": "2026-08-19",
+    "dLabel": "19 Aug",
+    "sp": 3589.568,
+    "nw": 3089.568
+   },
+   {
+    "d": "2026-08-20",
+    "dLabel": "20 Aug",
+    "sp": 3589.568,
+    "nw": 3089.568
+   },
+   {
+    "d": "2026-08-21",
+    "dLabel": "21 Aug",
+    "sp": 3589.568,
+    "nw": 3089.568
+   },
+   {
+    "d": "2026-08-22",
+    "dLabel": "22 Aug",
+    "sp": 3589.568,
+    "nw": 3089.568
+   },
+   {
+    "d": "2026-08-23",
+    "dLabel": "23 Aug",
+    "sp": 3589.568,
+    "nw": 3089.568
+   },
+   {
+    "d": "2026-08-24",
+    "dLabel": "24 Aug",
+    "sp": 3589.568,
+    "nw": 3089.568
+   },
+   {
+    "d": "2026-08-25",
+    "dLabel": "25 Aug",
+    "sp": 5989.568,
+    "nw": 5489.568
+   },
+   {
+    "d": "2026-08-26",
+    "dLabel": "26 Aug",
+    "sp": 5989.568,
+    "nw": 5489.568
+   },
+   {
+    "d": "2026-08-27",
+    "dLabel": "27 Aug",
+    "sp": 5989.568,
+    "nw": 5489.568
+   },
+   {
+    "d": "2026-08-28",
+    "dLabel": "28 Aug",
+    "sp": 5989.568,
+    "nw": 5489.568
+   },
+   {
+    "d": "2026-08-29",
+    "dLabel": "29 Aug",
+    "sp": 5989.568,
+    "nw": 5489.568
+   },
+   {
+    "d": "2026-08-30",
+    "dLabel": "30 Aug",
+    "sp": 5989.568,
+    "nw": 5489.568
+   },
+   {
+    "d": "2026-08-31",
+    "dLabel": "31 Aug",
+    "sp": 5989.568,
+    "nw": 5489.568
+   },
+   {
+    "d": "2026-09-01",
+    "dLabel": "1 Sep",
+    "sp": 5989.568,
+    "nw": 5489.568
+   },
+   {
+    "d": "2026-09-02",
+    "dLabel": "2 Sep",
+    "sp": 5989.568,
+    "nw": 5489.568
+   },
+   {
+    "d": "2026-09-03",
+    "dLabel": "3 Sep",
+    "sp": 5989.568,
+    "nw": 5489.568
+   },
+   {
+    "d": "2026-09-04",
+    "dLabel": "4 Sep",
+    "sp": 5989.568,
+    "nw": 5489.568
+   },
+   {
+    "d": "2026-09-05",
+    "dLabel": "5 Sep",
+    "sp": 5089.568,
+    "nw": 4589.568
+   },
+   {
+    "d": "2026-09-06",
+    "dLabel": "6 Sep",
+    "sp": 5089.568,
+    "nw": 4589.568
+   },
+   {
+    "d": "2026-09-07",
+    "dLabel": "7 Sep",
+    "sp": 5089.568,
+    "nw": 4589.568
+   },
+   {
+    "d": "2026-09-08",
+    "dLabel": "8 Sep",
+    "sp": 5089.568,
+    "nw": 4589.568
+   }
+  ]
+ },
+ "derived": {
+  "plus7Index": 7,
+  "endOfMonthIndex": 26,
+  "lowestSpendable": {
+   "index": 9,
+   "d": "2026-08-14",
+   "dLabel": "14 Aug",
+   "dayOffset": 9,
+   "v": 3589.568,
+   "vText": "3589.57 KM"
+  },
+  "lowestNetWorth": {
+   "index": 9,
+   "d": "2026-08-14",
+   "dLabel": "14 Aug",
+   "dayOffset": 9,
+   "v": 3089.568,
+   "vText": "3089.57 KM"
+  }
+ },
+ "accountsTruncated": false,
+ "accounts": [
+  {
+   "id": "acc-main",
+   "name": "Main account",
+   "institution": "",
+   "displayName": "Main account",
+   "group": "personal",
+   "currency": "BAM",
+   "symbol": "KM",
+   "digits": 2,
+   "colorArgb": null,
+   "iconCodePoint": 0,
+   "v0": 2811.53,
+   "v0Base": 2811.53,
+   "series": [
+    2811.53,
+    2811.53,
+    2811.53,
+    2811.53,
+    1911.53,
+    1911.53,
+    1911.53,
+    1911.53,
+    1911.53,
+    1731.53,
+    1731.53,
+    1731.53,
+    1731.53,
+    1731.53,
+    1731.53,
+    1731.53,
+    1731.53,
+    1731.53,
+    1731.53,
+    1731.53,
+    4131.53,
+    4131.53,
+    4131.53,
+    4131.53,
+    4131.53,
+    4131.53,
+    4131.53,
+    4131.53,
+    4131.53,
+    4131.53,
+    4131.53,
+    3231.53,
+    3231.53,
+    3231.53,
+    3231.53
+   ]
+  },
+  {
+   "id": "acc-cash",
+   "name": "Cash",
+   "institution": "",
+   "displayName": "Cash",
+   "group": "personal",
+   "currency": "BAM",
+   "symbol": "KM",
+   "digits": 2,
+   "colorArgb": null,
+   "iconCodePoint": 0,
+   "v0": 210.0,
+   "v0Base": 210.0,
+   "series": [
+    210.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0,
+    165.0
+   ]
+  },
+  {
+   "id": "acc-eur",
+   "name": "Travel",
+   "institution": "",
+   "displayName": "Travel",
+   "group": "personal",
+   "currency": "EUR",
+   "symbol": "€",
+   "digits": 2,
+   "colorArgb": null,
+   "iconCodePoint": 0,
+   "v0": 610.0,
+   "v0Base": 1193.038,
+   "series": [
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0,
+    610.0
+   ]
+  }
+ ],
+ "plannedDueToday": [
+  {
+   "id": "p-today",
+   "title": "Groceries",
+   "amount": 30.0,
+   "amountText": "-30.00 KM",
+   "currency": "BAM",
+   "dueDay": "2026-08-05",
+   "overdue": false,
+   "stamp": "2026-08-04T23:40:33.000Z"
+  }
+ ]
+}

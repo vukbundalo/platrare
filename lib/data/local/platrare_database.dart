@@ -10,6 +10,7 @@ import '../../models/account.dart';
 import '../../models/planned_transaction.dart';
 import '../../models/transaction.dart';
 import '../app_data.dart' as data;
+import '../widget_snapshot_service.dart';
 
 part 'platrare_database.g.dart';
 
@@ -261,6 +262,11 @@ class PlatrareDatabase extends _$PlatrareDatabase {
         data.expenseCategories.add(c.name);
       }
     }
+
+    // Bulk paths (backup restore, CSV import, guardPersist error recovery)
+    // rehydrate here rather than going through DataRepository, so this is the
+    // only hook that catches them. No-op until the service is initialised.
+    WidgetSnapshotService.instance.requestUpdate();
   }
 
   Account _accountFromRow(AccountRow r) => Account(
@@ -655,6 +661,54 @@ class PlatrareDatabase extends _$PlatrareDatabase {
     return (select(dbCategories)
           ..orderBy([(t) => OrderingTerm(expression: t.sortOrder)]))
         .get();
+  }
+
+  /// Appends CSV-imported data in a single transaction: new/updated accounts,
+  /// new transaction rows and any categories the file introduced.
+  ///
+  /// All-or-nothing by design — a partially applied import would leave account
+  /// balances out of step with the ledger and trip "Verify ledger".
+  Future<void> appendImportedData({
+    required List<Account> accounts,
+    required List<Transaction> transactions,
+    required List<({String name, String kind})> categories,
+  }) async {
+    if (accounts.isEmpty && transactions.isEmpty && categories.isEmpty) return;
+    await transaction(() async {
+      var incomeOrder = await _nextCategorySortOrder('income');
+      var expenseOrder = await _nextCategorySortOrder('expense');
+      final stamp = DateTime.now().microsecondsSinceEpoch;
+      var seq = 0;
+
+      await batch((b) {
+        for (final a in accounts) {
+          b.insert(
+            dbAccounts,
+            _accountCompanionForPersist(a),
+            mode: InsertMode.insertOrReplace,
+          );
+        }
+        for (final t in transactions) {
+          b.insert(
+            dbTransactions,
+            _transactionCompanion(t),
+            mode: InsertMode.insertOrReplace,
+          );
+        }
+        for (final c in categories) {
+          final order = c.kind == 'income' ? incomeOrder++ : expenseOrder++;
+          b.insert(
+            dbCategories,
+            DbCategoriesCompanion.insert(
+              id: '${c.kind}_${stamp}_${seq++}',
+              name: c.name,
+              kind: c.kind,
+              sortOrder: Value(order),
+            ),
+          );
+        }
+      });
+    });
   }
 
   /// Replaces all persisted app data in a single transaction.

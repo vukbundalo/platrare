@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'user_settings.dart' as settings;
+import 'widget_snapshot_service.dart';
 
 /// Fixed BAM/EUR peg used by the Central Bank of BiH.
 const double _bamEurPeg = 1.95583;
@@ -69,6 +70,10 @@ class FxService {
       _lastUpdated = now;
 
       await _saveToCache(apiRates, now);
+      // Net worth / balance headlines are Σ(native × live rate), so fresh
+      // rates change the widget numbers. refreshRates() is fire-and-forget
+      // from init(), so this often lands after the first snapshot write.
+      WidgetSnapshotService.instance.requestUpdate();
       debugPrint('[FxService] Rates updated (${apiRates.length} currencies)');
     } catch (e) {
       debugPrint('[FxService] Refresh failed: $e – keeping cached/hardcoded rates');
