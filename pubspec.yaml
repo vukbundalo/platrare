@@ -56,6 +56,10 @@ dependencies:
   # 12+ routes through unified iOS `share` and has regressed file-only shares for
   # Platrare backup export; 10.x keeps the `shareFiles` channel (known-good).
   share_plus: ^10.1.4
+  # Planned-transaction reminders: fully offline local notifications.
+  flutter_local_notifications: ^19.0.0
+  flutter_timezone: ^4.1.1
+  timezone: ^0.10.0
 
 # path_provider_foundation 2.6.0+ uses package:objective_c (native assets / FFI).
 # That flow can bundle an iOS-device slice only, breaking iOS Simulator (DOBJC_initializeApi /

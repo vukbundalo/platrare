@@ -27,6 +27,7 @@ import 'backup/backup_preview.dart';
 import 'backup/backup_zip.dart';
 import 'currency_prefs.dart';
 import 'local/platrare_database.dart';
+import 'planned_reminder_service.dart';
 import 'security_prefs.dart';
 import 'user_settings.dart' as settings;
 
@@ -569,6 +570,7 @@ class DataTransfer {
     );
 
     await PlatrareDatabase.instance.loadIntoMemory();
+    PlannedReminderService.instance.resync();
 
     // The database is already replaced; run every follow-up step even when an
     // earlier one fails so a preferences hiccup cannot leave the restore half
