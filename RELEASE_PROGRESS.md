@@ -22,13 +22,13 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started · `[!]` needs the 
 | 1a | Support email + hosted policy URL in `AppUrls` and in the policy text | [!] | Owner must choose the address and enable GitHub Pages (Settings → Pages → branch `main`, folder `/docs`). Code side prepared in step 1b. |
 | 1b | Add `AppUrls.supportEmail` / `supportUrl` and wire About screen "Contact support" | [ ] | |
 | 2 | Privacy policy + store disclosures cover notifications, widgets, App Group snapshot, Siri | [ ] | English first, then the 20 translations. |
-| 3 | PIN verifier no longer leaves the device in unencrypted backups | [ ] | |
+| 3 | PIN verifier no longer leaves the device in unencrypted backups | [x] | Only encrypted `.platrare` exports carry it; restore without it keeps the device PIN. Test: `test/backup_pin_hash_test.dart`. |
 | 4 | Atomic repository ops: confirm-planned, clear-transactions, account-with-opening-balance | [ ] | |
-| 5 | Archived-account restore in Settings persists | [ ] | |
+| 5 | Archived-account restore in Settings persists | [x] | |
 | 6 | `proguard-rules.pro` + Gradle wiring; `backup_rules.xml` + `data_extraction_rules.xml` | [ ] | |
 | 7 | Pin Flutter (`.fvmrc`, CI `flutter-version`); `targetSdk = 36` explicit | [ ] | |
 | 8 | iOS: strip local-network plist keys in Release; `1C8F.1` in both privacy manifests; fix Team ID in widget script | [ ] | |
-| 9 | Delete `web/ linux/ macos/ windows/`; bundle only policy files, not all of `docs/` | [ ] | |
+| 9 | Delete `web/ linux/ macos/ windows/`; bundle only policy files, not all of `docs/` | [x] | Re-add macOS/Windows deliberately in Phase 4. |
 | 10 | CI: signed Android release build (skips signing when secrets absent) + iOS compile job | [ ] | Secrets `UPLOAD_KEYSTORE_B64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD` are the owner's to add. |
 | 11 | Store assets: adaptive + monochrome icon, 512 icon, feature graphic, listing copy | [ ] | Screenshots need a device: owner. |
 | 12 | Play closed test (12 testers, 14 days) | [!] | Owner. Start as soon as an internal build exists. |
