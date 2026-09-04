@@ -10,7 +10,10 @@
         android:label="Platrare"
         android:name="${applicationName}"
         android:icon="@mipmap/platrare"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:dataExtractionRules="@xml/data_extraction_rules">
         <activity
             android:name=".MainActivity"
             android:exported="true"

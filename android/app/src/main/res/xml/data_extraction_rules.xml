@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 12+. Same policy as backup_rules.xml for cloud backup and for
+  device-to-device transfer: ledger + auto-backups + preferences in,
+  attachments out (they can exceed the cloud quota; the user's own export
+  covers them).
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <include domain="root" path="app_flutter" />
+        <exclude domain="root" path="app_flutter/platrare_attachments" />
+        <include domain="sharedpref" path="." />
+    </cloud-backup>
+    <device-transfer>
+        <include domain="root" path="app_flutter" />
+        <exclude domain="root" path="app_flutter/platrare_attachments" />
+        <include domain="sharedpref" path="." />
+    </device-transfer>
+</data-extraction-rules>
