@@ -29,7 +29,7 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started · `[!]` needs the 
 | 7 | Pin Flutter (`.fvmrc`, CI `flutter-version`); `targetSdk = 36` explicit | [x] | Pinned 3.47.2; pubspec.lock and analysis_options.yaml refreshed under that SDK. Owner: run `fvm install` or match locally. |
 | 8 | iOS: strip local-network plist keys in Release; `1C8F.1` in both privacy manifests; fix Team ID in widget script | [x] | New Xcode run-script phase "Strip Debug-Only Info.plist Keys" (Release only). Verify once in Xcode: archive, then inspect the built Info.plist. |
 | 9 | Delete `web/ linux/ macos/ windows/`; bundle only policy files, not all of `docs/` | [x] | Re-add macOS/Windows deliberately in Phase 4. |
-| 10 | CI: signed Android release build (skips signing when secrets absent) + iOS compile job | [ ] | Secrets `UPLOAD_KEYSTORE_B64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD` are the owner's to add. |
+| 10 | CI: signed Android release build (skips signing when secrets absent) + iOS compile job | [x] | Three jobs: check (lockfile, generated-code drift, analyze --fatal-infos, tests), android (AAB + 16 KB zipalign check + artifacts), ios (build --no-codesign + asserts Release plist has no Bonjour keys). Owner adds secrets `UPLOAD_KEYSTORE_B64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`. First run happens when this branch is merged/PR'd to main. |
 | 11 | Store assets: adaptive + monochrome icon, 512 icon, feature graphic, listing copy | [ ] | Screenshots need a device: owner. |
 | 12 | Play closed test (12 testers, 14 days) | [!] | Owner. Start as soon as an internal build exists. |
 | 13 | Physical-device release checklist run | [!] | Owner. |
