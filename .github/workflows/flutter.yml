@@ -13,7 +13,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          channel: stable
+          # Keep in sync with .fvmrc: the SDK decides compileSdk and the
+          # targetSdk floor, so an unpinned "stable" is a release variable.
+          flutter-version: 3.47.2
           cache: true
       - run: flutter pub get
       - run: flutter analyze
