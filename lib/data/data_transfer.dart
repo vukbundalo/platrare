@@ -99,7 +99,7 @@ class DataTransfer {
       }
     }
 
-    final inner = await _buildInnerZipBytes();
+    final inner = await _buildInnerZipBytes(includePinHash: encrypt);
     final Uint8List outBytes;
     if (encrypt) {
       outBytes = await encryptInnerZip(
@@ -171,7 +171,7 @@ class DataTransfer {
     _log('[Backup:Export] Building inner ZIP (accounts: ${data.accounts.length}, '
         'transactions: ${data.transactions.length}, '
         'planned: ${data.plannedTransactions.length})');
-    final inner = await _buildInnerZipBytes();
+    final inner = await _buildInnerZipBytes(includePinHash: encrypt);
     _log('[Backup:Export] Inner ZIP built — ${inner.length} bytes');
 
     final Uint8List outBytes;
@@ -222,10 +222,12 @@ class DataTransfer {
         'transactions: ${data.transactions.length}, '
         'planned: ${data.plannedTransactions.length}');
     final secBackup = await getSecurityBackup();
+    // The auto-backup is an unencrypted zip in Documents: the PIN verifier
+    // must never ride along (a 4-digit PIN is brute-forced offline in
+    // seconds). Only the enabled flag is kept; see [applyImport].
     final json = _encodeDataJson(
       attachmentPathMap: {},
       securityEnabled: secBackup.enabled,
-      pinHash: secBackup.pinHash,
     );
     final exportedAt = DateTime.now().toUtc().toIso8601String();
     String appVersion;
@@ -250,13 +252,18 @@ class DataTransfer {
     return bytes;
   }
 
-  static Future<Uint8List> _buildInnerZipBytes() async {
+  /// [includePinHash] must only be true when the caller encrypts the result:
+  /// the PBKDF2 verifier of a short numeric PIN is trivially brute-forced
+  /// offline, so it never leaves the device in cleartext.
+  static Future<Uint8List> _buildInnerZipBytes({
+    required bool includePinHash,
+  }) async {
     final pathToArchive = await _buildAttachmentPathMap();
     final secBackup = await getSecurityBackup();
     final json = _encodeDataJson(
       attachmentPathMap: pathToArchive,
       securityEnabled: secBackup.enabled,
-      pinHash: secBackup.pinHash,
+      pinHash: includePinHash ? secBackup.pinHash : null,
     );
     final exportedAt = DateTime.now().toUtc().toIso8601String();
     String appVersion;
@@ -591,13 +598,17 @@ class DataTransfer {
     settings.secondaryCurrency = backup.secondaryCurrency;
     await best(saveCurrencyPreferences);
 
-    await best(() => setSecurityEnabled(backup.securityEnabled));
+    // Encrypted exports carry the PIN verifier; plain zips and auto-backups
+    // do not. Without one, keep whatever PIN this device already has, and only
+    // leave the lock enabled when a PIN exists (otherwise a device without
+    // biometrics would be locked out with no way in).
+    final hasVerifier = backup.pinHash != null && backup.pinHash!.isNotEmpty;
     await best(() async {
-      if (backup.pinHash != null && backup.pinHash!.isNotEmpty) {
-        await restoreSecurityPinHash(backup.pinHash!);
-      } else {
-        await clearSecurityPin();
-      }
+      if (hasVerifier) await restoreSecurityPinHash(backup.pinHash!);
+    });
+    await best(() async {
+      final canLock = hasVerifier || await hasSecurityPin();
+      await setSecurityEnabled(backup.securityEnabled && canLock);
     });
 
     data.accounts.sort(compareAccountsStorageOrder);
