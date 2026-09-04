@@ -1979,8 +1979,16 @@ class _ArchivedAccountsScreenState extends State<ArchivedAccountsScreen> {
                     title: Text(accountDisplayName(a)),
                     subtitle: Text(_groupLabel(a.group, l10n)),
                     trailing: TextButton(
-                      onPressed: () {
-                        setState(() => a.archived = false);
+                      onPressed: () async {
+                        // Persist like AccountFormScreen._restoreArchived; a
+                        // setState-only flip was lost on the next launch.
+                        a.archived = false;
+                        final ok = await guardPersist(
+                          context,
+                          () => DataRepository.persistAccountFields(a),
+                        );
+                        if (!ok) a.archived = true;
+                        if (mounted) setState(() {});
                       },
                       child: Text(l10n.restore),
                     ),
