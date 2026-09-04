@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -121,6 +122,11 @@ class PlatrareDatabase extends _$PlatrareDatabase {
     }
     return i;
   }
+
+  /// Installs [db] as [instance] so repository code can run against an
+  /// in-memory database in tests. Never call from app code.
+  @visibleForTesting
+  static void useForTesting(PlatrareDatabase db) => _instance = db;
 
   static Future<PlatrareDatabase> openPlatrareDatabase() async {
     if (_instance != null) return _instance!;
@@ -520,6 +526,51 @@ class PlatrareDatabase extends _$PlatrareDatabase {
   Future<void> upsertPlanned(PlannedTransaction p) => into(dbPlannedTransactions)
       .insertOnConflictUpdate(_plannedCompanion(p));
 
+  /// Single SQLite commit for confirming a planned row: post [realized] with
+  /// its adjusted accounts, delete the planned row [plannedId], and insert
+  /// [nextPlanned] when the schedule repeats. Three separate commits could
+  /// leave the transaction posted while the planned row survived a failure,
+  /// which double-posted on the next confirm.
+  Future<void> transactionRealizePlanned({
+    required Transaction realized,
+    required String plannedId,
+    PlannedTransaction? nextPlanned,
+  }) async {
+    await transaction(() async {
+      await into(dbTransactions)
+          .insertOnConflictUpdate(_transactionCompanion(realized));
+      final persistedIds = <String>{};
+      for (final a in [realized.fromAccount, realized.toAccount]) {
+        if (a != null && persistedIds.add(a.id)) {
+          await into(dbAccounts)
+              .insertOnConflictUpdate(_accountCompanionForPersist(a));
+        }
+      }
+      await (delete(dbPlannedTransactions)..where((t) => t.id.equals(plannedId)))
+          .go();
+      if (nextPlanned != null) {
+        await into(dbPlannedTransactions)
+            .insertOnConflictUpdate(_plannedCompanion(nextPlanned));
+      }
+    });
+  }
+
+  /// Single SQLite commit: delete planned row [oldId] and upsert [replacement]
+  /// (skip occurrence, undo skip, edit that changes the id).
+  Future<void> transactionReplacePlanned({
+    required String oldId,
+    required PlannedTransaction replacement,
+  }) async {
+    await transaction(() async {
+      if (oldId != replacement.id) {
+        await (delete(dbPlannedTransactions)..where((t) => t.id.equals(oldId)))
+            .go();
+      }
+      await into(dbPlannedTransactions)
+          .insertOnConflictUpdate(_plannedCompanion(replacement));
+    });
+  }
+
   Future<void> deletePlannedRow(String id) =>
       (delete(dbPlannedTransactions)..where((t) => t.id.equals(id))).go();
 
@@ -629,6 +680,15 @@ class PlatrareDatabase extends _$PlatrareDatabase {
 
   /// Deletes all planned-transaction rows.
   Future<void> deleteAllPlanned() => delete(dbPlannedTransactions).go();
+
+  /// Single SQLite commit: delete every transaction row and zero every
+  /// balance, so a crash cannot leave balances without a backing ledger.
+  Future<void> deleteAllTransactionsAndZeroBalances() async {
+    await transaction(() async {
+      await delete(dbTransactions).go();
+      await zeroAllAccountBalances();
+    });
+  }
 
   /// Zeros all account balances in a single UPDATE.
   Future<void> zeroAllAccountBalances() async {

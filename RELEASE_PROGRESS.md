@@ -23,7 +23,7 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started · `[!]` needs the 
 | 1b | Add `AppUrls.supportEmail` / `supportUrl` and wire About screen "Contact support" | [ ] | |
 | 2 | Privacy policy + store disclosures cover notifications, widgets, App Group snapshot, Siri | [ ] | English first, then the 20 translations. |
 | 3 | PIN verifier no longer leaves the device in unencrypted backups | [x] | Only encrypted `.platrare` exports carry it; restore without it keeps the device PIN. Test: `test/backup_pin_hash_test.dart`. |
-| 4 | Atomic repository ops: confirm-planned, clear-transactions, account-with-opening-balance | [ ] | |
+| 4 | Atomic repository ops: confirm-planned, clear-transactions, account-with-opening-balance | [x] | `DataRepository.realizePlanned` / `replacePlanned` (skip + undo) / `addAccount` / `clearSelectiveData` each one SQLite commit. Tests: `test/data_repository_test.dart`; `PlatrareDatabase.useForTesting` installs an in-memory DB. |
 | 5 | Archived-account restore in Settings persists | [x] | |
 | 6 | `proguard-rules.pro` + Gradle wiring; `backup_rules.xml` + `data_extraction_rules.xml` | [ ] | |
 | 7 | Pin Flutter (`.fvmrc`, CI `flutter-version`); `targetSdk = 36` explicit | [ ] | |
