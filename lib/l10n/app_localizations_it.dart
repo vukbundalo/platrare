@@ -2195,4 +2195,11 @@ class AppLocalizationsIt extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'Contatta l’assistenza';
+
+  @override
+  String get aboutSupportEmailCopied =>
+      'Indirizzo e-mail dell’assistenza copiato';
 }

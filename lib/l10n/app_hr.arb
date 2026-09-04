@@ -1046,5 +1046,7 @@
   "plannedReminderFallbackTitle": "Planirana transakcija",
   "plannedReminderDueToday": "Dospijeva danas",
   "plannedReminderDueTomorrow": "Dospijeva sutra",
-  "plannedReminderDueInDays": "{count, plural, one{Dospijeva za {count} dan} few{Dospijeva za {count} dana} other{Dospijeva za {count} dana}}"
+  "plannedReminderDueInDays": "{count, plural, one{Dospijeva za {count} dan} few{Dospijeva za {count} dana} other{Dospijeva za {count} dana}}",
+  "aboutContactSupport": "Kontaktiraj podršku",
+  "aboutSupportEmailCopied": "Adresa e-pošte podrške kopirana"
 }

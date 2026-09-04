@@ -1046,5 +1046,7 @@
   "plannedReminderFallbackTitle": "予定取引",
   "plannedReminderDueToday": "今日が期日",
   "plannedReminderDueTomorrow": "明日が期日",
-  "plannedReminderDueInDays": "{count, plural, other{あと{count}日で期日}}"
+  "plannedReminderDueInDays": "{count, plural, other{あと{count}日で期日}}",
+  "aboutContactSupport": "サポートに連絡",
+  "aboutSupportEmailCopied": "サポートのメールアドレスをコピーしました"
 }

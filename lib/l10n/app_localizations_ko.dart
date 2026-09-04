@@ -2115,4 +2115,10 @@ class AppLocalizationsKo extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => '지원팀에 문의';
+
+  @override
+  String get aboutSupportEmailCopied => '지원 이메일 주소가 복사되었습니다';
 }

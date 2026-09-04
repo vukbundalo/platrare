@@ -1046,5 +1046,7 @@
   "plannedReminderFallbackTitle": "计划交易",
   "plannedReminderDueToday": "今天到期",
   "plannedReminderDueTomorrow": "明天到期",
-  "plannedReminderDueInDays": "{count, plural, other{{count} 天后到期}}"
+  "plannedReminderDueInDays": "{count, plural, other{{count} 天后到期}}",
+  "aboutContactSupport": "联系支持",
+  "aboutSupportEmailCopied": "已复制支持邮箱地址"
 }

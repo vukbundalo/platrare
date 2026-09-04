@@ -2186,4 +2186,10 @@ class AppLocalizationsTr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'Destekle iletişime geç';
+
+  @override
+  String get aboutSupportEmailCopied => 'Destek e-posta adresi kopyalandı';
 }

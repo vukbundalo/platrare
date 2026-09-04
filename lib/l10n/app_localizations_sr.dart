@@ -2198,6 +2198,12 @@ class AppLocalizationsSr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'Kontaktiraj podršku';
+
+  @override
+  String get aboutSupportEmailCopied => 'Imejl adresa podrške je kopirana';
 }
 
 /// The translations for Serbian, using the Cyrillic script (`sr_Cyrl`).
@@ -4390,6 +4396,12 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'Контактирај подршку';
+
+  @override
+  String get aboutSupportEmailCopied => 'Имејл адреса подршке је копирана';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).
@@ -6586,4 +6598,10 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'Kontaktiraj podršku';
+
+  @override
+  String get aboutSupportEmailCopied => 'Imejl adresa podrške je kopirana';
 }

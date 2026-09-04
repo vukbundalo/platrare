@@ -2211,4 +2211,10 @@ class AppLocalizationsRu extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'Связаться с поддержкой';
+
+  @override
+  String get aboutSupportEmailCopied => 'Адрес почты поддержки скопирован';
 }

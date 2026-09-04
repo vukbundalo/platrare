@@ -1046,5 +1046,7 @@
   "plannedReminderFallbackTitle": "Transacción planificada",
   "plannedReminderDueToday": "Vence hoy",
   "plannedReminderDueTomorrow": "Vence mañana",
-  "plannedReminderDueInDays": "{count, plural, other{Vence en {count} días}}"
+  "plannedReminderDueInDays": "{count, plural, other{Vence en {count} días}}",
+  "aboutContactSupport": "Contactar con soporte",
+  "aboutSupportEmailCopied": "Correo de soporte copiado"
 }

@@ -1046,5 +1046,7 @@
   "plannedReminderFallbackTitle": "नियोजित लेन-देन",
   "plannedReminderDueToday": "आज देय",
   "plannedReminderDueTomorrow": "कल देय",
-  "plannedReminderDueInDays": "{count, plural, other{{count} दिनों में देय}}"
+  "plannedReminderDueInDays": "{count, plural, other{{count} दिनों में देय}}",
+  "aboutContactSupport": "सहायता से संपर्क करें",
+  "aboutSupportEmailCopied": "सहायता ईमेल पता कॉपी किया गया"
 }

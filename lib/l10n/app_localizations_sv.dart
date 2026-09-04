@@ -2190,4 +2190,10 @@ class AppLocalizationsSv extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'Kontakta supporten';
+
+  @override
+  String get aboutSupportEmailCopied => 'Supportens e-postadress kopierad';
 }

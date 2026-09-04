@@ -1046,5 +1046,7 @@
   "plannedReminderFallbackTitle": "Planned transaction",
   "plannedReminderDueToday": "Due today",
   "plannedReminderDueTomorrow": "Due tomorrow",
-  "plannedReminderDueInDays": "{count, plural, other{Due in {count} days}}"
+  "plannedReminderDueInDays": "{count, plural, other{Due in {count} days}}",
+  "aboutContactSupport": "联系支持",
+  "aboutSupportEmailCopied": "已复制支持邮箱地址"
 }

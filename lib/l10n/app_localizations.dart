@@ -3827,6 +3827,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, other{Due in {count} days}}'**
   String plannedReminderDueInDays(int count);
+
+  /// No description provided for @aboutContactSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact support'**
+  String get aboutContactSupport;
+
+  /// No description provided for @aboutSupportEmailCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Support email address copied'**
+  String get aboutSupportEmailCopied;
 }
 
 class _AppLocalizationsDelegate

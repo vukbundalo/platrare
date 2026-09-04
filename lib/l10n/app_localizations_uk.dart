@@ -2205,4 +2205,10 @@ class AppLocalizationsUk extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'Звʼязатися з підтримкою';
+
+  @override
+  String get aboutSupportEmailCopied => 'Адресу пошти підтримки скопійовано';
 }

@@ -2195,4 +2195,10 @@ class AppLocalizationsBs extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'Kontaktiraj podršku';
+
+  @override
+  String get aboutSupportEmailCopied => 'E-mail adresa podrške je kopirana';
 }

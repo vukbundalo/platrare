@@ -2203,4 +2203,10 @@ class AppLocalizationsDe extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'Support kontaktieren';
+
+  @override
+  String get aboutSupportEmailCopied => 'Support-E-Mail-Adresse kopiert';
 }

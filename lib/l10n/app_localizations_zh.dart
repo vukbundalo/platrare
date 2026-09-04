@@ -2150,6 +2150,12 @@ class AppLocalizationsZh extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => '联系支持';
+
+  @override
+  String get aboutSupportEmailCopied => '已复制支持邮箱地址';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -4225,4 +4231,10 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => '联系支持';
+
+  @override
+  String get aboutSupportEmailCopied => '已复制支持邮箱地址';
 }

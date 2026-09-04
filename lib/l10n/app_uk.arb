@@ -1046,5 +1046,7 @@
   "plannedReminderFallbackTitle": "Запланована операція",
   "plannedReminderDueToday": "Термін сьогодні",
   "plannedReminderDueTomorrow": "Термін завтра",
-  "plannedReminderDueInDays": "{count, plural, one{Термін через {count} день} few{Термін через {count} дні} many{Термін через {count} днів} other{Термін через {count} дня}}"
+  "plannedReminderDueInDays": "{count, plural, one{Термін через {count} день} few{Термін через {count} дні} many{Термін через {count} днів} other{Термін через {count} дня}}",
+  "aboutContactSupport": "Звʼязатися з підтримкою",
+  "aboutSupportEmailCopied": "Адресу пошти підтримки скопійовано"
 }

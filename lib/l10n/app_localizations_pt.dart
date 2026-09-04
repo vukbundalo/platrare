@@ -2176,6 +2176,12 @@ class AppLocalizationsPt extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'Contactar o suporte';
+
+  @override
+  String get aboutSupportEmailCopied => 'Endereço de e-mail do suporte copiado';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -4363,4 +4369,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'Falar com o suporte';
+
+  @override
+  String get aboutSupportEmailCopied => 'E-mail do suporte copiado';
 }

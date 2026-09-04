@@ -2106,4 +2106,10 @@ class AppLocalizationsJa extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'サポートに連絡';
+
+  @override
+  String get aboutSupportEmailCopied => 'サポートのメールアドレスをコピーしました';
 }

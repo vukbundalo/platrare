@@ -1046,5 +1046,7 @@
   "plannedReminderFallbackTitle": "معاملة مخططة",
   "plannedReminderDueToday": "تستحق اليوم",
   "plannedReminderDueTomorrow": "تستحق غدًا",
-  "plannedReminderDueInDays": "{count, plural, one{تستحق بعد يوم} two{تستحق بعد يومين} few{تستحق بعد {count} أيام} other{تستحق بعد {count} يومًا}}"
+  "plannedReminderDueInDays": "{count, plural, one{تستحق بعد يوم} two{تستحق بعد يومين} few{تستحق بعد {count} أيام} other{تستحق بعد {count} يومًا}}",
+  "aboutContactSupport": "التواصل مع الدعم",
+  "aboutSupportEmailCopied": "تم نسخ عنوان بريد الدعم"
 }

@@ -2185,4 +2185,10 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'التواصل مع الدعم';
+
+  @override
+  String get aboutSupportEmailCopied => 'تم نسخ عنوان بريد الدعم';
 }

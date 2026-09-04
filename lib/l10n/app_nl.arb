@@ -1046,5 +1046,7 @@
   "plannedReminderFallbackTitle": "Geplande transactie",
   "plannedReminderDueToday": "Vervalt vandaag",
   "plannedReminderDueTomorrow": "Vervalt morgen",
-  "plannedReminderDueInDays": "{count, plural, other{Vervalt over {count} dagen}}"
+  "plannedReminderDueInDays": "{count, plural, other{Vervalt over {count} dagen}}",
+  "aboutContactSupport": "Contact opnemen met support",
+  "aboutSupportEmailCopied": "E-mailadres van support gekopieerd"
 }

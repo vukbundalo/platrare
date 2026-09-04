@@ -2181,4 +2181,10 @@ class AppLocalizationsHi extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'सहायता से संपर्क करें';
+
+  @override
+  String get aboutSupportEmailCopied => 'सहायता ईमेल पता कॉपी किया गया';
 }

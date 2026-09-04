@@ -1046,5 +1046,7 @@
   "plannedReminderFallbackTitle": "Запланированная операция",
   "plannedReminderDueToday": "Срок сегодня",
   "plannedReminderDueTomorrow": "Срок завтра",
-  "plannedReminderDueInDays": "{count, plural, one{Срок через {count} день} few{Срок через {count} дня} many{Срок через {count} дней} other{Срок через {count} дня}}"
+  "plannedReminderDueInDays": "{count, plural, one{Срок через {count} день} few{Срок через {count} дня} many{Срок через {count} дней} other{Срок через {count} дня}}",
+  "aboutContactSupport": "Связаться с поддержкой",
+  "aboutSupportEmailCopied": "Адрес почты поддержки скопирован"
 }

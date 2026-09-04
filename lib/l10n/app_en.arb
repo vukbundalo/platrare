@@ -1141,5 +1141,7 @@
         "type": "int"
       }
     }
-  }
+  },
+  "aboutContactSupport": "Contact support",
+  "aboutSupportEmailCopied": "Support email address copied"
 }

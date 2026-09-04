@@ -1046,5 +1046,7 @@
   "plannedReminderFallbackTitle": "계획된 거래",
   "plannedReminderDueToday": "오늘 만기",
   "plannedReminderDueTomorrow": "내일 만기",
-  "plannedReminderDueInDays": "{count, plural, other{{count}일 후 만기}}"
+  "plannedReminderDueInDays": "{count, plural, other{{count}일 후 만기}}",
+  "aboutContactSupport": "지원팀에 문의",
+  "aboutSupportEmailCopied": "지원 이메일 주소가 복사되었습니다"
 }

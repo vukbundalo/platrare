@@ -2192,4 +2192,10 @@ class AppLocalizationsNl extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'Contact opnemen met support';
+
+  @override
+  String get aboutSupportEmailCopied => 'E-mailadres van support gekopieerd';
 }

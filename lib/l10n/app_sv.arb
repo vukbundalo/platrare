@@ -1046,5 +1046,7 @@
   "plannedReminderFallbackTitle": "Planerad transaktion",
   "plannedReminderDueToday": "Förfaller i dag",
   "plannedReminderDueTomorrow": "Förfaller i morgon",
-  "plannedReminderDueInDays": "{count, plural, other{Förfaller om {count} dagar}}"
+  "plannedReminderDueInDays": "{count, plural, other{Förfaller om {count} dagar}}",
+  "aboutContactSupport": "Kontakta supporten",
+  "aboutSupportEmailCopied": "Supportens e-postadress kopierad"
 }

@@ -2172,4 +2172,10 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'Contact support';
+
+  @override
+  String get aboutSupportEmailCopied => 'Support email address copied';
 }

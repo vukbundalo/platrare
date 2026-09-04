@@ -1046,5 +1046,7 @@
   "plannedReminderFallbackTitle": "Planlanan işlem",
   "plannedReminderDueToday": "Vadesi bugün",
   "plannedReminderDueTomorrow": "Vadesi yarın",
-  "plannedReminderDueInDays": "{count, plural, other{Vadesine {count} gün var}}"
+  "plannedReminderDueInDays": "{count, plural, other{Vadesine {count} gün var}}",
+  "aboutContactSupport": "Destekle iletişime geç",
+  "aboutSupportEmailCopied": "Destek e-posta adresi kopyalandı"
 }

@@ -1046,5 +1046,7 @@
   "plannedReminderFallbackTitle": "Transaction planifiée",
   "plannedReminderDueToday": "Échéance aujourd'hui",
   "plannedReminderDueTomorrow": "Échéance demain",
-  "plannedReminderDueInDays": "{count, plural, other{Échéance dans {count} jours}}"
+  "plannedReminderDueInDays": "{count, plural, other{Échéance dans {count} jours}}",
+  "aboutContactSupport": "Contacter l’assistance",
+  "aboutSupportEmailCopied": "Adresse e-mail de l’assistance copiée"
 }
