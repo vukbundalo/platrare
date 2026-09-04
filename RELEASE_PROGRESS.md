@@ -27,7 +27,7 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started · `[!]` needs the 
 | 5 | Archived-account restore in Settings persists | [x] | |
 | 6 | `proguard-rules.pro` + Gradle wiring; `backup_rules.xml` + `data_extraction_rules.xml` | [x] | Not build-verified here (no Android SDK in the container); first CI/local release build must confirm. |
 | 7 | Pin Flutter (`.fvmrc`, CI `flutter-version`); `targetSdk = 36` explicit | [x] | Pinned 3.47.2; pubspec.lock and analysis_options.yaml refreshed under that SDK. Owner: run `fvm install` or match locally. |
-| 8 | iOS: strip local-network plist keys in Release; `1C8F.1` in both privacy manifests; fix Team ID in widget script | [ ] | |
+| 8 | iOS: strip local-network plist keys in Release; `1C8F.1` in both privacy manifests; fix Team ID in widget script | [x] | New Xcode run-script phase "Strip Debug-Only Info.plist Keys" (Release only). Verify once in Xcode: archive, then inspect the built Info.plist. |
 | 9 | Delete `web/ linux/ macos/ windows/`; bundle only policy files, not all of `docs/` | [x] | Re-add macOS/Windows deliberately in Phase 4. |
 | 10 | CI: signed Android release build (skips signing when secrets absent) + iOS compile job | [ ] | Secrets `UPLOAD_KEYSTORE_B64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD` are the owner's to add. |
 | 11 | Store assets: adaptive + monochrome icon, 512 icon, feature graphic, listing copy | [ ] | Screenshots need a device: owner. |

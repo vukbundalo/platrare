@@ -66,6 +66,8 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<!-- The next two keys are debug tooling only (flutter run VM-service discovery).
+	     The "Strip Debug-Only Info.plist Keys" build phase removes them from Release. -->
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_dartVmService._tcp</string>
