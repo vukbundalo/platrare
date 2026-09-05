@@ -2246,6 +2246,24 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get planDeleteBody =>
       'Biće uklonjena iz vašeg plana. Stanja vaših računa se ne menjaju.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Prethodni period';
+
+  @override
+  String get semanticsNextPeriod => 'Sledeći period';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistika';
+
+  @override
+  String get semanticsCurrencyToggle => 'Promeni valutu prikaza';
+
+  @override
+  String get semanticsStatsSpent => 'Potrošeno';
+
+  @override
+  String get semanticsStatsReceived => 'Primljeno';
 }
 
 /// The translations for Serbian, using the Cyrillic script (`sr_Cyrl`).
@@ -4486,6 +4504,24 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
   @override
   String get planDeleteBody =>
       'Биће уклоњена из вашег плана. Стања ваших рачуна се не мењају.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Претходни период';
+
+  @override
+  String get semanticsNextPeriod => 'Следећи период';
+
+  @override
+  String get semanticsSectionStatistics => 'Статистика';
+
+  @override
+  String get semanticsCurrencyToggle => 'Промени валуту приказа';
+
+  @override
+  String get semanticsStatsSpent => 'Потрошено';
+
+  @override
+  String get semanticsStatsReceived => 'Примљено';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).
@@ -6730,4 +6766,22 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
   @override
   String get planDeleteBody =>
       'Biće uklonjena iz vašeg plana. Stanja vaših računa se ne menjaju.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Prethodni period';
+
+  @override
+  String get semanticsNextPeriod => 'Sledeći period';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistika';
+
+  @override
+  String get semanticsCurrencyToggle => 'Promeni valutu prikaza';
+
+  @override
+  String get semanticsStatsSpent => 'Potrošeno';
+
+  @override
+  String get semanticsStatsReceived => 'Primljeno';
 }

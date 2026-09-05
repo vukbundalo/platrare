@@ -1060,5 +1060,11 @@
   "onboardingTour": "Faites-moi visiter",
   "clearDataConfirmWord": "SUPPRIMER",
   "planDeleteTitle": "Supprimer la transaction planifiée ?",
-  "planDeleteBody": "Elle sera retirée de votre plan. Les soldes de vos comptes ne changent pas."
+  "planDeleteBody": "Elle sera retirée de votre plan. Les soldes de vos comptes ne changent pas.",
+  "semanticsPreviousPeriod": "Période précédente",
+  "semanticsNextPeriod": "Période suivante",
+  "semanticsSectionStatistics": "Statistiques",
+  "semanticsCurrencyToggle": "Changer la devise d’affichage",
+  "semanticsStatsSpent": "Dépensé",
+  "semanticsStatsReceived": "Reçu"
 }

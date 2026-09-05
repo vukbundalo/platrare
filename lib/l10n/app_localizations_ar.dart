@@ -2232,4 +2232,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get planDeleteBody => 'ستُزال من خطتك. لن تتأثر أرصدة حساباتك.';
+
+  @override
+  String get semanticsPreviousPeriod => 'الفترة السابقة';
+
+  @override
+  String get semanticsNextPeriod => 'الفترة التالية';
+
+  @override
+  String get semanticsSectionStatistics => 'الإحصاءات';
+
+  @override
+  String get semanticsCurrencyToggle => 'تبديل عملة العرض';
+
+  @override
+  String get semanticsStatsSpent => 'المصروف';
+
+  @override
+  String get semanticsStatsReceived => 'المستلم';
 }

@@ -2158,4 +2158,22 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get planDeleteBody => '계획에서 제거됩니다. 계좌 잔액에는 영향이 없습니다.';
+
+  @override
+  String get semanticsPreviousPeriod => '이전 기간';
+
+  @override
+  String get semanticsNextPeriod => '다음 기간';
+
+  @override
+  String get semanticsSectionStatistics => '통계';
+
+  @override
+  String get semanticsCurrencyToggle => '표시 통화 전환';
+
+  @override
+  String get semanticsStatsSpent => '지출';
+
+  @override
+  String get semanticsStatsReceived => '수입';
 }

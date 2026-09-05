@@ -2234,4 +2234,22 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get planDeleteBody =>
       'Planınızdan kaldırılacak. Hesap bakiyeleriniz etkilenmez.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Önceki dönem';
+
+  @override
+  String get semanticsNextPeriod => 'Sonraki dönem';
+
+  @override
+  String get semanticsSectionStatistics => 'İstatistikler';
+
+  @override
+  String get semanticsCurrencyToggle => 'Görüntüleme para birimini değiştir';
+
+  @override
+  String get semanticsStatsSpent => 'Harcanan';
+
+  @override
+  String get semanticsStatsReceived => 'Alınan';
 }

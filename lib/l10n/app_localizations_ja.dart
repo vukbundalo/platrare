@@ -2148,4 +2148,22 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get planDeleteBody => 'プランから削除されます。口座残高には影響しません。';
+
+  @override
+  String get semanticsPreviousPeriod => '前の期間';
+
+  @override
+  String get semanticsNextPeriod => '次の期間';
+
+  @override
+  String get semanticsSectionStatistics => '統計';
+
+  @override
+  String get semanticsCurrencyToggle => '表示通貨を切り替え';
+
+  @override
+  String get semanticsStatsSpent => '支出';
+
+  @override
+  String get semanticsStatsReceived => '収入';
 }

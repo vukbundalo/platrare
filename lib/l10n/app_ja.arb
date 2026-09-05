@@ -1060,5 +1060,11 @@
   "onboardingTour": "使い方を見る",
   "clearDataConfirmWord": "削除",
   "planDeleteTitle": "予定取引を削除しますか？",
-  "planDeleteBody": "プランから削除されます。口座残高には影響しません。"
+  "planDeleteBody": "プランから削除されます。口座残高には影響しません。",
+  "semanticsPreviousPeriod": "前の期間",
+  "semanticsNextPeriod": "次の期間",
+  "semanticsSectionStatistics": "統計",
+  "semanticsCurrencyToggle": "表示通貨を切り替え",
+  "semanticsStatsSpent": "支出",
+  "semanticsStatsReceived": "収入"
 }

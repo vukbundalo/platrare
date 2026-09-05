@@ -2243,4 +2243,22 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get planDeleteBody =>
       'Deze wordt uit je planning verwijderd. Je rekeningsaldi veranderen niet.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Vorige periode';
+
+  @override
+  String get semanticsNextPeriod => 'Volgende periode';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistieken';
+
+  @override
+  String get semanticsCurrencyToggle => 'Weergavevaluta wisselen';
+
+  @override
+  String get semanticsStatsSpent => 'Uitgegeven';
+
+  @override
+  String get semanticsStatsReceived => 'Ontvangen';
 }

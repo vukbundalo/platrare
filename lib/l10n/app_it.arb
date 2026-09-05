@@ -1060,5 +1060,11 @@
   "onboardingTour": "Fammi fare un giro",
   "clearDataConfirmWord": "ELIMINA",
   "planDeleteTitle": "Eliminare la transazione pianificata?",
-  "planDeleteBody": "Verrà rimossa dal tuo piano. I saldi dei tuoi conti non cambiano."
+  "planDeleteBody": "Verrà rimossa dal tuo piano. I saldi dei tuoi conti non cambiano.",
+  "semanticsPreviousPeriod": "Periodo precedente",
+  "semanticsNextPeriod": "Periodo successivo",
+  "semanticsSectionStatistics": "Statistiche",
+  "semanticsCurrencyToggle": "Cambia valuta di visualizzazione",
+  "semanticsStatsSpent": "Speso",
+  "semanticsStatsReceived": "Ricevuto"
 }

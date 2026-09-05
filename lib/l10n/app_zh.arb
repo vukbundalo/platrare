@@ -1060,5 +1060,11 @@
   "onboardingTour": "带我了解一下",
   "clearDataConfirmWord": "删除",
   "planDeleteTitle": "删除计划交易？",
-  "planDeleteBody": "它将从计划中移除，账户余额不受影响。"
+  "planDeleteBody": "它将从计划中移除，账户余额不受影响。",
+  "semanticsPreviousPeriod": "上一期间",
+  "semanticsNextPeriod": "下一期间",
+  "semanticsSectionStatistics": "统计",
+  "semanticsCurrencyToggle": "切换显示货币",
+  "semanticsStatsSpent": "支出",
+  "semanticsStatsReceived": "收入"
 }

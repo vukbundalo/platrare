@@ -2259,4 +2259,22 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get planDeleteBody =>
       'Она будет удалена из плана. Балансы ваших счетов не изменятся.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Предыдущий период';
+
+  @override
+  String get semanticsNextPeriod => 'Следующий период';
+
+  @override
+  String get semanticsSectionStatistics => 'Статистика';
+
+  @override
+  String get semanticsCurrencyToggle => 'Сменить валюту отображения';
+
+  @override
+  String get semanticsStatsSpent => 'Потрачено';
+
+  @override
+  String get semanticsStatsReceived => 'Получено';
 }

@@ -1060,5 +1060,11 @@
   "onboardingTour": "Bana uygulamayı göster",
   "clearDataConfirmWord": "SİL",
   "planDeleteTitle": "Planlanan işlem silinsin mi?",
-  "planDeleteBody": "Planınızdan kaldırılacak. Hesap bakiyeleriniz etkilenmez."
+  "planDeleteBody": "Planınızdan kaldırılacak. Hesap bakiyeleriniz etkilenmez.",
+  "semanticsPreviousPeriod": "Önceki dönem",
+  "semanticsNextPeriod": "Sonraki dönem",
+  "semanticsSectionStatistics": "İstatistikler",
+  "semanticsCurrencyToggle": "Görüntüleme para birimini değiştir",
+  "semanticsStatsSpent": "Harcanan",
+  "semanticsStatsReceived": "Alınan"
 }

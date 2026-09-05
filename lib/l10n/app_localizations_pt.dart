@@ -2237,6 +2237,24 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get planDeleteBody =>
       'Será removida do seu plano. Os saldos das suas contas não são afetados.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Período anterior';
+
+  @override
+  String get semanticsNextPeriod => 'Período seguinte';
+
+  @override
+  String get semanticsSectionStatistics => 'Estatísticas';
+
+  @override
+  String get semanticsCurrencyToggle => 'Mudar moeda de apresentação';
+
+  @override
+  String get semanticsStatsSpent => 'Gasto';
+
+  @override
+  String get semanticsStatsReceived => 'Recebido';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -4472,4 +4490,22 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get planDeleteBody =>
       'Ela será removida do seu plano. Os saldos das suas contas não são afetados.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Período anterior';
+
+  @override
+  String get semanticsNextPeriod => 'Próximo período';
+
+  @override
+  String get semanticsSectionStatistics => 'Estatísticas';
+
+  @override
+  String get semanticsCurrencyToggle => 'Trocar moeda de exibição';
+
+  @override
+  String get semanticsStatsSpent => 'Gasto';
+
+  @override
+  String get semanticsStatsReceived => 'Recebido';
 }

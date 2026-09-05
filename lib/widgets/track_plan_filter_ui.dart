@@ -92,17 +92,11 @@ class TrackPlanFilterChipRow extends StatelessWidget {
       required VoidCallback onTap,
       String? semanticsLabel,
     }) {
-      final chip = GestureDetector(
-        onTap: onTap,
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          height: AppHeroConstants.filterChipHeight,
-          alignment: Alignment.center,
-          decoration: HeroFilterChipStyle.decoration(
-            cs,
-            brightness,
-            selected: active,
-          ),
+      return Expanded(
+        child: HeroTapChip(
+          onTap: onTap,
+          active: active,
+          semanticsLabel: semanticsLabel,
           child: Icon(
             icon,
             size: 15,
@@ -110,32 +104,12 @@ class TrackPlanFilterChipRow extends StatelessWidget {
           ),
         ),
       );
-      return Expanded(
-        child: semanticsLabel == null
-            ? chip
-            : Semantics(
-                label: semanticsLabel,
-                button: true,
-                child: chip,
-              ),
-      );
     }
 
     Widget mainDateChip() {
       final active = dateFilterActive;
       final letter = dateModeLetter;
-      final chip = GestureDetector(
-        onTap: onCycleDate,
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          height: AppHeroConstants.filterChipHeight,
-          alignment: Alignment.center,
-          decoration: HeroFilterChipStyle.decoration(
-            cs,
-            brightness,
-            selected: active,
-          ),
-          child: SizedBox(
+      final chipChild = SizedBox(
             width: 24,
             height: 24,
             child: Center(
@@ -163,19 +137,18 @@ class TrackPlanFilterChipRow extends StatelessWidget {
                           ),
                         ),
             ),
-          ),
-        ),
-      );
+          );
       final semantics = letter != null
           ? letter == '∞'
               ? l10n.semanticsDateAllTime
               : l10n.semanticsDateMode(_semanticsDateModeWord(l10n, letter))
           : l10n.semanticsDateThisMonth;
       return Expanded(
-        child: Semantics(
-          label: semantics,
-          button: true,
-          child: chip,
+        child: HeroTapChip(
+          onTap: onCycleDate,
+          active: active,
+          semanticsLabel: semantics,
+          child: chipChild,
         ),
       );
     }
@@ -277,11 +250,13 @@ class TrackPlanDateNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     return Row(
       children: [
         TrackPlanNavButton(
           icon: Icons.chevron_left_rounded,
           onTap: onNavigateBack,
+          semanticsLabel: l10n.semanticsPreviousPeriod,
         ),
         Expanded(
           child: Padding(
@@ -302,6 +277,7 @@ class TrackPlanDateNavBar extends StatelessWidget {
         TrackPlanNavButton(
           icon: Icons.chevron_right_rounded,
           onTap: onNavigateForward,
+          semanticsLabel: l10n.semanticsNextPeriod,
         ),
       ],
     );
@@ -312,44 +288,60 @@ class TrackPlanNavButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback? onTap;
 
+  /// Announced by screen readers; the arrow alone says nothing.
+  final String? semanticsLabel;
+
   const TrackPlanNavButton({
     super.key,
     required this.icon,
     required this.onTap,
+    this.semanticsLabel,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final brightness = Theme.of(context).brightness;
     final enabled = onTap != null;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 32,
-        height: 32,
-        decoration: enabled
-            ? HeroFilterChipStyle.decoration(
-                cs,
-                brightness,
-                selected: false,
-                borderRadius: BorderRadius.circular(8),
-              )
-            : BoxDecoration(
-                color: cs.surfaceContainerHighest.withValues(alpha: 0.5),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: cs.outlineVariant.withValues(alpha: 0.4),
+    final radius = BorderRadius.circular(8);
+    final body = Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: radius,
+        child: Ink(
+          width: 36,
+          height: 36,
+          decoration: enabled
+              ? HeroFilterChipStyle.decoration(
+                  cs,
+                  Theme.of(context).brightness,
+                  selected: false,
+                  borderRadius: radius,
+                )
+              : BoxDecoration(
+                  color: cs.surfaceContainerHighest.withValues(alpha: 0.5),
+                  borderRadius: radius,
+                  border: Border.all(
+                    color: cs.outlineVariant.withValues(alpha: 0.4),
+                  ),
                 ),
-              ),
-        child: Icon(
-          icon,
-          size: 18,
-          color: enabled
-              ? cs.primary
-              : cs.onSurfaceVariant.withValues(alpha: 0.35),
+          child: Icon(
+            icon,
+            size: 18,
+            color: enabled
+                ? cs.primary
+                : cs.onSurfaceVariant.withValues(alpha: 0.35),
+          ),
         ),
       ),
+    );
+    return Semantics(
+      button: true,
+      enabled: enabled,
+      label: semanticsLabel,
+      child: semanticsLabel == null
+          ? body
+          : Tooltip(message: semanticsLabel!, child: body),
     );
   }
 }

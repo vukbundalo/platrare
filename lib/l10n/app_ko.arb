@@ -1060,5 +1060,11 @@
   "onboardingTour": "둘러보기",
   "clearDataConfirmWord": "삭제",
   "planDeleteTitle": "예정된 거래를 삭제할까요?",
-  "planDeleteBody": "계획에서 제거됩니다. 계좌 잔액에는 영향이 없습니다."
+  "planDeleteBody": "계획에서 제거됩니다. 계좌 잔액에는 영향이 없습니다.",
+  "semanticsPreviousPeriod": "이전 기간",
+  "semanticsNextPeriod": "다음 기간",
+  "semanticsSectionStatistics": "통계",
+  "semanticsCurrencyToggle": "표시 통화 전환",
+  "semanticsStatsSpent": "지출",
+  "semanticsStatsReceived": "수입"
 }

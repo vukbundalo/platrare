@@ -1155,5 +1155,11 @@
   "onboardingTour": "Show me around",
   "clearDataConfirmWord": "DELETE",
   "planDeleteTitle": "Delete planned transaction?",
-  "planDeleteBody": "It will be removed from your plan. Your account balances are not affected."
+  "planDeleteBody": "It will be removed from your plan. Your account balances are not affected.",
+  "semanticsPreviousPeriod": "Previous period",
+  "semanticsNextPeriod": "Next period",
+  "semanticsSectionStatistics": "Statistics",
+  "semanticsCurrencyToggle": "Switch display currency",
+  "semanticsStatsSpent": "Spent",
+  "semanticsStatsReceived": "Received"
 }

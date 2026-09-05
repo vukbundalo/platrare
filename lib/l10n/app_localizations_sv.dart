@@ -2238,4 +2238,22 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get planDeleteBody =>
       'Den tas bort från din plan. Dina kontosaldon påverkas inte.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Föregående period';
+
+  @override
+  String get semanticsNextPeriod => 'Nästa period';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistik';
+
+  @override
+  String get semanticsCurrencyToggle => 'Byt visningsvaluta';
+
+  @override
+  String get semanticsStatsSpent => 'Spenderat';
+
+  @override
+  String get semanticsStatsReceived => 'Mottaget';
 }

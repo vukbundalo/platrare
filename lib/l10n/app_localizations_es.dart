@@ -2251,4 +2251,22 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get planDeleteBody =>
       'Se eliminará de tu plan. Los saldos de tus cuentas no cambian.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Período anterior';
+
+  @override
+  String get semanticsNextPeriod => 'Período siguiente';
+
+  @override
+  String get semanticsSectionStatistics => 'Estadísticas';
+
+  @override
+  String get semanticsCurrencyToggle => 'Cambiar moneda de visualización';
+
+  @override
+  String get semanticsStatsSpent => 'Gastado';
+
+  @override
+  String get semanticsStatsReceived => 'Recibido';
 }

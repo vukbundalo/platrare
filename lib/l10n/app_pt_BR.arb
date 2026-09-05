@@ -1060,5 +1060,11 @@
   "onboardingTour": "Me mostre o app",
   "clearDataConfirmWord": "APAGAR",
   "planDeleteTitle": "Excluir a transação planejada?",
-  "planDeleteBody": "Ela será removida do seu plano. Os saldos das suas contas não são afetados."
+  "planDeleteBody": "Ela será removida do seu plano. Os saldos das suas contas não são afetados.",
+  "semanticsPreviousPeriod": "Período anterior",
+  "semanticsNextPeriod": "Próximo período",
+  "semanticsSectionStatistics": "Estatísticas",
+  "semanticsCurrencyToggle": "Trocar moeda de exibição",
+  "semanticsStatsSpent": "Gasto",
+  "semanticsStatsReceived": "Recebido"
 }

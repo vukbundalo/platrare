@@ -3911,6 +3911,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'It will be removed from your plan. Your account balances are not affected.'**
   String get planDeleteBody;
+
+  /// No description provided for @semanticsPreviousPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous period'**
+  String get semanticsPreviousPeriod;
+
+  /// No description provided for @semanticsNextPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Next period'**
+  String get semanticsNextPeriod;
+
+  /// No description provided for @semanticsSectionStatistics.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get semanticsSectionStatistics;
+
+  /// No description provided for @semanticsCurrencyToggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch display currency'**
+  String get semanticsCurrencyToggle;
+
+  /// No description provided for @semanticsStatsSpent.
+  ///
+  /// In en, this message translates to:
+  /// **'Spent'**
+  String get semanticsStatsSpent;
+
+  /// No description provided for @semanticsStatsReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Received'**
+  String get semanticsStatsReceived;
 }
 
 class _AppLocalizationsDelegate

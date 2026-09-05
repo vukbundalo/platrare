@@ -2251,4 +2251,22 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get planDeleteBody =>
       'Sie wird aus deinem Plan entfernt. Deine Kontostände bleiben unverändert.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Vorheriger Zeitraum';
+
+  @override
+  String get semanticsNextPeriod => 'Nächster Zeitraum';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistiken';
+
+  @override
+  String get semanticsCurrencyToggle => 'Anzeigewährung wechseln';
+
+  @override
+  String get semanticsStatsSpent => 'Ausgegeben';
+
+  @override
+  String get semanticsStatsReceived => 'Erhalten';
 }

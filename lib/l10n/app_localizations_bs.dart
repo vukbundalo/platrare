@@ -2243,4 +2243,22 @@ class AppLocalizationsBs extends AppLocalizations {
   @override
   String get planDeleteBody =>
       'Bit će uklonjena iz vašeg plana. Stanja vaših računa se ne mijenjaju.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Prethodni period';
+
+  @override
+  String get semanticsNextPeriod => 'Sljedeći period';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistika';
+
+  @override
+  String get semanticsCurrencyToggle => 'Promijeni valutu prikaza';
+
+  @override
+  String get semanticsStatsSpent => 'Potrošeno';
+
+  @override
+  String get semanticsStatsReceived => 'Primljeno';
 }

@@ -2252,4 +2252,22 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get planDeleteBody =>
       'Zostanie usunięta z planu. Salda Twoich kont się nie zmienią.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Poprzedni okres';
+
+  @override
+  String get semanticsNextPeriod => 'Następny okres';
+
+  @override
+  String get semanticsSectionStatistics => 'Statystyki';
+
+  @override
+  String get semanticsCurrencyToggle => 'Zmień walutę wyświetlania';
+
+  @override
+  String get semanticsStatsSpent => 'Wydano';
+
+  @override
+  String get semanticsStatsReceived => 'Otrzymano';
 }

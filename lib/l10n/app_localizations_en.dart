@@ -2220,4 +2220,22 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get planDeleteBody =>
       'It will be removed from your plan. Your account balances are not affected.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Previous period';
+
+  @override
+  String get semanticsNextPeriod => 'Next period';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistics';
+
+  @override
+  String get semanticsCurrencyToggle => 'Switch display currency';
+
+  @override
+  String get semanticsStatsSpent => 'Spent';
+
+  @override
+  String get semanticsStatsReceived => 'Received';
 }

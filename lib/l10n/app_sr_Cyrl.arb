@@ -696,5 +696,11 @@
   "onboardingTour": "Покажи ми апликацију",
   "clearDataConfirmWord": "ОБРИШИ",
   "planDeleteTitle": "Обрисати планирану трансакцију?",
-  "planDeleteBody": "Биће уклоњена из вашег плана. Стања ваших рачуна се не мењају."
+  "planDeleteBody": "Биће уклоњена из вашег плана. Стања ваших рачуна се не мењају.",
+  "semanticsPreviousPeriod": "Претходни период",
+  "semanticsNextPeriod": "Следећи период",
+  "semanticsSectionStatistics": "Статистика",
+  "semanticsCurrencyToggle": "Промени валуту приказа",
+  "semanticsStatsSpent": "Потрошено",
+  "semanticsStatsReceived": "Примљено"
 }

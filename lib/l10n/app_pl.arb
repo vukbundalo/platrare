@@ -1060,5 +1060,11 @@
   "onboardingTour": "Pokaż mi aplikację",
   "clearDataConfirmWord": "USUŃ",
   "planDeleteTitle": "Usunąć zaplanowaną transakcję?",
-  "planDeleteBody": "Zostanie usunięta z planu. Salda Twoich kont się nie zmienią."
+  "planDeleteBody": "Zostanie usunięta z planu. Salda Twoich kont się nie zmienią.",
+  "semanticsPreviousPeriod": "Poprzedni okres",
+  "semanticsNextPeriod": "Następny okres",
+  "semanticsSectionStatistics": "Statystyki",
+  "semanticsCurrencyToggle": "Zmień walutę wyświetlania",
+  "semanticsStatsSpent": "Wydano",
+  "semanticsStatsReceived": "Otrzymano"
 }

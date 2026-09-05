@@ -2119,6 +2119,24 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get planDeleteBody => '它将从计划中移除，账户余额不受影响。';
+
+  @override
+  String get semanticsPreviousPeriod => '上一期间';
+
+  @override
+  String get semanticsNextPeriod => '下一期间';
+
+  @override
+  String get semanticsSectionStatistics => '统计';
+
+  @override
+  String get semanticsCurrencyToggle => '切换显示货币';
+
+  @override
+  String get semanticsStatsSpent => '支出';
+
+  @override
+  String get semanticsStatsReceived => '收入';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -4236,4 +4254,22 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get planDeleteBody => '它将从计划中移除，账户余额不受影响。';
+
+  @override
+  String get semanticsPreviousPeriod => '上一期间';
+
+  @override
+  String get semanticsNextPeriod => '下一期间';
+
+  @override
+  String get semanticsSectionStatistics => '统计';
+
+  @override
+  String get semanticsCurrencyToggle => '切换显示货币';
+
+  @override
+  String get semanticsStatsSpent => '支出';
+
+  @override
+  String get semanticsStatsReceived => '收入';
 }

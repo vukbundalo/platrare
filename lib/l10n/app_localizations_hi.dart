@@ -2229,4 +2229,22 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get planDeleteBody =>
       'इसे आपकी योजना से हटा दिया जाएगा। आपके खातों के बैलेंस पर कोई असर नहीं पड़ेगा।';
+
+  @override
+  String get semanticsPreviousPeriod => 'पिछली अवधि';
+
+  @override
+  String get semanticsNextPeriod => 'अगली अवधि';
+
+  @override
+  String get semanticsSectionStatistics => 'आँकड़े';
+
+  @override
+  String get semanticsCurrencyToggle => 'प्रदर्शन मुद्रा बदलें';
+
+  @override
+  String get semanticsStatsSpent => 'खर्च';
+
+  @override
+  String get semanticsStatsReceived => 'प्राप्त';
 }

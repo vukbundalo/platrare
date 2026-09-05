@@ -1060,5 +1060,11 @@
   "onboardingTour": "Visa mig runt",
   "clearDataConfirmWord": "RADERA",
   "planDeleteTitle": "Ta bort planerad transaktion?",
-  "planDeleteBody": "Den tas bort från din plan. Dina kontosaldon påverkas inte."
+  "planDeleteBody": "Den tas bort från din plan. Dina kontosaldon påverkas inte.",
+  "semanticsPreviousPeriod": "Föregående period",
+  "semanticsNextPeriod": "Nästa period",
+  "semanticsSectionStatistics": "Statistik",
+  "semanticsCurrencyToggle": "Byt visningsvaluta",
+  "semanticsStatsSpent": "Spenderat",
+  "semanticsStatsReceived": "Mottaget"
 }

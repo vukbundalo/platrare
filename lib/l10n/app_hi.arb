@@ -1060,5 +1060,11 @@
   "onboardingTour": "मुझे ऐप दिखाएँ",
   "clearDataConfirmWord": "हटाएं",
   "planDeleteTitle": "योजनाबद्ध लेन-देन हटाएँ?",
-  "planDeleteBody": "इसे आपकी योजना से हटा दिया जाएगा। आपके खातों के बैलेंस पर कोई असर नहीं पड़ेगा।"
+  "planDeleteBody": "इसे आपकी योजना से हटा दिया जाएगा। आपके खातों के बैलेंस पर कोई असर नहीं पड़ेगा।",
+  "semanticsPreviousPeriod": "पिछली अवधि",
+  "semanticsNextPeriod": "अगली अवधि",
+  "semanticsSectionStatistics": "आँकड़े",
+  "semanticsCurrencyToggle": "प्रदर्शन मुद्रा बदलें",
+  "semanticsStatsSpent": "खर्च",
+  "semanticsStatsReceived": "प्राप्त"
 }

@@ -1060,5 +1060,11 @@
   "onboardingTour": "Leid me rond",
   "clearDataConfirmWord": "VERWIJDER",
   "planDeleteTitle": "Geplande transactie verwijderen?",
-  "planDeleteBody": "Deze wordt uit je planning verwijderd. Je rekeningsaldi veranderen niet."
+  "planDeleteBody": "Deze wordt uit je planning verwijderd. Je rekeningsaldi veranderen niet.",
+  "semanticsPreviousPeriod": "Vorige periode",
+  "semanticsNextPeriod": "Volgende periode",
+  "semanticsSectionStatistics": "Statistieken",
+  "semanticsCurrencyToggle": "Weergavevaluta wisselen",
+  "semanticsStatsSpent": "Uitgegeven",
+  "semanticsStatsReceived": "Ontvangen"
 }

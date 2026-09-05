@@ -2253,4 +2253,22 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get planDeleteBody =>
       'Її буде вилучено з плану. Баланси ваших рахунків не зміняться.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Попередній період';
+
+  @override
+  String get semanticsNextPeriod => 'Наступний період';
+
+  @override
+  String get semanticsSectionStatistics => 'Статистика';
+
+  @override
+  String get semanticsCurrencyToggle => 'Змінити валюту відображення';
+
+  @override
+  String get semanticsStatsSpent => 'Витрачено';
+
+  @override
+  String get semanticsStatsReceived => 'Отримано';
 }

@@ -1060,5 +1060,11 @@
   "onboardingTour": "Zeig mir die App",
   "clearDataConfirmWord": "LÖSCHEN",
   "planDeleteTitle": "Geplante Transaktion löschen?",
-  "planDeleteBody": "Sie wird aus deinem Plan entfernt. Deine Kontostände bleiben unverändert."
+  "planDeleteBody": "Sie wird aus deinem Plan entfernt. Deine Kontostände bleiben unverändert.",
+  "semanticsPreviousPeriod": "Vorheriger Zeitraum",
+  "semanticsNextPeriod": "Nächster Zeitraum",
+  "semanticsSectionStatistics": "Statistiken",
+  "semanticsCurrencyToggle": "Anzeigewährung wechseln",
+  "semanticsStatsSpent": "Ausgegeben",
+  "semanticsStatsReceived": "Erhalten"
 }

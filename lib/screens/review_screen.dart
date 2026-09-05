@@ -1461,24 +1461,23 @@ class _NetWorthHero extends StatelessWidget {
         '${formatBalanceAmount(displayPersonal)} $sym';
     final netStr = '${formatBalanceAmount(displayNet)} $sym';
 
-    Widget chip({required IconData icon, required bool active, required VoidCallback onTap, Widget? child}) {
-      return GestureDetector(
+    Widget chip({
+      required IconData icon,
+      required bool active,
+      required VoidCallback onTap,
+      required String label,
+      Widget? child,
+    }) {
+      return HeroTapChip(
         onTap: onTap,
-        child: Container(
-          height: AppHeroConstants.filterChipHeight,
-          alignment: Alignment.center,
-          decoration: HeroFilterChipStyle.decoration(
-            cs,
-            brightness,
-            selected: active,
-          ),
-          child: child ??
-              Icon(
-                icon,
-                size: 15,
-                color: HeroFilterChipStyle.foreground(cs, selected: active),
-              ),
-        ),
+        active: active,
+        semanticsLabel: label,
+        child: child ??
+            Icon(
+              icon,
+              size: 15,
+              color: HeroFilterChipStyle.foreground(cs, selected: active),
+            ),
       );
     }
 
@@ -1582,6 +1581,7 @@ class _NetWorthHero extends StatelessWidget {
                             child: chip(
                                 icon: Icons.person_outline_rounded,
                                 active: activeSection == 'personal',
+                                label: l10n.accountGroupPersonal,
                                 onTap: () =>
                                     onSelectSection('personal'))),
                         const SizedBox(width: 6),
@@ -1589,6 +1589,7 @@ class _NetWorthHero extends StatelessWidget {
                             child: chip(
                                 icon: Icons.people_outline_rounded,
                                 active: activeSection == 'individuals',
+                                label: l10n.accountSectionIndividuals,
                                 onTap: () =>
                                     onSelectSection('individuals'))),
                         const SizedBox(width: 6),
@@ -1596,6 +1597,7 @@ class _NetWorthHero extends StatelessWidget {
                             child: chip(
                                 icon: Icons.business_outlined,
                                 active: activeSection == 'entities',
+                                label: l10n.accountSectionEntities,
                                 onTap: () =>
                                     onSelectSection('entities'))),
                         const SizedBox(width: 6),
@@ -1603,6 +1605,7 @@ class _NetWorthHero extends StatelessWidget {
                             child: chip(
                                 icon: Icons.bar_chart_rounded,
                                 active: activeSection == 'statistics',
+                                label: l10n.semanticsSectionStatistics,
                                 onTap: () =>
                                     onSelectSection('statistics'))),
                         const SizedBox(width: 6),
@@ -1610,6 +1613,7 @@ class _NetWorthHero extends StatelessWidget {
                             child: chip(
                                 icon: Icons.currency_exchange_rounded,
                                 active: isSecondary,
+                                label: l10n.semanticsCurrencyToggle,
                                 onTap: onToggleCurrency)),
                       ],
                     );
@@ -1686,67 +1690,53 @@ class _StatsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final brightness = Theme.of(context).brightness;
     final l10n = AppLocalizations.of(context);
     final isAllTime = spendingMonths == 0;
     final vizIcon = vizMode == 1 ? Icons.donut_large_rounded : Icons.bar_chart_rounded;
 
     // Same footprint as _NetWorthHero chips: full row width, shared chip height, 6px gaps.
     // Row: spent / received / period / chart type (bar↔pie) / compare toggle.
-    Widget chip({required IconData icon, required bool active, required VoidCallback onTap, String? label}) =>
-      GestureDetector(
-        onTap: onTap,
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          height: AppHeroConstants.filterChipHeight,
-          alignment: Alignment.center,
-          decoration: HeroFilterChipStyle.decoration(
-            cs,
-            brightness,
-            selected: active,
-          ),
+    Widget chip({
+      required IconData icon,
+      required bool active,
+      required VoidCallback onTap,
+      String? label,
+      String? semanticsLabel,
+    }) =>
+        HeroTapChip(
+          onTap: onTap,
+          active: active,
+          semanticsLabel: semanticsLabel,
           child: label != null
               ? FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(label,
                       style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          color: HeroFilterChipStyle.foreground(
-                              cs, selected: active),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: HeroFilterChipStyle.foreground(cs,
+                            selected: active),
                       )),
                 )
-              : Icon(icon, size: 15,
-                  color: HeroFilterChipStyle.foreground(cs, selected: active)),
-        ),
-      );
+              : Icon(icon,
+                  size: 15,
+                  color:
+                      HeroFilterChipStyle.foreground(cs, selected: active)),
+        );
 
-    Widget navBtn({required IconData icon, required bool enabled, required VoidCallback onTap}) =>
-      GestureDetector(
-        onTap: enabled ? onTap : null,
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          width: 36,
-          height: 36,
-          alignment: Alignment.center,
-          decoration: enabled
-              ? HeroFilterChipStyle.decoration(
-                  cs,
-                  brightness,
-                  selected: false,
-                  borderRadius: BorderRadius.circular(20),
-                )
-              : BoxDecoration(
-                  color: cs.surfaceContainerHighest.withValues(alpha: 0.45),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: cs.outlineVariant.withValues(alpha: 0.35),
-                  ),
-                ),
-          child: Icon(icon, size: 18,
-              color: enabled ? cs.primary : cs.onSurfaceVariant.withValues(alpha: 0.4)),
-        ),
-      );
+    Widget navBtn({
+      required IconData icon,
+      required bool enabled,
+      required VoidCallback onTap,
+      required String semanticsLabel,
+    }) =>
+        _InkNavButton(
+          icon: icon,
+          enabled: enabled,
+          onTap: onTap,
+          size: 36,
+          semanticsLabel: semanticsLabel,
+        );
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -1759,6 +1749,7 @@ class _StatsHeader extends StatelessWidget {
                 child: chip(
                   icon: Icons.arrow_upward_rounded,
                   active: activeStats == 'expense',
+                  semanticsLabel: l10n.semanticsStatsSpent,
                   onTap: () => onSelectStats('expense'),
                 ),
               ),
@@ -1767,6 +1758,7 @@ class _StatsHeader extends StatelessWidget {
                 child: chip(
                   icon: Icons.arrow_downward_rounded,
                   active: activeStats == 'income',
+                  semanticsLabel: l10n.semanticsStatsReceived,
                   onTap: () => onSelectStats('income'),
                 ),
               ),
@@ -1777,6 +1769,7 @@ class _StatsHeader extends StatelessWidget {
                   active: true,
                   onTap: onCyclePeriod,
                   label: periodLabel,
+                  semanticsLabel: l10n.semanticsPeriod(periodLabel),
                 ),
               ),
               const SizedBox(width: 6),
@@ -1892,7 +1885,12 @@ class _StatsHeader extends StatelessWidget {
             Row(
               children: [
                 if (!isAllTime)
-                  navBtn(icon: Icons.chevron_left_rounded, enabled: true, onTap: onNavigateBack),
+                  navBtn(
+                    icon: Icons.chevron_left_rounded,
+                    enabled: true,
+                    onTap: onNavigateBack,
+                    semanticsLabel: l10n.semanticsPreviousPeriod,
+                  ),
                 if (!isAllTime) const SizedBox(width: 6),
                 Expanded(
                   child: Text(
@@ -1911,7 +1909,8 @@ class _StatsHeader extends StatelessWidget {
                     icon: Icons.chevron_right_rounded,
                     enabled: canNavigateForward,
                     onTap: onNavigateForward,
-                  ),
+                  
+              semanticsLabel: AppLocalizations.of(context).semanticsNextPeriod,),
               ],
             ),
         ],
@@ -1947,28 +1946,14 @@ class _CompareMiniDateNav extends StatelessWidget {
       required IconData icon,
       required bool enabled,
       required VoidCallback onTap,
+      required String semanticsLabel,
     }) =>
-        GestureDetector(
-          onTap: enabled ? onTap : null,
-          behavior: HitTestBehavior.opaque,
-          child: Container(
-            width: 32,
-            height: 32,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: enabled
-                  ? cs.primary.withValues(alpha: 0.12)
-                  : cs.surfaceContainerHighest.withValues(alpha: 0.5),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Icon(
-              icon,
-              size: 17,
-              color: enabled
-                  ? cs.primary
-                  : cs.onSurfaceVariant.withValues(alpha: 0.35),
-            ),
-          ),
+        _InkNavButton(
+          icon: icon,
+          enabled: enabled,
+          onTap: onTap,
+          size: 32,
+          semanticsLabel: semanticsLabel,
         );
 
     return Semantics(
@@ -1989,7 +1974,8 @@ class _CompareMiniDateNav extends StatelessWidget {
               icon: Icons.chevron_left_rounded,
               enabled: canBack,
               onTap: onBack,
-            ),
+            
+              semanticsLabel: AppLocalizations.of(context).semanticsPreviousPeriod,),
             const SizedBox(width: 4),
             Expanded(
               child: Text(
@@ -2010,7 +1996,8 @@ class _CompareMiniDateNav extends StatelessWidget {
               icon: Icons.chevron_right_rounded,
               enabled: canForward,
               onTap: onForward,
-            ),
+            
+              semanticsLabel: AppLocalizations.of(context).semanticsNextPeriod,),
           ],
         ),
       ),
@@ -3186,3 +3173,59 @@ class _EmptyAccountsHint extends StatelessWidget {
   }
 }
 
+
+/// Round/rounded arrow button with ink and a screen-reader label; replaces
+/// the GestureDetector arrows in the stats row and the compare mini-nav.
+class _InkNavButton extends StatelessWidget {
+  const _InkNavButton({
+    required this.icon,
+    required this.enabled,
+    required this.onTap,
+    required this.size,
+    required this.semanticsLabel,
+  });
+
+  final IconData icon;
+  final bool enabled;
+  final VoidCallback onTap;
+  final double size;
+  final String semanticsLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final radius = BorderRadius.circular(size / 2);
+    return Semantics(
+      button: true,
+      enabled: enabled,
+      label: semanticsLabel,
+      child: Tooltip(
+        message: semanticsLabel,
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            onTap: enabled ? onTap : null,
+            borderRadius: radius,
+            child: Ink(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                color: enabled
+                    ? cs.primary.withValues(alpha: 0.12)
+                    : cs.surfaceContainerHighest.withValues(alpha: 0.5),
+                borderRadius: radius,
+              ),
+              child: Icon(
+                icon,
+                size: size / 2,
+                color: enabled
+                    ? cs.primary
+                    : cs.onSurfaceVariant.withValues(alpha: 0.35),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

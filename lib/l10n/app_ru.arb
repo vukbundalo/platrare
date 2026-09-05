@@ -1060,5 +1060,11 @@
   "onboardingTour": "Покажите приложение",
   "clearDataConfirmWord": "УДАЛИТЬ",
   "planDeleteTitle": "Удалить запланированную операцию?",
-  "planDeleteBody": "Она будет удалена из плана. Балансы ваших счетов не изменятся."
+  "planDeleteBody": "Она будет удалена из плана. Балансы ваших счетов не изменятся.",
+  "semanticsPreviousPeriod": "Предыдущий период",
+  "semanticsNextPeriod": "Следующий период",
+  "semanticsSectionStatistics": "Статистика",
+  "semanticsCurrencyToggle": "Сменить валюту отображения",
+  "semanticsStatsSpent": "Потрачено",
+  "semanticsStatsReceived": "Получено"
 }

@@ -1060,5 +1060,11 @@
   "onboardingTour": "Muéstrame la app",
   "clearDataConfirmWord": "BORRAR",
   "planDeleteTitle": "¿Eliminar la transacción planificada?",
-  "planDeleteBody": "Se eliminará de tu plan. Los saldos de tus cuentas no cambian."
+  "planDeleteBody": "Se eliminará de tu plan. Los saldos de tus cuentas no cambian.",
+  "semanticsPreviousPeriod": "Período anterior",
+  "semanticsNextPeriod": "Período siguiente",
+  "semanticsSectionStatistics": "Estadísticas",
+  "semanticsCurrencyToggle": "Cambiar moneda de visualización",
+  "semanticsStatsSpent": "Gastado",
+  "semanticsStatsReceived": "Recibido"
 }

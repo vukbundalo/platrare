@@ -1060,5 +1060,11 @@
   "onboardingTour": "Покажіть застосунок",
   "clearDataConfirmWord": "ВИДАЛИТИ",
   "planDeleteTitle": "Видалити заплановану операцію?",
-  "planDeleteBody": "Її буде вилучено з плану. Баланси ваших рахунків не зміняться."
+  "planDeleteBody": "Її буде вилучено з плану. Баланси ваших рахунків не зміняться.",
+  "semanticsPreviousPeriod": "Попередній період",
+  "semanticsNextPeriod": "Наступний період",
+  "semanticsSectionStatistics": "Статистика",
+  "semanticsCurrencyToggle": "Змінити валюту відображення",
+  "semanticsStatsSpent": "Витрачено",
+  "semanticsStatsReceived": "Отримано"
 }
