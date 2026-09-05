@@ -1066,5 +1066,7 @@
   "semanticsSectionStatistics": "Statistieken",
   "semanticsCurrencyToggle": "Weergavevaluta wisselen",
   "semanticsStatsSpent": "Uitgegeven",
-  "semanticsStatsReceived": "Ontvangen"
+  "semanticsStatsReceived": "Ontvangen",
+  "ledgerVerifyRecalculate": "Herberekenen uit geschiedenis",
+  "ledgerVerifyRecalculated": "{count} rekeningsaldi herberekend uit de geschiedenis"
 }

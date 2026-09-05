@@ -2277,4 +2277,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => 'Получено';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Пересчитать по истории';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return 'Пересчитаны балансы $count счетов по истории';
+  }
 }

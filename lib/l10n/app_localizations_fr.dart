@@ -2273,4 +2273,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => 'Reçu';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Recalculer depuis l’historique';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count soldes recalculés depuis l’historique';
+  }
 }

@@ -1066,5 +1066,7 @@
   "semanticsSectionStatistics": "Statistik",
   "semanticsCurrencyToggle": "Byt visningsvaluta",
   "semanticsStatsSpent": "Spenderat",
-  "semanticsStatsReceived": "Mottaget"
+  "semanticsStatsReceived": "Mottaget",
+  "ledgerVerifyRecalculate": "Räkna om från historiken",
+  "ledgerVerifyRecalculated": "{count} kontosaldon omräknade från historiken"
 }

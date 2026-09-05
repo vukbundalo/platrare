@@ -2269,4 +2269,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => 'Erhalten';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Aus dem Verlauf neu berechnen';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count Kontostände aus dem Verlauf neu berechnet';
+  }
 }

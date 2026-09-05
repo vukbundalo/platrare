@@ -702,5 +702,7 @@
   "semanticsSectionStatistics": "Статистика",
   "semanticsCurrencyToggle": "Промени валуту приказа",
   "semanticsStatsSpent": "Потрошено",
-  "semanticsStatsReceived": "Примљено"
+  "semanticsStatsReceived": "Примљено",
+  "ledgerVerifyRecalculate": "Прерачунај из историје",
+  "ledgerVerifyRecalculated": "Прерачуната стања за {count} рачун(а) из историје"
 }

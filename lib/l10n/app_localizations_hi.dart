@@ -2247,4 +2247,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => 'प्राप्त';
+
+  @override
+  String get ledgerVerifyRecalculate => 'इतिहास से पुनर्गणना करें';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count खातों के बैलेंस इतिहास से पुनर्गणित किए गए';
+  }
 }

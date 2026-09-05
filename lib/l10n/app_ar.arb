@@ -1066,5 +1066,7 @@
   "semanticsSectionStatistics": "الإحصاءات",
   "semanticsCurrencyToggle": "تبديل عملة العرض",
   "semanticsStatsSpent": "المصروف",
-  "semanticsStatsReceived": "المستلم"
+  "semanticsStatsReceived": "المستلم",
+  "ledgerVerifyRecalculate": "إعادة الحساب من السجل",
+  "ledgerVerifyRecalculated": "تمت إعادة حساب أرصدة {count} من الحسابات من السجل"
 }

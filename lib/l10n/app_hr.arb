@@ -1066,5 +1066,7 @@
   "semanticsSectionStatistics": "Statistika",
   "semanticsCurrencyToggle": "Promijeni valutu prikaza",
   "semanticsStatsSpent": "Potrošeno",
-  "semanticsStatsReceived": "Primljeno"
+  "semanticsStatsReceived": "Primljeno",
+  "ledgerVerifyRecalculate": "Ponovno izračunaj iz povijesti",
+  "ledgerVerifyRecalculated": "Ponovno izračunata stanja za {count} račun(a) iz povijesti"
 }

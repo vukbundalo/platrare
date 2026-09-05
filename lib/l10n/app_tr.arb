@@ -1066,5 +1066,7 @@
   "semanticsSectionStatistics": "İstatistikler",
   "semanticsCurrencyToggle": "Görüntüleme para birimini değiştir",
   "semanticsStatsSpent": "Harcanan",
-  "semanticsStatsReceived": "Alınan"
+  "semanticsStatsReceived": "Alınan",
+  "ledgerVerifyRecalculate": "Geçmişten yeniden hesapla",
+  "ledgerVerifyRecalculated": "{count} hesap bakiyesi geçmişten yeniden hesaplandı"
 }

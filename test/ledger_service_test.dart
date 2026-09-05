@@ -163,6 +163,26 @@ void main() {
     await expectConsistent();
   });
 
+  test('rebalanceFromLog repairs a tampered stored balance from the log',
+      () async {
+    final bank = await account('Bank', balance: 500);
+    await LedgerService.post(expense(bank, 120));
+    expect(bank.balance, 380);
+
+    // Simulate a stale cache (e.g. an interrupted write on an old build).
+    bank.balance = 999;
+    await DataRepository.persistAccountFields(bank);
+    expect(verifyLedger(accounts: data.accounts, transactions: data.transactions),
+        hasLength(1));
+
+    final changed = await LedgerService.rebalanceFromLog();
+    expect(changed.map((a) => a.id), [bank.id]);
+    expect(bank.balance, 380);
+    await expectConsistent();
+
+    expect(await LedgerService.rebalanceFromLog(), isEmpty);
+  });
+
   test('setBookBalance writes a correction row and keeps replay valid',
       () async {
     final bank = await account('Bank', balance: 200);

@@ -2261,4 +2261,12 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => 'Primljeno';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Ponovno izračunaj iz povijesti';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return 'Ponovno izračunata stanja za $count račun(a) iz povijesti';
+  }
 }

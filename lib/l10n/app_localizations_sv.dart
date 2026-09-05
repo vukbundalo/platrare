@@ -2256,4 +2256,12 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => 'Mottaget';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Räkna om från historiken';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count kontosaldon omräknade från historiken';
+  }
 }

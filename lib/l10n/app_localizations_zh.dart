@@ -2137,6 +2137,14 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => '收入';
+
+  @override
+  String get ledgerVerifyRecalculate => '根据历史记录重新计算';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '已根据历史记录重新计算 $count 个账户余额';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -4272,4 +4280,12 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get semanticsStatsReceived => '收入';
+
+  @override
+  String get ledgerVerifyRecalculate => '根据历史记录重新计算';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '已根据历史记录重新计算 $count 个账户余额';
+  }
 }

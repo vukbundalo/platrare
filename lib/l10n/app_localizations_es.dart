@@ -2269,4 +2269,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => 'Recibido';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Recalcular desde el historial';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return 'Se recalcularon $count saldos a partir del historial';
+  }
 }

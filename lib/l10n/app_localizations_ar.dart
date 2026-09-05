@@ -2250,4 +2250,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => 'المستلم';
+
+  @override
+  String get ledgerVerifyRecalculate => 'إعادة الحساب من السجل';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return 'تمت إعادة حساب أرصدة $count من الحسابات من السجل';
+  }
 }

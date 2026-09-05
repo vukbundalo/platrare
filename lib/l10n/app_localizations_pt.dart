@@ -2255,6 +2255,14 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => 'Recebido';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Recalcular a partir do histórico';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count saldos recalculados a partir do histórico';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -4508,4 +4516,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get semanticsStatsReceived => 'Recebido';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Recalcular a partir do histórico';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count saldos recalculados a partir do histórico';
+  }
 }

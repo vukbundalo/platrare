@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../data/app_data.dart' as data;
+import '../data/ledger_service.dart';
 import '../data/ledger_verify.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
+import '../utils/persistence_guard.dart';
 
 String _fmtBalance(double x) => formatBalanceAmount(x);
 
@@ -49,7 +51,9 @@ Widget buildLedgerVerifyResultBody(
   );
 }
 
-/// Settings → Data → Verify ledger (read-only, Close only).
+/// Settings → Data → Verify ledger. With mismatches, offers to recompute the
+/// stored balances from the transaction log (the log is the source of truth;
+/// balances are its cache).
 Future<void> showLedgerVerifyReadOnlyDialog(
   BuildContext context,
   AppLocalizations l10n,
@@ -59,7 +63,7 @@ Future<void> showLedgerVerifyReadOnlyDialog(
     transactions: data.transactions,
   );
   if (!context.mounted) return;
-  await showDialog<void>(
+  final repair = await showDialog<bool>(
     context: context,
     builder: (ctx) {
       return AlertDialog(
@@ -69,12 +73,23 @@ Future<void> showLedgerVerifyReadOnlyDialog(
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(ctx),
+            onPressed: () => Navigator.pop(ctx, false),
             child: Text(l10n.close),
           ),
+          if (mismatches.isNotEmpty)
+            FilledButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: Text(l10n.ledgerVerifyRecalculate),
+            ),
         ],
       );
     },
+  );
+  if (repair != true || !context.mounted) return;
+  final ok = await guardPersist(context, LedgerService.rebalanceFromLog);
+  if (!ok || !context.mounted) return;
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(l10n.ledgerVerifyRecalculated(mismatches.length))),
   );
 }
 

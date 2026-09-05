@@ -2166,4 +2166,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => '収入';
+
+  @override
+  String get ledgerVerifyRecalculate => '履歴から再計算';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count 件の口座残高を履歴から再計算しました';
+  }
 }

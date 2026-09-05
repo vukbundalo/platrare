@@ -2262,4 +2262,12 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => 'Ricevuto';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Ricalcola dalla cronologia';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count saldi ricalcolati dalla cronologia';
+  }
 }

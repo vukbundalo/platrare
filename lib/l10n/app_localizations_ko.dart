@@ -2176,4 +2176,12 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => '수입';
+
+  @override
+  String get ledgerVerifyRecalculate => '내역에서 다시 계산';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count개 계좌 잔액을 내역에서 다시 계산했습니다';
+  }
 }

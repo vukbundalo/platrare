@@ -1066,5 +1066,7 @@
   "semanticsSectionStatistics": "Statistiken",
   "semanticsCurrencyToggle": "Anzeigewährung wechseln",
   "semanticsStatsSpent": "Ausgegeben",
-  "semanticsStatsReceived": "Erhalten"
+  "semanticsStatsReceived": "Erhalten",
+  "ledgerVerifyRecalculate": "Aus dem Verlauf neu berechnen",
+  "ledgerVerifyRecalculated": "{count} Kontostände aus dem Verlauf neu berechnet"
 }

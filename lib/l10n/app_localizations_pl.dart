@@ -2270,4 +2270,12 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => 'Otrzymano';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Przelicz z historii';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return 'Przeliczono salda $count kont na podstawie historii';
+  }
 }

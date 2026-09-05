@@ -1066,5 +1066,7 @@
   "semanticsSectionStatistics": "Statystyki",
   "semanticsCurrencyToggle": "Zmień walutę wyświetlania",
   "semanticsStatsSpent": "Wydano",
-  "semanticsStatsReceived": "Otrzymano"
+  "semanticsStatsReceived": "Otrzymano",
+  "ledgerVerifyRecalculate": "Przelicz z historii",
+  "ledgerVerifyRecalculated": "Przeliczono salda {count} kont na podstawie historii"
 }

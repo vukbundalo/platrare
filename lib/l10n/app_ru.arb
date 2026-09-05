@@ -1066,5 +1066,7 @@
   "semanticsSectionStatistics": "Статистика",
   "semanticsCurrencyToggle": "Сменить валюту отображения",
   "semanticsStatsSpent": "Потрачено",
-  "semanticsStatsReceived": "Получено"
+  "semanticsStatsReceived": "Получено",
+  "ledgerVerifyRecalculate": "Пересчитать по истории",
+  "ledgerVerifyRecalculated": "Пересчитаны балансы {count} счетов по истории"
 }

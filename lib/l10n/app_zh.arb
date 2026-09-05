@@ -1066,5 +1066,7 @@
   "semanticsSectionStatistics": "统计",
   "semanticsCurrencyToggle": "切换显示货币",
   "semanticsStatsSpent": "支出",
-  "semanticsStatsReceived": "收入"
+  "semanticsStatsReceived": "收入",
+  "ledgerVerifyRecalculate": "根据历史记录重新计算",
+  "ledgerVerifyRecalculated": "已根据历史记录重新计算 {count} 个账户余额"
 }

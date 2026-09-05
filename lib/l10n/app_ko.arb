@@ -1066,5 +1066,7 @@
   "semanticsSectionStatistics": "통계",
   "semanticsCurrencyToggle": "표시 통화 전환",
   "semanticsStatsSpent": "지출",
-  "semanticsStatsReceived": "수입"
+  "semanticsStatsReceived": "수입",
+  "ledgerVerifyRecalculate": "내역에서 다시 계산",
+  "ledgerVerifyRecalculated": "{count}개 계좌 잔액을 내역에서 다시 계산했습니다"
 }

@@ -1066,5 +1066,7 @@
   "semanticsSectionStatistics": "आँकड़े",
   "semanticsCurrencyToggle": "प्रदर्शन मुद्रा बदलें",
   "semanticsStatsSpent": "खर्च",
-  "semanticsStatsReceived": "प्राप्त"
+  "semanticsStatsReceived": "प्राप्त",
+  "ledgerVerifyRecalculate": "इतिहास से पुनर्गणना करें",
+  "ledgerVerifyRecalculated": "{count} खातों के बैलेंस इतिहास से पुनर्गणित किए गए"
 }

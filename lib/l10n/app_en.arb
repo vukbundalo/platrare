@@ -1161,5 +1161,8 @@
   "semanticsSectionStatistics": "Statistics",
   "semanticsCurrencyToggle": "Switch display currency",
   "semanticsStatsSpent": "Spent",
-  "semanticsStatsReceived": "Received"
+  "semanticsStatsReceived": "Received",
+  "ledgerVerifyRecalculate": "Recalculate from history",
+  "ledgerVerifyRecalculated": "{count} account balances recalculated from history",
+  "@ledgerVerifyRecalculated": {"placeholders": {"count": {"type": "int"}}}
 }

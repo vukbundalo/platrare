@@ -3947,6 +3947,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Received'**
   String get semanticsStatsReceived;
+
+  /// No description provided for @ledgerVerifyRecalculate.
+  ///
+  /// In en, this message translates to:
+  /// **'Recalculate from history'**
+  String get ledgerVerifyRecalculate;
+
+  /// No description provided for @ledgerVerifyRecalculated.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} account balances recalculated from history'**
+  String ledgerVerifyRecalculated(int count);
 }
 
 class _AppLocalizationsDelegate

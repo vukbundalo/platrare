@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart' show kDebugMode, debugPrint;
+
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
 import '../models/transaction.dart';
@@ -5,6 +7,7 @@ import '../utils/fx.dart' as fx;
 import 'app_data.dart' as data;
 import 'balance_posting.dart' as bp;
 import 'data_repository.dart';
+import 'ledger_verify.dart';
 import 'user_settings.dart' as settings;
 
 export 'balance_posting.dart' show BalanceCorrectionResult;
@@ -52,22 +55,65 @@ class LedgerService {
   /// Reverses [t]'s balance effect in memory only (no persistence).
   static void reverseInMemory(Transaction t) => _shift(t, -1);
 
+  /// Debug-only tripwire: after every operation the stored balances must
+  /// equal a from-zero replay of the log. A failure here is a bug in a write
+  /// path, never something to hide from.
+  static void _checkInvariant(String op) {
+    if (!kDebugMode) return;
+    final mismatches = verifyLedger(
+      accounts: data.accounts,
+      transactions: data.transactions,
+    );
+    if (mismatches.isEmpty) return;
+    debugPrint('[Ledger] $op left ${mismatches.length} account(s) out of '
+        'step with the log: '
+        '${mismatches.map((m) => '${m.accountId}: stored ${m.storedBalance} '
+            'replay ${m.recomputedBalance}').join('; ')}');
+    assert(false, 'ledger invariant violated after $op');
+  }
+
+  /// Recomputes every account balance from the transaction log and persists
+  /// the ones that differ, in one commit. This is the repair path behind
+  /// Settings → Verify ledger; balances are a cache of the log, and the log
+  /// wins. Returns the accounts whose stored balance changed.
+  static Future<List<Account>> rebalanceFromLog() async {
+    final replay = replayBalances(
+      accounts: data.accounts,
+      transactions: data.transactions,
+    );
+    final changed = <Account>[];
+    for (final a in data.accounts) {
+      final r = replay[a.id] ?? 0.0;
+      if ((a.balance - r).abs() > ledgerVerifyEpsilon) {
+        a.balance = r;
+        changed.add(a);
+      }
+    }
+    if (changed.isNotEmpty) {
+      await DataRepository.persistAccountOrders(changed);
+    }
+    return changed;
+  }
+
   /// Posts a new transaction: shifts balances, then persists row + accounts.
   static Future<void> post(Transaction t) async {
     applyInMemory(t);
     await DataRepository.addTransaction(t);
+    _checkInvariant('post');
   }
 
   /// Undo of [remove]: re-applies balances and re-inserts at [index].
   static Future<void> restoreAt(int index, Transaction t) async {
     applyInMemory(t);
     await DataRepository.insertTransactionAt(index, t);
+    _checkInvariant('restoreAt');
   }
 
   /// Deletes [t] and reverses its balance effect.
   static Future<void> remove(Transaction t) async {
     reverseInMemory(t);
     await DataRepository.removeTransaction(t);
+    _checkInvariant('remove');
   }
 
   /// Edits [old]: reverses it, lets [buildUpdated] classify against the
@@ -82,6 +128,7 @@ class LedgerService {
     final updated = buildUpdated();
     applyInMemory(updated);
     await DataRepository.replaceOrInsertTransaction(updated, isUpdate: true);
+    _checkInvariant('replace');
     return updated;
   }
 
@@ -132,6 +179,7 @@ class LedgerService {
       realized: realized,
       next: next,
     );
+    _checkInvariant('realizePlanned');
     return realized;
   }
 
@@ -179,6 +227,7 @@ class LedgerService {
     );
     if (!result.inserted) account.balance = newBook;
     await DataRepository.persistAccountFields(account);
+    _checkInvariant('setBookBalance');
     return result;
   }
 }

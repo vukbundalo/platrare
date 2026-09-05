@@ -2252,4 +2252,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => 'Alınan';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Geçmişten yeniden hesapla';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count hesap bakiyesi geçmişten yeniden hesaplandı';
+  }
 }

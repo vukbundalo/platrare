@@ -1066,5 +1066,7 @@
   "semanticsSectionStatistics": "Statistiques",
   "semanticsCurrencyToggle": "Changer la devise d’affichage",
   "semanticsStatsSpent": "Dépensé",
-  "semanticsStatsReceived": "Reçu"
+  "semanticsStatsReceived": "Reçu",
+  "ledgerVerifyRecalculate": "Recalculer depuis l’historique",
+  "ledgerVerifyRecalculated": "{count} soldes recalculés depuis l’historique"
 }

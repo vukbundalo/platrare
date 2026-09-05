@@ -2261,4 +2261,12 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get semanticsStatsReceived => 'Ontvangen';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Herberekenen uit geschiedenis';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count rekeningsaldi herberekend uit de geschiedenis';
+  }
 }

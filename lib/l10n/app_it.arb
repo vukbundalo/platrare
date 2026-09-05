@@ -1066,5 +1066,7 @@
   "semanticsSectionStatistics": "Statistiche",
   "semanticsCurrencyToggle": "Cambia valuta di visualizzazione",
   "semanticsStatsSpent": "Speso",
-  "semanticsStatsReceived": "Ricevuto"
+  "semanticsStatsReceived": "Ricevuto",
+  "ledgerVerifyRecalculate": "Ricalcola dalla cronologia",
+  "ledgerVerifyRecalculated": "{count} saldi ricalcolati dalla cronologia"
 }

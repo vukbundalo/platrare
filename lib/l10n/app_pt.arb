@@ -1066,5 +1066,7 @@
   "semanticsSectionStatistics": "Estatísticas",
   "semanticsCurrencyToggle": "Mudar moeda de apresentação",
   "semanticsStatsSpent": "Gasto",
-  "semanticsStatsReceived": "Recebido"
+  "semanticsStatsReceived": "Recebido",
+  "ledgerVerifyRecalculate": "Recalcular a partir do histórico",
+  "ledgerVerifyRecalculated": "{count} saldos recalculados a partir do histórico"
 }

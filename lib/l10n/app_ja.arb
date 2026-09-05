@@ -1066,5 +1066,7 @@
   "semanticsSectionStatistics": "統計",
   "semanticsCurrencyToggle": "表示通貨を切り替え",
   "semanticsStatsSpent": "支出",
-  "semanticsStatsReceived": "収入"
+  "semanticsStatsReceived": "収入",
+  "ledgerVerifyRecalculate": "履歴から再計算",
+  "ledgerVerifyRecalculated": "{count} 件の口座残高を履歴から再計算しました"
 }
