@@ -1126,10 +1126,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsLanguageSubtitleSystem => 'Selon les paramètres système';
 
   @override
-  String get settingsLanguageSubtitleEnglish => 'English';
+  String get settingsLanguageSubtitleEnglish => 'Anglais';
 
   @override
-  String get settingsLanguageSubtitleSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageSubtitleSerbianLatin => 'Serbe (latin)';
 
   @override
   String get settingsLanguagePickerTitle => 'Langue de l\'app';
@@ -1138,10 +1138,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsLanguageOptionSystem => 'Paramètre système';
 
   @override
-  String get settingsLanguageOptionEnglish => 'English';
+  String get settingsLanguageOptionEnglish => 'Anglais';
 
   @override
-  String get settingsLanguageOptionSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageOptionSerbianLatin => 'Serbe (latin)';
 
   @override
   String get settingsSectionAppearance => 'Apparence';
@@ -1819,7 +1819,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Utilisation des taux hors ligne ou inclus — appuyer pour actualiser';
 
   @override
-  String get settingsExchangeRatesSource => 'ECB';
+  String get settingsExchangeRatesSource => 'BCE';
 
   @override
   String get settingsExchangeRatesUpdatedSnack => 'Taux de change mis à jour';
@@ -2068,7 +2068,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Votre solde personnel et votre patrimoine net en un coup d’œil. Touchez les montants pour basculer entre devise principale et secondaire.';
 
   @override
-  String get helpReviewSectionsTitle => 'Sections';
+  String get helpReviewSectionsTitle => 'Rubriques';
 
   @override
   String get helpReviewSectionsBody =>
