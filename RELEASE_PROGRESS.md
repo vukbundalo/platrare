@@ -62,11 +62,24 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started · `[!]` needs the 
 
 ## Phase 4 · Multi-device
 
-Not started.
+Owner decision (2026-09-05): **own backend, end-to-end encrypted** (Supabase storing ciphertext; accounts via email link + Sign in with Apple; sync is the Pro tier). Design: [SYNC_DESIGN.md](SYNC_DESIGN.md).
+
+| # | Step | Status | Notes |
+|---|------|--------|-------|
+| 1 | Schema v5: tombstones, HLC `rev`, UTC ms timestamps, category ids, opening-row backfill, change log, attachment hashes | [ ] | Starts after the owner's device pass on the current branch. |
+| 2 | Change log written by every repository write | [ ] | |
+| 3 | Balances derived on startup (completes Phase 3 step 3) | [ ] | Needs the backfill. |
+| 4 | Local two-database convergence engine + conflict tests | [ ] | No server needed. |
+| 5 | Crypto layer (Argon2id passphrase → wrapped ledger key; AES-GCM batches) | [ ] | |
+| 6 | Supabase project, tables, RLS, auth, account-deletion RPC | [!] | Owner creates the project and picks the region. |
+| 7 | SyncService loop, Settings UI, status indicator | [ ] | |
+| 8 | Attachments upload/download | [ ] | |
+| 9 | Privacy policy sync section + translations, App Privacy label, IAP entitlement | [ ] | |
+| 10 | macOS / Windows targets | [ ] | |
 
 ## Session log
 
 - 2026-09-03 · Audit written and published; RELEASE_AUDIT.md committed.
 - 2026-09-04 · Started Phase 1 execution.
 - 2026-09-05 · Phase 1 code/doc steps complete (owner items 1a, 12, 13 and screenshots remain). Phase 2 steps 1–8 complete; owner should run the app once on a device to eyeball onboarding, the hero chips and large-text rendering.
-- 2026-09-05 · Phase 3 steps 1, 2, 6, 8 complete; 3 and 5 partial (see notes); 4 and 7 wait for a device pass. 81 commits on the branch, 153 tests, analyzer clean under strict lints. CI has not run yet (no PR to main). Waiting on owner: open the PR, device pass, Phase 4 direction.
+- 2026-09-05 · Phase 3 steps 1, 2, 6, 8 complete; 3 and 5 partial (see notes); 4 and 7 wait for a device pass. 81 commits on the branch, 153 tests, analyzer clean under strict lints. CI has not run yet (no PR to main). Owner answered: PR opened as https://github.com/vukbundalo/platrare/pull/1 (session subscribed to its CI); risky Phase 3 refactors wait for the device pass; Phase 4 = own E2E-encrypted backend (SYNC_DESIGN.md).
