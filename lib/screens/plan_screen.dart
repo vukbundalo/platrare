@@ -20,6 +20,7 @@ import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
+import '../utils/period_filter.dart';
 import '../utils/persistence_guard.dart';
 import '../utils/projections.dart' as proj;
 import '../utils/tx_display.dart';
@@ -66,8 +67,7 @@ class _PlanScreenState extends State<PlanScreen> {
   String? _categoryFilter;
   /// null = all time (default on Plan — repeating items must stay visible
   /// past month boundaries); 'month' / 'week' / 'year' narrow the list.
-  String? _dateFilter;
-  DateTime _dateAnchor = DateTime.now();
+  PeriodFilter _period = PeriodFilter.allTime();
   /// Planned list: oldest → newest by default (overdue / soonest days first).
   bool _newestFirst = false;
   bool _accountStripOpen = false;
@@ -118,7 +118,7 @@ class _PlanScreenState extends State<PlanScreen> {
       _typeFilter != null ||
       _accountFilter != null ||
       _categoryFilter != null ||
-      _dateFilter != null ||
+      !_period.isAllTime ||
       _newestFirst ||
       _planSearchQuery.trim().isNotEmpty;
 
@@ -126,8 +126,7 @@ class _PlanScreenState extends State<PlanScreen> {
         _typeFilter = null;
         _accountFilter = null;
         _categoryFilter = null;
-        _dateFilter = null;
-        _dateAnchor = DateTime.now();
+        _period = PeriodFilter.allTime();
         _newestFirst = false;
         _accountStripOpen = false;
         _categoryStripOpen = false;
@@ -172,74 +171,13 @@ class _PlanScreenState extends State<PlanScreen> {
         }
       });
 
-  void _cycleDateFilter() => setState(() {
-        if (_dateFilter == null) {
-          _dateFilter = 'day';
-          _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'day') {
-          _dateFilter = 'week';
-          _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'week') {
-          _dateFilter = 'month';
-          _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'month') {
-          _dateFilter = 'year';
-          _dateAnchor = DateTime.now();
-        } else {
-          _dateFilter = null;
-        }
-      });
-
   void _toggleSort() => setState(() => _newestFirst = !_newestFirst);
-
-  bool get _hasNavigableDateFilter =>
-      _dateFilter == 'day' ||
-      _dateFilter == 'week' ||
-      _dateFilter == 'month' ||
-      _dateFilter == 'year';
-
-  /// Default (no filter) shows the ∞ icon — the Plan list is all-time.
-  String? get _dateChipModeLetter => switch (_dateFilter) {
-        'day' => 'D',
-        'week' => 'W',
-        'month' => 'M',
-        'year' => 'Y',
-        _ => '∞',
-      };
 
   /// Same horizon as the projection snapshot date picker — Plan is forward-looking.
   static const Duration _kPlanListForwardHorizon = Duration(days: 1825);
 
   DateTime get _planListLatestNavDate =>
       DateUtils.dateOnly(DateTime.now().add(_kPlanListForwardHorizon));
-
-  DateTime _planDateAnchorAfterStep(int direction) {
-    final a = _dateAnchor;
-    return switch (_dateFilter) {
-      'day' => DateTime(a.year, a.month, a.day + direction),
-      'week' => DateTime(a.year, a.month, a.day + direction * 7),
-      'month' => DateTime(a.year, a.month + direction, a.day),
-      'year' => DateTime(a.year + direction, a.month, a.day),
-      _ => a,
-    };
-  }
-
-  void _navigateDate(int direction) {
-    setState(() {
-      var next = _planDateAnchorAfterStep(direction);
-      if (direction > 0) {
-        final cap = _planListLatestNavDate;
-        if (DateUtils.dateOnly(next).isAfter(cap)) next = _dateAnchor;
-      }
-      _dateAnchor = next;
-    });
-  }
-
-  bool get _canNavigateDateForward {
-    if (_dateFilter == null) return true;
-    final next = _planDateAnchorAfterStep(1);
-    return !DateUtils.dateOnly(next).isAfter(_planListLatestNavDate);
-  }
 
   /// `[first day of this calendar month, first day of next month)` — only
   /// anchors the default date for “new planned” when the list is all-time.
@@ -254,50 +192,14 @@ class _PlanScreenState extends State<PlanScreen> {
   DateTime? get _defaultDateForNewPlanned {
     if (_isFutureProjection) return null;
     final (start, end) =
-        _dateFilter != null ? _dateRange : _currentMonthRange;
+        !_period.isAllTime ? _period.range : _currentMonthRange;
     final s = DateUtils.dateOnly(start);
     final lastInclusive =
         DateUtils.dateOnly(end.subtract(const Duration(days: 1)));
-    var d = DateUtils.dateOnly(_dateAnchor);
+    var d = DateUtils.dateOnly(_period.anchor);
     if (d.isBefore(s)) d = s;
     if (d.isAfter(lastInclusive)) d = lastInclusive;
     return d;
-  }
-
-  (DateTime, DateTime) get _dateRange {
-    final a = _dateAnchor;
-    return switch (_dateFilter) {
-      'day' => (
-          DateTime(a.year, a.month, a.day),
-          DateTime(a.year, a.month, a.day + 1),
-        ),
-      'week' => () {
-          final mon =
-              DateTime(a.year, a.month, a.day - (a.weekday - 1));
-          return (mon, DateTime(mon.year, mon.month, mon.day + 7));
-        }(),
-      'month' => (DateTime(a.year, a.month), DateTime(a.year, a.month + 1)),
-      'year' => (DateTime(a.year), DateTime(a.year + 1)),
-      _ => (DateTime(0), DateTime(9999)),
-    };
-  }
-
-  String _dateLabel(BuildContext context) {
-    final a = _dateAnchor;
-    return switch (_dateFilter) {
-      'day' => formatAppDate(context, 'EEE, d MMM yyyy', a),
-      'week' => () {
-          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
-          final sun = DateTime(mon.year, mon.month, mon.day + 6);
-          final sameMon = mon.month == sun.month;
-          return sameMon
-              ? '${formatAppDate(context, 'd', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}'
-              : '${formatAppDate(context, 'd MMM', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}';
-        }(),
-      'month' => formatAppDate(context, 'MMMM yyyy', a),
-      'year' => formatAppDate(context, 'yyyy', a),
-      _ => '',
-    };
   }
 
   Future<void> _pickSnapshotDate() async {
@@ -346,8 +248,7 @@ class _PlanScreenState extends State<PlanScreen> {
         _typeFilter = null;
         _accountFilter = null;
         _categoryFilter = null;
-        _dateFilter = null;
-        _dateAnchor = DateTime.now();
+        _period = PeriodFilter.allTime();
         _newestFirst = false;
         _planSearchQuery = '';
         _planSearchController.clear();
@@ -392,8 +293,8 @@ class _PlanScreenState extends State<PlanScreen> {
 
   List<PlannedTransaction> get _filteredPlanned {
     Iterable<PlannedTransaction> source = data.plannedTransactions;
-    if (_dateFilter != null) {
-      final (start, end) = _dateRange;
+    if (!_period.isAllTime) {
+      final (start, end) = _period.range;
       source = source.where(
           (pt) => !pt.date.isBefore(start) && pt.date.isBefore(end));
     }
@@ -456,7 +357,7 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 
   void _onPlanScrollLoadMoreDays() {
-    if (_dateFilter != null) return;
+    if (!_period.isAllTime) return;
     if (!_planScrollController.hasClients) return;
     final pos = _planScrollController.position;
     if (!pos.hasPixels || !pos.hasContentDimensions) return;
@@ -464,7 +365,7 @@ class _PlanScreenState extends State<PlanScreen> {
 
     final bundle = DayGroupedPlanned.build(
         _applyPlannedSearch(_filteredPlanned), _newestFirst);
-    if (!shouldLazyLoadDaySections('all', bundle.dayKeys.length)) return;
+    if (!shouldLazyLoadDaySections(true, bundle.dayKeys.length)) return;
     if (_planVisibleDaySlots >= bundle.dayKeys.length) return;
 
     setState(() {
@@ -477,7 +378,7 @@ class _PlanScreenState extends State<PlanScreen> {
 
   void _syncPlanLazyWindowSignature() {
     final sig = Object.hash(
-      _dateFilter,
+      _period,
       _typeFilter,
       _accountFilter?.id,
       _categoryFilter,
@@ -861,8 +762,7 @@ class _PlanScreenState extends State<PlanScreen> {
     final planDayBundle =
         DayGroupedPlanned.build(displayPlanned, _newestFirst);
     // Plan's default (null) date filter is all-time — lazy-load it like 'all'.
-    final lazyPlanDays = shouldLazyLoadDaySections(
-        _dateFilter ?? 'all', planDayBundle.dayKeys.length);
+    final lazyPlanDays = shouldLazyLoadDaySections(_period.isAllTime, planDayBundle.dayKeys.length);
     final planVisibleDayGroups = lazyPlanDays
         ? math.min(_planVisibleDaySlots, planDayBundle.dayKeys.length)
         : planDayBundle.dayKeys.length;
@@ -998,9 +898,9 @@ class _PlanScreenState extends State<PlanScreen> {
                 onToggleCategoryPanel: _toggleCategoryStrip,
                 typeFilter: _typeFilter,
                 onCycleType: _cycleTypeFilter,
-                dateModeLetter: _dateChipModeLetter,
-                dateFilterActive: _dateFilter != null,
-                onCycleDate: _cycleDateFilter,
+                dateModeLetter: _period.chipLetter,
+                dateFilterActive: !_period.isAllTime,
+                onCycleDate: () => setState(() => _period = _period.cycled()),
                 accountFilter: _accountFilter,
                 categoryFilter: _categoryFilter,
                 newestFirst: _newestFirst,
@@ -1009,15 +909,15 @@ class _PlanScreenState extends State<PlanScreen> {
             ),
           ),
 
-          if (planChipsEnabled && _hasNavigableDateFilter)
+          if (planChipsEnabled && _period.isNavigable)
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
                 child: TrackPlanDateNavBar(
-                  label: _dateLabel(context),
-                  onNavigateBack: () => _navigateDate(-1),
-                  onNavigateForward: _canNavigateDateForward
-                      ? () => _navigateDate(1)
+                  label: _period.label(context),
+                  onNavigateBack: () => setState(() => _period = _period.navigated(-1, latest: _planListLatestNavDate)),
+                  onNavigateForward: _period.canNavigateForward(latest: _planListLatestNavDate)
+                      ? () => setState(() => _period = _period.navigated(1, latest: _planListLatestNavDate))
                       : null,
                 ),
               ),

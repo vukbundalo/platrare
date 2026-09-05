@@ -20,6 +20,7 @@ import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
+import '../utils/period_filter.dart';
 import '../utils/persistence_guard.dart';
 import '../utils/projections.dart' as proj;
 import '../utils/tx_display.dart';
@@ -64,8 +65,7 @@ class _TrackScreenState extends State<TrackScreen> {
   Account? _accountFilter;
   String? _categoryFilter;
   /// null = all time (default); UI cycles day/week/month/year.
-  String? _dateFilter;
-  DateTime _dateAnchor = DateTime.now();
+  PeriodFilter _period = PeriodFilter.allTime();
   bool _newestFirst = true;
   /// Filter strips below the hero: account and category can both be open on Track.
   bool _accountStripOpen = false;
@@ -111,7 +111,7 @@ class _TrackScreenState extends State<TrackScreen> {
       _typeFilter != null ||
       _accountFilter != null ||
       _categoryFilter != null ||
-      _dateFilter != null ||
+      !_period.isAllTime ||
       !_newestFirst ||
       _searchQuery.trim().isNotEmpty;
 
@@ -119,8 +119,7 @@ class _TrackScreenState extends State<TrackScreen> {
         _typeFilter = null;
         _accountFilter = null;
         _categoryFilter = null;
-        _dateFilter = null;
-        _dateAnchor = DateTime.now();
+        _period = PeriodFilter.allTime();
         _newestFirst = true;
         _accountStripOpen = false;
         _categoryStripOpen = false;
@@ -150,8 +149,7 @@ class _TrackScreenState extends State<TrackScreen> {
         _typeFilter = null;
         _accountFilter = null;
         _categoryFilter = null;
-        _dateFilter = null;
-        _dateAnchor = DateTime.now();
+        _period = PeriodFilter.allTime();
         _newestFirst = true;
         _searchQuery = '';
         _searchController.clear();
@@ -179,120 +177,7 @@ class _TrackScreenState extends State<TrackScreen> {
         }
       });
 
-  /// Cycles: all time (null) → day → week → month → year → null.
-  void _cycleDateFilter() => setState(() {
-        if (_dateFilter == null) {
-          _dateFilter = 'day';
-          _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'day') {
-          _dateFilter = 'week';
-          _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'week') {
-          _dateFilter = 'month';
-          _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'month') {
-          _dateFilter = 'year';
-          _dateAnchor = DateTime.now();
-        } else {
-          _dateFilter = null;
-        }
-      });
-
   void _toggleSort() => setState(() => _newestFirst = !_newestFirst);
-
-  bool get _hasNavigableDateFilter =>
-      _dateFilter == 'day' ||
-      _dateFilter == 'week' ||
-      _dateFilter == 'month' ||
-      _dateFilter == 'year';
-
-  /// Default (no filter) shows the ∞ icon — the Track list is all-time.
-  String? get _dateChipModeLetter => switch (_dateFilter) {
-        'day' => 'D',
-        'week' => 'W',
-        'month' => 'M',
-        'year' => 'Y',
-        _ => '∞',
-      };
-
-  void _navigateDate(int direction) {
-    setState(() {
-      var next = switch (_dateFilter) {
-        'day' => DateTime(_dateAnchor.year, _dateAnchor.month,
-            _dateAnchor.day + direction),
-        'week' => DateTime(_dateAnchor.year, _dateAnchor.month,
-            _dateAnchor.day + direction * 7),
-        'month' => DateTime(_dateAnchor.year, _dateAnchor.month + direction,
-            _dateAnchor.day),
-        'year' => DateTime(_dateAnchor.year + direction, _dateAnchor.month,
-            _dateAnchor.day),
-        _ => _dateAnchor,
-      };
-      if (_dateFilter == 'day') {
-        final today = DateUtils.dateOnly(DateTime.now());
-        final n = DateUtils.dateOnly(next);
-        if (n.isAfter(today)) next = _dateAnchor;
-      }
-      _dateAnchor = next;
-    });
-  }
-
-  bool get _canNavigateDateForward {
-    final now = DateTime.now();
-    return switch (_dateFilter) {
-      'day' => DateUtils.dateOnly(_dateAnchor)
-          .isBefore(DateUtils.dateOnly(now)),
-      'week' => () {
-          final a = _dateAnchor;
-          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
-          final nMon =
-              DateTime(now.year, now.month, now.day - (now.weekday - 1));
-          return mon.isBefore(nMon);
-        }(),
-      'month' => DateTime(_dateAnchor.year, _dateAnchor.month)
-          .isBefore(DateTime(now.year, now.month)),
-      'year' => _dateAnchor.year < now.year,
-      _ => true,
-    };
-  }
-
-  /// Inclusive start / exclusive end for the selected date period.
-  (DateTime, DateTime) get _dateRange {
-    final a = _dateAnchor;
-    return switch (_dateFilter) {
-      'day' => (
-          DateTime(a.year, a.month, a.day),
-          DateTime(a.year, a.month, a.day + 1),
-        ),
-      'week' => () {
-          final mon =
-              DateTime(a.year, a.month, a.day - (a.weekday - 1));
-          return (mon, DateTime(mon.year, mon.month, mon.day + 7));
-        }(),
-      'month' => (DateTime(a.year, a.month), DateTime(a.year, a.month + 1)),
-      'year' => (DateTime(a.year), DateTime(a.year + 1)),
-      _ => (DateTime(0), DateTime(9999)),
-    };
-  }
-
-  /// Human-readable label for the current date anchor + period.
-  String _dateLabel(BuildContext context) {
-    final a = _dateAnchor;
-    return switch (_dateFilter) {
-      'day' => formatAppDate(context, 'EEE, d MMM yyyy', a),
-      'week' => () {
-          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
-          final sun = DateTime(mon.year, mon.month, mon.day + 6);
-          final sameMon = mon.month == sun.month;
-          return sameMon
-              ? '${formatAppDate(context, 'd', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}'
-              : '${formatAppDate(context, 'd MMM', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}';
-        }(),
-      'month' => formatAppDate(context, 'MMMM yyyy', a),
-      'year' => formatAppDate(context, 'yyyy', a),
-      _ => '',
-    };
-  }
 
   @override
   void initState() {
@@ -322,14 +207,14 @@ class _TrackScreenState extends State<TrackScreen> {
   }
 
   void _onTrackScrollLoadMoreDays() {
-    if (_dateFilter != null) return;
+    if (!_period.isAllTime) return;
     if (!_scrollController.hasClients) return;
     final pos = _scrollController.position;
     if (!pos.hasPixels || !pos.hasContentDimensions) return;
     if (pos.pixels < pos.maxScrollExtent - 360) return;
 
     final dayCount = _lastTrackDayCount;
-    if (!shouldLazyLoadDaySections('all', dayCount)) return;
+    if (!shouldLazyLoadDaySections(true, dayCount)) return;
     if (_visibleTrackDaySlots >= dayCount) return;
 
     setState(() {
@@ -358,7 +243,7 @@ class _TrackScreenState extends State<TrackScreen> {
 
   void _syncTrackLazyWindowSignature(int baseCount) {
     final sig = Object.hash(
-      _dateFilter,
+      _period,
       _typeFilter,
       _accountFilter?.id,
       _categoryFilter,
@@ -410,10 +295,10 @@ class _TrackScreenState extends State<TrackScreen> {
   /// Filters only (no text search). Used for hero totals and lazy-load signature.
   List<Transaction> get _baseFilteredTx {
     Iterable<Transaction> source;
-    if (_dateFilter == null) {
+    if (_period.isAllTime) {
       source = data.transactions;
     } else {
-      final (start, end) = _dateRange;
+      final (start, end) = _period.range;
       source = data.transactions.where(
           (t) => !t.date.isBefore(start) && t.date.isBefore(end));
     }
@@ -681,9 +566,9 @@ class _TrackScreenState extends State<TrackScreen> {
               onToggleCategoryPanel: _toggleCategoryStrip,
               typeFilter: _typeFilter,
               onCycleType: _cycleTypeFilter,
-              dateModeLetter: _dateChipModeLetter,
-              dateFilterActive: _dateFilter != null,
-              onCycleDate: _cycleDateFilter,
+              dateModeLetter: _period.chipLetter,
+              dateFilterActive: !_period.isAllTime,
+              onCycleDate: () => setState(() => _period = _period.cycled()),
               accountFilter: _accountFilter,
               categoryFilter: _categoryFilter,
               newestFirst: _newestFirst,
@@ -693,15 +578,15 @@ class _TrackScreenState extends State<TrackScreen> {
             ),
           ),
         ),
-        if (trackChipsEnabled && _hasNavigableDateFilter)
+        if (trackChipsEnabled && _period.isNavigable)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
               child: TrackPlanDateNavBar(
-                label: _dateLabel(context),
-                onNavigateBack: () => _navigateDate(-1),
-                onNavigateForward: _canNavigateDateForward
-                    ? () => _navigateDate(1)
+                label: _period.label(context),
+                onNavigateBack: () => setState(() => _period = _period.navigated(-1, latest: DateTime.now())),
+                onNavigateForward: _period.canNavigateForward(latest: DateTime.now())
+                    ? () => setState(() => _period = _period.navigated(1, latest: DateTime.now()))
                     : null,
               ),
             ),
@@ -819,7 +704,7 @@ class _TrackScreenState extends State<TrackScreen> {
     final grouped = dayBundle.grouped;
     // Track's default (null) date filter is all-time — lazy-load it like 'all'.
     final lazyDays =
-        shouldLazyLoadDaySections(_dateFilter ?? 'all', days.length);
+        shouldLazyLoadDaySections(_period.isAllTime, days.length);
     final visibleDayCount = lazyDays
         ? math.min(_visibleTrackDaySlots, days.length)
         : days.length;
@@ -862,9 +747,9 @@ class _TrackScreenState extends State<TrackScreen> {
               onToggleCategoryPanel: _toggleCategoryStrip,
               typeFilter: _typeFilter,
               onCycleType: _cycleTypeFilter,
-              dateModeLetter: _dateChipModeLetter,
-              dateFilterActive: _dateFilter != null,
-              onCycleDate: _cycleDateFilter,
+              dateModeLetter: _period.chipLetter,
+              dateFilterActive: !_period.isAllTime,
+              onCycleDate: () => setState(() => _period = _period.cycled()),
               accountFilter: _accountFilter,
               categoryFilter: _categoryFilter,
               newestFirst: _newestFirst,
@@ -874,15 +759,15 @@ class _TrackScreenState extends State<TrackScreen> {
             ),
           ),
         ),
-        if (trackChipsEnabled && _hasNavigableDateFilter)
+        if (trackChipsEnabled && _period.isNavigable)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
               child: TrackPlanDateNavBar(
-                label: _dateLabel(context),
-                onNavigateBack: () => _navigateDate(-1),
-                onNavigateForward: _canNavigateDateForward
-                    ? () => _navigateDate(1)
+                label: _period.label(context),
+                onNavigateBack: () => setState(() => _period = _period.navigated(-1, latest: DateTime.now())),
+                onNavigateForward: _period.canNavigateForward(latest: DateTime.now())
+                    ? () => setState(() => _period = _period.navigated(1, latest: DateTime.now()))
                     : null,
               ),
             ),
