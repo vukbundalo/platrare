@@ -1,6 +1,6 @@
 # Privacy Policy — Platrare
 
-**Effective date:** April 12, 2026
+**Effective date:** September 4, 2026
 
 Platrare is a local-first personal-finance application. This policy describes what data the app accesses, how it is used, and your rights as a user.
 
@@ -8,7 +8,7 @@ Platrare is a local-first personal-finance application. This policy describes wh
 
 ## 1. Who We Are
 
-Platrare is published by an individual developer. Contact details are available on the App Store or Google Play listing and via **Settings → About → Copy support details** within the app.
+Platrare is published by an individual developer, who is the data controller for the purposes of the GDPR. You can reach the developer at **[support email]**, from the App Store or Google Play listing, or via **Settings → About → Contact support** within the app.
 
 ---
 
@@ -25,6 +25,8 @@ All data you create in Platrare remains **exclusively on your device**. We do no
 | Preferences | Base currency, secondary currency, theme, language, balance-visibility setting |
 | Security | App-lock status; a one-way cryptographic hash of your PIN (the raw PIN is never stored) |
 | Exchange-rate cache | Public currency-rate data downloaded from a third-party API and cached locally |
+| Reminders | If you enable reminders for planned transactions, the due date, description and amount of each upcoming planned transaction are handed to the operating system's local notification scheduler so it can show the reminder even while the app is closed. They never leave the device. |
+| Home-screen widget snapshot (iOS) | A small, precomputed summary (projected balances for the coming days and the labels the widget shows) stored in the app's private shared container so the widget can render without opening the app. When app lock is on, amounts in this snapshot are masked unless you choose otherwise in Settings. |
 
 ---
 
@@ -42,7 +44,7 @@ Frankfurter's own privacy practices govern any data their servers may log (e.g. 
 
 ### 3.2 No Analytics, No Advertising
 
-Platrare contains **no analytics SDK, no crash-reporting service, and no advertising network**. No usage data, device identifiers, or behavioural telemetry are collected or transmitted.
+Platrare contains **no analytics SDK, no crash-reporting service, and no advertising network**. No usage data, device identifiers, or behavioural telemetry are collected or transmitted. Reminders, home-screen widgets and shortcuts work entirely offline.
 
 ---
 
@@ -54,6 +56,8 @@ Platrare contains **no analytics SDK, no crash-reporting service, and no adverti
 | Photo library | Select images or files to attach | Only when you tap "Choose from gallery" |
 | Files | Attach PDFs and other documents | Only when you tap "Browse files" |
 | Biometrics / Face ID | Unlock the app when app lock is enabled | Only when the lock screen is displayed |
+| Notifications | Remind you shortly before a planned transaction is due | Only when you enable reminders in Settings |
+| Run at startup (Android) | Re-schedule your reminders after the device restarts | Automatically, only if reminders are enabled |
 | Network | Fetch currency exchange rates | Automatically in background; no personal data is sent |
 
 The app does **not** request access to your location, contacts, microphone, calendar, or any permission not listed above.
@@ -77,15 +81,26 @@ When you enable **Lock app on open** in Settings:
 
 **Import** replaces all on-device data with the contents of the selected backup. Import only from backups you trust and have verified.
 
+Only password-encrypted `.platrare` exports include the hashed app-lock PIN; unencrypted exports and automatic daily backups never do. When you restore a backup that has no PIN, the PIN already set on the device is kept.
+
+**Operating-system device backups.** Your phone's own backup feature (iCloud Backup on iOS, Google Auto Backup on Android) may copy the app's ledger, automatic daily backups and preferences to your Apple or Google account as part of the device backup, under Apple's or Google's terms. On Android, receipt attachments are excluded from this to stay within the system backup limit. You control device backups in the operating-system settings; the developer never receives them.
+
 ---
 
-## 7. Children
+## 7. Widgets, Shortcuts and Siri (iOS)
+
+- **Home-screen widgets** display projected balances from the snapshot described in section 2. The snapshot lives in the app's private shared container on your device and is never uploaded. When app lock is on, amounts are masked by default.
+- **Quick actions and App Shortcuts** (long-press on the app icon, the Shortcuts app, or Siri) only open the app at a chosen screen, for example "Add transaction". Voice recognition for Siri is performed by iOS under Apple's privacy terms; the app receives only the resolved command and never sends your ledger to Apple.
+
+---
+
+## 8. Children
 
 Platrare is not directed at children under 13 years of age (or the applicable minimum age in your jurisdiction). We do not knowingly collect information from children. If you believe a child has used the app inappropriately, please contact us via the support details available in the app.
 
 ---
 
-## 8. Data Retention and Deletion
+## 9. Data Retention and Deletion
 
 - On-device data persists until you delete it within the app, use **Settings → Clear data**, import a replacement backup, or uninstall the app.
 - Uninstalling the app removes app-local storage, subject to OS behaviour (e.g. iCloud device backups may retain a snapshot until overwritten by the OS).
@@ -93,7 +108,7 @@ Platrare is not directed at children under 13 years of age (or the applicable mi
 
 ---
 
-## 9. Your Rights
+## 10. Your Rights
 
 Because all data resides on your device, you exercise your rights directly through the app:
 
@@ -107,7 +122,7 @@ Because all data resides on your device, you exercise your rights directly throu
 
 ---
 
-## 10. Security
+## 11. Security
 
 - All financial data is stored in an **app-sandboxed** SQLite database inaccessible to other apps on the device.
 - Backup files can be protected with **AES-256 encryption** and a password you choose.
@@ -116,12 +131,12 @@ Because all data resides on your device, you exercise your rights directly throu
 
 ---
 
-## 11. Changes to This Policy
+## 12. Changes to This Policy
 
 We may update this policy as features evolve. The **Effective date** at the top will reflect the latest revision. Continued use of the app after an update constitutes acceptance of the revised policy. Significant changes will be noted in App Store and Google Play release notes.
 
 ---
 
-## 12. Contact
+## 13. Contact
 
-For privacy-related questions or requests, use the contact method on the App Store or Google Play listing, or tap **Settings → About → Copy support details** within the app to obtain contact information.
+For privacy-related questions or requests, email **[support email]**, use the contact method on the App Store or Google Play listing, or tap **Settings → About → Contact support** within the app.

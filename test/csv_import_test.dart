@@ -137,7 +137,6 @@ void main() {
     setUp(() {
       checking = Account(
         name: 'Checking',
-        currencyCode: 'BAM',
         balance: 1000,
       );
       data.accounts.add(checking);
@@ -146,7 +145,7 @@ void main() {
         currencyCode: 'BAM',
         toAccount: checking,
         toAccountId: checking.id,
-        date: DateTime(2025, 12, 1),
+        date: DateTime(2025, 12),
         txType: TxType.income,
         description: '__opening_balance__',
       ));
@@ -293,11 +292,10 @@ void main() {
 
   group('type inference from chronological replay', () {
     test('advance then collection, even with the file out of order', () {
-      final wallet = Account(name: 'Wallet', currencyCode: 'BAM');
+      final wallet = Account(name: 'Wallet');
       final ana = Account(
         name: 'Ana',
         group: AccountGroup.individuals,
-        currencyCode: 'BAM',
       );
       data.accounts.addAll([wallet, ana]);
 
@@ -326,7 +324,7 @@ void main() {
     });
 
     test('an explicit type column overrides inference', () {
-      data.accounts.add(Account(name: 'Wallet', currencyCode: 'BAM'));
+      data.accounts.add(Account(name: 'Wallet'));
 
       final plan = CsvImport.prepare(bytesOf(
         'date,type,from_account,to_account,amount\n'
@@ -357,8 +355,8 @@ void main() {
 
   group('export', () {
     test('round-trips through the importer without moving balances', () {
-      final checking = Account(name: 'Checking', currencyCode: 'BAM');
-      final savings = Account(name: 'Savings', currencyCode: 'BAM');
+      final checking = Account(name: 'Checking');
+      final savings = Account(name: 'Savings');
       data.accounts.addAll([checking, savings]);
 
       final source = <Transaction>[

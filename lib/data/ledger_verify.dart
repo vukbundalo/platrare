@@ -18,26 +18,19 @@ class LedgerMismatch {
   double get delta => recomputedBalance - storedBalance;
 }
 
-/// Replays [transactions] in chronological order and compares book balances to
-/// [accounts]. Matches [NewTransactionScreen] Rule 4: from subtracts
-/// [Transaction.nativeAmount]; to adds [Transaction.destinationAmount] ??
-/// [Transaction.nativeAmount].
-List<LedgerMismatch> verifyLedger({
-  required List<Account> accounts,
-  required List<Transaction> transactions,
+/// Book balances implied by [transactions] alone, replayed in chronological
+/// order from zero. Opening balances and manual corrections are ledger rows
+/// (`__opening_balance__`, `__balance_correction__`), so a complete log
+/// reproduces every stored balance. Rule 4: from subtracts
+/// [Transaction.nativeAmount]; to adds [creditAmountOf].
+///
+/// Accounts referenced only by transactions (deleted accounts) are included
+/// so their totals are visible to callers that want them.
+Map<String, double> replayBalances({
+  required Iterable<Account> accounts,
+  required Iterable<Transaction> transactions,
 }) {
-  final ids = <String>{};
-  for (final a in accounts) {
-    ids.add(a.id);
-  }
-  for (final t in transactions) {
-    final fid = t.fromAccountId ?? t.fromAccount?.id;
-    final tid = t.toAccountId ?? t.toAccount?.id;
-    if (fid != null) ids.add(fid);
-    if (tid != null) ids.add(tid);
-  }
-
-  final balances = <String, double>{for (final id in ids) id: 0.0};
+  final balances = <String, double>{for (final a in accounts) a.id: 0.0};
 
   final sorted = List<Transaction>.from(transactions)
     ..sort((a, b) {
@@ -57,11 +50,23 @@ List<LedgerMismatch> verifyLedger({
 
     final tid = t.toAccountId ?? t.toAccount?.id;
     if (tid != null) {
-      final credit = t.destinationAmount ?? amt;
-      balances[tid] = (balances[tid] ?? 0.0) + credit;
+      balances[tid] = (balances[tid] ?? 0.0) +
+          creditAmountOf(
+            nativeAmount: amt,
+            destinationAmount: t.destinationAmount,
+          );
     }
   }
+  return balances;
+}
 
+/// Compares each account's stored balance with [replayBalances].
+List<LedgerMismatch> verifyLedger({
+  required List<Account> accounts,
+  required List<Transaction> transactions,
+}) {
+  final balances =
+      replayBalances(accounts: accounts, transactions: transactions);
   final out = <LedgerMismatch>[];
   for (final a in accounts) {
     final r = balances[a.id] ?? 0.0;

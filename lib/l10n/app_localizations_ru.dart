@@ -1893,10 +1893,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Выбранные данные будут удалены без возможности восстановления. Сначала экспортируйте резервную копию, если она может понадобиться вам позже.';
 
   @override
-  String get clearDataTypeConfirm => 'Введите DELETE для подтверждения.';
+  String get clearDataTypeConfirm => 'Введите УДАЛИТЬ для подтверждения.';
 
   @override
-  String get clearDataTypeConfirmError => 'Введите DELETE, чтобы продолжить.';
+  String get clearDataTypeConfirmError => 'Введите УДАЛИТЬ, чтобы продолжить.';
 
   @override
   String get clearDataPinTitle => 'Подтвердите с помощью PIN-кода';
@@ -2210,5 +2210,79 @@ class AppLocalizationsRu extends AppLocalizations {
       one: 'Срок через $count день',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get aboutContactSupport => 'Связаться с поддержкой';
+
+  @override
+  String get aboutSupportEmailCopied => 'Адрес почты поддержки скопирован';
+
+  @override
+  String get onboardingWelcomeTitle => 'Добро пожаловать в Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Ваши деньги остаются на этом устройстве. Без аккаунта, без рекламы, без слежки.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Планируйте предстоящие и повторяющиеся платежи и смотрите, куда движутся ваши балансы.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Записывайте доходы, расходы, переводы и то, что вы одалживаете или должны.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Статистика, сравнения и история по вашим счетам, людям, с которыми вы рассчитываетесь, и компаниям.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Основная валюта';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Предложена по языку устройства. Позже её можно изменить в настройках.';
+
+  @override
+  String get onboardingStart => 'Начать';
+
+  @override
+  String get onboardingTour => 'Покажите приложение';
+
+  @override
+  String get clearDataConfirmWord => 'УДАЛИТЬ';
+
+  @override
+  String get planDeleteTitle => 'Удалить запланированную операцию?';
+
+  @override
+  String get planDeleteBody =>
+      'Она будет удалена из плана. Балансы ваших счетов не изменятся.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Предыдущий период';
+
+  @override
+  String get semanticsNextPeriod => 'Следующий период';
+
+  @override
+  String get semanticsSectionStatistics => 'Статистика';
+
+  @override
+  String get semanticsCurrencyToggle => 'Сменить валюту отображения';
+
+  @override
+  String get semanticsStatsSpent => 'Потрачено';
+
+  @override
+  String get semanticsStatsReceived => 'Получено';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Пересчитать по истории';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return 'Пересчитаны балансы $count счетов по истории';
   }
 }

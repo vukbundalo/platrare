@@ -38,7 +38,9 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        // Explicit: Google Play requires API 36 for updates from 31 Aug 2026.
+        // flutter.targetSdkVersion follows whatever SDK builds the release.
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
@@ -63,6 +65,14 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
+            // Flutter turns R8 on for release; make it explicit and add the
+            // app's keep rules (Gson-backed notification scheduling, widgets).
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 }

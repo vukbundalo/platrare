@@ -51,20 +51,20 @@
   "txLabelIncome": "INKOMEN",
   "txLabelExpense": "KOSTEN",
   "txLabelInvoice": "FACTUUR",
-  "txLabelBill": "BILL",
-  "txLabelAdvance": "ADVANCE",
-  "txLabelSettlement": "SETTLEMENT",
-  "txLabelLoan": "LOAN",
-  "txLabelCollection": "COLLECTION",
-  "txLabelOffset": "OFFSET",
-  "txLabelTransfer": "TRANSFER",
-  "txLabelTransaction": "TRANSACTION",
-  "repeatNone": "No repeat",
-  "repeatDaily": "Daily",
-  "repeatWeekly": "Weekly",
-  "repeatMonthly": "Monthly",
-  "repeatYearly": "Yearly",
-  "repeatEveryLabel": "Every",
+  "txLabelBill": "REKENING",
+  "txLabelAdvance": "VOORSCHOT",
+  "txLabelSettlement": "AFREKENING",
+  "txLabelLoan": "LENING",
+  "txLabelCollection": "INNING",
+  "txLabelOffset": "VERREKENING",
+  "txLabelTransfer": "OVERBOEKING",
+  "txLabelTransaction": "TRANSACTIE",
+  "repeatNone": "Niet herhalen",
+  "repeatDaily": "Dagelijks",
+  "repeatWeekly": "Wekelijks",
+  "repeatMonthly": "Maandelijks",
+  "repeatYearly": "Jaarlijks",
+  "repeatEveryLabel": "Elke",
   "repeatEveryDays": "{count, plural, =1{dag} other{{count} dagen}}",
   "@repeatEveryDays": {
     "placeholders": {
@@ -97,10 +97,10 @@
       }
     }
   },
-  "repeatEndLabel": "Ends",
-  "repeatEndNever": "Never",
-  "repeatEndOnDate": "On date",
-  "repeatEndAfterCount": "After {count} times",
+  "repeatEndLabel": "Eindigt",
+  "repeatEndNever": "Nooit",
+  "repeatEndOnDate": "Op datum",
+  "repeatEndAfterCount": "Na {count} keer",
   "@repeatEndAfterCount": {
     "placeholders": {
       "count": {
@@ -109,9 +109,9 @@
     }
   },
   "repeatEndAfterChoice": "Na een aantal keer",
-  "repeatEndPickDate": "Pick end date",
-  "repeatEndTimes": "times",
-  "repeatSummaryEvery": "Every {unit}",
+  "repeatEndPickDate": "Kies einddatum",
+  "repeatEndTimes": "keer",
+  "repeatSummaryEvery": "Elke {unit}",
   "@repeatSummaryEvery": {
     "placeholders": {
       "unit": {
@@ -119,7 +119,7 @@
       }
     }
   },
-  "repeatSummaryUntil": "until {date}",
+  "repeatSummaryUntil": "tot {date}",
   "@repeatSummaryUntil": {
     "placeholders": {
       "date": {
@@ -127,7 +127,7 @@
       }
     }
   },
-  "repeatSummaryTimes": "{count} times",
+  "repeatSummaryTimes": "{count} keer",
   "@repeatSummaryTimes": {
     "placeholders": {
       "count": {
@@ -135,7 +135,7 @@
       }
     }
   },
-  "repeatSummaryTimesRemaining": "{remaining} of {total} remaining",
+  "repeatSummaryTimesRemaining": "{remaining} van {total} resterend",
   "@repeatSummaryTimesRemaining": {
     "placeholders": {
       "remaining": {
@@ -146,10 +146,10 @@
       }
     }
   },
-  "detailRepeatEvery": "Repeat every",
-  "detailEnds": "Ends",
-  "detailEndsNever": "Never",
-  "detailEndsOnDate": "On {date}",
+  "detailRepeatEvery": "Herhaal elke",
+  "detailEnds": "Eindigt",
+  "detailEndsNever": "Nooit",
+  "detailEndsOnDate": "Op {date}",
   "@detailEndsOnDate": {
     "placeholders": {
       "date": {
@@ -157,7 +157,7 @@
       }
     }
   },
-  "detailEndsAfterCount": "After {count} times",
+  "detailEndsAfterCount": "Na {count} keer",
   "@detailEndsAfterCount": {
     "placeholders": {
       "count": {
@@ -165,11 +165,11 @@
       }
     }
   },
-  "detailProgress": "Progress",
-  "weekendNoChange": "No change",
-  "weekendFriday": "Move to Friday",
-  "weekendMonday": "Move to Monday",
-  "weekendQuestion": "If the {day} falls on a weekend?",
+  "detailProgress": "Voortgang",
+  "weekendNoChange": "Niet verplaatsen",
+  "weekendFriday": "Naar vrijdag",
+  "weekendMonday": "Naar maandag",
+  "weekendQuestion": "Als de {day} in het weekend valt?",
   "@weekendQuestion": {
     "placeholders": {
       "day": {
@@ -177,32 +177,32 @@
       }
     }
   },
-  "dateToday": "Today",
-  "dateTomorrow": "Tomorrow",
-  "dateYesterday": "Yesterday",
-  "statsAllTime": "All time",
-  "accountGroupPersonal": "Personal",
-  "accountGroupIndividual": "Individual",
-  "accountGroupEntity": "Entity",
-  "accountSectionIndividuals": "Individuals",
-  "accountSectionEntities": "Entities",
-  "emptyNoTransactionsYet": "No transactions yet",
-  "emptyNoAccountsYet": "No accounts yet",
-  "emptyRecordFirstTransaction": "Tap the button below to record your first transaction.",
-  "emptyAddFirstAccountTx": "Add your first account before recording transactions.",
-  "emptyAddFirstAccountPlan": "Add your first account before planning transactions.",
-  "emptyAddFirstAccountReview": "Add your first account to start tracking your finances.",
-  "emptyAddTransaction": "Add transaction",
-  "emptyAddAccount": "Add account",
-  "reviewEmptyGroupPersonalTitle": "No personal accounts yet",
-  "reviewEmptyGroupPersonalBody": "Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.",
-  "reviewEmptyGroupIndividualsTitle": "No individual accounts yet",
-  "reviewEmptyGroupIndividualsBody": "Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.",
-  "reviewEmptyGroupEntitiesTitle": "No entity accounts yet",
-  "reviewEmptyGroupEntitiesBody": "Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.",
-  "emptyNoTransactionsForFilters": "No transactions for applied filters",
-  "emptyNoTransactionsInHistory": "No transactions in history",
-  "emptyNoTransactionsForMonth": "No transactions for {month}",
+  "dateToday": "Vandaag",
+  "dateTomorrow": "Morgen",
+  "dateYesterday": "Gisteren",
+  "statsAllTime": "Altijd",
+  "accountGroupPersonal": "Persoonlijk",
+  "accountGroupIndividual": "Persoon",
+  "accountGroupEntity": "Organisatie",
+  "accountSectionIndividuals": "Personen",
+  "accountSectionEntities": "Organisaties",
+  "emptyNoTransactionsYet": "Nog geen transacties",
+  "emptyNoAccountsYet": "Nog geen rekeningen",
+  "emptyRecordFirstTransaction": "Tik op de knop hieronder om je eerste transactie vast te leggen.",
+  "emptyAddFirstAccountTx": "Voeg eerst een rekening toe voordat je transacties vastlegt.",
+  "emptyAddFirstAccountPlan": "Voeg eerst een rekening toe voordat je transacties plant.",
+  "emptyAddFirstAccountReview": "Voeg je eerste rekening toe om je financiën bij te houden.",
+  "emptyAddTransaction": "Transactie toevoegen",
+  "emptyAddAccount": "Rekening toevoegen",
+  "reviewEmptyGroupPersonalTitle": "Nog geen persoonlijke rekeningen",
+  "reviewEmptyGroupPersonalBody": "Persoonlijke rekeningen zijn je eigen portemonnees en bankrekeningen. Voeg er een toe om dagelijkse inkomsten en uitgaven bij te houden.",
+  "reviewEmptyGroupIndividualsTitle": "Nog geen persoonsrekeningen",
+  "reviewEmptyGroupIndividualsBody": "Persoonsrekeningen volgen geld met specifieke mensen: gedeelde kosten, leningen of schuldbekentenissen. Voeg een rekening toe voor iedereen met wie je afrekent.",
+  "reviewEmptyGroupEntitiesTitle": "Nog geen organisatierekeningen",
+  "reviewEmptyGroupEntitiesBody": "Organisatierekeningen zijn voor bedrijven, projecten of organisaties. Gebruik ze om zakelijke geldstromen gescheiden te houden van je persoonlijke financiën.",
+  "emptyNoTransactionsForFilters": "Geen transacties voor de gekozen filters",
+  "emptyNoTransactionsInHistory": "Geen transacties in de geschiedenis",
+  "emptyNoTransactionsForMonth": "Geen transacties in {month}",
   "@emptyNoTransactionsForMonth": {
     "placeholders": {
       "month": {
@@ -210,11 +210,11 @@
       }
     }
   },
-  "emptyNoTransactionsForAccount": "No transactions for this account",
-  "trackTransactionDeleted": "Transaction deleted",
-  "trackDeleteTitle": "Delete transaction?",
-  "trackDeleteBody": "This will reverse the account balance changes.",
-  "trackTransaction": "Transaction",
+  "emptyNoTransactionsForAccount": "Geen transacties voor deze rekening",
+  "trackTransactionDeleted": "Transactie verwijderd",
+  "trackDeleteTitle": "Transactie verwijderen?",
+  "trackDeleteBody": "Dit maakt de wijzigingen in het rekeningsaldo ongedaan.",
+  "trackTransaction": "Transactie",
   "planConfirmTitle": "Transactie bevestigen?",
   "planConfirmBodyEarly": "Deze gebeurtenis is gepland voor {date}. Het wordt opgenomen in de Geschiedenis met de datum van vandaag ({todayDate}). Het volgende exemplaar blijft op {nextDate} staan.",
   "@planConfirmBodyEarly": {
@@ -570,7 +570,7 @@
   "csvImportFailed": "CSV-import mislukt",
   "ledgerVerifyDialogTitle": "Grootboekverificatie",
   "ledgerVerifyAllMatch": "Alle accounts komen overeen.",
-  "ledgerVerifyMismatchesTitle": "Mismatches",
+  "ledgerVerifyMismatchesTitle": "Afwijkingen",
   "ledgerVerifyMismatchDetails": "{accountName}\nOpgeslagen: {stored}\nHerhaling: {replayed}\nVerschil: {diff}",
   "@ledgerVerifyMismatchDetails": {
     "placeholders": {
@@ -933,8 +933,8 @@
   "clearDataConfirmButton": "Wis geselecteerd",
   "clearDataConfirmTitle": "Dit kan niet ongedaan worden gemaakt",
   "clearDataConfirmBody": "De geselecteerde gegevens worden permanent verwijderd. Exporteer eerst een back-up als u deze later nodig heeft.",
-  "clearDataTypeConfirm": "Typ DELETE om te bevestigen",
-  "clearDataTypeConfirmError": "Typ DELETE precies om door te gaan",
+  "clearDataTypeConfirm": "Typ VERWIJDER om te bevestigen",
+  "clearDataTypeConfirmError": "Typ VERWIJDER precies om door te gaan",
   "clearDataPinTitle": "Bevestig met pincode",
   "clearDataPinBody": "Voer uw app-pincode in om deze actie te autoriseren.",
   "clearDataPinIncorrect": "Onjuiste pincode",
@@ -1046,5 +1046,27 @@
   "plannedReminderFallbackTitle": "Geplande transactie",
   "plannedReminderDueToday": "Vervalt vandaag",
   "plannedReminderDueTomorrow": "Vervalt morgen",
-  "plannedReminderDueInDays": "{count, plural, other{Vervalt over {count} dagen}}"
+  "plannedReminderDueInDays": "{count, plural, other{Vervalt over {count} dagen}}",
+  "aboutContactSupport": "Contact opnemen met support",
+  "aboutSupportEmailCopied": "E-mailadres van support gekopieerd",
+  "onboardingWelcomeTitle": "Welkom bij Platrare",
+  "onboardingWelcomeBody": "Je geld blijft op dit apparaat. Geen account, geen advertenties, geen tracking.",
+  "onboardingPlanBody": "Plan komende en terugkerende betalingen en zie waar je saldi naartoe gaan.",
+  "onboardingTrackBody": "Leg inkomsten, uitgaven, overboekingen en wat je leent of verschuldigd bent vast.",
+  "onboardingReviewBody": "Statistieken, vergelijkingen en geschiedenis voor je rekeningen, de mensen met wie je afrekent en bedrijven.",
+  "onboardingCurrencyLabel": "Basisvaluta",
+  "onboardingCurrencyHint": "Voorgesteld op basis van je apparaattaal. Later te wijzigen in Instellingen.",
+  "onboardingStart": "Aan de slag",
+  "onboardingTour": "Leid me rond",
+  "clearDataConfirmWord": "VERWIJDER",
+  "planDeleteTitle": "Geplande transactie verwijderen?",
+  "planDeleteBody": "Deze wordt uit je planning verwijderd. Je rekeningsaldi veranderen niet.",
+  "semanticsPreviousPeriod": "Vorige periode",
+  "semanticsNextPeriod": "Volgende periode",
+  "semanticsSectionStatistics": "Statistieken",
+  "semanticsCurrencyToggle": "Weergavevaluta wisselen",
+  "semanticsStatsSpent": "Uitgegeven",
+  "semanticsStatsReceived": "Ontvangen",
+  "ledgerVerifyRecalculate": "Herberekenen uit geschiedenis",
+  "ledgerVerifyRecalculated": "{count} rekeningsaldi herberekend uit de geschiedenis"
 }

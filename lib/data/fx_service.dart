@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -38,7 +39,7 @@ class FxService {
     await _loadFromCache();
     if (_isCacheStale) {
       // Fire-and-forget; errors are swallowed inside refreshRates().
-      refreshRates();
+      unawaited(refreshRates());
     }
   }
 

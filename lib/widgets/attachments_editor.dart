@@ -143,7 +143,6 @@ Future<List<String>> pickNewAttachmentPaths(BuildContext context) async {
     case AttachmentPickSource.files:
       final result = await FilePicker.pickFiles(
         allowMultiple: true,
-        type: FileType.any,
       );
       picked = result == null
           ? []

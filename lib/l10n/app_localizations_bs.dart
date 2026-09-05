@@ -15,7 +15,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get navPlan => 'Plan';
 
   @override
-  String get navTrack => 'Track';
+  String get navTrack => 'Prati';
 
   @override
   String get navReview => 'Pregled';
@@ -48,7 +48,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get heroOut => 'Van';
 
   @override
-  String get heroNet => 'Net';
+  String get heroNet => 'Neto';
 
   @override
   String get widgetLowestPoint => 'Najniža tačka';
@@ -135,7 +135,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get semanticsHeroBalanceHidden => 'Stanje skriveno radi privatnosti';
 
   @override
-  String get heroResetButton => 'Reset';
+  String get heroResetButton => 'Poništi';
 
   @override
   String get fabScrollToTop => 'Na vrh';
@@ -156,31 +156,31 @@ class AppLocalizationsBs extends AppLocalizations {
   String get txLabelIncome => 'PRIHOD';
 
   @override
-  String get txLabelExpense => 'EXPENSE';
+  String get txLabelExpense => 'TROŠAK';
 
   @override
   String get txLabelInvoice => 'FAKTURA';
 
   @override
-  String get txLabelBill => 'BILL';
+  String get txLabelBill => 'RAČUN';
 
   @override
-  String get txLabelAdvance => 'ADVANCE';
+  String get txLabelAdvance => 'AVANS';
 
   @override
   String get txLabelSettlement => 'NASELJE';
 
   @override
-  String get txLabelLoan => 'LOAN';
+  String get txLabelLoan => 'POZAJMICA';
 
   @override
-  String get txLabelCollection => 'COLLECTION';
+  String get txLabelCollection => 'NAPLATA';
 
   @override
-  String get txLabelOffset => 'OFFSET';
+  String get txLabelOffset => 'PREBIJANJE';
 
   @override
-  String get txLabelTransfer => 'TRANSFER';
+  String get txLabelTransfer => 'PRIJENOS';
 
   @override
   String get txLabelTransaction => 'TRANSAKCIJA';
@@ -192,7 +192,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get repeatDaily => 'Dnevno';
 
   @override
-  String get repeatWeekly => 'Weekly';
+  String get repeatWeekly => 'Sedmično';
 
   @override
   String get repeatMonthly => 'Mjesečno';
@@ -339,7 +339,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get statsAllTime => 'Sve vreme';
 
   @override
-  String get accountGroupPersonal => 'Personal';
+  String get accountGroupPersonal => 'Lično';
 
   @override
   String get accountGroupIndividual => 'Pojedinac';
@@ -517,7 +517,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get labelFrom => 'Od';
 
   @override
-  String get labelTo => 'To';
+  String get labelTo => 'Na';
 
   @override
   String get sectionCategory => 'Kategorija';
@@ -638,7 +638,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get detailFrom => 'Od';
 
   @override
-  String get detailTo => 'To';
+  String get detailTo => 'Na';
 
   @override
   String get detailCategory => 'Kategorija';
@@ -679,7 +679,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get settingsTitle => 'Postavke';
 
   @override
-  String get settingsSectionDisplay => 'Display';
+  String get settingsSectionDisplay => 'Prikaz';
 
   @override
   String get settingsSectionLanguage => 'Jezik';
@@ -691,7 +691,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get settingsSectionAccounts => 'Računi';
 
   @override
-  String get settingsSectionPreferences => 'Preferences';
+  String get settingsSectionPreferences => 'Postavke';
 
   @override
   String get settingsSectionManage => 'Upravljaj';
@@ -768,7 +768,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get aboutVersionLabel => 'Verzija';
 
   @override
-  String get aboutBuildLabel => 'Build';
+  String get aboutBuildLabel => 'Verzija builda';
 
   @override
   String get aboutCopySupportDetails => 'Kopirajte detalje podrške';
@@ -778,7 +778,7 @@ class AppLocalizationsBs extends AppLocalizations {
       'Otvara cijeli dokument o politici unutar aplikacije.';
 
   @override
-  String get aboutSupportBundleLocaleLabel => 'Locale';
+  String get aboutSupportBundleLocaleLabel => 'Jezik';
 
   @override
   String get settingsSupportInfoCopied => 'Kopirano u međuspremnik';
@@ -1233,10 +1233,10 @@ class AppLocalizationsBs extends AppLocalizations {
   String get settingsThemeSubtitleSystem => 'Slijede postavke sistema';
 
   @override
-  String get settingsThemeSubtitleLight => 'Light';
+  String get settingsThemeSubtitleLight => 'Svijetla';
 
   @override
-  String get settingsThemeSubtitleDark => 'Dark';
+  String get settingsThemeSubtitleDark => 'Tamna';
 
   @override
   String get settingsThemePickerTitle => 'Tema';
@@ -1245,10 +1245,10 @@ class AppLocalizationsBs extends AppLocalizations {
   String get settingsThemeOptionSystem => 'Zadana postavka sistema';
 
   @override
-  String get settingsThemeOptionLight => 'Light';
+  String get settingsThemeOptionLight => 'Svijetla';
 
   @override
-  String get settingsThemeOptionDark => 'Dark';
+  String get settingsThemeOptionDark => 'Tamna';
 
   @override
   String get archivedAccountsTitle => 'Arhivirani nalozi';
@@ -1326,7 +1326,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get period6M => '6M';
 
   @override
-  String get period1Y => '1Y';
+  String get period1Y => '1G';
 
   @override
   String get periodAll => 'SVE';
@@ -1539,7 +1539,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get reviewStatsModeComparison => 'Poređenje';
 
   @override
-  String get statsUncategorized => 'Uncategorized';
+  String get statsUncategorized => 'Bez kategorije';
 
   @override
   String get statsNoCategories =>
@@ -1595,7 +1595,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get catSalary => 'Plata';
 
   @override
-  String get catFreelance => 'Freelance';
+  String get catFreelance => 'Honorarni rad';
 
   @override
   String get catConsulting => 'Konsalting';
@@ -1619,7 +1619,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get catInterest => 'Interes';
 
   @override
-  String get catSideHustle => 'Side hustle';
+  String get catSideHustle => 'Dodatna zarada';
 
   @override
   String get catSaleOfGoods => 'Prodaja robe';
@@ -1631,10 +1631,10 @@ class AppLocalizationsBs extends AppLocalizations {
   String get catGroceries => 'Namirnice';
 
   @override
-  String get catDining => 'Dining';
+  String get catDining => 'Restorani';
 
   @override
-  String get catTransport => 'Transport';
+  String get catTransport => 'Prijevoz';
 
   @override
   String get catUtilities => 'Komunalne usluge';
@@ -1676,7 +1676,7 @@ class AppLocalizationsBs extends AppLocalizations {
   String get catKids => 'Djeca';
 
   @override
-  String get catCharity => 'Charity';
+  String get catCharity => 'Dobrotvorne svrhe';
 
   @override
   String get catCoffee => 'Kafa';
@@ -1856,7 +1856,7 @@ class AppLocalizationsBs extends AppLocalizations {
   }
 
   @override
-  String get clearDataPreferences => 'Preferences';
+  String get clearDataPreferences => 'Postavke';
 
   @override
   String get clearDataPreferencesSubtitle =>
@@ -1880,10 +1880,10 @@ class AppLocalizationsBs extends AppLocalizations {
       'Odabrani podaci će biti trajno izbrisani. Prvo izvezite sigurnosnu kopiju ako vam zatreba kasnije.';
 
   @override
-  String get clearDataTypeConfirm => 'Unesite DELETE za potvrdu';
+  String get clearDataTypeConfirm => 'Unesite OBRIŠI za potvrdu';
 
   @override
-  String get clearDataTypeConfirmError => 'Upišite DELETE tačno da nastavite';
+  String get clearDataTypeConfirmError => 'Upišite OBRIŠI tačno da nastavite';
 
   @override
   String get clearDataPinTitle => 'Potvrdite PIN-om';
@@ -2194,5 +2194,79 @@ class AppLocalizationsBs extends AppLocalizations {
       one: 'Dospijeva za $count dan',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get aboutContactSupport => 'Kontaktiraj podršku';
+
+  @override
+  String get aboutSupportEmailCopied => 'E-mail adresa podrške je kopirana';
+
+  @override
+  String get onboardingWelcomeTitle => 'Dobro došli u Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Vaš novac ostaje na ovom uređaju. Bez računa, bez reklama, bez praćenja.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Zakažite predstojeće i ponavljajuće uplate i vidite kuda idu vaša stanja.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Bilježite prihode, troškove, prijenose i ono što posuđujete ili dugujete.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Statistika, poređenja i historija za vaše račune, osobe s kojima se poravnavate i firme.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Osnovna valuta';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Predloženo prema jeziku uređaja. Možete je kasnije promijeniti u Postavkama.';
+
+  @override
+  String get onboardingStart => 'Započni';
+
+  @override
+  String get onboardingTour => 'Pokaži mi aplikaciju';
+
+  @override
+  String get clearDataConfirmWord => 'OBRIŠI';
+
+  @override
+  String get planDeleteTitle => 'Obrisati planiranu transakciju?';
+
+  @override
+  String get planDeleteBody =>
+      'Bit će uklonjena iz vašeg plana. Stanja vaših računa se ne mijenjaju.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Prethodni period';
+
+  @override
+  String get semanticsNextPeriod => 'Sljedeći period';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistika';
+
+  @override
+  String get semanticsCurrencyToggle => 'Promijeni valutu prikaza';
+
+  @override
+  String get semanticsStatsSpent => 'Potrošeno';
+
+  @override
+  String get semanticsStatsReceived => 'Primljeno';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Preračunaj iz historije';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return 'Preračunata stanja za $count račun(a) iz historije';
   }
 }

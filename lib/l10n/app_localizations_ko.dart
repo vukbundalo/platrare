@@ -1817,10 +1817,10 @@ class AppLocalizationsKo extends AppLocalizations {
       '선택한 데이터가 영구적으로 삭제됩니다. 나중에 필요할 경우 먼저 백업을 내보내십시오.';
 
   @override
-  String get clearDataTypeConfirm => '확인하려면 DELETE를 입력하세요.';
+  String get clearDataTypeConfirm => '확인하려면 삭제를 입력하세요.';
 
   @override
-  String get clearDataTypeConfirmError => '계속하려면 DELETE를 정확히 입력하세요.';
+  String get clearDataTypeConfirmError => '계속하려면 삭제를 정확히 입력하세요.';
 
   @override
   String get clearDataPinTitle => 'PIN으로 확인';
@@ -2114,5 +2114,74 @@ class AppLocalizationsKo extends AppLocalizations {
       other: '$count일 후 만기',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get aboutContactSupport => '지원팀에 문의';
+
+  @override
+  String get aboutSupportEmailCopied => '지원 이메일 주소가 복사되었습니다';
+
+  @override
+  String get onboardingWelcomeTitle => 'Platrare에 오신 것을 환영합니다';
+
+  @override
+  String get onboardingWelcomeBody => '내 돈 정보는 이 기기에만 저장됩니다. 계정, 광고, 추적이 없습니다.';
+
+  @override
+  String get onboardingPlanBody => '다가오는 결제와 반복 결제를 예약하고 잔액이 어디로 향하는지 확인하세요.';
+
+  @override
+  String get onboardingTrackBody => '수입, 지출, 이체, 빌려주거나 빌린 돈을 기록하세요.';
+
+  @override
+  String get onboardingReviewBody => '내 계좌, 정산하는 사람, 거래처별 통계·비교·내역.';
+
+  @override
+  String get onboardingCurrencyLabel => '기준 통화';
+
+  @override
+  String get onboardingCurrencyHint =>
+      '기기 언어를 바탕으로 제안했습니다. 나중에 설정에서 바꿀 수 있습니다.';
+
+  @override
+  String get onboardingStart => '시작하기';
+
+  @override
+  String get onboardingTour => '둘러보기';
+
+  @override
+  String get clearDataConfirmWord => '삭제';
+
+  @override
+  String get planDeleteTitle => '예정된 거래를 삭제할까요?';
+
+  @override
+  String get planDeleteBody => '계획에서 제거됩니다. 계좌 잔액에는 영향이 없습니다.';
+
+  @override
+  String get semanticsPreviousPeriod => '이전 기간';
+
+  @override
+  String get semanticsNextPeriod => '다음 기간';
+
+  @override
+  String get semanticsSectionStatistics => '통계';
+
+  @override
+  String get semanticsCurrencyToggle => '표시 통화 전환';
+
+  @override
+  String get semanticsStatsSpent => '지출';
+
+  @override
+  String get semanticsStatsReceived => '수입';
+
+  @override
+  String get ledgerVerifyRecalculate => '내역에서 다시 계산';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count개 계좌 잔액을 내역에서 다시 계산했습니다';
   }
 }

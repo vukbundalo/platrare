@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../config/app_urls.dart';
 import '../l10n/app_localizations.dart';
 import '../theme/platrare_surfaces.dart';
 import '../utils/about_platform.dart';
@@ -11,22 +13,53 @@ import 'privacy_policy_screen.dart';
 class AppAboutScreen extends StatelessWidget {
   const AppAboutScreen({super.key});
 
-  Future<void> _copySupportBundle(BuildContext context) async {
+  Future<String> _supportBundle(BuildContext context) async {
     final l10n = AppLocalizations.of(context);
     final pkg = await PackageInfo.fromPlatform();
-    if (!context.mounted) return;
+    if (!context.mounted) return '';
     final locale = Localizations.localeOf(context).toLanguageTag();
-    final text = [
+    return [
       'Platrare',
       '${l10n.aboutVersionLabel}: ${pkg.version}',
       '${l10n.aboutBuildLabel}: ${pkg.buildNumber}',
       '${l10n.aboutSupportBundleLocaleLabel}: $locale',
       aboutPlatformSupportLine(),
     ].join('\n');
+  }
+
+  Future<void> _copySupportBundle(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
+    final text = await _supportBundle(context);
+    if (!context.mounted) return;
     await Clipboard.setData(ClipboardData(text: text));
     if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(l10n.settingsSupportInfoCopied)),
+    );
+  }
+
+  /// Opens the mail app with the diagnostics prefilled. When no mail handler
+  /// exists (tablet without Mail, work profile), copies the address instead so
+  /// the user still has a way to reach support.
+  Future<void> _contactSupport(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
+    final bundle = await _supportBundle(context);
+    if (!context.mounted) return;
+    final uri = AppUrls.supportMailto(
+      subject: 'Platrare support',
+      body: '\n\n---\n$bundle',
+    );
+    var opened = false;
+    try {
+      opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      opened = false;
+    }
+    if (opened || !context.mounted) return;
+    await Clipboard.setData(const ClipboardData(text: AppUrls.supportEmail));
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(l10n.aboutSupportEmailCopied)),
     );
   }
 
@@ -121,7 +154,24 @@ class AppAboutScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
-                FilledButton.icon(
+                if (AppUrls.hasSupportEmail) ...[
+                  FilledButton.icon(
+                    onPressed: () => _contactSupport(context),
+                    icon: const Icon(Icons.mail_outline_rounded, size: 20),
+                    label: Text(l10n.aboutContactSupport),
+                  ),
+                  const SizedBox(height: 4),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      AppUrls.supportEmail,
+                      textAlign: TextAlign.center,
+                      style: tt.bodySmall?.copyWith(color: cs.onSurfaceVariant),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                ],
+                FilledButton.tonalIcon(
                   onPressed: () => _copySupportBundle(context),
                   icon: const Icon(Icons.copy_all_outlined, size: 20),
                   label: Text(l10n.aboutCopySupportDetails),

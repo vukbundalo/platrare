@@ -3,6 +3,7 @@ import '../models/planned_transaction.dart';
 import '../models/transaction.dart';
 import 'account_lifecycle.dart' show compareAccountsStorageOrder;
 import 'app_data.dart' as data;
+import 'app_signals.dart';
 import 'backup_export_reminder_prefs.dart';
 import 'balance_posting.dart';
 import 'local/platrare_database.dart';
@@ -20,7 +21,10 @@ class DataRepository {
   /// Marks the home-screen widget snapshot dirty. Debounced downstream, and a
   /// no-op until [WidgetSnapshotService.init] has run, so it is safe to call
   /// from every mutation including those during startup hydration.
-  static void _touch() => WidgetSnapshotService.instance.requestUpdate();
+  static void _touch() {
+    ledgerRevision.value++;
+    WidgetSnapshotService.instance.requestUpdate();
+  }
 
   // --- Transactions ----------------------------------------------------------
 
@@ -99,34 +103,41 @@ class DataRepository {
 
   /// Persists the account and, when [a.balance] is non-zero, inserts an
   /// opening-balance ledger row (from/to null) so verify-ledger replay matches.
+  /// Account row and opening row land in one SQLite commit: a failure between
+  /// two commits used to leave the account at zero with the entered balance
+  /// silently lost.
   static Future<void> addAccount(Account a) async {
     if (!data.accounts.contains(a)) {
       a.sortOrder = nextSortOrderInGroup(a.group);
     }
     final opening = a.balance;
-    if (opening.abs() < 1e-10) {
-      await _db.upsertAccount(a);
-      if (!data.accounts.contains(a)) {
-        data.accounts.add(a);
-      }
-      _sortAccountsInMemory();
-      _touch();
-      return;
+    a.balance = 0;
+
+    Transaction? openingTx;
+    if (opening.abs() >= 1e-10) {
+      // Builds the row and moves [a.balance] to [opening]; persisted below.
+      await applyLedgerBalanceCorrection(
+        account: a,
+        previousBookBalance: 0,
+        newBookBalance: opening,
+        description: '__opening_balance__',
+        persistTransaction: (t) async => openingTx = t,
+      );
     }
 
-    a.balance = 0;
-    await _db.upsertAccount(a);
+    if (openingTx == null) {
+      await _db.upsertAccount(a);
+    } else {
+      final normalized = TransactionNormalizer.normalize(openingTx!);
+      // Upserts the account (with its final balance) and the opening row
+      // together.
+      await _db.transactionUpsertTransactionAndAccounts(normalized);
+      data.transactions.insert(0, normalized);
+      await recordQualifyingTransactionForBackupReminder(normalized);
+    }
     if (!data.accounts.contains(a)) {
       data.accounts.add(a);
     }
-
-    await applyLedgerBalanceCorrection(
-      account: a,
-      previousBookBalance: 0,
-      newBookBalance: opening,
-      description: '__opening_balance__',
-      persistTransaction: addTransaction,
-    );
     _sortAccountsInMemory();
     _touch();
   }
@@ -169,22 +180,50 @@ class DataRepository {
     _touch();
   }
 
+  /// Replaces [oldPt] with [newPt] (same or different id) in one SQLite
+  /// commit. Used by edit, skip-occurrence and its undo.
   static Future<void> replacePlanned(
     PlannedTransaction oldPt,
     PlannedTransaction newPt,
   ) async {
     final normalized = PlannedNormalizer.normalize(newPt);
+    await _db.transactionReplacePlanned(
+      oldId: oldPt.id,
+      replacement: normalized,
+    );
     final idx = data.plannedTransactions.indexWhere((t) => t.id == oldPt.id);
     if (idx >= 0) {
       data.plannedTransactions[idx] = normalized;
     } else {
       data.plannedTransactions.add(normalized);
     }
-    if (oldPt.id != newPt.id) {
-      await _db.deletePlannedRow(oldPt.id);
-    }
     data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
-    await _db.upsertPlanned(normalized);
+    PlannedReminderService.instance.resync();
+    _touch();
+  }
+
+  /// Confirms [planned] in one SQLite commit: posts [realized] (whose account
+  /// balances the caller has already adjusted, as for [addTransaction]),
+  /// removes the planned row and inserts [next] when the schedule repeats.
+  static Future<void> realizePlanned({
+    required PlannedTransaction planned,
+    required Transaction realized,
+    PlannedTransaction? next,
+  }) async {
+    final normalizedTx = TransactionNormalizer.normalize(realized);
+    final normalizedNext = next == null ? null : PlannedNormalizer.normalize(next);
+    await _db.transactionRealizePlanned(
+      realized: normalizedTx,
+      plannedId: planned.id,
+      nextPlanned: normalizedNext,
+    );
+    data.transactions.insert(0, normalizedTx);
+    data.plannedTransactions.removeWhere((x) => x.id == planned.id);
+    if (normalizedNext != null) {
+      data.plannedTransactions.add(normalizedNext);
+      data.plannedTransactions.sort((a, b) => a.date.compareTo(b.date));
+    }
+    await recordQualifyingTransactionForBackupReminder(normalizedTx);
     PlannedReminderService.instance.resync();
     _touch();
   }
@@ -223,6 +262,7 @@ class DataRepository {
     final kind = income ? 'income' : 'expense';
     await _db.insertCategory(name: name, kind: kind);
     list.add(name);
+    _touch();
   }
 
   /// How many transactions + planned transactions currently use [name].
@@ -283,8 +323,7 @@ class DataRepository {
       data.accounts.clear();
     } else {
       if (transactions) {
-        await _db.deleteAllTransactions();
-        await _db.zeroAllAccountBalances();
+        await _db.deleteAllTransactionsAndZeroBalances();
         for (final a in data.accounts) {
           a.balance = 0;
         }
@@ -329,5 +368,6 @@ class DataRepository {
     } else {
       data.expenseCategories.remove(name);
     }
+    _touch();
   }
 }

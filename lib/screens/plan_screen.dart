@@ -1,56 +1,40 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
+import '../data/app_signals.dart';
 import '../data/balance_privacy_prefs.dart';
 import '../data/data_repository.dart';
+import '../data/ledger_service.dart';
 import '../data/user_settings.dart' as settings;
+import '../help/help_tour.dart';
+import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
-import '../models/transaction.dart';
-import '../l10n/app_localizations.dart';
+import '../theme/ledger_colors.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
-import '../widgets/account_avatar.dart';
+import '../utils/period_filter.dart';
 import '../utils/persistence_guard.dart';
 import '../utils/projections.dart' as proj;
-import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
-import '../help/help_tour.dart';
+import '../widgets/account_avatar.dart';
+import '../widgets/app_hero_layout.dart';
+import '../widgets/stacked_scroll_fab.dart';
+import '../widgets/track_plan_filter_ui.dart';
 import 'new_planned_transaction_screen.dart';
 import 'review_screen.dart';
 import 'settings_screen.dart';
 import 'transaction_detail_screen.dart';
-import '../widgets/app_hero_layout.dart';
-import '../widgets/stacked_scroll_fab.dart';
-import '../widgets/track_plan_filter_ui.dart';
-
-const _kTypeIncome = 'income';
-const _kTypeExpense = 'expense';
-const _kTypeTransfer = 'transfer';
-
-bool _inGroup(TxType t, String group) => switch (group) {
-      _kTypeIncome =>
-        const {TxType.income, TxType.collection, TxType.loan, TxType.invoice}
-            .contains(t),
-      _kTypeExpense => const {
-          TxType.expense,
-          TxType.bill,
-          TxType.settlement,
-          TxType.advance,
-        }.contains(t),
-      _kTypeTransfer =>
-        const {TxType.transfer, TxType.offset}.contains(t),
-      _ => true,
-    };
 
 class PlanScreen extends StatefulWidget {
-  final VoidCallback? onChanged;
-  const PlanScreen({super.key, this.onChanged});
+  const PlanScreen({super.key});
 
   @override
   State<PlanScreen> createState() => _PlanScreenState();
@@ -59,13 +43,12 @@ class PlanScreen extends StatefulWidget {
 class _PlanScreenState extends State<PlanScreen> {
   /// Projection date for hero totals and per-account breakdown.
   DateTime _snapshotDate = DateUtils.dateOnly(DateTime.now());
-  String? _typeFilter;
+  TxTypeGroup? _typeFilter;
   Account? _accountFilter;
   String? _categoryFilter;
   /// null = all time (default on Plan — repeating items must stay visible
   /// past month boundaries); 'month' / 'week' / 'year' narrow the list.
-  String? _dateFilter;
-  DateTime _dateAnchor = DateTime.now();
+  PeriodFilter _period = PeriodFilter.allTime();
   /// Planned list: oldest → newest by default (overdue / soonest days first).
   bool _newestFirst = false;
   bool _accountStripOpen = false;
@@ -116,7 +99,7 @@ class _PlanScreenState extends State<PlanScreen> {
       _typeFilter != null ||
       _accountFilter != null ||
       _categoryFilter != null ||
-      _dateFilter != null ||
+      !_period.isAllTime ||
       _newestFirst ||
       _planSearchQuery.trim().isNotEmpty;
 
@@ -124,8 +107,7 @@ class _PlanScreenState extends State<PlanScreen> {
         _typeFilter = null;
         _accountFilter = null;
         _categoryFilter = null;
-        _dateFilter = null;
-        _dateAnchor = DateTime.now();
+        _period = PeriodFilter.allTime();
         _newestFirst = false;
         _accountStripOpen = false;
         _categoryStripOpen = false;
@@ -148,7 +130,6 @@ class _PlanScreenState extends State<PlanScreen> {
       setState(() {});
       return;
     }
-    widget.onChanged?.call();
   }
 
   void _toggleAccountStrip() => setState(() {
@@ -159,52 +140,10 @@ class _PlanScreenState extends State<PlanScreen> {
         _categoryStripOpen = !_categoryStripOpen;
       });
 
-  void _cycleTypeFilter() => setState(() {
-        if (_typeFilter == null) {
-          _typeFilter = _kTypeIncome;
-        } else if (_typeFilter == _kTypeIncome) {
-          _typeFilter = _kTypeExpense;
-        } else if (_typeFilter == _kTypeExpense) {
-          _typeFilter = _kTypeTransfer;
-        } else {
-          _typeFilter = null;
-        }
-      });
-
-  void _cycleDateFilter() => setState(() {
-        if (_dateFilter == null) {
-          _dateFilter = 'day';
-          _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'day') {
-          _dateFilter = 'week';
-          _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'week') {
-          _dateFilter = 'month';
-          _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'month') {
-          _dateFilter = 'year';
-          _dateAnchor = DateTime.now();
-        } else {
-          _dateFilter = null;
-        }
-      });
+  void _cycleTypeFilter() =>
+      setState(() => _typeFilter = TxTypeGroup.next(_typeFilter));
 
   void _toggleSort() => setState(() => _newestFirst = !_newestFirst);
-
-  bool get _hasNavigableDateFilter =>
-      _dateFilter == 'day' ||
-      _dateFilter == 'week' ||
-      _dateFilter == 'month' ||
-      _dateFilter == 'year';
-
-  /// Default (no filter) shows the ∞ icon — the Plan list is all-time.
-  String? get _dateChipModeLetter => switch (_dateFilter) {
-        'day' => 'D',
-        'week' => 'W',
-        'month' => 'M',
-        'year' => 'Y',
-        _ => '∞',
-      };
 
   /// Same horizon as the projection snapshot date picker — Plan is forward-looking.
   static const Duration _kPlanListForwardHorizon = Duration(days: 1825);
@@ -212,40 +151,12 @@ class _PlanScreenState extends State<PlanScreen> {
   DateTime get _planListLatestNavDate =>
       DateUtils.dateOnly(DateTime.now().add(_kPlanListForwardHorizon));
 
-  DateTime _planDateAnchorAfterStep(int direction) {
-    final a = _dateAnchor;
-    return switch (_dateFilter) {
-      'day' => DateTime(a.year, a.month, a.day + direction),
-      'week' => DateTime(a.year, a.month, a.day + direction * 7),
-      'month' => DateTime(a.year, a.month + direction, a.day),
-      'year' => DateTime(a.year + direction, a.month, a.day),
-      _ => a,
-    };
-  }
-
-  void _navigateDate(int direction) {
-    setState(() {
-      var next = _planDateAnchorAfterStep(direction);
-      if (direction > 0) {
-        final cap = _planListLatestNavDate;
-        if (DateUtils.dateOnly(next).isAfter(cap)) next = _dateAnchor;
-      }
-      _dateAnchor = next;
-    });
-  }
-
-  bool get _canNavigateDateForward {
-    if (_dateFilter == null) return true;
-    final next = _planDateAnchorAfterStep(1);
-    return !DateUtils.dateOnly(next).isAfter(_planListLatestNavDate);
-  }
-
   /// `[first day of this calendar month, first day of next month)` — only
   /// anchors the default date for “new planned” when the list is all-time.
   (DateTime, DateTime) get _currentMonthRange {
     final now = DateTime.now();
-    final start = DateTime(now.year, now.month, 1);
-    final end = DateTime(now.year, now.month + 1, 1);
+    final start = DateTime(now.year, now.month);
+    final end = DateTime(now.year, now.month + 1);
     return (start, end);
   }
 
@@ -253,57 +164,21 @@ class _PlanScreenState extends State<PlanScreen> {
   DateTime? get _defaultDateForNewPlanned {
     if (_isFutureProjection) return null;
     final (start, end) =
-        _dateFilter != null ? _dateRange : _currentMonthRange;
+        !_period.isAllTime ? _period.range : _currentMonthRange;
     final s = DateUtils.dateOnly(start);
     final lastInclusive =
         DateUtils.dateOnly(end.subtract(const Duration(days: 1)));
-    var d = DateUtils.dateOnly(_dateAnchor);
+    var d = DateUtils.dateOnly(_period.anchor);
     if (d.isBefore(s)) d = s;
     if (d.isAfter(lastInclusive)) d = lastInclusive;
     return d;
-  }
-
-  (DateTime, DateTime) get _dateRange {
-    final a = _dateAnchor;
-    return switch (_dateFilter) {
-      'day' => (
-          DateTime(a.year, a.month, a.day),
-          DateTime(a.year, a.month, a.day + 1),
-        ),
-      'week' => () {
-          final mon =
-              DateTime(a.year, a.month, a.day - (a.weekday - 1));
-          return (mon, DateTime(mon.year, mon.month, mon.day + 7));
-        }(),
-      'month' => (DateTime(a.year, a.month), DateTime(a.year, a.month + 1)),
-      'year' => (DateTime(a.year), DateTime(a.year + 1)),
-      _ => (DateTime(0), DateTime(9999)),
-    };
-  }
-
-  String _dateLabel(BuildContext context) {
-    final a = _dateAnchor;
-    return switch (_dateFilter) {
-      'day' => formatAppDate(context, 'EEE, d MMM yyyy', a),
-      'week' => () {
-          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
-          final sun = DateTime(mon.year, mon.month, mon.day + 6);
-          final sameMon = mon.month == sun.month;
-          return sameMon
-              ? '${formatAppDate(context, 'd', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}'
-              : '${formatAppDate(context, 'd MMM', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}';
-        }(),
-      'month' => formatAppDate(context, 'MMMM yyyy', a),
-      'year' => formatAppDate(context, 'yyyy', a),
-      _ => '',
-    };
   }
 
   Future<void> _pickSnapshotDate() async {
     final picked = await showDatePicker(
       context: context,
       initialDate: _snapshotDate,
-      firstDate: DateTime(2020),
+      firstDate: DateTime(1970),
       lastDate: DateTime.now().add(const Duration(days: 1825)),
     );
     if (picked != null && mounted) setState(() => _snapshotDate = picked);
@@ -345,8 +220,7 @@ class _PlanScreenState extends State<PlanScreen> {
         _typeFilter = null;
         _accountFilter = null;
         _categoryFilter = null;
-        _dateFilter = null;
-        _dateAnchor = DateTime.now();
+        _period = PeriodFilter.allTime();
         _newestFirst = false;
         _planSearchQuery = '';
         _planSearchController.clear();
@@ -391,8 +265,8 @@ class _PlanScreenState extends State<PlanScreen> {
 
   List<PlannedTransaction> get _filteredPlanned {
     Iterable<PlannedTransaction> source = data.plannedTransactions;
-    if (_dateFilter != null) {
-      final (start, end) = _dateRange;
+    if (!_period.isAllTime) {
+      final (start, end) = _period.range;
       source = source.where(
           (pt) => !pt.date.isBefore(start) && pt.date.isBefore(end));
     }
@@ -400,7 +274,7 @@ class _PlanScreenState extends State<PlanScreen> {
       source = source.where((pt) {
         final type = pt.txType ??
             classifyTransaction(from: pt.fromAccount, to: pt.toAccount);
-        return _inGroup(type, _typeFilter!);
+        return _typeFilter!.contains(type);
       });
     }
     if (_accountFilter != null && !_accountFilter!.archived) {
@@ -419,6 +293,8 @@ class _PlanScreenState extends State<PlanScreen> {
   @override
   void initState() {
     super.initState();
+    ledgerRevision.addListener(_onLedgerChanged);
+    requestPlanHelpTour.addListener(_onHelpTourRequested);
     _planScrollController.addListener(_onPlanScrollControllerChanged);
   }
 
@@ -453,7 +329,7 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 
   void _onPlanScrollLoadMoreDays() {
-    if (_dateFilter != null) return;
+    if (!_period.isAllTime) return;
     if (!_planScrollController.hasClients) return;
     final pos = _planScrollController.position;
     if (!pos.hasPixels || !pos.hasContentDimensions) return;
@@ -461,7 +337,7 @@ class _PlanScreenState extends State<PlanScreen> {
 
     final bundle = DayGroupedPlanned.build(
         _applyPlannedSearch(_filteredPlanned), _newestFirst);
-    if (!shouldLazyLoadDaySections('all', bundle.dayKeys.length)) return;
+    if (!shouldLazyLoadDaySections(true, bundle.dayKeys.length)) return;
     if (_planVisibleDaySlots >= bundle.dayKeys.length) return;
 
     setState(() {
@@ -474,7 +350,7 @@ class _PlanScreenState extends State<PlanScreen> {
 
   void _syncPlanLazyWindowSignature() {
     final sig = Object.hash(
-      _dateFilter,
+      _period,
       _typeFilter,
       _accountFilter?.id,
       _categoryFilter,
@@ -489,8 +365,23 @@ class _PlanScreenState extends State<PlanScreen> {
     }
   }
 
+  void _onHelpTourRequested() {
+    if (!mounted) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) showHelpTour(context, _helpSteps());
+    });
+  }
+
+  /// Any ledger mutation anywhere (other tabs, Settings, imports, a
+  /// recovery reload) re-renders this tab; no callback chain needed.
+  void _onLedgerChanged() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
+    ledgerRevision.removeListener(_onLedgerChanged);
+    requestPlanHelpTour.removeListener(_onHelpTourRequested);
     _planScrollController.removeListener(_onPlanScrollControllerChanged);
     _planScrollController.dispose();
     _planSearchController.dispose();
@@ -507,7 +398,7 @@ class _PlanScreenState extends State<PlanScreen> {
     final nextAfterScheduled = earlyRepeat
         ? nextPlannedEffectiveDate(pt, pt.date)
         : null;
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -553,81 +444,14 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 
   Future<void> _doRealize(PlannedTransaction pt, {DateTime? realizationDate}) async {
-    if (pt.nativeAmount != null) {
-      // Deduct from source in its native currency.
-      if (pt.fromAccount != null) {
-        pt.fromAccount!.balance -= pt.nativeAmount!;
-      }
-      // Rule 4: cross-currency — credit destinationAmount; same-currency —
-      // credit nativeAmount.
-      if (pt.toAccount != null) {
-        final credit = (pt.destinationAmount != null &&
-                pt.toAccount!.currencyCode != pt.fromAccount?.currencyCode)
-            ? pt.destinationAmount!
-            : pt.nativeAmount!;
-        pt.toAccount!.balance += credit;
-      }
-    }
-
-    // Rule 3: lock baseAmount + exchangeRate at realization time.
-    final ccy = pt.currencyCode ?? 'BAM';
-    final rate = fx.rateToBase(ccy);
-    final baseAmt = pt.nativeAmount != null ? pt.nativeAmount! * rate : null;
-
-    final persisted = await guardPersist(context, () async {
-      await DataRepository.addTransaction(
-        Transaction(
-          nativeAmount: pt.nativeAmount,
-          currencyCode: ccy,
-          baseAmount: baseAmt,
-          exchangeRate: rate,
-          destinationAmount: pt.destinationAmount,
-          fromAccount: pt.fromAccount,
-          toAccount: pt.toAccount,
-          category: pt.category,
-          description: pt.description,
-          date: realizationDate ?? pt.date,
-          txType: pt.txType,
-          attachments: List<String>.from(pt.attachments),
-        ),
-      );
-
-      await DataRepository.removePlanned(pt);
-
-      if (pt.repeatInterval != RepeatInterval.none) {
-        final nextDate = nextPlannedEffectiveDate(pt, pt.date);
-        final nextCount = pt.repeatConfirmedCount + 1;
-        if (shouldSpawnNextOccurrence(pt, nextDate)) {
-          await DataRepository.addPlanned(
-            PlannedTransaction(
-              nativeAmount: pt.nativeAmount,
-              currencyCode: pt.currencyCode,
-              destinationAmount: pt.destinationAmount,
-              fromAccount: pt.fromAccount,
-              toAccount: pt.toAccount,
-              fromAccountId: pt.fromAccountId,
-              toAccountId: pt.toAccountId,
-              category: pt.category,
-              description: pt.description,
-              date: nextDate,
-              txType: pt.txType,
-              repeatInterval: pt.repeatInterval,
-              repeatEvery: pt.repeatEvery,
-              repeatDayOfMonth: pt.repeatDayOfMonth,
-              weekendAdjustment: pt.weekendAdjustment,
-              repeatEndDate: pt.repeatEndDate,
-              repeatEndAfter: pt.repeatEndAfter,
-              repeatConfirmedCount: nextCount,
-              createdAt: pt.createdAt,
-              attachments: List<String>.from(pt.attachments),
-            ),
-          );
-        }
-      }
-    });
+    // Balances, the realized row, the planned row and the next occurrence
+    // are handled by the ledger service in one SQLite commit.
+    final persisted = await guardPersist(
+      context,
+      () => LedgerService.realizePlanned(pt, realizationDate: realizationDate),
+    );
 
     if (mounted) setState(() {});
-    widget.onChanged?.call();
 
     if (!persisted || !mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
@@ -635,24 +459,21 @@ class _PlanScreenState extends State<PlanScreen> {
         content: Text(AppLocalizations.of(context).planTransactionConfirmed),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        duration: const Duration(seconds: 4),
         margin: snackBarFloatingMarginBesideStackedFab(context),
       ),
     );
   }
 
   Future<void> _delete(PlannedTransaction pt) async {
-    HapticFeedback.lightImpact();
+    unawaited(HapticFeedback.lightImpact());
     if (!await guardPersist(context, () => DataRepository.removePlanned(pt))) {
       if (mounted) {
         setState(() {});
-        widget.onChanged?.call();
       }
       return;
     }
     if (!mounted) return;
     setState(() {});
-    widget.onChanged?.call();
     final messenger = ScaffoldMessenger.of(context);
     messenger.clearSnackBars();
     messenger.showSnackBar(
@@ -670,12 +491,10 @@ class _PlanScreenState extends State<PlanScreen> {
             if (!await guardPersist(context, () => DataRepository.addPlanned(pt))) {
               if (mounted) {
                 setState(() {});
-                widget.onChanged?.call();
               }
               return;
             }
             if (mounted) setState(() {});
-            widget.onChanged?.call();
           },
         ),
       ),
@@ -744,40 +563,21 @@ class _PlanScreenState extends State<PlanScreen> {
           await _delete(pt);
           return;
         }
-        final spawned = PlannedTransaction(
-          nativeAmount: pt.nativeAmount,
-          currencyCode: pt.currencyCode,
-          destinationAmount: pt.destinationAmount,
-          fromAccount: pt.fromAccount,
-          toAccount: pt.toAccount,
-          fromAccountId: pt.fromAccountId,
-          toAccountId: pt.toAccountId,
-          category: pt.category,
-          description: pt.description,
+        final spawned = LedgerService.nextOccurrenceOf(
+          pt,
           date: nextDate,
-          txType: pt.txType,
-          repeatInterval: pt.repeatInterval,
-          repeatEvery: pt.repeatEvery,
-          repeatDayOfMonth: pt.repeatDayOfMonth,
-          weekendAdjustment: pt.weekendAdjustment,
-          repeatEndDate: pt.repeatEndDate,
-          repeatEndAfter: pt.repeatEndAfter,
           repeatConfirmedCount: pt.repeatConfirmedCount,
-          createdAt: pt.createdAt,
-          attachments: List<String>.from(pt.attachments),
         );
-        final skippedOk = await guardPersist(context, () async {
-          await DataRepository.removePlanned(pt);
-          await DataRepository.addPlanned(spawned);
-        });
+        final skippedOk = await guardPersist(
+          context,
+          () => DataRepository.replacePlanned(pt, spawned),
+        );
         if (!mounted) return;
         if (!skippedOk) {
           setState(() {});
-          widget.onChanged?.call();
           return;
         }
         setState(() {});
-        widget.onChanged?.call();
         final messenger = ScaffoldMessenger.of(context);
         messenger.clearSnackBars();
         messenger.showSnackBar(
@@ -793,13 +593,12 @@ class _PlanScreenState extends State<PlanScreen> {
               label: AppLocalizations.of(context).undo,
               onPressed: () async {
                 messenger.clearSnackBars();
-                final undoOk = await guardPersist(context, () async {
-                  await DataRepository.removePlanned(spawned);
-                  await DataRepository.addPlanned(pt);
-                });
+                final undoOk = await guardPersist(
+                  context,
+                  () => DataRepository.replacePlanned(spawned, pt),
+                );
                 if (mounted) {
                   setState(() {});
-                  widget.onChanged?.call();
                 }
                 if (!undoOk) return;
               },
@@ -824,7 +623,6 @@ class _PlanScreenState extends State<PlanScreen> {
       if (!await guardPersist(context, () => DataRepository.addPlanned(result))) {
         if (mounted) {
           setState(() {});
-          widget.onChanged?.call();
         }
         return;
       }
@@ -846,12 +644,10 @@ class _PlanScreenState extends State<PlanScreen> {
       if (!await guardPersist(context, () => DataRepository.addAccount(result))) {
         if (mounted) {
           setState(() {});
-          widget.onChanged?.call();
         }
         return;
       }
       if (mounted) setState(() {});
-      widget.onChanged?.call();
     }
   }
 
@@ -867,7 +663,6 @@ class _PlanScreenState extends State<PlanScreen> {
           context, () => DataRepository.replacePlanned(pt, result))) {
         if (mounted) {
           setState(() {});
-          widget.onChanged?.call();
         }
         return;
       }
@@ -878,7 +673,7 @@ class _PlanScreenState extends State<PlanScreen> {
   void _openPlannedDetail(PlannedTransaction pt) {
     Navigator.push(
       context,
-      MaterialPageRoute(
+      MaterialPageRoute<void>(
         builder: (_) => PlannedTransactionDetailScreen(
           pt: pt,
           onConfirm: () => _confirm(pt),
@@ -939,8 +734,7 @@ class _PlanScreenState extends State<PlanScreen> {
     final planDayBundle =
         DayGroupedPlanned.build(displayPlanned, _newestFirst);
     // Plan's default (null) date filter is all-time — lazy-load it like 'all'.
-    final lazyPlanDays = shouldLazyLoadDaySections(
-        _dateFilter ?? 'all', planDayBundle.dayKeys.length);
+    final lazyPlanDays = shouldLazyLoadDaySections(_period.isAllTime, planDayBundle.dayKeys.length);
     final planVisibleDayGroups = lazyPlanDays
         ? math.min(_planVisibleDaySlots, planDayBundle.dayKeys.length)
         : planDayBundle.dayKeys.length;
@@ -1050,11 +844,10 @@ class _PlanScreenState extends State<PlanScreen> {
                 onPressed: () async {
                   await Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    MaterialPageRoute<void>(
                         builder: (_) => const SettingsScreen()),
                   );
                   if (mounted) setState(() {});
-                  widget.onChanged?.call();
                 },
               ),
             ],
@@ -1077,9 +870,9 @@ class _PlanScreenState extends State<PlanScreen> {
                 onToggleCategoryPanel: _toggleCategoryStrip,
                 typeFilter: _typeFilter,
                 onCycleType: _cycleTypeFilter,
-                dateModeLetter: _dateChipModeLetter,
-                dateFilterActive: _dateFilter != null,
-                onCycleDate: _cycleDateFilter,
+                dateModeLetter: _period.chipLetter,
+                dateFilterActive: !_period.isAllTime,
+                onCycleDate: () => setState(() => _period = _period.cycled()),
                 accountFilter: _accountFilter,
                 categoryFilter: _categoryFilter,
                 newestFirst: _newestFirst,
@@ -1088,15 +881,15 @@ class _PlanScreenState extends State<PlanScreen> {
             ),
           ),
 
-          if (planChipsEnabled && _hasNavigableDateFilter)
+          if (planChipsEnabled && _period.isNavigable)
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
                 child: TrackPlanDateNavBar(
-                  label: _dateLabel(context),
-                  onNavigateBack: () => _navigateDate(-1),
-                  onNavigateForward: _canNavigateDateForward
-                      ? () => _navigateDate(1)
+                  label: _period.label(context),
+                  onNavigateBack: () => setState(() => _period = _period.navigated(-1, latest: _planListLatestNavDate)),
+                  onNavigateForward: _period.canNavigateForward(latest: _planListLatestNavDate)
+                      ? () => setState(() => _period = _period.navigated(1, latest: _planListLatestNavDate))
                       : null,
                 ),
               ),
@@ -1278,7 +1071,7 @@ class _ProjectionHero extends StatelessWidget {
   final bool categoryPanelOpen;
   final VoidCallback onToggleAccountPanel;
   final VoidCallback onToggleCategoryPanel;
-  final String? typeFilter;
+  final TxTypeGroup? typeFilter;
   final VoidCallback onCycleType;
   final String? dateModeLetter;
   final bool dateFilterActive;
@@ -1756,9 +1549,14 @@ class _PlanTimeline extends StatelessWidget {
           final day = keys[i];
           final date = DateTime.parse(day);
           final dayPlanned = grouped[day]!;
-          final projectedBalances = proj.projectBalances(date);
           final projectionOpen = expandedProjectionDay != null &&
               DateUtils.isSameDay(expandedProjectionDay!, date);
+          // Only the expanded day renders the projection panel; walking every
+          // planned occurrence for each visible day on each rebuild was the
+          // most expensive thing on this screen.
+          final projectedBalances = projectionOpen
+              ? proj.projectBalances(date)
+              : const <String, double>{};
           return _DayGroup(
             date: date,
             planned: dayPlanned,
@@ -1888,7 +1686,6 @@ class _DayGroup extends StatelessWidget {
                   final pt = entry.value;
                   return Dismissible(
                     key: ValueKey(pt.id),
-                    direction: DismissDirection.horizontal,
                     confirmDismiss: (direction) async {
                       if (direction == DismissDirection.endToStart) {
                         onDelete(pt);

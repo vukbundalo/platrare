@@ -1877,11 +1877,11 @@ class AppLocalizationsSv extends AppLocalizations {
       'Den valda informationen kommer att raderas permanent. Exportera en säkerhetskopia först om du kan behöva den senare.';
 
   @override
-  String get clearDataTypeConfirm => 'Skriv DELETE för att bekräfta';
+  String get clearDataTypeConfirm => 'Skriv RADERA för att bekräfta';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Skriv DELETE exakt för att fortsätta';
+      'Skriv RADERA exakt för att fortsätta';
 
   @override
   String get clearDataPinTitle => 'Bekräfta med PIN';
@@ -2189,5 +2189,79 @@ class AppLocalizationsSv extends AppLocalizations {
       other: 'Förfaller om $count dagar',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get aboutContactSupport => 'Kontakta supporten';
+
+  @override
+  String get aboutSupportEmailCopied => 'Supportens e-postadress kopierad';
+
+  @override
+  String get onboardingWelcomeTitle => 'Välkommen till Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Dina pengar stannar på den här enheten. Inget konto, inga annonser, ingen spårning.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Planera kommande och återkommande betalningar och se vart dina saldon är på väg.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Registrera inkomster, utgifter, överföringar och vad du lånar ut eller är skyldig.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Statistik, jämförelser och historik för dina konton, personerna du gör upp med och företag.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Basvaluta';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Föreslagen utifrån enhetens språk. Du kan ändra den senare i Inställningar.';
+
+  @override
+  String get onboardingStart => 'Kom igång';
+
+  @override
+  String get onboardingTour => 'Visa mig runt';
+
+  @override
+  String get clearDataConfirmWord => 'RADERA';
+
+  @override
+  String get planDeleteTitle => 'Ta bort planerad transaktion?';
+
+  @override
+  String get planDeleteBody =>
+      'Den tas bort från din plan. Dina kontosaldon påverkas inte.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Föregående period';
+
+  @override
+  String get semanticsNextPeriod => 'Nästa period';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistik';
+
+  @override
+  String get semanticsCurrencyToggle => 'Byt visningsvaluta';
+
+  @override
+  String get semanticsStatsSpent => 'Spenderat';
+
+  @override
+  String get semanticsStatsReceived => 'Mottaget';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Räkna om från historiken';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count kontosaldon omräknade från historiken';
   }
 }

@@ -1126,10 +1126,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsLanguageSubtitleSystem => 'Selon les paramètres système';
 
   @override
-  String get settingsLanguageSubtitleEnglish => 'English';
+  String get settingsLanguageSubtitleEnglish => 'Anglais';
 
   @override
-  String get settingsLanguageSubtitleSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageSubtitleSerbianLatin => 'Serbe (latin)';
 
   @override
   String get settingsLanguagePickerTitle => 'Langue de l\'app';
@@ -1138,10 +1138,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsLanguageOptionSystem => 'Paramètre système';
 
   @override
-  String get settingsLanguageOptionEnglish => 'English';
+  String get settingsLanguageOptionEnglish => 'Anglais';
 
   @override
-  String get settingsLanguageOptionSerbianLatin => 'Serbian (Latin)';
+  String get settingsLanguageOptionSerbianLatin => 'Serbe (latin)';
 
   @override
   String get settingsSectionAppearance => 'Apparence';
@@ -1819,7 +1819,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Utilisation des taux hors ligne ou inclus — appuyer pour actualiser';
 
   @override
-  String get settingsExchangeRatesSource => 'ECB';
+  String get settingsExchangeRatesSource => 'BCE';
 
   @override
   String get settingsExchangeRatesUpdatedSnack => 'Taux de change mis à jour';
@@ -1895,11 +1895,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Les données sélectionnées seront supprimées définitivement. Exportez d\'abord une sauvegarde si vous pourriez en avoir besoin ultérieurement.';
 
   @override
-  String get clearDataTypeConfirm => 'Tapez DELETE pour confirmer';
+  String get clearDataTypeConfirm => 'Tapez SUPPRIMER pour confirmer';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Tapez DELETE exactement pour continuer';
+      'Tapez SUPPRIMER exactement pour continuer';
 
   @override
   String get clearDataPinTitle => 'Confirmer avec le PIN';
@@ -2068,7 +2068,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Votre solde personnel et votre patrimoine net en un coup d’œil. Touchez les montants pour basculer entre devise principale et secondaire.';
 
   @override
-  String get helpReviewSectionsTitle => 'Sections';
+  String get helpReviewSectionsTitle => 'Rubriques';
 
   @override
   String get helpReviewSectionsBody =>
@@ -2206,5 +2206,79 @@ class AppLocalizationsFr extends AppLocalizations {
       other: 'Échéance dans $count jours',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get aboutContactSupport => 'Contacter l’assistance';
+
+  @override
+  String get aboutSupportEmailCopied => 'Adresse e-mail de l’assistance copiée';
+
+  @override
+  String get onboardingWelcomeTitle => 'Bienvenue dans Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Votre argent reste sur cet appareil. Pas de compte, pas de publicité, pas de suivi.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Planifiez les paiements à venir et récurrents et voyez où vont vos soldes.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Enregistrez revenus, dépenses, virements et ce que vous prêtez ou devez.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Statistiques, comparaisons et historique pour vos comptes, les personnes avec qui vous réglez vos comptes et les entreprises.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Devise de base';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Suggérée d’après la langue de l’appareil. Modifiable plus tard dans les Réglages.';
+
+  @override
+  String get onboardingStart => 'Commencer';
+
+  @override
+  String get onboardingTour => 'Faites-moi visiter';
+
+  @override
+  String get clearDataConfirmWord => 'SUPPRIMER';
+
+  @override
+  String get planDeleteTitle => 'Supprimer la transaction planifiée ?';
+
+  @override
+  String get planDeleteBody =>
+      'Elle sera retirée de votre plan. Les soldes de vos comptes ne changent pas.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Période précédente';
+
+  @override
+  String get semanticsNextPeriod => 'Période suivante';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistiques';
+
+  @override
+  String get semanticsCurrencyToggle => 'Changer la devise d’affichage';
+
+  @override
+  String get semanticsStatsSpent => 'Dépensé';
+
+  @override
+  String get semanticsStatsReceived => 'Reçu';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Recalculer depuis l’historique';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count soldes recalculés depuis l’historique';
   }
 }

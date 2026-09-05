@@ -1141,5 +1141,28 @@
         "type": "int"
       }
     }
-  }
+  },
+  "aboutContactSupport": "Contact support",
+  "aboutSupportEmailCopied": "Support email address copied",
+  "onboardingWelcomeTitle": "Welcome to Platrare",
+  "onboardingWelcomeBody": "Your money stays on this device. No account, no ads, no tracking.",
+  "onboardingPlanBody": "Schedule upcoming and repeating payments and see where your balances are heading.",
+  "onboardingTrackBody": "Record income, expenses, transfers, and what you lend or owe.",
+  "onboardingReviewBody": "Statistics, comparisons and history for your accounts, the people you settle with, and businesses.",
+  "onboardingCurrencyLabel": "Base currency",
+  "onboardingCurrencyHint": "Suggested from your device language. You can change it later in Settings.",
+  "onboardingStart": "Get started",
+  "onboardingTour": "Show me around",
+  "clearDataConfirmWord": "DELETE",
+  "planDeleteTitle": "Delete planned transaction?",
+  "planDeleteBody": "It will be removed from your plan. Your account balances are not affected.",
+  "semanticsPreviousPeriod": "Previous period",
+  "semanticsNextPeriod": "Next period",
+  "semanticsSectionStatistics": "Statistics",
+  "semanticsCurrencyToggle": "Switch display currency",
+  "semanticsStatsSpent": "Spent",
+  "semanticsStatsReceived": "Received",
+  "ledgerVerifyRecalculate": "Recalculate from history",
+  "ledgerVerifyRecalculated": "{count} account balances recalculated from history",
+  "@ledgerVerifyRecalculated": {"placeholders": {"count": {"type": "int"}}}
 }

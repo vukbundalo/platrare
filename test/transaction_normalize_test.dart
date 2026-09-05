@@ -9,7 +9,6 @@ void main() {
       final from = Account(
         name: 'Cash',
         group: AccountGroup.personal,
-        currencyCode: 'BAM',
       );
       final to = Account(
         name: 'Savings',

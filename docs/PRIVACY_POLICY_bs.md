@@ -1,6 +1,6 @@
 # Politika privatnosti — Platrare
 
-**Datum stupanja na snagu:** 12. april 2026.
+**Datum stupanja na snagu:** 4. septembar 2026.
 
 Platrare je aplikacija za lične finansije s lokalnim pohranjivanjem podataka. Ovom politikom opisujemo kojim podacima aplikacija pristupa, kako se koriste i koja su vaša prava.
 
@@ -8,7 +8,7 @@ Platrare je aplikacija za lične finansije s lokalnim pohranjivanjem podataka. O
 
 ## 1. Ko smo
 
-Platrare objavljuje individualni programer. Kontakt podaci dostupni su na App Store ili Google Play stranici i putem opcije **Postavke → O aplikaciji → Kopiraj detalje podrške** unutar aplikacije.
+Platrare objavljuje individualni programer, koji je voditelj obrade podataka u smislu GDPR-a. Programera možete kontaktirati na **[support email]**, putem App Store ili Google Play stranice ili putem opcije **Postavke → O aplikaciji → Kontaktiraj podršku** unutar aplikacije.
 
 ---
 
@@ -25,6 +25,8 @@ Svi podaci koje kreirate u Platrare ostaju **isključivo na vašem uređaju**. N
 | Postavke | Osnovna valuta, sekundarna valuta, tema, jezik, postavka vidljivosti stanja |
 | Sigurnost | Status zaključavanja aplikacije; jednosmjerni kriptografski hash PIN-a (neobrađeni PIN se nikada ne pohranjuje) |
 | Keš kursnih lista | Javno dostupni podaci o kursevima valuta preuzeti s API-ja treće strane i lokalno keširani |
+| Podsjetnici | Ako omogućite podsjetnike za planirane transakcije, datum dospijeća, opis i iznos svake nadolazeće planirane transakcije predaju se planeru lokalnih obavještenja operativnog sistema kako bi mogao prikazati podsjetnik čak i dok je aplikacija zatvorena. Oni nikada ne napuštaju uređaj. |
+| Snimak widgeta početnog ekrana (iOS) | Mali, unaprijed izračunati sažetak (projicirana stanja za naredne dane i oznake koje widget prikazuje) pohranjen u privatnom dijeljenom kontejneru aplikacije kako bi se widget mogao prikazati bez otvaranja aplikacije. Kada je zaključavanje aplikacije uključeno, iznosi u ovom snimku su maskirani osim ako u Postavkama ne odaberete drugačije. |
 
 ---
 
@@ -42,7 +44,7 @@ Frankfurterova vlastita pravila privatnosti uređuju sve podatke koje njihovi se
 
 ### 3.2 Bez analitike i oglašavanja
 
-Platrare **ne sadrži analitički SDK, uslugu izvještavanja o greškama ni oglasnu mrežu**. Nikakvi podaci o korištenju, identifikatori uređaja ni bihevioralna telemetrija se ne prikupljaju niti prenose.
+Platrare **ne sadrži analitički SDK, uslugu izvještavanja o greškama ni oglasnu mrežu**. Nikakvi podaci o korištenju, identifikatori uređaja ni bihevioralna telemetrija se ne prikupljaju niti prenose. Podsjetnici, widgeti početnog ekrana i prečice rade u potpunosti offline.
 
 ---
 
@@ -54,6 +56,8 @@ Platrare **ne sadrži analitički SDK, uslugu izvještavanja o greškama ni ogla
 | Foto biblioteka | Odabir slika ili fajlova za prilaganje | Samo kada dodirnete "Odaberi iz galerije" |
 | Fajlovi | Prilaganje PDF-ova i drugih dokumenata | Samo kada dodirnete "Pretraži fajlove" |
 | Biometrija / Face ID | Otključavanje aplikacije kada je zaključavanje uključeno | Samo kada se prikazuje ekran zaključavanja |
+| Obavještenja | Podsjećanje neposredno prije dospijeća planirane transakcije | Samo kada omogućite podsjetnike u Postavkama |
+| Pokretanje pri startu (Android) | Ponovno zakazivanje vaših podsjetnika nakon ponovnog pokretanja uređaja | Automatski, samo ako su podsjetnici omogućeni |
 | Mreža | Dohvaćanje kurseva valuta | Automatski u pozadini; ne šalju se lični podaci |
 
 Aplikacija **ne traži** pristup vašoj lokaciji, kontaktima, mikrofonu, kalendaru ni bilo kojoj dozvoli koja nije navedena gore.
@@ -77,15 +81,26 @@ Kada u Postavkama omogućite **Zaključaj aplikaciju pri otvaranju**:
 
 **Uvoz** zamjenjuje sve podatke na uređaju sadržajem odabrane sigurnosne kopije. Uvozite samo iz sigurnosnih kopija kojima vjerujete i koje ste provjerili.
 
+Samo lozinkom kriptovani `.platrare` izvozi uključuju hash PIN-a za zaključavanje aplikacije; nekriptovani izvozi i automatske dnevne sigurnosne kopije ga nikada ne uključuju. Kada vratite sigurnosnu kopiju koja nema PIN, zadržava se PIN koji je već postavljen na uređaju.
+
+**Sigurnosne kopije uređaja operativnog sistema.** Vlastita funkcija sigurnosnog kopiranja vašeg telefona (iCloud Backup na iOS-u, Google Auto Backup na Androidu) može kopirati knjigu aplikacije, automatske dnevne sigurnosne kopije i postavke na vaš Apple ili Google račun kao dio sigurnosne kopije uređaja, prema uslovima Applea ili Googlea. Na Androidu su prilozi računa iz toga isključeni kako bi se ostalo unutar ograničenja sistemske sigurnosne kopije. Sigurnosnim kopijama uređaja upravljate u postavkama operativnog sistema; programer ih nikada ne prima.
+
 ---
 
-## 7. Djeca
+## 7. Widgeti, prečice i Siri (iOS)
+
+- **Widgeti početnog ekrana** prikazuju projicirana stanja iz snimka opisanog u odjeljku 2. Snimak se nalazi u privatnom dijeljenom kontejneru aplikacije na vašem uređaju i nikada se ne prenosi. Kada je zaključavanje aplikacije uključeno, iznosi su podrazumijevano maskirani.
+- **Brze radnje i App Shortcuts** (dugi pritisak na ikonu aplikacije, aplikacija Shortcuts ili Siri) samo otvaraju aplikaciju na odabranom ekranu, na primjer "Dodaj transakciju". Prepoznavanje govora za Siri obavlja iOS prema Appleovim pravilima privatnosti; aplikacija prima samo razriješenu komandu i nikada ne šalje vašu knjigu Appleu.
+
+---
+
+## 8. Djeca
 
 Platrare nije namijenjen djeci mlađoj od 13 godina (ili primjenjive minimalne dobi u vašoj nadležnosti). Ne prikupljamo namjerno podatke od djece. Ako smatrate da je dijete neprikladno koristilo aplikaciju, obratite nam se putem podataka za podršku dostupnih u aplikaciji.
 
 ---
 
-## 8. Čuvanje i brisanje podataka
+## 9. Čuvanje i brisanje podataka
 
 - Podaci na uređaju ostaju sve dok ih ne izbrišete unutar aplikacije, koristite **Postavke → Obriši podatke**, uvezete zamjensku sigurnosnu kopiju ili deinstalirate aplikaciju.
 - Deinstalacijom aplikacije uklanja se lokalna pohrana aplikacije, ovisno o ponašanju OS-a (npr. iCloud sigurnosne kopije uređaja mogu zadržati snimak dok ih OS ne prepiše).
@@ -93,7 +108,7 @@ Platrare nije namijenjen djeci mlađoj od 13 godina (ili primjenjive minimalne d
 
 ---
 
-## 9. Vaša prava
+## 10. Vaša prava
 
 Budući da svi podaci leže na vašem uređaju, svoja prava ostvarujete direktno putem aplikacije:
 
@@ -107,7 +122,7 @@ Budući da svi podaci leže na vašem uređaju, svoja prava ostvarujete direktno
 
 ---
 
-## 10. Sigurnost
+## 11. Sigurnost
 
 - Svi finansijski podaci pohranjeni su u **SQLite bazi podataka zaštićenoj u sandboxu aplikacije** kojoj druge aplikacije na uređaju ne mogu pristupiti.
 - Datoteke sigurnosnih kopija mogu biti zaštićene **AES-256 enkripcijom** i lozinkom po vašem izboru.
@@ -116,12 +131,12 @@ Budući da svi podaci leže na vašem uređaju, svoja prava ostvarujete direktno
 
 ---
 
-## 11. Izmjene ove politike
+## 12. Izmjene ove politike
 
 Možemo ažurirati ovu politiku kako se funkcionalnosti razvijaju. **Datum stupanja na snagu** na vrhu odražavat će najnoviju reviziju. Nastavak korištenja aplikacije nakon ažuriranja smatra se prihvatanjem izmijenjene politike. Značajne izmjene bit će navedene u bilješkama o izdanju App Store i Google Play.
 
 ---
 
-## 12. Kontakt
+## 13. Kontakt
 
-Za pitanja ili zahtjeve vezane uz privatnost koristite kontaktni način na App Store ili Google Play stranici ili dodirnite **Postavke → O aplikaciji → Kopiraj detalje podrške** unutar aplikacije za dobivanje kontakt podataka.
+Za pitanja ili zahtjeve vezane uz privatnost pošaljite e-mail na **[support email]**, koristite kontaktni način na App Store ili Google Play stranici ili dodirnite **Postavke → O aplikaciji → Kontaktiraj podršku** unutar aplikacije.

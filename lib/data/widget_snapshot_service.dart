@@ -311,9 +311,10 @@ class WidgetSnapshotService {
         'id': pt.id,
         'title': _plannedTitle(pt),
         'amount': _round(amt),
-        'amountText': pt.txType != null
-            ? txAmountDisplay(pt.txType!, amt, ccy)
-            : '${fx.formatNativeAmountDigits(amt, ccy)} ${fx.currencySymbol(ccy)}',
+        // Ungrouped on purpose, like every other amount in the snapshot: the
+        // widget stays locale-neutral until AmountFormatter.swift does
+        // locale grouping too (see _fmtSigned).
+        'amountText': _plannedAmountText(pt.txType, amt, ccy),
         'currency': ccy,
         'dueDay': DateFormat('yyyy-MM-dd').format(due),
         'overdue': due.isBefore(today),
@@ -361,10 +362,33 @@ class WidgetSnapshotService {
   /// defeating the content hash).
   static double _round(double v) => double.parse(v.toStringAsFixed(4));
 
-  /// Signed counterpart of [fx.formatNative], which drops the sign via .abs().
-  /// Balances must keep it. Swift mirrors this exactly.
+  /// Signed, ungrouped digits. Deliberately NOT money_format.dart: the widget
+  /// extension's AmountFormatter.swift formats the same series with
+  /// String(format: "%.Nf") for days the snapshot does not cover, and both
+  /// sides must agree. Locale-aware widget amounts need the Swift side to
+  /// switch to NumberFormatter first.
   static String _fmtSigned(double v, int digits, String symbol) =>
       '${v.toStringAsFixed(digits)} $symbol';
+
+  /// Sign convention of [txAmountDisplay] with ungrouped digits.
+  static String _plannedAmountText(TxType? t, double amount, String ccy) {
+    final digits = amount.abs().toStringAsFixed(fx.currencyMinorUnits(ccy));
+    final body = '$digits ${fx.currencySymbol(ccy)}';
+    return switch (t) {
+      TxType.income ||
+      TxType.collection ||
+      TxType.invoice ||
+      TxType.loan =>
+        '+$body',
+      TxType.expense ||
+      TxType.settlement ||
+      TxType.bill ||
+      TxType.advance =>
+        '-$body',
+      TxType.transfer || TxType.offset => '⇄ $body',
+      null => body,
+    };
+  }
 
   static bool _isRtl(String tag) {
     final lang = tag.split(RegExp('[-_]')).first.toLowerCase();

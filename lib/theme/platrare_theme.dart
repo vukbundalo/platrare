@@ -140,7 +140,7 @@ ThemeData buildPlatrareTheme(Brightness brightness) {
       backgroundColor: cs.surfaceContainerHigh,
     ),
     bottomSheetTheme: BottomSheetThemeData(
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       backgroundColor: cs.surfaceContainerHigh,

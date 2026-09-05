@@ -38,7 +38,6 @@ void main() {
     final acc = Account(
       name: 'A',
       group: AccountGroup.personal,
-      currencyCode: 'BAM',
     );
 
     test('15th on weekend shifts; next month uses 15th again', () {

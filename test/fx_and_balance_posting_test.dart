@@ -37,7 +37,7 @@ void main() {
   group('applyLedgerBalanceCorrection', () {
     test('does not persist when delta is zero', () async {
       var calls = 0;
-      final acc = Account(name: 'A', balance: 5, currencyCode: 'BAM');
+      final acc = Account(name: 'A', balance: 5);
       final r = await applyLedgerBalanceCorrection(
         account: acc,
         previousBookBalance: 5,
@@ -55,9 +55,7 @@ void main() {
       Transaction? captured;
       final acc = Account(
         name: 'A',
-        balance: 0,
         group: AccountGroup.personal,
-        currencyCode: 'BAM',
       );
       final r = await applyLedgerBalanceCorrection(
         account: acc,

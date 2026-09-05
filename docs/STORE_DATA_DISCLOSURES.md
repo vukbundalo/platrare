@@ -35,5 +35,19 @@ Short line for “why network”:
 ## Permissions (already in app)
 
 - **Camera / Photos**: Attachments to transactions (align with `Info.plist` / Play declarations).
+- **Notifications** (`POST_NOTIFICATIONS` on Android 13+, `UNUserNotificationCenter` on iOS): local reminders for planned transactions. Scheduled fully offline; content is the planned row's date, description and amount.
+- **Receive boot completed** (Android `RECEIVE_BOOT_COMPLETED`): re-schedules reminders after a reboot. Declare it under "other" permissions if the Play form asks; there is no background data transfer.
+- **Biometrics** (`USE_BIOMETRIC` / Face ID): app lock. The app never sees biometric data.
+- **Internet**: exchange rates only.
+
+## Widgets, quick actions and Siri (iOS)
+
+- Home-screen widgets read a precomputed JSON snapshot (projected balances + localized labels) from the App Group container `group.com.platrare.app`. Amounts are masked when app lock is on unless the user opts in. Nothing leaves the device.
+- App Shortcuts / Siri intents and icon quick actions only deep-link into the app. Voice recognition is Apple's; the app receives the resolved intent.
+- App Privacy answer stays **"Data Not Collected"**: the snapshot and reminders are on-device processing, not collection by the developer.
+
+## Support contact
+
+Both stores require a support URL or email, and the privacy policy names the controller's contact. Set `AppUrls.supportEmail` and replace `[support email]` in every `docs/PRIVACY_POLICY*.md` before submitting.
 
 Host the full policy at a public **HTTPS** URL and link it from the store listing. The in-app **Privacy policy** button uses [`lib/config/app_urls.dart`](../lib/config/app_urls.dart); update `AppUrls.privacyPolicy` to that URL when you publish.

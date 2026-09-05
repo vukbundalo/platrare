@@ -1,17 +1,20 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
+import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../models/transaction.dart';
-import '../l10n/app_localizations.dart';
+import '../theme/ledger_colors.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
-import '../theme/ledger_colors.dart';
+import '../utils/period_filter.dart';
+import '../utils/persistence_guard.dart';
 import '../utils/tx_display.dart';
 import '../widgets/app_hero_layout.dart';
 import '../widgets/stacked_scroll_fab.dart';
@@ -19,18 +22,6 @@ import '../widgets/track_plan_filter_ui.dart';
 import 'new_transaction_screen.dart';
 import 'review/account_form_widgets.dart' show AccountFormScreen;
 import 'transaction_detail_screen.dart';
-import '../utils/persistence_guard.dart';
-
-const _kTypeIncome   = 'income';
-const _kTypeExpense  = 'expense';
-const _kTypeTransfer = 'transfer';
-
-bool _inGroup(TxType t, String group) => switch (group) {
-  _kTypeIncome   => const {TxType.income, TxType.collection, TxType.loan, TxType.invoice}.contains(t),
-  _kTypeExpense  => const {TxType.expense, TxType.bill, TxType.settlement, TxType.advance}.contains(t),
-  _kTypeTransfer => const {TxType.transfer, TxType.offset}.contains(t),
-  _ => true,
-};
 
 /// True when the transaction has both legs and they are exactly [a] and [b].
 bool _txBetweenAccounts(Transaction t, String a, String b) {
@@ -52,12 +43,11 @@ class AccountTransactionsScreen extends StatefulWidget {
 
 class _AccountTransactionsScreenState
     extends State<AccountTransactionsScreen> {
-  String? _typeFilter;
+  TxTypeGroup? _typeFilter;
   String? _categoryFilter;
   /// When set, only transactions that involve both [widget.account] and this account.
   Account? _counterpartyFilter;
-  String? _dateFilter;
-  DateTime _dateAnchor = DateTime.now();
+  PeriodFilter _period = PeriodFilter.allTime();
   bool _newestFirst = true;
   TrackPlanFilterPanel _filterPanel = TrackPlanFilterPanel.none;
 
@@ -73,62 +63,11 @@ class _AccountTransactionsScreenState
           t.toAccountId == widget.account.id)
       .toList();
 
-  (DateTime, DateTime) get _dateRange {
-    final a = _dateAnchor;
-    return switch (_dateFilter) {
-      'day' => (
-          DateTime(a.year, a.month, a.day),
-          DateTime(a.year, a.month, a.day + 1),
-        ),
-      'week' => () {
-          final mon =
-              DateTime(a.year, a.month, a.day - (a.weekday - 1));
-          return (mon, DateTime(mon.year, mon.month, mon.day + 7));
-        }(),
-      'month' => (DateTime(a.year, a.month), DateTime(a.year, a.month + 1)),
-      'year' => (DateTime(a.year), DateTime(a.year + 1)),
-      _ => (DateTime(0), DateTime(9999)),
-    };
-  }
-
-  String _dateLabel(BuildContext context) {
-    final a = _dateAnchor;
-    return switch (_dateFilter) {
-      'day' => formatAppDate(context, 'EEE, d MMM yyyy', a),
-      'week' => () {
-          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
-          final sun = DateTime(mon.year, mon.month, mon.day + 6);
-          final sameMon = mon.month == sun.month;
-          return sameMon
-              ? '${formatAppDate(context, 'd', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}'
-              : '${formatAppDate(context, 'd MMM', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}';
-        }(),
-      'month' => formatAppDate(context, 'MMMM yyyy', a),
-      'year' => formatAppDate(context, 'yyyy', a),
-      _ => '',
-    };
-  }
-
-  bool get _hasNavigableDateFilter =>
-      _dateFilter == 'day' ||
-      _dateFilter == 'week' ||
-      _dateFilter == 'month' ||
-      _dateFilter == 'year';
-
-  /// Default (no filter) shows the ∞ icon — the account list is all-time.
-  String? get _dateChipModeLetter => switch (_dateFilter) {
-        'day' => 'D',
-        'week' => 'W',
-        'month' => 'M',
-        'year' => 'Y',
-        _ => '∞',
-      };
-
   bool get _hasActiveFilter =>
       _typeFilter != null ||
       _categoryFilter != null ||
       _counterpartyFilter != null ||
-      _dateFilter != null ||
+      !_period.isAllTime ||
       !_newestFirst;
 
   void _toggleFilterPanel(TrackPlanFilterPanel panel) {
@@ -137,36 +76,8 @@ class _AccountTransactionsScreenState
     });
   }
 
-  void _cycleTypeFilter() => setState(() {
-        if (_typeFilter == null) {
-          _typeFilter = _kTypeIncome;
-        } else if (_typeFilter == _kTypeIncome) {
-          _typeFilter = _kTypeExpense;
-        } else if (_typeFilter == _kTypeExpense) {
-          _typeFilter = _kTypeTransfer;
-        } else {
-          _typeFilter = null;
-        }
-      });
-
-  /// Cycles: all time (null) → day → week → month → year → null.
-  void _cycleDateFilter() => setState(() {
-        if (_dateFilter == null) {
-          _dateFilter = 'day';
-          _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'day') {
-          _dateFilter = 'week';
-          _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'week') {
-          _dateFilter = 'month';
-          _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'month') {
-          _dateFilter = 'year';
-          _dateAnchor = DateTime.now();
-        } else {
-          _dateFilter = null;
-        }
-      });
+  void _cycleTypeFilter() =>
+      setState(() => _typeFilter = TxTypeGroup.next(_typeFilter));
 
   void _toggleSort() => setState(() => _newestFirst = !_newestFirst);
 
@@ -174,59 +85,17 @@ class _AccountTransactionsScreenState
         _typeFilter = null;
         _categoryFilter = null;
         _counterpartyFilter = null;
-        _dateFilter = null;
-        _dateAnchor = DateTime.now();
+        _period = PeriodFilter.allTime();
         _newestFirst = true;
         _filterPanel = TrackPlanFilterPanel.none;
       });
 
-  void _navigateDate(int direction) {
-    setState(() {
-      var next = switch (_dateFilter) {
-        'day' => DateTime(_dateAnchor.year, _dateAnchor.month,
-            _dateAnchor.day + direction),
-        'week' => DateTime(_dateAnchor.year, _dateAnchor.month,
-            _dateAnchor.day + direction * 7),
-        'month' => DateTime(_dateAnchor.year, _dateAnchor.month + direction,
-            _dateAnchor.day),
-        'year' => DateTime(_dateAnchor.year + direction, _dateAnchor.month,
-            _dateAnchor.day),
-        _ => _dateAnchor,
-      };
-      if (_dateFilter == 'day') {
-        final today = DateUtils.dateOnly(DateTime.now());
-        final n = DateUtils.dateOnly(next);
-        if (n.isAfter(today)) next = _dateAnchor;
-      }
-      _dateAnchor = next;
-    });
-  }
-
-  bool get _canNavigateDateForward {
-    final now = DateTime.now();
-    return switch (_dateFilter) {
-      'day' => DateUtils.dateOnly(_dateAnchor)
-          .isBefore(DateUtils.dateOnly(now)),
-      'week' => () {
-          final a = _dateAnchor;
-          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
-          final nMon =
-              DateTime(now.year, now.month, now.day - (now.weekday - 1));
-          return mon.isBefore(nMon);
-        }(),
-      'month' => DateTime(_dateAnchor.year, _dateAnchor.month)
-          .isBefore(DateTime(now.year, now.month)),
-      'year' => _dateAnchor.year < now.year,
-      _ => true,
-    };
-  }
-
   List<Transaction> get _filteredTx {
     Iterable<Transaction> source;
-    if (_dateFilter == null) {
+    if (_period.isAllTime) {
       source = _allAccountTx;
     } else {
-      final (start, end) = _dateRange;
+      final (start, end) = _period.range;
       source = _allAccountTx.where(
           (t) => !t.date.isBefore(start) && t.date.isBefore(end));
     }
@@ -235,7 +104,7 @@ class _AccountTransactionsScreenState
       source = source.where((t) {
         final type = t.txType ??
             classifyTransaction(from: t.fromAccount, to: t.toAccount);
-        return _inGroup(type, _typeFilter!);
+        return _typeFilter!.contains(type);
       });
     }
 
@@ -260,9 +129,9 @@ class _AccountTransactionsScreenState
           classifyTransaction(from: t.fromAccount, to: t.toAccount);
       final base = fx.toBase(
           t.nativeAmount ?? 0, t.currencyCode ?? settings.baseCurrency);
-      if (_inGroup(type, _kTypeIncome)) {
+      if (TxTypeGroup.income.contains(type)) {
         totalIn += base;
-      } else if (_inGroup(type, _kTypeExpense)) {
+      } else if (TxTypeGroup.expense.contains(type)) {
         totalOut += base;
       }
     }
@@ -272,7 +141,7 @@ class _AccountTransactionsScreenState
   void _openDetail(Transaction t) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => TransactionDetailScreen(transaction: t)),
+      MaterialPageRoute<void>(builder: (_) => TransactionDetailScreen(transaction: t)),
     );
   }
 
@@ -283,14 +152,14 @@ class _AccountTransactionsScreenState
   }
 
   void _onAccountScrollLoadMoreDays() {
-    if (_dateFilter != null) return;
+    if (!_period.isAllTime) return;
     if (!_scrollController.hasClients) return;
     final pos = _scrollController.position;
     if (!pos.hasPixels || !pos.hasContentDimensions) return;
     if (pos.pixels < pos.maxScrollExtent - 360) return;
 
     final g = DayGroupedTransactions.build(_filteredTx, _newestFirst);
-    if (!shouldLazyLoadDaySections('all', g.dayKeys.length)) return;
+    if (!shouldLazyLoadDaySections(true, g.dayKeys.length)) return;
     if (_visibleAccountDaySlots >= g.dayKeys.length) return;
 
     setState(() {
@@ -303,7 +172,7 @@ class _AccountTransactionsScreenState
 
   void _syncAccountLazyWindowSignature() {
     final sig = Object.hash(
-      _dateFilter,
+      _period,
       _typeFilter,
       _categoryFilter,
       _counterpartyFilter?.id,
@@ -371,7 +240,7 @@ class _AccountTransactionsScreenState
     final grouped = dayBundle.grouped;
     // Default (null) date filter is all-time — lazy-load it like 'all'.
     final lazyDays =
-        shouldLazyLoadDaySections(_dateFilter ?? 'all', days.length);
+        shouldLazyLoadDaySections(_period.isAllTime, days.length);
     final visibleDayCount = lazyDays
         ? math.min(_visibleAccountDaySlots, days.length)
         : days.length;
@@ -437,9 +306,9 @@ class _AccountTransactionsScreenState
                       onTogglePanel: _toggleFilterPanel,
                       typeFilter: _typeFilter,
                       onCycleType: _cycleTypeFilter,
-                      dateModeLetter: _dateChipModeLetter,
-                      dateFilterActive: _dateFilter != null,
-                      onCycleDate: _cycleDateFilter,
+                      dateModeLetter: _period.chipLetter,
+                      dateFilterActive: !_period.isAllTime,
+                      onCycleDate: () => setState(() => _period = _period.cycled()),
                       counterpartyFilter: _counterpartyFilter,
                       categoryFilter: _categoryFilter,
                       newestFirst: _newestFirst,
@@ -452,15 +321,15 @@ class _AccountTransactionsScreenState
               ),
             ),
           ),
-          if (acctChipsEnabled && _hasNavigableDateFilter)
+          if (acctChipsEnabled && _period.isNavigable)
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
                 child: TrackPlanDateNavBar(
-                  label: _dateLabel(context),
-                  onNavigateBack: () => _navigateDate(-1),
-                  onNavigateForward: _canNavigateDateForward
-                      ? () => _navigateDate(1)
+                  label: _period.label(context),
+                  onNavigateBack: () => setState(() => _period = _period.navigated(-1, latest: DateTime.now())),
+                  onNavigateForward: _period.canNavigateForward(latest: DateTime.now())
+                      ? () => setState(() => _period = _period.navigated(1, latest: DateTime.now()))
                       : null,
                 ),
               ),
@@ -551,7 +420,7 @@ class _AccountTxHero extends StatelessWidget {
   final double totalOut;
   final TrackPlanFilterPanel panel;
   final void Function(TrackPlanFilterPanel) onTogglePanel;
-  final String? typeFilter;
+  final TxTypeGroup? typeFilter;
   final VoidCallback onCycleType;
   final String? dateModeLetter;
   final bool dateFilterActive;
@@ -612,7 +481,7 @@ class _AccountTxHero extends StatelessWidget {
                 ),
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
                 HeroFittedAmount(
-                  text: '+${totalIn.toStringAsFixed(2)} $baseSym',
+                  text: '+${formatBalanceAmount(totalIn)} $baseSym',
                   style: TextStyle(
                     fontSize: AppHeroConstants.primaryAmountFontSize,
                     fontWeight: FontWeight.w800,
@@ -636,7 +505,7 @@ class _AccountTxHero extends StatelessWidget {
                 ),
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
                 HeroFittedAmount(
-                  text: '-${totalOut.toStringAsFixed(2)} $baseSym',
+                  text: '-${formatBalanceAmount(totalOut)} $baseSym',
                   style: TextStyle(
                     fontSize: AppHeroConstants.secondaryAmountFontSize,
                     fontWeight: FontWeight.w700,
@@ -664,7 +533,6 @@ class _AccountTxHero extends StatelessWidget {
             categoryFilter: categoryFilter,
             newestFirst: newestFirst,
             onToggleSort: onToggleSort,
-            accountChipEnabled: true,
             enabled: filterChipsEnabled,
             disabledSemanticsLabel: filterChipsDisabledSemantics,
           ),

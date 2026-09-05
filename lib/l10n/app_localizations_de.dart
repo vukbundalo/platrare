@@ -1890,11 +1890,11 @@ class AppLocalizationsDe extends AppLocalizations {
       'Die ausgewählten Daten werden dauerhaft gelöscht. Exportieren Sie zunächst ein Backup, falls Sie es später benötigen.';
 
   @override
-  String get clearDataTypeConfirm => 'Geben Sie zur Bestätigung DELETE ein';
+  String get clearDataTypeConfirm => 'Geben Sie zur Bestätigung LÖSCHEN ein';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Geben Sie genau DELETE ein, um fortzufahren';
+      'Geben Sie genau LÖSCHEN ein, um fortzufahren';
 
   @override
   String get clearDataPinTitle => 'Mit PIN bestätigen';
@@ -2202,5 +2202,79 @@ class AppLocalizationsDe extends AppLocalizations {
       other: 'Fällig in $count Tagen',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get aboutContactSupport => 'Support kontaktieren';
+
+  @override
+  String get aboutSupportEmailCopied => 'Support-E-Mail-Adresse kopiert';
+
+  @override
+  String get onboardingWelcomeTitle => 'Willkommen bei Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Dein Geld bleibt auf diesem Gerät. Kein Konto, keine Werbung, kein Tracking.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Plane anstehende und wiederkehrende Zahlungen und sieh, wohin sich deine Salden entwickeln.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Erfasse Einnahmen, Ausgaben, Umbuchungen und was du verleihst oder schuldest.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Statistiken, Vergleiche und Verlauf für deine Konten, die Personen, mit denen du abrechnest, und Unternehmen.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Basiswährung';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Vorschlag anhand deiner Gerätesprache. Du kannst sie später in den Einstellungen ändern.';
+
+  @override
+  String get onboardingStart => 'Loslegen';
+
+  @override
+  String get onboardingTour => 'Zeig mir die App';
+
+  @override
+  String get clearDataConfirmWord => 'LÖSCHEN';
+
+  @override
+  String get planDeleteTitle => 'Geplante Transaktion löschen?';
+
+  @override
+  String get planDeleteBody =>
+      'Sie wird aus deinem Plan entfernt. Deine Kontostände bleiben unverändert.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Vorheriger Zeitraum';
+
+  @override
+  String get semanticsNextPeriod => 'Nächster Zeitraum';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistiken';
+
+  @override
+  String get semanticsCurrencyToggle => 'Anzeigewährung wechseln';
+
+  @override
+  String get semanticsStatsSpent => 'Ausgegeben';
+
+  @override
+  String get semanticsStatsReceived => 'Erhalten';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Aus dem Verlauf neu berechnen';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count Kontostände aus dem Verlauf neu berechnet';
   }
 }

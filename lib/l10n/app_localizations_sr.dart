@@ -1884,11 +1884,11 @@ class AppLocalizationsSr extends AppLocalizations {
       'Odabrani podaci bit će trajno obrisani. Napravite backup ako će vam trebati.';
 
   @override
-  String get clearDataTypeConfirm => 'Upišite DELETE za potvrdu';
+  String get clearDataTypeConfirm => 'Upišite OBRIŠI za potvrdu';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Upišite DELETE tačno kako bi nastavili';
+      'Upišite OBRIŠI tačno kako bi nastavili';
 
   @override
   String get clearDataPinTitle => 'Potvrdite PIN-om';
@@ -2197,6 +2197,80 @@ class AppLocalizationsSr extends AppLocalizations {
       one: 'Dospeva za $count dan',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get aboutContactSupport => 'Kontaktiraj podršku';
+
+  @override
+  String get aboutSupportEmailCopied => 'Imejl adresa podrške je kopirana';
+
+  @override
+  String get onboardingWelcomeTitle => 'Dobro došli u Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Vaš novac ostaje na ovom uređaju. Bez naloga, bez reklama, bez praćenja.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Zakažite predstojeća i ponavljajuća plaćanja i vidite kuda idu vaša stanja.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Beležite prihode, troškove, prenose i ono što pozajmljujete ili dugujete.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Statistika, poređenja i istorija za vaše račune, osobe sa kojima se razdužujete i firme.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Osnovna valuta';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Predloženo prema jeziku uređaja. Možete je kasnije promeniti u Podešavanjima.';
+
+  @override
+  String get onboardingStart => 'Započni';
+
+  @override
+  String get onboardingTour => 'Pokaži mi aplikaciju';
+
+  @override
+  String get clearDataConfirmWord => 'OBRIŠI';
+
+  @override
+  String get planDeleteTitle => 'Obrisati planiranu transakciju?';
+
+  @override
+  String get planDeleteBody =>
+      'Biće uklonjena iz vašeg plana. Stanja vaših računa se ne menjaju.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Prethodni period';
+
+  @override
+  String get semanticsNextPeriod => 'Sledeći period';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistika';
+
+  @override
+  String get semanticsCurrencyToggle => 'Promeni valutu prikaza';
+
+  @override
+  String get semanticsStatsSpent => 'Potrošeno';
+
+  @override
+  String get semanticsStatsReceived => 'Primljeno';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Preračunaj iz istorije';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return 'Preračunata stanja za $count račun(a) iz istorije';
   }
 }
 
@@ -4076,11 +4150,11 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
       'Одабрани подаци биће трајно обрисани. Направите бацкуп ако ће вам требати.';
 
   @override
-  String get clearDataTypeConfirm => 'Упишите DELETE за потврду';
+  String get clearDataTypeConfirm => 'Упишите ОБРИШИ за потврду';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Упишите DELETE тачно како бисте наставили';
+      'Упишите ОБРИШИ тачно како бисте наставили';
 
   @override
   String get clearDataPinTitle => 'Потврдите ПИН-ом';
@@ -4389,6 +4463,80 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
       one: 'Доспева за $count дан',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get aboutContactSupport => 'Контактирај подршку';
+
+  @override
+  String get aboutSupportEmailCopied => 'Имејл адреса подршке је копирана';
+
+  @override
+  String get onboardingWelcomeTitle => 'Добро дошли у Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Ваш новац остаје на овом уређају. Без налога, без реклама, без праћења.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Закажите предстојећа и понављајућа плаћања и видите куда иду ваша стања.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Бележите приходе, трошкове, преносе и оно што позајмљујете или дугујете.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Статистика, поређења и историја за ваше рачуне, особе са којима се раздужујете и фирме.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Основна валута';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Предложено према језику уређаја. Можете је касније променити у Подешавањима.';
+
+  @override
+  String get onboardingStart => 'Започни';
+
+  @override
+  String get onboardingTour => 'Покажи ми апликацију';
+
+  @override
+  String get clearDataConfirmWord => 'ОБРИШИ';
+
+  @override
+  String get planDeleteTitle => 'Обрисати планирану трансакцију?';
+
+  @override
+  String get planDeleteBody =>
+      'Биће уклоњена из вашег плана. Стања ваших рачуна се не мењају.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Претходни период';
+
+  @override
+  String get semanticsNextPeriod => 'Следећи период';
+
+  @override
+  String get semanticsSectionStatistics => 'Статистика';
+
+  @override
+  String get semanticsCurrencyToggle => 'Промени валуту приказа';
+
+  @override
+  String get semanticsStatsSpent => 'Потрошено';
+
+  @override
+  String get semanticsStatsReceived => 'Примљено';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Прерачунај из историје';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return 'Прерачуната стања за $count рачун(а) из историје';
   }
 }
 
@@ -6272,11 +6420,11 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
       'Odabrani podaci biće trajno obrisani. Napravite backup ako će vam trebati.';
 
   @override
-  String get clearDataTypeConfirm => 'Upišite DELETE za potvrdu';
+  String get clearDataTypeConfirm => 'Upišite OBRIŠI za potvrdu';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Upišite DELETE tačno kako biste nastavili';
+      'Upišite OBRIŠI tačno kako biste nastavili';
 
   @override
   String get clearDataPinTitle => 'Potvrdite PIN-om';
@@ -6585,5 +6733,79 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
       one: 'Dospeva za $count dan',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get aboutContactSupport => 'Kontaktiraj podršku';
+
+  @override
+  String get aboutSupportEmailCopied => 'Imejl adresa podrške je kopirana';
+
+  @override
+  String get onboardingWelcomeTitle => 'Dobro došli u Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Vaš novac ostaje na ovom uređaju. Bez naloga, bez reklama, bez praćenja.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Zakažite predstojeća i ponavljajuća plaćanja i vidite kuda idu vaša stanja.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Beležite prihode, troškove, prenose i ono što pozajmljujete ili dugujete.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Statistika, poređenja i istorija za vaše račune, osobe sa kojima se razdužujete i firme.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Osnovna valuta';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Predloženo prema jeziku uređaja. Možete je kasnije promeniti u Podešavanjima.';
+
+  @override
+  String get onboardingStart => 'Započni';
+
+  @override
+  String get onboardingTour => 'Pokaži mi aplikaciju';
+
+  @override
+  String get clearDataConfirmWord => 'OBRIŠI';
+
+  @override
+  String get planDeleteTitle => 'Obrisati planiranu transakciju?';
+
+  @override
+  String get planDeleteBody =>
+      'Biće uklonjena iz vašeg plana. Stanja vaših računa se ne menjaju.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Prethodni period';
+
+  @override
+  String get semanticsNextPeriod => 'Sledeći period';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistika';
+
+  @override
+  String get semanticsCurrencyToggle => 'Promeni valutu prikaza';
+
+  @override
+  String get semanticsStatsSpent => 'Potrošeno';
+
+  @override
+  String get semanticsStatsReceived => 'Primljeno';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Preračunaj iz istorije';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return 'Preračunata stanja za $count račun(a) iz istorije';
   }
 }

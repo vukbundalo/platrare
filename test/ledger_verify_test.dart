@@ -7,7 +7,7 @@ void main() {
   test('verifyLedger: two-account transfer sequence matches', () {
     final a = Account(name: 'A', currencyCode: 'EUR');
     final b = Account(name: 'B', currencyCode: 'EUR');
-    final d1 = DateTime(2024, 1, 1);
+    final d1 = DateTime(2024);
     final d2 = DateTime(2024, 1, 2);
     final txs = <Transaction>[
       Transaction(
@@ -35,7 +35,7 @@ void main() {
   test('verifyLedger: cross-currency credit uses destinationAmount', () {
     final usd = Account(name: 'USD', currencyCode: 'USD');
     final eur = Account(name: 'EUR', currencyCode: 'EUR');
-    final d = DateTime(2024, 6, 1);
+    final d = DateTime(2024, 6);
     final txs = <Transaction>[
       Transaction(
         nativeAmount: 100,
@@ -54,7 +54,7 @@ void main() {
 
   test('verifyLedger: wrong stored balance yields one mismatch', () {
     final a = Account(name: 'A', currencyCode: 'EUR', balance: 999);
-    final d = DateTime(2024, 1, 1);
+    final d = DateTime(2024);
     final txs = <Transaction>[
       Transaction(
         nativeAmount: 10,

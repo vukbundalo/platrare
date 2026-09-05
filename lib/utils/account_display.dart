@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/account_icons.dart';
 import '../models/account.dart';
 
 /// User-visible account title, including optional identifier ([Account.institution]).
@@ -41,10 +42,9 @@ Color accountAvatarOnBackground(Color background) =>
 
 IconData? accountIconOrNull(Account account) {
   if (account.iconCodePoint == 0) return null;
-  // Safe under icon tree-shaking: every selectable codepoint is also a const
-  // Icons.* reference in _kAccountPickIconDefs, so its glyph is retained.
-  // ignore: non_const_argument_for_const_parameter
-  return IconData(account.iconCodePoint, fontFamily: 'MaterialIcons');
+  // Resolved to the const Icons.* definition from the picker table; a
+  // runtime IconData(...) fails release bundling under icon tree-shaking.
+  return accountIconForCodePoint(account.iconCodePoint);
 }
 
 String accountAvatarLetter(Account account) {

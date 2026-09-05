@@ -2172,4 +2172,78 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aboutContactSupport => 'Contact support';
+
+  @override
+  String get aboutSupportEmailCopied => 'Support email address copied';
+
+  @override
+  String get onboardingWelcomeTitle => 'Welcome to Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Your money stays on this device. No account, no ads, no tracking.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Schedule upcoming and repeating payments and see where your balances are heading.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Record income, expenses, transfers, and what you lend or owe.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Statistics, comparisons and history for your accounts, the people you settle with, and businesses.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Base currency';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Suggested from your device language. You can change it later in Settings.';
+
+  @override
+  String get onboardingStart => 'Get started';
+
+  @override
+  String get onboardingTour => 'Show me around';
+
+  @override
+  String get clearDataConfirmWord => 'DELETE';
+
+  @override
+  String get planDeleteTitle => 'Delete planned transaction?';
+
+  @override
+  String get planDeleteBody =>
+      'It will be removed from your plan. Your account balances are not affected.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Previous period';
+
+  @override
+  String get semanticsNextPeriod => 'Next period';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistics';
+
+  @override
+  String get semanticsCurrencyToggle => 'Switch display currency';
+
+  @override
+  String get semanticsStatsSpent => 'Spent';
+
+  @override
+  String get semanticsStatsReceived => 'Received';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Recalculate from history';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count account balances recalculated from history';
+  }
 }

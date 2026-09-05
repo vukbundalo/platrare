@@ -60,6 +60,7 @@ dependencies:
   flutter_local_notifications: ^19.0.0
   flutter_timezone: ^4.1.1
   timezone: ^0.10.0
+  url_launcher: ^6.3.2
 
 # path_provider_foundation 2.6.0+ uses package:objective_c (native assets / FFI).
 # That flow can bundle an iOS-device slice only, breaking iOS Simulator (DOBJC_initializeApi /
@@ -81,6 +82,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  sqlite3: ^2.9.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -96,7 +98,29 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - docs/
+    # Only the in-app privacy policy files (PrivacyPolicyScreen). Listing the
+    # whole docs/ folder shipped release checklists inside the binary.
+    - docs/PRIVACY_POLICY.md
+    - docs/PRIVACY_POLICY_ar.md
+    - docs/PRIVACY_POLICY_bs.md
+    - docs/PRIVACY_POLICY_de.md
+    - docs/PRIVACY_POLICY_es.md
+    - docs/PRIVACY_POLICY_fr.md
+    - docs/PRIVACY_POLICY_hi.md
+    - docs/PRIVACY_POLICY_hr.md
+    - docs/PRIVACY_POLICY_it.md
+    - docs/PRIVACY_POLICY_ja.md
+    - docs/PRIVACY_POLICY_ko.md
+    - docs/PRIVACY_POLICY_nl.md
+    - docs/PRIVACY_POLICY_pl.md
+    - docs/PRIVACY_POLICY_pt_BR.md
+    - docs/PRIVACY_POLICY_ru.md
+    - docs/PRIVACY_POLICY_sr_Cyrl.md
+    - docs/PRIVACY_POLICY_sr_Latn.md
+    - docs/PRIVACY_POLICY_sv.md
+    - docs/PRIVACY_POLICY_tr.md
+    - docs/PRIVACY_POLICY_uk.md
+    - docs/PRIVACY_POLICY_zh_Hans.md
     # Splash / launch art (see assets/branding/splash_logo.png)
     - assets/branding/
 

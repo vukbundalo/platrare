@@ -28,7 +28,7 @@ void main() {
         nativeAmount: 10,
         currencyCode: 'EUR',
         category: category,
-        date: DateTime(2026, 9, 1),
+        date: DateTime(2026, 9),
         txType: type,
       );
 

@@ -2,15 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' show Rect;
 
-import 'package:flutter/foundation.dart';
-
 import 'package:archive/archive.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/account.dart';
@@ -18,13 +17,13 @@ import '../models/planned_transaction.dart';
 import '../models/transaction.dart';
 import 'account_lifecycle.dart' show compareAccountsStorageOrder;
 import 'app_data.dart' as data;
-import 'backup_export_reminder_prefs.dart';
 import 'backup/backup_crypto.dart';
 import 'backup/backup_exceptions.dart';
 import 'backup/backup_format.dart';
 import 'backup/backup_manifest.dart';
 import 'backup/backup_preview.dart';
 import 'backup/backup_zip.dart';
+import 'backup_export_reminder_prefs.dart';
 import 'currency_prefs.dart';
 import 'local/platrare_database.dart';
 import 'planned_reminder_service.dart';
@@ -99,7 +98,7 @@ class DataTransfer {
       }
     }
 
-    final inner = await _buildInnerZipBytes();
+    final inner = await _buildInnerZipBytes(includePinHash: encrypt);
     final Uint8List outBytes;
     if (encrypt) {
       outBytes = await encryptInnerZip(
@@ -171,7 +170,7 @@ class DataTransfer {
     _log('[Backup:Export] Building inner ZIP (accounts: ${data.accounts.length}, '
         'transactions: ${data.transactions.length}, '
         'planned: ${data.plannedTransactions.length})');
-    final inner = await _buildInnerZipBytes();
+    final inner = await _buildInnerZipBytes(includePinHash: encrypt);
     _log('[Backup:Export] Inner ZIP built — ${inner.length} bytes');
 
     final Uint8List outBytes;
@@ -222,10 +221,12 @@ class DataTransfer {
         'transactions: ${data.transactions.length}, '
         'planned: ${data.plannedTransactions.length}');
     final secBackup = await getSecurityBackup();
+    // The auto-backup is an unencrypted zip in Documents: the PIN verifier
+    // must never ride along (a 4-digit PIN is brute-forced offline in
+    // seconds). Only the enabled flag is kept; see [applyImport].
     final json = _encodeDataJson(
       attachmentPathMap: {},
       securityEnabled: secBackup.enabled,
-      pinHash: secBackup.pinHash,
     );
     final exportedAt = DateTime.now().toUtc().toIso8601String();
     String appVersion;
@@ -250,13 +251,18 @@ class DataTransfer {
     return bytes;
   }
 
-  static Future<Uint8List> _buildInnerZipBytes() async {
+  /// [includePinHash] must only be true when the caller encrypts the result:
+  /// the PBKDF2 verifier of a short numeric PIN is trivially brute-forced
+  /// offline, so it never leaves the device in cleartext.
+  static Future<Uint8List> _buildInnerZipBytes({
+    required bool includePinHash,
+  }) async {
     final pathToArchive = await _buildAttachmentPathMap();
     final secBackup = await getSecurityBackup();
     final json = _encodeDataJson(
       attachmentPathMap: pathToArchive,
       securityEnabled: secBackup.enabled,
-      pinHash: secBackup.pinHash,
+      pinHash: includePinHash ? secBackup.pinHash : null,
     );
     final exportedAt = DateTime.now().toUtc().toIso8601String();
     String appVersion;
@@ -295,8 +301,6 @@ class DataTransfer {
   /// valid ZIP or `PLTR` encrypted payloads.
   static Future<Uint8List?> pickBackupFileBytes() async {
     final result = await FilePicker.pickFiles(
-      allowMultiple: false,
-      type: FileType.any,
       withData: true,
     );
     if (result == null || result.files.isEmpty) return null;
@@ -591,13 +595,17 @@ class DataTransfer {
     settings.secondaryCurrency = backup.secondaryCurrency;
     await best(saveCurrencyPreferences);
 
-    await best(() => setSecurityEnabled(backup.securityEnabled));
+    // Encrypted exports carry the PIN verifier; plain zips and auto-backups
+    // do not. Without one, keep whatever PIN this device already has, and only
+    // leave the lock enabled when a PIN exists (otherwise a device without
+    // biometrics would be locked out with no way in).
+    final hasVerifier = backup.pinHash != null && backup.pinHash!.isNotEmpty;
     await best(() async {
-      if (backup.pinHash != null && backup.pinHash!.isNotEmpty) {
-        await restoreSecurityPinHash(backup.pinHash!);
-      } else {
-        await clearSecurityPin();
-      }
+      if (hasVerifier) await restoreSecurityPinHash(backup.pinHash!);
+    });
+    await best(() async {
+      final canLock = hasVerifier || await hasSecurityPin();
+      await setSecurityEnabled(backup.securityEnabled && canLock);
     });
 
     data.accounts.sort(compareAccountsStorageOrder);
@@ -721,7 +729,7 @@ class DataTransfer {
     final expense = _stringList(categoriesRaw['expense']);
 
     final prefs = decoded['preferences'];
-    final prefsMap = prefs is Map<String, dynamic> ? prefs : const {};
+    final prefsMap = prefs is Map<String, dynamic> ? prefs : const <String, dynamic>{};
     final baseCurrency = _safeCurrency(
       prefsMap['baseCurrency'],
       fallback: settings.baseCurrency,
@@ -816,8 +824,10 @@ class DataTransfer {
       'baseAmount': t.baseAmount,
       'exchangeRate': t.exchangeRate,
       'destinationAmount': t.destinationAmount,
-      'fromAccountId': t.fromAccountId,
-      'toAccountId': t.toAccountId,
+      // Same fallback as planned rows: a transaction linked only through its
+      // Account object must not lose the reference in the backup.
+      'fromAccountId': t.fromAccountId ?? t.fromAccount?.id,
+      'toAccountId': t.toAccountId ?? t.toAccount?.id,
       'category': t.category,
       'description': t.description,
       'date': t.date.toIso8601String(),

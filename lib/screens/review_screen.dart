@@ -1,27 +1,49 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
+import '../data/app_signals.dart';
 import '../data/balance_privacy_prefs.dart';
 import '../data/user_settings.dart' as settings;
-import '../models/account.dart';
+import '../help/help_tour.dart';
 import '../l10n/app_localizations.dart';
+import '../models/account.dart';
+import '../theme/ledger_colors.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
-import '../utils/persistence_guard.dart';
-import '../theme/ledger_colors.dart';
 import '../utils/fx.dart' as fx;
+import '../utils/persistence_guard.dart';
 import '../widgets/account_avatar.dart';
-import 'account_transactions_screen.dart';
-import 'review/account_form_widgets.dart';
-import 'settings_screen.dart';
-import '../help/help_tour.dart';
 import '../widgets/app_hero_layout.dart';
 import '../widgets/review_stats_empty_state.dart';
 import '../widgets/stacked_scroll_fab.dart';
+import 'account_transactions_screen.dart';
+import 'review/account_form_widgets.dart';
+import 'settings_screen.dart';
+
 
 export 'review/account_form_widgets.dart'
     show AccountFormSheet, AccountFormScreen;
+
+/// Pages of the Review screen, in PageView order.
+enum _ReviewSection { personal, individuals, entities, statistics }
+
+/// Statistics tab: what the category breakdown shows.
+enum _StatsMode { expense, income }
+
+/// Statistics window. [months] is 0 for all time.
+enum _StatsPeriod {
+  month(1),
+  quarter(3),
+  halfYear(6),
+  year(12),
+  allTime(0);
+
+  const _StatsPeriod(this.months);
+  final int months;
+}
 
 /// Shared category order for compare mode: max per side, then combined, then name.
 List<String> _orderedCategoryKeysForCompare(
@@ -61,11 +83,11 @@ String? _pickCompareCategoryKey(List<String> keys, String? stored) {
 int _calendarQuarter(int month) => ((month - 1) ~/ 3) + 1;
 
 DateTime _quarterStart(int year, int quarter) =>
-    DateTime(year, (quarter - 1) * 3 + 1, 1);
+    DateTime(year, (quarter - 1) * 3 + 1);
 
 DateTime _quarterEndExclusive(int year, int quarter) {
-  if (quarter == 4) return DateTime(year + 1, 1, 1);
-  return DateTime(year, quarter * 3 + 1, 1);
+  if (quarter == 4) return DateTime(year + 1);
+  return DateTime(year, quarter * 3 + 1);
 }
 
 ({DateTime start, DateTime end}) _boundsQuarterContaining(int year, int month) {
@@ -78,16 +100,16 @@ DateTime _quarterEndExclusive(int year, int quarter) {
 
 ({DateTime start, DateTime end}) _boundsHalfYearContaining(int year, int month) {
   if (month <= 6) {
-    return (start: DateTime(year, 1, 1), end: DateTime(year, 7, 1));
+    return (start: DateTime(year), end: DateTime(year, 7));
   }
-  return (start: DateTime(year, 7, 1), end: DateTime(year + 1, 1, 1));
+  return (start: DateTime(year, 7), end: DateTime(year + 1));
 }
 
 DateTime _quarterStartContaining(DateTime d) =>
     _quarterStart(d.year, _calendarQuarter(d.month));
 
 DateTime _halfYearStartContaining(DateTime d) =>
-    d.month <= 6 ? DateTime(d.year, 1, 1) : DateTime(d.year, 7, 1);
+    d.month <= 6 ? DateTime(d.year) : DateTime(d.year, 7);
 
 ({DateTime start, DateTime end}) _quarterByOffsetFrom(DateTime now, int offset) {
   var y = now.year;
@@ -154,8 +176,7 @@ class _ReviewCompareRows {
 }
 
 class ReviewScreen extends StatefulWidget {
-  final VoidCallback? onChanged;
-  const ReviewScreen({super.key, this.onChanged});
+  const ReviewScreen({super.key});
 
   @override
   State<ReviewScreen> createState() => _ReviewScreenState();
@@ -163,13 +184,11 @@ class ReviewScreen extends StatefulWidget {
 
 class _ReviewScreenState extends State<ReviewScreen> {
   String _displayCurrency = settings.baseCurrency;
-  // 'personal' | 'individuals' | 'entities' | 'statistics' — always one selected.
   /// Opens with Personal so account cards are visible without an extra tap.
-  String _activeSection = 'personal';
-  // 'expense' | 'income' | null
-  String? _activeStats;
+  _ReviewSection _activeSection = _ReviewSection.personal;
+    _StatsMode? _activeStats;
   // 0 = all time, 1 = calendar month, 3 = calendar quarter, 6 = half-year, 12 = year
-  int _spendingMonths = 1;
+  _StatsPeriod _statsPeriod = _StatsPeriod.month;
   // 0 = bars, 1 = donut
   int _vizMode = 0;
   // how many periods back from current (0 = most recent)
@@ -181,13 +200,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
   /// User-selected category for compare mode (falls back to first available key).
   String? _compareCategoryExpense;
   String? _compareCategoryIncome;
-
-  static const List<String> _kReviewSections = [
-    'personal',
-    'individuals',
-    'entities',
-    'statistics',
-  ];
 
   late final PageController _sectionPageController;
 
@@ -229,23 +241,24 @@ class _ReviewScreenState extends State<ReviewScreen> {
   final ValueNotifier<bool> _reviewHeroOverlapShadow = ValueNotifier(false);
 
   late final List<GlobalKey> _reviewSectionScrollProbeKeys =
-      List<GlobalKey>.generate(_kReviewSections.length, (_) => GlobalKey());
+      List<GlobalKey>.generate(_ReviewSection.values.length, (_) => GlobalKey());
 
   static const double _kReviewHeroOverlapShadowPixels = 1.0;
 
   @override
   void initState() {
     super.initState();
+    ledgerRevision.addListener(_onLedgerChanged);
     final now = DateTime.now();
-    _compareMonthB = DateTime(now.year, now.month, 1);
+    _compareMonthB = DateTime(now.year, now.month);
     _compareMonthA = now.month == 1
-        ? DateTime(now.year - 1, 12, 1)
-        : DateTime(now.year, now.month - 1, 1);
+        ? DateTime(now.year - 1, 12)
+        : DateTime(now.year, now.month - 1);
     _sectionPageController = PageController(
-      initialPage: _kReviewSections.indexOf(_activeSection).clamp(0, 3),
+      initialPage: _activeSection.index,
     );
     _reviewPageScrollControllers = List.generate(
-      _kReviewSections.length,
+      _ReviewSection.values.length,
       (_) {
         final c = ScrollController();
         c.addListener(_onReviewScrollPositionChanged);
@@ -260,8 +273,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
     });
   }
 
+  /// Any ledger mutation anywhere (other tabs, Settings, imports, a
+  /// recovery reload) re-renders this tab; no callback chain needed.
+  void _onLedgerChanged() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
+    ledgerRevision.removeListener(_onLedgerChanged);
     for (final c in _reviewPageScrollControllers) {
       c.removeListener(_onReviewScrollPositionChanged);
       c.dispose();
@@ -273,30 +293,27 @@ class _ReviewScreenState extends State<ReviewScreen> {
     super.dispose();
   }
 
-  int _sectionPageIndex(String section) {
-    final i = _kReviewSections.indexOf(section);
-    return i < 0 ? 0 : i;
-  }
+  int _sectionPageIndex(_ReviewSection section) => section.index;
 
   void _onReviewSectionPageChanged(int index) {
-    if (index < 0 || index >= _kReviewSections.length) return;
-    final section = _kReviewSections[index];
+    if (index < 0 || index >= _ReviewSection.values.length) return;
+    final section = _ReviewSection.values[index];
     setState(() {
       _activeSection = section;
-      if (section == 'statistics' && _activeStats == null) {
-        _activeStats = 'expense';
+      if (section == _ReviewSection.statistics && _activeStats == null) {
+        _activeStats = _StatsMode.expense;
       }
     });
     _scheduleReviewHeroOverlapShadowSyncForPage(index);
     _scheduleReviewScrollToTopFabSync();
   }
 
-  void _selectReviewSection(String section) {
+  void _selectReviewSection(_ReviewSection section) {
     final i = _sectionPageIndex(section);
     setState(() {
       _activeSection = section;
-      if (section == 'statistics' && _activeStats == null) {
-        _activeStats = 'expense';
+      if (section == _ReviewSection.statistics && _activeStats == null) {
+        _activeStats = _StatsMode.expense;
       }
     });
     if (_sectionPageController.hasClients) {
@@ -315,7 +332,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     if (_sectionPageController.hasClients) {
       final p = _sectionPageController.page;
       if (p != null) {
-        return p.round().clamp(0, _kReviewSections.length - 1);
+        return p.round().clamp(0, _ReviewSection.values.length - 1);
       }
     }
     return _sectionPageIndex(_activeSection);
@@ -444,32 +461,32 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   DateTime get _compareEarliestMonth {
     final e = _earliestTxDate;
-    if (e == null) return DateTime(DateTime.now().year - 5, 1, 1);
-    return DateTime(e.year, e.month, 1);
+    if (e == null) return DateTime(DateTime.now().year - 5);
+    return DateTime(e.year, e.month);
   }
 
   DateTime get _compareLatestMonth =>
-      DateTime(DateTime.now().year, DateTime.now().month, 1);
+      DateTime(DateTime.now().year, DateTime.now().month);
 
   /// Returns null if that direction is out of bounds (earliest/latest tx month).
   /// For 3M / 6M, steps one **quarter** or **half-year** so each tap changes the window
   /// (monthly steps would repeat the same quarter three or six times).
   DateTime? _compareShiftMonth(DateTime anchor, int direction) {
-    final cur = DateTime(anchor.year, anchor.month, 1);
-    if (_spendingMonths == 12) {
+    final cur = DateTime(anchor.year, anchor.month);
+    if (_statsPeriod == _StatsPeriod.year) {
       if (direction < 0) {
-        final prev = DateTime(cur.year - 1, 1, 1);
+        final prev = DateTime(cur.year - 1);
         if (prev.year >= _compareEarliestMonth.year) return prev;
         return null;
       }
-      final next = DateTime(cur.year + 1, 1, 1);
+      final next = DateTime(cur.year + 1);
       if (next.year <= _compareLatestMonth.year) return next;
       return null;
     }
-    if (_spendingMonths == 3) {
+    if (_statsPeriod == _StatsPeriod.quarter) {
       final qStart = _quarterStartContaining(cur);
       final delta = direction < 0 ? -3 : 3;
-      final raw = DateTime(qStart.year, qStart.month + delta, 1);
+      final raw = DateTime(qStart.year, qStart.month + delta);
       final nextStart = _quarterStartContaining(raw);
       if (direction < 0) {
         if (nextStart.isBefore(_compareEarliestMonth)) return null;
@@ -478,10 +495,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
       if (nextStart.isAfter(_compareLatestMonth)) return null;
       return nextStart;
     }
-    if (_spendingMonths == 6) {
+    if (_statsPeriod == _StatsPeriod.halfYear) {
       final hStart = _halfYearStartContaining(cur);
       final delta = direction < 0 ? -6 : 6;
-      final raw = DateTime(hStart.year, hStart.month + delta, 1);
+      final raw = DateTime(hStart.year, hStart.month + delta);
       final nextStart = _halfYearStartContaining(raw);
       if (direction < 0) {
         if (nextStart.isBefore(_compareEarliestMonth)) return null;
@@ -492,14 +509,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
     }
     if (direction < 0) {
       final prev = cur.month == 1
-          ? DateTime(cur.year - 1, 12, 1)
-          : DateTime(cur.year, cur.month - 1, 1);
+          ? DateTime(cur.year - 1, 12)
+          : DateTime(cur.year, cur.month - 1);
       if (!prev.isBefore(_compareEarliestMonth)) return prev;
       return null;
     }
     final next = cur.month == 12
-        ? DateTime(cur.year + 1, 1, 1)
-        : DateTime(cur.year, cur.month + 1, 1);
+        ? DateTime(cur.year + 1)
+        : DateTime(cur.year, cur.month + 1);
     if (!next.isAfter(_compareLatestMonth)) return next;
     return null;
   }
@@ -532,23 +549,22 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   /// Compare window [start, end) for a period anchored at the first day of [anchorMonth].
   ({DateTime? start, DateTime? end}) _compareBounds(DateTime anchorMonth) {
-    final a = DateTime(anchorMonth.year, anchorMonth.month, 1);
-    switch (_spendingMonths) {
-      case 1:
-        return (start: a, end: DateTime(a.year, a.month + 1, 1));
-      case 3:
+    final a = DateTime(anchorMonth.year, anchorMonth.month);
+    switch (_statsPeriod) {
+      case _StatsPeriod.quarter:
         final q = _boundsQuarterContaining(a.year, a.month);
         return (start: q.start, end: q.end);
-      case 6:
+      case _StatsPeriod.halfYear:
         final h = _boundsHalfYearContaining(a.year, a.month);
         return (start: h.start, end: h.end);
-      case 12:
+      case _StatsPeriod.year:
         return (
-          start: DateTime(a.year, 1, 1),
-          end: DateTime(a.year + 1, 1, 1),
+          start: DateTime(a.year),
+          end: DateTime(a.year + 1),
         );
-      default:
-        return (start: a, end: DateTime(a.year, a.month + 1, 1));
+      case _StatsPeriod.month:
+      case _StatsPeriod.allTime:
+        return (start: a, end: DateTime(a.year, a.month + 1));
     }
   }
 
@@ -558,9 +574,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
     final s = b.start;
     final e = b.end;
     if (s == null || e == null) return l10n.statsAllTime;
-    if (_spendingMonths == 1) return formatAppDate(context, 'MMMM yyyy', s);
-    if (_spendingMonths == 12) return '${s.year}';
-    final lastMonth = DateTime(e.year, e.month - 1, 1);
+    if (_statsPeriod == _StatsPeriod.month) return formatAppDate(context, 'MMMM yyyy', s);
+    if (_statsPeriod == _StatsPeriod.year) return '${s.year}';
+    final lastMonth = DateTime(e.year, e.month - 1);
     if (s.year == lastMonth.year) {
       return '${formatAppDate(context, 'MMM', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
     }
@@ -575,9 +591,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
     final s = b.start;
     final e = b.end;
     if (s == null || e == null) return l10n.statsAllTime;
-    if (_spendingMonths == 1) return formatAppDate(context, 'MMM yyyy', s);
-    if (_spendingMonths == 12) return '${s.year}';
-    final lastMonth = DateTime(e.year, e.month - 1, 1);
+    if (_statsPeriod == _StatsPeriod.month) return formatAppDate(context, 'MMM yyyy', s);
+    if (_statsPeriod == _StatsPeriod.year) return '${s.year}';
+    final lastMonth = DateTime(e.year, e.month - 1);
     if (s.year == lastMonth.year) {
       return '${formatAppDate(context, 'MMM', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
     }
@@ -586,37 +602,42 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   String _periodLabel(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return switch (_spendingMonths) {
-      1 => l10n.period1M,
-      3 => l10n.period3M,
-      6 => l10n.period6M,
-      12 => l10n.period1Y,
-      _ => l10n.periodAll,
+    return switch (_statsPeriod) {
+      _StatsPeriod.month => l10n.period1M,
+      _StatsPeriod.quarter => l10n.period3M,
+      _StatsPeriod.halfYear => l10n.period6M,
+      _StatsPeriod.year => l10n.period1Y,
+      _StatsPeriod.allTime => l10n.periodAll,
     };
   }
 
   void _cyclePeriod() => setState(() {
     _dateOffset = 0;
     if (_compareMode) {
-      _spendingMonths = switch (_spendingMonths) {
-        1 => 3,
-        3 => 6,
-        6 => 12,
-        _ => 1,
+      // Compare mode has no all-time window.
+      _statsPeriod = switch (_statsPeriod) {
+        _StatsPeriod.month => _StatsPeriod.quarter,
+        _StatsPeriod.quarter => _StatsPeriod.halfYear,
+        _StatsPeriod.halfYear => _StatsPeriod.year,
+        _StatsPeriod.year || _StatsPeriod.allTime => _StatsPeriod.month,
       };
-      if (_spendingMonths == 12) {
-        _compareMonthA = DateTime(_compareMonthA.year, 1, 1);
-        _compareMonthB = DateTime(_compareMonthB.year, 1, 1);
-      } else if (_spendingMonths == 3) {
+      if (_statsPeriod == _StatsPeriod.year) {
+        _compareMonthA = DateTime(_compareMonthA.year);
+        _compareMonthB = DateTime(_compareMonthB.year);
+      } else if (_statsPeriod == _StatsPeriod.quarter) {
         _compareMonthA = _quarterStartContaining(_compareMonthA);
         _compareMonthB = _quarterStartContaining(_compareMonthB);
-      } else if (_spendingMonths == 6) {
+      } else if (_statsPeriod == _StatsPeriod.halfYear) {
         _compareMonthA = _halfYearStartContaining(_compareMonthA);
         _compareMonthB = _halfYearStartContaining(_compareMonthB);
       }
     } else {
-      _spendingMonths = switch (_spendingMonths) {
-        1 => 3, 3 => 6, 6 => 12, 12 => 0, _ => 1,
+      _statsPeriod = switch (_statsPeriod) {
+        _StatsPeriod.month => _StatsPeriod.quarter,
+        _StatsPeriod.quarter => _StatsPeriod.halfYear,
+        _StatsPeriod.halfYear => _StatsPeriod.year,
+        _StatsPeriod.year => _StatsPeriod.allTime,
+        _StatsPeriod.allTime => _StatsPeriod.month,
       };
     }
   });
@@ -628,12 +649,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
   /// Statistics tab: show reset FAB only after the user changes chips (period,
   /// viz, compare, income vs expense, date nav, or hero currency).
   bool get _reviewStatisticsHasNonDefaultChoices {
-    if (_activeSection != 'statistics') return false;
+    if (_activeSection != _ReviewSection.statistics) return false;
     return _compareMode ||
         _vizMode != 0 ||
-        _spendingMonths != 1 ||
+        _statsPeriod != _StatsPeriod.month ||
         _dateOffset != 0 ||
-        (_activeStats ?? 'expense') != 'expense' ||
+        (_activeStats ?? _StatsMode.expense) != _StatsMode.expense ||
         _displayCurrency != settings.baseCurrency;
   }
 
@@ -642,39 +663,39 @@ class _ReviewScreenState extends State<ReviewScreen> {
     setState(() {
       _compareMode = false;
       _vizMode = 0;
-      _spendingMonths = 1;
+      _statsPeriod = _StatsPeriod.month;
       _dateOffset = 0;
-      _activeStats = 'expense';
+      _activeStats = _StatsMode.expense;
       _compareCategoryExpense = null;
       _compareCategoryIncome = null;
       _displayCurrency = settings.baseCurrency;
-      _compareMonthB = DateTime(now.year, now.month, 1);
+      _compareMonthB = DateTime(now.year, now.month);
       _compareMonthA = now.month == 1
-          ? DateTime(now.year - 1, 12, 1)
-          : DateTime(now.year, now.month - 1, 1);
+          ? DateTime(now.year - 1, 12)
+          : DateTime(now.year, now.month - 1);
     });
   }
 
   // The active date window (start inclusive, end exclusive). null = no filter.
   ({DateTime? start, DateTime? end}) get _dateRange {
-    if (_spendingMonths == 0) return (start: null, end: null);
+    if (_statsPeriod == _StatsPeriod.allTime) return (start: null, end: null);
     final now = DateTime.now();
-    if (_spendingMonths == 12) {
+    if (_statsPeriod == _StatsPeriod.year) {
       final year = now.year - _dateOffset;
-      return (start: DateTime(year, 1, 1), end: DateTime(year + 1, 1, 1));
+      return (start: DateTime(year), end: DateTime(year + 1));
     }
-    if (_spendingMonths == 3) {
+    if (_statsPeriod == _StatsPeriod.quarter) {
       final r = _quarterByOffsetFrom(now, _dateOffset);
       return (start: r.start, end: r.end);
     }
-    if (_spendingMonths == 6) {
+    if (_statsPeriod == _StatsPeriod.halfYear) {
       final r = _halfYearByOffsetFrom(now, _dateOffset);
       return (start: r.start, end: r.end);
     }
-    final endM = now.month + 1 - _dateOffset * _spendingMonths;
+    final endM = now.month + 1 - _dateOffset * _statsPeriod.months;
     return (
-      start: DateTime(now.year, endM - _spendingMonths, 1),
-      end: DateTime(now.year, endM, 1),
+      start: DateTime(now.year, endM - _statsPeriod.months),
+      end: DateTime(now.year, endM),
     );
   }
 
@@ -685,16 +706,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
   String _dateRangeLabel(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final now = DateTime.now();
-    if (_spendingMonths == 0) {
+    if (_statsPeriod == _StatsPeriod.allTime) {
       final earliest = _earliestTxDate;
       if (earliest == null) return l10n.statsAllTime;
       return '${formatAppDate(context, 'MMM yyyy', earliest)} – ${formatAppDate(context, 'MMM yyyy', now)}';
     }
-    if (_spendingMonths == 12) return '${now.year - _dateOffset}';
+    if (_statsPeriod == _StatsPeriod.year) return '${now.year - _dateOffset}';
     final range = _dateRange;
     final s = range.start!;
-    final lastMonth = DateTime(range.end!.year, range.end!.month - 1, 1);
-    if (_spendingMonths == 1) return formatAppDate(context, 'MMMM yyyy', s);
+    final lastMonth = DateTime(range.end!.year, range.end!.month - 1);
+    if (_statsPeriod == _StatsPeriod.month) return formatAppDate(context, 'MMMM yyyy', s);
     if (s.year == lastMonth.year) {
       return '${formatAppDate(context, 'MMM', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
     }
@@ -704,9 +725,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
   // ── Account mutations ──────────────────────────────────────────────────────
 
   AccountGroup? get _activeGroupFromSection => switch (_activeSection) {
-        'personal' => AccountGroup.personal,
-        'individuals' => AccountGroup.individuals,
-        'entities' => AccountGroup.entities,
+        _ReviewSection.personal => AccountGroup.personal,
+        _ReviewSection.individuals => AccountGroup.individuals,
+        _ReviewSection.entities => AccountGroup.entities,
         _ => null,
       };
 
@@ -719,7 +740,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
     );
     if (result == true) {
       setState(() {});
-      widget.onChanged?.call();
     }
   }
 
@@ -737,7 +757,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
       setState(() {});
       return;
     }
-    widget.onChanged?.call();
   }
 
   Future<void> _openAccountTransactions(Account account) async {
@@ -749,7 +768,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
     if (!mounted) return;
     if (r == kAccountFormSheetDeleted) {
       setState(() {});
-      widget.onChanged?.call();
     }
   }
 
@@ -851,7 +869,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   }
 
   List<Widget> _reviewStatisticsSlivers(BuildContext context, ColorScheme cs) {
-    final statsTab = _activeStats ?? 'expense';
+    final statsTab = _activeStats ?? _StatsMode.expense;
     final cmp = _reviewCompareRows();
     final compareExpenseA = cmp.compareExpenseA;
     final compareExpenseB = cmp.compareExpenseB;
@@ -873,7 +891,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   _activeStats = s;
                 }),
                 periodLabel: _periodLabel(context),
-                spendingMonths: _spendingMonths,
+                statsPeriod: _statsPeriod,
                 dateRangeLabel: _dateRangeLabel(context),
                 onCyclePeriod: _cyclePeriod,
                 canNavigateForward: _dateOffset > 0,
@@ -887,24 +905,24 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     _compareMode = false;
                   } else {
                     _compareMode = true;
-                    if (_spendingMonths == 0) {
-                      _spendingMonths = 1;
+                    if (_statsPeriod == _StatsPeriod.allTime) {
+                      _statsPeriod = _StatsPeriod.month;
                     }
                   }
                 }),
                 compareCategoryKeys: _compareMode
-                    ? (statsTab == 'expense'
+                    ? (statsTab == _StatsMode.expense
                         ? cmp.compareExpenseCategoryKeys
                         : cmp.compareIncomeCategoryKeys)
                     : const [],
                 compareSelectedCategory: _compareMode
-                    ? (statsTab == 'expense'
+                    ? (statsTab == _StatsMode.expense
                         ? effectiveCompareExpenseCategory
                         : effectiveCompareIncomeCategory)
                     : null,
                 onCompareCategoryChanged: _compareMode
                     ? (String v) => setState(() {
-                          if (statsTab == 'expense') {
+                          if (statsTab == _StatsMode.expense) {
                             _compareCategoryExpense = v;
                           } else {
                             _compareCategoryIncome = v;
@@ -912,7 +930,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         })
                     : null,
               ),
-              if (statsTab == 'expense' &&
+              if (statsTab == _StatsMode.expense &&
                   _compareMode &&
                   effectiveCompareExpenseCategory != null &&
                   compareExpenseA.isNotEmpty &&
@@ -948,15 +966,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     isExpense: true,
                   ),
                 ),
-              if (statsTab == 'expense' && !_compareMode)
+              if (statsTab == _StatsMode.expense && !_compareMode)
                 _SpendingBody(
                   spending: _categorySpending,
                   periodLabel: _periodLabel(context),
-                  spendingMonths: _spendingMonths,
+                  statsPeriod: _statsPeriod,
                   vizMode: _vizMode,
                   displayCurrency: _displayCurrency,
                 ),
-              if (statsTab == 'income' &&
+              if (statsTab == _StatsMode.income &&
                   _compareMode &&
                   effectiveCompareIncomeCategory != null &&
                   compareIncomeA.isNotEmpty &&
@@ -992,11 +1010,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     isExpense: false,
                   ),
                 ),
-              if (statsTab == 'income' && !_compareMode)
+              if (statsTab == _StatsMode.income && !_compareMode)
                 _IncomeBody(
                   income: _categoryIncome,
                   periodLabel: _periodLabel(context),
-                  spendingMonths: _spendingMonths,
+                  statsPeriod: _statsPeriod,
                   vizMode: _vizMode,
                   displayCurrency: _displayCurrency,
                 ),
@@ -1010,25 +1028,23 @@ class _ReviewScreenState extends State<ReviewScreen> {
   List<Widget> _reviewSectionPageSlivers(
     BuildContext context,
     ColorScheme cs,
-    String section,
+    _ReviewSection section,
     List<Account> personal,
     List<Account> individuals,
     List<Account> entities,
   ) {
     switch (section) {
-      case 'personal':
+      case _ReviewSection.personal:
         return _reviewAccountSectionSlivers(
             context, AccountGroup.personal, personal);
-      case 'individuals':
+      case _ReviewSection.individuals:
         return _reviewAccountSectionSlivers(
             context, AccountGroup.individuals, individuals);
-      case 'entities':
+      case _ReviewSection.entities:
         return _reviewAccountSectionSlivers(
             context, AccountGroup.entities, entities);
-      case 'statistics':
+      case _ReviewSection.statistics:
         return _reviewStatisticsSlivers(context, cs);
-      default:
-        return const [SliverToBoxAdapter(child: SizedBox.shrink())];
     }
   }
 
@@ -1133,7 +1149,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     }
 
     Widget? mainFab;
-    if (_activeSection == 'statistics') {
+    if (_activeSection == _ReviewSection.statistics) {
       if (_reviewStatisticsHasNonDefaultChoices) {
         mainFab = FloatingActionButton.small(
           heroTag: 'review_fab_reset',
@@ -1209,7 +1225,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         final prevSecondary = settings.secondaryCurrency;
                         await Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          MaterialPageRoute<void>(
                               builder: (_) => const SettingsScreen()),
                         );
                         if (mounted) {
@@ -1225,7 +1241,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
                               _displayCurrency = settings.baseCurrency;
                             }
                           });
-                          widget.onChanged?.call();
                         }
                       },
                     ),
@@ -1275,9 +1290,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     child: PageView.builder(
                       controller: _sectionPageController,
                       onPageChanged: _onReviewSectionPageChanged,
-                      itemCount: _kReviewSections.length,
+                      itemCount: _ReviewSection.values.length,
                       itemBuilder: (context, index) {
-                        final section = _kReviewSections[index];
+                        final section = _ReviewSection.values[index];
                         final topPad =
                             _reviewUnderHeaderScrollPadding(context);
                         return Builder(
@@ -1347,7 +1362,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                       settings.secondaryCurrency;
                                   await Navigator.push(
                                     context,
-                                    MaterialPageRoute(
+                                    MaterialPageRoute<void>(
                                         builder: (_) =>
                                             const SettingsScreen()),
                                   );
@@ -1367,7 +1382,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                             settings.baseCurrency;
                                       }
                                     });
-                                    widget.onChanged?.call();
                                   }
                                 },
                               ),
@@ -1426,8 +1440,8 @@ class _NetWorthHero extends StatelessWidget {
   final double net;
   final String displayCurrency;
   final bool sectionChipsEnabled;
-  final String activeSection;
-  final void Function(String section) onSelectSection;
+  final _ReviewSection activeSection;
+  final void Function(_ReviewSection section) onSelectSection;
   final VoidCallback onToggleCurrency;
 
   const _NetWorthHero({
@@ -1461,24 +1475,23 @@ class _NetWorthHero extends StatelessWidget {
         '${formatBalanceAmount(displayPersonal)} $sym';
     final netStr = '${formatBalanceAmount(displayNet)} $sym';
 
-    Widget chip({required IconData icon, required bool active, required VoidCallback onTap, Widget? child}) {
-      return GestureDetector(
+    Widget chip({
+      required IconData icon,
+      required bool active,
+      required VoidCallback onTap,
+      required String label,
+      Widget? child,
+    }) {
+      return HeroTapChip(
         onTap: onTap,
-        child: Container(
-          height: AppHeroConstants.filterChipHeight,
-          alignment: Alignment.center,
-          decoration: HeroFilterChipStyle.decoration(
-            cs,
-            brightness,
-            selected: active,
-          ),
-          child: child ??
-              Icon(
-                icon,
-                size: 15,
-                color: HeroFilterChipStyle.foreground(cs, selected: active),
-              ),
-        ),
+        active: active,
+        semanticsLabel: label,
+        child: child ??
+            Icon(
+              icon,
+              size: 15,
+              color: HeroFilterChipStyle.foreground(cs, selected: active),
+            ),
       );
     }
 
@@ -1581,35 +1594,40 @@ class _NetWorthHero extends StatelessWidget {
                         Expanded(
                             child: chip(
                                 icon: Icons.person_outline_rounded,
-                                active: activeSection == 'personal',
+                                active: activeSection == _ReviewSection.personal,
+                                label: l10n.accountGroupPersonal,
                                 onTap: () =>
-                                    onSelectSection('personal'))),
+                                    onSelectSection(_ReviewSection.personal))),
                         const SizedBox(width: 6),
                         Expanded(
                             child: chip(
                                 icon: Icons.people_outline_rounded,
-                                active: activeSection == 'individuals',
+                                active: activeSection == _ReviewSection.individuals,
+                                label: l10n.accountSectionIndividuals,
                                 onTap: () =>
-                                    onSelectSection('individuals'))),
+                                    onSelectSection(_ReviewSection.individuals))),
                         const SizedBox(width: 6),
                         Expanded(
                             child: chip(
                                 icon: Icons.business_outlined,
-                                active: activeSection == 'entities',
+                                active: activeSection == _ReviewSection.entities,
+                                label: l10n.accountSectionEntities,
                                 onTap: () =>
-                                    onSelectSection('entities'))),
+                                    onSelectSection(_ReviewSection.entities))),
                         const SizedBox(width: 6),
                         Expanded(
                             child: chip(
                                 icon: Icons.bar_chart_rounded,
-                                active: activeSection == 'statistics',
+                                active: activeSection == _ReviewSection.statistics,
+                                label: l10n.semanticsSectionStatistics,
                                 onTap: () =>
-                                    onSelectSection('statistics'))),
+                                    onSelectSection(_ReviewSection.statistics))),
                         const SizedBox(width: 6),
                         Expanded(
                             child: chip(
                                 icon: Icons.currency_exchange_rounded,
                                 active: isSecondary,
+                                label: l10n.semanticsCurrencyToggle,
                                 onTap: onToggleCurrency)),
                       ],
                     );
@@ -1646,10 +1664,10 @@ class _NetWorthHero extends StatelessWidget {
 // ─── Stats header (shared chips + date navigator) ─────────────────────────────
 
 class _StatsHeader extends StatelessWidget {
-  final String? activeStats;
-  final void Function(String s) onSelectStats;
+  final _StatsMode? activeStats;
+  final void Function(_StatsMode s) onSelectStats;
   final String periodLabel;
-  final int spendingMonths;
+  final _StatsPeriod statsPeriod;
   final String dateRangeLabel;
   final VoidCallback onCyclePeriod;
   final bool canNavigateForward;
@@ -1668,7 +1686,7 @@ class _StatsHeader extends StatelessWidget {
     required this.activeStats,
     required this.onSelectStats,
     required this.periodLabel,
-    required this.spendingMonths,
+    required this.statsPeriod,
     required this.dateRangeLabel,
     required this.onCyclePeriod,
     required this.canNavigateForward,
@@ -1686,67 +1704,53 @@ class _StatsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final brightness = Theme.of(context).brightness;
     final l10n = AppLocalizations.of(context);
-    final isAllTime = spendingMonths == 0;
+    final isAllTime = statsPeriod == _StatsPeriod.allTime;
     final vizIcon = vizMode == 1 ? Icons.donut_large_rounded : Icons.bar_chart_rounded;
 
     // Same footprint as _NetWorthHero chips: full row width, shared chip height, 6px gaps.
     // Row: spent / received / period / chart type (bar↔pie) / compare toggle.
-    Widget chip({required IconData icon, required bool active, required VoidCallback onTap, String? label}) =>
-      GestureDetector(
-        onTap: onTap,
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          height: AppHeroConstants.filterChipHeight,
-          alignment: Alignment.center,
-          decoration: HeroFilterChipStyle.decoration(
-            cs,
-            brightness,
-            selected: active,
-          ),
+    Widget chip({
+      required IconData icon,
+      required bool active,
+      required VoidCallback onTap,
+      String? label,
+      String? semanticsLabel,
+    }) =>
+        HeroTapChip(
+          onTap: onTap,
+          active: active,
+          semanticsLabel: semanticsLabel,
           child: label != null
               ? FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(label,
                       style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          color: HeroFilterChipStyle.foreground(
-                              cs, selected: active),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: HeroFilterChipStyle.foreground(cs,
+                            selected: active),
                       )),
                 )
-              : Icon(icon, size: 15,
-                  color: HeroFilterChipStyle.foreground(cs, selected: active)),
-        ),
-      );
+              : Icon(icon,
+                  size: 15,
+                  color:
+                      HeroFilterChipStyle.foreground(cs, selected: active)),
+        );
 
-    Widget navBtn({required IconData icon, required bool enabled, required VoidCallback onTap}) =>
-      GestureDetector(
-        onTap: enabled ? onTap : null,
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          width: 36,
-          height: 36,
-          alignment: Alignment.center,
-          decoration: enabled
-              ? HeroFilterChipStyle.decoration(
-                  cs,
-                  brightness,
-                  selected: false,
-                  borderRadius: BorderRadius.circular(20),
-                )
-              : BoxDecoration(
-                  color: cs.surfaceContainerHighest.withValues(alpha: 0.45),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: cs.outlineVariant.withValues(alpha: 0.35),
-                  ),
-                ),
-          child: Icon(icon, size: 18,
-              color: enabled ? cs.primary : cs.onSurfaceVariant.withValues(alpha: 0.4)),
-        ),
-      );
+    Widget navBtn({
+      required IconData icon,
+      required bool enabled,
+      required VoidCallback onTap,
+      required String semanticsLabel,
+    }) =>
+        _InkNavButton(
+          icon: icon,
+          enabled: enabled,
+          onTap: onTap,
+          size: 36,
+          semanticsLabel: semanticsLabel,
+        );
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -1758,16 +1762,18 @@ class _StatsHeader extends StatelessWidget {
               Expanded(
                 child: chip(
                   icon: Icons.arrow_upward_rounded,
-                  active: activeStats == 'expense',
-                  onTap: () => onSelectStats('expense'),
+                  active: activeStats == _StatsMode.expense,
+                  semanticsLabel: l10n.semanticsStatsSpent,
+                  onTap: () => onSelectStats(_StatsMode.expense),
                 ),
               ),
               const SizedBox(width: 6),
               Expanded(
                 child: chip(
                   icon: Icons.arrow_downward_rounded,
-                  active: activeStats == 'income',
-                  onTap: () => onSelectStats('income'),
+                  active: activeStats == _StatsMode.income,
+                  semanticsLabel: l10n.semanticsStatsReceived,
+                  onTap: () => onSelectStats(_StatsMode.income),
                 ),
               ),
               const SizedBox(width: 6),
@@ -1777,6 +1783,7 @@ class _StatsHeader extends StatelessWidget {
                   active: true,
                   onTap: onCyclePeriod,
                   label: periodLabel,
+                  semanticsLabel: l10n.semanticsPeriod(periodLabel),
                 ),
               ),
               const SizedBox(width: 6),
@@ -1834,12 +1841,12 @@ class _StatsHeader extends StatelessWidget {
                         constraints: const BoxConstraints(maxWidth: 220),
                         child: ChoiceChip(
                           key: ValueKey(
-                              '${activeStats}_${compareCategoryKeys.length}_$k'),
+                              '${activeStats?.name}_${compareCategoryKeys.length}_$k'),
                           materialTapTargetSize:
                               MaterialTapTargetSize.shrinkWrap,
                           visualDensity: VisualDensity.compact,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 0),
+                              horizontal: 10),
                           labelPadding: EdgeInsets.zero,
                           label: Text(
                             k == 'Uncategorized'
@@ -1892,7 +1899,12 @@ class _StatsHeader extends StatelessWidget {
             Row(
               children: [
                 if (!isAllTime)
-                  navBtn(icon: Icons.chevron_left_rounded, enabled: true, onTap: onNavigateBack),
+                  navBtn(
+                    icon: Icons.chevron_left_rounded,
+                    enabled: true,
+                    onTap: onNavigateBack,
+                    semanticsLabel: l10n.semanticsPreviousPeriod,
+                  ),
                 if (!isAllTime) const SizedBox(width: 6),
                 Expanded(
                   child: Text(
@@ -1911,7 +1923,8 @@ class _StatsHeader extends StatelessWidget {
                     icon: Icons.chevron_right_rounded,
                     enabled: canNavigateForward,
                     onTap: onNavigateForward,
-                  ),
+                  
+              semanticsLabel: AppLocalizations.of(context).semanticsNextPeriod,),
               ],
             ),
         ],
@@ -1947,28 +1960,14 @@ class _CompareMiniDateNav extends StatelessWidget {
       required IconData icon,
       required bool enabled,
       required VoidCallback onTap,
+      required String semanticsLabel,
     }) =>
-        GestureDetector(
-          onTap: enabled ? onTap : null,
-          behavior: HitTestBehavior.opaque,
-          child: Container(
-            width: 32,
-            height: 32,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: enabled
-                  ? cs.primary.withValues(alpha: 0.12)
-                  : cs.surfaceContainerHighest.withValues(alpha: 0.5),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Icon(
-              icon,
-              size: 17,
-              color: enabled
-                  ? cs.primary
-                  : cs.onSurfaceVariant.withValues(alpha: 0.35),
-            ),
-          ),
+        _InkNavButton(
+          icon: icon,
+          enabled: enabled,
+          onTap: onTap,
+          size: 32,
+          semanticsLabel: semanticsLabel,
         );
 
     return Semantics(
@@ -1989,7 +1988,8 @@ class _CompareMiniDateNav extends StatelessWidget {
               icon: Icons.chevron_left_rounded,
               enabled: canBack,
               onTap: onBack,
-            ),
+            
+              semanticsLabel: AppLocalizations.of(context).semanticsPreviousPeriod,),
             const SizedBox(width: 4),
             Expanded(
               child: Text(
@@ -2010,7 +2010,8 @@ class _CompareMiniDateNav extends StatelessWidget {
               icon: Icons.chevron_right_rounded,
               enabled: canForward,
               onTap: onForward,
-            ),
+            
+              semanticsLabel: AppLocalizations.of(context).semanticsNextPeriod,),
           ],
         ),
       ),
@@ -2078,11 +2079,12 @@ class _CompareCategoryAmountsPanel extends StatelessWidget {
       alpha: brightness == Brightness.dark ? 0.20 : 0.11,
     );
     final sign = isExpense ? '−' : '+';
-    String fmt(double v) => '$sign${v.abs().toStringAsFixed(2)} $sym';
+    String fmt(double v) =>
+        '$sign${fx.formatNativeAmountDigits(v, displayCurrency)} $sym';
     final diff = b - a;
     final diffAbs = diff.abs();
     final diffStr =
-        '${diff >= 0 ? '+' : '−'}${diffAbs.toStringAsFixed(2)} $sym';
+        '${diff >= 0 ? '+' : '−'}${fx.formatNativeAmountDigits(diffAbs, displayCurrency)} $sym';
 
     Widget periodTile({
       required String badge,
@@ -2344,14 +2346,14 @@ class _CompareCategoryAmountsPanel extends StatelessWidget {
 class _SpendingBody extends StatelessWidget {
   final Map<String, ({double total, int count})> spending;
   final String periodLabel;
-  final int spendingMonths;
+  final _StatsPeriod statsPeriod;
   final int vizMode;
   final String displayCurrency;
 
   const _SpendingBody({
     required this.spending,
     required this.periodLabel,
-    required this.spendingMonths,
+    required this.statsPeriod,
     required this.vizMode,
     required this.displayCurrency,
   });
@@ -2369,15 +2371,15 @@ class _SpendingBody extends StatelessWidget {
     final totalSpent = fx.convert(totalSpentBase, settings.baseCurrency, displayCurrency);
     final sym = fx.currencySymbol(displayCurrency);
 
-    final emptyMsg = switch (spendingMonths) {
-      1 => l10n.statsNoExpensesMonth,
-      0 => l10n.statsNoExpensesAll,
+    final emptyMsg = switch (statsPeriod) {
+      _StatsPeriod.month => l10n.statsNoExpensesMonth,
+      _StatsPeriod.allTime => l10n.statsNoExpensesAll,
       _ => l10n.statsNoExpensesPeriod(periodLabel),
     };
 
     if (sorted.isEmpty) {
       return Padding(
-        padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 8),
+        padding: const EdgeInsets.fromLTRB(hPad, 0, hPad, 8),
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -2397,7 +2399,7 @@ class _SpendingBody extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 6),
+          padding: const EdgeInsets.fromLTRB(hPad, 0, hPad, 6),
           child: Card(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -2414,7 +2416,7 @@ class _SpendingBody extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '-${totalSpent.toStringAsFixed(2)} $sym',
+                    '-${formatBalanceAmount(totalSpent)} $sym',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.end,
@@ -2435,7 +2437,7 @@ class _SpendingBody extends StatelessWidget {
                 sorted.where((e) => e.value.total > 0).toList();
             if (donutSorted.isEmpty) {
               return Padding(
-                padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 0),
+                padding: const EdgeInsets.fromLTRB(hPad, 0, hPad, 0),
                 child: Card(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -2455,9 +2457,6 @@ class _SpendingBody extends StatelessWidget {
             return _DonutView(
               sorted: donutSorted,
               displayCurrency: displayCurrency,
-              donutHeight: 170.0,
-              horizontalPadding: hPad,
-              narrowLegend: false,
             );
           }),
         ] else
@@ -2466,8 +2465,6 @@ class _SpendingBody extends StatelessWidget {
             maxAmount: maxAmount,
             displayCurrency: displayCurrency,
             barColor: expenseColor,
-            horizontalPadding: hPad,
-            narrowLayout: false,
           ),
         const SizedBox(height: 8),
       ],
@@ -2480,14 +2477,14 @@ class _SpendingBody extends StatelessWidget {
 class _IncomeBody extends StatelessWidget {
   final Map<String, ({double total, int count})> income;
   final String periodLabel;
-  final int spendingMonths;
+  final _StatsPeriod statsPeriod;
   final int vizMode;
   final String displayCurrency;
 
   const _IncomeBody({
     required this.income,
     required this.periodLabel,
-    required this.spendingMonths,
+    required this.statsPeriod,
     required this.vizMode,
     required this.displayCurrency,
   });
@@ -2505,15 +2502,15 @@ class _IncomeBody extends StatelessWidget {
     final totalReceived = fx.convert(totalReceivedBase, settings.baseCurrency, displayCurrency);
     final sym = fx.currencySymbol(displayCurrency);
 
-    final emptyMsg = switch (spendingMonths) {
-      1 => l10n.statsNoIncomeMonth,
-      0 => l10n.statsNoIncomeAll,
+    final emptyMsg = switch (statsPeriod) {
+      _StatsPeriod.month => l10n.statsNoIncomeMonth,
+      _StatsPeriod.allTime => l10n.statsNoIncomeAll,
       _ => l10n.statsNoIncomePeriod(periodLabel),
     };
 
     if (sorted.isEmpty) {
       return Padding(
-        padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 8),
+        padding: const EdgeInsets.fromLTRB(hPad, 0, hPad, 8),
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -2533,7 +2530,7 @@ class _IncomeBody extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 6),
+          padding: const EdgeInsets.fromLTRB(hPad, 0, hPad, 6),
           child: Card(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -2550,7 +2547,7 @@ class _IncomeBody extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '+${totalReceived.toStringAsFixed(2)} $sym',
+                    '+${formatBalanceAmount(totalReceived)} $sym',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.end,
@@ -2571,7 +2568,7 @@ class _IncomeBody extends StatelessWidget {
                 sorted.where((e) => e.value.total > 0).toList();
             if (donutSorted.isEmpty) {
               return Padding(
-                padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 0),
+                padding: const EdgeInsets.fromLTRB(hPad, 0, hPad, 0),
                 child: Card(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -2591,9 +2588,6 @@ class _IncomeBody extends StatelessWidget {
             return _DonutView(
               sorted: donutSorted,
               displayCurrency: displayCurrency,
-              donutHeight: 170.0,
-              horizontalPadding: hPad,
-              narrowLegend: false,
             );
           }),
         ] else
@@ -2602,8 +2596,6 @@ class _IncomeBody extends StatelessWidget {
             maxAmount: maxAmount,
             displayCurrency: displayCurrency,
             barColor: incomeColor,
-            horizontalPadding: hPad,
-            narrowLayout: false,
           ),
         const SizedBox(height: 8),
       ],
@@ -2626,9 +2618,8 @@ class _BarsView extends StatelessWidget {
     required this.maxAmount,
     required this.displayCurrency,
     required this.barColor,
-    this.horizontalPadding = 16,
-    this.narrowLayout = false,
-  });
+  })  : horizontalPadding = 16,
+        narrowLayout = false;
 
   @override
   Widget build(BuildContext context) {
@@ -2674,7 +2665,7 @@ class _BarsView extends StatelessWidget {
                             Expanded(
                               flex: narrowLayout ? 9 : 8,
                               child: Text(
-                                '${amount.toStringAsFixed(2)} ${fx.currencySymbol(displayCurrency)}',
+                                '${fx.formatNativeAmountDigits(amount, displayCurrency)} ${fx.currencySymbol(displayCurrency)}',
                                 textAlign: TextAlign.end,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -2726,10 +2717,9 @@ class _DonutView extends StatelessWidget {
   const _DonutView({
     required this.sorted,
     required this.displayCurrency,
-    this.donutHeight = 170,
-    this.horizontalPadding = 16,
-    this.narrowLegend = false,
-  });
+  })  : donutHeight = 170,
+        horizontalPadding = 16,
+        narrowLegend = false;
 
   Color _colorForCategory(BuildContext context, int positionInList) {
     final palette =
@@ -2841,8 +2831,8 @@ class _DonutView extends StatelessWidget {
                         width: amtW,
                         child: Text(
                           narrowLegend
-                              ? '${amount.toStringAsFixed(1)} $sym'
-                              : '${amount.toStringAsFixed(2)} $sym',
+                              ? '${formatBalanceAmount(amount, fractionDigits: 1)} $sym'
+                              : '${formatBalanceAmount(amount)} $sym',
                           textAlign: TextAlign.end,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -3185,3 +3175,59 @@ class _EmptyAccountsHint extends StatelessWidget {
   }
 }
 
+
+/// Round/rounded arrow button with ink and a screen-reader label; replaces
+/// the GestureDetector arrows in the stats row and the compare mini-nav.
+class _InkNavButton extends StatelessWidget {
+  const _InkNavButton({
+    required this.icon,
+    required this.enabled,
+    required this.onTap,
+    required this.size,
+    required this.semanticsLabel,
+  });
+
+  final IconData icon;
+  final bool enabled;
+  final VoidCallback onTap;
+  final double size;
+  final String semanticsLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final radius = BorderRadius.circular(size / 2);
+    return Semantics(
+      button: true,
+      enabled: enabled,
+      label: semanticsLabel,
+      child: Tooltip(
+        message: semanticsLabel,
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            onTap: enabled ? onTap : null,
+            borderRadius: radius,
+            child: Ink(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                color: enabled
+                    ? cs.primary.withValues(alpha: 0.12)
+                    : cs.surfaceContainerHighest.withValues(alpha: 0.5),
+                borderRadius: radius,
+              ),
+              child: Icon(
+                icon,
+                size: size / 2,
+                color: enabled
+                    ? cs.primary
+                    : cs.onSurfaceVariant.withValues(alpha: 0.35),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -1,21 +1,24 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
+import '../help/help_tour.dart';
+import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
-import '../l10n/app_localizations.dart';
+import '../theme/ledger_colors.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
-import '../widgets/account_avatar.dart';
-import '../widgets/attachments_editor.dart';
-import '../widgets/app_hero_layout.dart';
-import '../theme/ledger_colors.dart';
-import '../utils/tx_display.dart';
 import '../utils/minor_units_amount_formatter.dart';
 import '../utils/projections.dart' as proj;
-import '../help/help_tour.dart';
+import '../utils/tx_display.dart';
+import '../widgets/account_avatar.dart';
+import '../widgets/app_hero_layout.dart';
+import '../widgets/attachments_editor.dart';
+import '../widgets/discard_changes_dialog.dart';
 
 class NewPlannedTransactionScreen extends StatefulWidget {
   final PlannedTransaction? existing;
@@ -108,7 +111,7 @@ class _NewPlannedTransactionScreenState
       if (_repeatEndDate != e.repeatEndDate) return true;
       if (_repeatEndAfter != e.repeatEndAfter) return true;
       if (_attachments.length != e.attachments.length ||
-          !_attachments.every((p) => e.attachments.contains(p))) {
+          !_attachments.every(e.attachments.contains)) {
         return true;
       }
       return false;
@@ -122,33 +125,12 @@ class _NewPlannedTransactionScreenState
   }
 
   void _showDiscardDialog() {
-    showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(AppLocalizations.of(ctx).discardTitle),
-        content: Text(AppLocalizations.of(ctx).discardBody),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(AppLocalizations.of(ctx).keepEditing),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            style: FilledButton.styleFrom(
-              backgroundColor: Theme.of(ctx).colorScheme.error,
-              foregroundColor: Theme.of(ctx).colorScheme.onError,
-            ),
-            child: Text(AppLocalizations.of(ctx).discard),
-          ),
-        ],
-      ),
-    ).then((discard) {
-      if (discard == true && mounted) {
+    unawaited(confirmDiscardChanges(context).then((discard) {
+      if (discard && mounted) {
         setState(() => _forceClose = true);
         Navigator.of(context).pop();
       }
-    });
+    }));
   }
 
   @override
@@ -291,7 +273,7 @@ class _NewPlannedTransactionScreenState
     final picked = await showDatePicker(
       context: context,
       initialDate: _date,
-      firstDate: _isEdit ? DateTime(2020) : DateTime.now(),
+      firstDate: _isEdit ? DateTime(1970) : DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 730)),
       helpText: AppLocalizations.of(context).selectPlannedDate,
     );
@@ -345,11 +327,29 @@ class _NewPlannedTransactionScreenState
     return txColor(context, _txType);
   }
 
+  DateTime? _projectedCacheDate;
+  int _projectedCacheSig = 0;
+  Map<String, double> _projectedCache = const {};
+
+  /// [proj.projectBalances] walks every planned occurrence; memoised per
+  /// projection date so typing in the amount field does not redo it.
+  Map<String, double> _projectedBalances() {
+    final date = _projectionDateForAccounts;
+    final sig = Object.hash(
+        data.plannedTransactions.length, data.accounts.length);
+    if (_projectedCacheDate != date || _projectedCacheSig != sig) {
+      _projectedCacheDate = date;
+      _projectedCacheSig = sig;
+      _projectedCache = proj.projectBalances(date);
+    }
+    return _projectedCache;
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final color = _amountColor(context);
-    final projected = proj.projectBalances(_projectionDateForAccounts);
+    final projected = _projectedBalances();
     final fromHeadroom = _fromAccount?.personalHeadroomNative(
         projected[_fromAccount!.id] ?? _fromAccount!.balance);
     final toHeadroom = _toAccount?.personalHeadroomNative(
@@ -451,14 +451,13 @@ class _NewPlannedTransactionScreenState
                         ),
                         const SizedBox(height: 2),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
                               child: TextField(
                                 controller: _amountController,
                                 keyboardType:
                                     const TextInputType.numberWithOptions(
-                                        decimal: false),
+                                        ),
                                 inputFormatters: [_amountMinorFormatter],
                                 autofocus: !_isEdit &&
                                     (_fromAccount != null ||
@@ -553,7 +552,7 @@ class _NewPlannedTransactionScreenState
                     TextField(
                       controller: _destinationAmountController,
                       keyboardType: const TextInputType.numberWithOptions(
-                          decimal: false),
+                          ),
                       inputFormatters: [_destinationMinorFormatter],
                       decoration: InputDecoration(
                         labelText: AppLocalizations.of(context)
@@ -576,7 +575,7 @@ class _NewPlannedTransactionScreenState
                     decoration: InputDecoration(
                       labelText:
                           AppLocalizations.of(context).descriptionOptional,
-                      prefixIcon: Icon(Icons.notes_rounded, size: 18),
+                      prefixIcon: const Icon(Icons.notes_rounded, size: 18),
                     ),
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: (_) => setState(() {}),
@@ -833,7 +832,7 @@ class _SaveBar extends StatelessWidget {
                       size: 14, color: cs.primary),
                   const SizedBox(width: 6),
                   Text(
-                    '${amount!.toStringAsFixed(2)}'
+                    '${formatBalanceAmount(amount!)}'
                     '${currencySymbol.isNotEmpty ? ' $currencySymbol' : ''} · $dateLabel',
                     style: TextStyle(
                         color: cs.primary,
@@ -904,7 +903,7 @@ class _RepeatPicker extends StatelessWidget {
               onSelected: (_) => onChanged(r),
               avatar: r == RepeatInterval.none
                   ? null
-                  : Icon(Icons.repeat_rounded, size: 14),
+                  : const Icon(Icons.repeat_rounded, size: 14),
             );
           }).toList(),
         ),

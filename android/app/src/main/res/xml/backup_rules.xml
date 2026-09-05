@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 11 and lower (Auto Backup). path_provider's documents directory on
+  Android is <data>/app_flutter, so the ledger, the daily auto-backups and
+  preferences are included; receipt attachments are excluded so the 25 MB
+  per-app quota is never exceeded (a quota overrun fails the whole backup).
+-->
+<full-backup-content>
+    <include domain="root" path="app_flutter" />
+    <exclude domain="root" path="app_flutter/platrare_attachments" />
+    <include domain="sharedpref" path="." />
+</full-backup-content>

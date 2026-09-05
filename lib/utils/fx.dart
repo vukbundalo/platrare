@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../data/user_settings.dart' as settings;
+import 'money_format.dart';
 
 // ─── Core conversion helpers ─────────────────────────────────────────────────
 
@@ -92,18 +93,15 @@ const _zeroDecimalCurrencies = {'JPY', 'KRW', 'VND', 'CLP', 'HUF', 'IDR'};
 int currencyMinorUnits(String currencyCode) =>
     _zeroDecimalCurrencies.contains(currencyCode) ? 0 : 2;
 
-/// Digits only (no symbol), same decimals as [formatNative].
-String formatNativeAmountDigits(double amount, String currencyCode) {
-  final d = currencyMinorUnits(currencyCode);
-  return amount.abs().toStringAsFixed(d);
-}
+/// Digits only (no symbol), unsigned, same decimals as [formatNative].
+/// Locale-aware grouping and decimal separator (see money_format.dart).
+String formatNativeAmountDigits(double amount, String currencyCode) =>
+    formatMoneyDigits(amount.abs(), decimals: currencyMinorUnits(currencyCode));
 
 /// Format an absolute (unsigned) amount with its currency symbol after.
-/// e.g. formatNative(123.45, 'EUR') → '123.45 €'
-String formatNative(double amount, String currencyCode) {
-  final decimals = currencyMinorUnits(currencyCode);
-  return '${amount.abs().toStringAsFixed(decimals)} ${currencySymbol(currencyCode)}';
-}
+/// e.g. formatNative(1234.5, 'EUR') → '1,234.50 €' (en) / '1.234,50 €' (de)
+String formatNative(double amount, String currencyCode) =>
+    '${formatNativeAmountDigits(amount, currencyCode)} ${currencySymbol(currencyCode)}';
 
 /// Format an amount in the global base currency.
 String formatBase(double amount) =>
@@ -126,7 +124,7 @@ String runFxLogicTest() {
   // They enter the BAM actually received; the system locks the exact rate used.
   const nativeAmount      = 200.0; // EUR sent
   const destinationAmount = 391.166; // BAM received (200 × peg, rounded)
-  final lockedRate = destinationAmount / nativeAmount;
+  const lockedRate = destinationAmount / nativeAmount;
   assert(
     (lockedRate - eurRate).abs() < 0.0001,
     'Locked rate mismatch: $lockedRate vs expected $eurRate',
@@ -134,16 +132,16 @@ String runFxLogicTest() {
 
   // ── Test 2 — Historical value locking (Rule 3) ────────────────────────────
   // baseAmount is computed once at save time and never changes.
-  final baseAmt = nativeAmount * eurRate;
+  const baseAmt = nativeAmount * eurRate;
   assert(
     (baseAmt - destinationAmount).abs() < 0.02,
     'baseAmount should match locked destination, got $baseAmt',
   );
   // FX rate moves to 2.0 BAM/EUR later. The historical record must NOT change.
   const futureRate   = 2.0;
-  final lockedBase   = baseAmt;
-  final currentValue = nativeAmount * futureRate;
-  final unrealisedFX = currentValue - lockedBase;
+  const lockedBase   = baseAmt;
+  const currentValue = nativeAmount * futureRate;
+  const unrealisedFX = currentValue - lockedBase;
   assert(
     unrealisedFX > 0,
     'Unrealised FX gain should be positive, got $unrealisedFX',
@@ -153,9 +151,9 @@ String runFxLogicTest() {
   // Net Worth = Σ(account.balance × currentRate).  Never Σ(lockedBaseAmounts).
   const cashBal  = 1000.0; // BAM
   const eurBal   = 500.0;  // EUR
-  final cashBase = cashBal * 1.0;
-  final eurBase  = eurBal * eurRate;
-  final netWorth = cashBase + eurBase;
+  const cashBase = cashBal * 1.0;
+  const eurBase  = eurBal * eurRate;
+  const netWorth = cashBase + eurBase;
   assert(
     (netWorth - (1000.0 + 500.0 * eurRate)).abs() < 0.02,
     'Net worth mismatch: $netWorth',
@@ -164,7 +162,7 @@ String runFxLogicTest() {
   // ── Test 4 — P&L isolation from Net Worth ────────────────────────────────
   const income1Base = 391.166;
   const income2Base = 163.00;
-  final totalPnl = income1Base + income2Base;
+  const totalPnl = income1Base + income2Base;
   assert(
     (totalPnl - (income1Base + income2Base)).abs() < 0.001,
     'P&L total mismatch: $totalPnl',

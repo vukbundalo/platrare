@@ -19,6 +19,12 @@ const String kAttachmentLayoutBundled = 'bundled';
 /// PBKDF2 iteration count (HMAC-SHA256).
 const int kPbkdf2Iterations = 210000;
 
+/// Accepted band for the header's iteration count on import (see
+/// decryptToInnerZip). Lower bound keeps old files readable; upper bound
+/// stops a crafted file from pinning the CPU for minutes.
+const int kPbkdf2MinIterations = 10000;
+const int kPbkdf2MaxIterations = 2000000;
+
 bool looksLikeZip(Uint8List bytes) =>
     bytes.length >= 4 && bytes[0] == 0x50 && bytes[1] == 0x4b;
 

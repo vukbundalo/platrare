@@ -1,0 +1,24 @@
+Platrare is a personal-finance app that keeps everything on your device. No sign-up, no cloud account, no analytics, no ads. The only thing it ever downloads is public exchange rates.
+
+PLAN
+Schedule one-off and repeating transactions (daily, weekly, monthly, yearly, with weekend adjustment) and see your projected balances day by day. Optional reminders tell you before something is due, fully offline.
+
+TRACK
+Record income, expenses and transfers in seconds. Add categories, search and filter, and attach receipt photos or documents to any transaction.
+
+REVIEW
+Statistics, period comparisons and per-account history. Platrare understands three kinds of accounts: your own, the people you settle up with, and the businesses or projects you deal with. Loans, advances, IOUs and settlements are classified automatically from the balance between you, so you always know who owes whom.
+
+MULTI-CURRENCY
+Every account has its own currency. Pick a base currency and a secondary display currency; European Central Bank rates are cached for offline use.
+
+PRIVATE BY DESIGN
+• Your ledger never leaves your device. There is no server to receive it.
+• Optional app lock with biometrics or PIN.
+• Encrypted, password-protected backups you can store anywhere, plus a silent daily on-device backup.
+• CSV import and export for spreadsheets.
+
+HOME SCREEN
+Widgets show your upcoming balances at a glance, and quick actions add a transaction in one tap.
+
+Available in 21 languages.

@@ -1874,11 +1874,11 @@ class AppLocalizationsTr extends AppLocalizations {
       'Seçilen veriler kalıcı olarak silinecek. Daha sonra ihtiyacınız olursa önce bir yedeği dışa aktarın.';
 
   @override
-  String get clearDataTypeConfirm => 'Onaylamak için DELETE yazın';
+  String get clearDataTypeConfirm => 'Onaylamak için SİL yazın';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Devam etmek için tam olarak DELETE yazın';
+      'Devam etmek için tam olarak SİL yazın';
 
   @override
   String get clearDataPinTitle => 'PIN ile onayla';
@@ -2185,5 +2185,79 @@ class AppLocalizationsTr extends AppLocalizations {
       other: 'Vadesine $count gün var',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get aboutContactSupport => 'Destekle iletişime geç';
+
+  @override
+  String get aboutSupportEmailCopied => 'Destek e-posta adresi kopyalandı';
+
+  @override
+  String get onboardingWelcomeTitle => 'Platrare’ye hoş geldiniz';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Paranız bu cihazda kalır. Hesap yok, reklam yok, izleme yok.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Yaklaşan ve tekrarlayan ödemeleri planlayın, bakiyelerinizin nereye gittiğini görün.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Gelir, gider, transfer ve borç alıp verdiklerinizi kaydedin.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Hesaplarınız, hesaplaştığınız kişiler ve işletmeler için istatistik, karşılaştırma ve geçmiş.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Temel para birimi';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Cihaz dilinize göre önerildi. Daha sonra Ayarlar’dan değiştirebilirsiniz.';
+
+  @override
+  String get onboardingStart => 'Başla';
+
+  @override
+  String get onboardingTour => 'Bana uygulamayı göster';
+
+  @override
+  String get clearDataConfirmWord => 'SİL';
+
+  @override
+  String get planDeleteTitle => 'Planlanan işlem silinsin mi?';
+
+  @override
+  String get planDeleteBody =>
+      'Planınızdan kaldırılacak. Hesap bakiyeleriniz etkilenmez.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Önceki dönem';
+
+  @override
+  String get semanticsNextPeriod => 'Sonraki dönem';
+
+  @override
+  String get semanticsSectionStatistics => 'İstatistikler';
+
+  @override
+  String get semanticsCurrencyToggle => 'Görüntüleme para birimini değiştir';
+
+  @override
+  String get semanticsStatsSpent => 'Harcanan';
+
+  @override
+  String get semanticsStatsReceived => 'Alınan';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Geçmişten yeniden hesapla';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count hesap bakiyesi geçmişten yeniden hesaplandı';
   }
 }

@@ -1,0 +1,7 @@
+First public release.
+• Plan repeating transactions and see projected balances.
+• Track income, expenses, transfers and debts with categories and attachments.
+• Review statistics, comparisons and per-account history.
+• Multi-currency with offline exchange-rate cache.
+• App lock, encrypted backups, CSV import and export.
+• Home-screen widgets, quick actions and reminders.

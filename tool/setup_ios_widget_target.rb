@@ -20,7 +20,9 @@ EXT_DIR     = File.join(ROOT, 'ios', EXT_NAME)
 SHARED_DIR  = File.join(ROOT, 'ios', 'Shared')
 APP_BUNDLE  = 'com.platrare.app'
 EXT_BUNDLE  = "#{APP_BUNDLE}.#{EXT_NAME}"
-TEAM        = 'XSM926WBNS'
+# Must match DEVELOPMENT_TEAM in ios/Runner.xcodeproj/project.pbxproj; a
+# stale value here silently re-signs the widget with the wrong team.
+TEAM        = 'XAU336YV25'
 APP_GROUP   = 'group.com.platrare.app'
 
 project = Xcodeproj::Project.open(PROJECT)

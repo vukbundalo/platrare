@@ -58,8 +58,8 @@ class DayGroupedPlanned {
 }
 
 /// Lazy-load day sections when "all time" would create many slivers.
-bool shouldLazyLoadDaySections(String? dateFilter, int dayCount) =>
-    dateFilter == 'all' && dayCount > 10;
+bool shouldLazyLoadDaySections(bool allTime, int dayCount) =>
+    allTime && dayCount > 10;
 
 const kLazyDayInitialCount = 28;
 const kLazyDayLoadBatch = 24;

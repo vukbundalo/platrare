@@ -6,11 +6,10 @@ void main() {
   group('isAccountDuplicate', () {
     test('allows same name when identifier differs from existing rows', () {
       final accounts = <Account>[
-        Account(name: 'Cash', currencyCode: 'BAM'),
+        Account(name: 'Cash'),
         Account(
           name: 'Cash',
           institution: 'Intesa',
-          currencyCode: 'BAM',
         ),
       ];
       expect(
@@ -25,7 +24,7 @@ void main() {
     });
 
     test('rejects same name and both without identifier', () {
-      final a = Account(name: 'Cash', currencyCode: 'BAM');
+      final a = Account(name: 'Cash');
       final b = Account(name: 'Cash', currencyCode: 'EUR');
       expect(
         isAccountDuplicate('Cash', null, [a, b], exceptAccountId: a.id),
@@ -45,7 +44,6 @@ void main() {
         Account(
           name: 'Debit',
           institution: 'Intesa Bank',
-          currencyCode: 'BAM',
         ),
       ];
       expect(
@@ -59,7 +57,6 @@ void main() {
         Account(
           name: 'Debit',
           institution: 'Intesa',
-          currencyCode: 'BAM',
         ),
       ];
       expect(

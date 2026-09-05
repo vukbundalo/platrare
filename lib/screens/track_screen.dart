@@ -1,52 +1,45 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
+import '../data/app_signals.dart';
 import '../data/balance_privacy_prefs.dart';
 import '../data/data_repository.dart';
+import '../data/ledger_service.dart';
 import '../data/user_settings.dart' as settings;
+import '../help/help_tour.dart';
+import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../models/transaction.dart';
-import '../l10n/app_localizations.dart';
+import '../theme/ledger_colors.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
+import '../utils/period_filter.dart';
 import '../utils/persistence_guard.dart';
 import '../utils/projections.dart' as proj;
-import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
-import '../help/help_tour.dart';
+import '../widgets/app_hero_layout.dart';
+import '../widgets/stacked_scroll_fab.dart';
+import '../widgets/track_plan_filter_ui.dart';
 import 'new_transaction_screen.dart';
 import 'review_screen.dart' show AccountFormSheet;
 import 'settings_screen.dart';
 import 'transaction_detail_screen.dart';
-import '../widgets/app_hero_layout.dart';
-import '../widgets/stacked_scroll_fab.dart';
-import '../widgets/track_plan_filter_ui.dart';
 
 class TrackScreen extends StatefulWidget {
-  final VoidCallback? onChanged;
-  const TrackScreen({super.key, this.onChanged});
+  const TrackScreen({super.key});
 
   @override
   State<TrackScreen> createState() => _TrackScreenState();
 }
 
 // Type-group strings used by the filter.
-const _kTypeIncome   = 'income';
-const _kTypeExpense  = 'expense';
-const _kTypeTransfer = 'transfer';
-
-bool _inGroup(TxType t, String group) => switch (group) {
-  _kTypeIncome   => const {TxType.income, TxType.collection, TxType.loan, TxType.invoice}.contains(t),
-  _kTypeExpense  => const {TxType.expense, TxType.bill, TxType.settlement, TxType.advance}.contains(t),
-  _kTypeTransfer => const {TxType.transfer, TxType.offset}.contains(t),
-  _ => true,
-};
-
 class _TrackScreenState extends State<TrackScreen> {
   // ── Pagination ──────────────────────────────────────────────────────────────
   final _scrollController = ScrollController();
@@ -57,12 +50,11 @@ class _TrackScreenState extends State<TrackScreen> {
   int? _trackLazyListSig;
 
   // ── Filters ─────────────────────────────────────────────────────────────────
-  String? _typeFilter;      // _kTypeIncome / _kTypeExpense / _kTypeTransfer
+  TxTypeGroup? _typeFilter;
   Account? _accountFilter;
   String? _categoryFilter;
   /// null = all time (default); UI cycles day/week/month/year.
-  String? _dateFilter;
-  DateTime _dateAnchor = DateTime.now();
+  PeriodFilter _period = PeriodFilter.allTime();
   bool _newestFirst = true;
   /// Filter strips below the hero: account and category can both be open on Track.
   bool _accountStripOpen = false;
@@ -108,7 +100,7 @@ class _TrackScreenState extends State<TrackScreen> {
       _typeFilter != null ||
       _accountFilter != null ||
       _categoryFilter != null ||
-      _dateFilter != null ||
+      !_period.isAllTime ||
       !_newestFirst ||
       _searchQuery.trim().isNotEmpty;
 
@@ -116,8 +108,7 @@ class _TrackScreenState extends State<TrackScreen> {
         _typeFilter = null;
         _accountFilter = null;
         _categoryFilter = null;
-        _dateFilter = null;
-        _dateAnchor = DateTime.now();
+        _period = PeriodFilter.allTime();
         _newestFirst = true;
         _accountStripOpen = false;
         _categoryStripOpen = false;
@@ -147,8 +138,7 @@ class _TrackScreenState extends State<TrackScreen> {
         _typeFilter = null;
         _accountFilter = null;
         _categoryFilter = null;
-        _dateFilter = null;
-        _dateAnchor = DateTime.now();
+        _period = PeriodFilter.allTime();
         _newestFirst = true;
         _searchQuery = '';
         _searchController.clear();
@@ -164,136 +154,15 @@ class _TrackScreenState extends State<TrackScreen> {
         _categoryStripOpen = !_categoryStripOpen;
       });
 
-  void _cycleTypeFilter() => setState(() {
-        if (_typeFilter == null) {
-          _typeFilter = _kTypeIncome;
-        } else if (_typeFilter == _kTypeIncome) {
-          _typeFilter = _kTypeExpense;
-        } else if (_typeFilter == _kTypeExpense) {
-          _typeFilter = _kTypeTransfer;
-        } else {
-          _typeFilter = null;
-        }
-      });
-
-  /// Cycles: all time (null) → day → week → month → year → null.
-  void _cycleDateFilter() => setState(() {
-        if (_dateFilter == null) {
-          _dateFilter = 'day';
-          _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'day') {
-          _dateFilter = 'week';
-          _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'week') {
-          _dateFilter = 'month';
-          _dateAnchor = DateTime.now();
-        } else if (_dateFilter == 'month') {
-          _dateFilter = 'year';
-          _dateAnchor = DateTime.now();
-        } else {
-          _dateFilter = null;
-        }
-      });
+  void _cycleTypeFilter() =>
+      setState(() => _typeFilter = TxTypeGroup.next(_typeFilter));
 
   void _toggleSort() => setState(() => _newestFirst = !_newestFirst);
-
-  bool get _hasNavigableDateFilter =>
-      _dateFilter == 'day' ||
-      _dateFilter == 'week' ||
-      _dateFilter == 'month' ||
-      _dateFilter == 'year';
-
-  /// Default (no filter) shows the ∞ icon — the Track list is all-time.
-  String? get _dateChipModeLetter => switch (_dateFilter) {
-        'day' => 'D',
-        'week' => 'W',
-        'month' => 'M',
-        'year' => 'Y',
-        _ => '∞',
-      };
-
-  void _navigateDate(int direction) {
-    setState(() {
-      var next = switch (_dateFilter) {
-        'day' => DateTime(_dateAnchor.year, _dateAnchor.month,
-            _dateAnchor.day + direction),
-        'week' => DateTime(_dateAnchor.year, _dateAnchor.month,
-            _dateAnchor.day + direction * 7),
-        'month' => DateTime(_dateAnchor.year, _dateAnchor.month + direction,
-            _dateAnchor.day),
-        'year' => DateTime(_dateAnchor.year + direction, _dateAnchor.month,
-            _dateAnchor.day),
-        _ => _dateAnchor,
-      };
-      if (_dateFilter == 'day') {
-        final today = DateUtils.dateOnly(DateTime.now());
-        final n = DateUtils.dateOnly(next);
-        if (n.isAfter(today)) next = _dateAnchor;
-      }
-      _dateAnchor = next;
-    });
-  }
-
-  bool get _canNavigateDateForward {
-    final now = DateTime.now();
-    return switch (_dateFilter) {
-      'day' => DateUtils.dateOnly(_dateAnchor)
-          .isBefore(DateUtils.dateOnly(now)),
-      'week' => () {
-          final a = _dateAnchor;
-          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
-          final nMon =
-              DateTime(now.year, now.month, now.day - (now.weekday - 1));
-          return mon.isBefore(nMon);
-        }(),
-      'month' => DateTime(_dateAnchor.year, _dateAnchor.month)
-          .isBefore(DateTime(now.year, now.month)),
-      'year' => _dateAnchor.year < now.year,
-      _ => true,
-    };
-  }
-
-  /// Inclusive start / exclusive end for the selected date period.
-  (DateTime, DateTime) get _dateRange {
-    final a = _dateAnchor;
-    return switch (_dateFilter) {
-      'day' => (
-          DateTime(a.year, a.month, a.day),
-          DateTime(a.year, a.month, a.day + 1),
-        ),
-      'week' => () {
-          final mon =
-              DateTime(a.year, a.month, a.day - (a.weekday - 1));
-          return (mon, DateTime(mon.year, mon.month, mon.day + 7));
-        }(),
-      'month' => (DateTime(a.year, a.month), DateTime(a.year, a.month + 1)),
-      'year' => (DateTime(a.year), DateTime(a.year + 1)),
-      _ => (DateTime(0), DateTime(9999)),
-    };
-  }
-
-  /// Human-readable label for the current date anchor + period.
-  String _dateLabel(BuildContext context) {
-    final a = _dateAnchor;
-    return switch (_dateFilter) {
-      'day' => formatAppDate(context, 'EEE, d MMM yyyy', a),
-      'week' => () {
-          final mon = DateTime(a.year, a.month, a.day - (a.weekday - 1));
-          final sun = DateTime(mon.year, mon.month, mon.day + 6);
-          final sameMon = mon.month == sun.month;
-          return sameMon
-              ? '${formatAppDate(context, 'd', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}'
-              : '${formatAppDate(context, 'd MMM', mon)} – ${formatAppDate(context, 'd MMM yyyy', sun)}';
-        }(),
-      'month' => formatAppDate(context, 'MMMM yyyy', a),
-      'year' => formatAppDate(context, 'yyyy', a),
-      _ => '',
-    };
-  }
 
   @override
   void initState() {
     super.initState();
+    ledgerRevision.addListener(_onLedgerChanged);
     _scrollController.addListener(_onScrollControllerChanged);
   }
 
@@ -318,34 +187,49 @@ class _TrackScreenState extends State<TrackScreen> {
   }
 
   void _onTrackScrollLoadMoreDays() {
-    if (_dateFilter != null) return;
+    if (!_period.isAllTime) return;
     if (!_scrollController.hasClients) return;
     final pos = _scrollController.position;
     if (!pos.hasPixels || !pos.hasContentDimensions) return;
     if (pos.pixels < pos.maxScrollExtent - 360) return;
 
-    final g = DayGroupedTransactions.build(
-        _applySearch(_baseFilteredTx, context), _newestFirst);
-    if (!shouldLazyLoadDaySections('all', g.dayKeys.length)) return;
-    if (_visibleTrackDaySlots >= g.dayKeys.length) return;
+    final dayCount = _lastTrackDayCount;
+    if (!shouldLazyLoadDaySections(true, dayCount)) return;
+    if (_visibleTrackDaySlots >= dayCount) return;
 
     setState(() {
       _visibleTrackDaySlots = math.min(
         _visibleTrackDaySlots + kLazyDayLoadBatch,
-        g.dayKeys.length,
+        dayCount,
       );
     });
   }
 
-  void _syncTrackLazyWindowSignature() {
+  Timer? _searchDebounce;
+
+  /// Every keystroke used to rebuild the whole list (filter, regroup, and one
+  /// ledger replay per visible day). Settle the query first.
+  void _onSearchChanged(String v) {
+    _searchDebounce?.cancel();
+    _searchDebounce = Timer(const Duration(milliseconds: 220), () {
+      if (!mounted || _searchQuery == v) return;
+      setState(() => _searchQuery = v);
+    });
+  }
+
+  /// Day-section count from the last build; the scroll handler reads it
+  /// instead of regrouping every transaction on each scroll tick.
+  int _lastTrackDayCount = 0;
+
+  void _syncTrackLazyWindowSignature(int baseCount) {
     final sig = Object.hash(
-      _dateFilter,
+      _period,
       _typeFilter,
       _accountFilter?.id,
       _categoryFilter,
       _newestFirst,
       _searchQuery,
-      _baseFilteredTx.length,
+      baseCount,
       data.transactions.length,
     );
     if (_trackLazyListSig != sig) {
@@ -354,26 +238,34 @@ class _TrackScreenState extends State<TrackScreen> {
     }
   }
 
+  /// Any ledger mutation anywhere (other tabs, Settings, imports, a
+  /// recovery reload) re-renders this tab; no callback chain needed.
+  void _onLedgerChanged() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
+    ledgerRevision.removeListener(_onLedgerChanged);
+    _searchDebounce?.cancel();
     _scrollController.removeListener(_onScrollControllerChanged);
     _scrollController.dispose();
     _searchController.dispose();
     super.dispose();
   }
 
-  /// Income and expense totals reflecting the current filter/window.
-  ({double totalIn, double totalOut}) get _periodTotals {
-    final source = _baseFilteredTx;
+  /// Income and expense totals for [source] (the filtered window).
+  ({double totalIn, double totalOut}) _periodTotalsFor(
+      List<Transaction> source) {
     double totalIn = 0, totalOut = 0;
     for (final t in source) {
       final type = t.txType ??
           classifyTransaction(from: t.fromAccount, to: t.toAccount);
       final base = fx.toBase(
           t.nativeAmount ?? 0, t.currencyCode ?? settings.baseCurrency);
-      if (_inGroup(type, _kTypeIncome)) {
+      if (TxTypeGroup.income.contains(type)) {
         totalIn += base;
-      } else if (_inGroup(type, _kTypeExpense)) {
+      } else if (TxTypeGroup.expense.contains(type)) {
         totalOut += base;
       }
     }
@@ -383,10 +275,10 @@ class _TrackScreenState extends State<TrackScreen> {
   /// Filters only (no text search). Used for hero totals and lazy-load signature.
   List<Transaction> get _baseFilteredTx {
     Iterable<Transaction> source;
-    if (_dateFilter == null) {
+    if (_period.isAllTime) {
       source = data.transactions;
     } else {
-      final (start, end) = _dateRange;
+      final (start, end) = _period.range;
       source = data.transactions.where(
           (t) => !t.date.isBefore(start) && t.date.isBefore(end));
     }
@@ -395,7 +287,7 @@ class _TrackScreenState extends State<TrackScreen> {
       source = source.where((t) {
         final type = t.txType ??
             classifyTransaction(from: t.fromAccount, to: t.toAccount);
-        return _inGroup(type, _typeFilter!);
+        return _typeFilter!.contains(type);
       });
     }
 
@@ -458,12 +350,10 @@ class _TrackScreenState extends State<TrackScreen> {
       if (!await guardPersist(context, () => DataRepository.addAccount(result))) {
         if (mounted) {
           setState(() {});
-          widget.onChanged?.call();
         }
         return;
       }
       if (mounted) setState(() {});
-      widget.onChanged?.call();
     }
   }
 
@@ -474,7 +364,6 @@ class _TrackScreenState extends State<TrackScreen> {
     );
     if (result == true) {
       setState(() {});
-      widget.onChanged?.call();
     }
   }
 
@@ -485,14 +374,13 @@ class _TrackScreenState extends State<TrackScreen> {
     );
     if (result == true) {
       setState(() {});
-      widget.onChanged?.call();
     }
   }
 
   void _openTransactionDetail(Transaction t) {
     Navigator.push(
       context,
-      MaterialPageRoute(
+      MaterialPageRoute<void>(
         builder: (_) => TransactionDetailScreen(
           transaction: t,
           onEdit: () => _editTransaction(t),
@@ -504,24 +392,15 @@ class _TrackScreenState extends State<TrackScreen> {
 
   Future<void> _deleteTransaction(Transaction t) async {
     final index = data.transactions.indexOf(t);
-    if (t.nativeAmount != null) {
-      if (t.fromAccount != null) t.fromAccount!.balance += t.nativeAmount!;
-      if (t.toAccount != null) {
-        t.toAccount!.balance -=
-            (t.destinationAmount ?? t.nativeAmount!);
-      }
-    }
-    if (!await guardPersist(context, () => DataRepository.removeTransaction(t))) {
+    if (!await guardPersist(context, () => LedgerService.remove(t))) {
       if (mounted) {
         setState(() {});
-        widget.onChanged?.call();
       }
       return;
     }
     if (!mounted) return;
     setState(() {});
-    widget.onChanged?.call();
-    HapticFeedback.mediumImpact();
+    unawaited(HapticFeedback.mediumImpact());
     final messenger = ScaffoldMessenger.of(context);
     messenger.clearSnackBars();
     messenger.showSnackBar(
@@ -537,27 +416,16 @@ class _TrackScreenState extends State<TrackScreen> {
           label: AppLocalizations.of(context).undo,
           onPressed: () async {
             messenger.clearSnackBars();
-            if (t.nativeAmount != null) {
-              if (t.fromAccount != null) {
-                t.fromAccount!.balance -= t.nativeAmount!;
-              }
-              if (t.toAccount != null) {
-                t.toAccount!.balance +=
-                    (t.destinationAmount ?? t.nativeAmount!);
-              }
-            }
             final insertAt = index < 0 ? 0 : index.clamp(0, data.transactions.length);
             if (!await guardPersist(
                 context,
-                () => DataRepository.insertTransactionAt(insertAt, t))) {
+                () => LedgerService.restoreAt(insertAt, t))) {
               if (mounted) {
                 setState(() {});
-                widget.onChanged?.call();
               }
               return;
             }
             if (mounted) setState(() {});
-            widget.onChanged?.call();
           },
         ),
       ),
@@ -658,10 +526,9 @@ class _TrackScreenState extends State<TrackScreen> {
               onPressed: () async {
                 await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const SettingsScreen()),
+                  MaterialPageRoute<void>(builder: (_) => const SettingsScreen()),
                 );
                 if (mounted) setState(() {});
-                widget.onChanged?.call();
               },
             ),
           ],
@@ -679,9 +546,9 @@ class _TrackScreenState extends State<TrackScreen> {
               onToggleCategoryPanel: _toggleCategoryStrip,
               typeFilter: _typeFilter,
               onCycleType: _cycleTypeFilter,
-              dateModeLetter: _dateChipModeLetter,
-              dateFilterActive: _dateFilter != null,
-              onCycleDate: _cycleDateFilter,
+              dateModeLetter: _period.chipLetter,
+              dateFilterActive: !_period.isAllTime,
+              onCycleDate: () => setState(() => _period = _period.cycled()),
               accountFilter: _accountFilter,
               categoryFilter: _categoryFilter,
               newestFirst: _newestFirst,
@@ -691,15 +558,15 @@ class _TrackScreenState extends State<TrackScreen> {
             ),
           ),
         ),
-        if (trackChipsEnabled && _hasNavigableDateFilter)
+        if (trackChipsEnabled && _period.isNavigable)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
               child: TrackPlanDateNavBar(
-                label: _dateLabel(context),
-                onNavigateBack: () => _navigateDate(-1),
-                onNavigateForward: _canNavigateDateForward
-                    ? () => _navigateDate(1)
+                label: _period.label(context),
+                onNavigateBack: () => setState(() => _period = _period.navigated(-1, latest: DateTime.now())),
+                onNavigateForward: _period.canNavigateForward(latest: DateTime.now())
+                    ? () => setState(() => _period = _period.navigated(1, latest: DateTime.now()))
                     : null,
               ),
             ),
@@ -804,17 +671,20 @@ class _TrackScreenState extends State<TrackScreen> {
             ? l10n.semanticsFiltersDisabledNeedRecordedTransaction
             : l10n.semanticsFiltersDisabled;
     final isFiltered = _hasActiveFilter;
-    final displayTx = _applySearch(_baseFilteredTx, context);
-    final totals = _periodTotals;
+    // Filter once per frame; the getter allocates a fresh list each call.
+    final baseTx = _baseFilteredTx;
+    final displayTx = _applySearch(baseTx, context);
+    final totals = _periodTotalsFor(baseTx);
 
-    _syncTrackLazyWindowSignature();
+    _syncTrackLazyWindowSignature(baseTx.length);
     final dayBundle =
         DayGroupedTransactions.build(displayTx, _newestFirst);
     final days = dayBundle.dayKeys;
+    _lastTrackDayCount = days.length;
     final grouped = dayBundle.grouped;
     // Track's default (null) date filter is all-time — lazy-load it like 'all'.
     final lazyDays =
-        shouldLazyLoadDaySections(_dateFilter ?? 'all', days.length);
+        shouldLazyLoadDaySections(_period.isAllTime, days.length);
     final visibleDayCount = lazyDays
         ? math.min(_visibleTrackDaySlots, days.length)
         : days.length;
@@ -837,10 +707,9 @@ class _TrackScreenState extends State<TrackScreen> {
               onPressed: () async {
                 await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const SettingsScreen()),
+                  MaterialPageRoute<void>(builder: (_) => const SettingsScreen()),
                 );
                 if (mounted) setState(() {});
-                widget.onChanged?.call();
               },
             ),
           ],
@@ -858,9 +727,9 @@ class _TrackScreenState extends State<TrackScreen> {
               onToggleCategoryPanel: _toggleCategoryStrip,
               typeFilter: _typeFilter,
               onCycleType: _cycleTypeFilter,
-              dateModeLetter: _dateChipModeLetter,
-              dateFilterActive: _dateFilter != null,
-              onCycleDate: _cycleDateFilter,
+              dateModeLetter: _period.chipLetter,
+              dateFilterActive: !_period.isAllTime,
+              onCycleDate: () => setState(() => _period = _period.cycled()),
               accountFilter: _accountFilter,
               categoryFilter: _categoryFilter,
               newestFirst: _newestFirst,
@@ -870,15 +739,15 @@ class _TrackScreenState extends State<TrackScreen> {
             ),
           ),
         ),
-        if (trackChipsEnabled && _hasNavigableDateFilter)
+        if (trackChipsEnabled && _period.isNavigable)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
               child: TrackPlanDateNavBar(
-                label: _dateLabel(context),
-                onNavigateBack: () => _navigateDate(-1),
-                onNavigateForward: _canNavigateDateForward
-                    ? () => _navigateDate(1)
+                label: _period.label(context),
+                onNavigateBack: () => setState(() => _period = _period.navigated(-1, latest: DateTime.now())),
+                onNavigateForward: _period.canNavigateForward(latest: DateTime.now())
+                    ? () => setState(() => _period = _period.navigated(1, latest: DateTime.now()))
                     : null,
               ),
             ),
@@ -909,7 +778,7 @@ class _TrackScreenState extends State<TrackScreen> {
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
             child: TextField(
               controller: _searchController,
-              onChanged: (v) => setState(() => _searchQuery = v),
+              onChanged: _onSearchChanged,
               decoration: InputDecoration(
                 hintText: l10n.trackSearchHint,
                 prefixIcon: const Icon(Icons.search_rounded, size: 22),
@@ -971,7 +840,6 @@ class _TrackScreenState extends State<TrackScreen> {
                   onToggleHistoryDay: _toggleTrackHistoryDay,
                   onRefresh: () {
                     setState(() {});
-                    widget.onChanged?.call();
                   },
                   onEdit: _editTransaction,
                   onTap: _openTransactionDetail,
@@ -999,7 +867,7 @@ class _TrackHero extends StatelessWidget {
   final bool categoryPanelOpen;
   final VoidCallback onToggleAccountPanel;
   final VoidCallback onToggleCategoryPanel;
-  final String? typeFilter;
+  final TxTypeGroup? typeFilter;
   final VoidCallback onCycleType;
   /// `D` / `W` / `M` / `Y` when that period mode is active; `∞` → all time.
   final String? dateModeLetter;
@@ -1040,8 +908,8 @@ class _TrackHero extends StatelessWidget {
     final lc = context.ledgerColors;
     final l10n = AppLocalizations.of(context);
     final sym = fx.currencySymbol(settings.baseCurrency);
-    final inStr = '+${totalIn.toStringAsFixed(2)} $sym';
-    final outStr = '-${totalOut.toStringAsFixed(2)} $sym';
+    final inStr = '+${formatBalanceAmount(totalIn)} $sym';
+    final outStr = '-${formatBalanceAmount(totalOut)} $sym';
     final inStyle = TextStyle(
       fontSize: AppHeroConstants.primaryAmountFontSize,
       fontWeight: FontWeight.w800,
@@ -1199,18 +1067,23 @@ class _DaySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final historicalBals = proj.historicalBalances(date);
-    final gainIds = <String>{
-      for (final t in transactions)
-        if (t.toAccount != null) t.toAccount!.id,
-    };
-    final loseIds = <String>{
-      for (final t in transactions)
-        if (t.fromAccount != null) t.fromAccount!.id,
-    };
     final dOnly = DateUtils.dateOnly(date);
     final historyOpen = expandedHistoryDay != null &&
         DateUtils.isSameDay(expandedHistoryDay!, dOnly);
+    // historicalBalances replays every transaction after [date]; with N
+    // visible days that was N full passes per rebuild, panel open or not.
+    final historicalBals =
+        historyOpen ? proj.historicalBalances(date) : const <String, double>{};
+    final gainIds = <String>{
+      if (historyOpen)
+        for (final t in transactions)
+          if (t.toAccount != null) t.toAccount!.id,
+    };
+    final loseIds = <String>{
+      if (historyOpen)
+        for (final t in transactions)
+          if (t.fromAccount != null) t.fromAccount!.id,
+    };
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1352,23 +1225,13 @@ class _TransactionTile extends StatelessWidget {
   Future<void> _delete(BuildContext context) async {
     final t = transaction;
     final index = data.transactions.indexOf(t);
-    if (t.nativeAmount != null) {
-      // Reverse the balance changes in each account's native currency.
-      if (t.fromAccount != null) t.fromAccount!.balance += t.nativeAmount!;
-      // Rule 4: cross-currency moves used destinationAmount for the receiving
-      // account — reverse the same amount.
-      if (t.toAccount != null) {
-        t.toAccount!.balance -=
-            (t.destinationAmount ?? t.nativeAmount!);
-      }
-    }
-    if (!await guardPersist(context, () => DataRepository.removeTransaction(t))) {
+    if (!await guardPersist(context, () => LedgerService.remove(t))) {
       if (context.mounted) onRefresh();
       return;
     }
     if (!context.mounted) return;
     onRefresh();
-    HapticFeedback.mediumImpact();
+    unawaited(HapticFeedback.mediumImpact());
     final messenger = ScaffoldMessenger.of(context);
     messenger.clearSnackBars();
     messenger.showSnackBar(
@@ -1384,19 +1247,10 @@ class _TransactionTile extends StatelessWidget {
           label: AppLocalizations.of(context).undo,
           onPressed: () async {
             messenger.clearSnackBars();
-            if (t.nativeAmount != null) {
-              if (t.fromAccount != null) {
-                t.fromAccount!.balance -= t.nativeAmount!;
-              }
-              if (t.toAccount != null) {
-                t.toAccount!.balance +=
-                    (t.destinationAmount ?? t.nativeAmount!);
-              }
-            }
             final insertAt = index < 0 ? 0 : index.clamp(0, data.transactions.length);
             if (!await guardPersist(
                 context,
-                () => DataRepository.insertTransactionAt(insertAt, t))) {
+                () => LedgerService.restoreAt(insertAt, t))) {
               if (context.mounted) onRefresh();
               return;
             }
@@ -1408,7 +1262,7 @@ class _TransactionTile extends StatelessWidget {
   }
 
   void _confirmDelete(BuildContext context) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         shape:

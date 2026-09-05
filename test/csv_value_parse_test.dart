@@ -49,9 +49,9 @@ void main() {
 
   group('parseCsvDate', () {
     test('ISO forms, with or without a time suffix', () {
-      expect(parseCsvDate('2026-07-01'), DateTime(2026, 7, 1));
-      expect(parseCsvDate('2026/07/01'), DateTime(2026, 7, 1));
-      expect(parseCsvDate('2026-07-01T10:30:00'), DateTime(2026, 7, 1));
+      expect(parseCsvDate('2026-07-01'), DateTime(2026, 7));
+      expect(parseCsvDate('2026/07/01'), DateTime(2026, 7));
+      expect(parseCsvDate('2026-07-01T10:30:00'), DateTime(2026, 7));
     });
 
     test('resolves by magnitude when one component exceeds 12', () {
@@ -81,8 +81,8 @@ void main() {
     });
 
     test('expands two-digit years', () {
-      expect(parseCsvDate('01/02/99'), DateTime(1999, 2, 1));
-      expect(parseCsvDate('01/02/26'), DateTime(2026, 2, 1));
+      expect(parseCsvDate('01/02/99'), DateTime(1999, 2));
+      expect(parseCsvDate('01/02/26'), DateTime(2026, 2));
     });
 
     test('rejects impossible dates instead of rolling over', () {

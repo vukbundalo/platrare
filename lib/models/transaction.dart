@@ -1,6 +1,18 @@
 import 'package:uuid/uuid.dart';
 import 'account.dart';
 
+/// Amount the destination account receives: the locked cross-currency
+/// [Transaction.destinationAmount] when present, otherwise the native amount.
+///
+/// The single credit rule. Posting, reversal, ledger verification and
+/// projections all go through it; three slightly different copies used to
+/// exist.
+double creditAmountOf({
+  required double nativeAmount,
+  double? destinationAmount,
+}) =>
+    destinationAmount ?? nativeAmount;
+
 class Transaction {
   final String id;
 

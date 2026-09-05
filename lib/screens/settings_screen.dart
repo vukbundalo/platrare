@@ -1,33 +1,36 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+
 import '../data/app_data.dart' as data;
-import '../theme/ledger_colors.dart';
 import '../data/auto_backup_service.dart';
 import '../data/backup_export_reminder_prefs.dart';
 import '../data/balance_privacy_prefs.dart';
-import '../data/data_repository.dart';
-import '../data/data_transfer.dart';
 import '../data/currency_localized_names.dart';
 import '../data/currency_prefs.dart';
+import '../data/data_repository.dart';
+import '../data/data_transfer.dart';
 import '../data/fx_service.dart';
 import '../data/locale_prefs.dart';
 import '../data/planned_reminder_prefs.dart';
 import '../data/planned_reminder_service.dart';
 import '../data/security_prefs.dart';
 import '../data/theme_prefs.dart';
-import '../data/widget_prefs.dart';
 import '../data/user_settings.dart' as settings;
-import '../utils/account_display.dart';
-import '../utils/app_format.dart';
+import '../data/widget_prefs.dart';
+import '../help/help_tour.dart';
 import '../l10n/app_localizations.dart';
 import '../l10n/supported_languages.dart';
 import '../models/account.dart';
-import '../utils/fx.dart' as fx;
+import '../theme/ledger_colors.dart';
+import '../utils/account_display.dart';
+import '../utils/app_format.dart';
 import '../utils/csv_transfer_flow.dart';
+import '../utils/fx.dart' as fx;
 import '../utils/manual_backup_export_flow.dart';
-import '../widgets/ledger_verify_dialog.dart';
 import '../utils/persistence_guard.dart';
-import '../help/help_tour.dart';
+import '../widgets/currency_picker_sheet.dart';
+import '../widgets/ledger_verify_dialog.dart';
 import 'app_about_screen.dart';
 import 'privacy_policy_screen.dart';
 
@@ -896,7 +899,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 isScrollControlled: true,
                 useSafeArea: true,
                 builder: (_) =>
-                    _CurrencyPickerSheet(current: settings.baseCurrency),
+                    CurrencyPickerSheet(current: settings.baseCurrency),
               );
               if (picked != null) {
                 setState(() => settings.baseCurrency = picked);
@@ -917,7 +920,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 isScrollControlled: true,
                 useSafeArea: true,
                 builder: (_) =>
-                    _CurrencyPickerSheet(current: settings.secondaryCurrency),
+                    CurrencyPickerSheet(current: settings.secondaryCurrency),
               );
               if (picked != null) {
                 setState(() => settings.secondaryCurrency = picked);
@@ -1368,7 +1371,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(
+                MaterialPageRoute<void>(
                     builder: (_) => const CategoriesScreen()),
               );
               setState(() {});
@@ -1637,6 +1640,18 @@ class _ClearDataTypeDeleteDialogState extends State<_ClearDataTypeDeleteDialog> 
     super.dispose();
   }
 
+  /// The localized word (e.g. LÖSCHEN), compared case-insensitively in both
+  /// directions so locale-specific casing (Turkish İ) cannot lock a user
+  /// out; the English word is always accepted as well.
+  static bool _matchesConfirmWord(String input, String word) {
+    final t = input.trim();
+    if (t.isEmpty) return false;
+    bool eq(String a, String b) =>
+        a == b || a.toUpperCase() == b.toUpperCase() ||
+        a.toLowerCase() == b.toLowerCase();
+    return eq(t, word) || eq(t, 'DELETE');
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
@@ -1655,7 +1670,7 @@ class _ClearDataTypeDeleteDialogState extends State<_ClearDataTypeDeleteDialog> 
               autocorrect: false,
               decoration: InputDecoration(
                 labelText: l10n.clearDataTypeConfirm,
-                hintText: 'DELETE',
+                hintText: l10n.clearDataConfirmWord,
                 errorText: _error,
               ),
             ),
@@ -1673,7 +1688,7 @@ class _ClearDataTypeDeleteDialogState extends State<_ClearDataTypeDeleteDialog> 
             foregroundColor: cs.onError,
           ),
           onPressed: () {
-            if (_ctrl.text.trim() == 'DELETE') {
+            if (_matchesConfirmWord(_ctrl.text, l10n.clearDataConfirmWord)) {
               Navigator.pop(context, true);
             } else {
               setState(() => _error = l10n.clearDataTypeConfirmError);
@@ -1979,8 +1994,16 @@ class _ArchivedAccountsScreenState extends State<ArchivedAccountsScreen> {
                     title: Text(accountDisplayName(a)),
                     subtitle: Text(_groupLabel(a.group, l10n)),
                     trailing: TextButton(
-                      onPressed: () {
-                        setState(() => a.archived = false);
+                      onPressed: () async {
+                        // Persist like AccountFormScreen._restoreArchived; a
+                        // setState-only flip was lost on the next launch.
+                        a.archived = false;
+                        final ok = await guardPersist(
+                          context,
+                          () => DataRepository.persistAccountFields(a),
+                        );
+                        if (!ok) a.archived = true;
+                        if (mounted) setState(() {});
                       },
                       child: Text(l10n.restore),
                     ),
@@ -2115,7 +2138,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       _showCategoryInUseDialog(category, targetList, usage);
       return;
     }
-    showDialog(
+    unawaited(showDialog<void>(
       context: context,
       builder: (ctx) {
         final l = AppLocalizations.of(ctx);
@@ -2154,7 +2177,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           ],
         );
       },
-    );
+    ));
   }
 
   void _showCategoryInUseDialog(
@@ -2162,7 +2185,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     List<String> targetList,
     int usage,
   ) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (ctx) {
         final l = AppLocalizations.of(ctx);
@@ -2267,133 +2290,6 @@ class _SectionLabel extends StatelessWidget {
 }
 
 // ─── Currency Picker Sheet ─────────────────────────────────────────────────────
-
-class _CurrencyPickerSheet extends StatefulWidget {
-  final String current;
-  const _CurrencyPickerSheet({required this.current});
-
-  @override
-  State<_CurrencyPickerSheet> createState() => _CurrencyPickerSheetState();
-}
-
-class _CurrencyPickerSheetState extends State<_CurrencyPickerSheet> {
-  final _searchController = TextEditingController();
-  String _query = '';
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final l10n = AppLocalizations.of(context);
-    final locale = Localizations.localeOf(context);
-    final filtered = settings.supportedCurrencies
-        .where((c) {
-          if (_query.isEmpty) return true;
-          final q = _query.toLowerCase();
-          final name = currencyDisplayName(c, locale).toLowerCase();
-          return c.toLowerCase().contains(q) || name.contains(q);
-        })
-        .toList();
-
-    return DraggableScrollableSheet(
-      expand: false,
-      initialChildSize: 0.7,
-      maxChildSize: 0.95,
-      builder: (ctx, ctrl) => Column(
-        children: [
-          const SizedBox(height: 8),
-          Container(
-            width: 36,
-            height: 4,
-            decoration: BoxDecoration(
-              color: cs.outlineVariant,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: TextField(
-              controller: _searchController,
-              autofocus: true,
-              decoration: InputDecoration(
-                hintText: l10n.searchCurrencies,
-                prefixIcon: const Icon(Icons.search_rounded, size: 20),
-                suffixIcon: _query.isNotEmpty
-                    ? IconButton(
-                        icon: const Icon(Icons.close_rounded, size: 18),
-                        onPressed: () => setState(() {
-                          _searchController.clear();
-                          _query = '';
-                        }),
-                      )
-                    : null,
-                isDense: true,
-                contentPadding: const EdgeInsets.symmetric(vertical: 10),
-              ),
-              onChanged: (v) => setState(() => _query = v),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Expanded(
-            child: ListView.builder(
-              controller: ctrl,
-              itemCount: filtered.length,
-              itemBuilder: (_, i) {
-                final code = filtered[i];
-                final name =
-                    currencyDisplayName(code, Localizations.localeOf(context));
-                final isSelected = code == widget.current;
-                return ListTile(
-                  leading: Container(
-                    width: 44,
-                    height: 34,
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? cs.primaryContainer
-                          : cs.surfaceContainerHighest,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        fx.currencySymbol(code),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 13,
-                          color:
-                              isSelected ? cs.primary : cs.onSurfaceVariant,
-                        ),
-                      ),
-                    ),
-                  ),
-                  title: Text(code,
-                      style: TextStyle(
-                          fontWeight: isSelected
-                              ? FontWeight.w700
-                              : FontWeight.w500,
-                          fontSize: 14)),
-                  subtitle: Text(name,
-                      style: TextStyle(
-                          fontSize: 12, color: cs.onSurfaceVariant)),
-                  trailing: isSelected
-                      ? Icon(Icons.check_rounded,
-                          color: cs.primary, size: 18)
-                      : null,
-                  onTap: () => Navigator.pop(ctx, code),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class _SubSection extends StatelessWidget {
   final String label;

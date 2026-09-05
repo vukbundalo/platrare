@@ -1872,10 +1872,10 @@ class AppLocalizationsAr extends AppLocalizations {
       'سيتم حذف البيانات المحددة نهائيًا. قم بتصدير نسخة احتياطية أولاً إذا كنت قد تحتاجها لاحقًا.';
 
   @override
-  String get clearDataTypeConfirm => 'اكتب DELETE للتأكيد';
+  String get clearDataTypeConfirm => 'اكتب حذف للتأكيد';
 
   @override
-  String get clearDataTypeConfirmError => 'اكتب DELETE بالضبط للمتابعة';
+  String get clearDataTypeConfirmError => 'اكتب حذف بالضبط للمتابعة';
 
   @override
   String get clearDataPinTitle => 'قم بالتأكيد باستخدام رقم التعريف الشخصي';
@@ -2184,5 +2184,78 @@ class AppLocalizationsAr extends AppLocalizations {
       one: 'تستحق بعد يوم',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get aboutContactSupport => 'التواصل مع الدعم';
+
+  @override
+  String get aboutSupportEmailCopied => 'تم نسخ عنوان بريد الدعم';
+
+  @override
+  String get onboardingWelcomeTitle => 'مرحبًا بك في Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'أموالك تبقى على هذا الجهاز. لا حساب، لا إعلانات، لا تتبع.';
+
+  @override
+  String get onboardingPlanBody =>
+      'جدوِل الدفعات القادمة والمتكررة وشاهد إلى أين تتجه أرصدتك.';
+
+  @override
+  String get onboardingTrackBody =>
+      'سجّل الدخل والمصروفات والتحويلات وما تُقرضه أو تدين به.';
+
+  @override
+  String get onboardingReviewBody =>
+      'إحصاءات ومقارنات وسجل لحساباتك والأشخاص الذين تتسوى معهم والشركات.';
+
+  @override
+  String get onboardingCurrencyLabel => 'العملة الأساسية';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'مقترحة من لغة جهازك. يمكنك تغييرها لاحقًا في الإعدادات.';
+
+  @override
+  String get onboardingStart => 'ابدأ';
+
+  @override
+  String get onboardingTour => 'أرني الجولة';
+
+  @override
+  String get clearDataConfirmWord => 'حذف';
+
+  @override
+  String get planDeleteTitle => 'حذف المعاملة المخططة؟';
+
+  @override
+  String get planDeleteBody => 'ستُزال من خطتك. لن تتأثر أرصدة حساباتك.';
+
+  @override
+  String get semanticsPreviousPeriod => 'الفترة السابقة';
+
+  @override
+  String get semanticsNextPeriod => 'الفترة التالية';
+
+  @override
+  String get semanticsSectionStatistics => 'الإحصاءات';
+
+  @override
+  String get semanticsCurrencyToggle => 'تبديل عملة العرض';
+
+  @override
+  String get semanticsStatsSpent => 'المصروف';
+
+  @override
+  String get semanticsStatsReceived => 'المستلم';
+
+  @override
+  String get ledgerVerifyRecalculate => 'إعادة الحساب من السجل';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return 'تمت إعادة حساب أرصدة $count من الحسابات من السجل';
   }
 }

@@ -1888,11 +1888,11 @@ class AppLocalizationsEs extends AppLocalizations {
       'Los datos seleccionados se eliminarán permanentemente. Exporta una copia de seguridad primero si puedes necesitarlos más adelante.';
 
   @override
-  String get clearDataTypeConfirm => 'Escribe DELETE para confirmar';
+  String get clearDataTypeConfirm => 'Escribe BORRAR para confirmar';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Escribe DELETE exactamente para continuar';
+      'Escribe BORRAR exactamente para continuar';
 
   @override
   String get clearDataPinTitle => 'Confirmar con PIN';
@@ -2202,5 +2202,79 @@ class AppLocalizationsEs extends AppLocalizations {
       other: 'Vence en $count días',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get aboutContactSupport => 'Contactar con soporte';
+
+  @override
+  String get aboutSupportEmailCopied => 'Correo de soporte copiado';
+
+  @override
+  String get onboardingWelcomeTitle => 'Bienvenido a Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Tu dinero se queda en este dispositivo. Sin cuenta, sin anuncios, sin rastreo.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Programa pagos próximos y recurrentes y mira hacia dónde van tus saldos.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Registra ingresos, gastos, transferencias y lo que prestas o debes.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Estadísticas, comparaciones e historial de tus cuentas, las personas con las que ajustas cuentas y las empresas.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Moneda base';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Sugerida según el idioma del dispositivo. Puedes cambiarla después en Ajustes.';
+
+  @override
+  String get onboardingStart => 'Empezar';
+
+  @override
+  String get onboardingTour => 'Muéstrame la app';
+
+  @override
+  String get clearDataConfirmWord => 'BORRAR';
+
+  @override
+  String get planDeleteTitle => '¿Eliminar la transacción planificada?';
+
+  @override
+  String get planDeleteBody =>
+      'Se eliminará de tu plan. Los saldos de tus cuentas no cambian.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Período anterior';
+
+  @override
+  String get semanticsNextPeriod => 'Período siguiente';
+
+  @override
+  String get semanticsSectionStatistics => 'Estadísticas';
+
+  @override
+  String get semanticsCurrencyToggle => 'Cambiar moneda de visualización';
+
+  @override
+  String get semanticsStatsSpent => 'Gastado';
+
+  @override
+  String get semanticsStatsReceived => 'Recibido';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Recalcular desde el historial';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return 'Se recalcularon $count saldos a partir del historial';
   }
 }

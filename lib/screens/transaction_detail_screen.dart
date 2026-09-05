@@ -1,12 +1,14 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:open_filex/open_filex.dart';
+
 import '../data/data_transfer.dart';
 import '../data/user_settings.dart' as settings;
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
-import '../models/transaction.dart';
 import '../models/planned_transaction.dart';
+import '../models/transaction.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
@@ -33,7 +35,7 @@ class TransactionDetailScreen extends StatelessWidget {
 
   void _confirmDelete(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         shape:
@@ -144,7 +146,7 @@ class TransactionDetailScreen extends StatelessWidget {
                 icon: Icons.currency_exchange_rounded,
                 label: l10n.detailDestinationAmount,
                 value:
-                    '${t.destinationAmount!.toStringAsFixed(2)} ${fx.currencySymbol(t.toAccount?.currencyCode ?? 'BAM')}',
+                    '${fx.formatNativeAmountDigits(t.destinationAmount!, t.toAccount?.currencyCode ?? 'BAM')} ${fx.currencySymbol(t.toAccount?.currencyCode ?? 'BAM')}',
                 color: color,
               ),
             // [exchangeRate] is native → app base (ledger), not leg-to-leg FX.
@@ -156,7 +158,7 @@ class TransactionDetailScreen extends StatelessWidget {
                 icon: Icons.swap_vert_rounded,
                 label: l10n.detailExchangeRate,
                 value:
-                    '1 ${fx.currencySymbol(t.currencyCode!)} = ${t.exchangeRate!.toStringAsFixed(4)} ${fx.currencySymbol(settings.baseCurrency)}',
+                    '1 ${fx.currencySymbol(t.currencyCode!)} = ${formatBalanceAmount(t.exchangeRate!, fractionDigits: 4)} ${fx.currencySymbol(settings.baseCurrency)}',
                 color: color,
               ),
           ]),
@@ -199,13 +201,13 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
       return;
     }
     final l10n = AppLocalizations.of(context);
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(l10n.trackDeleteTitle),
-        content: Text(l10n.planTransactionRemoved),
+        title: Text(l10n.planDeleteTitle),
+        content: Text(l10n.planDeleteBody),
         icon: Icon(Icons.delete_outline_rounded,
             color: Theme.of(context).colorScheme.error),
         actions: [
@@ -369,7 +371,7 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
                 icon: Icons.currency_exchange_rounded,
                 label: l10n.detailDestinationAmount,
                 value:
-                    '${pt.destinationAmount!.toStringAsFixed(2)} ${fx.currencySymbol(pt.toAccount?.currencyCode ?? 'BAM')}',
+                    '${fx.formatNativeAmountDigits(pt.destinationAmount!, pt.toAccount?.currencyCode ?? 'BAM')} ${fx.currencySymbol(pt.toAccount?.currencyCode ?? 'BAM')}',
                 color: color,
               ),
           ]),
@@ -405,7 +407,6 @@ class _Header extends StatelessWidget {
         border: Border.all(color: color.withValues(alpha: 0.18)),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: 56,

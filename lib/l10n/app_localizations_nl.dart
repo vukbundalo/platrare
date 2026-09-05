@@ -162,46 +162,46 @@ class AppLocalizationsNl extends AppLocalizations {
   String get txLabelInvoice => 'FACTUUR';
 
   @override
-  String get txLabelBill => 'BILL';
+  String get txLabelBill => 'REKENING';
 
   @override
-  String get txLabelAdvance => 'ADVANCE';
+  String get txLabelAdvance => 'VOORSCHOT';
 
   @override
-  String get txLabelSettlement => 'SETTLEMENT';
+  String get txLabelSettlement => 'AFREKENING';
 
   @override
-  String get txLabelLoan => 'LOAN';
+  String get txLabelLoan => 'LENING';
 
   @override
-  String get txLabelCollection => 'COLLECTION';
+  String get txLabelCollection => 'INNING';
 
   @override
-  String get txLabelOffset => 'OFFSET';
+  String get txLabelOffset => 'VERREKENING';
 
   @override
-  String get txLabelTransfer => 'TRANSFER';
+  String get txLabelTransfer => 'OVERBOEKING';
 
   @override
-  String get txLabelTransaction => 'TRANSACTION';
+  String get txLabelTransaction => 'TRANSACTIE';
 
   @override
-  String get repeatNone => 'No repeat';
+  String get repeatNone => 'Niet herhalen';
 
   @override
-  String get repeatDaily => 'Daily';
+  String get repeatDaily => 'Dagelijks';
 
   @override
-  String get repeatWeekly => 'Weekly';
+  String get repeatWeekly => 'Wekelijks';
 
   @override
-  String get repeatMonthly => 'Monthly';
+  String get repeatMonthly => 'Maandelijks';
 
   @override
-  String get repeatYearly => 'Yearly';
+  String get repeatYearly => 'Jaarlijks';
 
   @override
-  String get repeatEveryLabel => 'Every';
+  String get repeatEveryLabel => 'Elke';
 
   @override
   String repeatEveryDays(int count) {
@@ -248,188 +248,190 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
-  String get repeatEndLabel => 'Ends';
+  String get repeatEndLabel => 'Eindigt';
 
   @override
-  String get repeatEndNever => 'Never';
+  String get repeatEndNever => 'Nooit';
 
   @override
-  String get repeatEndOnDate => 'On date';
+  String get repeatEndOnDate => 'Op datum';
 
   @override
   String repeatEndAfterCount(int count) {
-    return 'After $count times';
+    return 'Na $count keer';
   }
 
   @override
   String get repeatEndAfterChoice => 'Na een aantal keer';
 
   @override
-  String get repeatEndPickDate => 'Pick end date';
+  String get repeatEndPickDate => 'Kies einddatum';
 
   @override
-  String get repeatEndTimes => 'times';
+  String get repeatEndTimes => 'keer';
 
   @override
   String repeatSummaryEvery(String unit) {
-    return 'Every $unit';
+    return 'Elke $unit';
   }
 
   @override
   String repeatSummaryUntil(String date) {
-    return 'until $date';
+    return 'tot $date';
   }
 
   @override
   String repeatSummaryTimes(int count) {
-    return '$count times';
+    return '$count keer';
   }
 
   @override
   String repeatSummaryTimesRemaining(int remaining, int total) {
-    return '$remaining of $total remaining';
+    return '$remaining van $total resterend';
   }
 
   @override
-  String get detailRepeatEvery => 'Repeat every';
+  String get detailRepeatEvery => 'Herhaal elke';
 
   @override
-  String get detailEnds => 'Ends';
+  String get detailEnds => 'Eindigt';
 
   @override
-  String get detailEndsNever => 'Never';
+  String get detailEndsNever => 'Nooit';
 
   @override
   String detailEndsOnDate(String date) {
-    return 'On $date';
+    return 'Op $date';
   }
 
   @override
   String detailEndsAfterCount(int count) {
-    return 'After $count times';
+    return 'Na $count keer';
   }
 
   @override
-  String get detailProgress => 'Progress';
+  String get detailProgress => 'Voortgang';
 
   @override
-  String get weekendNoChange => 'No change';
+  String get weekendNoChange => 'Niet verplaatsen';
 
   @override
-  String get weekendFriday => 'Move to Friday';
+  String get weekendFriday => 'Naar vrijdag';
 
   @override
-  String get weekendMonday => 'Move to Monday';
+  String get weekendMonday => 'Naar maandag';
 
   @override
   String weekendQuestion(String day) {
-    return 'If the $day falls on a weekend?';
+    return 'Als de $day in het weekend valt?';
   }
 
   @override
-  String get dateToday => 'Today';
+  String get dateToday => 'Vandaag';
 
   @override
-  String get dateTomorrow => 'Tomorrow';
+  String get dateTomorrow => 'Morgen';
 
   @override
-  String get dateYesterday => 'Yesterday';
+  String get dateYesterday => 'Gisteren';
 
   @override
-  String get statsAllTime => 'All time';
+  String get statsAllTime => 'Altijd';
 
   @override
-  String get accountGroupPersonal => 'Personal';
+  String get accountGroupPersonal => 'Persoonlijk';
 
   @override
-  String get accountGroupIndividual => 'Individual';
+  String get accountGroupIndividual => 'Persoon';
 
   @override
-  String get accountGroupEntity => 'Entity';
+  String get accountGroupEntity => 'Organisatie';
 
   @override
-  String get accountSectionIndividuals => 'Individuals';
+  String get accountSectionIndividuals => 'Personen';
 
   @override
-  String get accountSectionEntities => 'Entities';
+  String get accountSectionEntities => 'Organisaties';
 
   @override
-  String get emptyNoTransactionsYet => 'No transactions yet';
+  String get emptyNoTransactionsYet => 'Nog geen transacties';
 
   @override
-  String get emptyNoAccountsYet => 'No accounts yet';
+  String get emptyNoAccountsYet => 'Nog geen rekeningen';
 
   @override
   String get emptyRecordFirstTransaction =>
-      'Tap the button below to record your first transaction.';
+      'Tik op de knop hieronder om je eerste transactie vast te leggen.';
 
   @override
   String get emptyAddFirstAccountTx =>
-      'Add your first account before recording transactions.';
+      'Voeg eerst een rekening toe voordat je transacties vastlegt.';
 
   @override
   String get emptyAddFirstAccountPlan =>
-      'Add your first account before planning transactions.';
+      'Voeg eerst een rekening toe voordat je transacties plant.';
 
   @override
   String get emptyAddFirstAccountReview =>
-      'Add your first account to start tracking your finances.';
+      'Voeg je eerste rekening toe om je financiën bij te houden.';
 
   @override
-  String get emptyAddTransaction => 'Add transaction';
+  String get emptyAddTransaction => 'Transactie toevoegen';
 
   @override
-  String get emptyAddAccount => 'Add account';
+  String get emptyAddAccount => 'Rekening toevoegen';
 
   @override
-  String get reviewEmptyGroupPersonalTitle => 'No personal accounts yet';
+  String get reviewEmptyGroupPersonalTitle =>
+      'Nog geen persoonlijke rekeningen';
 
   @override
   String get reviewEmptyGroupPersonalBody =>
-      'Personal accounts are your own wallets and bank accounts. Add one to track everyday income and spending.';
+      'Persoonlijke rekeningen zijn je eigen portemonnees en bankrekeningen. Voeg er een toe om dagelijkse inkomsten en uitgaven bij te houden.';
 
   @override
-  String get reviewEmptyGroupIndividualsTitle => 'No individual accounts yet';
+  String get reviewEmptyGroupIndividualsTitle => 'Nog geen persoonsrekeningen';
 
   @override
   String get reviewEmptyGroupIndividualsBody =>
-      'Individual accounts track money with specific people—shared costs, loans, or IOUs. Add an account for each person you settle with.';
+      'Persoonsrekeningen volgen geld met specifieke mensen: gedeelde kosten, leningen of schuldbekentenissen. Voeg een rekening toe voor iedereen met wie je afrekent.';
 
   @override
-  String get reviewEmptyGroupEntitiesTitle => 'No entity accounts yet';
+  String get reviewEmptyGroupEntitiesTitle => 'Nog geen organisatierekeningen';
 
   @override
   String get reviewEmptyGroupEntitiesBody =>
-      'Entity accounts are for businesses, projects, or organizations. Use them to keep business cash flow separate from your personal finances.';
+      'Organisatierekeningen zijn voor bedrijven, projecten of organisaties. Gebruik ze om zakelijke geldstromen gescheiden te houden van je persoonlijke financiën.';
 
   @override
   String get emptyNoTransactionsForFilters =>
-      'No transactions for applied filters';
+      'Geen transacties voor de gekozen filters';
 
   @override
-  String get emptyNoTransactionsInHistory => 'No transactions in history';
+  String get emptyNoTransactionsInHistory =>
+      'Geen transacties in de geschiedenis';
 
   @override
   String emptyNoTransactionsForMonth(String month) {
-    return 'No transactions for $month';
+    return 'Geen transacties in $month';
   }
 
   @override
   String get emptyNoTransactionsForAccount =>
-      'No transactions for this account';
+      'Geen transacties voor deze rekening';
 
   @override
-  String get trackTransactionDeleted => 'Transaction deleted';
+  String get trackTransactionDeleted => 'Transactie verwijderd';
 
   @override
-  String get trackDeleteTitle => 'Delete transaction?';
+  String get trackDeleteTitle => 'Transactie verwijderen?';
 
   @override
   String get trackDeleteBody =>
-      'This will reverse the account balance changes.';
+      'Dit maakt de wijzigingen in het rekeningsaldo ongedaan.';
 
   @override
-  String get trackTransaction => 'Transaction';
+  String get trackTransaction => 'Transactie';
 
   @override
   String get planConfirmTitle => 'Transactie bevestigen?';
@@ -1095,7 +1097,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get ledgerVerifyAllMatch => 'Alle accounts komen overeen.';
 
   @override
-  String get ledgerVerifyMismatchesTitle => 'Mismatches';
+  String get ledgerVerifyMismatchesTitle => 'Afwijkingen';
 
   @override
   String ledgerVerifyMismatchDetails(
@@ -1881,10 +1883,11 @@ class AppLocalizationsNl extends AppLocalizations {
       'De geselecteerde gegevens worden permanent verwijderd. Exporteer eerst een back-up als u deze later nodig heeft.';
 
   @override
-  String get clearDataTypeConfirm => 'Typ DELETE om te bevestigen';
+  String get clearDataTypeConfirm => 'Typ VERWIJDER om te bevestigen';
 
   @override
-  String get clearDataTypeConfirmError => 'Typ DELETE precies om door te gaan';
+  String get clearDataTypeConfirmError =>
+      'Typ VERWIJDER precies om door te gaan';
 
   @override
   String get clearDataPinTitle => 'Bevestig met pincode';
@@ -2191,5 +2194,79 @@ class AppLocalizationsNl extends AppLocalizations {
       other: 'Vervalt over $count dagen',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get aboutContactSupport => 'Contact opnemen met support';
+
+  @override
+  String get aboutSupportEmailCopied => 'E-mailadres van support gekopieerd';
+
+  @override
+  String get onboardingWelcomeTitle => 'Welkom bij Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Je geld blijft op dit apparaat. Geen account, geen advertenties, geen tracking.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Plan komende en terugkerende betalingen en zie waar je saldi naartoe gaan.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Leg inkomsten, uitgaven, overboekingen en wat je leent of verschuldigd bent vast.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Statistieken, vergelijkingen en geschiedenis voor je rekeningen, de mensen met wie je afrekent en bedrijven.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Basisvaluta';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Voorgesteld op basis van je apparaattaal. Later te wijzigen in Instellingen.';
+
+  @override
+  String get onboardingStart => 'Aan de slag';
+
+  @override
+  String get onboardingTour => 'Leid me rond';
+
+  @override
+  String get clearDataConfirmWord => 'VERWIJDER';
+
+  @override
+  String get planDeleteTitle => 'Geplande transactie verwijderen?';
+
+  @override
+  String get planDeleteBody =>
+      'Deze wordt uit je planning verwijderd. Je rekeningsaldi veranderen niet.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Vorige periode';
+
+  @override
+  String get semanticsNextPeriod => 'Volgende periode';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistieken';
+
+  @override
+  String get semanticsCurrencyToggle => 'Weergavevaluta wisselen';
+
+  @override
+  String get semanticsStatsSpent => 'Uitgegeven';
+
+  @override
+  String get semanticsStatsReceived => 'Ontvangen';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Herberekenen uit geschiedenis';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count rekeningsaldi herberekend uit de geschiedenis';
   }
 }

@@ -1813,10 +1813,10 @@ class AppLocalizationsJa extends AppLocalizations {
       '選択したデータは完全に削除されます。後で必要になる可能性がある場合は、最初にバックアップをエクスポートしてください。';
 
   @override
-  String get clearDataTypeConfirm => '「DELETE」と入力して確認します';
+  String get clearDataTypeConfirm => '「削除」と入力して確認します';
 
   @override
-  String get clearDataTypeConfirmError => '続行するには DELETE を正確に入力してください';
+  String get clearDataTypeConfirmError => '続行するには 削除 を正確に入力してください';
 
   @override
   String get clearDataPinTitle => 'PINで確認';
@@ -2105,5 +2105,73 @@ class AppLocalizationsJa extends AppLocalizations {
       other: 'あと$count日で期日',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get aboutContactSupport => 'サポートに連絡';
+
+  @override
+  String get aboutSupportEmailCopied => 'サポートのメールアドレスをコピーしました';
+
+  @override
+  String get onboardingWelcomeTitle => 'Platrare へようこそ';
+
+  @override
+  String get onboardingWelcomeBody => 'お金の情報はこの端末から出ません。アカウント不要、広告なし、トラッキングなし。';
+
+  @override
+  String get onboardingPlanBody => '今後の支払いや定期的な支払いを予定して、残高の行方を確認できます。';
+
+  @override
+  String get onboardingTrackBody => '収入、支出、振替、そして貸し借りを記録します。';
+
+  @override
+  String get onboardingReviewBody => '口座、精算相手、取引先ごとの統計、比較、履歴。';
+
+  @override
+  String get onboardingCurrencyLabel => '基準通貨';
+
+  @override
+  String get onboardingCurrencyHint => '端末の言語から提案しています。あとで設定から変更できます。';
+
+  @override
+  String get onboardingStart => 'はじめる';
+
+  @override
+  String get onboardingTour => '使い方を見る';
+
+  @override
+  String get clearDataConfirmWord => '削除';
+
+  @override
+  String get planDeleteTitle => '予定取引を削除しますか？';
+
+  @override
+  String get planDeleteBody => 'プランから削除されます。口座残高には影響しません。';
+
+  @override
+  String get semanticsPreviousPeriod => '前の期間';
+
+  @override
+  String get semanticsNextPeriod => '次の期間';
+
+  @override
+  String get semanticsSectionStatistics => '統計';
+
+  @override
+  String get semanticsCurrencyToggle => '表示通貨を切り替え';
+
+  @override
+  String get semanticsStatsSpent => '支出';
+
+  @override
+  String get semanticsStatsReceived => '収入';
+
+  @override
+  String get ledgerVerifyRecalculate => '履歴から再計算';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count 件の口座残高を履歴から再計算しました';
   }
 }

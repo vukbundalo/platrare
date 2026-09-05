@@ -113,7 +113,7 @@ void main() {
           nativeAmount: 200,
           currencyCode: 'BAM',
           toAccount: b,
-          date: DateTime(2026, 8, 1),
+          date: DateTime(2026, 8),
           repeatInterval: RepeatInterval.monthly,
           repeatDayOfMonth: 1,
         ),
@@ -159,7 +159,7 @@ void main() {
         nativeAmount: 300,
         currencyCode: 'BAM',
         fromAccount: a,
-        date: DateTime(2026, 8, 1),
+        date: DateTime(2026, 8),
         repeatInterval: RepeatInterval.monthly,
         repeatDayOfMonth: 1,
         weekendAdjustment: WeekendAdjustment.previousFriday,
@@ -203,7 +203,6 @@ void main() {
       final gone = Account(
         name: 'Old',
         group: AccountGroup.personal,
-        currencyCode: 'BAM',
         balance: 250,
         archived: true,
       );

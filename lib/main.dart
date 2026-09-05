@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
+
+import 'data/app_data.dart' as data;
 import 'data/app_signals.dart';
 import 'data/auto_backup_service.dart';
 import 'data/backup_export_reminder_prefs.dart';
@@ -8,10 +10,11 @@ import 'data/balance_privacy_prefs.dart';
 import 'data/currency_prefs.dart';
 import 'data/data_repository.dart';
 import 'data/data_transfer.dart';
-import 'data/local/platrare_database.dart';
 import 'data/fx_service.dart';
+import 'data/local/platrare_database.dart';
 import 'data/locale_prefs.dart';
 import 'data/navigation_prefs.dart';
+import 'data/onboarding_prefs.dart';
 import 'data/planned_reminder_prefs.dart';
 import 'data/planned_reminder_service.dart';
 import 'data/security_prefs.dart';
@@ -21,19 +24,20 @@ import 'data/widget_prefs.dart';
 import 'data/widget_snapshot_service.dart';
 import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'l10n/supported_languages.dart';
-import 'utils/manual_backup_export_flow.dart';
-import 'screens/splash_screen.dart';
+import 'models/planned_transaction.dart';
 import 'screens/account_transactions_screen.dart';
 import 'screens/new_planned_transaction_screen.dart';
 import 'screens/new_transaction_screen.dart';
-import 'screens/track_screen.dart';
+import 'screens/onboarding_screen.dart';
 import 'screens/plan_screen.dart';
 import 'screens/review_screen.dart';
+import 'screens/splash_screen.dart';
+import 'screens/track_screen.dart';
 import 'theme/platrare_surfaces.dart';
 import 'theme/platrare_theme.dart';
-import 'data/app_data.dart' as data;
-import 'models/planned_transaction.dart';
 import 'utils/fx.dart' as fx;
+import 'utils/manual_backup_export_flow.dart';
+import 'utils/money_format.dart';
 import 'utils/persistence_guard.dart';
 import 'widgets/app_lock_gate.dart';
 
@@ -71,10 +75,21 @@ Future<void> main() async {
   // fire long before Dart is ready), then flushes on this call.
   await initWidgetLinks();
   final initialMainTabIndex = await loadLastMainTabIndex();
+  // First run only: an install that already has accounts or a lock predates
+  // the onboarding screen and is marked done without ever seeing it.
+  var showOnboarding = !await isOnboardingDone();
+  if (showOnboarding &&
+      (data.accounts.isNotEmpty || appSecurityEnabled.value)) {
+    await markOnboardingDone();
+    showOnboarding = false;
+  }
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
-  runApp(PlatrareApp(initialMainTabIndex: initialMainTabIndex));
+  runApp(PlatrareApp(
+    initialMainTabIndex: initialMainTabIndex,
+    showOnboarding: showOnboarding,
+  ));
 }
 
 Future<void> _initDateFormattingForLocales() async {
@@ -98,10 +113,17 @@ Future<void> _initDateFormattingForLocales() async {
 }
 
 class PlatrareApp extends StatelessWidget {
-  const PlatrareApp({super.key, this.initialMainTabIndex = 0});
+  const PlatrareApp({
+    super.key,
+    this.initialMainTabIndex = 0,
+    this.showOnboarding = false,
+  });
 
   /// Restored from [loadLastMainTabIndex] before [runApp].
   final int initialMainTabIndex;
+
+  /// First run: show [OnboardingScreen] above Home once the splash clears.
+  final bool showOnboarding;
 
   /// Match [deviceLocale] to a supported locale, or null if no match.
   static Locale? _tryMatchLocale(
@@ -176,15 +198,24 @@ class PlatrareApp extends StatelessWidget {
               supportedLocales: AppLocalizations.supportedLocales,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               localeListResolutionCallback: (locales, supported) {
+                Locale resolved = _resolveLocale(null, supported);
                 if (locales != null && locales.isNotEmpty) {
                   for (final deviceLocale in locales) {
                     final match = _tryMatchLocale(deviceLocale, supported);
-                    if (match != null) return match;
+                    if (match != null) {
+                      resolved = match;
+                      break;
+                    }
                   }
                 }
-                return _resolveLocale(null, supported);
+                // Amounts (grouping, decimal separator) follow the UI locale.
+                setAppNumberLocale(resolved);
+                return resolved;
               },
-              home: _SplashRoot(initialTabIndex: initialMainTabIndex),
+              home: _SplashRoot(
+                initialTabIndex: initialMainTabIndex,
+                showOnboarding: showOnboarding,
+              ),
             );
           },
         );
@@ -209,9 +240,13 @@ class HomePage extends StatefulWidget {
 // ---------------------------------------------------------------------------
 
 class _SplashRoot extends StatefulWidget {
-  const _SplashRoot({required this.initialTabIndex});
+  const _SplashRoot({
+    required this.initialTabIndex,
+    this.showOnboarding = false,
+  });
 
   final int initialTabIndex;
+  final bool showOnboarding;
 
   @override
   State<_SplashRoot> createState() => _SplashRootState();
@@ -219,6 +254,7 @@ class _SplashRoot extends StatefulWidget {
 
 class _SplashRootState extends State<_SplashRoot> {
   bool _splashDone = false;
+  late bool _onboardingPending = widget.showOnboarding;
 
   @override
   Widget build(BuildContext context) {
@@ -229,6 +265,24 @@ class _SplashRootState extends State<_SplashRoot> {
         AppLockGate(
           child: HomePage(initialTabIndex: widget.initialTabIndex),
         ),
+        if (_onboardingPending)
+          Positioned.fill(
+            child: OnboardingScreen(
+              suggestedCurrency: suggestedBaseCurrency(
+                WidgetsBinding.instance.platformDispatcher.locale,
+              ),
+              onDone: (startTour) {
+                if (!mounted) return;
+                setState(() => _onboardingPending = false);
+                if (startTour) {
+                  // Plan is tab 0 on a fresh install; the tour targets it.
+                  WidgetsBinding.instance.addPostFrameCallback(
+                    (_) => requestPlanHelpTour.value++,
+                  );
+                }
+              },
+            ),
+          ),
         if (!_splashDone)
           Positioned.fill(
             child: SplashScreen(
@@ -351,7 +405,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           _selectTab(1);
           if (account == null || !mounted) return;
           await Navigator.of(context).push(
-            MaterialPageRoute(
+            MaterialPageRoute<void>(
               builder: (_) => AccountTransactionsScreen(account: account),
             ),
           );
@@ -478,9 +532,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         child: IndexedStack(
           index: _currentIndex,
           children: [
-            PlanScreen(onChanged: () => setState(() {})),
-            TrackScreen(onChanged: () => setState(() {})),
-            ReviewScreen(onChanged: () => setState(() {})),
+            // Tabs listen to ledgerRevision themselves.
+            const PlanScreen(),
+            const TrackScreen(),
+            const ReviewScreen(),
           ],
         ),
       ),

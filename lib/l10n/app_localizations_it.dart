@@ -1883,11 +1883,11 @@ class AppLocalizationsIt extends AppLocalizations {
       'I dati selezionati verranno eliminati definitivamente. Esporta prima un backup se potresti averne bisogno in seguito.';
 
   @override
-  String get clearDataTypeConfirm => 'Digita DELETE per confermare';
+  String get clearDataTypeConfirm => 'Digita ELIMINA per confermare';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Digita DELETE esattamente per continuare';
+      'Digita ELIMINA esattamente per continuare';
 
   @override
   String get clearDataPinTitle => 'Conferma con PIN';
@@ -2194,5 +2194,80 @@ class AppLocalizationsIt extends AppLocalizations {
       other: 'Scade tra $count giorni',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get aboutContactSupport => 'Contatta l’assistenza';
+
+  @override
+  String get aboutSupportEmailCopied =>
+      'Indirizzo e-mail dell’assistenza copiato';
+
+  @override
+  String get onboardingWelcomeTitle => 'Benvenuto in Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'I tuoi soldi restano su questo dispositivo. Nessun account, nessuna pubblicità, nessun tracciamento.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Pianifica pagamenti futuri e ricorrenti e guarda dove vanno i tuoi saldi.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Registra entrate, uscite, trasferimenti e ciò che presti o devi.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Statistiche, confronti e cronologia per i tuoi conti, le persone con cui fai i conti e le aziende.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Valuta di base';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Suggerita dalla lingua del dispositivo. Puoi cambiarla in seguito nelle Impostazioni.';
+
+  @override
+  String get onboardingStart => 'Inizia';
+
+  @override
+  String get onboardingTour => 'Fammi fare un giro';
+
+  @override
+  String get clearDataConfirmWord => 'ELIMINA';
+
+  @override
+  String get planDeleteTitle => 'Eliminare la transazione pianificata?';
+
+  @override
+  String get planDeleteBody =>
+      'Verrà rimossa dal tuo piano. I saldi dei tuoi conti non cambiano.';
+
+  @override
+  String get semanticsPreviousPeriod => 'Periodo precedente';
+
+  @override
+  String get semanticsNextPeriod => 'Periodo successivo';
+
+  @override
+  String get semanticsSectionStatistics => 'Statistiche';
+
+  @override
+  String get semanticsCurrencyToggle => 'Cambia valuta di visualizzazione';
+
+  @override
+  String get semanticsStatsSpent => 'Speso';
+
+  @override
+  String get semanticsStatsReceived => 'Ricevuto';
+
+  @override
+  String get ledgerVerifyRecalculate => 'Ricalcola dalla cronologia';
+
+  @override
+  String ledgerVerifyRecalculated(int count) {
+    return '$count saldi ricalcolati dalla cronologia';
   }
 }

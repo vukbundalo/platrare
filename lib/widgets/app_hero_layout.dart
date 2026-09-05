@@ -24,9 +24,11 @@ abstract final class AppHeroConstants {
       EdgeInsets.fromLTRB(16, 10, 16, 10);
   static const double dividerHeight = 44;
   static const double dividerMarginH = 16;
-  static const double chipGapBelowMetrics = 10;
+  static const double chipGapBelowMetrics = 6;
   /// Hero filter row, Review stats row, Track/Plan strips — same tap height.
-  static const double filterChipHeight = 30;
+  /// 34 dp is the most the fixed hero extent allows; [chipGapBelowMetrics]
+  /// gave up the difference so the card height is unchanged.
+  static const double filterChipHeight = 34;
   static const int leftColumnFlex = 3;
   static const int rightColumnFlex = 2;
 
@@ -113,7 +115,14 @@ class HeroPinnedDelegate extends SliverPersistentHeaderDelegate {
           alignment: Alignment.bottomCenter,
           child: Padding(
             padding: AppHeroConstants.mainFlexibleSpaceHeroOuterPadding,
-            child: child,
+            // The hero is a fixed-extent card: amounts already auto-fit
+            // (HeroFittedAmount), labels and chips get at most 1.3x so large
+            // accessibility text cannot overflow the card. A fully fluid hero
+            // (theme-driven type, no fixed heights) is Phase 3 work.
+            child: MediaQuery.withClampedTextScaling(
+              maxScaleFactor: 1.3,
+              child: child,
+            ),
           ),
         ),
       );
@@ -176,6 +185,70 @@ abstract final class HeroFilterChipStyle {
   /// Icon / label on hero filter pills.
   static Color foreground(ColorScheme cs, {required bool selected}) =>
       selected ? cs.primary : cs.onSurface.withValues(alpha: 0.72);
+}
+
+/// Tappable pill used by every hero / stats chip row.
+///
+/// Replaces the bare GestureDetector + Container pattern: Material ink on
+/// press, a visible focus ring for keyboard/switch access, and semantics
+/// (button, selected, enabled, label) so icon-only chips are announced.
+class HeroTapChip extends StatelessWidget {
+  const HeroTapChip({
+    super.key,
+    required this.onTap,
+    required this.active,
+    required this.child,
+    this.semanticsLabel,
+    this.enabled = true,
+    this.height = AppHeroConstants.filterChipHeight,
+    this.width,
+    this.borderRadius,
+  });
+
+  final VoidCallback? onTap;
+  final bool active;
+  final Widget child;
+  final String? semanticsLabel;
+  final bool enabled;
+  final double height;
+  final double? width;
+  final BorderRadius? borderRadius;
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final brightness = Theme.of(context).brightness;
+    final radius = borderRadius ?? BorderRadius.circular(20);
+    final body = Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        onTap: enabled ? onTap : null,
+        borderRadius: radius,
+        focusColor: cs.primary.withValues(alpha: 0.18),
+        child: Ink(
+          height: height,
+          width: width,
+          decoration: HeroFilterChipStyle.decoration(
+            cs,
+            brightness,
+            selected: active,
+            borderRadius: radius,
+          ),
+          child: Center(child: child),
+        ),
+      ),
+    );
+    final labelled = semanticsLabel == null
+        ? body
+        : Tooltip(message: semanticsLabel!, child: body);
+    return Semantics(
+      button: true,
+      enabled: enabled && onTap != null,
+      selected: active,
+      label: semanticsLabel,
+      child: labelled,
+    );
+  }
 }
 
 /// Masked figure shown in Plan / Track / Review hero cards when privacy is on.
@@ -248,7 +321,6 @@ class HeroTwoColumnMetricsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
           flex: AppHeroConstants.leftColumnFlex,

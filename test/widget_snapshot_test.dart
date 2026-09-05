@@ -1,3 +1,6 @@
+// The snapshot is a JSON payload; typed casts on every lookup would only
+// obscure what the widget actually reads.
+// ignore_for_file: avoid_dynamic_calls
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:platrare/data/app_data.dart' as data;
@@ -9,6 +12,7 @@ import 'package:platrare/data/widget_snapshot_service.dart';
 import 'package:platrare/models/account.dart';
 import 'package:platrare/models/planned_transaction.dart';
 import 'package:platrare/utils/fx.dart' as fx;
+import 'package:platrare/utils/money_format.dart';
 import 'package:platrare/utils/projections.dart';
 
 Account acc(
@@ -137,9 +141,10 @@ void main() {
       final v = sample['v'] as double;
       // Swift reproduces exactly this: "%.<digits>f" + " " + symbol.
       expect(sample['text'], '${v.toStringAsFixed(digits)} $symbol');
-      // And the unsigned app formatter agrees on magnitude + symbol.
+      // The app's own formatter is locale-aware (grouping); the widget
+      // deliberately stays ungrouped so Dart and Swift agree.
       expect(fx.formatNative(v, snap['baseCurrency'] as String),
-          '${v.abs().toStringAsFixed(digits)} $symbol');
+          '${formatMoneyDigits(v.abs(), decimals: digits)} $symbol');
     });
 
     test('day-0 balances keep the minus sign that formatNative drops', () {
@@ -262,7 +267,7 @@ void main() {
     test('hasData is false but the payload is still well formed', () {
       final snap = build();
       expect(snap['hasData'], isFalse);
-      expect((snap['accounts'] as List), isEmpty);
+      expect(snap['accounts'] as List, isEmpty);
       expect((snap['series'] as Map)['days'], hasLength(35));
       expect(snap['schemaVersion'], 1);
       // Strings must always be present — the widget renders them before any

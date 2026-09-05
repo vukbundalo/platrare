@@ -17,6 +17,27 @@ enum TxType {
   transfer,   // personal → personal
 }
 
+/// Coarse list-filter groups. Personal ↔ personal moves and debt offsets
+/// are internal, so they form their own group.
+enum TxTypeGroup {
+  income({TxType.income, TxType.collection, TxType.loan, TxType.invoice}),
+  expense({TxType.expense, TxType.bill, TxType.settlement, TxType.advance}),
+  transfer({TxType.transfer, TxType.offset});
+
+  const TxTypeGroup(this.types);
+  final Set<TxType> types;
+
+  bool contains(TxType t) => types.contains(t);
+
+  /// Filter chip cycle: all → income → expense → transfer → all.
+  static TxTypeGroup? next(TxTypeGroup? current) => switch (current) {
+        null => TxTypeGroup.income,
+        TxTypeGroup.income => TxTypeGroup.expense,
+        TxTypeGroup.expense => TxTypeGroup.transfer,
+        TxTypeGroup.transfer => null,
+      };
+}
+
 /// Which category list a [TxType] draws from, or null for uncategorized.
 enum CategoryList { income, expense }
 

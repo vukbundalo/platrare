@@ -1,22 +1,26 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../data/app_data.dart' as data;
-import '../data/data_repository.dart';
+import '../data/ledger_service.dart';
 import '../data/user_settings.dart' as settings;
+import '../help/help_tour.dart';
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../models/transaction.dart';
+import '../theme/ledger_colors.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
+import '../utils/minor_units_amount_formatter.dart';
+import '../utils/persistence_guard.dart';
+import '../utils/tx_display.dart';
 import '../widgets/account_avatar.dart';
 import '../widgets/attachments_editor.dart';
+import '../widgets/discard_changes_dialog.dart';
 import '../widgets/stacked_scroll_fab.dart';
-import '../utils/persistence_guard.dart';
-import '../utils/minor_units_amount_formatter.dart';
-import '../theme/ledger_colors.dart';
-import '../utils/tx_display.dart';
-import '../help/help_tour.dart';
 
 class NewTransactionScreen extends StatefulWidget {
   final Transaction? existing;
@@ -83,7 +87,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       if (_noteController.text.trim() != (e.description ?? '')) return true;
       if (!DateUtils.dateOnly(_date).isAtSameMomentAs(DateUtils.dateOnly(e.date))) return true;
       if (_attachments.length != e.attachments.length ||
-          !_attachments.every((p) => e.attachments.contains(p))) {
+          !_attachments.every(e.attachments.contains)) {
         return true;
       }
       return false;
@@ -97,33 +101,12 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   }
 
   void _showDiscardDialog() {
-    showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(AppLocalizations.of(ctx).discardTitle),
-        content: Text(AppLocalizations.of(ctx).discardBody),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(AppLocalizations.of(ctx).keepEditing),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            style: FilledButton.styleFrom(
-              backgroundColor: Theme.of(ctx).colorScheme.error,
-              foregroundColor: Theme.of(ctx).colorScheme.onError,
-            ),
-            child: Text(AppLocalizations.of(ctx).discard),
-          ),
-        ],
-      ),
-    ).then((discard) {
-      if (discard == true && mounted) {
+    unawaited(confirmDiscardChanges(context).then((discard) {
+      if (discard && mounted) {
         setState(() => _forceClose = true);
         Navigator.of(context).pop();
       }
-    });
+    }));
   }
 
   @override
@@ -226,61 +209,43 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
     _fromAccount = refreshedAccount(_fromAccount) ?? _fromAccount;
     _toAccount = refreshedAccount(_toAccount) ?? _toAccount;
 
-    // When editing, reverse the old transaction's balance changes first so that
-    // prior-balance classification uses restored (pre-original-tx) balances.
-    if (_isEdit) {
-      final old = widget.existing!;
-      if (old.nativeAmount != null) {
-        final oldFrom = refreshedAccount(old.fromAccount) ?? old.fromAccount;
-        final oldTo = refreshedAccount(old.toAccount) ?? old.toAccount;
-        if (oldFrom != null) {
-          oldFrom.balance += old.nativeAmount!;
-        }
-        if (oldTo != null) {
-          oldTo.balance -= (old.destinationAmount ?? old.nativeAmount!);
-        }
-      }
-    }
-
-    // Classify BEFORE new balances change so prior-balance rules are correct.
-    final type = _txType;
-
     // ── Rule 2 / 3: determine currency and lock base value ─────────────────
     final ccy = _fromAccount?.currencyCode ??
         _toAccount?.currencyCode ?? settings.baseCurrency;
     final rate    = fx.rateToBase(ccy);
     final baseAmt = nativeAmt * rate;
+    final destAmt = _parsedDestination; // null when same-currency (Rule 4)
+    final note = _noteController.text.trim();
 
-    // ── Rule 4: cross-currency balance update ─────────────────────────────
-    final destAmt = _parsedDestination; // null when same-currency
-    if (_fromAccount != null) _fromAccount!.balance -= nativeAmt;
-    if (_toAccount != null) {
-      _toAccount!.balance += destAmt ?? nativeAmt;
+    // Classification reads the accounts' PRIOR balances, so it runs inside
+    // the ledger service after the edited row has been reversed.
+    late TxType type;
+    Transaction build() {
+      type = _txType;
+      return Transaction(
+        id: widget.existing?.id,
+        nativeAmount: nativeAmt,
+        currencyCode: ccy,
+        baseAmount: baseAmt,
+        exchangeRate: rate,
+        destinationAmount: destAmt,
+        fromAccount: _fromAccount,
+        toAccount: _toAccount,
+        category: _category,
+        description: note.isEmpty ? null : note,
+        date: _date,
+        txType: type,
+        attachments: List.from(_attachments),
+        createdAt: widget.existing?.createdAt,
+      );
     }
 
-    final note = _noteController.text.trim();
-    final newTx = Transaction(
-      id: widget.existing?.id,
-      nativeAmount: nativeAmt,
-      currencyCode: ccy,
-      baseAmount: baseAmt,
-      exchangeRate: rate,
-      destinationAmount: destAmt,
-      fromAccount: _fromAccount,
-      toAccount: _toAccount,
-      category: _category,
-      description: note.isEmpty ? null : note,
-      date: _date,
-      txType: type,
-      attachments: List.from(_attachments),
-      createdAt: widget.existing?.createdAt,
-    );
-
     final persisted = await guardPersist(context, () async {
-      await DataRepository.replaceOrInsertTransaction(
-        newTx,
-        isUpdate: _isEdit,
-      );
+      if (_isEdit) {
+        await LedgerService.replace(widget.existing!, build);
+      } else {
+        await LedgerService.post(build());
+      }
     });
     if (!mounted) return;
     if (!persisted) {
@@ -291,7 +256,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       return;
     }
 
-    HapticFeedback.lightImpact();
+    unawaited(HapticFeedback.lightImpact());
 
     final savedColor = txColor(context, type);
     final rawLabel = l10nTxLabel(context, type);
@@ -324,7 +289,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
     final picked = await showDatePicker(
       context: context,
       initialDate: initial,
-      firstDate: DateTime(2020),
+      firstDate: DateTime(1970),
       lastDate: today,
     );
     if (picked != null && mounted) setState(() => _date = picked);
@@ -483,14 +448,13 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                         ),
                         const SizedBox(height: 4),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
                               child: TextField(
                                 controller: _amountController,
                                 keyboardType:
                                     const TextInputType.numberWithOptions(
-                                        decimal: false),
+                                        ),
                                 inputFormatters: [_amountMinorFormatter],
                                 style: TextStyle(
                                   fontSize: 42,
@@ -603,7 +567,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                     TextField(
                       controller: _destinationAmountController,
                       keyboardType: const TextInputType.numberWithOptions(
-                          decimal: false),
+                          ),
                       inputFormatters: [_destinationMinorFormatter],
                       decoration: InputDecoration(
                         suffixText:
@@ -659,7 +623,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                 : '',
             enabled: _canSave && !_isSaving,
             isEdit: _isEdit,
-            onSave: () => _save(),
+            onSave: _save,
           ),
         ],
       ),
@@ -731,7 +695,7 @@ class _SaveBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
-                  '${amount!.toStringAsFixed(2)}'
+                  '${formatBalanceAmount(amount!)}'
                   '${currencySymbol.isNotEmpty ? ' $currencySymbol' : ''}',
                   style: const TextStyle(
                       fontSize: 13, fontWeight: FontWeight.w600),

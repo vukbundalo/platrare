@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
+import 'money_format.dart';
 
 /// [DateFormat] using the widget tree locale (respects app + system language).
 String formatAppDate(BuildContext context, String pattern, DateTime date) {
@@ -12,9 +13,9 @@ String formatAppDate(BuildContext context, String pattern, DateTime date) {
 }
 
 /// Balance or position: no leading '+' (avoids inflow confusion); negatives
-/// keep '-' from [num.toStringAsFixed].
+/// keep their sign. Locale grouping and decimal separator via money_format.
 String formatBalanceAmount(double value, {int fractionDigits = 2}) =>
-    value.toStringAsFixed(fractionDigits);
+    formatMoneyDigits(value, decimals: fractionDigits);
 
 /// Section headers on Review / Plan / pickers (Personal / Individuals / Entities).
 String l10nAccountSectionTitle(BuildContext context, AccountGroup group) {

@@ -58,11 +58,8 @@ Future<void> showHelpTour(BuildContext context, List<HelpStep> steps) {
   if (visibleSteps.isEmpty) return Future.value();
   return showGeneralDialog<void>(
     context: context,
-    useRootNavigator: true,
-    barrierDismissible: false,
     barrierColor: Colors.transparent,
     barrierLabel: '',
-    transitionDuration: const Duration(milliseconds: 200),
     pageBuilder: (_, _, _) => _HelpTourOverlay(steps: visibleSteps),
     transitionBuilder: (context, animation, _, child) => FadeTransition(
       opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
