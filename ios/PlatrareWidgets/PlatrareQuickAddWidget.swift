@@ -113,10 +113,10 @@ struct PlatrareQuickAddWidget: Widget {
             QuickAddView(entry: entry)
         }
         .configurationDisplayName(
-            LocalizedStringResource("widget.quickadd.name", defaultValue: "Quick add"))
+            String(localized: LocalizedStringResource("widget.quickadd.name", defaultValue: "Quick add")))
         .description(
-            LocalizedStringResource("widget.quickadd.desc",
-                                    defaultValue: "Add a transaction or a plan in one tap."))
+            String(localized: LocalizedStringResource("widget.quickadd.desc",
+                                                      defaultValue: "Add a transaction or a plan in one tap.")))
         .supportedFamilies([.systemSmall, .systemMedium, .accessoryCircular])
     }
 }

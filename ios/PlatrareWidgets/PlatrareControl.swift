@@ -14,7 +14,7 @@ struct PlatrareAddControl: ControlWidget {
         StaticControlConfiguration(kind: Self.kind) {
             ControlWidgetButton(action: AddTransactionIntent()) {
                 Label(
-                    LocalizedStringResource("control.addTracked", defaultValue: "Add transaction"),
+                    String(localized: LocalizedStringResource("control.addTracked", defaultValue: "Add transaction")),
                     systemImage: "plus.circle.fill"
                 )
             }
@@ -37,7 +37,7 @@ struct PlatrarePlanControl: ControlWidget {
         StaticControlConfiguration(kind: Self.kind) {
             ControlWidgetButton(action: AddPlannedIntent()) {
                 Label(
-                    LocalizedStringResource("control.addPlanned", defaultValue: "Add plan"),
+                    String(localized: LocalizedStringResource("control.addPlanned", defaultValue: "Add plan")),
                     systemImage: "calendar.badge.plus"
                 )
             }

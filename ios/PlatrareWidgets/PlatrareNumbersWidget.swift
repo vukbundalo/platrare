@@ -249,10 +249,10 @@ struct PlatrareNumbersWidget: Widget {
             NumbersView(entry: entry)
         }
         .configurationDisplayName(
-            LocalizedStringResource("widget.numbers.name", defaultValue: "Balance"))
+            String(localized: LocalizedStringResource("widget.numbers.name", defaultValue: "Balance")))
         .description(
-            LocalizedStringResource("widget.numbers.desc",
-                                    defaultValue: "Show one figure: spendable, net worth, or your lowest point this month."))
+            String(localized: LocalizedStringResource("widget.numbers.desc",
+                                                      defaultValue: "Show one figure: spendable, net worth, or your lowest point this month.")))
         .supportedFamilies([
             .systemSmall,
             .systemMedium,
