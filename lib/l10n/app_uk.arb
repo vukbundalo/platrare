@@ -933,8 +933,8 @@
   "clearDataConfirmButton": "Очистити вибране",
   "clearDataConfirmTitle": "Цю дію не можна скасувати",
   "clearDataConfirmBody": "Вибрані дані буде назавжди видалено. Спочатку експортуйте резервну копію, якщо вона може знадобитися пізніше.",
-  "clearDataTypeConfirm": "Введіть DELETE для підтвердження",
-  "clearDataTypeConfirmError": "Введіть DELETE, щоб продовжити",
+  "clearDataTypeConfirm": "Введіть ВИДАЛИТИ для підтвердження",
+  "clearDataTypeConfirmError": "Введіть ВИДАЛИТИ, щоб продовжити",
   "clearDataPinTitle": "Підтвердити PIN-кодом",
   "clearDataPinBody": "Введіть PIN-код програми для авторизації цієї дії.",
   "clearDataPinIncorrect": "Невірний PIN-код",
@@ -1057,5 +1057,6 @@
   "onboardingCurrencyLabel": "Основна валюта",
   "onboardingCurrencyHint": "Запропоновано за мовою пристрою. Пізніше її можна змінити в налаштуваннях.",
   "onboardingStart": "Почати",
-  "onboardingTour": "Покажіть застосунок"
+  "onboardingTour": "Покажіть застосунок",
+  "clearDataConfirmWord": "ВИДАЛИТИ"
 }

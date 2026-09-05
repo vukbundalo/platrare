@@ -933,8 +933,8 @@
   "clearDataConfirmButton": "選択をクリア",
   "clearDataConfirmTitle": "これは元に戻すことはできません",
   "clearDataConfirmBody": "選択したデータは完全に削除されます。後で必要になる可能性がある場合は、最初にバックアップをエクスポートしてください。",
-  "clearDataTypeConfirm": "「DELETE」と入力して確認します",
-  "clearDataTypeConfirmError": "続行するには DELETE を正確に入力してください",
+  "clearDataTypeConfirm": "「削除」と入力して確認します",
+  "clearDataTypeConfirmError": "続行するには 削除 を正確に入力してください",
   "clearDataPinTitle": "PINで確認",
   "clearDataPinBody": "このアクションを承認するには、アプリの PIN を入力してください。",
   "clearDataPinIncorrect": "間違ったPIN",
@@ -1057,5 +1057,6 @@
   "onboardingCurrencyLabel": "基準通貨",
   "onboardingCurrencyHint": "端末の言語から提案しています。あとで設定から変更できます。",
   "onboardingStart": "はじめる",
-  "onboardingTour": "使い方を見る"
+  "onboardingTour": "使い方を見る",
+  "clearDataConfirmWord": "削除"
 }

@@ -933,8 +933,8 @@
   "clearDataConfirmButton": "Wyczyść wybrane",
   "clearDataConfirmTitle": "Tego nie można cofnąć",
   "clearDataConfirmBody": "Wybrane dane zostaną trwale usunięte. Najpierw wyeksportuj kopię zapasową, jeśli może być potrzebna później.",
-  "clearDataTypeConfirm": "Wpisz DELETE, aby potwierdzić",
-  "clearDataTypeConfirmError": "Wpisz dokładnie DELETE, aby kontynuować",
+  "clearDataTypeConfirm": "Wpisz USUŃ, aby potwierdzić",
+  "clearDataTypeConfirmError": "Wpisz dokładnie USUŃ, aby kontynuować",
   "clearDataPinTitle": "Potwierdź PINem",
   "clearDataPinBody": "Wprowadź kod PIN aplikacji, aby autoryzować tę akcję.",
   "clearDataPinIncorrect": "Nieprawidłowy PIN",
@@ -1057,5 +1057,6 @@
   "onboardingCurrencyLabel": "Waluta podstawowa",
   "onboardingCurrencyHint": "Zaproponowana na podstawie języka urządzenia. Możesz ją później zmienić w Ustawieniach.",
   "onboardingStart": "Zaczynamy",
-  "onboardingTour": "Pokaż mi aplikację"
+  "onboardingTour": "Pokaż mi aplikację",
+  "clearDataConfirmWord": "USUŃ"
 }

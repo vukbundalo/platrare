@@ -1887,11 +1887,11 @@ class AppLocalizationsPl extends AppLocalizations {
       'Wybrane dane zostaną trwale usunięte. Najpierw wyeksportuj kopię zapasową, jeśli może być potrzebna później.';
 
   @override
-  String get clearDataTypeConfirm => 'Wpisz DELETE, aby potwierdzić';
+  String get clearDataTypeConfirm => 'Wpisz USUŃ, aby potwierdzić';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Wpisz dokładnie DELETE, aby kontynuować';
+      'Wpisz dokładnie USUŃ, aby kontynuować';
 
   @override
   String get clearDataPinTitle => 'Potwierdź PINem';
@@ -2242,4 +2242,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get onboardingTour => 'Pokaż mi aplikację';
+
+  @override
+  String get clearDataConfirmWord => 'USUŃ';
 }

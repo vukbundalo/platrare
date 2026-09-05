@@ -1152,5 +1152,6 @@
   "onboardingCurrencyLabel": "Base currency",
   "onboardingCurrencyHint": "Suggested from your device language. You can change it later in Settings.",
   "onboardingStart": "Get started",
-  "onboardingTour": "Show me around"
+  "onboardingTour": "Show me around",
+  "clearDataConfirmWord": "DELETE"
 }

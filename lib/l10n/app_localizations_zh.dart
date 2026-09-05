@@ -1860,10 +1860,10 @@ class AppLocalizationsZh extends AppLocalizations {
       'The selected data will be permanently deleted. Export a backup first if you may need it later.';
 
   @override
-  String get clearDataTypeConfirm => 'Type DELETE to confirm';
+  String get clearDataTypeConfirm => 'Type 删除 to confirm';
 
   @override
-  String get clearDataTypeConfirmError => 'Type DELETE exactly to continue';
+  String get clearDataTypeConfirmError => 'Type 删除 exactly to continue';
 
   @override
   String get clearDataPinTitle => 'Confirm with PIN';
@@ -2183,6 +2183,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get onboardingTour => '带我了解一下';
+
+  @override
+  String get clearDataConfirmWord => '删除';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -3972,10 +3975,10 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get clearDataConfirmBody => '所选数据将被永久删除。如果稍后需要，请先导出备份。';
 
   @override
-  String get clearDataTypeConfirm => '键入 DELETE 进行确认';
+  String get clearDataTypeConfirm => '键入 删除 进行确认';
 
   @override
-  String get clearDataTypeConfirmError => '准确键入 DELETE 以继续';
+  String get clearDataTypeConfirmError => '准确键入 删除 以继续';
 
   @override
   String get clearDataPinTitle => '使用 PIN 码确认';
@@ -4291,4 +4294,7 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get onboardingTour => '带我了解一下';
+
+  @override
+  String get clearDataConfirmWord => '删除';
 }

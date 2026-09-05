@@ -1638,6 +1638,18 @@ class _ClearDataTypeDeleteDialogState extends State<_ClearDataTypeDeleteDialog> 
     super.dispose();
   }
 
+  /// The localized word (e.g. LÖSCHEN), compared case-insensitively in both
+  /// directions so locale-specific casing (Turkish İ) cannot lock a user
+  /// out; the English word is always accepted as well.
+  static bool _matchesConfirmWord(String input, String word) {
+    final t = input.trim();
+    if (t.isEmpty) return false;
+    bool eq(String a, String b) =>
+        a == b || a.toUpperCase() == b.toUpperCase() ||
+        a.toLowerCase() == b.toLowerCase();
+    return eq(t, word) || eq(t, 'DELETE');
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
@@ -1656,7 +1668,7 @@ class _ClearDataTypeDeleteDialogState extends State<_ClearDataTypeDeleteDialog> 
               autocorrect: false,
               decoration: InputDecoration(
                 labelText: l10n.clearDataTypeConfirm,
-                hintText: 'DELETE',
+                hintText: l10n.clearDataConfirmWord,
                 errorText: _error,
               ),
             ),
@@ -1674,7 +1686,7 @@ class _ClearDataTypeDeleteDialogState extends State<_ClearDataTypeDeleteDialog> 
             foregroundColor: cs.onError,
           ),
           onPressed: () {
-            if (_ctrl.text.trim() == 'DELETE') {
+            if (_matchesConfirmWord(_ctrl.text, l10n.clearDataConfirmWord)) {
               Navigator.pop(context, true);
             } else {
               setState(() => _error = l10n.clearDataTypeConfirmError);

@@ -1866,10 +1866,10 @@ class AppLocalizationsPt extends AppLocalizations {
       'The selected data will be permanently deleted. Export a backup first if you may need it later.';
 
   @override
-  String get clearDataTypeConfirm => 'Type DELETE to confirm';
+  String get clearDataTypeConfirm => 'Type APAGAR to confirm';
 
   @override
-  String get clearDataTypeConfirmError => 'Type DELETE exactly to continue';
+  String get clearDataTypeConfirmError => 'Type APAGAR exactly to continue';
 
   @override
   String get clearDataPinTitle => 'Confirm with PIN';
@@ -2214,6 +2214,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get onboardingTour => 'Mostrar a app';
+
+  @override
+  String get clearDataConfirmWord => 'APAGAR';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -4090,11 +4093,11 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
       'Os dados selecionados serão excluídos permanentemente. Exporte um backup primeiro, se precisar dele mais tarde.';
 
   @override
-  String get clearDataTypeConfirm => 'Digite DELETE para confirmar';
+  String get clearDataTypeConfirm => 'Digite APAGAR para confirmar';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Digite DELETE exatamente para continuar';
+      'Digite APAGAR exatamente para continuar';
 
   @override
   String get clearDataPinTitle => 'Confirme com PIN';
@@ -4439,4 +4442,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get onboardingTour => 'Me mostre o app';
+
+  @override
+  String get clearDataConfirmWord => 'APAGAR';
 }

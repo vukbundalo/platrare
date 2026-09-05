@@ -1884,11 +1884,11 @@ class AppLocalizationsSr extends AppLocalizations {
       'Odabrani podaci bit će trajno obrisani. Napravite backup ako će vam trebati.';
 
   @override
-  String get clearDataTypeConfirm => 'Upišite DELETE za potvrdu';
+  String get clearDataTypeConfirm => 'Upišite OBRIŠI za potvrdu';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Upišite DELETE tačno kako bi nastavili';
+      'Upišite OBRIŠI tačno kako bi nastavili';
 
   @override
   String get clearDataPinTitle => 'Potvrdite PIN-om';
@@ -2236,6 +2236,9 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get onboardingTour => 'Pokaži mi aplikaciju';
+
+  @override
+  String get clearDataConfirmWord => 'OBRIŠI';
 }
 
 /// The translations for Serbian, using the Cyrillic script (`sr_Cyrl`).
@@ -4114,11 +4117,11 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
       'Одабрани подаци биће трајно обрисани. Направите бацкуп ако ће вам требати.';
 
   @override
-  String get clearDataTypeConfirm => 'Упишите DELETE за потврду';
+  String get clearDataTypeConfirm => 'Упишите ОБРИШИ за потврду';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Упишите DELETE тачно како бисте наставили';
+      'Упишите ОБРИШИ тачно како бисте наставили';
 
   @override
   String get clearDataPinTitle => 'Потврдите ПИН-ом';
@@ -4466,6 +4469,9 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String get onboardingTour => 'Покажи ми апликацију';
+
+  @override
+  String get clearDataConfirmWord => 'ОБРИШИ';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).
@@ -6348,11 +6354,11 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
       'Odabrani podaci biće trajno obrisani. Napravite backup ako će vam trebati.';
 
   @override
-  String get clearDataTypeConfirm => 'Upišite DELETE za potvrdu';
+  String get clearDataTypeConfirm => 'Upišite OBRIŠI za potvrdu';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Upišite DELETE tačno kako biste nastavili';
+      'Upišite OBRIŠI tačno kako biste nastavili';
 
   @override
   String get clearDataPinTitle => 'Potvrdite PIN-om';
@@ -6700,4 +6706,7 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get onboardingTour => 'Pokaži mi aplikaciju';
+
+  @override
+  String get clearDataConfirmWord => 'OBRIŠI';
 }

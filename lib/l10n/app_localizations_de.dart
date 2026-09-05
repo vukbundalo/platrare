@@ -1890,11 +1890,11 @@ class AppLocalizationsDe extends AppLocalizations {
       'Die ausgewählten Daten werden dauerhaft gelöscht. Exportieren Sie zunächst ein Backup, falls Sie es später benötigen.';
 
   @override
-  String get clearDataTypeConfirm => 'Geben Sie zur Bestätigung DELETE ein';
+  String get clearDataTypeConfirm => 'Geben Sie zur Bestätigung LÖSCHEN ein';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Geben Sie genau DELETE ein, um fortzufahren';
+      'Geben Sie genau LÖSCHEN ein, um fortzufahren';
 
   @override
   String get clearDataPinTitle => 'Mit PIN bestätigen';
@@ -2241,4 +2241,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get onboardingTour => 'Zeig mir die App';
+
+  @override
+  String get clearDataConfirmWord => 'LÖSCHEN';
 }

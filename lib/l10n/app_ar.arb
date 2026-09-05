@@ -933,8 +933,8 @@
   "clearDataConfirmButton": "مسح المحدد",
   "clearDataConfirmTitle": "لا يمكن التراجع عن هذا",
   "clearDataConfirmBody": "سيتم حذف البيانات المحددة نهائيًا. قم بتصدير نسخة احتياطية أولاً إذا كنت قد تحتاجها لاحقًا.",
-  "clearDataTypeConfirm": "اكتب DELETE للتأكيد",
-  "clearDataTypeConfirmError": "اكتب DELETE بالضبط للمتابعة",
+  "clearDataTypeConfirm": "اكتب حذف للتأكيد",
+  "clearDataTypeConfirmError": "اكتب حذف بالضبط للمتابعة",
   "clearDataPinTitle": "قم بالتأكيد باستخدام رقم التعريف الشخصي",
   "clearDataPinBody": "أدخل رقم التعريف الشخصي للتطبيق الخاص بك للسماح بهذا الإجراء.",
   "clearDataPinIncorrect": "رقم التعريف الشخصي غير صحيح",
@@ -1057,5 +1057,6 @@
   "onboardingCurrencyLabel": "العملة الأساسية",
   "onboardingCurrencyHint": "مقترحة من لغة جهازك. يمكنك تغييرها لاحقًا في الإعدادات.",
   "onboardingStart": "ابدأ",
-  "onboardingTour": "أرني الجولة"
+  "onboardingTour": "أرني الجولة",
+  "clearDataConfirmWord": "حذف"
 }

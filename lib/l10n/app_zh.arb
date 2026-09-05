@@ -933,8 +933,8 @@
   "clearDataConfirmButton": "Clear selected",
   "clearDataConfirmTitle": "This cannot be undone",
   "clearDataConfirmBody": "The selected data will be permanently deleted. Export a backup first if you may need it later.",
-  "clearDataTypeConfirm": "Type DELETE to confirm",
-  "clearDataTypeConfirmError": "Type DELETE exactly to continue",
+  "clearDataTypeConfirm": "Type 删除 to confirm",
+  "clearDataTypeConfirmError": "Type 删除 exactly to continue",
   "clearDataPinTitle": "Confirm with PIN",
   "clearDataPinBody": "Enter your app PIN to authorize this action.",
   "clearDataPinIncorrect": "Incorrect PIN",
@@ -1057,5 +1057,6 @@
   "onboardingCurrencyLabel": "基准货币",
   "onboardingCurrencyHint": "根据设备语言推荐，之后可在设置中更改。",
   "onboardingStart": "开始使用",
-  "onboardingTour": "带我了解一下"
+  "onboardingTour": "带我了解一下",
+  "clearDataConfirmWord": "删除"
 }

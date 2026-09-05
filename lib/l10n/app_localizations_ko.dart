@@ -1817,10 +1817,10 @@ class AppLocalizationsKo extends AppLocalizations {
       '선택한 데이터가 영구적으로 삭제됩니다. 나중에 필요할 경우 먼저 백업을 내보내십시오.';
 
   @override
-  String get clearDataTypeConfirm => '확인하려면 DELETE를 입력하세요.';
+  String get clearDataTypeConfirm => '확인하려면 삭제를 입력하세요.';
 
   @override
-  String get clearDataTypeConfirmError => '계속하려면 DELETE를 정확히 입력하세요.';
+  String get clearDataTypeConfirmError => '계속하려면 삭제를 정확히 입력하세요.';
 
   @override
   String get clearDataPinTitle => 'PIN으로 확인';
@@ -2149,4 +2149,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get onboardingTour => '둘러보기';
+
+  @override
+  String get clearDataConfirmWord => '삭제';
 }

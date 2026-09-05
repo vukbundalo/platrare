@@ -1813,10 +1813,10 @@ class AppLocalizationsJa extends AppLocalizations {
       '選択したデータは完全に削除されます。後で必要になる可能性がある場合は、最初にバックアップをエクスポートしてください。';
 
   @override
-  String get clearDataTypeConfirm => '「DELETE」と入力して確認します';
+  String get clearDataTypeConfirm => '「削除」と入力して確認します';
 
   @override
-  String get clearDataTypeConfirmError => '続行するには DELETE を正確に入力してください';
+  String get clearDataTypeConfirmError => '続行するには 削除 を正確に入力してください';
 
   @override
   String get clearDataPinTitle => 'PINで確認';
@@ -2139,4 +2139,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get onboardingTour => '使い方を見る';
+
+  @override
+  String get clearDataConfirmWord => '削除';
 }

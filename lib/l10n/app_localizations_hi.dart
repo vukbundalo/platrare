@@ -1871,11 +1871,11 @@ class AppLocalizationsHi extends AppLocalizations {
       'चयनित डेटा स्थायी रूप से हटा दिया जाएगा. यदि आपको बाद में इसकी आवश्यकता हो तो पहले बैकअप निर्यात करें।';
 
   @override
-  String get clearDataTypeConfirm => 'पुष्टि करने के लिए DELETE टाइप करें';
+  String get clearDataTypeConfirm => 'पुष्टि करने के लिए हटाएं टाइप करें';
 
   @override
   String get clearDataTypeConfirmError =>
-      'जारी रखने के लिए बिल्कुल DELETE टाइप करें';
+      'जारी रखने के लिए बिल्कुल हटाएं टाइप करें';
 
   @override
   String get clearDataPinTitle => 'पिन से पुष्टि करें';
@@ -2219,4 +2219,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get onboardingTour => 'मुझे ऐप दिखाएँ';
+
+  @override
+  String get clearDataConfirmWord => 'हटाएं';
 }

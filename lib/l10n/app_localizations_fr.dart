@@ -1895,11 +1895,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Les données sélectionnées seront supprimées définitivement. Exportez d\'abord une sauvegarde si vous pourriez en avoir besoin ultérieurement.';
 
   @override
-  String get clearDataTypeConfirm => 'Tapez DELETE pour confirmer';
+  String get clearDataTypeConfirm => 'Tapez SUPPRIMER pour confirmer';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Tapez DELETE exactement pour continuer';
+      'Tapez SUPPRIMER exactement pour continuer';
 
   @override
   String get clearDataPinTitle => 'Confirmer avec le PIN';
@@ -2245,4 +2245,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get onboardingTour => 'Faites-moi visiter';
+
+  @override
+  String get clearDataConfirmWord => 'SUPPRIMER';
 }

@@ -933,8 +933,8 @@
   "clearDataConfirmButton": "Effacer la sélection",
   "clearDataConfirmTitle": "Cette action est irréversible",
   "clearDataConfirmBody": "Les données sélectionnées seront supprimées définitivement. Exportez d'abord une sauvegarde si vous pourriez en avoir besoin ultérieurement.",
-  "clearDataTypeConfirm": "Tapez DELETE pour confirmer",
-  "clearDataTypeConfirmError": "Tapez DELETE exactement pour continuer",
+  "clearDataTypeConfirm": "Tapez SUPPRIMER pour confirmer",
+  "clearDataTypeConfirmError": "Tapez SUPPRIMER exactement pour continuer",
   "clearDataPinTitle": "Confirmer avec le PIN",
   "clearDataPinBody": "Saisissez votre PIN d'application pour autoriser cette action.",
   "clearDataPinIncorrect": "PIN incorrect",
@@ -1057,5 +1057,6 @@
   "onboardingCurrencyLabel": "Devise de base",
   "onboardingCurrencyHint": "Suggérée d’après la langue de l’appareil. Modifiable plus tard dans les Réglages.",
   "onboardingStart": "Commencer",
-  "onboardingTour": "Faites-moi visiter"
+  "onboardingTour": "Faites-moi visiter",
+  "clearDataConfirmWord": "SUPPRIMER"
 }

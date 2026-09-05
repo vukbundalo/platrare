@@ -933,8 +933,8 @@
   "clearDataConfirmButton": "चयनित साफ़ करें",
   "clearDataConfirmTitle": "इसे असंपादित नहीं किया जा सकता है",
   "clearDataConfirmBody": "चयनित डेटा स्थायी रूप से हटा दिया जाएगा. यदि आपको बाद में इसकी आवश्यकता हो तो पहले बैकअप निर्यात करें।",
-  "clearDataTypeConfirm": "पुष्टि करने के लिए DELETE टाइप करें",
-  "clearDataTypeConfirmError": "जारी रखने के लिए बिल्कुल DELETE टाइप करें",
+  "clearDataTypeConfirm": "पुष्टि करने के लिए हटाएं टाइप करें",
+  "clearDataTypeConfirmError": "जारी रखने के लिए बिल्कुल हटाएं टाइप करें",
   "clearDataPinTitle": "पिन से पुष्टि करें",
   "clearDataPinBody": "इस कार्रवाई को अधिकृत करने के लिए अपना ऐप पिन दर्ज करें।",
   "clearDataPinIncorrect": "ग़लत पिन",
@@ -1057,5 +1057,6 @@
   "onboardingCurrencyLabel": "मूल मुद्रा",
   "onboardingCurrencyHint": "आपकी डिवाइस भाषा के अनुसार सुझाई गई। इसे बाद में सेटिंग्स में बदल सकते हैं।",
   "onboardingStart": "शुरू करें",
-  "onboardingTour": "मुझे ऐप दिखाएँ"
+  "onboardingTour": "मुझे ऐप दिखाएँ",
+  "clearDataConfirmWord": "हटाएं"
 }

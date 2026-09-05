@@ -933,8 +933,8 @@
   "clearDataConfirmButton": "Ausgewählte löschen",
   "clearDataConfirmTitle": "Dies kann nicht rückgängig gemacht werden",
   "clearDataConfirmBody": "Die ausgewählten Daten werden dauerhaft gelöscht. Exportieren Sie zunächst ein Backup, falls Sie es später benötigen.",
-  "clearDataTypeConfirm": "Geben Sie zur Bestätigung DELETE ein",
-  "clearDataTypeConfirmError": "Geben Sie genau DELETE ein, um fortzufahren",
+  "clearDataTypeConfirm": "Geben Sie zur Bestätigung LÖSCHEN ein",
+  "clearDataTypeConfirmError": "Geben Sie genau LÖSCHEN ein, um fortzufahren",
   "clearDataPinTitle": "Mit PIN bestätigen",
   "clearDataPinBody": "Geben Sie Ihre App-PIN ein, um diese Aktion zu autorisieren.",
   "clearDataPinIncorrect": "Falsche PIN",
@@ -1057,5 +1057,6 @@
   "onboardingCurrencyLabel": "Basiswährung",
   "onboardingCurrencyHint": "Vorschlag anhand deiner Gerätesprache. Du kannst sie später in den Einstellungen ändern.",
   "onboardingStart": "Loslegen",
-  "onboardingTour": "Zeig mir die App"
+  "onboardingTour": "Zeig mir die App",
+  "clearDataConfirmWord": "LÖSCHEN"
 }

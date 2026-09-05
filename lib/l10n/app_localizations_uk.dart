@@ -1888,10 +1888,10 @@ class AppLocalizationsUk extends AppLocalizations {
       'Вибрані дані буде назавжди видалено. Спочатку експортуйте резервну копію, якщо вона може знадобитися пізніше.';
 
   @override
-  String get clearDataTypeConfirm => 'Введіть DELETE для підтвердження';
+  String get clearDataTypeConfirm => 'Введіть ВИДАЛИТИ для підтвердження';
 
   @override
-  String get clearDataTypeConfirmError => 'Введіть DELETE, щоб продовжити';
+  String get clearDataTypeConfirmError => 'Введіть ВИДАЛИТИ, щоб продовжити';
 
   @override
   String get clearDataPinTitle => 'Підтвердити PIN-кодом';
@@ -2243,4 +2243,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get onboardingTour => 'Покажіть застосунок';
+
+  @override
+  String get clearDataConfirmWord => 'ВИДАЛИТИ';
 }

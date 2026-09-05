@@ -933,8 +933,8 @@
   "clearDataConfirmButton": "Rensa markerat",
   "clearDataConfirmTitle": "Detta kan inte ångras",
   "clearDataConfirmBody": "Den valda informationen kommer att raderas permanent. Exportera en säkerhetskopia först om du kan behöva den senare.",
-  "clearDataTypeConfirm": "Skriv DELETE för att bekräfta",
-  "clearDataTypeConfirmError": "Skriv DELETE exakt för att fortsätta",
+  "clearDataTypeConfirm": "Skriv RADERA för att bekräfta",
+  "clearDataTypeConfirmError": "Skriv RADERA exakt för att fortsätta",
   "clearDataPinTitle": "Bekräfta med PIN",
   "clearDataPinBody": "Ange din app-PIN för att godkänna denna åtgärd.",
   "clearDataPinIncorrect": "Felaktig PIN-kod",
@@ -1057,5 +1057,6 @@
   "onboardingCurrencyLabel": "Basvaluta",
   "onboardingCurrencyHint": "Föreslagen utifrån enhetens språk. Du kan ändra den senare i Inställningar.",
   "onboardingStart": "Kom igång",
-  "onboardingTour": "Visa mig runt"
+  "onboardingTour": "Visa mig runt",
+  "clearDataConfirmWord": "RADERA"
 }

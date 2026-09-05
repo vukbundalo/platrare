@@ -933,8 +933,8 @@
   "clearDataConfirmButton": "Obriši odabrano",
   "clearDataConfirmTitle": "Ovo se ne može poništiti",
   "clearDataConfirmBody": "Odabrani podaci će biti trajno izbrisani. Prvo izvezite sigurnosnu kopiju ako vam zatreba kasnije.",
-  "clearDataTypeConfirm": "Unesite DELETE za potvrdu",
-  "clearDataTypeConfirmError": "Upišite DELETE tačno da nastavite",
+  "clearDataTypeConfirm": "Unesite OBRIŠI za potvrdu",
+  "clearDataTypeConfirmError": "Upišite OBRIŠI tačno da nastavite",
   "clearDataPinTitle": "Potvrdite PIN-om",
   "clearDataPinBody": "Unesite PIN aplikacije da autorizujete ovu radnju.",
   "clearDataPinIncorrect": "Netačan PIN",
@@ -1057,5 +1057,6 @@
   "onboardingCurrencyLabel": "Osnovna valuta",
   "onboardingCurrencyHint": "Predloženo prema jeziku uređaja. Možete je kasnije promijeniti u Postavkama.",
   "onboardingStart": "Započni",
-  "onboardingTour": "Pokaži mi aplikaciju"
+  "onboardingTour": "Pokaži mi aplikaciju",
+  "clearDataConfirmWord": "OBRIŠI"
 }

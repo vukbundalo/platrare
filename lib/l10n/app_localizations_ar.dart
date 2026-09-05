@@ -1872,10 +1872,10 @@ class AppLocalizationsAr extends AppLocalizations {
       'سيتم حذف البيانات المحددة نهائيًا. قم بتصدير نسخة احتياطية أولاً إذا كنت قد تحتاجها لاحقًا.';
 
   @override
-  String get clearDataTypeConfirm => 'اكتب DELETE للتأكيد';
+  String get clearDataTypeConfirm => 'اكتب حذف للتأكيد';
 
   @override
-  String get clearDataTypeConfirmError => 'اكتب DELETE بالضبط للمتابعة';
+  String get clearDataTypeConfirmError => 'اكتب حذف بالضبط للمتابعة';
 
   @override
   String get clearDataPinTitle => 'قم بالتأكيد باستخدام رقم التعريف الشخصي';
@@ -2223,4 +2223,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get onboardingTour => 'أرني الجولة';
+
+  @override
+  String get clearDataConfirmWord => 'حذف';
 }

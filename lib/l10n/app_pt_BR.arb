@@ -933,8 +933,8 @@
   "clearDataConfirmButton": "Limpar selecionado",
   "clearDataConfirmTitle": "Isso não pode ser desfeito",
   "clearDataConfirmBody": "Os dados selecionados serão excluídos permanentemente. Exporte um backup primeiro, se precisar dele mais tarde.",
-  "clearDataTypeConfirm": "Digite DELETE para confirmar",
-  "clearDataTypeConfirmError": "Digite DELETE exatamente para continuar",
+  "clearDataTypeConfirm": "Digite APAGAR para confirmar",
+  "clearDataTypeConfirmError": "Digite APAGAR exatamente para continuar",
   "clearDataPinTitle": "Confirme com PIN",
   "clearDataPinBody": "Insira o PIN do seu aplicativo para autorizar esta ação.",
   "clearDataPinIncorrect": "PIN incorreto",
@@ -1057,5 +1057,6 @@
   "onboardingCurrencyLabel": "Moeda base",
   "onboardingCurrencyHint": "Sugerida pelo idioma do dispositivo. Você pode alterá-la depois em Configurações.",
   "onboardingStart": "Começar",
-  "onboardingTour": "Me mostre o app"
+  "onboardingTour": "Me mostre o app",
+  "clearDataConfirmWord": "APAGAR"
 }

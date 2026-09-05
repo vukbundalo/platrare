@@ -1880,10 +1880,10 @@ class AppLocalizationsBs extends AppLocalizations {
       'Odabrani podaci će biti trajno izbrisani. Prvo izvezite sigurnosnu kopiju ako vam zatreba kasnije.';
 
   @override
-  String get clearDataTypeConfirm => 'Unesite DELETE za potvrdu';
+  String get clearDataTypeConfirm => 'Unesite OBRIŠI za potvrdu';
 
   @override
-  String get clearDataTypeConfirmError => 'Upišite DELETE tačno da nastavite';
+  String get clearDataTypeConfirmError => 'Upišite OBRIŠI tačno da nastavite';
 
   @override
   String get clearDataPinTitle => 'Potvrdite PIN-om';
@@ -2233,4 +2233,7 @@ class AppLocalizationsBs extends AppLocalizations {
 
   @override
   String get onboardingTour => 'Pokaži mi aplikaciju';
+
+  @override
+  String get clearDataConfirmWord => 'OBRIŠI';
 }

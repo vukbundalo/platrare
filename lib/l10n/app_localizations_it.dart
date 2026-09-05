@@ -1883,11 +1883,11 @@ class AppLocalizationsIt extends AppLocalizations {
       'I dati selezionati verranno eliminati definitivamente. Esporta prima un backup se potresti averne bisogno in seguito.';
 
   @override
-  String get clearDataTypeConfirm => 'Digita DELETE per confermare';
+  String get clearDataTypeConfirm => 'Digita ELIMINA per confermare';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Digita DELETE esattamente per continuare';
+      'Digita ELIMINA esattamente per continuare';
 
   @override
   String get clearDataPinTitle => 'Conferma con PIN';
@@ -2234,4 +2234,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get onboardingTour => 'Fammi fare un giro';
+
+  @override
+  String get clearDataConfirmWord => 'ELIMINA';
 }

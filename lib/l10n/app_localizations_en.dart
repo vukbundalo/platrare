@@ -2210,4 +2210,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingTour => 'Show me around';
+
+  @override
+  String get clearDataConfirmWord => 'DELETE';
 }

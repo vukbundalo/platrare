@@ -569,8 +569,8 @@
   "clearDataConfirmButton": "Обриши одабрано",
   "clearDataConfirmTitle": "Ова радња се не може поништити",
   "clearDataConfirmBody": "Одабрани подаци биће трајно обрисани. Направите бацкуп ако ће вам требати.",
-  "clearDataTypeConfirm": "Упишите DELETE за потврду",
-  "clearDataTypeConfirmError": "Упишите DELETE тачно како бисте наставили",
+  "clearDataTypeConfirm": "Упишите ОБРИШИ за потврду",
+  "clearDataTypeConfirmError": "Упишите ОБРИШИ тачно како бисте наставили",
   "clearDataPinTitle": "Потврдите ПИН-ом",
   "clearDataPinBody": "Унесите ПИН апликације за ауторизацију.",
   "clearDataPinIncorrect": "Погрешан ПИН",
@@ -693,5 +693,6 @@
   "onboardingCurrencyLabel": "Основна валута",
   "onboardingCurrencyHint": "Предложено према језику уређаја. Можете је касније променити у Подешавањима.",
   "onboardingStart": "Започни",
-  "onboardingTour": "Покажи ми апликацију"
+  "onboardingTour": "Покажи ми апликацију",
+  "clearDataConfirmWord": "ОБРИШИ"
 }

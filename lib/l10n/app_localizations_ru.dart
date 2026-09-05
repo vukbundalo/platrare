@@ -1893,10 +1893,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Выбранные данные будут удалены без возможности восстановления. Сначала экспортируйте резервную копию, если она может понадобиться вам позже.';
 
   @override
-  String get clearDataTypeConfirm => 'Введите DELETE для подтверждения.';
+  String get clearDataTypeConfirm => 'Введите УДАЛИТЬ для подтверждения.';
 
   @override
-  String get clearDataTypeConfirmError => 'Введите DELETE, чтобы продолжить.';
+  String get clearDataTypeConfirmError => 'Введите УДАЛИТЬ, чтобы продолжить.';
 
   @override
   String get clearDataPinTitle => 'Подтвердите с помощью PIN-кода';
@@ -2249,4 +2249,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get onboardingTour => 'Покажите приложение';
+
+  @override
+  String get clearDataConfirmWord => 'УДАЛИТЬ';
 }

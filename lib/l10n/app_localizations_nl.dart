@@ -1881,10 +1881,11 @@ class AppLocalizationsNl extends AppLocalizations {
       'De geselecteerde gegevens worden permanent verwijderd. Exporteer eerst een back-up als u deze later nodig heeft.';
 
   @override
-  String get clearDataTypeConfirm => 'Typ DELETE om te bevestigen';
+  String get clearDataTypeConfirm => 'Typ VERWIJDER om te bevestigen';
 
   @override
-  String get clearDataTypeConfirmError => 'Typ DELETE precies om door te gaan';
+  String get clearDataTypeConfirmError =>
+      'Typ VERWIJDER precies om door te gaan';
 
   @override
   String get clearDataPinTitle => 'Bevestig met pincode';
@@ -2230,4 +2231,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get onboardingTour => 'Leid me rond';
+
+  @override
+  String get clearDataConfirmWord => 'VERWIJDER';
 }

@@ -933,8 +933,8 @@
   "clearDataConfirmButton": "Очистить выбранное",
   "clearDataConfirmTitle": "Это нельзя отменить",
   "clearDataConfirmBody": "Выбранные данные будут удалены без возможности восстановления. Сначала экспортируйте резервную копию, если она может понадобиться вам позже.",
-  "clearDataTypeConfirm": "Введите DELETE для подтверждения.",
-  "clearDataTypeConfirmError": "Введите DELETE, чтобы продолжить.",
+  "clearDataTypeConfirm": "Введите УДАЛИТЬ для подтверждения.",
+  "clearDataTypeConfirmError": "Введите УДАЛИТЬ, чтобы продолжить.",
   "clearDataPinTitle": "Подтвердите с помощью PIN-кода",
   "clearDataPinBody": "Введите PIN-код вашего приложения, чтобы авторизовать это действие.",
   "clearDataPinIncorrect": "Неправильный PIN-код",
@@ -1057,5 +1057,6 @@
   "onboardingCurrencyLabel": "Основная валюта",
   "onboardingCurrencyHint": "Предложена по языку устройства. Позже её можно изменить в настройках.",
   "onboardingStart": "Начать",
-  "onboardingTour": "Покажите приложение"
+  "onboardingTour": "Покажите приложение",
+  "clearDataConfirmWord": "УДАЛИТЬ"
 }

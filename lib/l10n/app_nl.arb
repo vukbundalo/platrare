@@ -933,8 +933,8 @@
   "clearDataConfirmButton": "Wis geselecteerd",
   "clearDataConfirmTitle": "Dit kan niet ongedaan worden gemaakt",
   "clearDataConfirmBody": "De geselecteerde gegevens worden permanent verwijderd. Exporteer eerst een back-up als u deze later nodig heeft.",
-  "clearDataTypeConfirm": "Typ DELETE om te bevestigen",
-  "clearDataTypeConfirmError": "Typ DELETE precies om door te gaan",
+  "clearDataTypeConfirm": "Typ VERWIJDER om te bevestigen",
+  "clearDataTypeConfirmError": "Typ VERWIJDER precies om door te gaan",
   "clearDataPinTitle": "Bevestig met pincode",
   "clearDataPinBody": "Voer uw app-pincode in om deze actie te autoriseren.",
   "clearDataPinIncorrect": "Onjuiste pincode",
@@ -1057,5 +1057,6 @@
   "onboardingCurrencyLabel": "Basisvaluta",
   "onboardingCurrencyHint": "Voorgesteld op basis van je apparaattaal. Later te wijzigen in Instellingen.",
   "onboardingStart": "Aan de slag",
-  "onboardingTour": "Leid me rond"
+  "onboardingTour": "Leid me rond",
+  "clearDataConfirmWord": "VERWIJDER"
 }

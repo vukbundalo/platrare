@@ -1877,11 +1877,11 @@ class AppLocalizationsSv extends AppLocalizations {
       'Den valda informationen kommer att raderas permanent. Exportera en säkerhetskopia först om du kan behöva den senare.';
 
   @override
-  String get clearDataTypeConfirm => 'Skriv DELETE för att bekräfta';
+  String get clearDataTypeConfirm => 'Skriv RADERA för att bekräfta';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Skriv DELETE exakt för att fortsätta';
+      'Skriv RADERA exakt för att fortsätta';
 
   @override
   String get clearDataPinTitle => 'Bekräfta med PIN';
@@ -2228,4 +2228,7 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get onboardingTour => 'Visa mig runt';
+
+  @override
+  String get clearDataConfirmWord => 'RADERA';
 }

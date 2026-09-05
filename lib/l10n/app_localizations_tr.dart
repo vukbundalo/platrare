@@ -1874,11 +1874,11 @@ class AppLocalizationsTr extends AppLocalizations {
       'Seçilen veriler kalıcı olarak silinecek. Daha sonra ihtiyacınız olursa önce bir yedeği dışa aktarın.';
 
   @override
-  String get clearDataTypeConfirm => 'Onaylamak için DELETE yazın';
+  String get clearDataTypeConfirm => 'Onaylamak için SİL yazın';
 
   @override
   String get clearDataTypeConfirmError =>
-      'Devam etmek için tam olarak DELETE yazın';
+      'Devam etmek için tam olarak SİL yazın';
 
   @override
   String get clearDataPinTitle => 'PIN ile onayla';
@@ -2224,4 +2224,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get onboardingTour => 'Bana uygulamayı göster';
+
+  @override
+  String get clearDataConfirmWord => 'SİL';
 }

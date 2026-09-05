@@ -933,8 +933,8 @@
   "clearDataConfirmButton": "Seçileni temizle",
   "clearDataConfirmTitle": "Bu geri alınamaz",
   "clearDataConfirmBody": "Seçilen veriler kalıcı olarak silinecek. Daha sonra ihtiyacınız olursa önce bir yedeği dışa aktarın.",
-  "clearDataTypeConfirm": "Onaylamak için DELETE yazın",
-  "clearDataTypeConfirmError": "Devam etmek için tam olarak DELETE yazın",
+  "clearDataTypeConfirm": "Onaylamak için SİL yazın",
+  "clearDataTypeConfirmError": "Devam etmek için tam olarak SİL yazın",
   "clearDataPinTitle": "PIN ile onayla",
   "clearDataPinBody": "Bu işlemi yetkilendirmek için uygulama PIN'inizi girin.",
   "clearDataPinIncorrect": "Yanlış PIN",
@@ -1057,5 +1057,6 @@
   "onboardingCurrencyLabel": "Temel para birimi",
   "onboardingCurrencyHint": "Cihaz dilinize göre önerildi. Daha sonra Ayarlar’dan değiştirebilirsiniz.",
   "onboardingStart": "Başla",
-  "onboardingTour": "Bana uygulamayı göster"
+  "onboardingTour": "Bana uygulamayı göster",
+  "clearDataConfirmWord": "SİL"
 }

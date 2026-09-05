@@ -3893,6 +3893,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show me around'**
   String get onboardingTour;
+
+  /// No description provided for @clearDataConfirmWord.
+  ///
+  /// In en, this message translates to:
+  /// **'DELETE'**
+  String get clearDataConfirmWord;
 }
 
 class _AppLocalizationsDelegate
