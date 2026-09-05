@@ -7,6 +7,11 @@ on:
   pull_request:
     branches: [main]
 
+# A newer push to the same branch supersedes the running jobs.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   # Keep in sync with .fvmrc: the SDK decides compileSdk and the targetSdk
   # floor, so an unpinned "stable" is a release variable.
