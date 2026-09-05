@@ -612,7 +612,7 @@ class _AccountTxHero extends StatelessWidget {
                 ),
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
                 HeroFittedAmount(
-                  text: '+${totalIn.toStringAsFixed(2)} $baseSym',
+                  text: '+${formatBalanceAmount(totalIn)} $baseSym',
                   style: TextStyle(
                     fontSize: AppHeroConstants.primaryAmountFontSize,
                     fontWeight: FontWeight.w800,
@@ -636,7 +636,7 @@ class _AccountTxHero extends StatelessWidget {
                 ),
                 const SizedBox(height: AppHeroConstants.labelToAmountGap),
                 HeroFittedAmount(
-                  text: '-${totalOut.toStringAsFixed(2)} $baseSym',
+                  text: '-${formatBalanceAmount(totalOut)} $baseSym',
                   style: TextStyle(
                     fontSize: AppHeroConstants.secondaryAmountFontSize,
                     fontWeight: FontWeight.w700,

@@ -144,7 +144,7 @@ class TransactionDetailScreen extends StatelessWidget {
                 icon: Icons.currency_exchange_rounded,
                 label: l10n.detailDestinationAmount,
                 value:
-                    '${t.destinationAmount!.toStringAsFixed(2)} ${fx.currencySymbol(t.toAccount?.currencyCode ?? 'BAM')}',
+                    '${fx.formatNativeAmountDigits(t.destinationAmount!, t.toAccount?.currencyCode ?? 'BAM')} ${fx.currencySymbol(t.toAccount?.currencyCode ?? 'BAM')}',
                 color: color,
               ),
             // [exchangeRate] is native → app base (ledger), not leg-to-leg FX.
@@ -156,7 +156,7 @@ class TransactionDetailScreen extends StatelessWidget {
                 icon: Icons.swap_vert_rounded,
                 label: l10n.detailExchangeRate,
                 value:
-                    '1 ${fx.currencySymbol(t.currencyCode!)} = ${t.exchangeRate!.toStringAsFixed(4)} ${fx.currencySymbol(settings.baseCurrency)}',
+                    '1 ${fx.currencySymbol(t.currencyCode!)} = ${formatBalanceAmount(t.exchangeRate!, fractionDigits: 4)} ${fx.currencySymbol(settings.baseCurrency)}',
                 color: color,
               ),
           ]),
@@ -369,7 +369,7 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
                 icon: Icons.currency_exchange_rounded,
                 label: l10n.detailDestinationAmount,
                 value:
-                    '${pt.destinationAmount!.toStringAsFixed(2)} ${fx.currencySymbol(pt.toAccount?.currencyCode ?? 'BAM')}',
+                    '${fx.formatNativeAmountDigits(pt.destinationAmount!, pt.toAccount?.currencyCode ?? 'BAM')} ${fx.currencySymbol(pt.toAccount?.currencyCode ?? 'BAM')}',
                 color: color,
               ),
           ]),

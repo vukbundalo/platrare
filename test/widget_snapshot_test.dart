@@ -9,6 +9,7 @@ import 'package:platrare/data/widget_snapshot_service.dart';
 import 'package:platrare/models/account.dart';
 import 'package:platrare/models/planned_transaction.dart';
 import 'package:platrare/utils/fx.dart' as fx;
+import 'package:platrare/utils/money_format.dart';
 import 'package:platrare/utils/projections.dart';
 
 Account acc(
@@ -137,9 +138,10 @@ void main() {
       final v = sample['v'] as double;
       // Swift reproduces exactly this: "%.<digits>f" + " " + symbol.
       expect(sample['text'], '${v.toStringAsFixed(digits)} $symbol');
-      // And the unsigned app formatter agrees on magnitude + symbol.
+      // The app's own formatter is locale-aware (grouping); the widget
+      // deliberately stays ungrouped so Dart and Swift agree.
       expect(fx.formatNative(v, snap['baseCurrency'] as String),
-          '${v.abs().toStringAsFixed(digits)} $symbol');
+          '${formatMoneyDigits(v.abs(), decimals: digits)} $symbol');
     });
 
     test('day-0 balances keep the minus sign that formatNative drops', () {

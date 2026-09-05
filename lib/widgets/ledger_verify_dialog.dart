@@ -4,8 +4,9 @@ import '../data/app_data.dart' as data;
 import '../data/ledger_verify.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/account_display.dart';
+import '../utils/app_format.dart';
 
-String _fmtBalance(double x) => x.toStringAsFixed(2);
+String _fmtBalance(double x) => formatBalanceAmount(x);
 
 /// Scrollable body: all-match message or mismatch list (same copy as Settings).
 Widget buildLedgerVerifyResultBody(

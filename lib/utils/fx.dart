@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../data/user_settings.dart' as settings;
+import 'money_format.dart';
 
 // ─── Core conversion helpers ─────────────────────────────────────────────────
 
@@ -92,18 +93,15 @@ const _zeroDecimalCurrencies = {'JPY', 'KRW', 'VND', 'CLP', 'HUF', 'IDR'};
 int currencyMinorUnits(String currencyCode) =>
     _zeroDecimalCurrencies.contains(currencyCode) ? 0 : 2;
 
-/// Digits only (no symbol), same decimals as [formatNative].
-String formatNativeAmountDigits(double amount, String currencyCode) {
-  final d = currencyMinorUnits(currencyCode);
-  return amount.abs().toStringAsFixed(d);
-}
+/// Digits only (no symbol), unsigned, same decimals as [formatNative].
+/// Locale-aware grouping and decimal separator (see money_format.dart).
+String formatNativeAmountDigits(double amount, String currencyCode) =>
+    formatMoneyDigits(amount.abs(), decimals: currencyMinorUnits(currencyCode));
 
 /// Format an absolute (unsigned) amount with its currency symbol after.
-/// e.g. formatNative(123.45, 'EUR') → '123.45 €'
-String formatNative(double amount, String currencyCode) {
-  final decimals = currencyMinorUnits(currencyCode);
-  return '${amount.abs().toStringAsFixed(decimals)} ${currencySymbol(currencyCode)}';
-}
+/// e.g. formatNative(1234.5, 'EUR') → '1,234.50 €' (en) / '1.234,50 €' (de)
+String formatNative(double amount, String currencyCode) =>
+    '${formatNativeAmountDigits(amount, currencyCode)} ${currencySymbol(currencyCode)}';
 
 /// Format an amount in the global base currency.
 String formatBase(double amount) =>

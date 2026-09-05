@@ -21,7 +21,7 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started · `[!]` needs the 
 |---|------|--------|-------|
 | 1a | Support email + hosted policy URL in `AppUrls` and in the policy text | [!] | Owner: (1) set `AppUrls.supportEmail` in `lib/config/app_urls.dart`; (2) replace `[support email]` in every `docs/PRIVACY_POLICY*.md`; (3) enable GitHub Pages (repo Settings → Pages → branch `main`, folder `/docs`) and point `AppUrls.privacyPolicy` at the Pages URL. |
 | 1b | Add `AppUrls.supportEmail` and wire About screen "Contact support" | [x] | `AppUrls.supportEmail` is `''` on purpose; the About button appears once it is set. mailto opens the mail app, falls back to copying the address. |
-| 2 | Privacy policy + store disclosures cover notifications, widgets, App Group snapshot, Siri | [~] | EN + disclosures done (e679402). Translations done: ar bs de es fr nl pl pt_BR ru sv. In progress: hi hr it ja ko sr_Cyrl sr_Latn tr uk zh_Hans. |
+| 2 | Privacy policy + store disclosures cover notifications, widgets, App Group snapshot, Siri | [x] | EN + disclosures (e679402) and all 20 translations. `[support email]` placeholder remains for the owner (step 1a). |
 | 3 | PIN verifier no longer leaves the device in unencrypted backups | [x] | Only encrypted `.platrare` exports carry it; restore without it keeps the device PIN. Test: `test/backup_pin_hash_test.dart`. |
 | 4 | Atomic repository ops: confirm-planned, clear-transactions, account-with-opening-balance | [x] | `DataRepository.realizePlanned` / `replacePlanned` (skip + undo) / `addAccount` / `clearSelectiveData` each one SQLite commit. Tests: `test/data_repository_test.dart`; `PlatrareDatabase.useForTesting` installs an in-memory DB. |
 | 5 | Archived-account restore in Settings persists | [x] | |
@@ -36,7 +36,16 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started · `[!]` needs the 
 
 ## Phase 2 · A 1.0 people keep
 
-Not started. See RELEASE_AUDIT.md for the list.
+| # | Step | Status | Notes |
+|---|------|--------|-------|
+| 1 | Locale-aware money formatting in one place | [x] | `lib/utils/money_format.dart`; `formatBalanceAmount` and `fx.formatNative*` route through it; `setAppNumberLocale` is called from the MaterialApp locale resolution. Display sites no longer call `toStringAsFixed`. Text-field values (amount editors), CSV and backup stay invariant on purpose. iOS widget snapshot stays ungrouped until `AmountFormatter.swift` groups too. Tests: `test/money_format_test.dart`. |
+| 2 | First-run onboarding: currency from device locale, Plan/Track/Review explainer, offer help tour, persist "seen" | [ ] | |
+| 3 | Localise or replace the typed-word "DELETE" confirmation | [ ] | |
+| 4 | Finish nl/bs/fr ARB translations; remove or complete pt/zh base stubs | [ ] | |
+| 5 | Cache projections per expanded day; debounce search; memoise filtered lists | [ ] | |
+| 6 | Lift 2020 date floor; fix planned-delete dialog string; cap backup PBKDF2 iterations | [ ] | |
+| 7 | Chips: Material ink, 44 px targets, Semantics labels; test at 1.5×/2× text scale | [ ] | |
+| 8 | Tests: migrations v1→v3, backup round-trip with real rows | [ ] | Repository write paths and planned-confirm already covered in Phase 1 step 4. |
 
 ## Phase 3 · Professional codebase
 
@@ -50,3 +59,4 @@ Not started.
 
 - 2026-09-03 · Audit written and published; RELEASE_AUDIT.md committed.
 - 2026-09-04 · Started Phase 1 execution.
+- 2026-09-05 · Phase 1 code/doc steps complete (owner items 1a, 12, 13 and screenshots remain). Started Phase 2.

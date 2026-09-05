@@ -13,6 +13,7 @@ import '../../utils/fx.dart' as fx;
 import '../../utils/minor_units_amount_formatter.dart';
 import '../../utils/persistence_guard.dart';
 import '../../widgets/account_avatar.dart';
+import '../../utils/app_format.dart';
 
 // ─── Account icon / color presets ─────────────────────────────────────────────
 // Curated for personal finance, household, business, investing, and major spend.
@@ -754,8 +755,8 @@ Future<void> _showBalanceCorrectionDialog(
       title: Text(l10n.balanceAdjustedTitle),
       content: Text(
         l10n.balanceAdjustedBody(
-          previousBook.toStringAsFixed(2),
-          newBook.toStringAsFixed(2),
+          formatBalanceAmount(previousBook),
+          formatBalanceAmount(newBook),
           sym,
         ),
       ),

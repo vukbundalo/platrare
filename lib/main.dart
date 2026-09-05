@@ -34,6 +34,7 @@ import 'theme/platrare_theme.dart';
 import 'data/app_data.dart' as data;
 import 'models/planned_transaction.dart';
 import 'utils/fx.dart' as fx;
+import 'utils/money_format.dart';
 import 'utils/persistence_guard.dart';
 import 'widgets/app_lock_gate.dart';
 
@@ -176,13 +177,19 @@ class PlatrareApp extends StatelessWidget {
               supportedLocales: AppLocalizations.supportedLocales,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               localeListResolutionCallback: (locales, supported) {
+                Locale resolved = _resolveLocale(null, supported);
                 if (locales != null && locales.isNotEmpty) {
                   for (final deviceLocale in locales) {
                     final match = _tryMatchLocale(deviceLocale, supported);
-                    if (match != null) return match;
+                    if (match != null) {
+                      resolved = match;
+                      break;
+                    }
                   }
                 }
-                return _resolveLocale(null, supported);
+                // Amounts (grouping, decimal separator) follow the UI locale.
+                setAppNumberLocale(resolved);
+                return resolved;
               },
               home: _SplashRoot(initialTabIndex: initialMainTabIndex),
             );

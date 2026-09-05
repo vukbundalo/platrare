@@ -833,7 +833,7 @@ class _SaveBar extends StatelessWidget {
                       size: 14, color: cs.primary),
                   const SizedBox(width: 6),
                   Text(
-                    '${amount!.toStringAsFixed(2)}'
+                    '${formatBalanceAmount(amount!)}'
                     '${currencySymbol.isNotEmpty ? ' $currencySymbol' : ''} · $dateLabel',
                     style: TextStyle(
                         color: cs.primary,

@@ -731,7 +731,7 @@ class _SaveBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
-                  '${amount!.toStringAsFixed(2)}'
+                  '${formatBalanceAmount(amount!)}'
                   '${currencySymbol.isNotEmpty ? ' $currencySymbol' : ''}',
                   style: const TextStyle(
                       fontSize: 13, fontWeight: FontWeight.w600),

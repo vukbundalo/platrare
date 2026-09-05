@@ -2078,11 +2078,12 @@ class _CompareCategoryAmountsPanel extends StatelessWidget {
       alpha: brightness == Brightness.dark ? 0.20 : 0.11,
     );
     final sign = isExpense ? '−' : '+';
-    String fmt(double v) => '$sign${v.abs().toStringAsFixed(2)} $sym';
+    String fmt(double v) =>
+        '$sign${fx.formatNativeAmountDigits(v, displayCurrency)} $sym';
     final diff = b - a;
     final diffAbs = diff.abs();
     final diffStr =
-        '${diff >= 0 ? '+' : '−'}${diffAbs.toStringAsFixed(2)} $sym';
+        '${diff >= 0 ? '+' : '−'}${fx.formatNativeAmountDigits(diffAbs, displayCurrency)} $sym';
 
     Widget periodTile({
       required String badge,
@@ -2414,7 +2415,7 @@ class _SpendingBody extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '-${totalSpent.toStringAsFixed(2)} $sym',
+                    '-${formatBalanceAmount(totalSpent)} $sym',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.end,
@@ -2550,7 +2551,7 @@ class _IncomeBody extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '+${totalReceived.toStringAsFixed(2)} $sym',
+                    '+${formatBalanceAmount(totalReceived)} $sym',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.end,
@@ -2674,7 +2675,7 @@ class _BarsView extends StatelessWidget {
                             Expanded(
                               flex: narrowLayout ? 9 : 8,
                               child: Text(
-                                '${amount.toStringAsFixed(2)} ${fx.currencySymbol(displayCurrency)}',
+                                '${fx.formatNativeAmountDigits(amount, displayCurrency)} ${fx.currencySymbol(displayCurrency)}',
                                 textAlign: TextAlign.end,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -2841,8 +2842,8 @@ class _DonutView extends StatelessWidget {
                         width: amtW,
                         child: Text(
                           narrowLegend
-                              ? '${amount.toStringAsFixed(1)} $sym'
-                              : '${amount.toStringAsFixed(2)} $sym',
+                              ? '${formatBalanceAmount(amount, fractionDigits: 1)} $sym'
+                              : '${formatBalanceAmount(amount)} $sym',
                           textAlign: TextAlign.end,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

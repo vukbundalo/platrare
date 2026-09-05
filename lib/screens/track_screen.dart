@@ -1040,8 +1040,8 @@ class _TrackHero extends StatelessWidget {
     final lc = context.ledgerColors;
     final l10n = AppLocalizations.of(context);
     final sym = fx.currencySymbol(settings.baseCurrency);
-    final inStr = '+${totalIn.toStringAsFixed(2)} $sym';
-    final outStr = '-${totalOut.toStringAsFixed(2)} $sym';
+    final inStr = '+${formatBalanceAmount(totalIn)} $sym';
+    final outStr = '-${formatBalanceAmount(totalOut)} $sym';
     final inStyle = TextStyle(
       fontSize: AppHeroConstants.primaryAmountFontSize,
       fontWeight: FontWeight.w800,
