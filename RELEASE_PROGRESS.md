@@ -21,7 +21,7 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started · `[!]` needs the 
 |---|------|--------|-------|
 | 1a | Support email + hosted policy URL in `AppUrls` and in the policy text | [!] | Owner: (1) set `AppUrls.supportEmail` in `lib/config/app_urls.dart`; (2) replace `[support email]` in every `docs/PRIVACY_POLICY*.md`; (3) enable GitHub Pages (repo Settings → Pages → branch `main`, folder `/docs`) and point `AppUrls.privacyPolicy` at the Pages URL. |
 | 1b | Add `AppUrls.supportEmail` and wire About screen "Contact support" | [x] | `AppUrls.supportEmail` is `''` on purpose; the About button appears once it is set. mailto opens the mail app, falls back to copying the address. |
-| 2 | Privacy policy + store disclosures cover notifications, widgets, App Group snapshot, Siri | [ ] | English first, then the 20 translations. |
+| 2 | Privacy policy + store disclosures cover notifications, widgets, App Group snapshot, Siri | [~] | EN + disclosures done (e679402). Translations done: ar bs de es fr nl pl pt_BR ru sv. In progress: hi hr it ja ko sr_Cyrl sr_Latn tr uk zh_Hans. |
 | 3 | PIN verifier no longer leaves the device in unencrypted backups | [x] | Only encrypted `.platrare` exports carry it; restore without it keeps the device PIN. Test: `test/backup_pin_hash_test.dart`. |
 | 4 | Atomic repository ops: confirm-planned, clear-transactions, account-with-opening-balance | [x] | `DataRepository.realizePlanned` / `replacePlanned` (skip + undo) / `addAccount` / `clearSelectiveData` each one SQLite commit. Tests: `test/data_repository_test.dart`; `PlatrareDatabase.useForTesting` installs an in-memory DB. |
 | 5 | Archived-account restore in Settings persists | [x] | |
@@ -30,7 +30,7 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started · `[!]` needs the 
 | 8 | iOS: strip local-network plist keys in Release; `1C8F.1` in both privacy manifests; fix Team ID in widget script | [x] | New Xcode run-script phase "Strip Debug-Only Info.plist Keys" (Release only). Verify once in Xcode: archive, then inspect the built Info.plist. |
 | 9 | Delete `web/ linux/ macos/ windows/`; bundle only policy files, not all of `docs/` | [x] | Re-add macOS/Windows deliberately in Phase 4. |
 | 10 | CI: signed Android release build (skips signing when secrets absent) + iOS compile job | [x] | Three jobs: check (lockfile, generated-code drift, analyze --fatal-infos, tests), android (AAB + 16 KB zipalign check + artifacts), ios (build --no-codesign + asserts Release plist has no Bonjour keys). Owner adds secrets `UPLOAD_KEYSTORE_B64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`. First run happens when this branch is merged/PR'd to main. |
-| 11 | Store assets: adaptive + monochrome icon, 512 icon, feature graphic, listing copy | [ ] | Screenshots need a device: owner. |
+| 11 | Store assets: adaptive + monochrome icon, 512 icon, feature graphic, listing copy | [~] | Done: adaptive + monochrome launcher icon (`mipmap-anydpi-v26/platrare.xml`), `store/play/icon-512.png`, `store/play/feature-graphic-1024x500.png`, `store/listing/en-US/*` copy, `store/README.md`. Owner: screenshots (6.9" + 6.5" iPhone, Play phone) need a device; see `store/README.md` for the suggested set. |
 | 12 | Play closed test (12 testers, 14 days) | [!] | Owner. Start as soon as an internal build exists. |
 | 13 | Physical-device release checklist run | [!] | Owner. |
 

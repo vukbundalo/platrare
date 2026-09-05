@@ -2,4 +2,6 @@
 <resources>
     <!-- Aligns with Flutter light theme surface (institutional cool neutral). -->
     <color name="platrare_splash">#F2F5F9</color>
+    <!-- Adaptive launcher icon background; matches the iOS icon's white plate. -->
+    <color name="ic_launcher_background">#FFFFFF</color>
 </resources>
