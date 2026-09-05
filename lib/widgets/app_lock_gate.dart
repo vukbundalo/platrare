@@ -179,10 +179,6 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
     try {
       final didAuthenticate = await _localAuth.authenticate(
         localizedReason: l10n.securityBiometricReason,
-        options: const AuthenticationOptions(
-          biometricOnly: false,
-          stickyAuth: false,
-        ),
       );
       if (!mounted) return;
       _isUnlocked = didAuthenticate;

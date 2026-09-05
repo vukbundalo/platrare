@@ -55,7 +55,6 @@ void main() {
       overdraftLimit: 500,
       iconCodePoint: 0xe0af,
       colorArgb: 0xFF2F7DD1,
-      sortOrder: 0,
       createdAt: DateTime(2026, 1, 2, 10, 30),
     );
     final ana = Account(
@@ -64,7 +63,6 @@ void main() {
       group: AccountGroup.individuals,
       currencyCode: 'USD',
       balance: -120,
-      archived: false,
       sortOrder: 1,
       createdAt: DateTime(2026, 1, 3),
     );
@@ -115,15 +113,14 @@ void main() {
       fromAccount: bank,
       category: 'Groceries',
       description: 'Rent',
-      date: DateTime(2026, 10, 1),
+      date: DateTime(2026, 10),
       txType: TxType.expense,
       repeatInterval: RepeatInterval.monthly,
-      repeatEvery: 1,
       repeatDayOfMonth: 1,
       weekendAdjustment: WeekendAdjustment.previousFriday,
       repeatEndAfter: 12,
       repeatConfirmedCount: 2,
-      createdAt: DateTime(2026, 9, 1),
+      createdAt: DateTime(2026, 9),
     );
     data.plannedTransactions.add(rent);
 

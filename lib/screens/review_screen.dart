@@ -1,25 +1,27 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
 import '../data/app_signals.dart';
 import '../data/balance_privacy_prefs.dart';
 import '../data/user_settings.dart' as settings;
-import '../models/account.dart';
+import '../help/help_tour.dart';
 import '../l10n/app_localizations.dart';
+import '../models/account.dart';
+import '../theme/ledger_colors.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
-import '../utils/persistence_guard.dart';
-import '../theme/ledger_colors.dart';
 import '../utils/fx.dart' as fx;
+import '../utils/persistence_guard.dart';
 import '../widgets/account_avatar.dart';
-import 'account_transactions_screen.dart';
-import 'review/account_form_widgets.dart';
-import 'settings_screen.dart';
-import '../help/help_tour.dart';
 import '../widgets/app_hero_layout.dart';
 import '../widgets/review_stats_empty_state.dart';
 import '../widgets/stacked_scroll_fab.dart';
+import 'account_transactions_screen.dart';
+import 'review/account_form_widgets.dart';
+import 'settings_screen.dart';
 
 export 'review/account_form_widgets.dart'
     show AccountFormSheet, AccountFormScreen;
@@ -62,11 +64,11 @@ String? _pickCompareCategoryKey(List<String> keys, String? stored) {
 int _calendarQuarter(int month) => ((month - 1) ~/ 3) + 1;
 
 DateTime _quarterStart(int year, int quarter) =>
-    DateTime(year, (quarter - 1) * 3 + 1, 1);
+    DateTime(year, (quarter - 1) * 3 + 1);
 
 DateTime _quarterEndExclusive(int year, int quarter) {
-  if (quarter == 4) return DateTime(year + 1, 1, 1);
-  return DateTime(year, quarter * 3 + 1, 1);
+  if (quarter == 4) return DateTime(year + 1);
+  return DateTime(year, quarter * 3 + 1);
 }
 
 ({DateTime start, DateTime end}) _boundsQuarterContaining(int year, int month) {
@@ -79,16 +81,16 @@ DateTime _quarterEndExclusive(int year, int quarter) {
 
 ({DateTime start, DateTime end}) _boundsHalfYearContaining(int year, int month) {
   if (month <= 6) {
-    return (start: DateTime(year, 1, 1), end: DateTime(year, 7, 1));
+    return (start: DateTime(year), end: DateTime(year, 7));
   }
-  return (start: DateTime(year, 7, 1), end: DateTime(year + 1, 1, 1));
+  return (start: DateTime(year, 7), end: DateTime(year + 1));
 }
 
 DateTime _quarterStartContaining(DateTime d) =>
     _quarterStart(d.year, _calendarQuarter(d.month));
 
 DateTime _halfYearStartContaining(DateTime d) =>
-    d.month <= 6 ? DateTime(d.year, 1, 1) : DateTime(d.year, 7, 1);
+    d.month <= 6 ? DateTime(d.year) : DateTime(d.year, 7);
 
 ({DateTime start, DateTime end}) _quarterByOffsetFrom(DateTime now, int offset) {
   var y = now.year;
@@ -238,10 +240,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
     super.initState();
     ledgerRevision.addListener(_onLedgerChanged);
     final now = DateTime.now();
-    _compareMonthB = DateTime(now.year, now.month, 1);
+    _compareMonthB = DateTime(now.year, now.month);
     _compareMonthA = now.month == 1
-        ? DateTime(now.year - 1, 12, 1)
-        : DateTime(now.year, now.month - 1, 1);
+        ? DateTime(now.year - 1, 12)
+        : DateTime(now.year, now.month - 1);
     _sectionPageController = PageController(
       initialPage: _kReviewSections.indexOf(_activeSection).clamp(0, 3),
     );
@@ -452,32 +454,32 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   DateTime get _compareEarliestMonth {
     final e = _earliestTxDate;
-    if (e == null) return DateTime(DateTime.now().year - 5, 1, 1);
-    return DateTime(e.year, e.month, 1);
+    if (e == null) return DateTime(DateTime.now().year - 5);
+    return DateTime(e.year, e.month);
   }
 
   DateTime get _compareLatestMonth =>
-      DateTime(DateTime.now().year, DateTime.now().month, 1);
+      DateTime(DateTime.now().year, DateTime.now().month);
 
   /// Returns null if that direction is out of bounds (earliest/latest tx month).
   /// For 3M / 6M, steps one **quarter** or **half-year** so each tap changes the window
   /// (monthly steps would repeat the same quarter three or six times).
   DateTime? _compareShiftMonth(DateTime anchor, int direction) {
-    final cur = DateTime(anchor.year, anchor.month, 1);
+    final cur = DateTime(anchor.year, anchor.month);
     if (_spendingMonths == 12) {
       if (direction < 0) {
-        final prev = DateTime(cur.year - 1, 1, 1);
+        final prev = DateTime(cur.year - 1);
         if (prev.year >= _compareEarliestMonth.year) return prev;
         return null;
       }
-      final next = DateTime(cur.year + 1, 1, 1);
+      final next = DateTime(cur.year + 1);
       if (next.year <= _compareLatestMonth.year) return next;
       return null;
     }
     if (_spendingMonths == 3) {
       final qStart = _quarterStartContaining(cur);
       final delta = direction < 0 ? -3 : 3;
-      final raw = DateTime(qStart.year, qStart.month + delta, 1);
+      final raw = DateTime(qStart.year, qStart.month + delta);
       final nextStart = _quarterStartContaining(raw);
       if (direction < 0) {
         if (nextStart.isBefore(_compareEarliestMonth)) return null;
@@ -489,7 +491,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     if (_spendingMonths == 6) {
       final hStart = _halfYearStartContaining(cur);
       final delta = direction < 0 ? -6 : 6;
-      final raw = DateTime(hStart.year, hStart.month + delta, 1);
+      final raw = DateTime(hStart.year, hStart.month + delta);
       final nextStart = _halfYearStartContaining(raw);
       if (direction < 0) {
         if (nextStart.isBefore(_compareEarliestMonth)) return null;
@@ -500,14 +502,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
     }
     if (direction < 0) {
       final prev = cur.month == 1
-          ? DateTime(cur.year - 1, 12, 1)
-          : DateTime(cur.year, cur.month - 1, 1);
+          ? DateTime(cur.year - 1, 12)
+          : DateTime(cur.year, cur.month - 1);
       if (!prev.isBefore(_compareEarliestMonth)) return prev;
       return null;
     }
     final next = cur.month == 12
-        ? DateTime(cur.year + 1, 1, 1)
-        : DateTime(cur.year, cur.month + 1, 1);
+        ? DateTime(cur.year + 1)
+        : DateTime(cur.year, cur.month + 1);
     if (!next.isAfter(_compareLatestMonth)) return next;
     return null;
   }
@@ -540,10 +542,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   /// Compare window [start, end) for a period anchored at the first day of [anchorMonth].
   ({DateTime? start, DateTime? end}) _compareBounds(DateTime anchorMonth) {
-    final a = DateTime(anchorMonth.year, anchorMonth.month, 1);
+    final a = DateTime(anchorMonth.year, anchorMonth.month);
     switch (_spendingMonths) {
       case 1:
-        return (start: a, end: DateTime(a.year, a.month + 1, 1));
+        return (start: a, end: DateTime(a.year, a.month + 1));
       case 3:
         final q = _boundsQuarterContaining(a.year, a.month);
         return (start: q.start, end: q.end);
@@ -552,11 +554,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
         return (start: h.start, end: h.end);
       case 12:
         return (
-          start: DateTime(a.year, 1, 1),
-          end: DateTime(a.year + 1, 1, 1),
+          start: DateTime(a.year),
+          end: DateTime(a.year + 1),
         );
       default:
-        return (start: a, end: DateTime(a.year, a.month + 1, 1));
+        return (start: a, end: DateTime(a.year, a.month + 1));
     }
   }
 
@@ -568,7 +570,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     if (s == null || e == null) return l10n.statsAllTime;
     if (_spendingMonths == 1) return formatAppDate(context, 'MMMM yyyy', s);
     if (_spendingMonths == 12) return '${s.year}';
-    final lastMonth = DateTime(e.year, e.month - 1, 1);
+    final lastMonth = DateTime(e.year, e.month - 1);
     if (s.year == lastMonth.year) {
       return '${formatAppDate(context, 'MMM', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
     }
@@ -585,7 +587,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     if (s == null || e == null) return l10n.statsAllTime;
     if (_spendingMonths == 1) return formatAppDate(context, 'MMM yyyy', s);
     if (_spendingMonths == 12) return '${s.year}';
-    final lastMonth = DateTime(e.year, e.month - 1, 1);
+    final lastMonth = DateTime(e.year, e.month - 1);
     if (s.year == lastMonth.year) {
       return '${formatAppDate(context, 'MMM', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
     }
@@ -613,8 +615,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
         _ => 1,
       };
       if (_spendingMonths == 12) {
-        _compareMonthA = DateTime(_compareMonthA.year, 1, 1);
-        _compareMonthB = DateTime(_compareMonthB.year, 1, 1);
+        _compareMonthA = DateTime(_compareMonthA.year);
+        _compareMonthB = DateTime(_compareMonthB.year);
       } else if (_spendingMonths == 3) {
         _compareMonthA = _quarterStartContaining(_compareMonthA);
         _compareMonthB = _quarterStartContaining(_compareMonthB);
@@ -656,10 +658,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
       _compareCategoryExpense = null;
       _compareCategoryIncome = null;
       _displayCurrency = settings.baseCurrency;
-      _compareMonthB = DateTime(now.year, now.month, 1);
+      _compareMonthB = DateTime(now.year, now.month);
       _compareMonthA = now.month == 1
-          ? DateTime(now.year - 1, 12, 1)
-          : DateTime(now.year, now.month - 1, 1);
+          ? DateTime(now.year - 1, 12)
+          : DateTime(now.year, now.month - 1);
     });
   }
 
@@ -669,7 +671,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     final now = DateTime.now();
     if (_spendingMonths == 12) {
       final year = now.year - _dateOffset;
-      return (start: DateTime(year, 1, 1), end: DateTime(year + 1, 1, 1));
+      return (start: DateTime(year), end: DateTime(year + 1));
     }
     if (_spendingMonths == 3) {
       final r = _quarterByOffsetFrom(now, _dateOffset);
@@ -681,8 +683,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
     }
     final endM = now.month + 1 - _dateOffset * _spendingMonths;
     return (
-      start: DateTime(now.year, endM - _spendingMonths, 1),
-      end: DateTime(now.year, endM, 1),
+      start: DateTime(now.year, endM - _spendingMonths),
+      end: DateTime(now.year, endM),
     );
   }
 
@@ -701,7 +703,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     if (_spendingMonths == 12) return '${now.year - _dateOffset}';
     final range = _dateRange;
     final s = range.start!;
-    final lastMonth = DateTime(range.end!.year, range.end!.month - 1, 1);
+    final lastMonth = DateTime(range.end!.year, range.end!.month - 1);
     if (_spendingMonths == 1) return formatAppDate(context, 'MMMM yyyy', s);
     if (s.year == lastMonth.year) {
       return '${formatAppDate(context, 'MMM', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
@@ -1214,7 +1216,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         final prevSecondary = settings.secondaryCurrency;
                         await Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          MaterialPageRoute<void>(
                               builder: (_) => const SettingsScreen()),
                         );
                         if (mounted) {
@@ -1351,7 +1353,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                       settings.secondaryCurrency;
                                   await Navigator.push(
                                     context,
-                                    MaterialPageRoute(
+                                    MaterialPageRoute<void>(
                                         builder: (_) =>
                                             const SettingsScreen()),
                                   );
@@ -1835,7 +1837,7 @@ class _StatsHeader extends StatelessWidget {
                               MaterialTapTargetSize.shrinkWrap,
                           visualDensity: VisualDensity.compact,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 0),
+                              horizontal: 10),
                           labelPadding: EdgeInsets.zero,
                           label: Text(
                             k == 'Uncategorized'
@@ -2368,7 +2370,7 @@ class _SpendingBody extends StatelessWidget {
 
     if (sorted.isEmpty) {
       return Padding(
-        padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 8),
+        padding: const EdgeInsets.fromLTRB(hPad, 0, hPad, 8),
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -2388,7 +2390,7 @@ class _SpendingBody extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 6),
+          padding: const EdgeInsets.fromLTRB(hPad, 0, hPad, 6),
           child: Card(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -2426,7 +2428,7 @@ class _SpendingBody extends StatelessWidget {
                 sorted.where((e) => e.value.total > 0).toList();
             if (donutSorted.isEmpty) {
               return Padding(
-                padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 0),
+                padding: const EdgeInsets.fromLTRB(hPad, 0, hPad, 0),
                 child: Card(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -2446,9 +2448,6 @@ class _SpendingBody extends StatelessWidget {
             return _DonutView(
               sorted: donutSorted,
               displayCurrency: displayCurrency,
-              donutHeight: 170.0,
-              horizontalPadding: hPad,
-              narrowLegend: false,
             );
           }),
         ] else
@@ -2457,8 +2456,6 @@ class _SpendingBody extends StatelessWidget {
             maxAmount: maxAmount,
             displayCurrency: displayCurrency,
             barColor: expenseColor,
-            horizontalPadding: hPad,
-            narrowLayout: false,
           ),
         const SizedBox(height: 8),
       ],
@@ -2504,7 +2501,7 @@ class _IncomeBody extends StatelessWidget {
 
     if (sorted.isEmpty) {
       return Padding(
-        padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 8),
+        padding: const EdgeInsets.fromLTRB(hPad, 0, hPad, 8),
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -2524,7 +2521,7 @@ class _IncomeBody extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 6),
+          padding: const EdgeInsets.fromLTRB(hPad, 0, hPad, 6),
           child: Card(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -2562,7 +2559,7 @@ class _IncomeBody extends StatelessWidget {
                 sorted.where((e) => e.value.total > 0).toList();
             if (donutSorted.isEmpty) {
               return Padding(
-                padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 0),
+                padding: const EdgeInsets.fromLTRB(hPad, 0, hPad, 0),
                 child: Card(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -2582,9 +2579,6 @@ class _IncomeBody extends StatelessWidget {
             return _DonutView(
               sorted: donutSorted,
               displayCurrency: displayCurrency,
-              donutHeight: 170.0,
-              horizontalPadding: hPad,
-              narrowLegend: false,
             );
           }),
         ] else
@@ -2593,8 +2587,6 @@ class _IncomeBody extends StatelessWidget {
             maxAmount: maxAmount,
             displayCurrency: displayCurrency,
             barColor: incomeColor,
-            horizontalPadding: hPad,
-            narrowLayout: false,
           ),
         const SizedBox(height: 8),
       ],
@@ -2617,9 +2609,8 @@ class _BarsView extends StatelessWidget {
     required this.maxAmount,
     required this.displayCurrency,
     required this.barColor,
-    this.horizontalPadding = 16,
-    this.narrowLayout = false,
-  });
+  })  : horizontalPadding = 16,
+        narrowLayout = false;
 
   @override
   Widget build(BuildContext context) {
@@ -2717,10 +2708,9 @@ class _DonutView extends StatelessWidget {
   const _DonutView({
     required this.sorted,
     required this.displayCurrency,
-    this.donutHeight = 170,
-    this.horizontalPadding = 16,
-    this.narrowLegend = false,
-  });
+  })  : donutHeight = 170,
+        horizontalPadding = 16,
+        narrowLegend = false;
 
   Color _colorForCategory(BuildContext context, int positionInList) {
     final palette =

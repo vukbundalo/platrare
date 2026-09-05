@@ -10,8 +10,8 @@ import 'package:timezone/timezone.dart' as tz;
 import '../l10n/app_localizations.dart';
 import '../l10n/supported_languages.dart';
 import '../models/planned_transaction.dart';
-import '../utils/tx_display.dart' show txAmountDisplay;
 import '../utils/fx.dart' as fx;
+import '../utils/tx_display.dart' show txAmountDisplay;
 import 'app_data.dart' as data;
 import 'locale_prefs.dart';
 import 'planned_reminder_prefs.dart';
@@ -89,9 +89,7 @@ class PlannedReminderService {
   void resync() {
     if (!_initialized) return;
     _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 400), () {
-      _rescheduleAll();
-    });
+    _debounce = Timer(const Duration(milliseconds: 400), _rescheduleAll);
   }
 
   Future<void> _rescheduleAll() async {

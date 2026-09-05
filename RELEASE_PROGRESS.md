@@ -58,7 +58,7 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started · `[!]` needs the 
 | 5 | Deduplicate account forms, currency pickers (one done), date-filter machines, discard dialogs | [ ] | |
 | 6 | Enums for section / stats / period / type-group state | [ ] | |
 | 7 | Theme-driven typography; landscape + max-width column + two-pane Review | [ ] | |
-| 8 | Stricter lints; analyze fatal on infos | [ ] | CI already runs `--fatal-infos`. |
+| 8 | Stricter lints; analyze fatal on infos | [x] | `analysis_options.yaml`: strict casts/inference/raw types plus 16 extra rules (directives ordering, const, single quotes, unawaited futures, dynamic calls, redundant args…). `dart fix` applied 205 mechanical fixes; 40 manual (explicit `<void>` route/dialog types, `unawaited(...)` on haptics and background refresh). Generated code excluded from analysis. CI gate is `--fatal-infos`. |
 
 ## Phase 4 · Multi-device
 

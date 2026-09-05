@@ -1,34 +1,36 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+
 import '../data/app_data.dart' as data;
-import '../theme/ledger_colors.dart';
 import '../data/auto_backup_service.dart';
 import '../data/backup_export_reminder_prefs.dart';
 import '../data/balance_privacy_prefs.dart';
-import '../data/data_repository.dart';
-import '../data/data_transfer.dart';
 import '../data/currency_localized_names.dart';
 import '../data/currency_prefs.dart';
+import '../data/data_repository.dart';
+import '../data/data_transfer.dart';
 import '../data/fx_service.dart';
 import '../data/locale_prefs.dart';
 import '../data/planned_reminder_prefs.dart';
 import '../data/planned_reminder_service.dart';
 import '../data/security_prefs.dart';
 import '../data/theme_prefs.dart';
-import '../data/widget_prefs.dart';
 import '../data/user_settings.dart' as settings;
-import '../utils/account_display.dart';
-import '../utils/app_format.dart';
+import '../data/widget_prefs.dart';
+import '../help/help_tour.dart';
 import '../l10n/app_localizations.dart';
 import '../l10n/supported_languages.dart';
 import '../models/account.dart';
-import '../utils/fx.dart' as fx;
+import '../theme/ledger_colors.dart';
+import '../utils/account_display.dart';
+import '../utils/app_format.dart';
 import '../utils/csv_transfer_flow.dart';
+import '../utils/fx.dart' as fx;
 import '../utils/manual_backup_export_flow.dart';
+import '../utils/persistence_guard.dart';
 import '../widgets/currency_picker_sheet.dart';
 import '../widgets/ledger_verify_dialog.dart';
-import '../utils/persistence_guard.dart';
-import '../help/help_tour.dart';
 import 'app_about_screen.dart';
 import 'privacy_policy_screen.dart';
 
@@ -1369,7 +1371,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(
+                MaterialPageRoute<void>(
                     builder: (_) => const CategoriesScreen()),
               );
               setState(() {});
@@ -2136,7 +2138,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       _showCategoryInUseDialog(category, targetList, usage);
       return;
     }
-    showDialog(
+    unawaited(showDialog<void>(
       context: context,
       builder: (ctx) {
         final l = AppLocalizations.of(ctx);
@@ -2175,7 +2177,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           ],
         );
       },
-    );
+    ));
   }
 
   void _showCategoryInUseDialog(
@@ -2183,7 +2185,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     List<String> targetList,
     int usage,
   ) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (ctx) {
         final l = AppLocalizations.of(ctx);

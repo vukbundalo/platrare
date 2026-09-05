@@ -2,8 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../l10n/app_localizations.dart';
 import '../data/account_lifecycle.dart' show compareAccountsStorageOrder;
+import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
@@ -378,7 +378,7 @@ Widget trackPlanNamePill(
     maxLines: 1,
     textDirection: Directionality.of(context),
     textScaler: MediaQuery.textScalerOf(context),
-  )..layout(maxWidth: double.infinity);
+  )..layout();
 
   final chipWOneLine =
       oneLine.width.ceilToDouble() + 2 * padH + kTrackPlanChipTextSlop;

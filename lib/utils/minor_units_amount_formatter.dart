@@ -118,7 +118,7 @@ class MinorUnitsAmountInputFormatter extends TextInputFormatter {
     if (n.isEmpty) {
       _digits = '';
       _neg = false;
-      return const TextEditingValue(text: '', selection: TextSelection.collapsed(offset: 0));
+      return const TextEditingValue(selection: TextSelection.collapsed(offset: 0));
     }
 
     if (allowNegative && n == '-' && _digits.isEmpty) {

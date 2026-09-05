@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+
 import '../models/account.dart';
+import '../theme/ledger_colors.dart';
+import 'fx.dart' as fx;
+
 // CategoryList / categoryListFor live in models/account.dart (next to TxType)
 // so non-UI layers can use them; re-exported here for existing importers.
 export '../models/account.dart' show CategoryList, categoryListFor;
-import '../theme/ledger_colors.dart';
-import 'fx.dart' as fx;
 
 Color txColor(BuildContext context, TxType t) {
   final lc = context.ledgerColors;

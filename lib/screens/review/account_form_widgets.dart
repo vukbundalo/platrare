@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -9,11 +11,11 @@ import '../../data/ledger_service.dart';
 import '../../data/user_settings.dart' as settings;
 import '../../l10n/app_localizations.dart';
 import '../../models/account.dart';
+import '../../utils/app_format.dart';
 import '../../utils/fx.dart' as fx;
 import '../../utils/minor_units_amount_formatter.dart';
 import '../../utils/persistence_guard.dart';
 import '../../widgets/account_avatar.dart';
-import '../../utils/app_format.dart';
 
 // ─── Account icon / color presets ─────────────────────────────────────────────
 // Curated for personal finance, household, business, investing, and major spend.
@@ -542,7 +544,6 @@ class _AccountIconPickerBottomSheetState
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             child: TextField(
               controller: _searchController,
-              autofocus: false,
               onChanged: _onSearchChanged,
               textInputAction: TextInputAction.search,
               decoration: InputDecoration(
@@ -584,7 +585,6 @@ class _AccountIconPickerBottomSheetState
                       crossAxisCount: 5,
                       mainAxisSpacing: 8,
                       crossAxisSpacing: 8,
-                      childAspectRatio: 1,
                     ),
                     itemCount: filtered.length,
                     itemBuilder: (_, i) {
@@ -711,7 +711,6 @@ Widget _accountAppearanceEditorBlock(
       ),
       const SizedBox(height: 10),
       Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AccountAvatar(account: previewAccount, size: 52, borderRadius: 14),
           const SizedBox(width: 16),
@@ -1008,7 +1007,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
         setState(() {});
         return;
       }
-      HapticFeedback.lightImpact();
+      unawaited(HapticFeedback.lightImpact());
       if (mounted && correction.inserted) {
         await _showBalanceCorrectionDialog(
           context,
@@ -1367,7 +1366,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
               TextField(
                 controller: _balanceController,
                 keyboardType: const TextInputType.numberWithOptions(
-                    decimal: false, signed: true),
+                    signed: true),
                 inputFormatters: [_balanceMinorFormatter],
                 decoration: InputDecoration(
                   labelText: l10n.labelRealBalance,
@@ -1380,7 +1379,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
                 TextField(
                   controller: _overdraftController,
                   keyboardType: const TextInputType.numberWithOptions(
-                      decimal: false, signed: false),
+                      ),
                   inputFormatters: [_overdraftMinorFormatter],
                   decoration: InputDecoration(
                     labelText: l10n.labelOverdraftLimit,
@@ -1391,7 +1390,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
               ],
               const SizedBox(height: 20),
               FilledButton(
-                onPressed: () => _save(),
+                onPressed: _save,
                 style: FilledButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14)),
@@ -1670,7 +1669,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
         setState(() {});
         return;
       }
-      HapticFeedback.lightImpact();
+      unawaited(HapticFeedback.lightImpact());
       if (mounted && correction.inserted) {
         await _showBalanceCorrectionDialog(
           context,
@@ -1699,7 +1698,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
         setState(() {});
         return;
       }
-      HapticFeedback.lightImpact();
+      unawaited(HapticFeedback.lightImpact());
       if (mounted) Navigator.pop(context, true);
     }
   }
@@ -2059,7 +2058,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                                   ),
                                 ),
                                 TextButton(
-                                  onPressed: () => _restoreArchived(),
+                                  onPressed: _restoreArchived,
                                   child: Text(l10n.restore),
                                 ),
                               ],
@@ -2140,7 +2139,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                     TextField(
                       controller: _balanceController,
                       keyboardType: const TextInputType.numberWithOptions(
-                          decimal: false, signed: true),
+                          signed: true),
                       inputFormatters: [_balanceMinorFormatter],
                       decoration: InputDecoration(
                         labelText: l10n.labelRealBalance,
@@ -2154,7 +2153,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                       TextField(
                         controller: _overdraftController,
                         keyboardType: const TextInputType.numberWithOptions(
-                            decimal: false, signed: false),
+                            ),
                         inputFormatters: [_overdraftMinorFormatter],
                         decoration: InputDecoration(
                           labelText: l10n.labelOverdraftLimit,
@@ -2179,7 +2178,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                         width: 0.5)),
               ),
               child: FilledButton(
-                onPressed: _canSave ? () => _save() : null,
+                onPressed: _canSave ? _save : null,
                 style: FilledButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14)),

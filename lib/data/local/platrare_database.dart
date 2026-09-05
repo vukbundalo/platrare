@@ -2,16 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:drift/drift.dart';
-import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:drift/native.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import '../../models/account.dart';
-import '../app_signals.dart';
 import '../../models/planned_transaction.dart';
 import '../../models/transaction.dart';
 import '../app_data.dart' as data;
+import '../app_signals.dart';
 import '../widget_snapshot_service.dart';
 
 part 'platrare_database.g.dart';
@@ -696,7 +696,7 @@ class PlatrareDatabase extends _$PlatrareDatabase {
   /// Zeros all account balances in a single UPDATE.
   Future<void> zeroAllAccountBalances() async {
     final now = DateTime.now();
-    await (update(dbAccounts)).write(
+    await update(dbAccounts).write(
       DbAccountsCompanion(
         balance: const Value(0.0),
         updatedAt: Value(now),

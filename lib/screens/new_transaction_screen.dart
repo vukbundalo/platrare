@@ -1,22 +1,25 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../data/app_data.dart' as data;
 import '../data/ledger_service.dart';
 import '../data/user_settings.dart' as settings;
+import '../help/help_tour.dart';
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../models/transaction.dart';
+import '../theme/ledger_colors.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
+import '../utils/minor_units_amount_formatter.dart';
+import '../utils/persistence_guard.dart';
+import '../utils/tx_display.dart';
 import '../widgets/account_avatar.dart';
 import '../widgets/attachments_editor.dart';
 import '../widgets/stacked_scroll_fab.dart';
-import '../utils/persistence_guard.dart';
-import '../utils/minor_units_amount_formatter.dart';
-import '../theme/ledger_colors.dart';
-import '../utils/tx_display.dart';
-import '../help/help_tour.dart';
 
 class NewTransactionScreen extends StatefulWidget {
   final Transaction? existing;
@@ -83,7 +86,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       if (_noteController.text.trim() != (e.description ?? '')) return true;
       if (!DateUtils.dateOnly(_date).isAtSameMomentAs(DateUtils.dateOnly(e.date))) return true;
       if (_attachments.length != e.attachments.length ||
-          !_attachments.every((p) => e.attachments.contains(p))) {
+          !_attachments.every(e.attachments.contains)) {
         return true;
       }
       return false;
@@ -273,7 +276,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       return;
     }
 
-    HapticFeedback.lightImpact();
+    unawaited(HapticFeedback.lightImpact());
 
     final savedColor = txColor(context, type);
     final rawLabel = l10nTxLabel(context, type);
@@ -465,14 +468,13 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                         ),
                         const SizedBox(height: 4),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
                               child: TextField(
                                 controller: _amountController,
                                 keyboardType:
                                     const TextInputType.numberWithOptions(
-                                        decimal: false),
+                                        ),
                                 inputFormatters: [_amountMinorFormatter],
                                 style: TextStyle(
                                   fontSize: 42,
@@ -585,7 +587,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                     TextField(
                       controller: _destinationAmountController,
                       keyboardType: const TextInputType.numberWithOptions(
-                          decimal: false),
+                          ),
                       inputFormatters: [_destinationMinorFormatter],
                       decoration: InputDecoration(
                         suffixText:
@@ -641,7 +643,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                 : '',
             enabled: _canSave && !_isSaving,
             isEdit: _isEdit,
-            onSave: () => _save(),
+            onSave: _save,
           ),
         ],
       ),

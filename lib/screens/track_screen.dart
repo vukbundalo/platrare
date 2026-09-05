@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
 import '../data/app_signals.dart';
@@ -10,25 +11,25 @@ import '../data/balance_privacy_prefs.dart';
 import '../data/data_repository.dart';
 import '../data/ledger_service.dart';
 import '../data/user_settings.dart' as settings;
+import '../help/help_tour.dart';
+import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../models/transaction.dart';
-import '../l10n/app_localizations.dart';
+import '../theme/ledger_colors.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
 import '../utils/persistence_guard.dart';
 import '../utils/projections.dart' as proj;
-import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
-import '../help/help_tour.dart';
+import '../widgets/app_hero_layout.dart';
+import '../widgets/stacked_scroll_fab.dart';
+import '../widgets/track_plan_filter_ui.dart';
 import 'new_transaction_screen.dart';
 import 'review_screen.dart' show AccountFormSheet;
 import 'settings_screen.dart';
 import 'transaction_detail_screen.dart';
-import '../widgets/app_hero_layout.dart';
-import '../widgets/stacked_scroll_fab.dart';
-import '../widgets/track_plan_filter_ui.dart';
 
 class TrackScreen extends StatefulWidget {
   const TrackScreen({super.key});
@@ -514,7 +515,7 @@ class _TrackScreenState extends State<TrackScreen> {
   void _openTransactionDetail(Transaction t) {
     Navigator.push(
       context,
-      MaterialPageRoute(
+      MaterialPageRoute<void>(
         builder: (_) => TransactionDetailScreen(
           transaction: t,
           onEdit: () => _editTransaction(t),
@@ -534,7 +535,7 @@ class _TrackScreenState extends State<TrackScreen> {
     }
     if (!mounted) return;
     setState(() {});
-    HapticFeedback.mediumImpact();
+    unawaited(HapticFeedback.mediumImpact());
     final messenger = ScaffoldMessenger.of(context);
     messenger.clearSnackBars();
     messenger.showSnackBar(
@@ -660,7 +661,7 @@ class _TrackScreenState extends State<TrackScreen> {
               onPressed: () async {
                 await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const SettingsScreen()),
+                  MaterialPageRoute<void>(builder: (_) => const SettingsScreen()),
                 );
                 if (mounted) setState(() {});
               },
@@ -841,7 +842,7 @@ class _TrackScreenState extends State<TrackScreen> {
               onPressed: () async {
                 await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const SettingsScreen()),
+                  MaterialPageRoute<void>(builder: (_) => const SettingsScreen()),
                 );
                 if (mounted) setState(() {});
               },
@@ -1365,7 +1366,7 @@ class _TransactionTile extends StatelessWidget {
     }
     if (!context.mounted) return;
     onRefresh();
-    HapticFeedback.mediumImpact();
+    unawaited(HapticFeedback.mediumImpact());
     final messenger = ScaffoldMessenger.of(context);
     messenger.clearSnackBars();
     messenger.showSnackBar(
@@ -1396,7 +1397,7 @@ class _TransactionTile extends StatelessWidget {
   }
 
   void _confirmDelete(BuildContext context) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         shape:

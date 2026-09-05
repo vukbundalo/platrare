@@ -143,7 +143,7 @@ class _BackupExportPasswordDialogState extends State<BackupExportPasswordDialog>
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context, null),
+          onPressed: () => Navigator.pop(context),
           child: Text(l10n.cancel),
         ),
         TextButton(

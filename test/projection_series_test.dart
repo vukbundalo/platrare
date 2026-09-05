@@ -33,7 +33,7 @@ void main() {
       );
       final next = nextPlannedEffectiveDate(pt, pt.date);
       // Must skip past the stalled Jul 31 and land on Sep 1 (Tuesday).
-      expect(next, DateTime(2026, 9, 1));
+      expect(next, DateTime(2026, 9));
     });
 
     test('12 monthly steps produce strictly increasing distinct dates', () {
@@ -41,7 +41,7 @@ void main() {
       final pt = PlannedTransaction(
         nativeAmount: 100,
         fromAccount: a,
-        date: DateTime(2026, 1, 1),
+        date: DateTime(2026),
         repeatInterval: RepeatInterval.monthly,
         repeatDayOfMonth: 1,
         weekendAdjustment: WeekendAdjustment.previousFriday,
@@ -94,7 +94,7 @@ void main() {
     });
 
     test('repeatEndDate stops the series inclusively', () {
-      final a = acc('Cash', balance: 0);
+      final a = acc('Cash');
       data.accounts.add(a);
       data.plannedTransactions.add(PlannedTransaction(
         nativeAmount: 5,
@@ -112,7 +112,7 @@ void main() {
 
     test('cross-currency planned transfer credits destinationAmount', () {
       final eur = acc('EUR acct', ccy: 'EUR', balance: 500);
-      final bam = acc('BAM acct', ccy: 'BAM', balance: 0);
+      final bam = acc('BAM acct');
       data.accounts.addAll([eur, bam]);
       data.plannedTransactions.add(PlannedTransaction(
         nativeAmount: 100,
@@ -130,7 +130,7 @@ void main() {
 
     test('single-currency income with null destination credits nativeAmount',
         () {
-      final a = acc('Cash', balance: 0);
+      final a = acc('Cash');
       data.accounts.add(a);
       data.plannedTransactions.add(PlannedTransaction(
         nativeAmount: 250,

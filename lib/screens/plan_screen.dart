@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
 import '../data/app_signals.dart';
@@ -9,26 +11,26 @@ import '../data/balance_privacy_prefs.dart';
 import '../data/data_repository.dart';
 import '../data/ledger_service.dart';
 import '../data/user_settings.dart' as settings;
+import '../help/help_tour.dart';
+import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
-import '../l10n/app_localizations.dart';
+import '../theme/ledger_colors.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
-import '../widgets/account_avatar.dart';
 import '../utils/persistence_guard.dart';
 import '../utils/projections.dart' as proj;
-import '../theme/ledger_colors.dart';
 import '../utils/tx_display.dart';
-import '../help/help_tour.dart';
+import '../widgets/account_avatar.dart';
+import '../widgets/app_hero_layout.dart';
+import '../widgets/stacked_scroll_fab.dart';
+import '../widgets/track_plan_filter_ui.dart';
 import 'new_planned_transaction_screen.dart';
 import 'review_screen.dart';
 import 'settings_screen.dart';
 import 'transaction_detail_screen.dart';
-import '../widgets/app_hero_layout.dart';
-import '../widgets/stacked_scroll_fab.dart';
-import '../widgets/track_plan_filter_ui.dart';
 
 const _kTypeIncome = 'income';
 const _kTypeExpense = 'expense';
@@ -243,8 +245,8 @@ class _PlanScreenState extends State<PlanScreen> {
   /// anchors the default date for “new planned” when the list is all-time.
   (DateTime, DateTime) get _currentMonthRange {
     final now = DateTime.now();
-    final start = DateTime(now.year, now.month, 1);
-    final end = DateTime(now.year, now.month + 1, 1);
+    final start = DateTime(now.year, now.month);
+    final end = DateTime(now.year, now.month + 1);
     return (start, end);
   }
 
@@ -523,7 +525,7 @@ class _PlanScreenState extends State<PlanScreen> {
     final nextAfterScheduled = earlyRepeat
         ? nextPlannedEffectiveDate(pt, pt.date)
         : null;
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -584,14 +586,13 @@ class _PlanScreenState extends State<PlanScreen> {
         content: Text(AppLocalizations.of(context).planTransactionConfirmed),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        duration: const Duration(seconds: 4),
         margin: snackBarFloatingMarginBesideStackedFab(context),
       ),
     );
   }
 
   Future<void> _delete(PlannedTransaction pt) async {
-    HapticFeedback.lightImpact();
+    unawaited(HapticFeedback.lightImpact());
     if (!await guardPersist(context, () => DataRepository.removePlanned(pt))) {
       if (mounted) {
         setState(() {});
@@ -799,7 +800,7 @@ class _PlanScreenState extends State<PlanScreen> {
   void _openPlannedDetail(PlannedTransaction pt) {
     Navigator.push(
       context,
-      MaterialPageRoute(
+      MaterialPageRoute<void>(
         builder: (_) => PlannedTransactionDetailScreen(
           pt: pt,
           onConfirm: () => _confirm(pt),
@@ -971,7 +972,7 @@ class _PlanScreenState extends State<PlanScreen> {
                 onPressed: () async {
                   await Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    MaterialPageRoute<void>(
                         builder: (_) => const SettingsScreen()),
                   );
                   if (mounted) setState(() {});
@@ -1813,7 +1814,6 @@ class _DayGroup extends StatelessWidget {
                   final pt = entry.value;
                   return Dismissible(
                     key: ValueKey(pt.id),
-                    direction: DismissDirection.horizontal,
                     confirmDismiss: (direction) async {
                       if (direction == DismissDirection.endToStart) {
                         onDelete(pt);

@@ -79,7 +79,7 @@ void main() {
         nativeAmount: 100,
         currencyCode: 'EUR',
         fromAccount: from,
-        date: DateTime(2026, 9, 1),
+        date: DateTime(2026, 9),
         txType: TxType.expense,
         repeatInterval: RepeatInterval.monthly,
       );
@@ -94,14 +94,14 @@ void main() {
         baseAmount: 100,
         exchangeRate: 1,
         fromAccount: from,
-        date: DateTime(2026, 9, 1),
+        date: DateTime(2026, 9),
         txType: TxType.expense,
       );
       final next = PlannedTransaction(
         nativeAmount: 100,
         currencyCode: 'EUR',
         fromAccount: from,
-        date: DateTime(2026, 10, 1),
+        date: DateTime(2026, 10),
         txType: TxType.expense,
         repeatInterval: RepeatInterval.monthly,
         repeatConfirmedCount: 1,
@@ -131,7 +131,7 @@ void main() {
         nativeAmount: 20,
         currencyCode: 'EUR',
         fromAccount: from,
-        date: DateTime(2026, 9, 1),
+        date: DateTime(2026, 9),
         txType: TxType.expense,
       );
       await DataRepository.addPlanned(planned);
@@ -143,7 +143,7 @@ void main() {
           nativeAmount: 20,
           currencyCode: 'EUR',
           fromAccount: from,
-          date: DateTime(2026, 9, 1),
+          date: DateTime(2026, 9),
           txType: TxType.expense,
         ),
       );
@@ -161,7 +161,7 @@ void main() {
       nativeAmount: 10,
       currencyCode: 'EUR',
       fromAccount: from,
-      date: DateTime(2026, 9, 1),
+      date: DateTime(2026, 9),
       txType: TxType.expense,
     );
     await DataRepository.addPlanned(a);
@@ -169,7 +169,7 @@ void main() {
       nativeAmount: 10,
       currencyCode: 'EUR',
       fromAccount: from,
-      date: DateTime(2026, 10, 1),
+      date: DateTime(2026, 10),
       txType: TxType.expense,
     );
 

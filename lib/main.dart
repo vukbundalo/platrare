@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
+
+import 'data/app_data.dart' as data;
 import 'data/app_signals.dart';
 import 'data/auto_backup_service.dart';
 import 'data/backup_export_reminder_prefs.dart';
@@ -8,8 +10,8 @@ import 'data/balance_privacy_prefs.dart';
 import 'data/currency_prefs.dart';
 import 'data/data_repository.dart';
 import 'data/data_transfer.dart';
-import 'data/local/platrare_database.dart';
 import 'data/fx_service.dart';
+import 'data/local/platrare_database.dart';
 import 'data/locale_prefs.dart';
 import 'data/navigation_prefs.dart';
 import 'data/onboarding_prefs.dart';
@@ -22,20 +24,19 @@ import 'data/widget_prefs.dart';
 import 'data/widget_snapshot_service.dart';
 import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'l10n/supported_languages.dart';
-import 'utils/manual_backup_export_flow.dart';
-import 'screens/onboarding_screen.dart';
-import 'screens/splash_screen.dart';
+import 'models/planned_transaction.dart';
 import 'screens/account_transactions_screen.dart';
 import 'screens/new_planned_transaction_screen.dart';
 import 'screens/new_transaction_screen.dart';
-import 'screens/track_screen.dart';
+import 'screens/onboarding_screen.dart';
 import 'screens/plan_screen.dart';
 import 'screens/review_screen.dart';
+import 'screens/splash_screen.dart';
+import 'screens/track_screen.dart';
 import 'theme/platrare_surfaces.dart';
 import 'theme/platrare_theme.dart';
-import 'data/app_data.dart' as data;
-import 'models/planned_transaction.dart';
 import 'utils/fx.dart' as fx;
+import 'utils/manual_backup_export_flow.dart';
 import 'utils/money_format.dart';
 import 'utils/persistence_guard.dart';
 import 'widgets/app_lock_gate.dart';
@@ -404,7 +405,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           _selectTab(1);
           if (account == null || !mounted) return;
           await Navigator.of(context).push(
-            MaterialPageRoute(
+            MaterialPageRoute<void>(
               builder: (_) => AccountTransactionsScreen(account: account),
             ),
           );

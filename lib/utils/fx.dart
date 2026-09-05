@@ -124,7 +124,7 @@ String runFxLogicTest() {
   // They enter the BAM actually received; the system locks the exact rate used.
   const nativeAmount      = 200.0; // EUR sent
   const destinationAmount = 391.166; // BAM received (200 × peg, rounded)
-  final lockedRate = destinationAmount / nativeAmount;
+  const lockedRate = destinationAmount / nativeAmount;
   assert(
     (lockedRate - eurRate).abs() < 0.0001,
     'Locked rate mismatch: $lockedRate vs expected $eurRate',
@@ -132,16 +132,16 @@ String runFxLogicTest() {
 
   // ── Test 2 — Historical value locking (Rule 3) ────────────────────────────
   // baseAmount is computed once at save time and never changes.
-  final baseAmt = nativeAmount * eurRate;
+  const baseAmt = nativeAmount * eurRate;
   assert(
     (baseAmt - destinationAmount).abs() < 0.02,
     'baseAmount should match locked destination, got $baseAmt',
   );
   // FX rate moves to 2.0 BAM/EUR later. The historical record must NOT change.
   const futureRate   = 2.0;
-  final lockedBase   = baseAmt;
-  final currentValue = nativeAmount * futureRate;
-  final unrealisedFX = currentValue - lockedBase;
+  const lockedBase   = baseAmt;
+  const currentValue = nativeAmount * futureRate;
+  const unrealisedFX = currentValue - lockedBase;
   assert(
     unrealisedFX > 0,
     'Unrealised FX gain should be positive, got $unrealisedFX',
@@ -151,9 +151,9 @@ String runFxLogicTest() {
   // Net Worth = Σ(account.balance × currentRate).  Never Σ(lockedBaseAmounts).
   const cashBal  = 1000.0; // BAM
   const eurBal   = 500.0;  // EUR
-  final cashBase = cashBal * 1.0;
-  final eurBase  = eurBal * eurRate;
-  final netWorth = cashBase + eurBase;
+  const cashBase = cashBal * 1.0;
+  const eurBase  = eurBal * eurRate;
+  const netWorth = cashBase + eurBase;
   assert(
     (netWorth - (1000.0 + 500.0 * eurRate)).abs() < 0.02,
     'Net worth mismatch: $netWorth',
@@ -162,7 +162,7 @@ String runFxLogicTest() {
   // ── Test 4 — P&L isolation from Net Worth ────────────────────────────────
   const income1Base = 391.166;
   const income2Base = 163.00;
-  final totalPnl = income1Base + income2Base;
+  const totalPnl = income1Base + income2Base;
   assert(
     (totalPnl - (income1Base + income2Base)).abs() < 0.001,
     'P&L total mismatch: $totalPnl',

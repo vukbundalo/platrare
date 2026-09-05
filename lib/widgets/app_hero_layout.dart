@@ -321,7 +321,6 @@ class HeroTwoColumnMetricsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
           flex: AppHeroConstants.leftColumnFlex,

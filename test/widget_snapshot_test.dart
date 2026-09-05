@@ -1,3 +1,6 @@
+// The snapshot is a JSON payload; typed casts on every lookup would only
+// obscure what the widget actually reads.
+// ignore_for_file: avoid_dynamic_calls
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:platrare/data/app_data.dart' as data;
@@ -264,7 +267,7 @@ void main() {
     test('hasData is false but the payload is still well formed', () {
       final snap = build();
       expect(snap['hasData'], isFalse);
-      expect((snap['accounts'] as List), isEmpty);
+      expect(snap['accounts'] as List, isEmpty);
       expect((snap['series'] as Map)['days'], hasLength(35));
       expect(snap['schemaVersion'], 1);
       // Strings must always be present — the widget renders them before any

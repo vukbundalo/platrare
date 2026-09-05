@@ -147,8 +147,6 @@ class CsvImport {
   /// [prepare] validates the content regardless of what was picked.
   static Future<Uint8List?> pickCsvBytes() async {
     final result = await FilePicker.pickFiles(
-      allowMultiple: false,
-      type: FileType.any,
       withData: true,
     );
     if (result == null || result.files.isEmpty) return null;

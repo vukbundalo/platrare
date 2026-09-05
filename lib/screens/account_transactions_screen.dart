@@ -1,17 +1,19 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
+import '../l10n/app_localizations.dart';
 import '../models/account.dart';
 import '../models/transaction.dart';
-import '../l10n/app_localizations.dart';
+import '../theme/ledger_colors.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/day_grouped_list.dart';
 import '../utils/fx.dart' as fx;
-import '../theme/ledger_colors.dart';
+import '../utils/persistence_guard.dart';
 import '../utils/tx_display.dart';
 import '../widgets/app_hero_layout.dart';
 import '../widgets/stacked_scroll_fab.dart';
@@ -19,7 +21,6 @@ import '../widgets/track_plan_filter_ui.dart';
 import 'new_transaction_screen.dart';
 import 'review/account_form_widgets.dart' show AccountFormScreen;
 import 'transaction_detail_screen.dart';
-import '../utils/persistence_guard.dart';
 
 const _kTypeIncome   = 'income';
 const _kTypeExpense  = 'expense';
@@ -272,7 +273,7 @@ class _AccountTransactionsScreenState
   void _openDetail(Transaction t) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => TransactionDetailScreen(transaction: t)),
+      MaterialPageRoute<void>(builder: (_) => TransactionDetailScreen(transaction: t)),
     );
   }
 
@@ -664,7 +665,6 @@ class _AccountTxHero extends StatelessWidget {
             categoryFilter: categoryFilter,
             newestFirst: newestFirst,
             onToggleSort: onToggleSort,
-            accountChipEnabled: true,
             enabled: filterChipsEnabled,
             disabledSemanticsLabel: filterChipsDisabledSemantics,
           ),

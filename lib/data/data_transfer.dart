@@ -2,15 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' show Rect;
 
-import 'package:flutter/foundation.dart';
-
 import 'package:archive/archive.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/account.dart';
@@ -18,13 +17,13 @@ import '../models/planned_transaction.dart';
 import '../models/transaction.dart';
 import 'account_lifecycle.dart' show compareAccountsStorageOrder;
 import 'app_data.dart' as data;
-import 'backup_export_reminder_prefs.dart';
 import 'backup/backup_crypto.dart';
 import 'backup/backup_exceptions.dart';
 import 'backup/backup_format.dart';
 import 'backup/backup_manifest.dart';
 import 'backup/backup_preview.dart';
 import 'backup/backup_zip.dart';
+import 'backup_export_reminder_prefs.dart';
 import 'currency_prefs.dart';
 import 'local/platrare_database.dart';
 import 'planned_reminder_service.dart';
@@ -302,8 +301,6 @@ class DataTransfer {
   /// valid ZIP or `PLTR` encrypted payloads.
   static Future<Uint8List?> pickBackupFileBytes() async {
     final result = await FilePicker.pickFiles(
-      allowMultiple: false,
-      type: FileType.any,
       withData: true,
     );
     if (result == null || result.files.isEmpty) return null;
@@ -732,7 +729,7 @@ class DataTransfer {
     final expense = _stringList(categoriesRaw['expense']);
 
     final prefs = decoded['preferences'];
-    final prefsMap = prefs is Map<String, dynamic> ? prefs : const {};
+    final prefsMap = prefs is Map<String, dynamic> ? prefs : const <String, dynamic>{};
     final baseCurrency = _safeCurrency(
       prefsMap['baseCurrency'],
       fallback: settings.baseCurrency,

@@ -1,12 +1,14 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:open_filex/open_filex.dart';
+
 import '../data/data_transfer.dart';
 import '../data/user_settings.dart' as settings;
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
-import '../models/transaction.dart';
 import '../models/planned_transaction.dart';
+import '../models/transaction.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
 import '../utils/fx.dart' as fx;
@@ -33,7 +35,7 @@ class TransactionDetailScreen extends StatelessWidget {
 
   void _confirmDelete(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         shape:
@@ -199,7 +201,7 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
       return;
     }
     final l10n = AppLocalizations.of(context);
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         shape:
@@ -405,7 +407,6 @@ class _Header extends StatelessWidget {
         border: Border.all(color: color.withValues(alpha: 0.18)),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: 56,

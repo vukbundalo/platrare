@@ -99,7 +99,7 @@ void main() {
       exchangeRate: 1,
       fromAccount: bank,
       toAccount: ana,
-      date: DateTime(2026, 9, 1),
+      date: DateTime(2026, 9),
       txType: classifyTransaction(from: bank, to: ana),
     );
     await LedgerService.post(original);
@@ -143,7 +143,7 @@ void main() {
       destinationAmount: 108.4,
       fromAccount: bank,
       toAccount: ana,
-      date: DateTime(2026, 9, 1),
+      date: DateTime(2026, 9),
       txType: TxType.advance,
       repeatInterval: RepeatInterval.monthly,
     );
@@ -156,7 +156,7 @@ void main() {
     expect(ana.balance, closeTo(108.4, 1e-9));
     expect(data.plannedTransactions.map((p) => p.id), isNot(contains(planned.id)));
     final next = data.plannedTransactions.single;
-    expect(next.date, DateTime(2026, 10, 1));
+    expect(next.date, DateTime(2026, 10));
     expect(next.repeatConfirmedCount, 1);
     expect(next.destinationAmount, 108.4);
     expect((await db.select(db.dbPlannedTransactions).get()).single.id, next.id);
