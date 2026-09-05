@@ -1058,5 +1058,7 @@
   "onboardingCurrencyHint": "مقترحة من لغة جهازك. يمكنك تغييرها لاحقًا في الإعدادات.",
   "onboardingStart": "ابدأ",
   "onboardingTour": "أرني الجولة",
-  "clearDataConfirmWord": "حذف"
+  "clearDataConfirmWord": "حذف",
+  "planDeleteTitle": "حذف المعاملة المخططة؟",
+  "planDeleteBody": "ستُزال من خطتك. لن تتأثر أرصدة حساباتك."
 }

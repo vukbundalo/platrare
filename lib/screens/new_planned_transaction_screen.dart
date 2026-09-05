@@ -291,7 +291,7 @@ class _NewPlannedTransactionScreenState
     final picked = await showDatePicker(
       context: context,
       initialDate: _date,
-      firstDate: _isEdit ? DateTime(2020) : DateTime.now(),
+      firstDate: _isEdit ? DateTime(1970) : DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 730)),
       helpText: AppLocalizations.of(context).selectPlannedDate,
     );

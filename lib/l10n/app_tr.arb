@@ -1058,5 +1058,7 @@
   "onboardingCurrencyHint": "Cihaz dilinize göre önerildi. Daha sonra Ayarlar’dan değiştirebilirsiniz.",
   "onboardingStart": "Başla",
   "onboardingTour": "Bana uygulamayı göster",
-  "clearDataConfirmWord": "SİL"
+  "clearDataConfirmWord": "SİL",
+  "planDeleteTitle": "Planlanan işlem silinsin mi?",
+  "planDeleteBody": "Planınızdan kaldırılacak. Hesap bakiyeleriniz etkilenmez."
 }

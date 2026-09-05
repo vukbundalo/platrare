@@ -2236,4 +2236,11 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get clearDataConfirmWord => 'VERWIJDER';
+
+  @override
+  String get planDeleteTitle => 'Geplande transactie verwijderen?';
+
+  @override
+  String get planDeleteBody =>
+      'Deze wordt uit je planning verwijderd. Je rekeningsaldi veranderen niet.';
 }

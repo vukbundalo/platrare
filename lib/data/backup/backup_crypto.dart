@@ -132,6 +132,12 @@ Future<Uint8List> decryptToInnerZip({
     throw const BackupCorruptFileException();
   }
   final header = EncryptedOuterHeader.fromJson(headerMap);
+  // A crafted header with a huge count would hang import in pure-Dart PBKDF2;
+  // anything outside this band was never written by the app.
+  if (header.iterations < kPbkdf2MinIterations ||
+      header.iterations > kPbkdf2MaxIterations) {
+    throw const BackupCorruptFileException();
+  }
 
   final pbkdf2 = Pbkdf2.hmacSha256(
     iterations: header.iterations,

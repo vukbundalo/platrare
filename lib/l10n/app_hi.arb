@@ -1058,5 +1058,7 @@
   "onboardingCurrencyHint": "आपकी डिवाइस भाषा के अनुसार सुझाई गई। इसे बाद में सेटिंग्स में बदल सकते हैं।",
   "onboardingStart": "शुरू करें",
   "onboardingTour": "मुझे ऐप दिखाएँ",
-  "clearDataConfirmWord": "हटाएं"
+  "clearDataConfirmWord": "हटाएं",
+  "planDeleteTitle": "योजनाबद्ध लेन-देन हटाएँ?",
+  "planDeleteBody": "इसे आपकी योजना से हटा दिया जाएगा। आपके खातों के बैलेंस पर कोई असर नहीं पड़ेगा।"
 }

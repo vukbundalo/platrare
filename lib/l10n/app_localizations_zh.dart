@@ -2113,6 +2113,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get clearDataConfirmWord => '删除';
+
+  @override
+  String get planDeleteTitle => '删除计划交易？';
+
+  @override
+  String get planDeleteBody => '它将从计划中移除，账户余额不受影响。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -4224,4 +4230,10 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get clearDataConfirmWord => '删除';
+
+  @override
+  String get planDeleteTitle => '删除计划交易？';
+
+  @override
+  String get planDeleteBody => '它将从计划中移除，账户余额不受影响。';
 }

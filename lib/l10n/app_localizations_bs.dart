@@ -2236,4 +2236,11 @@ class AppLocalizationsBs extends AppLocalizations {
 
   @override
   String get clearDataConfirmWord => 'OBRIŠI';
+
+  @override
+  String get planDeleteTitle => 'Obrisati planiranu transakciju?';
+
+  @override
+  String get planDeleteBody =>
+      'Bit će uklonjena iz vašeg plana. Stanja vaših računa se ne mijenjaju.';
 }

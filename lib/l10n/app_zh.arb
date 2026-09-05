@@ -1058,5 +1058,7 @@
   "onboardingCurrencyHint": "根据设备语言推荐，之后可在设置中更改。",
   "onboardingStart": "开始使用",
   "onboardingTour": "带我了解一下",
-  "clearDataConfirmWord": "删除"
+  "clearDataConfirmWord": "删除",
+  "planDeleteTitle": "删除计划交易？",
+  "planDeleteBody": "它将从计划中移除，账户余额不受影响。"
 }

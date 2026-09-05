@@ -324,7 +324,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
     final picked = await showDatePicker(
       context: context,
       initialDate: initial,
-      firstDate: DateTime(2020),
+      firstDate: DateTime(1970),
       lastDate: today,
     );
     if (picked != null && mounted) setState(() => _date = picked);

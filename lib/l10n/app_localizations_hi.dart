@@ -2222,4 +2222,11 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get clearDataConfirmWord => 'हटाएं';
+
+  @override
+  String get planDeleteTitle => 'योजनाबद्ध लेन-देन हटाएँ?';
+
+  @override
+  String get planDeleteBody =>
+      'इसे आपकी योजना से हटा दिया जाएगा। आपके खातों के बैलेंस पर कोई असर नहीं पड़ेगा।';
 }

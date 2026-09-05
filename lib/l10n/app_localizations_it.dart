@@ -2237,4 +2237,11 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get clearDataConfirmWord => 'ELIMINA';
+
+  @override
+  String get planDeleteTitle => 'Eliminare la transazione pianificata?';
+
+  @override
+  String get planDeleteBody =>
+      'Verrà rimossa dal tuo piano. I saldi dei tuoi conti non cambiano.';
 }

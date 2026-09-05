@@ -2226,4 +2226,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get clearDataConfirmWord => 'حذف';
+
+  @override
+  String get planDeleteTitle => 'حذف المعاملة المخططة؟';
+
+  @override
+  String get planDeleteBody => 'ستُزال من خطتك. لن تتأثر أرصدة حساباتك.';
 }

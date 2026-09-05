@@ -1058,5 +1058,7 @@
   "onboardingCurrencyHint": "기기 언어를 바탕으로 제안했습니다. 나중에 설정에서 바꿀 수 있습니다.",
   "onboardingStart": "시작하기",
   "onboardingTour": "둘러보기",
-  "clearDataConfirmWord": "삭제"
+  "clearDataConfirmWord": "삭제",
+  "planDeleteTitle": "예정된 거래를 삭제할까요?",
+  "planDeleteBody": "계획에서 제거됩니다. 계좌 잔액에는 영향이 없습니다."
 }

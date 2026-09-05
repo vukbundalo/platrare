@@ -2230,6 +2230,13 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get clearDataConfirmWord => 'APAGAR';
+
+  @override
+  String get planDeleteTitle => 'Eliminar a transação planeada?';
+
+  @override
+  String get planDeleteBody =>
+      'Será removida do seu plano. Os saldos das suas contas não são afetados.';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -4458,4 +4465,11 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get clearDataConfirmWord => 'APAGAR';
+
+  @override
+  String get planDeleteTitle => 'Excluir a transação planejada?';
+
+  @override
+  String get planDeleteBody =>
+      'Ela será removida do seu plano. Os saldos das suas contas não são afetados.';
 }

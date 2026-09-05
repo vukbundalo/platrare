@@ -2213,4 +2213,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clearDataConfirmWord => 'DELETE';
+
+  @override
+  String get planDeleteTitle => 'Delete planned transaction?';
+
+  @override
+  String get planDeleteBody =>
+      'It will be removed from your plan. Your account balances are not affected.';
 }

@@ -2142,4 +2142,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get clearDataConfirmWord => '削除';
+
+  @override
+  String get planDeleteTitle => '予定取引を削除しますか？';
+
+  @override
+  String get planDeleteBody => 'プランから削除されます。口座残高には影響しません。';
 }

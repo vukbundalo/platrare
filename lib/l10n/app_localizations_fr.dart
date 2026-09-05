@@ -2248,4 +2248,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get clearDataConfirmWord => 'SUPPRIMER';
+
+  @override
+  String get planDeleteTitle => 'Supprimer la transaction planifiée ?';
+
+  @override
+  String get planDeleteBody =>
+      'Elle sera retirée de votre plan. Les soldes de vos comptes ne changent pas.';
 }

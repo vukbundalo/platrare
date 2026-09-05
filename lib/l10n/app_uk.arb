@@ -1058,5 +1058,7 @@
   "onboardingCurrencyHint": "Запропоновано за мовою пристрою. Пізніше її можна змінити в налаштуваннях.",
   "onboardingStart": "Почати",
   "onboardingTour": "Покажіть застосунок",
-  "clearDataConfirmWord": "ВИДАЛИТИ"
+  "clearDataConfirmWord": "ВИДАЛИТИ",
+  "planDeleteTitle": "Видалити заплановану операцію?",
+  "planDeleteBody": "Її буде вилучено з плану. Баланси ваших рахунків не зміняться."
 }

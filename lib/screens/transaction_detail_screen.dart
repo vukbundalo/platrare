@@ -204,8 +204,8 @@ class PlannedTransactionDetailScreen extends StatelessWidget {
       builder: (ctx) => AlertDialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(l10n.trackDeleteTitle),
-        content: Text(l10n.planTransactionRemoved),
+        title: Text(l10n.planDeleteTitle),
+        content: Text(l10n.planDeleteBody),
         icon: Icon(Icons.delete_outline_rounded,
             color: Theme.of(context).colorScheme.error),
         actions: [

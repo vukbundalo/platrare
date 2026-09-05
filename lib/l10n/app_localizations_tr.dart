@@ -2227,4 +2227,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get clearDataConfirmWord => 'SİL';
+
+  @override
+  String get planDeleteTitle => 'Planlanan işlem silinsin mi?';
+
+  @override
+  String get planDeleteBody =>
+      'Planınızdan kaldırılacak. Hesap bakiyeleriniz etkilenmez.';
 }

@@ -2245,4 +2245,11 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get clearDataConfirmWord => 'USUŃ';
+
+  @override
+  String get planDeleteTitle => 'Usunąć zaplanowaną transakcję?';
+
+  @override
+  String get planDeleteBody =>
+      'Zostanie usunięta z planu. Salda Twoich kont się nie zmienią.';
 }

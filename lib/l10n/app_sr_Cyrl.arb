@@ -694,5 +694,7 @@
   "onboardingCurrencyHint": "Предложено према језику уређаја. Можете је касније променити у Подешавањима.",
   "onboardingStart": "Започни",
   "onboardingTour": "Покажи ми апликацију",
-  "clearDataConfirmWord": "ОБРИШИ"
+  "clearDataConfirmWord": "ОБРИШИ",
+  "planDeleteTitle": "Обрисати планирану трансакцију?",
+  "planDeleteBody": "Биће уклоњена из вашег плана. Стања ваших рачуна се не мењају."
 }

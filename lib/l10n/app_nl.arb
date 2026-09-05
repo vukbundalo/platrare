@@ -1058,5 +1058,7 @@
   "onboardingCurrencyHint": "Voorgesteld op basis van je apparaattaal. Later te wijzigen in Instellingen.",
   "onboardingStart": "Aan de slag",
   "onboardingTour": "Leid me rond",
-  "clearDataConfirmWord": "VERWIJDER"
+  "clearDataConfirmWord": "VERWIJDER",
+  "planDeleteTitle": "Geplande transactie verwijderen?",
+  "planDeleteBody": "Deze wordt uit je planning verwijderd. Je rekeningsaldi veranderen niet."
 }

@@ -1058,5 +1058,7 @@
   "onboardingCurrencyHint": "Предложена по языку устройства. Позже её можно изменить в настройках.",
   "onboardingStart": "Начать",
   "onboardingTour": "Покажите приложение",
-  "clearDataConfirmWord": "УДАЛИТЬ"
+  "clearDataConfirmWord": "УДАЛИТЬ",
+  "planDeleteTitle": "Удалить запланированную операцию?",
+  "planDeleteBody": "Она будет удалена из плана. Балансы ваших счетов не изменятся."
 }

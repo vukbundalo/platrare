@@ -43,7 +43,7 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started · `[!]` needs the 
 | 3 | Localise or replace the typed-word "DELETE" confirmation | [x] | New `clearDataConfirmWord` key (localized verb) used as hint and match; the two prompt strings no longer hard-code DELETE; English word still accepted. |
 | 4 | Finish nl/bs/fr ARB translations; remove or complete pt/zh base stubs | [x] | 69 nl, 34 bs, 6 fr strings translated (the rest were legitimately identical: Plan, Net, Date, 1M…). `app_pt.arb` / `app_zh.arb` must exist for gen-l10n, so they now carry the pt_BR / zh_Hans text instead of English. |
 | 5 | Cache projections per expanded day; debounce search; memoise filtered lists | [x] | Track: `historicalBalances` only for the expanded day, search debounced 220 ms, filtered list built once per frame, scroll handler reuses the last day count. Plan: `projectBalances` only for the expanded day. Planned form: projection memoised per date. |
-| 6 | Lift 2020 date floor; fix planned-delete dialog string; cap backup PBKDF2 iterations | [ ] | |
+| 6 | Lift 2020 date floor; fix planned-delete dialog string; cap backup PBKDF2 iterations | [x] | Date pickers accept 1970+. New `planDeleteTitle`/`planDeleteBody` keys (24 locales). Import rejects iteration counts outside 10k–2M (`test/backup_iterations_cap_test.dart`). |
 | 7 | Chips: Material ink, 44 px targets, Semantics labels; test at 1.5×/2× text scale | [ ] | |
 | 8 | Tests: migrations v1→v3, backup round-trip with real rows | [ ] | Repository write paths and planned-confirm already covered in Phase 1 step 4. |
 

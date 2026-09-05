@@ -1058,5 +1058,7 @@
   "onboardingCurrencyHint": "Vorschlag anhand deiner Gerätesprache. Du kannst sie später in den Einstellungen ändern.",
   "onboardingStart": "Loslegen",
   "onboardingTour": "Zeig mir die App",
-  "clearDataConfirmWord": "LÖSCHEN"
+  "clearDataConfirmWord": "LÖSCHEN",
+  "planDeleteTitle": "Geplante Transaktion löschen?",
+  "planDeleteBody": "Sie wird aus deinem Plan entfernt. Deine Kontostände bleiben unverändert."
 }

@@ -3899,6 +3899,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'DELETE'**
   String get clearDataConfirmWord;
+
+  /// No description provided for @planDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete planned transaction?'**
+  String get planDeleteTitle;
+
+  /// No description provided for @planDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It will be removed from your plan. Your account balances are not affected.'**
+  String get planDeleteBody;
 }
 
 class _AppLocalizationsDelegate

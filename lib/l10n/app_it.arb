@@ -1058,5 +1058,7 @@
   "onboardingCurrencyHint": "Suggerita dalla lingua del dispositivo. Puoi cambiarla in seguito nelle Impostazioni.",
   "onboardingStart": "Inizia",
   "onboardingTour": "Fammi fare un giro",
-  "clearDataConfirmWord": "ELIMINA"
+  "clearDataConfirmWord": "ELIMINA",
+  "planDeleteTitle": "Eliminare la transazione pianificata?",
+  "planDeleteBody": "Verrà rimossa dal tuo piano. I saldi dei tuoi conti non cambiano."
 }

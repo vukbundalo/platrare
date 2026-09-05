@@ -2252,4 +2252,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clearDataConfirmWord => 'УДАЛИТЬ';
+
+  @override
+  String get planDeleteTitle => 'Удалить запланированную операцию?';
+
+  @override
+  String get planDeleteBody =>
+      'Она будет удалена из плана. Балансы ваших счетов не изменятся.';
 }

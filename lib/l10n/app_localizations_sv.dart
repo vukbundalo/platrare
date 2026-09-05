@@ -2231,4 +2231,11 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get clearDataConfirmWord => 'RADERA';
+
+  @override
+  String get planDeleteTitle => 'Ta bort planerad transaktion?';
+
+  @override
+  String get planDeleteBody =>
+      'Den tas bort från din plan. Dina kontosaldon påverkas inte.';
 }

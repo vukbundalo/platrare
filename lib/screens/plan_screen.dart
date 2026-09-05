@@ -304,7 +304,7 @@ class _PlanScreenState extends State<PlanScreen> {
     final picked = await showDatePicker(
       context: context,
       initialDate: _snapshotDate,
-      firstDate: DateTime(2020),
+      firstDate: DateTime(1970),
       lastDate: DateTime.now().add(const Duration(days: 1825)),
     );
     if (picked != null && mounted) setState(() => _snapshotDate = picked);

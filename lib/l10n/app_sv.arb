@@ -1058,5 +1058,7 @@
   "onboardingCurrencyHint": "Föreslagen utifrån enhetens språk. Du kan ändra den senare i Inställningar.",
   "onboardingStart": "Kom igång",
   "onboardingTour": "Visa mig runt",
-  "clearDataConfirmWord": "RADERA"
+  "clearDataConfirmWord": "RADERA",
+  "planDeleteTitle": "Ta bort planerad transaktion?",
+  "planDeleteBody": "Den tas bort från din plan. Dina kontosaldon påverkas inte."
 }

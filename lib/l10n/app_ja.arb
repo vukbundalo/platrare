@@ -1058,5 +1058,7 @@
   "onboardingCurrencyHint": "端末の言語から提案しています。あとで設定から変更できます。",
   "onboardingStart": "はじめる",
   "onboardingTour": "使い方を見る",
-  "clearDataConfirmWord": "削除"
+  "clearDataConfirmWord": "削除",
+  "planDeleteTitle": "予定取引を削除しますか？",
+  "planDeleteBody": "プランから削除されます。口座残高には影響しません。"
 }

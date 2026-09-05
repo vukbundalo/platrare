@@ -2152,4 +2152,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get clearDataConfirmWord => '삭제';
+
+  @override
+  String get planDeleteTitle => '예정된 거래를 삭제할까요?';
+
+  @override
+  String get planDeleteBody => '계획에서 제거됩니다. 계좌 잔액에는 영향이 없습니다.';
 }

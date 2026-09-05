@@ -1058,5 +1058,7 @@
   "onboardingCurrencyHint": "Sugerida a partir do idioma do dispositivo. Pode alterá-la mais tarde nas Definições.",
   "onboardingStart": "Começar",
   "onboardingTour": "Mostrar a app",
-  "clearDataConfirmWord": "APAGAR"
+  "clearDataConfirmWord": "APAGAR",
+  "planDeleteTitle": "Eliminar a transação planeada?",
+  "planDeleteBody": "Será removida do seu plano. Os saldos das suas contas não são afetados."
 }
