@@ -91,6 +91,13 @@ jobs:
             build/app/outputs/bundle/release/app-release.aab
             build/symbols
           retention-days: 14
+      # Sideloadable arm64 APK for device testing before a store upload.
+      # Debug-signed unless the upload keystore secrets are present.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-test-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 14
 
   ios:
     name: iOS build (no codesign)
