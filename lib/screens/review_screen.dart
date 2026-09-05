@@ -33,6 +33,18 @@ enum _ReviewSection { personal, individuals, entities, statistics }
 /// Statistics tab: what the category breakdown shows.
 enum _StatsMode { expense, income }
 
+/// Statistics window. [months] is 0 for all time.
+enum _StatsPeriod {
+  month(1),
+  quarter(3),
+  halfYear(6),
+  year(12),
+  allTime(0);
+
+  const _StatsPeriod(this.months);
+  final int months;
+}
+
 /// Shared category order for compare mode: max per side, then combined, then name.
 List<String> _orderedCategoryKeysForCompare(
   Map<String, ({double total, int count})> sideA,
@@ -176,7 +188,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   _ReviewSection _activeSection = _ReviewSection.personal;
     _StatsMode? _activeStats;
   // 0 = all time, 1 = calendar month, 3 = calendar quarter, 6 = half-year, 12 = year
-  int _spendingMonths = 1;
+  _StatsPeriod _statsPeriod = _StatsPeriod.month;
   // 0 = bars, 1 = donut
   int _vizMode = 0;
   // how many periods back from current (0 = most recent)
@@ -461,7 +473,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   /// (monthly steps would repeat the same quarter three or six times).
   DateTime? _compareShiftMonth(DateTime anchor, int direction) {
     final cur = DateTime(anchor.year, anchor.month);
-    if (_spendingMonths == 12) {
+    if (_statsPeriod == _StatsPeriod.year) {
       if (direction < 0) {
         final prev = DateTime(cur.year - 1);
         if (prev.year >= _compareEarliestMonth.year) return prev;
@@ -471,7 +483,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
       if (next.year <= _compareLatestMonth.year) return next;
       return null;
     }
-    if (_spendingMonths == 3) {
+    if (_statsPeriod == _StatsPeriod.quarter) {
       final qStart = _quarterStartContaining(cur);
       final delta = direction < 0 ? -3 : 3;
       final raw = DateTime(qStart.year, qStart.month + delta);
@@ -483,7 +495,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
       if (nextStart.isAfter(_compareLatestMonth)) return null;
       return nextStart;
     }
-    if (_spendingMonths == 6) {
+    if (_statsPeriod == _StatsPeriod.halfYear) {
       final hStart = _halfYearStartContaining(cur);
       final delta = direction < 0 ? -6 : 6;
       final raw = DateTime(hStart.year, hStart.month + delta);
@@ -538,21 +550,20 @@ class _ReviewScreenState extends State<ReviewScreen> {
   /// Compare window [start, end) for a period anchored at the first day of [anchorMonth].
   ({DateTime? start, DateTime? end}) _compareBounds(DateTime anchorMonth) {
     final a = DateTime(anchorMonth.year, anchorMonth.month);
-    switch (_spendingMonths) {
-      case 1:
-        return (start: a, end: DateTime(a.year, a.month + 1));
-      case 3:
+    switch (_statsPeriod) {
+      case _StatsPeriod.quarter:
         final q = _boundsQuarterContaining(a.year, a.month);
         return (start: q.start, end: q.end);
-      case 6:
+      case _StatsPeriod.halfYear:
         final h = _boundsHalfYearContaining(a.year, a.month);
         return (start: h.start, end: h.end);
-      case 12:
+      case _StatsPeriod.year:
         return (
           start: DateTime(a.year),
           end: DateTime(a.year + 1),
         );
-      default:
+      case _StatsPeriod.month:
+      case _StatsPeriod.allTime:
         return (start: a, end: DateTime(a.year, a.month + 1));
     }
   }
@@ -563,8 +574,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
     final s = b.start;
     final e = b.end;
     if (s == null || e == null) return l10n.statsAllTime;
-    if (_spendingMonths == 1) return formatAppDate(context, 'MMMM yyyy', s);
-    if (_spendingMonths == 12) return '${s.year}';
+    if (_statsPeriod == _StatsPeriod.month) return formatAppDate(context, 'MMMM yyyy', s);
+    if (_statsPeriod == _StatsPeriod.year) return '${s.year}';
     final lastMonth = DateTime(e.year, e.month - 1);
     if (s.year == lastMonth.year) {
       return '${formatAppDate(context, 'MMM', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
@@ -580,8 +591,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
     final s = b.start;
     final e = b.end;
     if (s == null || e == null) return l10n.statsAllTime;
-    if (_spendingMonths == 1) return formatAppDate(context, 'MMM yyyy', s);
-    if (_spendingMonths == 12) return '${s.year}';
+    if (_statsPeriod == _StatsPeriod.month) return formatAppDate(context, 'MMM yyyy', s);
+    if (_statsPeriod == _StatsPeriod.year) return '${s.year}';
     final lastMonth = DateTime(e.year, e.month - 1);
     if (s.year == lastMonth.year) {
       return '${formatAppDate(context, 'MMM', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
@@ -591,37 +602,42 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   String _periodLabel(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return switch (_spendingMonths) {
-      1 => l10n.period1M,
-      3 => l10n.period3M,
-      6 => l10n.period6M,
-      12 => l10n.period1Y,
-      _ => l10n.periodAll,
+    return switch (_statsPeriod) {
+      _StatsPeriod.month => l10n.period1M,
+      _StatsPeriod.quarter => l10n.period3M,
+      _StatsPeriod.halfYear => l10n.period6M,
+      _StatsPeriod.year => l10n.period1Y,
+      _StatsPeriod.allTime => l10n.periodAll,
     };
   }
 
   void _cyclePeriod() => setState(() {
     _dateOffset = 0;
     if (_compareMode) {
-      _spendingMonths = switch (_spendingMonths) {
-        1 => 3,
-        3 => 6,
-        6 => 12,
-        _ => 1,
+      // Compare mode has no all-time window.
+      _statsPeriod = switch (_statsPeriod) {
+        _StatsPeriod.month => _StatsPeriod.quarter,
+        _StatsPeriod.quarter => _StatsPeriod.halfYear,
+        _StatsPeriod.halfYear => _StatsPeriod.year,
+        _StatsPeriod.year || _StatsPeriod.allTime => _StatsPeriod.month,
       };
-      if (_spendingMonths == 12) {
+      if (_statsPeriod == _StatsPeriod.year) {
         _compareMonthA = DateTime(_compareMonthA.year);
         _compareMonthB = DateTime(_compareMonthB.year);
-      } else if (_spendingMonths == 3) {
+      } else if (_statsPeriod == _StatsPeriod.quarter) {
         _compareMonthA = _quarterStartContaining(_compareMonthA);
         _compareMonthB = _quarterStartContaining(_compareMonthB);
-      } else if (_spendingMonths == 6) {
+      } else if (_statsPeriod == _StatsPeriod.halfYear) {
         _compareMonthA = _halfYearStartContaining(_compareMonthA);
         _compareMonthB = _halfYearStartContaining(_compareMonthB);
       }
     } else {
-      _spendingMonths = switch (_spendingMonths) {
-        1 => 3, 3 => 6, 6 => 12, 12 => 0, _ => 1,
+      _statsPeriod = switch (_statsPeriod) {
+        _StatsPeriod.month => _StatsPeriod.quarter,
+        _StatsPeriod.quarter => _StatsPeriod.halfYear,
+        _StatsPeriod.halfYear => _StatsPeriod.year,
+        _StatsPeriod.year => _StatsPeriod.allTime,
+        _StatsPeriod.allTime => _StatsPeriod.month,
       };
     }
   });
@@ -636,7 +652,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     if (_activeSection != _ReviewSection.statistics) return false;
     return _compareMode ||
         _vizMode != 0 ||
-        _spendingMonths != 1 ||
+        _statsPeriod != _StatsPeriod.month ||
         _dateOffset != 0 ||
         (_activeStats ?? _StatsMode.expense) != _StatsMode.expense ||
         _displayCurrency != settings.baseCurrency;
@@ -647,7 +663,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     setState(() {
       _compareMode = false;
       _vizMode = 0;
-      _spendingMonths = 1;
+      _statsPeriod = _StatsPeriod.month;
       _dateOffset = 0;
       _activeStats = _StatsMode.expense;
       _compareCategoryExpense = null;
@@ -662,23 +678,23 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   // The active date window (start inclusive, end exclusive). null = no filter.
   ({DateTime? start, DateTime? end}) get _dateRange {
-    if (_spendingMonths == 0) return (start: null, end: null);
+    if (_statsPeriod == _StatsPeriod.allTime) return (start: null, end: null);
     final now = DateTime.now();
-    if (_spendingMonths == 12) {
+    if (_statsPeriod == _StatsPeriod.year) {
       final year = now.year - _dateOffset;
       return (start: DateTime(year), end: DateTime(year + 1));
     }
-    if (_spendingMonths == 3) {
+    if (_statsPeriod == _StatsPeriod.quarter) {
       final r = _quarterByOffsetFrom(now, _dateOffset);
       return (start: r.start, end: r.end);
     }
-    if (_spendingMonths == 6) {
+    if (_statsPeriod == _StatsPeriod.halfYear) {
       final r = _halfYearByOffsetFrom(now, _dateOffset);
       return (start: r.start, end: r.end);
     }
-    final endM = now.month + 1 - _dateOffset * _spendingMonths;
+    final endM = now.month + 1 - _dateOffset * _statsPeriod.months;
     return (
-      start: DateTime(now.year, endM - _spendingMonths),
+      start: DateTime(now.year, endM - _statsPeriod.months),
       end: DateTime(now.year, endM),
     );
   }
@@ -690,16 +706,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
   String _dateRangeLabel(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final now = DateTime.now();
-    if (_spendingMonths == 0) {
+    if (_statsPeriod == _StatsPeriod.allTime) {
       final earliest = _earliestTxDate;
       if (earliest == null) return l10n.statsAllTime;
       return '${formatAppDate(context, 'MMM yyyy', earliest)} – ${formatAppDate(context, 'MMM yyyy', now)}';
     }
-    if (_spendingMonths == 12) return '${now.year - _dateOffset}';
+    if (_statsPeriod == _StatsPeriod.year) return '${now.year - _dateOffset}';
     final range = _dateRange;
     final s = range.start!;
     final lastMonth = DateTime(range.end!.year, range.end!.month - 1);
-    if (_spendingMonths == 1) return formatAppDate(context, 'MMMM yyyy', s);
+    if (_statsPeriod == _StatsPeriod.month) return formatAppDate(context, 'MMMM yyyy', s);
     if (s.year == lastMonth.year) {
       return '${formatAppDate(context, 'MMM', s)} – ${formatAppDate(context, 'MMM yyyy', lastMonth)}';
     }
@@ -875,7 +891,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   _activeStats = s;
                 }),
                 periodLabel: _periodLabel(context),
-                spendingMonths: _spendingMonths,
+                statsPeriod: _statsPeriod,
                 dateRangeLabel: _dateRangeLabel(context),
                 onCyclePeriod: _cyclePeriod,
                 canNavigateForward: _dateOffset > 0,
@@ -889,8 +905,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     _compareMode = false;
                   } else {
                     _compareMode = true;
-                    if (_spendingMonths == 0) {
-                      _spendingMonths = 1;
+                    if (_statsPeriod == _StatsPeriod.allTime) {
+                      _statsPeriod = _StatsPeriod.month;
                     }
                   }
                 }),
@@ -954,7 +970,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 _SpendingBody(
                   spending: _categorySpending,
                   periodLabel: _periodLabel(context),
-                  spendingMonths: _spendingMonths,
+                  statsPeriod: _statsPeriod,
                   vizMode: _vizMode,
                   displayCurrency: _displayCurrency,
                 ),
@@ -998,7 +1014,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 _IncomeBody(
                   income: _categoryIncome,
                   periodLabel: _periodLabel(context),
-                  spendingMonths: _spendingMonths,
+                  statsPeriod: _statsPeriod,
                   vizMode: _vizMode,
                   displayCurrency: _displayCurrency,
                 ),
@@ -1651,7 +1667,7 @@ class _StatsHeader extends StatelessWidget {
   final _StatsMode? activeStats;
   final void Function(_StatsMode s) onSelectStats;
   final String periodLabel;
-  final int spendingMonths;
+  final _StatsPeriod statsPeriod;
   final String dateRangeLabel;
   final VoidCallback onCyclePeriod;
   final bool canNavigateForward;
@@ -1670,7 +1686,7 @@ class _StatsHeader extends StatelessWidget {
     required this.activeStats,
     required this.onSelectStats,
     required this.periodLabel,
-    required this.spendingMonths,
+    required this.statsPeriod,
     required this.dateRangeLabel,
     required this.onCyclePeriod,
     required this.canNavigateForward,
@@ -1689,7 +1705,7 @@ class _StatsHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
-    final isAllTime = spendingMonths == 0;
+    final isAllTime = statsPeriod == _StatsPeriod.allTime;
     final vizIcon = vizMode == 1 ? Icons.donut_large_rounded : Icons.bar_chart_rounded;
 
     // Same footprint as _NetWorthHero chips: full row width, shared chip height, 6px gaps.
@@ -2330,14 +2346,14 @@ class _CompareCategoryAmountsPanel extends StatelessWidget {
 class _SpendingBody extends StatelessWidget {
   final Map<String, ({double total, int count})> spending;
   final String periodLabel;
-  final int spendingMonths;
+  final _StatsPeriod statsPeriod;
   final int vizMode;
   final String displayCurrency;
 
   const _SpendingBody({
     required this.spending,
     required this.periodLabel,
-    required this.spendingMonths,
+    required this.statsPeriod,
     required this.vizMode,
     required this.displayCurrency,
   });
@@ -2355,9 +2371,9 @@ class _SpendingBody extends StatelessWidget {
     final totalSpent = fx.convert(totalSpentBase, settings.baseCurrency, displayCurrency);
     final sym = fx.currencySymbol(displayCurrency);
 
-    final emptyMsg = switch (spendingMonths) {
-      1 => l10n.statsNoExpensesMonth,
-      0 => l10n.statsNoExpensesAll,
+    final emptyMsg = switch (statsPeriod) {
+      _StatsPeriod.month => l10n.statsNoExpensesMonth,
+      _StatsPeriod.allTime => l10n.statsNoExpensesAll,
       _ => l10n.statsNoExpensesPeriod(periodLabel),
     };
 
@@ -2461,14 +2477,14 @@ class _SpendingBody extends StatelessWidget {
 class _IncomeBody extends StatelessWidget {
   final Map<String, ({double total, int count})> income;
   final String periodLabel;
-  final int spendingMonths;
+  final _StatsPeriod statsPeriod;
   final int vizMode;
   final String displayCurrency;
 
   const _IncomeBody({
     required this.income,
     required this.periodLabel,
-    required this.spendingMonths,
+    required this.statsPeriod,
     required this.vizMode,
     required this.displayCurrency,
   });
@@ -2486,9 +2502,9 @@ class _IncomeBody extends StatelessWidget {
     final totalReceived = fx.convert(totalReceivedBase, settings.baseCurrency, displayCurrency);
     final sym = fx.currencySymbol(displayCurrency);
 
-    final emptyMsg = switch (spendingMonths) {
-      1 => l10n.statsNoIncomeMonth,
-      0 => l10n.statsNoIncomeAll,
+    final emptyMsg = switch (statsPeriod) {
+      _StatsPeriod.month => l10n.statsNoIncomeMonth,
+      _StatsPeriod.allTime => l10n.statsNoIncomeAll,
       _ => l10n.statsNoIncomePeriod(periodLabel),
     };
 
