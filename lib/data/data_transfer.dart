@@ -827,8 +827,10 @@ class DataTransfer {
       'baseAmount': t.baseAmount,
       'exchangeRate': t.exchangeRate,
       'destinationAmount': t.destinationAmount,
-      'fromAccountId': t.fromAccountId,
-      'toAccountId': t.toAccountId,
+      // Same fallback as planned rows: a transaction linked only through its
+      // Account object must not lose the reference in the backup.
+      'fromAccountId': t.fromAccountId ?? t.fromAccount?.id,
+      'toAccountId': t.toAccountId ?? t.toAccount?.id,
       'category': t.category,
       'description': t.description,
       'date': t.date.toIso8601String(),

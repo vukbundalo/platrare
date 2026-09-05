@@ -45,7 +45,7 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started · `[!]` needs the 
 | 5 | Cache projections per expanded day; debounce search; memoise filtered lists | [x] | Track: `historicalBalances` only for the expanded day, search debounced 220 ms, filtered list built once per frame, scroll handler reuses the last day count. Plan: `projectBalances` only for the expanded day. Planned form: projection memoised per date. |
 | 6 | Lift 2020 date floor; fix planned-delete dialog string; cap backup PBKDF2 iterations | [x] | Date pickers accept 1970+. New `planDeleteTitle`/`planDeleteBody` keys (24 locales). Import rejects iteration counts outside 10k–2M (`test/backup_iterations_cap_test.dart`). |
 | 7 | Chips: Material ink, 44 px targets, Semantics labels; test at 1.5×/2× text scale | [x] | `HeroTapChip` (ink, focus ring, tooltip, semantics) replaces GestureDetector chips in the hero rows, Review section/stats chips and all period arrows; every icon-only control now has a label (6 new keys × 24 locales). Chips are 34 dp (the fixed hero extent allows no more; gap reduced so height is unchanged). Hero content clamps text scale at 1.3× so 2× accessibility text no longer overflows the card. `test/text_scale_test.dart` pumps onboarding + all tabs at 1.5× and 2×. Full 44 dp targets and a fluid hero remain Phase 3. |
-| 8 | Tests: migrations v1→v3, backup round-trip with real rows | [ ] | Repository write paths and planned-confirm already covered in Phase 1 step 4. |
+| 8 | Tests: migrations v1→v3, backup round-trip with real rows | [x] | `test/schema_migration_test.dart` builds a v1 SQLite file from the current DDL minus the added columns, lets drift upgrade, checks rows and the `updated_at` backfill. `test/backup_real_rows_test.dart` round-trips two accounts, a cross-currency advance, a categorised expense and a capped monthly plan; it exposed that the transaction encoder dropped account ids when only the object link was set (fixed). `sqlite3` added as a dev dependency. |
 
 ## Phase 3 · Professional codebase
 
@@ -59,4 +59,4 @@ Not started.
 
 - 2026-09-03 · Audit written and published; RELEASE_AUDIT.md committed.
 - 2026-09-04 · Started Phase 1 execution.
-- 2026-09-05 · Phase 1 code/doc steps complete (owner items 1a, 12, 13 and screenshots remain). Started Phase 2.
+- 2026-09-05 · Phase 1 code/doc steps complete (owner items 1a, 12, 13 and screenshots remain). Phase 2 steps 1–8 complete; owner should run the app once on a device to eyeball onboarding, the hero chips and large-text rendering.
