@@ -19,6 +19,7 @@ import '../utils/persistence_guard.dart';
 import '../utils/tx_display.dart';
 import '../widgets/account_avatar.dart';
 import '../widgets/attachments_editor.dart';
+import '../widgets/discard_changes_dialog.dart';
 import '../widgets/stacked_scroll_fab.dart';
 
 class NewTransactionScreen extends StatefulWidget {
@@ -100,33 +101,12 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   }
 
   void _showDiscardDialog() {
-    showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(AppLocalizations.of(ctx).discardTitle),
-        content: Text(AppLocalizations.of(ctx).discardBody),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(AppLocalizations.of(ctx).keepEditing),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            style: FilledButton.styleFrom(
-              backgroundColor: Theme.of(ctx).colorScheme.error,
-              foregroundColor: Theme.of(ctx).colorScheme.onError,
-            ),
-            child: Text(AppLocalizations.of(ctx).discard),
-          ),
-        ],
-      ),
-    ).then((discard) {
-      if (discard == true && mounted) {
+    unawaited(confirmDiscardChanges(context).then((discard) {
+      if (discard && mounted) {
         setState(() => _forceClose = true);
         Navigator.of(context).pop();
       }
-    });
+    }));
   }
 
   @override

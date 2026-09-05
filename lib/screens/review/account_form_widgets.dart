@@ -16,6 +16,8 @@ import '../../utils/fx.dart' as fx;
 import '../../utils/minor_units_amount_formatter.dart';
 import '../../utils/persistence_guard.dart';
 import '../../widgets/account_avatar.dart';
+import '../../widgets/currency_picker_sheet.dart';
+import '../../widgets/discard_changes_dialog.dart';
 
 // ─── Account icon / color presets ─────────────────────────────────────────────
 // Curated for personal finance, household, business, investing, and major spend.
@@ -893,34 +895,12 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
   }
 
   void _showDiscardDialog() {
-    final l10n = AppLocalizations.of(context);
-    showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(l10n.discardTitle),
-        content: Text(l10n.discardBody),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(l10n.keepEditing),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            style: FilledButton.styleFrom(
-              backgroundColor: Theme.of(ctx).colorScheme.error,
-              foregroundColor: Theme.of(ctx).colorScheme.onError,
-            ),
-            child: Text(l10n.discard),
-          ),
-        ],
-      ),
-    ).then((discard) {
-      if (discard == true && mounted) {
+    unawaited(confirmDiscardChanges(context).then((discard) {
+      if (discard && mounted) {
         setState(() => _forceClose = true);
         Navigator.of(context).pop();
       }
-    });
+    }));
   }
 
   @override
@@ -937,7 +917,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      builder: (ctx) => _CurrencyPickerSheet(selected: _currencyCode),
+      builder: (ctx) => CurrencyPickerSheet(current: _currencyCode),
     );
     if (result != null) setState(() => _currencyCode = result);
   }
@@ -1573,35 +1553,12 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
   bool get _canSave => _nameController.text.trim().isNotEmpty;
 
   void _showDiscardDialog() {
-    final l10n = AppLocalizations.of(context);
-    showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(l10n.discardTitle),
-        content: Text(l10n.discardBody),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(l10n.keepEditing),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            style: FilledButton.styleFrom(
-              backgroundColor: Theme.of(ctx).colorScheme.error,
-              foregroundColor: Theme.of(ctx).colorScheme.onError,
-            ),
-            child: Text(l10n.discard),
-          ),
-        ],
-      ),
-    ).then((discard) {
-      if (discard == true && mounted) {
+    unawaited(confirmDiscardChanges(context).then((discard) {
+      if (discard && mounted) {
         setState(() => _forceClose = true);
         Navigator.of(context).pop();
       }
-    });
+    }));
   }
 
   /// Re-entry guard: a double-tap on save while persistence is in flight
@@ -1924,7 +1881,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      builder: (ctx) => _CurrencyPickerSheet(selected: _currencyCode),
+      builder: (ctx) => CurrencyPickerSheet(current: _currencyCode),
     );
     if (result != null && mounted) setState(() => _currencyCode = result);
   }
@@ -2239,128 +2196,3 @@ class _CurrencyTile extends StatelessWidget {
 
 // ─── Currency picker bottom sheet ───────────────────────────────────────────
 
-class _CurrencyPickerSheet extends StatefulWidget {
-  final String selected;
-  const _CurrencyPickerSheet({required this.selected});
-
-  @override
-  State<_CurrencyPickerSheet> createState() => _CurrencyPickerSheetState();
-}
-
-class _CurrencyPickerSheetState extends State<_CurrencyPickerSheet> {
-  final _searchController = TextEditingController();
-  List<String> _filtered = settings.supportedCurrencies;
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  void _onSearch(String query) {
-    final q = query.toLowerCase().trim();
-    final locale = Localizations.localeOf(context);
-    setState(() {
-      _filtered = q.isEmpty
-          ? settings.supportedCurrencies
-          : settings.supportedCurrencies.where((code) {
-              final name = currencyDisplayName(code, locale).toLowerCase();
-              return code.toLowerCase().contains(q) || name.contains(q);
-            }).toList();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.75,
-        child: Column(
-          children: [
-            Container(
-              width: 36,
-              height: 4,
-              margin: const EdgeInsets.symmetric(vertical: 12),
-              decoration: BoxDecoration(
-                color: cs.outlineVariant,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-              child: TextField(
-                controller: _searchController,
-                autofocus: true,
-                onChanged: _onSearch,
-                decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context).searchCurrencies,
-                  prefixIcon: const Icon(Icons.search_rounded),
-                  suffixIcon: _searchController.text.isNotEmpty
-                      ? IconButton(
-                          icon: const Icon(Icons.close_rounded),
-                          onPressed: () {
-                            _searchController.clear();
-                            _onSearch('');
-                          },
-                        )
-                      : null,
-                  isDense: true,
-                ),
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _filtered.length,
-                itemBuilder: (ctx, i) {
-                  final code = _filtered[i];
-                  final name = currencyDisplayName(
-                      code, Localizations.localeOf(ctx));
-                  final symbol = fx.currencySymbol(code);
-                  final isSelected = code == widget.selected;
-                  return ListTile(
-                    leading: CircleAvatar(
-                      radius: 18,
-                      backgroundColor: isSelected
-                          ? cs.primaryContainer
-                          : cs.surfaceContainerHighest,
-                      child: Text(
-                        symbol.length <= 2 ? symbol : code.substring(0, 1),
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                          color: isSelected
-                              ? cs.onPrimaryContainer
-                              : cs.onSurfaceVariant,
-                        ),
-                      ),
-                    ),
-                    title: Text(
-                      '$code  —  $name',
-                      style: TextStyle(
-                        fontWeight: isSelected
-                            ? FontWeight.w700
-                            : FontWeight.normal,
-                      ),
-                    ),
-                    subtitle: Text(
-                      symbol,
-                      style: TextStyle(
-                          fontSize: 12, color: cs.onSurfaceVariant),
-                    ),
-                    trailing: isSelected
-                        ? Icon(Icons.check_rounded, color: cs.primary)
-                        : null,
-                    onTap: () => Navigator.pop(ctx, code),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
