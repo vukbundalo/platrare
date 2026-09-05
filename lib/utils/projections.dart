@@ -4,6 +4,7 @@ import '../data/app_data.dart' as data;
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
+import '../models/transaction.dart';
 import 'fx.dart' as fx;
 
 DateTime _dateOnly(DateTime d) => DateTime(d.year, d.month, d.day);
@@ -24,10 +25,10 @@ Map<String, double> historicalBalances(DateTime date) {
           (balances[t.fromAccount!.id] ?? 0) + t.nativeAmount!;
     }
     if (t.toAccount != null) {
-      final credit = (t.destinationAmount != null &&
-              t.toAccount!.currencyCode != t.fromAccount?.currencyCode)
-          ? t.destinationAmount!
-          : t.nativeAmount!;
+      final credit = creditAmountOf(
+        nativeAmount: t.nativeAmount!,
+        destinationAmount: t.destinationAmount,
+      );
       balances[t.toAccount!.id] =
           (balances[t.toAccount!.id] ?? 0) - credit;
     }
@@ -79,10 +80,10 @@ Map<String, double> projectBalances(DateTime date) {
             (balances[pt.fromAccount!.id] ?? 0) - pt.nativeAmount!;
       }
       if (pt.toAccount != null) {
-        final credit = (pt.destinationAmount != null &&
-                pt.toAccount!.currencyCode != pt.fromAccount?.currencyCode)
-            ? pt.destinationAmount!
-            : pt.nativeAmount!;
+        final credit = creditAmountOf(
+          nativeAmount: pt.nativeAmount!,
+          destinationAmount: pt.destinationAmount,
+        );
         balances[pt.toAccount!.id] =
             (balances[pt.toAccount!.id] ?? 0) + credit;
       }
@@ -173,10 +174,10 @@ List<Map<String, double>> projectBalancesSeries(DateTime start, int dayCount) {
         applyDelta(idx, pt.fromAccount!.id, -pt.nativeAmount!);
       }
       if (pt.toAccount != null) {
-        final credit = (pt.destinationAmount != null &&
-                pt.toAccount!.currencyCode != pt.fromAccount?.currencyCode)
-            ? pt.destinationAmount!
-            : pt.nativeAmount!;
+        final credit = creditAmountOf(
+          nativeAmount: pt.nativeAmount!,
+          destinationAmount: pt.destinationAmount,
+        );
         applyDelta(idx, pt.toAccount!.id, credit);
       }
       appliedHere++;

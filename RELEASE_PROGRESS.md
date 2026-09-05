@@ -49,7 +49,16 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started · `[!]` needs the 
 
 ## Phase 3 · Professional codebase
 
-Not started.
+| # | Step | Status | Notes |
+|---|------|--------|-------|
+| 1 | Extract a ledger service | [x] | `lib/data/ledger_service.dart`: post / remove / restoreAt / replace (classifies after reversing the old row) / realizePlanned / nextOccurrenceOf / setBookBalance. No screen mutates `Account.balance` any more (grep is clean). One credit rule `creditAmountOf` in `models/transaction.dart` shared by posting, `verifyLedger` and projections (three divergent copies before). Tests: `test/ledger_service_test.dart` checks memory, SQLite and a from-zero replay agree after every operation. |
+| 2 | Observable repository; remove the `onChanged` chain and bare `setState` fan-out | [ ] | |
+| 3 | Derive balances from the log instead of storing them as truth | [ ] | |
+| 4 | Integer minor units (schema v4) | [ ] | |
+| 5 | Deduplicate account forms, currency pickers (one done), date-filter machines, discard dialogs | [ ] | |
+| 6 | Enums for section / stats / period / type-group state | [ ] | |
+| 7 | Theme-driven typography; landscape + max-width column + two-pane Review | [ ] | |
+| 8 | Stricter lints; analyze fatal on infos | [ ] | CI already runs `--fatal-infos`. |
 
 ## Phase 4 · Multi-device
 

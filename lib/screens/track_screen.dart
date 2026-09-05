@@ -7,6 +7,7 @@ import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
 import '../data/balance_privacy_prefs.dart';
 import '../data/data_repository.dart';
+import '../data/ledger_service.dart';
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/transaction.dart';
@@ -521,14 +522,7 @@ class _TrackScreenState extends State<TrackScreen> {
 
   Future<void> _deleteTransaction(Transaction t) async {
     final index = data.transactions.indexOf(t);
-    if (t.nativeAmount != null) {
-      if (t.fromAccount != null) t.fromAccount!.balance += t.nativeAmount!;
-      if (t.toAccount != null) {
-        t.toAccount!.balance -=
-            (t.destinationAmount ?? t.nativeAmount!);
-      }
-    }
-    if (!await guardPersist(context, () => DataRepository.removeTransaction(t))) {
+    if (!await guardPersist(context, () => LedgerService.remove(t))) {
       if (mounted) {
         setState(() {});
         widget.onChanged?.call();
@@ -554,19 +548,10 @@ class _TrackScreenState extends State<TrackScreen> {
           label: AppLocalizations.of(context).undo,
           onPressed: () async {
             messenger.clearSnackBars();
-            if (t.nativeAmount != null) {
-              if (t.fromAccount != null) {
-                t.fromAccount!.balance -= t.nativeAmount!;
-              }
-              if (t.toAccount != null) {
-                t.toAccount!.balance +=
-                    (t.destinationAmount ?? t.nativeAmount!);
-              }
-            }
             final insertAt = index < 0 ? 0 : index.clamp(0, data.transactions.length);
             if (!await guardPersist(
                 context,
-                () => DataRepository.insertTransactionAt(insertAt, t))) {
+                () => LedgerService.restoreAt(insertAt, t))) {
               if (mounted) {
                 setState(() {});
                 widget.onChanged?.call();
@@ -1377,17 +1362,7 @@ class _TransactionTile extends StatelessWidget {
   Future<void> _delete(BuildContext context) async {
     final t = transaction;
     final index = data.transactions.indexOf(t);
-    if (t.nativeAmount != null) {
-      // Reverse the balance changes in each account's native currency.
-      if (t.fromAccount != null) t.fromAccount!.balance += t.nativeAmount!;
-      // Rule 4: cross-currency moves used destinationAmount for the receiving
-      // account — reverse the same amount.
-      if (t.toAccount != null) {
-        t.toAccount!.balance -=
-            (t.destinationAmount ?? t.nativeAmount!);
-      }
-    }
-    if (!await guardPersist(context, () => DataRepository.removeTransaction(t))) {
+    if (!await guardPersist(context, () => LedgerService.remove(t))) {
       if (context.mounted) onRefresh();
       return;
     }
@@ -1409,19 +1384,10 @@ class _TransactionTile extends StatelessWidget {
           label: AppLocalizations.of(context).undo,
           onPressed: () async {
             messenger.clearSnackBars();
-            if (t.nativeAmount != null) {
-              if (t.fromAccount != null) {
-                t.fromAccount!.balance -= t.nativeAmount!;
-              }
-              if (t.toAccount != null) {
-                t.toAccount!.balance +=
-                    (t.destinationAmount ?? t.nativeAmount!);
-              }
-            }
             final insertAt = index < 0 ? 0 : index.clamp(0, data.transactions.length);
             if (!await guardPersist(
                 context,
-                () => DataRepository.insertTransactionAt(insertAt, t))) {
+                () => LedgerService.restoreAt(insertAt, t))) {
               if (context.mounted) onRefresh();
               return;
             }

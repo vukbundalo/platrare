@@ -7,10 +7,10 @@ import '../data/app_data.dart' as data;
 import '../data/app_signals.dart';
 import '../data/balance_privacy_prefs.dart';
 import '../data/data_repository.dart';
+import '../data/ledger_service.dart';
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
 import '../models/planned_transaction.dart';
-import '../models/transaction.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/account_display.dart';
 import '../utils/app_format.dart';
@@ -563,79 +563,11 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 
   Future<void> _doRealize(PlannedTransaction pt, {DateTime? realizationDate}) async {
-    if (pt.nativeAmount != null) {
-      // Deduct from source in its native currency.
-      if (pt.fromAccount != null) {
-        pt.fromAccount!.balance -= pt.nativeAmount!;
-      }
-      // Rule 4: cross-currency — credit destinationAmount; same-currency —
-      // credit nativeAmount.
-      if (pt.toAccount != null) {
-        final credit = (pt.destinationAmount != null &&
-                pt.toAccount!.currencyCode != pt.fromAccount?.currencyCode)
-            ? pt.destinationAmount!
-            : pt.nativeAmount!;
-        pt.toAccount!.balance += credit;
-      }
-    }
-
-    // Rule 3: lock baseAmount + exchangeRate at realization time.
-    final ccy = pt.currencyCode ?? 'BAM';
-    final rate = fx.rateToBase(ccy);
-    final baseAmt = pt.nativeAmount != null ? pt.nativeAmount! * rate : null;
-
-    final realized = Transaction(
-      nativeAmount: pt.nativeAmount,
-      currencyCode: ccy,
-      baseAmount: baseAmt,
-      exchangeRate: rate,
-      destinationAmount: pt.destinationAmount,
-      fromAccount: pt.fromAccount,
-      toAccount: pt.toAccount,
-      category: pt.category,
-      description: pt.description,
-      date: realizationDate ?? pt.date,
-      txType: pt.txType,
-      attachments: List<String>.from(pt.attachments),
-    );
-
-    PlannedTransaction? next;
-    if (pt.repeatInterval != RepeatInterval.none) {
-      final nextDate = nextPlannedEffectiveDate(pt, pt.date);
-      if (shouldSpawnNextOccurrence(pt, nextDate)) {
-        next = PlannedTransaction(
-          nativeAmount: pt.nativeAmount,
-          currencyCode: pt.currencyCode,
-          destinationAmount: pt.destinationAmount,
-          fromAccount: pt.fromAccount,
-          toAccount: pt.toAccount,
-          fromAccountId: pt.fromAccountId,
-          toAccountId: pt.toAccountId,
-          category: pt.category,
-          description: pt.description,
-          date: nextDate,
-          txType: pt.txType,
-          repeatInterval: pt.repeatInterval,
-          repeatEvery: pt.repeatEvery,
-          repeatDayOfMonth: pt.repeatDayOfMonth,
-          weekendAdjustment: pt.weekendAdjustment,
-          repeatEndDate: pt.repeatEndDate,
-          repeatEndAfter: pt.repeatEndAfter,
-          repeatConfirmedCount: pt.repeatConfirmedCount + 1,
-          createdAt: pt.createdAt,
-          attachments: List<String>.from(pt.attachments),
-        );
-      }
-    }
-
-    // One SQLite commit for all three rows; see DataRepository.realizePlanned.
+    // Balances, the realized row, the planned row and the next occurrence
+    // are handled by the ledger service in one SQLite commit.
     final persisted = await guardPersist(
       context,
-      () => DataRepository.realizePlanned(
-        planned: pt,
-        realized: realized,
-        next: next,
-      ),
+      () => LedgerService.realizePlanned(pt, realizationDate: realizationDate),
     );
 
     if (mounted) setState(() {});
@@ -756,27 +688,10 @@ class _PlanScreenState extends State<PlanScreen> {
           await _delete(pt);
           return;
         }
-        final spawned = PlannedTransaction(
-          nativeAmount: pt.nativeAmount,
-          currencyCode: pt.currencyCode,
-          destinationAmount: pt.destinationAmount,
-          fromAccount: pt.fromAccount,
-          toAccount: pt.toAccount,
-          fromAccountId: pt.fromAccountId,
-          toAccountId: pt.toAccountId,
-          category: pt.category,
-          description: pt.description,
+        final spawned = LedgerService.nextOccurrenceOf(
+          pt,
           date: nextDate,
-          txType: pt.txType,
-          repeatInterval: pt.repeatInterval,
-          repeatEvery: pt.repeatEvery,
-          repeatDayOfMonth: pt.repeatDayOfMonth,
-          weekendAdjustment: pt.weekendAdjustment,
-          repeatEndDate: pt.repeatEndDate,
-          repeatEndAfter: pt.repeatEndAfter,
           repeatConfirmedCount: pt.repeatConfirmedCount,
-          createdAt: pt.createdAt,
-          attachments: List<String>.from(pt.attachments),
         );
         final skippedOk = await guardPersist(
           context,

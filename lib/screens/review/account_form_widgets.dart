@@ -5,10 +5,10 @@ import '../../data/account_lifecycle.dart';
 import '../../data/app_data.dart' as data;
 import '../../data/currency_localized_names.dart';
 import '../../data/data_repository.dart';
+import '../../data/ledger_service.dart';
 import '../../data/user_settings.dart' as settings;
 import '../../l10n/app_localizations.dart';
 import '../../models/account.dart';
-import '../../utils/balance_correction.dart';
 import '../../utils/fx.dart' as fx;
 import '../../utils/minor_units_amount_formatter.dart';
 import '../../utils/persistence_guard.dart';
@@ -1001,15 +1001,7 @@ class _AccountFormSheetState extends State<AccountFormSheet> {
 
       late BalanceCorrectionResult correction;
       final ok = await guardPersist(context, () async {
-        correction = await applyLedgerBalanceCorrection(
-          account: acc,
-          previousBookBalance: previousBook,
-          newBookBalance: balance,
-        );
-        if (!correction.inserted) {
-          acc.balance = balance;
-        }
-        await DataRepository.persistAccountFields(acc);
+        correction = await LedgerService.setBookBalance(acc, balance);
       });
       if (!mounted) return;
       if (!ok) {
@@ -1671,15 +1663,7 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
 
       late BalanceCorrectionResult correction;
       final ok = await guardPersist(context, () async {
-        correction = await applyLedgerBalanceCorrection(
-          account: acc,
-          previousBookBalance: previousBook,
-          newBookBalance: balance,
-        );
-        if (!correction.inserted) {
-          acc.balance = balance;
-        }
-        await DataRepository.persistAccountFields(acc);
+        correction = await LedgerService.setBookBalance(acc, balance);
       });
       if (!mounted) return;
       if (!ok) {

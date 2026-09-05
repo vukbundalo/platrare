@@ -57,7 +57,10 @@ List<LedgerMismatch> verifyLedger({
 
     final tid = t.toAccountId ?? t.toAccount?.id;
     if (tid != null) {
-      final credit = t.destinationAmount ?? amt;
+      final credit = creditAmountOf(
+        nativeAmount: amt,
+        destinationAmount: t.destinationAmount,
+      );
       balances[tid] = (balances[tid] ?? 0.0) + credit;
     }
   }

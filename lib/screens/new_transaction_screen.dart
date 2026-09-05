@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../data/app_data.dart' as data;
-import '../data/data_repository.dart';
+import '../data/ledger_service.dart';
 import '../data/user_settings.dart' as settings;
 import '../l10n/app_localizations.dart';
 import '../models/account.dart';
@@ -226,61 +226,43 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
     _fromAccount = refreshedAccount(_fromAccount) ?? _fromAccount;
     _toAccount = refreshedAccount(_toAccount) ?? _toAccount;
 
-    // When editing, reverse the old transaction's balance changes first so that
-    // prior-balance classification uses restored (pre-original-tx) balances.
-    if (_isEdit) {
-      final old = widget.existing!;
-      if (old.nativeAmount != null) {
-        final oldFrom = refreshedAccount(old.fromAccount) ?? old.fromAccount;
-        final oldTo = refreshedAccount(old.toAccount) ?? old.toAccount;
-        if (oldFrom != null) {
-          oldFrom.balance += old.nativeAmount!;
-        }
-        if (oldTo != null) {
-          oldTo.balance -= (old.destinationAmount ?? old.nativeAmount!);
-        }
-      }
-    }
-
-    // Classify BEFORE new balances change so prior-balance rules are correct.
-    final type = _txType;
-
     // ── Rule 2 / 3: determine currency and lock base value ─────────────────
     final ccy = _fromAccount?.currencyCode ??
         _toAccount?.currencyCode ?? settings.baseCurrency;
     final rate    = fx.rateToBase(ccy);
     final baseAmt = nativeAmt * rate;
+    final destAmt = _parsedDestination; // null when same-currency (Rule 4)
+    final note = _noteController.text.trim();
 
-    // ── Rule 4: cross-currency balance update ─────────────────────────────
-    final destAmt = _parsedDestination; // null when same-currency
-    if (_fromAccount != null) _fromAccount!.balance -= nativeAmt;
-    if (_toAccount != null) {
-      _toAccount!.balance += destAmt ?? nativeAmt;
+    // Classification reads the accounts' PRIOR balances, so it runs inside
+    // the ledger service after the edited row has been reversed.
+    late TxType type;
+    Transaction build() {
+      type = _txType;
+      return Transaction(
+        id: widget.existing?.id,
+        nativeAmount: nativeAmt,
+        currencyCode: ccy,
+        baseAmount: baseAmt,
+        exchangeRate: rate,
+        destinationAmount: destAmt,
+        fromAccount: _fromAccount,
+        toAccount: _toAccount,
+        category: _category,
+        description: note.isEmpty ? null : note,
+        date: _date,
+        txType: type,
+        attachments: List.from(_attachments),
+        createdAt: widget.existing?.createdAt,
+      );
     }
 
-    final note = _noteController.text.trim();
-    final newTx = Transaction(
-      id: widget.existing?.id,
-      nativeAmount: nativeAmt,
-      currencyCode: ccy,
-      baseAmount: baseAmt,
-      exchangeRate: rate,
-      destinationAmount: destAmt,
-      fromAccount: _fromAccount,
-      toAccount: _toAccount,
-      category: _category,
-      description: note.isEmpty ? null : note,
-      date: _date,
-      txType: type,
-      attachments: List.from(_attachments),
-      createdAt: widget.existing?.createdAt,
-    );
-
     final persisted = await guardPersist(context, () async {
-      await DataRepository.replaceOrInsertTransaction(
-        newTx,
-        isUpdate: _isEdit,
-      );
+      if (_isEdit) {
+        await LedgerService.replace(widget.existing!, build);
+      } else {
+        await LedgerService.post(build());
+      }
     });
     if (!mounted) return;
     if (!persisted) {
