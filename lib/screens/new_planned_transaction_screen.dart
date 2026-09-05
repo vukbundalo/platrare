@@ -345,11 +345,29 @@ class _NewPlannedTransactionScreenState
     return txColor(context, _txType);
   }
 
+  DateTime? _projectedCacheDate;
+  int _projectedCacheSig = 0;
+  Map<String, double> _projectedCache = const {};
+
+  /// [proj.projectBalances] walks every planned occurrence; memoised per
+  /// projection date so typing in the amount field does not redo it.
+  Map<String, double> _projectedBalances() {
+    final date = _projectionDateForAccounts;
+    final sig = Object.hash(
+        data.plannedTransactions.length, data.accounts.length);
+    if (_projectedCacheDate != date || _projectedCacheSig != sig) {
+      _projectedCacheDate = date;
+      _projectedCacheSig = sig;
+      _projectedCache = proj.projectBalances(date);
+    }
+    return _projectedCache;
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final color = _amountColor(context);
-    final projected = proj.projectBalances(_projectionDateForAccounts);
+    final projected = _projectedBalances();
     final fromHeadroom = _fromAccount?.personalHeadroomNative(
         projected[_fromAccount!.id] ?? _fromAccount!.balance);
     final toHeadroom = _toAccount?.personalHeadroomNative(

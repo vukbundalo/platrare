@@ -1768,9 +1768,14 @@ class _PlanTimeline extends StatelessWidget {
           final day = keys[i];
           final date = DateTime.parse(day);
           final dayPlanned = grouped[day]!;
-          final projectedBalances = proj.projectBalances(date);
           final projectionOpen = expandedProjectionDay != null &&
               DateUtils.isSameDay(expandedProjectionDay!, date);
+          // Only the expanded day renders the projection panel; walking every
+          // planned occurrence for each visible day on each rebuild was the
+          // most expensive thing on this screen.
+          final projectedBalances = projectionOpen
+              ? proj.projectBalances(date)
+              : const <String, double>{};
           return _DayGroup(
             date: date,
             planned: dayPlanned,

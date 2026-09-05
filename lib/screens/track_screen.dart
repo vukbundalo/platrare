@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -324,20 +325,35 @@ class _TrackScreenState extends State<TrackScreen> {
     if (!pos.hasPixels || !pos.hasContentDimensions) return;
     if (pos.pixels < pos.maxScrollExtent - 360) return;
 
-    final g = DayGroupedTransactions.build(
-        _applySearch(_baseFilteredTx, context), _newestFirst);
-    if (!shouldLazyLoadDaySections('all', g.dayKeys.length)) return;
-    if (_visibleTrackDaySlots >= g.dayKeys.length) return;
+    final dayCount = _lastTrackDayCount;
+    if (!shouldLazyLoadDaySections('all', dayCount)) return;
+    if (_visibleTrackDaySlots >= dayCount) return;
 
     setState(() {
       _visibleTrackDaySlots = math.min(
         _visibleTrackDaySlots + kLazyDayLoadBatch,
-        g.dayKeys.length,
+        dayCount,
       );
     });
   }
 
-  void _syncTrackLazyWindowSignature() {
+  Timer? _searchDebounce;
+
+  /// Every keystroke used to rebuild the whole list (filter, regroup, and one
+  /// ledger replay per visible day). Settle the query first.
+  void _onSearchChanged(String v) {
+    _searchDebounce?.cancel();
+    _searchDebounce = Timer(const Duration(milliseconds: 220), () {
+      if (!mounted || _searchQuery == v) return;
+      setState(() => _searchQuery = v);
+    });
+  }
+
+  /// Day-section count from the last build; the scroll handler reads it
+  /// instead of regrouping every transaction on each scroll tick.
+  int _lastTrackDayCount = 0;
+
+  void _syncTrackLazyWindowSignature(int baseCount) {
     final sig = Object.hash(
       _dateFilter,
       _typeFilter,
@@ -345,7 +361,7 @@ class _TrackScreenState extends State<TrackScreen> {
       _categoryFilter,
       _newestFirst,
       _searchQuery,
-      _baseFilteredTx.length,
+      baseCount,
       data.transactions.length,
     );
     if (_trackLazyListSig != sig) {
@@ -356,15 +372,16 @@ class _TrackScreenState extends State<TrackScreen> {
 
   @override
   void dispose() {
+    _searchDebounce?.cancel();
     _scrollController.removeListener(_onScrollControllerChanged);
     _scrollController.dispose();
     _searchController.dispose();
     super.dispose();
   }
 
-  /// Income and expense totals reflecting the current filter/window.
-  ({double totalIn, double totalOut}) get _periodTotals {
-    final source = _baseFilteredTx;
+  /// Income and expense totals for [source] (the filtered window).
+  ({double totalIn, double totalOut}) _periodTotalsFor(
+      List<Transaction> source) {
     double totalIn = 0, totalOut = 0;
     for (final t in source) {
       final type = t.txType ??
@@ -804,13 +821,16 @@ class _TrackScreenState extends State<TrackScreen> {
             ? l10n.semanticsFiltersDisabledNeedRecordedTransaction
             : l10n.semanticsFiltersDisabled;
     final isFiltered = _hasActiveFilter;
-    final displayTx = _applySearch(_baseFilteredTx, context);
-    final totals = _periodTotals;
+    // Filter once per frame; the getter allocates a fresh list each call.
+    final baseTx = _baseFilteredTx;
+    final displayTx = _applySearch(baseTx, context);
+    final totals = _periodTotalsFor(baseTx);
 
-    _syncTrackLazyWindowSignature();
+    _syncTrackLazyWindowSignature(baseTx.length);
     final dayBundle =
         DayGroupedTransactions.build(displayTx, _newestFirst);
     final days = dayBundle.dayKeys;
+    _lastTrackDayCount = days.length;
     final grouped = dayBundle.grouped;
     // Track's default (null) date filter is all-time — lazy-load it like 'all'.
     final lazyDays =
@@ -909,7 +929,7 @@ class _TrackScreenState extends State<TrackScreen> {
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
             child: TextField(
               controller: _searchController,
-              onChanged: (v) => setState(() => _searchQuery = v),
+              onChanged: _onSearchChanged,
               decoration: InputDecoration(
                 hintText: l10n.trackSearchHint,
                 prefixIcon: const Icon(Icons.search_rounded, size: 22),
@@ -1199,18 +1219,23 @@ class _DaySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final historicalBals = proj.historicalBalances(date);
-    final gainIds = <String>{
-      for (final t in transactions)
-        if (t.toAccount != null) t.toAccount!.id,
-    };
-    final loseIds = <String>{
-      for (final t in transactions)
-        if (t.fromAccount != null) t.fromAccount!.id,
-    };
     final dOnly = DateUtils.dateOnly(date);
     final historyOpen = expandedHistoryDay != null &&
         DateUtils.isSameDay(expandedHistoryDay!, dOnly);
+    // historicalBalances replays every transaction after [date]; with N
+    // visible days that was N full passes per rebuild, panel open or not.
+    final historicalBals =
+        historyOpen ? proj.historicalBalances(date) : const <String, double>{};
+    final gainIds = <String>{
+      if (historyOpen)
+        for (final t in transactions)
+          if (t.toAccount != null) t.toAccount!.id,
+    };
+    final loseIds = <String>{
+      if (historyOpen)
+        for (final t in transactions)
+          if (t.fromAccount != null) t.fromAccount!.id,
+    };
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
