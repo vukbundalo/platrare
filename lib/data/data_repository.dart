@@ -3,6 +3,7 @@ import '../models/planned_transaction.dart';
 import '../models/transaction.dart';
 import 'account_lifecycle.dart' show compareAccountsStorageOrder;
 import 'app_data.dart' as data;
+import 'app_signals.dart';
 import 'backup_export_reminder_prefs.dart';
 import 'balance_posting.dart';
 import 'local/platrare_database.dart';
@@ -20,7 +21,10 @@ class DataRepository {
   /// Marks the home-screen widget snapshot dirty. Debounced downstream, and a
   /// no-op until [WidgetSnapshotService.init] has run, so it is safe to call
   /// from every mutation including those during startup hydration.
-  static void _touch() => WidgetSnapshotService.instance.requestUpdate();
+  static void _touch() {
+    ledgerRevision.value++;
+    WidgetSnapshotService.instance.requestUpdate();
+  }
 
   // --- Transactions ----------------------------------------------------------
 
@@ -258,6 +262,7 @@ class DataRepository {
     final kind = income ? 'income' : 'expense';
     await _db.insertCategory(name: name, kind: kind);
     list.add(name);
+    _touch();
   }
 
   /// How many transactions + planned transactions currently use [name].
@@ -363,5 +368,6 @@ class DataRepository {
     } else {
       data.expenseCategories.remove(name);
     }
+    _touch();
   }
 }

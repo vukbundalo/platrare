@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
+import '../data/app_signals.dart';
 import '../data/balance_privacy_prefs.dart';
 import '../data/data_repository.dart';
 import '../data/ledger_service.dart';
@@ -30,8 +31,7 @@ import '../widgets/stacked_scroll_fab.dart';
 import '../widgets/track_plan_filter_ui.dart';
 
 class TrackScreen extends StatefulWidget {
-  final VoidCallback? onChanged;
-  const TrackScreen({super.key, this.onChanged});
+  const TrackScreen({super.key});
 
   @override
   State<TrackScreen> createState() => _TrackScreenState();
@@ -296,6 +296,7 @@ class _TrackScreenState extends State<TrackScreen> {
   @override
   void initState() {
     super.initState();
+    ledgerRevision.addListener(_onLedgerChanged);
     _scrollController.addListener(_onScrollControllerChanged);
   }
 
@@ -371,8 +372,15 @@ class _TrackScreenState extends State<TrackScreen> {
     }
   }
 
+  /// Any ledger mutation anywhere (other tabs, Settings, imports, a
+  /// recovery reload) re-renders this tab; no callback chain needed.
+  void _onLedgerChanged() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
+    ledgerRevision.removeListener(_onLedgerChanged);
     _searchDebounce?.cancel();
     _scrollController.removeListener(_onScrollControllerChanged);
     _scrollController.dispose();
@@ -476,12 +484,10 @@ class _TrackScreenState extends State<TrackScreen> {
       if (!await guardPersist(context, () => DataRepository.addAccount(result))) {
         if (mounted) {
           setState(() {});
-          widget.onChanged?.call();
         }
         return;
       }
       if (mounted) setState(() {});
-      widget.onChanged?.call();
     }
   }
 
@@ -492,7 +498,6 @@ class _TrackScreenState extends State<TrackScreen> {
     );
     if (result == true) {
       setState(() {});
-      widget.onChanged?.call();
     }
   }
 
@@ -503,7 +508,6 @@ class _TrackScreenState extends State<TrackScreen> {
     );
     if (result == true) {
       setState(() {});
-      widget.onChanged?.call();
     }
   }
 
@@ -525,13 +529,11 @@ class _TrackScreenState extends State<TrackScreen> {
     if (!await guardPersist(context, () => LedgerService.remove(t))) {
       if (mounted) {
         setState(() {});
-        widget.onChanged?.call();
       }
       return;
     }
     if (!mounted) return;
     setState(() {});
-    widget.onChanged?.call();
     HapticFeedback.mediumImpact();
     final messenger = ScaffoldMessenger.of(context);
     messenger.clearSnackBars();
@@ -554,12 +556,10 @@ class _TrackScreenState extends State<TrackScreen> {
                 () => LedgerService.restoreAt(insertAt, t))) {
               if (mounted) {
                 setState(() {});
-                widget.onChanged?.call();
               }
               return;
             }
             if (mounted) setState(() {});
-            widget.onChanged?.call();
           },
         ),
       ),
@@ -663,7 +663,6 @@ class _TrackScreenState extends State<TrackScreen> {
                   MaterialPageRoute(builder: (_) => const SettingsScreen()),
                 );
                 if (mounted) setState(() {});
-                widget.onChanged?.call();
               },
             ),
           ],
@@ -845,7 +844,6 @@ class _TrackScreenState extends State<TrackScreen> {
                   MaterialPageRoute(builder: (_) => const SettingsScreen()),
                 );
                 if (mounted) setState(() {});
-                widget.onChanged?.call();
               },
             ),
           ],
@@ -976,7 +974,6 @@ class _TrackScreenState extends State<TrackScreen> {
                   onToggleHistoryDay: _toggleTrackHistoryDay,
                   onRefresh: () {
                     setState(() {});
-                    widget.onChanged?.call();
                   },
                   onEdit: _editTransaction,
                   onTap: _openTransactionDetail,

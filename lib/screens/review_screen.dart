@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
+import '../data/app_signals.dart';
 import '../data/balance_privacy_prefs.dart';
 import '../data/user_settings.dart' as settings;
 import '../models/account.dart';
@@ -154,8 +155,7 @@ class _ReviewCompareRows {
 }
 
 class ReviewScreen extends StatefulWidget {
-  final VoidCallback? onChanged;
-  const ReviewScreen({super.key, this.onChanged});
+  const ReviewScreen({super.key});
 
   @override
   State<ReviewScreen> createState() => _ReviewScreenState();
@@ -236,6 +236,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   @override
   void initState() {
     super.initState();
+    ledgerRevision.addListener(_onLedgerChanged);
     final now = DateTime.now();
     _compareMonthB = DateTime(now.year, now.month, 1);
     _compareMonthA = now.month == 1
@@ -260,8 +261,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
     });
   }
 
+  /// Any ledger mutation anywhere (other tabs, Settings, imports, a
+  /// recovery reload) re-renders this tab; no callback chain needed.
+  void _onLedgerChanged() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
+    ledgerRevision.removeListener(_onLedgerChanged);
     for (final c in _reviewPageScrollControllers) {
       c.removeListener(_onReviewScrollPositionChanged);
       c.dispose();
@@ -719,7 +727,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
     );
     if (result == true) {
       setState(() {});
-      widget.onChanged?.call();
     }
   }
 
@@ -737,7 +744,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
       setState(() {});
       return;
     }
-    widget.onChanged?.call();
   }
 
   Future<void> _openAccountTransactions(Account account) async {
@@ -749,7 +755,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
     if (!mounted) return;
     if (r == kAccountFormSheetDeleted) {
       setState(() {});
-      widget.onChanged?.call();
     }
   }
 
@@ -1225,7 +1230,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
                               _displayCurrency = settings.baseCurrency;
                             }
                           });
-                          widget.onChanged?.call();
                         }
                       },
                     ),
@@ -1367,7 +1371,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                             settings.baseCurrency;
                                       }
                                     });
-                                    widget.onChanged?.call();
                                   }
                                 },
                               ),

@@ -52,7 +52,7 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started · `[!]` needs the 
 | # | Step | Status | Notes |
 |---|------|--------|-------|
 | 1 | Extract a ledger service | [x] | `lib/data/ledger_service.dart`: post / remove / restoreAt / replace (classifies after reversing the old row) / realizePlanned / nextOccurrenceOf / setBookBalance. No screen mutates `Account.balance` any more (grep is clean). One credit rule `creditAmountOf` in `models/transaction.dart` shared by posting, `verifyLedger` and projections (three divergent copies before). Tests: `test/ledger_service_test.dart` checks memory, SQLite and a from-zero replay agree after every operation. |
-| 2 | Observable repository; remove the `onChanged` chain and bare `setState` fan-out | [ ] | |
+| 2 | Observable repository; remove the `onChanged` chain and bare `setState` fan-out | [x] | `ledgerRevision` (app_signals) is bumped by every `DataRepository` mutation, by `loadIntoMemory` and by CSV append. Plan/Track/Review listen and rebuild themselves; HomePage no longer rebuilds all tabs and the 30 `widget.onChanged?.call()` sites are gone. Local `setState` calls after a screen's own action remain (they are correct). Test: `test/ledger_revision_test.dart`. |
 | 3 | Derive balances from the log instead of storing them as truth | [ ] | |
 | 4 | Integer minor units (schema v4) | [ ] | |
 | 5 | Deduplicate account forms, currency pickers (one done), date-filter machines, discard dialogs | [ ] | |

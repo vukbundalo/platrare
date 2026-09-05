@@ -25,3 +25,9 @@ final ValueNotifier<bool> appUnlocked = ValueNotifier(true);
 /// Bumped by the first-run screen when the user asks to be shown around.
 /// [PlanScreen] listens and starts its help tour on the next frame.
 final ValueNotifier<int> requestPlanHelpTour = ValueNotifier(0);
+
+/// Incremented after every ledger mutation (accounts, transactions, planned
+/// rows, categories) and after a full reload from SQLite. Screens that show
+/// ledger data listen to this instead of being told to rebuild through an
+/// `onChanged` callback chain from HomePage.
+final ValueNotifier<int> ledgerRevision = ValueNotifier(0);

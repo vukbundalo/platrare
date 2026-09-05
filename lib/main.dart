@@ -531,9 +531,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         child: IndexedStack(
           index: _currentIndex,
           children: [
-            PlanScreen(onChanged: () => setState(() {})),
-            TrackScreen(onChanged: () => setState(() {})),
-            ReviewScreen(onChanged: () => setState(() {})),
+            // Tabs listen to ledgerRevision themselves.
+            const PlanScreen(),
+            const TrackScreen(),
+            const ReviewScreen(),
           ],
         ),
       ),

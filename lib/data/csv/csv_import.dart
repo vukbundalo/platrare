@@ -9,6 +9,7 @@ import '../../utils/account_display.dart';
 import '../../utils/fx.dart' as fx;
 import '../account_lifecycle.dart' show compareAccountsStorageOrder;
 import '../app_data.dart' as data;
+import '../app_signals.dart';
 import '../local/platrare_database.dart';
 import '../planned_reminder_service.dart';
 import '../transaction_normalize.dart';
@@ -547,6 +548,7 @@ class CsvImport {
         transactions: toWrite,
         categories: plan.newCategories,
       );
+      ledgerRevision.value++;
     } catch (_) {
       for (final a in accountsToPersist) {
         a.balance = previousBalances[a.id] ?? a.balance;

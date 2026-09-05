@@ -8,6 +8,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import '../../models/account.dart';
+import '../app_signals.dart';
 import '../../models/planned_transaction.dart';
 import '../../models/transaction.dart';
 import '../app_data.dart' as data;
@@ -273,6 +274,8 @@ class PlatrareDatabase extends _$PlatrareDatabase {
     // rehydrate here rather than going through DataRepository, so this is the
     // only hook that catches them. No-op until the service is initialised.
     WidgetSnapshotService.instance.requestUpdate();
+    // Everything above replaced the in-memory lists wholesale.
+    ledgerRevision.value++;
   }
 
   Account _accountFromRow(AccountRow r) => Account(

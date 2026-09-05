@@ -50,8 +50,7 @@ bool _inGroup(TxType t, String group) => switch (group) {
     };
 
 class PlanScreen extends StatefulWidget {
-  final VoidCallback? onChanged;
-  const PlanScreen({super.key, this.onChanged});
+  const PlanScreen({super.key});
 
   @override
   State<PlanScreen> createState() => _PlanScreenState();
@@ -149,7 +148,6 @@ class _PlanScreenState extends State<PlanScreen> {
       setState(() {});
       return;
     }
-    widget.onChanged?.call();
   }
 
   void _toggleAccountStrip() => setState(() {
@@ -420,6 +418,7 @@ class _PlanScreenState extends State<PlanScreen> {
   @override
   void initState() {
     super.initState();
+    ledgerRevision.addListener(_onLedgerChanged);
     requestPlanHelpTour.addListener(_onHelpTourRequested);
     _planScrollController.addListener(_onPlanScrollControllerChanged);
   }
@@ -498,8 +497,15 @@ class _PlanScreenState extends State<PlanScreen> {
     });
   }
 
+  /// Any ledger mutation anywhere (other tabs, Settings, imports, a
+  /// recovery reload) re-renders this tab; no callback chain needed.
+  void _onLedgerChanged() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
+    ledgerRevision.removeListener(_onLedgerChanged);
     requestPlanHelpTour.removeListener(_onHelpTourRequested);
     _planScrollController.removeListener(_onPlanScrollControllerChanged);
     _planScrollController.dispose();
@@ -571,7 +577,6 @@ class _PlanScreenState extends State<PlanScreen> {
     );
 
     if (mounted) setState(() {});
-    widget.onChanged?.call();
 
     if (!persisted || !mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
@@ -590,13 +595,11 @@ class _PlanScreenState extends State<PlanScreen> {
     if (!await guardPersist(context, () => DataRepository.removePlanned(pt))) {
       if (mounted) {
         setState(() {});
-        widget.onChanged?.call();
       }
       return;
     }
     if (!mounted) return;
     setState(() {});
-    widget.onChanged?.call();
     final messenger = ScaffoldMessenger.of(context);
     messenger.clearSnackBars();
     messenger.showSnackBar(
@@ -614,12 +617,10 @@ class _PlanScreenState extends State<PlanScreen> {
             if (!await guardPersist(context, () => DataRepository.addPlanned(pt))) {
               if (mounted) {
                 setState(() {});
-                widget.onChanged?.call();
               }
               return;
             }
             if (mounted) setState(() {});
-            widget.onChanged?.call();
           },
         ),
       ),
@@ -700,11 +701,9 @@ class _PlanScreenState extends State<PlanScreen> {
         if (!mounted) return;
         if (!skippedOk) {
           setState(() {});
-          widget.onChanged?.call();
           return;
         }
         setState(() {});
-        widget.onChanged?.call();
         final messenger = ScaffoldMessenger.of(context);
         messenger.clearSnackBars();
         messenger.showSnackBar(
@@ -726,7 +725,6 @@ class _PlanScreenState extends State<PlanScreen> {
                 );
                 if (mounted) {
                   setState(() {});
-                  widget.onChanged?.call();
                 }
                 if (!undoOk) return;
               },
@@ -751,7 +749,6 @@ class _PlanScreenState extends State<PlanScreen> {
       if (!await guardPersist(context, () => DataRepository.addPlanned(result))) {
         if (mounted) {
           setState(() {});
-          widget.onChanged?.call();
         }
         return;
       }
@@ -773,12 +770,10 @@ class _PlanScreenState extends State<PlanScreen> {
       if (!await guardPersist(context, () => DataRepository.addAccount(result))) {
         if (mounted) {
           setState(() {});
-          widget.onChanged?.call();
         }
         return;
       }
       if (mounted) setState(() {});
-      widget.onChanged?.call();
     }
   }
 
@@ -794,7 +789,6 @@ class _PlanScreenState extends State<PlanScreen> {
           context, () => DataRepository.replacePlanned(pt, result))) {
         if (mounted) {
           setState(() {});
-          widget.onChanged?.call();
         }
         return;
       }
@@ -981,7 +975,6 @@ class _PlanScreenState extends State<PlanScreen> {
                         builder: (_) => const SettingsScreen()),
                   );
                   if (mounted) setState(() {});
-                  widget.onChanged?.call();
                 },
               ),
             ],
