@@ -33,25 +33,6 @@ import 'review_screen.dart';
 import 'settings_screen.dart';
 import 'transaction_detail_screen.dart';
 
-const _kTypeIncome = 'income';
-const _kTypeExpense = 'expense';
-const _kTypeTransfer = 'transfer';
-
-bool _inGroup(TxType t, String group) => switch (group) {
-      _kTypeIncome =>
-        const {TxType.income, TxType.collection, TxType.loan, TxType.invoice}
-            .contains(t),
-      _kTypeExpense => const {
-          TxType.expense,
-          TxType.bill,
-          TxType.settlement,
-          TxType.advance,
-        }.contains(t),
-      _kTypeTransfer =>
-        const {TxType.transfer, TxType.offset}.contains(t),
-      _ => true,
-    };
-
 class PlanScreen extends StatefulWidget {
   const PlanScreen({super.key});
 
@@ -62,7 +43,7 @@ class PlanScreen extends StatefulWidget {
 class _PlanScreenState extends State<PlanScreen> {
   /// Projection date for hero totals and per-account breakdown.
   DateTime _snapshotDate = DateUtils.dateOnly(DateTime.now());
-  String? _typeFilter;
+  TxTypeGroup? _typeFilter;
   Account? _accountFilter;
   String? _categoryFilter;
   /// null = all time (default on Plan — repeating items must stay visible
@@ -159,17 +140,8 @@ class _PlanScreenState extends State<PlanScreen> {
         _categoryStripOpen = !_categoryStripOpen;
       });
 
-  void _cycleTypeFilter() => setState(() {
-        if (_typeFilter == null) {
-          _typeFilter = _kTypeIncome;
-        } else if (_typeFilter == _kTypeIncome) {
-          _typeFilter = _kTypeExpense;
-        } else if (_typeFilter == _kTypeExpense) {
-          _typeFilter = _kTypeTransfer;
-        } else {
-          _typeFilter = null;
-        }
-      });
+  void _cycleTypeFilter() =>
+      setState(() => _typeFilter = TxTypeGroup.next(_typeFilter));
 
   void _toggleSort() => setState(() => _newestFirst = !_newestFirst);
 
@@ -302,7 +274,7 @@ class _PlanScreenState extends State<PlanScreen> {
       source = source.where((pt) {
         final type = pt.txType ??
             classifyTransaction(from: pt.fromAccount, to: pt.toAccount);
-        return _inGroup(type, _typeFilter!);
+        return _typeFilter!.contains(type);
       });
     }
     if (_accountFilter != null && !_accountFilter!.archived) {
@@ -1099,7 +1071,7 @@ class _ProjectionHero extends StatelessWidget {
   final bool categoryPanelOpen;
   final VoidCallback onToggleAccountPanel;
   final VoidCallback onToggleCategoryPanel;
-  final String? typeFilter;
+  final TxTypeGroup? typeFilter;
   final VoidCallback onCycleType;
   final String? dateModeLetter;
   final bool dateFilterActive;

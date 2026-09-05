@@ -23,8 +23,15 @@ import 'account_transactions_screen.dart';
 import 'review/account_form_widgets.dart';
 import 'settings_screen.dart';
 
+
 export 'review/account_form_widgets.dart'
     show AccountFormSheet, AccountFormScreen;
+
+/// Pages of the Review screen, in PageView order.
+enum _ReviewSection { personal, individuals, entities, statistics }
+
+/// Statistics tab: what the category breakdown shows.
+enum _StatsMode { expense, income }
 
 /// Shared category order for compare mode: max per side, then combined, then name.
 List<String> _orderedCategoryKeysForCompare(
@@ -165,11 +172,9 @@ class ReviewScreen extends StatefulWidget {
 
 class _ReviewScreenState extends State<ReviewScreen> {
   String _displayCurrency = settings.baseCurrency;
-  // 'personal' | 'individuals' | 'entities' | 'statistics' — always one selected.
   /// Opens with Personal so account cards are visible without an extra tap.
-  String _activeSection = 'personal';
-  // 'expense' | 'income' | null
-  String? _activeStats;
+  _ReviewSection _activeSection = _ReviewSection.personal;
+    _StatsMode? _activeStats;
   // 0 = all time, 1 = calendar month, 3 = calendar quarter, 6 = half-year, 12 = year
   int _spendingMonths = 1;
   // 0 = bars, 1 = donut
@@ -183,13 +188,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
   /// User-selected category for compare mode (falls back to first available key).
   String? _compareCategoryExpense;
   String? _compareCategoryIncome;
-
-  static const List<String> _kReviewSections = [
-    'personal',
-    'individuals',
-    'entities',
-    'statistics',
-  ];
 
   late final PageController _sectionPageController;
 
@@ -231,7 +229,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   final ValueNotifier<bool> _reviewHeroOverlapShadow = ValueNotifier(false);
 
   late final List<GlobalKey> _reviewSectionScrollProbeKeys =
-      List<GlobalKey>.generate(_kReviewSections.length, (_) => GlobalKey());
+      List<GlobalKey>.generate(_ReviewSection.values.length, (_) => GlobalKey());
 
   static const double _kReviewHeroOverlapShadowPixels = 1.0;
 
@@ -245,10 +243,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
         ? DateTime(now.year - 1, 12)
         : DateTime(now.year, now.month - 1);
     _sectionPageController = PageController(
-      initialPage: _kReviewSections.indexOf(_activeSection).clamp(0, 3),
+      initialPage: _activeSection.index,
     );
     _reviewPageScrollControllers = List.generate(
-      _kReviewSections.length,
+      _ReviewSection.values.length,
       (_) {
         final c = ScrollController();
         c.addListener(_onReviewScrollPositionChanged);
@@ -283,30 +281,27 @@ class _ReviewScreenState extends State<ReviewScreen> {
     super.dispose();
   }
 
-  int _sectionPageIndex(String section) {
-    final i = _kReviewSections.indexOf(section);
-    return i < 0 ? 0 : i;
-  }
+  int _sectionPageIndex(_ReviewSection section) => section.index;
 
   void _onReviewSectionPageChanged(int index) {
-    if (index < 0 || index >= _kReviewSections.length) return;
-    final section = _kReviewSections[index];
+    if (index < 0 || index >= _ReviewSection.values.length) return;
+    final section = _ReviewSection.values[index];
     setState(() {
       _activeSection = section;
-      if (section == 'statistics' && _activeStats == null) {
-        _activeStats = 'expense';
+      if (section == _ReviewSection.statistics && _activeStats == null) {
+        _activeStats = _StatsMode.expense;
       }
     });
     _scheduleReviewHeroOverlapShadowSyncForPage(index);
     _scheduleReviewScrollToTopFabSync();
   }
 
-  void _selectReviewSection(String section) {
+  void _selectReviewSection(_ReviewSection section) {
     final i = _sectionPageIndex(section);
     setState(() {
       _activeSection = section;
-      if (section == 'statistics' && _activeStats == null) {
-        _activeStats = 'expense';
+      if (section == _ReviewSection.statistics && _activeStats == null) {
+        _activeStats = _StatsMode.expense;
       }
     });
     if (_sectionPageController.hasClients) {
@@ -325,7 +320,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     if (_sectionPageController.hasClients) {
       final p = _sectionPageController.page;
       if (p != null) {
-        return p.round().clamp(0, _kReviewSections.length - 1);
+        return p.round().clamp(0, _ReviewSection.values.length - 1);
       }
     }
     return _sectionPageIndex(_activeSection);
@@ -638,12 +633,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
   /// Statistics tab: show reset FAB only after the user changes chips (period,
   /// viz, compare, income vs expense, date nav, or hero currency).
   bool get _reviewStatisticsHasNonDefaultChoices {
-    if (_activeSection != 'statistics') return false;
+    if (_activeSection != _ReviewSection.statistics) return false;
     return _compareMode ||
         _vizMode != 0 ||
         _spendingMonths != 1 ||
         _dateOffset != 0 ||
-        (_activeStats ?? 'expense') != 'expense' ||
+        (_activeStats ?? _StatsMode.expense) != _StatsMode.expense ||
         _displayCurrency != settings.baseCurrency;
   }
 
@@ -654,7 +649,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
       _vizMode = 0;
       _spendingMonths = 1;
       _dateOffset = 0;
-      _activeStats = 'expense';
+      _activeStats = _StatsMode.expense;
       _compareCategoryExpense = null;
       _compareCategoryIncome = null;
       _displayCurrency = settings.baseCurrency;
@@ -714,9 +709,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
   // ── Account mutations ──────────────────────────────────────────────────────
 
   AccountGroup? get _activeGroupFromSection => switch (_activeSection) {
-        'personal' => AccountGroup.personal,
-        'individuals' => AccountGroup.individuals,
-        'entities' => AccountGroup.entities,
+        _ReviewSection.personal => AccountGroup.personal,
+        _ReviewSection.individuals => AccountGroup.individuals,
+        _ReviewSection.entities => AccountGroup.entities,
         _ => null,
       };
 
@@ -858,7 +853,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   }
 
   List<Widget> _reviewStatisticsSlivers(BuildContext context, ColorScheme cs) {
-    final statsTab = _activeStats ?? 'expense';
+    final statsTab = _activeStats ?? _StatsMode.expense;
     final cmp = _reviewCompareRows();
     final compareExpenseA = cmp.compareExpenseA;
     final compareExpenseB = cmp.compareExpenseB;
@@ -900,18 +895,18 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   }
                 }),
                 compareCategoryKeys: _compareMode
-                    ? (statsTab == 'expense'
+                    ? (statsTab == _StatsMode.expense
                         ? cmp.compareExpenseCategoryKeys
                         : cmp.compareIncomeCategoryKeys)
                     : const [],
                 compareSelectedCategory: _compareMode
-                    ? (statsTab == 'expense'
+                    ? (statsTab == _StatsMode.expense
                         ? effectiveCompareExpenseCategory
                         : effectiveCompareIncomeCategory)
                     : null,
                 onCompareCategoryChanged: _compareMode
                     ? (String v) => setState(() {
-                          if (statsTab == 'expense') {
+                          if (statsTab == _StatsMode.expense) {
                             _compareCategoryExpense = v;
                           } else {
                             _compareCategoryIncome = v;
@@ -919,7 +914,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         })
                     : null,
               ),
-              if (statsTab == 'expense' &&
+              if (statsTab == _StatsMode.expense &&
                   _compareMode &&
                   effectiveCompareExpenseCategory != null &&
                   compareExpenseA.isNotEmpty &&
@@ -955,7 +950,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     isExpense: true,
                   ),
                 ),
-              if (statsTab == 'expense' && !_compareMode)
+              if (statsTab == _StatsMode.expense && !_compareMode)
                 _SpendingBody(
                   spending: _categorySpending,
                   periodLabel: _periodLabel(context),
@@ -963,7 +958,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   vizMode: _vizMode,
                   displayCurrency: _displayCurrency,
                 ),
-              if (statsTab == 'income' &&
+              if (statsTab == _StatsMode.income &&
                   _compareMode &&
                   effectiveCompareIncomeCategory != null &&
                   compareIncomeA.isNotEmpty &&
@@ -999,7 +994,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     isExpense: false,
                   ),
                 ),
-              if (statsTab == 'income' && !_compareMode)
+              if (statsTab == _StatsMode.income && !_compareMode)
                 _IncomeBody(
                   income: _categoryIncome,
                   periodLabel: _periodLabel(context),
@@ -1017,25 +1012,23 @@ class _ReviewScreenState extends State<ReviewScreen> {
   List<Widget> _reviewSectionPageSlivers(
     BuildContext context,
     ColorScheme cs,
-    String section,
+    _ReviewSection section,
     List<Account> personal,
     List<Account> individuals,
     List<Account> entities,
   ) {
     switch (section) {
-      case 'personal':
+      case _ReviewSection.personal:
         return _reviewAccountSectionSlivers(
             context, AccountGroup.personal, personal);
-      case 'individuals':
+      case _ReviewSection.individuals:
         return _reviewAccountSectionSlivers(
             context, AccountGroup.individuals, individuals);
-      case 'entities':
+      case _ReviewSection.entities:
         return _reviewAccountSectionSlivers(
             context, AccountGroup.entities, entities);
-      case 'statistics':
+      case _ReviewSection.statistics:
         return _reviewStatisticsSlivers(context, cs);
-      default:
-        return const [SliverToBoxAdapter(child: SizedBox.shrink())];
     }
   }
 
@@ -1140,7 +1133,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     }
 
     Widget? mainFab;
-    if (_activeSection == 'statistics') {
+    if (_activeSection == _ReviewSection.statistics) {
       if (_reviewStatisticsHasNonDefaultChoices) {
         mainFab = FloatingActionButton.small(
           heroTag: 'review_fab_reset',
@@ -1281,9 +1274,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     child: PageView.builder(
                       controller: _sectionPageController,
                       onPageChanged: _onReviewSectionPageChanged,
-                      itemCount: _kReviewSections.length,
+                      itemCount: _ReviewSection.values.length,
                       itemBuilder: (context, index) {
-                        final section = _kReviewSections[index];
+                        final section = _ReviewSection.values[index];
                         final topPad =
                             _reviewUnderHeaderScrollPadding(context);
                         return Builder(
@@ -1431,8 +1424,8 @@ class _NetWorthHero extends StatelessWidget {
   final double net;
   final String displayCurrency;
   final bool sectionChipsEnabled;
-  final String activeSection;
-  final void Function(String section) onSelectSection;
+  final _ReviewSection activeSection;
+  final void Function(_ReviewSection section) onSelectSection;
   final VoidCallback onToggleCurrency;
 
   const _NetWorthHero({
@@ -1585,34 +1578,34 @@ class _NetWorthHero extends StatelessWidget {
                         Expanded(
                             child: chip(
                                 icon: Icons.person_outline_rounded,
-                                active: activeSection == 'personal',
+                                active: activeSection == _ReviewSection.personal,
                                 label: l10n.accountGroupPersonal,
                                 onTap: () =>
-                                    onSelectSection('personal'))),
+                                    onSelectSection(_ReviewSection.personal))),
                         const SizedBox(width: 6),
                         Expanded(
                             child: chip(
                                 icon: Icons.people_outline_rounded,
-                                active: activeSection == 'individuals',
+                                active: activeSection == _ReviewSection.individuals,
                                 label: l10n.accountSectionIndividuals,
                                 onTap: () =>
-                                    onSelectSection('individuals'))),
+                                    onSelectSection(_ReviewSection.individuals))),
                         const SizedBox(width: 6),
                         Expanded(
                             child: chip(
                                 icon: Icons.business_outlined,
-                                active: activeSection == 'entities',
+                                active: activeSection == _ReviewSection.entities,
                                 label: l10n.accountSectionEntities,
                                 onTap: () =>
-                                    onSelectSection('entities'))),
+                                    onSelectSection(_ReviewSection.entities))),
                         const SizedBox(width: 6),
                         Expanded(
                             child: chip(
                                 icon: Icons.bar_chart_rounded,
-                                active: activeSection == 'statistics',
+                                active: activeSection == _ReviewSection.statistics,
                                 label: l10n.semanticsSectionStatistics,
                                 onTap: () =>
-                                    onSelectSection('statistics'))),
+                                    onSelectSection(_ReviewSection.statistics))),
                         const SizedBox(width: 6),
                         Expanded(
                             child: chip(
@@ -1655,8 +1648,8 @@ class _NetWorthHero extends StatelessWidget {
 // ─── Stats header (shared chips + date navigator) ─────────────────────────────
 
 class _StatsHeader extends StatelessWidget {
-  final String? activeStats;
-  final void Function(String s) onSelectStats;
+  final _StatsMode? activeStats;
+  final void Function(_StatsMode s) onSelectStats;
   final String periodLabel;
   final int spendingMonths;
   final String dateRangeLabel;
@@ -1753,18 +1746,18 @@ class _StatsHeader extends StatelessWidget {
               Expanded(
                 child: chip(
                   icon: Icons.arrow_upward_rounded,
-                  active: activeStats == 'expense',
+                  active: activeStats == _StatsMode.expense,
                   semanticsLabel: l10n.semanticsStatsSpent,
-                  onTap: () => onSelectStats('expense'),
+                  onTap: () => onSelectStats(_StatsMode.expense),
                 ),
               ),
               const SizedBox(width: 6),
               Expanded(
                 child: chip(
                   icon: Icons.arrow_downward_rounded,
-                  active: activeStats == 'income',
+                  active: activeStats == _StatsMode.income,
                   semanticsLabel: l10n.semanticsStatsReceived,
-                  onTap: () => onSelectStats('income'),
+                  onTap: () => onSelectStats(_StatsMode.income),
                 ),
               ),
               const SizedBox(width: 6),
@@ -1832,7 +1825,7 @@ class _StatsHeader extends StatelessWidget {
                         constraints: const BoxConstraints(maxWidth: 220),
                         child: ChoiceChip(
                           key: ValueKey(
-                              '${activeStats}_${compareCategoryKeys.length}_$k'),
+                              '${activeStats?.name}_${compareCategoryKeys.length}_$k'),
                           materialTapTargetSize:
                               MaterialTapTargetSize.shrinkWrap,
                           visualDensity: VisualDensity.compact,

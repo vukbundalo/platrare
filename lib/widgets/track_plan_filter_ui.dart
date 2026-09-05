@@ -31,7 +31,7 @@ class TrackPlanFilterChipRow extends StatelessWidget {
   final bool categoryPanelOpen;
   final VoidCallback onToggleAccountPanel;
   final VoidCallback onToggleCategoryPanel;
-  final String? typeFilter;
+  final TxTypeGroup? typeFilter;
   final VoidCallback onCycleType;
   final String? dateModeLetter;
   final bool dateFilterActive;
@@ -75,8 +75,8 @@ class TrackPlanFilterChipRow extends StatelessWidget {
 
   IconData _typeMainIcon() {
     if (typeFilter == null) return Icons.filter_list_rounded;
-    if (typeFilter == 'income') return Icons.south_west_rounded;
-    if (typeFilter == 'expense') return Icons.north_east_rounded;
+    if (typeFilter == TxTypeGroup.income) return Icons.south_west_rounded;
+    if (typeFilter == TxTypeGroup.expense) return Icons.north_east_rounded;
     return Icons.swap_horiz_rounded;
   }
 

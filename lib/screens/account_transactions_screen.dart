@@ -23,17 +23,6 @@ import 'new_transaction_screen.dart';
 import 'review/account_form_widgets.dart' show AccountFormScreen;
 import 'transaction_detail_screen.dart';
 
-const _kTypeIncome   = 'income';
-const _kTypeExpense  = 'expense';
-const _kTypeTransfer = 'transfer';
-
-bool _inGroup(TxType t, String group) => switch (group) {
-  _kTypeIncome   => const {TxType.income, TxType.collection, TxType.loan, TxType.invoice}.contains(t),
-  _kTypeExpense  => const {TxType.expense, TxType.bill, TxType.settlement, TxType.advance}.contains(t),
-  _kTypeTransfer => const {TxType.transfer, TxType.offset}.contains(t),
-  _ => true,
-};
-
 /// True when the transaction has both legs and they are exactly [a] and [b].
 bool _txBetweenAccounts(Transaction t, String a, String b) {
   final from = t.fromAccount?.id ?? t.fromAccountId;
@@ -54,7 +43,7 @@ class AccountTransactionsScreen extends StatefulWidget {
 
 class _AccountTransactionsScreenState
     extends State<AccountTransactionsScreen> {
-  String? _typeFilter;
+  TxTypeGroup? _typeFilter;
   String? _categoryFilter;
   /// When set, only transactions that involve both [widget.account] and this account.
   Account? _counterpartyFilter;
@@ -87,17 +76,8 @@ class _AccountTransactionsScreenState
     });
   }
 
-  void _cycleTypeFilter() => setState(() {
-        if (_typeFilter == null) {
-          _typeFilter = _kTypeIncome;
-        } else if (_typeFilter == _kTypeIncome) {
-          _typeFilter = _kTypeExpense;
-        } else if (_typeFilter == _kTypeExpense) {
-          _typeFilter = _kTypeTransfer;
-        } else {
-          _typeFilter = null;
-        }
-      });
+  void _cycleTypeFilter() =>
+      setState(() => _typeFilter = TxTypeGroup.next(_typeFilter));
 
   void _toggleSort() => setState(() => _newestFirst = !_newestFirst);
 
@@ -124,7 +104,7 @@ class _AccountTransactionsScreenState
       source = source.where((t) {
         final type = t.txType ??
             classifyTransaction(from: t.fromAccount, to: t.toAccount);
-        return _inGroup(type, _typeFilter!);
+        return _typeFilter!.contains(type);
       });
     }
 
@@ -149,9 +129,9 @@ class _AccountTransactionsScreenState
           classifyTransaction(from: t.fromAccount, to: t.toAccount);
       final base = fx.toBase(
           t.nativeAmount ?? 0, t.currencyCode ?? settings.baseCurrency);
-      if (_inGroup(type, _kTypeIncome)) {
+      if (TxTypeGroup.income.contains(type)) {
         totalIn += base;
-      } else if (_inGroup(type, _kTypeExpense)) {
+      } else if (TxTypeGroup.expense.contains(type)) {
         totalOut += base;
       }
     }
@@ -440,7 +420,7 @@ class _AccountTxHero extends StatelessWidget {
   final double totalOut;
   final TrackPlanFilterPanel panel;
   final void Function(TrackPlanFilterPanel) onTogglePanel;
-  final String? typeFilter;
+  final TxTypeGroup? typeFilter;
   final VoidCallback onCycleType;
   final String? dateModeLetter;
   final bool dateFilterActive;

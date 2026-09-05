@@ -40,17 +40,6 @@ class TrackScreen extends StatefulWidget {
 }
 
 // Type-group strings used by the filter.
-const _kTypeIncome   = 'income';
-const _kTypeExpense  = 'expense';
-const _kTypeTransfer = 'transfer';
-
-bool _inGroup(TxType t, String group) => switch (group) {
-  _kTypeIncome   => const {TxType.income, TxType.collection, TxType.loan, TxType.invoice}.contains(t),
-  _kTypeExpense  => const {TxType.expense, TxType.bill, TxType.settlement, TxType.advance}.contains(t),
-  _kTypeTransfer => const {TxType.transfer, TxType.offset}.contains(t),
-  _ => true,
-};
-
 class _TrackScreenState extends State<TrackScreen> {
   // ── Pagination ──────────────────────────────────────────────────────────────
   final _scrollController = ScrollController();
@@ -61,7 +50,7 @@ class _TrackScreenState extends State<TrackScreen> {
   int? _trackLazyListSig;
 
   // ── Filters ─────────────────────────────────────────────────────────────────
-  String? _typeFilter;      // _kTypeIncome / _kTypeExpense / _kTypeTransfer
+  TxTypeGroup? _typeFilter;
   Account? _accountFilter;
   String? _categoryFilter;
   /// null = all time (default); UI cycles day/week/month/year.
@@ -165,17 +154,8 @@ class _TrackScreenState extends State<TrackScreen> {
         _categoryStripOpen = !_categoryStripOpen;
       });
 
-  void _cycleTypeFilter() => setState(() {
-        if (_typeFilter == null) {
-          _typeFilter = _kTypeIncome;
-        } else if (_typeFilter == _kTypeIncome) {
-          _typeFilter = _kTypeExpense;
-        } else if (_typeFilter == _kTypeExpense) {
-          _typeFilter = _kTypeTransfer;
-        } else {
-          _typeFilter = null;
-        }
-      });
+  void _cycleTypeFilter() =>
+      setState(() => _typeFilter = TxTypeGroup.next(_typeFilter));
 
   void _toggleSort() => setState(() => _newestFirst = !_newestFirst);
 
@@ -283,9 +263,9 @@ class _TrackScreenState extends State<TrackScreen> {
           classifyTransaction(from: t.fromAccount, to: t.toAccount);
       final base = fx.toBase(
           t.nativeAmount ?? 0, t.currencyCode ?? settings.baseCurrency);
-      if (_inGroup(type, _kTypeIncome)) {
+      if (TxTypeGroup.income.contains(type)) {
         totalIn += base;
-      } else if (_inGroup(type, _kTypeExpense)) {
+      } else if (TxTypeGroup.expense.contains(type)) {
         totalOut += base;
       }
     }
@@ -307,7 +287,7 @@ class _TrackScreenState extends State<TrackScreen> {
       source = source.where((t) {
         final type = t.txType ??
             classifyTransaction(from: t.fromAccount, to: t.toAccount);
-        return _inGroup(type, _typeFilter!);
+        return _typeFilter!.contains(type);
       });
     }
 
@@ -887,7 +867,7 @@ class _TrackHero extends StatelessWidget {
   final bool categoryPanelOpen;
   final VoidCallback onToggleAccountPanel;
   final VoidCallback onToggleCategoryPanel;
-  final String? typeFilter;
+  final TxTypeGroup? typeFilter;
   final VoidCallback onCycleType;
   /// `D` / `W` / `M` / `Y` when that period mode is active; `∞` → all time.
   final String? dateModeLetter;
