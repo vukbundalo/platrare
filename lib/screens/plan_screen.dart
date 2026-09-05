@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../data/account_lifecycle.dart';
 import '../data/app_data.dart' as data;
+import '../data/app_signals.dart';
 import '../data/balance_privacy_prefs.dart';
 import '../data/data_repository.dart';
 import '../data/user_settings.dart' as settings;
@@ -419,6 +420,7 @@ class _PlanScreenState extends State<PlanScreen> {
   @override
   void initState() {
     super.initState();
+    requestPlanHelpTour.addListener(_onHelpTourRequested);
     _planScrollController.addListener(_onPlanScrollControllerChanged);
   }
 
@@ -489,8 +491,16 @@ class _PlanScreenState extends State<PlanScreen> {
     }
   }
 
+  void _onHelpTourRequested() {
+    if (!mounted) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) showHelpTour(context, _helpSteps());
+    });
+  }
+
   @override
   void dispose() {
+    requestPlanHelpTour.removeListener(_onHelpTourRequested);
     _planScrollController.removeListener(_onPlanScrollControllerChanged);
     _planScrollController.dispose();
     _planSearchController.dispose();

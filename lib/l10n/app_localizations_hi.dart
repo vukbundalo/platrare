@@ -2187,4 +2187,36 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get aboutSupportEmailCopied => 'सहायता ईमेल पता कॉपी किया गया';
+
+  @override
+  String get onboardingWelcomeTitle => 'Platrare में आपका स्वागत है';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'आपका पैसा इसी डिवाइस पर रहता है। कोई खाता नहीं, कोई विज्ञापन नहीं, कोई ट्रैकिंग नहीं।';
+
+  @override
+  String get onboardingPlanBody =>
+      'आगामी और दोहराए जाने वाले भुगतान तय करें और देखें कि आपके बैलेंस किस ओर जा रहे हैं।';
+
+  @override
+  String get onboardingTrackBody =>
+      'आय, खर्च, ट्रांसफ़र और जो आप उधार देते या लेते हैं, उसे दर्ज करें।';
+
+  @override
+  String get onboardingReviewBody =>
+      'आपके खातों, जिन लोगों से आप हिसाब करते हैं और व्यवसायों के लिए आँकड़े, तुलना और इतिहास।';
+
+  @override
+  String get onboardingCurrencyLabel => 'मूल मुद्रा';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'आपकी डिवाइस भाषा के अनुसार सुझाई गई। इसे बाद में सेटिंग्स में बदल सकते हैं।';
+
+  @override
+  String get onboardingStart => 'शुरू करें';
+
+  @override
+  String get onboardingTour => 'मुझे ऐप दिखाएँ';
 }

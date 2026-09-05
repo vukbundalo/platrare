@@ -3839,6 +3839,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Support email address copied'**
   String get aboutSupportEmailCopied;
+
+  /// No description provided for @onboardingWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Platrare'**
+  String get onboardingWelcomeTitle;
+
+  /// No description provided for @onboardingWelcomeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your money stays on this device. No account, no ads, no tracking.'**
+  String get onboardingWelcomeBody;
+
+  /// No description provided for @onboardingPlanBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule upcoming and repeating payments and see where your balances are heading.'**
+  String get onboardingPlanBody;
+
+  /// No description provided for @onboardingTrackBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Record income, expenses, transfers, and what you lend or owe.'**
+  String get onboardingTrackBody;
+
+  /// No description provided for @onboardingReviewBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics, comparisons and history for your accounts, the people you settle with, and businesses.'**
+  String get onboardingReviewBody;
+
+  /// No description provided for @onboardingCurrencyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Base currency'**
+  String get onboardingCurrencyLabel;
+
+  /// No description provided for @onboardingCurrencyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested from your device language. You can change it later in Settings.'**
+  String get onboardingCurrencyHint;
+
+  /// No description provided for @onboardingStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get onboardingStart;
+
+  /// No description provided for @onboardingTour.
+  ///
+  /// In en, this message translates to:
+  /// **'Show me around'**
+  String get onboardingTour;
 }
 
 class _AppLocalizationsDelegate

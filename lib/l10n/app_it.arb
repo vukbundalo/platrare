@@ -1048,5 +1048,14 @@
   "plannedReminderDueTomorrow": "Scade domani",
   "plannedReminderDueInDays": "{count, plural, other{Scade tra {count} giorni}}",
   "aboutContactSupport": "Contatta l’assistenza",
-  "aboutSupportEmailCopied": "Indirizzo e-mail dell’assistenza copiato"
+  "aboutSupportEmailCopied": "Indirizzo e-mail dell’assistenza copiato",
+  "onboardingWelcomeTitle": "Benvenuto in Platrare",
+  "onboardingWelcomeBody": "I tuoi soldi restano su questo dispositivo. Nessun account, nessuna pubblicità, nessun tracciamento.",
+  "onboardingPlanBody": "Pianifica pagamenti futuri e ricorrenti e guarda dove vanno i tuoi saldi.",
+  "onboardingTrackBody": "Registra entrate, uscite, trasferimenti e ciò che presti o devi.",
+  "onboardingReviewBody": "Statistiche, confronti e cronologia per i tuoi conti, le persone con cui fai i conti e le aziende.",
+  "onboardingCurrencyLabel": "Valuta di base",
+  "onboardingCurrencyHint": "Suggerita dalla lingua del dispositivo. Puoi cambiarla in seguito nelle Impostazioni.",
+  "onboardingStart": "Inizia",
+  "onboardingTour": "Fammi fare un giro"
 }

@@ -2112,4 +2112,31 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get aboutSupportEmailCopied => 'サポートのメールアドレスをコピーしました';
+
+  @override
+  String get onboardingWelcomeTitle => 'Platrare へようこそ';
+
+  @override
+  String get onboardingWelcomeBody => 'お金の情報はこの端末から出ません。アカウント不要、広告なし、トラッキングなし。';
+
+  @override
+  String get onboardingPlanBody => '今後の支払いや定期的な支払いを予定して、残高の行方を確認できます。';
+
+  @override
+  String get onboardingTrackBody => '収入、支出、振替、そして貸し借りを記録します。';
+
+  @override
+  String get onboardingReviewBody => '口座、精算相手、取引先ごとの統計、比較、履歴。';
+
+  @override
+  String get onboardingCurrencyLabel => '基準通貨';
+
+  @override
+  String get onboardingCurrencyHint => '端末の言語から提案しています。あとで設定から変更できます。';
+
+  @override
+  String get onboardingStart => 'はじめる';
+
+  @override
+  String get onboardingTour => '使い方を見る';
 }

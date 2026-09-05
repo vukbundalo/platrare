@@ -1048,5 +1048,14 @@
   "plannedReminderDueTomorrow": "कल देय",
   "plannedReminderDueInDays": "{count, plural, other{{count} दिनों में देय}}",
   "aboutContactSupport": "सहायता से संपर्क करें",
-  "aboutSupportEmailCopied": "सहायता ईमेल पता कॉपी किया गया"
+  "aboutSupportEmailCopied": "सहायता ईमेल पता कॉपी किया गया",
+  "onboardingWelcomeTitle": "Platrare में आपका स्वागत है",
+  "onboardingWelcomeBody": "आपका पैसा इसी डिवाइस पर रहता है। कोई खाता नहीं, कोई विज्ञापन नहीं, कोई ट्रैकिंग नहीं।",
+  "onboardingPlanBody": "आगामी और दोहराए जाने वाले भुगतान तय करें और देखें कि आपके बैलेंस किस ओर जा रहे हैं।",
+  "onboardingTrackBody": "आय, खर्च, ट्रांसफ़र और जो आप उधार देते या लेते हैं, उसे दर्ज करें।",
+  "onboardingReviewBody": "आपके खातों, जिन लोगों से आप हिसाब करते हैं और व्यवसायों के लिए आँकड़े, तुलना और इतिहास।",
+  "onboardingCurrencyLabel": "मूल मुद्रा",
+  "onboardingCurrencyHint": "आपकी डिवाइस भाषा के अनुसार सुझाई गई। इसे बाद में सेटिंग्स में बदल सकते हैं।",
+  "onboardingStart": "शुरू करें",
+  "onboardingTour": "मुझे ऐप दिखाएँ"
 }

@@ -21,3 +21,7 @@ final ValueNotifier<bool> splashCompleted = ValueNotifier(false);
 ///
 /// Defaults to true so builds with app lock disabled are unaffected.
 final ValueNotifier<bool> appUnlocked = ValueNotifier(true);
+
+/// Bumped by the first-run screen when the user asks to be shown around.
+/// [PlanScreen] listens and starts its help tour on the next frame.
+final ValueNotifier<int> requestPlanHelpTour = ValueNotifier(0);

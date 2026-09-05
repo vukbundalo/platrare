@@ -39,7 +39,7 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started · `[!]` needs the 
 | # | Step | Status | Notes |
 |---|------|--------|-------|
 | 1 | Locale-aware money formatting in one place | [x] | `lib/utils/money_format.dart`; `formatBalanceAmount` and `fx.formatNative*` route through it; `setAppNumberLocale` is called from the MaterialApp locale resolution. Display sites no longer call `toStringAsFixed`. Text-field values (amount editors), CSV and backup stay invariant on purpose. iOS widget snapshot stays ungrouped until `AmountFormatter.swift` groups too. Tests: `test/money_format_test.dart`. |
-| 2 | First-run onboarding: currency from device locale, Plan/Track/Review explainer, offer help tour, persist "seen" | [ ] | |
+| 2 | First-run onboarding: currency from device locale, Plan/Track/Review explainer, offer help tour, persist "seen" | [x] | `OnboardingScreen` overlays Home after the splash on first run only (installs with accounts or a lock are marked done in `main`). Base currency from `suggestedBaseCurrency(deviceLocale)` via intl. "Show me around" bumps `requestPlanHelpTour`; PlanScreen starts its tour. `CurrencyPickerSheet` extracted to `lib/widgets/` (Settings uses it; the account-form copy is Phase 3 dedupe). Not yet seen on a device: owner to check the first-run flow once. |
 | 3 | Localise or replace the typed-word "DELETE" confirmation | [ ] | |
 | 4 | Finish nl/bs/fr ARB translations; remove or complete pt/zh base stubs | [ ] | |
 | 5 | Cache projections per expanded day; debounce search; memoise filtered lists | [ ] | |

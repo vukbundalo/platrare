@@ -1048,5 +1048,14 @@
   "plannedReminderDueTomorrow": "Vence amanhã",
   "plannedReminderDueInDays": "{count, plural, other{Vence em {count} dias}}",
   "aboutContactSupport": "Falar com o suporte",
-  "aboutSupportEmailCopied": "E-mail do suporte copiado"
+  "aboutSupportEmailCopied": "E-mail do suporte copiado",
+  "onboardingWelcomeTitle": "Bem-vindo ao Platrare",
+  "onboardingWelcomeBody": "Seu dinheiro fica neste dispositivo. Sem conta, sem anúncios, sem rastreamento.",
+  "onboardingPlanBody": "Agende pagamentos futuros e recorrentes e veja para onde seus saldos estão indo.",
+  "onboardingTrackBody": "Registre receitas, despesas, transferências e o que você empresta ou deve.",
+  "onboardingReviewBody": "Estatísticas, comparações e histórico das suas contas, das pessoas com quem você acerta contas e das empresas.",
+  "onboardingCurrencyLabel": "Moeda base",
+  "onboardingCurrencyHint": "Sugerida pelo idioma do dispositivo. Você pode alterá-la depois em Configurações.",
+  "onboardingStart": "Começar",
+  "onboardingTour": "Me mostre o app"
 }

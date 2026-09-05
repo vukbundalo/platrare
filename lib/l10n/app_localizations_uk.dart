@@ -2211,4 +2211,36 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get aboutSupportEmailCopied => 'Адресу пошти підтримки скопійовано';
+
+  @override
+  String get onboardingWelcomeTitle => 'Вітаємо в Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Ваші гроші залишаються на цьому пристрої. Без облікового запису, без реклами, без стеження.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Плануйте майбутні та повторювані платежі й дивіться, куди рухаються ваші баланси.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Записуйте доходи, витрати, перекази й те, що ви позичаєте або винні.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Статистика, порівняння та історія за вашими рахунками, людьми, з якими ви розраховуєтесь, і компаніями.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Основна валюта';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Запропоновано за мовою пристрою. Пізніше її можна змінити в налаштуваннях.';
+
+  @override
+  String get onboardingStart => 'Почати';
+
+  @override
+  String get onboardingTour => 'Покажіть застосунок';
 }

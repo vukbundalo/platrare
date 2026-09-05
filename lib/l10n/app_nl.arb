@@ -1048,5 +1048,14 @@
   "plannedReminderDueTomorrow": "Vervalt morgen",
   "plannedReminderDueInDays": "{count, plural, other{Vervalt over {count} dagen}}",
   "aboutContactSupport": "Contact opnemen met support",
-  "aboutSupportEmailCopied": "E-mailadres van support gekopieerd"
+  "aboutSupportEmailCopied": "E-mailadres van support gekopieerd",
+  "onboardingWelcomeTitle": "Welkom bij Platrare",
+  "onboardingWelcomeBody": "Je geld blijft op dit apparaat. Geen account, geen advertenties, geen tracking.",
+  "onboardingPlanBody": "Plan komende en terugkerende betalingen en zie waar je saldi naartoe gaan.",
+  "onboardingTrackBody": "Leg inkomsten, uitgaven, overboekingen en wat je leent of verschuldigd bent vast.",
+  "onboardingReviewBody": "Statistieken, vergelijkingen en geschiedenis voor je rekeningen, de mensen met wie je afrekent en bedrijven.",
+  "onboardingCurrencyLabel": "Basisvaluta",
+  "onboardingCurrencyHint": "Voorgesteld op basis van je apparaattaal. Later te wijzigen in Instellingen.",
+  "onboardingStart": "Aan de slag",
+  "onboardingTour": "Leid me rond"
 }

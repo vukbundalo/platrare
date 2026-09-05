@@ -1048,5 +1048,14 @@
   "plannedReminderDueTomorrow": "Термін завтра",
   "plannedReminderDueInDays": "{count, plural, one{Термін через {count} день} few{Термін через {count} дні} many{Термін через {count} днів} other{Термін через {count} дня}}",
   "aboutContactSupport": "Звʼязатися з підтримкою",
-  "aboutSupportEmailCopied": "Адресу пошти підтримки скопійовано"
+  "aboutSupportEmailCopied": "Адресу пошти підтримки скопійовано",
+  "onboardingWelcomeTitle": "Вітаємо в Platrare",
+  "onboardingWelcomeBody": "Ваші гроші залишаються на цьому пристрої. Без облікового запису, без реклами, без стеження.",
+  "onboardingPlanBody": "Плануйте майбутні та повторювані платежі й дивіться, куди рухаються ваші баланси.",
+  "onboardingTrackBody": "Записуйте доходи, витрати, перекази й те, що ви позичаєте або винні.",
+  "onboardingReviewBody": "Статистика, порівняння та історія за вашими рахунками, людьми, з якими ви розраховуєтесь, і компаніями.",
+  "onboardingCurrencyLabel": "Основна валюта",
+  "onboardingCurrencyHint": "Запропоновано за мовою пристрою. Пізніше її можна змінити в налаштуваннях.",
+  "onboardingStart": "Почати",
+  "onboardingTour": "Покажіть застосунок"
 }

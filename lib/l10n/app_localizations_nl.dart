@@ -2198,4 +2198,36 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get aboutSupportEmailCopied => 'E-mailadres van support gekopieerd';
+
+  @override
+  String get onboardingWelcomeTitle => 'Welkom bij Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Je geld blijft op dit apparaat. Geen account, geen advertenties, geen tracking.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Plan komende en terugkerende betalingen en zie waar je saldi naartoe gaan.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Leg inkomsten, uitgaven, overboekingen en wat je leent of verschuldigd bent vast.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Statistieken, vergelijkingen en geschiedenis voor je rekeningen, de mensen met wie je afrekent en bedrijven.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Basisvaluta';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Voorgesteld op basis van je apparaattaal. Later te wijzigen in Instellingen.';
+
+  @override
+  String get onboardingStart => 'Aan de slag';
+
+  @override
+  String get onboardingTour => 'Leid me rond';
 }

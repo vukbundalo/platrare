@@ -1048,5 +1048,14 @@
   "plannedReminderDueTomorrow": "تستحق غدًا",
   "plannedReminderDueInDays": "{count, plural, one{تستحق بعد يوم} two{تستحق بعد يومين} few{تستحق بعد {count} أيام} other{تستحق بعد {count} يومًا}}",
   "aboutContactSupport": "التواصل مع الدعم",
-  "aboutSupportEmailCopied": "تم نسخ عنوان بريد الدعم"
+  "aboutSupportEmailCopied": "تم نسخ عنوان بريد الدعم",
+  "onboardingWelcomeTitle": "مرحبًا بك في Platrare",
+  "onboardingWelcomeBody": "أموالك تبقى على هذا الجهاز. لا حساب، لا إعلانات، لا تتبع.",
+  "onboardingPlanBody": "جدوِل الدفعات القادمة والمتكررة وشاهد إلى أين تتجه أرصدتك.",
+  "onboardingTrackBody": "سجّل الدخل والمصروفات والتحويلات وما تُقرضه أو تدين به.",
+  "onboardingReviewBody": "إحصاءات ومقارنات وسجل لحساباتك والأشخاص الذين تتسوى معهم والشركات.",
+  "onboardingCurrencyLabel": "العملة الأساسية",
+  "onboardingCurrencyHint": "مقترحة من لغة جهازك. يمكنك تغييرها لاحقًا في الإعدادات.",
+  "onboardingStart": "ابدأ",
+  "onboardingTour": "أرني الجولة"
 }

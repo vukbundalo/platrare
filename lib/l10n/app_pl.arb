@@ -1048,5 +1048,14 @@
   "plannedReminderDueTomorrow": "Termin jutro",
   "plannedReminderDueInDays": "{count, plural, one{Termin za {count} dzień} few{Termin za {count} dni} many{Termin za {count} dni} other{Termin za {count} dnia}}",
   "aboutContactSupport": "Skontaktuj się z pomocą",
-  "aboutSupportEmailCopied": "Skopiowano adres e-mail pomocy"
+  "aboutSupportEmailCopied": "Skopiowano adres e-mail pomocy",
+  "onboardingWelcomeTitle": "Witaj w Platrare",
+  "onboardingWelcomeBody": "Twoje pieniądze zostają na tym urządzeniu. Bez konta, bez reklam, bez śledzenia.",
+  "onboardingPlanBody": "Zaplanuj nadchodzące i cykliczne płatności i zobacz, dokąd zmierzają Twoje salda.",
+  "onboardingTrackBody": "Zapisuj przychody, wydatki, przelewy oraz to, co pożyczasz lub jesteś winien.",
+  "onboardingReviewBody": "Statystyki, porównania i historia dla Twoich kont, osób, z którymi się rozliczasz, i firm.",
+  "onboardingCurrencyLabel": "Waluta podstawowa",
+  "onboardingCurrencyHint": "Zaproponowana na podstawie języka urządzenia. Możesz ją później zmienić w Ustawieniach.",
+  "onboardingStart": "Zaczynamy",
+  "onboardingTour": "Pokaż mi aplikację"
 }

@@ -2178,4 +2178,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutSupportEmailCopied => 'Support email address copied';
+
+  @override
+  String get onboardingWelcomeTitle => 'Welcome to Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Your money stays on this device. No account, no ads, no tracking.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Schedule upcoming and repeating payments and see where your balances are heading.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Record income, expenses, transfers, and what you lend or owe.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Statistics, comparisons and history for your accounts, the people you settle with, and businesses.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Base currency';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Suggested from your device language. You can change it later in Settings.';
+
+  @override
+  String get onboardingStart => 'Get started';
+
+  @override
+  String get onboardingTour => 'Show me around';
 }

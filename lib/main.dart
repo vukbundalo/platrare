@@ -12,6 +12,7 @@ import 'data/local/platrare_database.dart';
 import 'data/fx_service.dart';
 import 'data/locale_prefs.dart';
 import 'data/navigation_prefs.dart';
+import 'data/onboarding_prefs.dart';
 import 'data/planned_reminder_prefs.dart';
 import 'data/planned_reminder_service.dart';
 import 'data/security_prefs.dart';
@@ -22,6 +23,7 @@ import 'data/widget_snapshot_service.dart';
 import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'l10n/supported_languages.dart';
 import 'utils/manual_backup_export_flow.dart';
+import 'screens/onboarding_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/account_transactions_screen.dart';
 import 'screens/new_planned_transaction_screen.dart';
@@ -72,10 +74,21 @@ Future<void> main() async {
   // fire long before Dart is ready), then flushes on this call.
   await initWidgetLinks();
   final initialMainTabIndex = await loadLastMainTabIndex();
+  // First run only: an install that already has accounts or a lock predates
+  // the onboarding screen and is marked done without ever seeing it.
+  var showOnboarding = !await isOnboardingDone();
+  if (showOnboarding &&
+      (data.accounts.isNotEmpty || appSecurityEnabled.value)) {
+    await markOnboardingDone();
+    showOnboarding = false;
+  }
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
-  runApp(PlatrareApp(initialMainTabIndex: initialMainTabIndex));
+  runApp(PlatrareApp(
+    initialMainTabIndex: initialMainTabIndex,
+    showOnboarding: showOnboarding,
+  ));
 }
 
 Future<void> _initDateFormattingForLocales() async {
@@ -99,10 +112,17 @@ Future<void> _initDateFormattingForLocales() async {
 }
 
 class PlatrareApp extends StatelessWidget {
-  const PlatrareApp({super.key, this.initialMainTabIndex = 0});
+  const PlatrareApp({
+    super.key,
+    this.initialMainTabIndex = 0,
+    this.showOnboarding = false,
+  });
 
   /// Restored from [loadLastMainTabIndex] before [runApp].
   final int initialMainTabIndex;
+
+  /// First run: show [OnboardingScreen] above Home once the splash clears.
+  final bool showOnboarding;
 
   /// Match [deviceLocale] to a supported locale, or null if no match.
   static Locale? _tryMatchLocale(
@@ -191,7 +211,10 @@ class PlatrareApp extends StatelessWidget {
                 setAppNumberLocale(resolved);
                 return resolved;
               },
-              home: _SplashRoot(initialTabIndex: initialMainTabIndex),
+              home: _SplashRoot(
+                initialTabIndex: initialMainTabIndex,
+                showOnboarding: showOnboarding,
+              ),
             );
           },
         );
@@ -216,9 +239,13 @@ class HomePage extends StatefulWidget {
 // ---------------------------------------------------------------------------
 
 class _SplashRoot extends StatefulWidget {
-  const _SplashRoot({required this.initialTabIndex});
+  const _SplashRoot({
+    required this.initialTabIndex,
+    this.showOnboarding = false,
+  });
 
   final int initialTabIndex;
+  final bool showOnboarding;
 
   @override
   State<_SplashRoot> createState() => _SplashRootState();
@@ -226,6 +253,7 @@ class _SplashRoot extends StatefulWidget {
 
 class _SplashRootState extends State<_SplashRoot> {
   bool _splashDone = false;
+  late bool _onboardingPending = widget.showOnboarding;
 
   @override
   Widget build(BuildContext context) {
@@ -236,6 +264,24 @@ class _SplashRootState extends State<_SplashRoot> {
         AppLockGate(
           child: HomePage(initialTabIndex: widget.initialTabIndex),
         ),
+        if (_onboardingPending)
+          Positioned.fill(
+            child: OnboardingScreen(
+              suggestedCurrency: suggestedBaseCurrency(
+                WidgetsBinding.instance.platformDispatcher.locale,
+              ),
+              onDone: (startTour) {
+                if (!mounted) return;
+                setState(() => _onboardingPending = false);
+                if (startTour) {
+                  // Plan is tab 0 on a fresh install; the tour targets it.
+                  WidgetsBinding.instance.addPostFrameCallback(
+                    (_) => requestPlanHelpTour.value++,
+                  );
+                }
+              },
+            ),
+          ),
         if (!_splashDone)
           Positioned.fill(
             child: SplashScreen(

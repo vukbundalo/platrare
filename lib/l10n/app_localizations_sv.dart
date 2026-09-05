@@ -2196,4 +2196,36 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get aboutSupportEmailCopied => 'Supportens e-postadress kopierad';
+
+  @override
+  String get onboardingWelcomeTitle => 'Välkommen till Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Dina pengar stannar på den här enheten. Inget konto, inga annonser, ingen spårning.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Planera kommande och återkommande betalningar och se vart dina saldon är på väg.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Registrera inkomster, utgifter, överföringar och vad du lånar ut eller är skyldig.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Statistik, jämförelser och historik för dina konton, personerna du gör upp med och företag.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Basvaluta';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Föreslagen utifrån enhetens språk. Du kan ändra den senare i Inställningar.';
+
+  @override
+  String get onboardingStart => 'Kom igång';
+
+  @override
+  String get onboardingTour => 'Visa mig runt';
 }

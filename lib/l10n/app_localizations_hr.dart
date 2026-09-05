@@ -2201,4 +2201,36 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get aboutSupportEmailCopied => 'Adresa e-pošte podrške kopirana';
+
+  @override
+  String get onboardingWelcomeTitle => 'Dobro došli u Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Vaš novac ostaje na ovom uređaju. Bez računa, bez oglasa, bez praćenja.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Zakažite nadolazeća i ponavljajuća plaćanja i vidite kamo idu vaša stanja.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Bilježite prihode, troškove, prijenose i ono što posuđujete ili dugujete.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Statistika, usporedbe i povijest za vaše račune, osobe s kojima se obračunavate i tvrtke.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Osnovna valuta';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Predloženo prema jeziku uređaja. Možete je kasnije promijeniti u Postavkama.';
+
+  @override
+  String get onboardingStart => 'Započni';
+
+  @override
+  String get onboardingTour => 'Pokaži mi aplikaciju';
 }

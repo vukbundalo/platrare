@@ -1048,5 +1048,14 @@
   "plannedReminderDueTomorrow": "明天到期",
   "plannedReminderDueInDays": "{count, plural, other{{count} 天后到期}}",
   "aboutContactSupport": "联系支持",
-  "aboutSupportEmailCopied": "已复制支持邮箱地址"
+  "aboutSupportEmailCopied": "已复制支持邮箱地址",
+  "onboardingWelcomeTitle": "欢迎使用 Platrare",
+  "onboardingWelcomeBody": "您的资金数据只保存在此设备上。无需账户，没有广告，不做追踪。",
+  "onboardingPlanBody": "安排即将到来和定期的付款，查看余额走向。",
+  "onboardingTrackBody": "记录收入、支出、转账以及借出或欠下的款项。",
+  "onboardingReviewBody": "为您的账户、往来对象和企业提供统计、对比和历史记录。",
+  "onboardingCurrencyLabel": "基准货币",
+  "onboardingCurrencyHint": "根据设备语言推荐，之后可在设置中更改。",
+  "onboardingStart": "开始使用",
+  "onboardingTour": "带我了解一下"
 }

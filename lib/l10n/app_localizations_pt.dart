@@ -2182,6 +2182,38 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get aboutSupportEmailCopied => 'Endereço de e-mail do suporte copiado';
+
+  @override
+  String get onboardingWelcomeTitle => 'Bem-vindo ao Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'O seu dinheiro fica neste dispositivo. Sem conta, sem anúncios, sem rastreio.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Agende pagamentos futuros e recorrentes e veja para onde vão os seus saldos.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Registe receitas, despesas, transferências e o que empresta ou deve.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Estatísticas, comparações e histórico das suas contas, das pessoas com quem acerta contas e das empresas.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Moeda base';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Sugerida a partir do idioma do dispositivo. Pode alterá-la mais tarde nas Definições.';
+
+  @override
+  String get onboardingStart => 'Começar';
+
+  @override
+  String get onboardingTour => 'Mostrar a app';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -4375,4 +4407,36 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get aboutSupportEmailCopied => 'E-mail do suporte copiado';
+
+  @override
+  String get onboardingWelcomeTitle => 'Bem-vindo ao Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Seu dinheiro fica neste dispositivo. Sem conta, sem anúncios, sem rastreamento.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Agende pagamentos futuros e recorrentes e veja para onde seus saldos estão indo.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Registre receitas, despesas, transferências e o que você empresta ou deve.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Estatísticas, comparações e histórico das suas contas, das pessoas com quem você acerta contas e das empresas.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Moeda base';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Sugerida pelo idioma do dispositivo. Você pode alterá-la depois em Configurações.';
+
+  @override
+  String get onboardingStart => 'Começar';
+
+  @override
+  String get onboardingTour => 'Me mostre o app';
 }

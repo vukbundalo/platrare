@@ -2192,4 +2192,36 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get aboutSupportEmailCopied => 'Destek e-posta adresi kopyalandı';
+
+  @override
+  String get onboardingWelcomeTitle => 'Platrare’ye hoş geldiniz';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Paranız bu cihazda kalır. Hesap yok, reklam yok, izleme yok.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Yaklaşan ve tekrarlayan ödemeleri planlayın, bakiyelerinizin nereye gittiğini görün.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Gelir, gider, transfer ve borç alıp verdiklerinizi kaydedin.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Hesaplarınız, hesaplaştığınız kişiler ve işletmeler için istatistik, karşılaştırma ve geçmiş.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Temel para birimi';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Cihaz dilinize göre önerildi. Daha sonra Ayarlar’dan değiştirebilirsiniz.';
+
+  @override
+  String get onboardingStart => 'Başla';
+
+  @override
+  String get onboardingTour => 'Bana uygulamayı göster';
 }

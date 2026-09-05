@@ -2204,6 +2204,38 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get aboutSupportEmailCopied => 'Imejl adresa podrške je kopirana';
+
+  @override
+  String get onboardingWelcomeTitle => 'Dobro došli u Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Vaš novac ostaje na ovom uređaju. Bez naloga, bez reklama, bez praćenja.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Zakažite predstojeća i ponavljajuća plaćanja i vidite kuda idu vaša stanja.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Beležite prihode, troškove, prenose i ono što pozajmljujete ili dugujete.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Statistika, poređenja i istorija za vaše račune, osobe sa kojima se razdužujete i firme.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Osnovna valuta';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Predloženo prema jeziku uređaja. Možete je kasnije promeniti u Podešavanjima.';
+
+  @override
+  String get onboardingStart => 'Započni';
+
+  @override
+  String get onboardingTour => 'Pokaži mi aplikaciju';
 }
 
 /// The translations for Serbian, using the Cyrillic script (`sr_Cyrl`).
@@ -4402,6 +4434,38 @@ class AppLocalizationsSrCyrl extends AppLocalizationsSr {
 
   @override
   String get aboutSupportEmailCopied => 'Имејл адреса подршке је копирана';
+
+  @override
+  String get onboardingWelcomeTitle => 'Добро дошли у Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Ваш новац остаје на овом уређају. Без налога, без реклама, без праћења.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Закажите предстојећа и понављајућа плаћања и видите куда иду ваша стања.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Бележите приходе, трошкове, преносе и оно што позајмљујете или дугујете.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Статистика, поређења и историја за ваше рачуне, особе са којима се раздужујете и фирме.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Основна валута';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Предложено према језику уређаја. Можете је касније променити у Подешавањима.';
+
+  @override
+  String get onboardingStart => 'Започни';
+
+  @override
+  String get onboardingTour => 'Покажи ми апликацију';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).
@@ -6604,4 +6668,36 @@ class AppLocalizationsSrLatn extends AppLocalizationsSr {
 
   @override
   String get aboutSupportEmailCopied => 'Imejl adresa podrške je kopirana';
+
+  @override
+  String get onboardingWelcomeTitle => 'Dobro došli u Platrare';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Vaš novac ostaje na ovom uređaju. Bez naloga, bez reklama, bez praćenja.';
+
+  @override
+  String get onboardingPlanBody =>
+      'Zakažite predstojeća i ponavljajuća plaćanja i vidite kuda idu vaša stanja.';
+
+  @override
+  String get onboardingTrackBody =>
+      'Beležite prihode, troškove, prenose i ono što pozajmljujete ili dugujete.';
+
+  @override
+  String get onboardingReviewBody =>
+      'Statistika, poređenja i istorija za vaše račune, osobe sa kojima se razdužujete i firme.';
+
+  @override
+  String get onboardingCurrencyLabel => 'Osnovna valuta';
+
+  @override
+  String get onboardingCurrencyHint =>
+      'Predloženo prema jeziku uređaja. Možete je kasnije promeniti u Podešavanjima.';
+
+  @override
+  String get onboardingStart => 'Započni';
+
+  @override
+  String get onboardingTour => 'Pokaži mi aplikaciju';
 }

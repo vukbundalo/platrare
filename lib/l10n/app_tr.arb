@@ -1048,5 +1048,14 @@
   "plannedReminderDueTomorrow": "Vadesi yarın",
   "plannedReminderDueInDays": "{count, plural, other{Vadesine {count} gün var}}",
   "aboutContactSupport": "Destekle iletişime geç",
-  "aboutSupportEmailCopied": "Destek e-posta adresi kopyalandı"
+  "aboutSupportEmailCopied": "Destek e-posta adresi kopyalandı",
+  "onboardingWelcomeTitle": "Platrare’ye hoş geldiniz",
+  "onboardingWelcomeBody": "Paranız bu cihazda kalır. Hesap yok, reklam yok, izleme yok.",
+  "onboardingPlanBody": "Yaklaşan ve tekrarlayan ödemeleri planlayın, bakiyelerinizin nereye gittiğini görün.",
+  "onboardingTrackBody": "Gelir, gider, transfer ve borç alıp verdiklerinizi kaydedin.",
+  "onboardingReviewBody": "Hesaplarınız, hesaplaştığınız kişiler ve işletmeler için istatistik, karşılaştırma ve geçmiş.",
+  "onboardingCurrencyLabel": "Temel para birimi",
+  "onboardingCurrencyHint": "Cihaz dilinize göre önerildi. Daha sonra Ayarlar’dan değiştirebilirsiniz.",
+  "onboardingStart": "Başla",
+  "onboardingTour": "Bana uygulamayı göster"
 }

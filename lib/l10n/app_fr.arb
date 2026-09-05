@@ -1048,5 +1048,14 @@
   "plannedReminderDueTomorrow": "Échéance demain",
   "plannedReminderDueInDays": "{count, plural, other{Échéance dans {count} jours}}",
   "aboutContactSupport": "Contacter l’assistance",
-  "aboutSupportEmailCopied": "Adresse e-mail de l’assistance copiée"
+  "aboutSupportEmailCopied": "Adresse e-mail de l’assistance copiée",
+  "onboardingWelcomeTitle": "Bienvenue dans Platrare",
+  "onboardingWelcomeBody": "Votre argent reste sur cet appareil. Pas de compte, pas de publicité, pas de suivi.",
+  "onboardingPlanBody": "Planifiez les paiements à venir et récurrents et voyez où vont vos soldes.",
+  "onboardingTrackBody": "Enregistrez revenus, dépenses, virements et ce que vous prêtez ou devez.",
+  "onboardingReviewBody": "Statistiques, comparaisons et historique pour vos comptes, les personnes avec qui vous réglez vos comptes et les entreprises.",
+  "onboardingCurrencyLabel": "Devise de base",
+  "onboardingCurrencyHint": "Suggérée d’après la langue de l’appareil. Modifiable plus tard dans les Réglages.",
+  "onboardingStart": "Commencer",
+  "onboardingTour": "Faites-moi visiter"
 }

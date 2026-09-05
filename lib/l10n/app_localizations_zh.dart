@@ -2156,6 +2156,33 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get aboutSupportEmailCopied => '已复制支持邮箱地址';
+
+  @override
+  String get onboardingWelcomeTitle => '欢迎使用 Platrare';
+
+  @override
+  String get onboardingWelcomeBody => '您的资金数据只保存在此设备上。无需账户，没有广告，不做追踪。';
+
+  @override
+  String get onboardingPlanBody => '安排即将到来和定期的付款，查看余额走向。';
+
+  @override
+  String get onboardingTrackBody => '记录收入、支出、转账以及借出或欠下的款项。';
+
+  @override
+  String get onboardingReviewBody => '为您的账户、往来对象和企业提供统计、对比和历史记录。';
+
+  @override
+  String get onboardingCurrencyLabel => '基准货币';
+
+  @override
+  String get onboardingCurrencyHint => '根据设备语言推荐，之后可在设置中更改。';
+
+  @override
+  String get onboardingStart => '开始使用';
+
+  @override
+  String get onboardingTour => '带我了解一下';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -4237,4 +4264,31 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get aboutSupportEmailCopied => '已复制支持邮箱地址';
+
+  @override
+  String get onboardingWelcomeTitle => '欢迎使用 Platrare';
+
+  @override
+  String get onboardingWelcomeBody => '您的资金数据只保存在此设备上。无需账户，没有广告，不做追踪。';
+
+  @override
+  String get onboardingPlanBody => '安排即将到来和定期的付款，查看余额走向。';
+
+  @override
+  String get onboardingTrackBody => '记录收入、支出、转账以及借出或欠下的款项。';
+
+  @override
+  String get onboardingReviewBody => '为您的账户、往来对象和企业提供统计、对比和历史记录。';
+
+  @override
+  String get onboardingCurrencyLabel => '基准货币';
+
+  @override
+  String get onboardingCurrencyHint => '根据设备语言推荐，之后可在设置中更改。';
+
+  @override
+  String get onboardingStart => '开始使用';
+
+  @override
+  String get onboardingTour => '带我了解一下';
 }

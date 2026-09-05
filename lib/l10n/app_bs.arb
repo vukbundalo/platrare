@@ -1048,5 +1048,14 @@
   "plannedReminderDueTomorrow": "Dospijeva sutra",
   "plannedReminderDueInDays": "{count, plural, one{Dospijeva za {count} dan} few{Dospijeva za {count} dana} other{Dospijeva za {count} dana}}",
   "aboutContactSupport": "Kontaktiraj podršku",
-  "aboutSupportEmailCopied": "E-mail adresa podrške je kopirana"
+  "aboutSupportEmailCopied": "E-mail adresa podrške je kopirana",
+  "onboardingWelcomeTitle": "Dobro došli u Platrare",
+  "onboardingWelcomeBody": "Vaš novac ostaje na ovom uređaju. Bez računa, bez reklama, bez praćenja.",
+  "onboardingPlanBody": "Zakažite predstojeće i ponavljajuće uplate i vidite kuda idu vaša stanja.",
+  "onboardingTrackBody": "Bilježite prihode, troškove, prijenose i ono što posuđujete ili dugujete.",
+  "onboardingReviewBody": "Statistika, poređenja i historija za vaše račune, osobe s kojima se poravnavate i firme.",
+  "onboardingCurrencyLabel": "Osnovna valuta",
+  "onboardingCurrencyHint": "Predloženo prema jeziku uređaja. Možete je kasnije promijeniti u Postavkama.",
+  "onboardingStart": "Započni",
+  "onboardingTour": "Pokaži mi aplikaciju"
 }
