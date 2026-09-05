@@ -1,6 +1,6 @@
 # Datenschutzrichtlinie — Platrare
 
-**Gültig ab:** 12. April 2026
+**Gültig ab:** 4. September 2026
 
 Platrare ist eine lokal-orientierte App zur persönlichen Finanzverwaltung. Diese Richtlinie beschreibt, auf welche Daten die App zugreift, wie sie verwendet werden und welche Rechte Sie haben.
 
@@ -8,7 +8,7 @@ Platrare ist eine lokal-orientierte App zur persönlichen Finanzverwaltung. Dies
 
 ## 1. Wer wir sind
 
-Platrare wird von einem einzelnen Entwickler veröffentlicht. Kontaktdaten finden Sie im App Store oder bei Google Play sowie über **Einstellungen → Über → Support-Details kopieren** in der App.
+Platrare wird von einem einzelnen Entwickler veröffentlicht, der Verantwortlicher im Sinne der DSGVO ist. Sie erreichen den Entwickler unter **[support email]**, über den App Store oder Google Play sowie über **Einstellungen → Über → Support kontaktieren** in der App.
 
 ---
 
@@ -25,6 +25,8 @@ Alle Daten, die Sie in Platrare erstellen, verbleiben **ausschließlich auf Ihre
 | Einstellungen | Basiswährung, Sekundärwährung, Design, Sprache, Guthabenanzeige |
 | Sicherheit | App-Sperrstatus; kryptografischer Einweg-Hash Ihrer PIN (die rohe PIN wird niemals gespeichert) |
 | Wechselkurs-Cache | Öffentliche Wechselkursdaten, die von einer Drittanbieter-API heruntergeladen und lokal zwischengespeichert werden |
+| Erinnerungen | Wenn Sie Erinnerungen für geplante Transaktionen aktivieren, werden Fälligkeitsdatum, Beschreibung und Betrag jeder anstehenden geplanten Transaktion an den lokalen Benachrichtigungsplaner des Betriebssystems übergeben, damit die Erinnerung auch bei geschlossener App angezeigt werden kann. Sie verlassen das Gerät niemals. |
+| Home-Bildschirm-Widget-Snapshot (iOS) | Eine kleine, vorberechnete Zusammenfassung (prognostizierte Guthaben für die kommenden Tage und die vom Widget angezeigten Beschriftungen), die im privaten gemeinsamen Container der App gespeichert wird, damit das Widget ohne Öffnen der App dargestellt werden kann. Bei aktivierter App-Sperre werden die Beträge in diesem Snapshot maskiert, sofern Sie in den Einstellungen nichts anderes wählen. |
 
 ---
 
@@ -36,7 +38,7 @@ Die App ruft regelmäßig öffentlich verfügbare Wechselkursdaten von der **Fra
 
 ### 3.2 Keine Analysen, keine Werbung
 
-Platrare enthält **kein Analyse-SDK, keinen Absturzbericht-Dienst und kein Werbenetzwerk**. Es werden keine Nutzungsdaten, Gerätekennungen oder Verhaltenstelemetrie erfasst.
+Platrare enthält **kein Analyse-SDK, keinen Absturzbericht-Dienst und kein Werbenetzwerk**. Es werden keine Nutzungsdaten, Gerätekennungen oder Verhaltenstelemetrie erfasst. Erinnerungen, Home-Bildschirm-Widgets und Kurzbefehle funktionieren vollständig offline.
 
 ---
 
@@ -48,6 +50,8 @@ Platrare enthält **kein Analyse-SDK, keinen Absturzbericht-Dienst und kein Werb
 | Fotomediathek | Bilder für Anhänge auswählen | Nur beim Tippen auf „Aus Galerie wählen" |
 | Dateien | PDFs und Dokumente anhängen | Nur beim Tippen auf „Dateien durchsuchen" |
 | Biometrie / Face ID | App entsperren | Nur wenn der Sperrbildschirm angezeigt wird |
+| Benachrichtigungen | Kurz vor Fälligkeit einer geplanten Transaktion erinnern | Nur wenn Sie Erinnerungen in den Einstellungen aktivieren |
+| Beim Start ausführen (Android) | Erinnerungen nach einem Geräteneustart neu planen | Automatisch, nur wenn Erinnerungen aktiviert sind |
 | Netzwerk | Wechselkurse abrufen | Automatisch; keine personenbezogenen Daten werden gesendet |
 
 Die App fordert keinen Zugriff auf Standort, Kontakte, Mikrofon, Kalender oder andere oben nicht genannte Berechtigungen an.
@@ -71,21 +75,32 @@ Wenn Sie **App beim Öffnen sperren** aktivieren:
 
 **Importieren** ersetzt alle Gerätedaten durch den Inhalt der Sicherung. Importieren Sie nur Sicherungen aus vertrauenswürdigen Quellen.
 
+Nur passwortverschlüsselte `.platrare`-Exporte enthalten die gehashte App-Sperr-PIN; unverschlüsselte Exporte und automatische tägliche Sicherungen niemals. Wenn Sie eine Sicherung ohne PIN wiederherstellen, bleibt die bereits auf dem Gerät festgelegte PIN erhalten.
+
+**Gerätesicherungen des Betriebssystems.** Die Sicherungsfunktion Ihres Telefons (iCloud Backup unter iOS, Google Auto Backup unter Android) kann das Finanzbuch der App, automatische tägliche Sicherungen und Einstellungen als Teil der Gerätesicherung in Ihr Apple- oder Google-Konto kopieren, gemäß den Bedingungen von Apple bzw. Google. Unter Android sind Beleganhänge davon ausgenommen, um innerhalb des Limits der Systemsicherung zu bleiben. Gerätesicherungen steuern Sie in den Einstellungen des Betriebssystems; der Entwickler erhält sie niemals.
+
 ---
 
-## 7. Kinder
+## 7. Widgets, Kurzbefehle und Siri (iOS)
+
+- **Home-Bildschirm-Widgets** zeigen prognostizierte Guthaben aus dem in Abschnitt 2 beschriebenen Snapshot an. Der Snapshot liegt im privaten gemeinsamen Container der App auf Ihrem Gerät und wird niemals hochgeladen. Bei aktivierter App-Sperre werden Beträge standardmäßig maskiert.
+- **Schnellaktionen und App Shortcuts** (langes Drücken auf das App-Symbol, die Kurzbefehle-App oder Siri) öffnen die App lediglich auf einem bestimmten Bildschirm, zum Beispiel „Transaktion hinzufügen". Die Spracherkennung für Siri erfolgt durch iOS gemäß den Datenschutzbestimmungen von Apple; die App erhält nur den aufgelösten Befehl und sendet Ihr Finanzbuch niemals an Apple.
+
+---
+
+## 8. Kinder
 
 Platrare richtet sich nicht an Kinder unter 13 Jahren. Wir erfassen wissentlich keine Informationen von Kindern.
 
 ---
 
-## 8. Datenspeicherung und -löschung
+## 9. Datenspeicherung und -löschung
 
 Daten bleiben auf Ihrem Gerät, bis Sie sie in der App löschen, **Einstellungen → Daten löschen** verwenden, eine Ersatzsicherung importieren oder die App deinstallieren. Da wir keine Kopie Ihrer Daten auf unseren Servern aufbewahren, gibt es unsererseits nichts zu löschen.
 
 ---
 
-## 9. Ihre Rechte
+## 10. Ihre Rechte
 
 - **Zugang und Portabilität** — Alle Daten sind in der App sichtbar. Nutzen Sie **Sicherung exportieren** für eine portable Kopie.
 - **Berichtigung** — Bearbeiten Sie jeden Eintrag jederzeit.
@@ -97,7 +112,7 @@ Daten bleiben auf Ihrem Gerät, bis Sie sie in der App löschen, **Einstellungen
 
 ---
 
-## 10. Sicherheit
+## 11. Sicherheit
 
 - Daten in einer **App-isolierten** SQLite-Datenbank, für andere Apps nicht zugänglich.
 - Sicherungen können mit **AES-256-Verschlüsselung** geschützt werden.
@@ -106,12 +121,12 @@ Daten bleiben auf Ihrem Gerät, bis Sie sie in der App löschen, **Einstellungen
 
 ---
 
-## 11. Änderungen
+## 12. Änderungen
 
 Wir können diese Richtlinie bei Funktionsänderungen aktualisieren. Das **Gültigkeitsdatum** spiegelt die letzte Überarbeitung wider. Die weitere Nutzung gilt als Zustimmung zu Änderungen.
 
 ---
 
-## 12. Kontakt
+## 13. Kontakt
 
-Nutzen Sie den Kontaktweg im App Store oder bei Google Play oder **Einstellungen → Über → Support-Details kopieren** in der App.
+Bei Fragen oder Anliegen zum Datenschutz schreiben Sie an **[support email]**, nutzen Sie den Kontaktweg im App Store oder bei Google Play oder **Einstellungen → Über → Support kontaktieren** in der App.
